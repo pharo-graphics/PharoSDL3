@@ -13,7 +13,7 @@ These Pharo bindings were generated with https://github.com/estebanlm/pharo-cig
 ```smalltalk
 Metacello new
         baseline: 'SDL3';
-        repository: 'github://tinchodias/SDL3:main/src';
+        repository: 'github://tinchodias/SDL3:master/src';
         load
 ```
 
