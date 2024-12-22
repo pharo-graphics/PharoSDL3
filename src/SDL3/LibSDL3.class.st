@@ -2555,7 +2555,6 @@ LibSDL3 >> runner [
 LibSDL3 >> unix64LibraryName [
 
 	^ FFIUnix64LibraryFinder new
-		userPaths: #('./CIG/lib');
 		findLibrary: 'libSDL3.so'
 ]
 
