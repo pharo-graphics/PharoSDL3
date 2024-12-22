@@ -814,6 +814,12 @@ LibSDL3 >> SDL_GetThreadID: thread [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_GetVersion [
+
+	^ self ffiCall: #(int SDL_GetVersion())
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_GetWindowAspectRatioWindow: window min_aspect: min_aspect max_aspect: max_aspect [
 	"/**
 	 * Get the size of a window's client area.
