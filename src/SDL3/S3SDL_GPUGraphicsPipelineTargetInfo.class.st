@@ -1,0 +1,114 @@
+Class {
+	#name : 'S3SDL_GPUGraphicsPipelineTargetInfo',
+	#superclass : 'S3Structure',
+	#classVars : [
+		'OFFSET_COLOR_TARGET_DESCRIPTIONS',
+		'OFFSET_DEPTH_STENCIL_FORMAT',
+		'OFFSET_HAS_DEPTH_STENCIL_TARGET',
+		'OFFSET_NUM_COLOR_TARGETS',
+		'OFFSET_PADDING1',
+		'OFFSET_PADDING2',
+		'OFFSET_PADDING3'
+	],
+	#category : 'SDL3-Base',
+	#package : 'SDL3',
+	#tag : 'Base'
+}
+
+{ #category : 'field definition' }
+S3SDL_GPUGraphicsPipelineTargetInfo class >> fieldsDesc [
+
+	^ #(
+	SDL_GPUColorTargetDescription* color_target_descriptions;
+	int num_color_targets;
+	SDL_GPUTextureFormat depth_stencil_format;
+	int has_depth_stencil_target;
+	int padding1;
+	int padding2;
+	int padding3
+	)
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> color_target_descriptions [
+	"This method was automatically generated"
+	^S3SDL_GPUColorTargetDescription fromHandle: (handle pointerAt: OFFSET_COLOR_TARGET_DESCRIPTIONS)
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> color_target_descriptions: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_COLOR_TARGET_DESCRIPTIONS put: anObject getHandle.
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> depth_stencil_format [
+	"This method was automatically generated"
+	^S3SDL_GPUTextureFormat fromInteger: (handle unsignedLongAt: OFFSET_DEPTH_STENCIL_FORMAT)
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> depth_stencil_format: anObject [
+	"This method was automatically generated"
+	handle unsignedLongAt: OFFSET_DEPTH_STENCIL_FORMAT put: anObject value
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> has_depth_stencil_target [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_HAS_DEPTH_STENCIL_TARGET
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> has_depth_stencil_target: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_HAS_DEPTH_STENCIL_TARGET put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> num_color_targets [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_NUM_COLOR_TARGETS
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> num_color_targets: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_NUM_COLOR_TARGETS put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> padding1 [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_PADDING1
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> padding1: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_PADDING1 put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> padding2 [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_PADDING2
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> padding2: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_PADDING2 put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> padding3 [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_PADDING3
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_GPUGraphicsPipelineTargetInfo >> padding3: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_PADDING3 put: anObject
+]
