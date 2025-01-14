@@ -1460,6 +1460,25 @@ LibSDL3 >> SDL_MostSignificantBitIndex32: x [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_QuitSubSystem: flags [
+	"/**
+	 * Shut down specific SDL subsystems.
+	 *
+	 * You still need to call SDL_Quit() even if you close all open subsystems
+	 * with SDL_QuitSubSystem().
+	 *
+	 * \param flags any of the flags used by SDL_Init(); see SDL_Init for details.
+	 *
+	 * \since This function is available since SDL 3.0.0.
+	 *
+	 * \sa SDL_InitSubSystem
+	 * \sa SDL_Quit
+	 */"
+
+	self ffiCall: #(void SDL_QuitSubSystem(SDL_InitFlags flags))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_RaiseWindow: window [
 	"/**
 	 * Request that a window be raised above other windows and gain the input
