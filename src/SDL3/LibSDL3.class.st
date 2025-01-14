@@ -2547,14 +2547,6 @@ LibSDL3 >> macLibraryName [
 	^ FFIMacLibraryFinder findLibrary: 'libSDL3.dylib'
 ]
 
-{ #category : 'accessing' }
-LibSDL3 >> runner [
-	
-	^ TFProcessLocalWorker new 
-		defaultWorker: TFMainThreadRunner uniqueInstance;
-		yourself
-]
-
 { #category : 'accessing - platform' }
 LibSDL3 >> unix64LibraryName [
 
