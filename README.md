@@ -10,12 +10,17 @@ These Pharo bindings were generated with https://github.com/estebanlm/pharo-cig
 
 ## Install
 
+In Pharo 12:
+
 ```smalltalk
 Metacello new
         baseline: 'SDL3';
-        repository: 'github://tinchodias/SDL3:master/src';
+        repository: 'github://tinchodias/PharoSDL3:master/src';
         load
 ```
+
+Build SDL3 and make the lib findable by the FFI finder. For example, put it together with the Pharo image.
+Build steps here: https://wiki.libsdl.org/SDL3/Installation
 
 ## License
 
