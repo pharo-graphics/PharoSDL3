@@ -2544,9 +2544,7 @@ LibSDL3 >> SDL_WindowHasSurface: window [
 { #category : 'accessing - platform' }
 LibSDL3 >> macLibraryName [
 
-	^ FFIMacLibraryFinder new
-		userPaths: #('./CIG/lib');
-		findLibrary: 'libSDL3.dylib'
+	^ FFIMacLibraryFinder findLibrary: 'libSDL3.dylib'
 ]
 
 { #category : 'accessing' }
@@ -2560,8 +2558,7 @@ LibSDL3 >> runner [
 { #category : 'accessing - platform' }
 LibSDL3 >> unix64LibraryName [
 
-	^ FFIUnix64LibraryFinder new
-		findLibrary: 'libSDL3.so'
+	^ FFIUnix64LibraryFinder findLibrary: 'libSDL3.so'
 ]
 
 { #category : 'accessing - platform' }
