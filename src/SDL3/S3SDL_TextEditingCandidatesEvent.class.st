@@ -24,16 +24,16 @@ S3SDL_TextEditingCandidatesEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int windowID;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_WindowID windowID;
 	char* candidates;
-	int num_candidates;
-	int selected_candidate;
-	int horizontal;
-	int padding1;
-	int padding2;
-	int padding3
+	Sint32 num_candidates;
+	Sint32 selected_candidate;
+	bool horizontal;
+	Uint8 padding1;
+	Uint8 padding2;
+	Uint8 padding3
 	)
 ]
 
@@ -52,13 +52,13 @@ S3SDL_TextEditingCandidatesEvent >> candidates: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> horizontal [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_HORIZONTAL
+	^handle booleanAt: OFFSET_HORIZONTAL
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> horizontal: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_HORIZONTAL put: anObject
+	handle booleanAt: OFFSET_HORIZONTAL put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -76,49 +76,49 @@ S3SDL_TextEditingCandidatesEvent >> num_candidates: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> padding3 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING3
+	^handle unsignedByteAt: OFFSET_PADDING3
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> padding3: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING3 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -136,13 +136,13 @@ S3SDL_TextEditingCandidatesEvent >> selected_candidate: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -160,11 +160,11 @@ S3SDL_TextEditingCandidatesEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> windowID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WINDOWID
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TextEditingCandidatesEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WINDOWID put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

@@ -15,44 +15,44 @@ Class {
 S3SDL_GPUIndirectDispatchCommand class >> fieldsDesc [
 
 	^ #(
-	int groupcount_x;
-	int groupcount_y;
-	int groupcount_z
+	Uint32 groupcount_x;
+	Uint32 groupcount_y;
+	Uint32 groupcount_z
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUIndirectDispatchCommand >> groupcount_x [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_GROUPCOUNT_X
+	^handle unsignedLongAt: OFFSET_GROUPCOUNT_X
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUIndirectDispatchCommand >> groupcount_x: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_GROUPCOUNT_X put: anObject
+	handle unsignedLongAt: OFFSET_GROUPCOUNT_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUIndirectDispatchCommand >> groupcount_y [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_GROUPCOUNT_Y
+	^handle unsignedLongAt: OFFSET_GROUPCOUNT_Y
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUIndirectDispatchCommand >> groupcount_y: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_GROUPCOUNT_Y put: anObject
+	handle unsignedLongAt: OFFSET_GROUPCOUNT_Y put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUIndirectDispatchCommand >> groupcount_z [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_GROUPCOUNT_Z
+	^handle unsignedLongAt: OFFSET_GROUPCOUNT_Z
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUIndirectDispatchCommand >> groupcount_z: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_GROUPCOUNT_Z put: anObject
+	handle unsignedLongAt: OFFSET_GROUPCOUNT_Z put: anObject
 ]

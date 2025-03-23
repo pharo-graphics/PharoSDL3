@@ -2,9 +2,13 @@ Class {
 	#name : 'S3SDL_IOStreamInterface',
 	#superclass : 'S3Structure',
 	#classVars : [
-		'OFFSET_SINT64',
-		'OFFSET_SIZE_T',
-		'OFFSET_VERSION'
+		'OFFSET_CLOSE',
+		'OFFSET_FLUSH',
+		'OFFSET_READ',
+		'OFFSET_SEEK',
+		'OFFSET_SIZE',
+		'OFFSET_VERSION',
+		'OFFSET_WRITE'
 	],
 	#category : 'SDL3-Base',
 	#package : 'SDL3',
@@ -15,44 +19,112 @@ Class {
 S3SDL_IOStreamInterface class >> fieldsDesc [
 
 	^ #(
-	int version;
-	int Sint64;
-	int size_t
+	Uint32 version;
+	Sint64 size;
+	Sint64 seek;
+	FFICallback read;
+	FFICallback write;
+	FFICallback flush;
+	FFICallback close
 	)
 ]
 
 { #category : 'accessing - structure variables' }
-S3SDL_IOStreamInterface >> Sint64 [
+S3SDL_IOStreamInterface >> close [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_SINT64
+	^FFICallback forAddress: ((handle pointerAt: OFFSET_CLOSE) asInteger)
 ]
 
 { #category : 'accessing - structure variables' }
-S3SDL_IOStreamInterface >> Sint64: anObject [
+S3SDL_IOStreamInterface >> close: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SINT64 put: anObject
+	handle 
+		pointerAt: OFFSET_CLOSE
+		put: (anObject 
+			ifNotNil: [ anObject thunk asExternalAddress ]
+			ifNil: [ ExternalAddress null ])
 ]
 
 { #category : 'accessing - structure variables' }
-S3SDL_IOStreamInterface >> size_t [
+S3SDL_IOStreamInterface >> flush [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_SIZE_T
+	^FFICallback forAddress: ((handle pointerAt: OFFSET_FLUSH) asInteger)
 ]
 
 { #category : 'accessing - structure variables' }
-S3SDL_IOStreamInterface >> size_t: anObject [
+S3SDL_IOStreamInterface >> flush: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SIZE_T put: anObject
+	handle 
+		pointerAt: OFFSET_FLUSH
+		put: (anObject 
+			ifNotNil: [ anObject thunk asExternalAddress ]
+			ifNil: [ ExternalAddress null ])
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> read [
+	"This method was automatically generated"
+	^FFICallback forAddress: ((handle pointerAt: OFFSET_READ) asInteger)
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> read: anObject [
+	"This method was automatically generated"
+	handle 
+		pointerAt: OFFSET_READ
+		put: (anObject 
+			ifNotNil: [ anObject thunk asExternalAddress ]
+			ifNil: [ ExternalAddress null ])
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> seek [
+	"This method was automatically generated"
+	^handle signedLongLongAt: OFFSET_SEEK
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> seek: anObject [
+	"This method was automatically generated"
+	handle signedLongLongAt: OFFSET_SEEK put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> size [
+	"This method was automatically generated"
+	^handle signedLongLongAt: OFFSET_SIZE
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> size: anObject [
+	"This method was automatically generated"
+	handle signedLongLongAt: OFFSET_SIZE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_IOStreamInterface >> version [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_VERSION
+	^handle unsignedLongAt: OFFSET_VERSION
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_IOStreamInterface >> version: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_VERSION put: anObject
+	handle unsignedLongAt: OFFSET_VERSION put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> write [
+	"This method was automatically generated"
+	^FFICallback forAddress: ((handle pointerAt: OFFSET_WRITE) asInteger)
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_IOStreamInterface >> write: anObject [
+	"This method was automatically generated"
+	handle 
+		pointerAt: OFFSET_WRITE
+		put: (anObject 
+			ifNotNil: [ anObject thunk asExternalAddress ]
+			ifNil: [ ExternalAddress null ])
 ]

@@ -16,10 +16,10 @@ Class {
 S3SDL_GPUVertexBufferDescription class >> fieldsDesc [
 
 	^ #(
-	int slot;
-	int pitch;
+	Uint32 slot;
+	Uint32 pitch;
 	SDL_GPUVertexInputRate input_rate;
-	int instance_step_rate
+	Uint32 instance_step_rate
 	)
 ]
 
@@ -38,35 +38,35 @@ S3SDL_GPUVertexBufferDescription >> input_rate: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexBufferDescription >> instance_step_rate [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_INSTANCE_STEP_RATE
+	^handle unsignedLongAt: OFFSET_INSTANCE_STEP_RATE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexBufferDescription >> instance_step_rate: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_INSTANCE_STEP_RATE put: anObject
+	handle unsignedLongAt: OFFSET_INSTANCE_STEP_RATE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexBufferDescription >> pitch [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PITCH
+	^handle unsignedLongAt: OFFSET_PITCH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexBufferDescription >> pitch: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PITCH put: anObject
+	handle unsignedLongAt: OFFSET_PITCH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexBufferDescription >> slot [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_SLOT
+	^handle unsignedLongAt: OFFSET_SLOT
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexBufferDescription >> slot: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SLOT put: anObject
+	handle unsignedLongAt: OFFSET_SLOT put: anObject
 ]

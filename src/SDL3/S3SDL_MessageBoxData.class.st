@@ -20,7 +20,7 @@ S3SDL_MessageBoxData class >> fieldsDesc [
 
 	^ #(
 	SDL_MessageBoxFlags flags;
-	int* window;
+	SDL_Window* window;
 	char* title;
 	char* message;
 	int numbuttons;
@@ -56,13 +56,13 @@ S3SDL_MessageBoxData >> colorScheme: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_MessageBoxData >> flags [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FLAGS
+	^handle unsignedLongAt: OFFSET_FLAGS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MessageBoxData >> flags: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FLAGS put: anObject
+	handle unsignedLongAt: OFFSET_FLAGS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -104,7 +104,7 @@ S3SDL_MessageBoxData >> title: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_MessageBoxData >> window [
 	"This method was automatically generated"
-	^ExternalData fromHandle: (handle pointerAt: OFFSET_WINDOW) type: ExternalType long asPointerType
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_WINDOW) type: ExternalType void asPointerType
 ]
 
 { #category : 'accessing - structure variables' }

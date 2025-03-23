@@ -17,46 +17,46 @@ S3SDL_GPUTextureTransferInfo class >> fieldsDesc [
 
 	^ #(
 	SDL_GPUTransferBuffer* transfer_buffer;
-	int offset;
-	int pixels_per_row;
-	int rows_per_layer
+	Uint32 offset;
+	Uint32 pixels_per_row;
+	Uint32 rows_per_layer
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureTransferInfo >> offset [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_OFFSET
+	^handle unsignedLongAt: OFFSET_OFFSET
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureTransferInfo >> offset: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_OFFSET put: anObject
+	handle unsignedLongAt: OFFSET_OFFSET put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureTransferInfo >> pixels_per_row [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PIXELS_PER_ROW
+	^handle unsignedLongAt: OFFSET_PIXELS_PER_ROW
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureTransferInfo >> pixels_per_row: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PIXELS_PER_ROW put: anObject
+	handle unsignedLongAt: OFFSET_PIXELS_PER_ROW put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureTransferInfo >> rows_per_layer [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ROWS_PER_LAYER
+	^handle unsignedLongAt: OFFSET_ROWS_PER_LAYER
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureTransferInfo >> rows_per_layer: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ROWS_PER_LAYER put: anObject
+	handle unsignedLongAt: OFFSET_ROWS_PER_LAYER put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

@@ -17,34 +17,34 @@ S3SDL_GPUVertexInputState class >> fieldsDesc [
 
 	^ #(
 	SDL_GPUVertexBufferDescription* vertex_buffer_descriptions;
-	int num_vertex_buffers;
+	Uint32 num_vertex_buffers;
 	SDL_GPUVertexAttribute* vertex_attributes;
-	int num_vertex_attributes
+	Uint32 num_vertex_attributes
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexInputState >> num_vertex_attributes [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_VERTEX_ATTRIBUTES
+	^handle unsignedLongAt: OFFSET_NUM_VERTEX_ATTRIBUTES
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexInputState >> num_vertex_attributes: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_VERTEX_ATTRIBUTES put: anObject
+	handle unsignedLongAt: OFFSET_NUM_VERTEX_ATTRIBUTES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexInputState >> num_vertex_buffers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_VERTEX_BUFFERS
+	^handle unsignedLongAt: OFFSET_NUM_VERTEX_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexInputState >> num_vertex_buffers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_VERTEX_BUFFERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_VERTEX_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

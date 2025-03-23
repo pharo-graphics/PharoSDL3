@@ -25,38 +25,38 @@ S3SDL_GPUBlitInfo class >> fieldsDesc [
 	SDL_GPUBlitRegion source;
 	SDL_GPUBlitRegion destination;
 	SDL_GPULoadOp load_op;
-	int clear_color;
-	int flip_mode;
+	SDL_FColor clear_color;
+	SDL_FlipMode flip_mode;
 	SDL_GPUFilter filter;
-	int cycle;
-	int padding1;
-	int padding2;
-	int padding3
+	bool cycle;
+	Uint8 padding1;
+	Uint8 padding2;
+	Uint8 padding3
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> clear_color [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CLEAR_COLOR
+	^ S3SDL_FColor fromHandle: (handle referenceStructAt: OFFSET_CLEAR_COLOR length: S3SDL_FColor byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> clear_color: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CLEAR_COLOR put: anObject
+	handle structAt: OFFSET_CLEAR_COLOR put: anObject getHandle length: S3SDL_FColor byteSize
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> cycle [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CYCLE
+	^handle booleanAt: OFFSET_CYCLE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> cycle: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CYCLE put: anObject
+	handle booleanAt: OFFSET_CYCLE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -86,13 +86,13 @@ S3SDL_GPUBlitInfo >> filter: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> flip_mode [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FLIP_MODE
+	^S3SDL_FlipMode fromInteger: (handle unsignedLongAt: OFFSET_FLIP_MODE)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> flip_mode: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FLIP_MODE put: anObject
+	handle unsignedLongAt: OFFSET_FLIP_MODE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
@@ -110,37 +110,37 @@ S3SDL_GPUBlitInfo >> load_op: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> padding3 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING3
+	^handle unsignedByteAt: OFFSET_PADDING3
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBlitInfo >> padding3: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING3 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

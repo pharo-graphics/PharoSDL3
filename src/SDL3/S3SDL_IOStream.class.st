@@ -9,5 +9,5 @@ Class {
 { #category : 'finalizing' }
 S3SDL_IOStream >> dispose [
 
-	self ffiCall: #(void SDL_IOStream_dispose(SDL_IOStream self))
+	self ffiCall: #(void SDL_IOStream_dispose(SDL_IOStream* self))
 ]

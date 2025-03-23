@@ -19,11 +19,11 @@ Class {
 S3SDL_UserEvent class >> fieldsDesc [
 
 	^ #(
-	int type;
-	int reserved;
-	int timestamp;
-	int windowID;
-	int code;
+	Uint32 type;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_WindowID windowID;
+	Sint32 code;
 	void* data1;
 	void* data2
 	)
@@ -68,47 +68,47 @@ S3SDL_UserEvent >> data2: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> type [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TYPE
+	^handle unsignedLongAt: OFFSET_TYPE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> type: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TYPE put: anObject
+	handle unsignedLongAt: OFFSET_TYPE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> windowID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WINDOWID
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_UserEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WINDOWID put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

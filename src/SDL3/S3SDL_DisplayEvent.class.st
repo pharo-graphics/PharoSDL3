@@ -19,11 +19,11 @@ S3SDL_DisplayEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int displayID;
-	int data1;
-	int data2
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_DisplayID displayID;
+	Sint32 data1;
+	Sint32 data2
 	)
 ]
 
@@ -54,37 +54,37 @@ S3SDL_DisplayEvent >> data2: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayEvent >> displayID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_DISPLAYID
+	^handle unsignedLongAt: OFFSET_DISPLAYID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayEvent >> displayID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_DISPLAYID put: anObject
+	handle unsignedLongAt: OFFSET_DISPLAYID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

@@ -20,12 +20,12 @@ S3SDL_GamepadSensorEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int which;
-	int sensor;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_JoystickID which;
+	Sint32 sensor;
 	float_3 data;
-	int sensor_timestamp
+	Uint64 sensor_timestamp
 	)
 ]
 
@@ -44,13 +44,13 @@ S3SDL_GamepadSensorEvent >> data: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -68,25 +68,25 @@ S3SDL_GamepadSensorEvent >> sensor: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> sensor_timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_SENSOR_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> sensor_timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SENSOR_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -104,11 +104,11 @@ S3SDL_GamepadSensorEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GamepadSensorEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

@@ -28,10 +28,10 @@ S3SDL_GPURasterizerState class >> fieldsDesc [
 	float depth_bias_constant_factor;
 	float depth_bias_clamp;
 	float depth_bias_slope_factor;
-	int enable_depth_bias;
-	int enable_depth_clip;
-	int padding1;
-	int padding2
+	bool enable_depth_bias;
+	bool enable_depth_clip;
+	Uint8 padding1;
+	Uint8 padding2
 	)
 ]
 
@@ -86,25 +86,25 @@ S3SDL_GPURasterizerState >> depth_bias_slope_factor: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> enable_depth_bias [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_DEPTH_BIAS
+	^handle booleanAt: OFFSET_ENABLE_DEPTH_BIAS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> enable_depth_bias: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_DEPTH_BIAS put: anObject
+	handle booleanAt: OFFSET_ENABLE_DEPTH_BIAS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> enable_depth_clip [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_DEPTH_CLIP
+	^handle booleanAt: OFFSET_ENABLE_DEPTH_CLIP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> enable_depth_clip: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_DEPTH_CLIP put: anObject
+	handle booleanAt: OFFSET_ENABLE_DEPTH_CLIP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -134,23 +134,23 @@ S3SDL_GPURasterizerState >> front_face: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPURasterizerState >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]

@@ -16,33 +16,33 @@ S3SDL_QuitEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp
+	Uint32 reserved;
+	Uint64 timestamp
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_QuitEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_QuitEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_QuitEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_QuitEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

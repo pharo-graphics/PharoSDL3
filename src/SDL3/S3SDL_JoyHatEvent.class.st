@@ -21,74 +21,74 @@ S3SDL_JoyHatEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int which;
-	int hat;
-	int value;
-	int padding1;
-	int padding2
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_JoystickID which;
+	Uint8 hat;
+	Uint8 value;
+	Uint8 padding1;
+	Uint8 padding2
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> hat [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_HAT
+	^handle unsignedByteAt: OFFSET_HAT
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> hat: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_HAT put: anObject
+	handle unsignedByteAt: OFFSET_HAT put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -106,23 +106,23 @@ S3SDL_JoyHatEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> value [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_VALUE
+	^handle unsignedByteAt: OFFSET_VALUE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> value: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_VALUE put: anObject
+	handle unsignedByteAt: OFFSET_VALUE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyHatEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

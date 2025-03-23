@@ -26,27 +26,27 @@ Class {
 S3SDL_GPUComputePipelineCreateInfo class >> fieldsDesc [
 
 	^ #(
-	int code_size;
-	int* code;
+	size_t code_size;
+	Uint8* code;
 	char* entrypoint;
 	SDL_GPUShaderFormat format;
-	int num_samplers;
-	int num_readonly_storage_textures;
-	int num_readonly_storage_buffers;
-	int num_readwrite_storage_textures;
-	int num_readwrite_storage_buffers;
-	int num_uniform_buffers;
-	int threadcount_x;
-	int threadcount_y;
-	int threadcount_z;
-	int props
+	Uint32 num_samplers;
+	Uint32 num_readonly_storage_textures;
+	Uint32 num_readonly_storage_buffers;
+	Uint32 num_readwrite_storage_textures;
+	Uint32 num_readwrite_storage_buffers;
+	Uint32 num_uniform_buffers;
+	Uint32 threadcount_x;
+	Uint32 threadcount_y;
+	Uint32 threadcount_z;
+	SDL_PropertiesID props
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> code [
 	"This method was automatically generated"
-	^ExternalData fromHandle: (handle pointerAt: OFFSET_CODE) type: ExternalType long asPointerType
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_CODE) type: ExternalType byte asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
@@ -58,13 +58,13 @@ S3SDL_GPUComputePipelineCreateInfo >> code: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> code_size [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CODE_SIZE
+	^handle platformSizeTAt: OFFSET_CODE_SIZE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> code_size: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CODE_SIZE put: anObject
+	^handle platformSizeTAt: OFFSET_CODE_SIZE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -82,131 +82,131 @@ S3SDL_GPUComputePipelineCreateInfo >> entrypoint: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> format [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FORMAT
+	^handle unsignedLongAt: OFFSET_FORMAT
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> format: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FORMAT put: anObject
+	handle unsignedLongAt: OFFSET_FORMAT put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readonly_storage_buffers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_READONLY_STORAGE_BUFFERS
+	^handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readonly_storage_buffers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_READONLY_STORAGE_BUFFERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readonly_storage_textures [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_READONLY_STORAGE_TEXTURES
+	^handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_TEXTURES
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readonly_storage_textures: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_READONLY_STORAGE_TEXTURES put: anObject
+	handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_TEXTURES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readwrite_storage_buffers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_READWRITE_STORAGE_BUFFERS
+	^handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readwrite_storage_buffers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_READWRITE_STORAGE_BUFFERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readwrite_storage_textures [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_READWRITE_STORAGE_TEXTURES
+	^handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_TEXTURES
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_readwrite_storage_textures: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_READWRITE_STORAGE_TEXTURES put: anObject
+	handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_TEXTURES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_samplers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_SAMPLERS
+	^handle unsignedLongAt: OFFSET_NUM_SAMPLERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_samplers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_SAMPLERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_SAMPLERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_uniform_buffers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_UNIFORM_BUFFERS
+	^handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> num_uniform_buffers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_UNIFORM_BUFFERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> props [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PROPS
+	^handle unsignedLongAt: OFFSET_PROPS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> props: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PROPS put: anObject
+	handle unsignedLongAt: OFFSET_PROPS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> threadcount_x [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_THREADCOUNT_X
+	^handle unsignedLongAt: OFFSET_THREADCOUNT_X
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> threadcount_x: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_THREADCOUNT_X put: anObject
+	handle unsignedLongAt: OFFSET_THREADCOUNT_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> threadcount_y [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_THREADCOUNT_Y
+	^handle unsignedLongAt: OFFSET_THREADCOUNT_Y
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> threadcount_y: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_THREADCOUNT_Y put: anObject
+	handle unsignedLongAt: OFFSET_THREADCOUNT_Y put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> threadcount_z [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_THREADCOUNT_Z
+	^handle unsignedLongAt: OFFSET_THREADCOUNT_Z
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUComputePipelineCreateInfo >> threadcount_z: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_THREADCOUNT_Z put: anObject
+	handle unsignedLongAt: OFFSET_THREADCOUNT_Z put: anObject
 ]

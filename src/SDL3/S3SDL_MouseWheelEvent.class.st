@@ -23,13 +23,13 @@ S3SDL_MouseWheelEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int windowID;
-	int which;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_WindowID windowID;
+	SDL_MouseID which;
 	float x;
 	float y;
-	int direction;
+	SDL_MouseWheelDirection direction;
 	float mouse_x;
 	float mouse_y
 	)
@@ -38,13 +38,13 @@ S3SDL_MouseWheelEvent class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> direction [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_DIRECTION
+	^S3SDL_MouseWheelDirection fromInteger: (handle unsignedLongAt: OFFSET_DIRECTION)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> direction: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_DIRECTION put: anObject
+	handle unsignedLongAt: OFFSET_DIRECTION put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
@@ -74,25 +74,25 @@ S3SDL_MouseWheelEvent >> mouse_y: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -110,25 +110,25 @@ S3SDL_MouseWheelEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> windowID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WINDOWID
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseWheelEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WINDOWID put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

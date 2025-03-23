@@ -18,35 +18,35 @@ S3SDL_PenProximityEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int windowID;
-	int which
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_WindowID windowID;
+	SDL_PenID which
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -64,23 +64,23 @@ S3SDL_PenProximityEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> windowID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WINDOWID
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenProximityEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WINDOWID put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

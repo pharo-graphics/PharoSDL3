@@ -13,18 +13,18 @@ Class {
 S3SDL_AtomicU32 class >> fieldsDesc [
 
 	^ #(
-	int value
+	Uint32 value
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_AtomicU32 >> value [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_VALUE
+	^handle unsignedLongAt: OFFSET_VALUE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_AtomicU32 >> value: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_VALUE put: anObject
+	handle unsignedLongAt: OFFSET_VALUE put: anObject
 ]

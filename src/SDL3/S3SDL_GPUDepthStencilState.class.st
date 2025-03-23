@@ -26,14 +26,14 @@ S3SDL_GPUDepthStencilState class >> fieldsDesc [
 	SDL_GPUCompareOp compare_op;
 	SDL_GPUStencilOpState back_stencil_state;
 	SDL_GPUStencilOpState front_stencil_state;
-	int compare_mask;
-	int write_mask;
-	int enable_depth_test;
-	int enable_depth_write;
-	int enable_stencil_test;
-	int padding1;
-	int padding2;
-	int padding3
+	Uint8 compare_mask;
+	Uint8 write_mask;
+	bool enable_depth_test;
+	bool enable_depth_write;
+	bool enable_stencil_test;
+	Uint8 padding1;
+	Uint8 padding2;
+	Uint8 padding3
 	)
 ]
 
@@ -52,13 +52,13 @@ S3SDL_GPUDepthStencilState >> back_stencil_state: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> compare_mask [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_COMPARE_MASK
+	^handle unsignedByteAt: OFFSET_COMPARE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> compare_mask: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_COMPARE_MASK put: anObject
+	handle unsignedByteAt: OFFSET_COMPARE_MASK put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -76,37 +76,37 @@ S3SDL_GPUDepthStencilState >> compare_op: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> enable_depth_test [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_DEPTH_TEST
+	^handle booleanAt: OFFSET_ENABLE_DEPTH_TEST
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> enable_depth_test: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_DEPTH_TEST put: anObject
+	handle booleanAt: OFFSET_ENABLE_DEPTH_TEST put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> enable_depth_write [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_DEPTH_WRITE
+	^handle booleanAt: OFFSET_ENABLE_DEPTH_WRITE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> enable_depth_write: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_DEPTH_WRITE put: anObject
+	handle booleanAt: OFFSET_ENABLE_DEPTH_WRITE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> enable_stencil_test [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_STENCIL_TEST
+	^handle booleanAt: OFFSET_ENABLE_STENCIL_TEST
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> enable_stencil_test: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_STENCIL_TEST put: anObject
+	handle booleanAt: OFFSET_ENABLE_STENCIL_TEST put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -124,47 +124,47 @@ S3SDL_GPUDepthStencilState >> front_stencil_state: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> padding3 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING3
+	^handle unsignedByteAt: OFFSET_PADDING3
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> padding3: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING3 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> write_mask [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WRITE_MASK
+	^handle unsignedByteAt: OFFSET_WRITE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilState >> write_mask: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WRITE_MASK put: anObject
+	handle unsignedByteAt: OFFSET_WRITE_MASK put: anObject
 ]

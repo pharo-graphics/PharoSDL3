@@ -29,7 +29,7 @@ S3SDL_GPUGraphicsPipelineCreateInfo class >> fieldsDesc [
 	SDL_GPUMultisampleState multisample_state;
 	SDL_GPUDepthStencilState depth_stencil_state;
 	SDL_GPUGraphicsPipelineTargetInfo target_info;
-	int props
+	SDL_PropertiesID props
 	)
 ]
 
@@ -84,13 +84,13 @@ S3SDL_GPUGraphicsPipelineCreateInfo >> primitive_type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUGraphicsPipelineCreateInfo >> props [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PROPS
+	^handle unsignedLongAt: OFFSET_PROPS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUGraphicsPipelineCreateInfo >> props: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PROPS put: anObject
+	handle unsignedLongAt: OFFSET_PROPS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

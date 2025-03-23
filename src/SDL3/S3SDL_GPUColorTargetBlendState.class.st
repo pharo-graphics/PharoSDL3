@@ -30,10 +30,10 @@ S3SDL_GPUColorTargetBlendState class >> fieldsDesc [
 	SDL_GPUBlendFactor dst_alpha_blendfactor;
 	SDL_GPUBlendOp alpha_blend_op;
 	SDL_GPUColorComponentFlags color_write_mask;
-	int enable_blend;
-	int enable_color_write_mask;
-	int padding1;
-	int padding2
+	bool enable_blend;
+	bool enable_color_write_mask;
+	Uint8 padding1;
+	Uint8 padding2
 	)
 ]
 
@@ -64,13 +64,13 @@ S3SDL_GPUColorTargetBlendState >> color_blend_op: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> color_write_mask [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_COLOR_WRITE_MASK
+	^handle unsignedByteAt: OFFSET_COLOR_WRITE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> color_write_mask: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_COLOR_WRITE_MASK put: anObject
+	handle unsignedByteAt: OFFSET_COLOR_WRITE_MASK put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -100,49 +100,49 @@ S3SDL_GPUColorTargetBlendState >> dst_color_blendfactor: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> enable_blend [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_BLEND
+	^handle booleanAt: OFFSET_ENABLE_BLEND
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> enable_blend: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_BLEND put: anObject
+	handle booleanAt: OFFSET_ENABLE_BLEND put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> enable_color_write_mask [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_COLOR_WRITE_MASK
+	^handle booleanAt: OFFSET_ENABLE_COLOR_WRITE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> enable_color_write_mask: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_COLOR_WRITE_MASK put: anObject
+	handle booleanAt: OFFSET_ENABLE_COLOR_WRITE_MASK put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUColorTargetBlendState >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

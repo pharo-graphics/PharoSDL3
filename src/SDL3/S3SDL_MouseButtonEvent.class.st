@@ -24,14 +24,14 @@ S3SDL_MouseButtonEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int windowID;
-	int which;
-	int button;
-	int down;
-	int clicks;
-	int padding;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_WindowID windowID;
+	SDL_MouseID which;
+	Uint8 button;
+	bool down;
+	Uint8 clicks;
+	Uint8 padding;
 	float x;
 	float y
 	)
@@ -40,73 +40,73 @@ S3SDL_MouseButtonEvent class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> button [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_BUTTON
+	^handle unsignedByteAt: OFFSET_BUTTON
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> button: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_BUTTON put: anObject
+	handle unsignedByteAt: OFFSET_BUTTON put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> clicks [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CLICKS
+	^handle unsignedByteAt: OFFSET_CLICKS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> clicks: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CLICKS put: anObject
+	handle unsignedByteAt: OFFSET_CLICKS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> down [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_DOWN
+	^handle booleanAt: OFFSET_DOWN
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> down: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_DOWN put: anObject
+	handle booleanAt: OFFSET_DOWN put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> padding [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING
+	^handle unsignedByteAt: OFFSET_PADDING
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> padding: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING put: anObject
+	handle unsignedByteAt: OFFSET_PADDING put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -124,25 +124,25 @@ S3SDL_MouseButtonEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> windowID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WINDOWID
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MouseButtonEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WINDOWID put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

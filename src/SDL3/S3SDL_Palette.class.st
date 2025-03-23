@@ -18,7 +18,7 @@ S3SDL_Palette class >> fieldsDesc [
 	^ #(
 	int ncolors;
 	SDL_Color* colors;
-	int version;
+	Uint32 version;
 	int refcount
 	)
 ]
@@ -62,11 +62,11 @@ S3SDL_Palette >> refcount: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_Palette >> version [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_VERSION
+	^handle unsignedLongAt: OFFSET_VERSION
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Palette >> version: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_VERSION put: anObject
+	handle unsignedLongAt: OFFSET_VERSION put: anObject
 ]

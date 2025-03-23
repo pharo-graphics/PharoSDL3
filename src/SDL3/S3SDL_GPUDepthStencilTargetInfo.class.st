@@ -28,10 +28,10 @@ S3SDL_GPUDepthStencilTargetInfo class >> fieldsDesc [
 	SDL_GPUStoreOp store_op;
 	SDL_GPULoadOp stencil_load_op;
 	SDL_GPUStoreOp stencil_store_op;
-	int cycle;
-	int clear_stencil;
-	int padding1;
-	int padding2
+	bool cycle;
+	Uint8 clear_stencil;
+	Uint8 padding1;
+	Uint8 padding2
 	)
 ]
 
@@ -50,25 +50,25 @@ S3SDL_GPUDepthStencilTargetInfo >> clear_depth: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> clear_stencil [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CLEAR_STENCIL
+	^handle unsignedByteAt: OFFSET_CLEAR_STENCIL
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> clear_stencil: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CLEAR_STENCIL put: anObject
+	handle unsignedByteAt: OFFSET_CLEAR_STENCIL put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> cycle [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CYCLE
+	^handle booleanAt: OFFSET_CYCLE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> cycle: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CYCLE put: anObject
+	handle booleanAt: OFFSET_CYCLE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -86,25 +86,25 @@ S3SDL_GPUDepthStencilTargetInfo >> load_op: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUDepthStencilTargetInfo >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

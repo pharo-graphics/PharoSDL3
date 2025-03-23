@@ -24,12 +24,12 @@ S3SDL_GPUTextureCreateInfo class >> fieldsDesc [
 	SDL_GPUTextureType type;
 	SDL_GPUTextureFormat format;
 	SDL_GPUTextureUsageFlags usage;
-	int width;
-	int height;
-	int layer_count_or_depth;
-	int num_levels;
+	Uint32 width;
+	Uint32 height;
+	Uint32 layer_count_or_depth;
+	Uint32 num_levels;
 	SDL_GPUSampleCount sample_count;
-	int props
+	SDL_PropertiesID props
 	)
 ]
 
@@ -48,49 +48,49 @@ S3SDL_GPUTextureCreateInfo >> format: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> height [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_HEIGHT
+	^handle unsignedLongAt: OFFSET_HEIGHT
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> height: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_HEIGHT put: anObject
+	handle unsignedLongAt: OFFSET_HEIGHT put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> layer_count_or_depth [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_LAYER_COUNT_OR_DEPTH
+	^handle unsignedLongAt: OFFSET_LAYER_COUNT_OR_DEPTH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> layer_count_or_depth: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_LAYER_COUNT_OR_DEPTH put: anObject
+	handle unsignedLongAt: OFFSET_LAYER_COUNT_OR_DEPTH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> num_levels [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_LEVELS
+	^handle unsignedLongAt: OFFSET_NUM_LEVELS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> num_levels: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_LEVELS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_LEVELS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> props [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PROPS
+	^handle unsignedLongAt: OFFSET_PROPS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> props: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PROPS put: anObject
+	handle unsignedLongAt: OFFSET_PROPS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -120,23 +120,23 @@ S3SDL_GPUTextureCreateInfo >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> usage [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_USAGE
+	^handle unsignedLongAt: OFFSET_USAGE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> usage: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_USAGE put: anObject
+	handle unsignedLongAt: OFFSET_USAGE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> width [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WIDTH
+	^handle unsignedLongAt: OFFSET_WIDTH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureCreateInfo >> width: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WIDTH put: anObject
+	handle unsignedLongAt: OFFSET_WIDTH put: anObject
 ]

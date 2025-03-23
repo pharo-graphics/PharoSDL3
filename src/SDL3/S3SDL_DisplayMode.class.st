@@ -22,7 +22,7 @@ S3SDL_DisplayMode class >> fieldsDesc [
 
 	^ #(
 	SDL_DisplayID displayID;
-	int format;
+	SDL_PixelFormat format;
 	int w;
 	int h;
 	float pixel_density;
@@ -36,25 +36,25 @@ S3SDL_DisplayMode class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayMode >> displayID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_DISPLAYID
+	^handle unsignedLongAt: OFFSET_DISPLAYID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayMode >> displayID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_DISPLAYID put: anObject
+	handle unsignedLongAt: OFFSET_DISPLAYID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayMode >> format [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FORMAT
+	^S3SDL_PixelFormat fromInteger: (handle unsignedLongAt: OFFSET_FORMAT)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_DisplayMode >> format: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FORMAT put: anObject
+	handle unsignedLongAt: OFFSET_FORMAT put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }

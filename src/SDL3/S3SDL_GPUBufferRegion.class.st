@@ -16,8 +16,8 @@ S3SDL_GPUBufferRegion class >> fieldsDesc [
 
 	^ #(
 	SDL_GPUBuffer* buffer;
-	int offset;
-	int size
+	Uint32 offset;
+	Uint32 size
 	)
 ]
 
@@ -36,23 +36,23 @@ S3SDL_GPUBufferRegion >> buffer: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBufferRegion >> offset [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_OFFSET
+	^handle unsignedLongAt: OFFSET_OFFSET
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBufferRegion >> offset: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_OFFSET put: anObject
+	handle unsignedLongAt: OFFSET_OFFSET put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBufferRegion >> size [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_SIZE
+	^handle unsignedLongAt: OFFSET_SIZE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUBufferRegion >> size: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SIZE put: anObject
+	handle unsignedLongAt: OFFSET_SIZE put: anObject
 ]

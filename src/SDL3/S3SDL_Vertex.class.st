@@ -15,44 +15,44 @@ Class {
 S3SDL_Vertex class >> fieldsDesc [
 
 	^ #(
-	int position;
-	int color;
-	int tex_coord
+	SDL_FPoint position;
+	SDL_FColor color;
+	SDL_FPoint tex_coord
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Vertex >> color [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_COLOR
+	^ S3SDL_FColor fromHandle: (handle referenceStructAt: OFFSET_COLOR length: S3SDL_FColor byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Vertex >> color: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_COLOR put: anObject
+	handle structAt: OFFSET_COLOR put: anObject getHandle length: S3SDL_FColor byteSize
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Vertex >> position [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_POSITION
+	^ S3SDL_FPoint fromHandle: (handle referenceStructAt: OFFSET_POSITION length: S3SDL_FPoint byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Vertex >> position: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_POSITION put: anObject
+	handle structAt: OFFSET_POSITION put: anObject getHandle length: S3SDL_FPoint byteSize
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Vertex >> tex_coord [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TEX_COORD
+	^ S3SDL_FPoint fromHandle: (handle referenceStructAt: OFFSET_TEX_COORD length: S3SDL_FPoint byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Vertex >> tex_coord: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TEX_COORD put: anObject
+	handle structAt: OFFSET_TEX_COORD put: anObject getHandle length: S3SDL_FPoint byteSize
 ]

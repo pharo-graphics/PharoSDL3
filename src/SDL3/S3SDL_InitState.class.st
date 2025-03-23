@@ -15,8 +15,8 @@ Class {
 S3SDL_InitState class >> fieldsDesc [
 
 	^ #(
-	int status;
-	int thread;
+	SDL_AtomicInt status;
+	SDL_ThreadID thread;
 	void* reserved
 	)
 ]
@@ -36,23 +36,23 @@ S3SDL_InitState >> reserved: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_InitState >> status [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_STATUS
+	^ S3SDL_AtomicInt fromHandle: (handle referenceStructAt: OFFSET_STATUS length: S3SDL_AtomicInt byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_InitState >> status: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_STATUS put: anObject
+	handle structAt: OFFSET_STATUS put: anObject getHandle length: S3SDL_AtomicInt byteSize
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_InitState >> thread [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_THREAD
+	^handle unsignedLongLongAt: OFFSET_THREAD
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_InitState >> thread: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_THREAD put: anObject
+	handle unsignedLongLongAt: OFFSET_THREAD put: anObject
 ]

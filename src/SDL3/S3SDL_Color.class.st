@@ -16,57 +16,57 @@ Class {
 S3SDL_Color class >> fieldsDesc [
 
 	^ #(
-	int r;
-	int g;
-	int b;
-	int a
+	Uint8 r;
+	Uint8 g;
+	Uint8 b;
+	Uint8 a
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> a [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_A
+	^handle unsignedByteAt: OFFSET_A
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> a: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_A put: anObject
+	handle unsignedByteAt: OFFSET_A put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> b [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_B
+	^handle unsignedByteAt: OFFSET_B
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> b: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_B put: anObject
+	handle unsignedByteAt: OFFSET_B put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> g [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_G
+	^handle unsignedByteAt: OFFSET_G
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> g: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_G put: anObject
+	handle unsignedByteAt: OFFSET_G put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> r [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_R
+	^handle unsignedByteAt: OFFSET_R
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Color >> r: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_R put: anObject
+	handle unsignedByteAt: OFFSET_R put: anObject
 ]

@@ -27,6 +27,7 @@ Class {
 		'SDL_EVENT_DROP_POSITION',
 		'SDL_EVENT_DROP_TEXT',
 		'SDL_EVENT_ENUM_PADDING',
+		'SDL_EVENT_FINGER_CANCELED',
 		'SDL_EVENT_FINGER_DOWN',
 		'SDL_EVENT_FINGER_MOTION',
 		'SDL_EVENT_FINGER_UP',
@@ -273,6 +274,12 @@ S3SDL_EventType class >> SDL_EVENT_DROP_TEXT [
 S3SDL_EventType class >> SDL_EVENT_ENUM_PADDING [
 	"This method was automatically generated"
 	^ SDL_EVENT_ENUM_PADDING
+]
+
+{ #category : 'accessing enum' }
+S3SDL_EventType class >> SDL_EVENT_FINGER_CANCELED [
+	"This method was automatically generated"
+	^ SDL_EVENT_FINGER_CANCELED
 ]
 
 { #category : 'accessing enum' }
@@ -915,6 +922,7 @@ S3SDL_EventType class >> enumDecl [
 	SDL_EVENT_FINGER_DOWN 1792
 	SDL_EVENT_FINGER_UP 1793
 	SDL_EVENT_FINGER_MOTION 1794
+	SDL_EVENT_FINGER_CANCELED 1795
 	SDL_EVENT_CLIPBOARD_UPDATE 2304
 	SDL_EVENT_DROP_FILE 4096
 	SDL_EVENT_DROP_TEXT 4097

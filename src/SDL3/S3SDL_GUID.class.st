@@ -13,18 +13,18 @@ Class {
 S3SDL_GUID class >> fieldsDesc [
 
 	^ #(
-	int_16 data
+	Uint8_16 data
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GUID >> data [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIInt32 size: 16) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 63)
+	^(FFITypeArray ofType: #FFIUInt8 size: 16) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 15)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GUID >> data: anObject [
 	"This method was automatically generated"
-	handle replaceFrom: OFFSET_DATA to: OFFSET_DATA + 63 with: anObject getHandle startingAt: 1
+	handle replaceFrom: OFFSET_DATA to: OFFSET_DATA + 15 with: anObject getHandle startingAt: 1
 ]

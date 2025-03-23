@@ -19,11 +19,11 @@ S3SDL_SensorEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int which;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_SensorID which;
 	float_6 data;
-	int sensor_timestamp
+	Uint64 sensor_timestamp
 	)
 ]
 
@@ -42,37 +42,37 @@ S3SDL_SensorEvent >> data: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> sensor_timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_SENSOR_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> sensor_timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SENSOR_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -90,11 +90,11 @@ S3SDL_SensorEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_SensorEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

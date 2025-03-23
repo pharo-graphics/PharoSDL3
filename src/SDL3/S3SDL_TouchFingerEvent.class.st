@@ -24,16 +24,16 @@ S3SDL_TouchFingerEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int touchID;
-	int fingerID;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_TouchID touchID;
+	SDL_FingerID fingerID;
 	float x;
 	float y;
 	float dx;
 	float dy;
 	float pressure;
-	int windowID
+	SDL_WindowID windowID
 	)
 ]
 
@@ -64,13 +64,13 @@ S3SDL_TouchFingerEvent >> dy: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> fingerID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FINGERID
+	^handle unsignedLongLongAt: OFFSET_FINGERID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> fingerID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FINGERID put: anObject
+	handle unsignedLongLongAt: OFFSET_FINGERID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -88,37 +88,37 @@ S3SDL_TouchFingerEvent >> pressure: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> touchID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TOUCHID
+	^handle unsignedLongLongAt: OFFSET_TOUCHID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> touchID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TOUCHID put: anObject
+	handle unsignedLongLongAt: OFFSET_TOUCHID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -136,13 +136,13 @@ S3SDL_TouchFingerEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> windowID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WINDOWID
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_TouchFingerEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WINDOWID put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

@@ -36,13 +36,13 @@ S3SDL_MessageBoxButtonData >> buttonID: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_MessageBoxButtonData >> flags [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FLAGS
+	^handle unsignedLongAt: OFFSET_FLAGS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MessageBoxButtonData >> flags: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FLAGS put: anObject
+	handle unsignedLongAt: OFFSET_FLAGS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

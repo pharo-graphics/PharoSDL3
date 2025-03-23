@@ -19,7 +19,7 @@ Class {
 S3SDL_AssertData class >> fieldsDesc [
 
 	^ #(
-	int always_ignore;
+	bool always_ignore;
 	uint trigger_count;
 	char* condition;
 	char* filename;
@@ -32,13 +32,13 @@ S3SDL_AssertData class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_AssertData >> always_ignore [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ALWAYS_IGNORE
+	^handle booleanAt: OFFSET_ALWAYS_IGNORE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_AssertData >> always_ignore: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ALWAYS_IGNORE put: anObject
+	handle booleanAt: OFFSET_ALWAYS_IGNORE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

@@ -16,33 +16,33 @@ S3SDL_GPUTransferBufferCreateInfo class >> fieldsDesc [
 
 	^ #(
 	SDL_GPUTransferBufferUsage usage;
-	int size;
-	int props
+	Uint32 size;
+	SDL_PropertiesID props
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTransferBufferCreateInfo >> props [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PROPS
+	^handle unsignedLongAt: OFFSET_PROPS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTransferBufferCreateInfo >> props: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PROPS put: anObject
+	handle unsignedLongAt: OFFSET_PROPS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTransferBufferCreateInfo >> size [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_SIZE
+	^handle unsignedLongAt: OFFSET_SIZE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTransferBufferCreateInfo >> size: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SIZE put: anObject
+	handle unsignedLongAt: OFFSET_SIZE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

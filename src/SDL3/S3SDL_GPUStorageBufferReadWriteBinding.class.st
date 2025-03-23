@@ -18,10 +18,10 @@ S3SDL_GPUStorageBufferReadWriteBinding class >> fieldsDesc [
 
 	^ #(
 	SDL_GPUBuffer* buffer;
-	int cycle;
-	int padding1;
-	int padding2;
-	int padding3
+	bool cycle;
+	Uint8 padding1;
+	Uint8 padding2;
+	Uint8 padding3
 	)
 ]
 
@@ -40,47 +40,47 @@ S3SDL_GPUStorageBufferReadWriteBinding >> buffer: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> cycle [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CYCLE
+	^handle booleanAt: OFFSET_CYCLE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> cycle: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CYCLE put: anObject
+	handle booleanAt: OFFSET_CYCLE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> padding3 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING3
+	^handle unsignedByteAt: OFFSET_PADDING3
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUStorageBufferReadWriteBinding >> padding3: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING3 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]

@@ -23,14 +23,14 @@ S3SDL_PenAxisEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int windowID;
-	int which;
-	int pen_state;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_WindowID windowID;
+	SDL_PenID which;
+	SDL_PenInputFlags pen_state;
 	float x;
 	float y;
-	int axis;
+	SDL_PenAxis axis;
 	float value
 	)
 ]
@@ -38,49 +38,49 @@ S3SDL_PenAxisEvent class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> axis [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_AXIS
+	^S3SDL_PenAxis fromInteger: (handle unsignedLongAt: OFFSET_AXIS)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> axis: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_AXIS put: anObject
+	handle unsignedLongAt: OFFSET_AXIS put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> pen_state [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PEN_STATE
+	^handle unsignedLongAt: OFFSET_PEN_STATE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> pen_state: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PEN_STATE put: anObject
+	handle unsignedLongAt: OFFSET_PEN_STATE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -110,25 +110,25 @@ S3SDL_PenAxisEvent >> value: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> windowID [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WINDOWID
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PenAxisEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WINDOWID put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

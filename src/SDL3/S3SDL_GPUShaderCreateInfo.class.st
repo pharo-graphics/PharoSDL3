@@ -22,23 +22,23 @@ Class {
 S3SDL_GPUShaderCreateInfo class >> fieldsDesc [
 
 	^ #(
-	int code_size;
-	int* code;
+	size_t code_size;
+	Uint8* code;
 	char* entrypoint;
 	SDL_GPUShaderFormat format;
 	SDL_GPUShaderStage stage;
-	int num_samplers;
-	int num_storage_textures;
-	int num_storage_buffers;
-	int num_uniform_buffers;
-	int props
+	Uint32 num_samplers;
+	Uint32 num_storage_textures;
+	Uint32 num_storage_buffers;
+	Uint32 num_uniform_buffers;
+	SDL_PropertiesID props
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> code [
 	"This method was automatically generated"
-	^ExternalData fromHandle: (handle pointerAt: OFFSET_CODE) type: ExternalType long asPointerType
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_CODE) type: ExternalType byte asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
@@ -50,13 +50,13 @@ S3SDL_GPUShaderCreateInfo >> code: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> code_size [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_CODE_SIZE
+	^handle platformSizeTAt: OFFSET_CODE_SIZE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> code_size: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_CODE_SIZE put: anObject
+	^handle platformSizeTAt: OFFSET_CODE_SIZE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -74,73 +74,73 @@ S3SDL_GPUShaderCreateInfo >> entrypoint: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> format [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FORMAT
+	^handle unsignedLongAt: OFFSET_FORMAT
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> format: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FORMAT put: anObject
+	handle unsignedLongAt: OFFSET_FORMAT put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_samplers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_SAMPLERS
+	^handle unsignedLongAt: OFFSET_NUM_SAMPLERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_samplers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_SAMPLERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_SAMPLERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_storage_buffers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_STORAGE_BUFFERS
+	^handle unsignedLongAt: OFFSET_NUM_STORAGE_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_storage_buffers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_STORAGE_BUFFERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_STORAGE_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_storage_textures [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_STORAGE_TEXTURES
+	^handle unsignedLongAt: OFFSET_NUM_STORAGE_TEXTURES
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_storage_textures: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_STORAGE_TEXTURES put: anObject
+	handle unsignedLongAt: OFFSET_NUM_STORAGE_TEXTURES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_uniform_buffers [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_NUM_UNIFORM_BUFFERS
+	^handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> num_uniform_buffers: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_UNIFORM_BUFFERS put: anObject
+	handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> props [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PROPS
+	^handle unsignedLongAt: OFFSET_PROPS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUShaderCreateInfo >> props: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PROPS put: anObject
+	handle unsignedLongAt: OFFSET_PROPS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

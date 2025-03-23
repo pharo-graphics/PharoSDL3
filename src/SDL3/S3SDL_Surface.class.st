@@ -21,7 +21,7 @@ S3SDL_Surface class >> fieldsDesc [
 
 	^ #(
 	SDL_SurfaceFlags flags;
-	int format;
+	SDL_PixelFormat format;
 	int w;
 	int h;
 	int pitch;
@@ -34,25 +34,25 @@ S3SDL_Surface class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_Surface >> flags [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FLAGS
+	^handle unsignedLongAt: OFFSET_FLAGS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Surface >> flags: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FLAGS put: anObject
+	handle unsignedLongAt: OFFSET_FLAGS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Surface >> format [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FORMAT
+	^S3SDL_PixelFormat fromInteger: (handle unsignedLongAt: OFFSET_FORMAT)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Surface >> format: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FORMAT put: anObject
+	handle unsignedLongAt: OFFSET_FORMAT put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }

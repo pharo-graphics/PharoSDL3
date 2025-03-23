@@ -10,7 +10,7 @@ Class {
 S3SDL_Event class >> fieldsDesc [
 
 	^ #(
-	int type;
+	Uint32 type;
 	SDL_CommonEvent common;
 	SDL_DisplayEvent display;
 	SDL_WindowEvent window;
@@ -45,9 +45,10 @@ S3SDL_Event class >> fieldsDesc [
 	SDL_PenMotionEvent pmotion;
 	SDL_PenButtonEvent pbutton;
 	SDL_PenAxisEvent paxis;
+	SDL_RenderEvent render;
 	SDL_DropEvent drop;
 	SDL_ClipboardEvent clipboard;
-	int_128 padding
+	Uint8_128 padding
 	)
 ]
 
@@ -60,7 +61,7 @@ S3SDL_Event >> adevice [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> adevice: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 32.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -72,7 +73,7 @@ S3SDL_Event >> button [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> button: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 44.
+	handle structAt: 1 put: anObject getHandle length: 40.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -84,7 +85,7 @@ S3SDL_Event >> cdevice [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> cdevice: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 16.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -108,7 +109,7 @@ S3SDL_Event >> common [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> common: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 12.
+	handle structAt: 1 put: anObject getHandle length: 16.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -120,7 +121,7 @@ S3SDL_Event >> display [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> display: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 24.
+	handle structAt: 1 put: anObject getHandle length: 32.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -132,7 +133,7 @@ S3SDL_Event >> drop [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> drop: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 40.
+	handle structAt: 1 put: anObject getHandle length: 48.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -144,7 +145,7 @@ S3SDL_Event >> edit [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> edit: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 32.
+	handle structAt: 1 put: anObject getHandle length: 40.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -168,7 +169,7 @@ S3SDL_Event >> gaxis [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> gaxis: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 40.
+	handle structAt: 1 put: anObject getHandle length: 32.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -180,7 +181,7 @@ S3SDL_Event >> gbutton [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> gbutton: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 32.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -192,7 +193,7 @@ S3SDL_Event >> gdevice [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> gdevice: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 16.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -204,7 +205,7 @@ S3SDL_Event >> gsensor [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> gsensor: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 36.
+	handle structAt: 1 put: anObject getHandle length: 48.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -216,7 +217,7 @@ S3SDL_Event >> gtouchpad [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> gtouchpad: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 36.
+	handle structAt: 1 put: anObject getHandle length: 40.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -228,7 +229,7 @@ S3SDL_Event >> jaxis [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> jaxis: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 40.
+	handle structAt: 1 put: anObject getHandle length: 32.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -240,7 +241,7 @@ S3SDL_Event >> jball [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> jball: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 40.
+	handle structAt: 1 put: anObject getHandle length: 32.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -252,7 +253,7 @@ S3SDL_Event >> jbattery [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> jbattery: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 24.
+	handle structAt: 1 put: anObject getHandle length: 32.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -264,7 +265,7 @@ S3SDL_Event >> jbutton [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> jbutton: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 32.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -276,7 +277,7 @@ S3SDL_Event >> jdevice [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> jdevice: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 16.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -288,7 +289,7 @@ S3SDL_Event >> jhat [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> jhat: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 32.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -300,7 +301,7 @@ S3SDL_Event >> kdevice [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> kdevice: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 16.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -312,7 +313,7 @@ S3SDL_Event >> key [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> key: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 44.
+	handle structAt: 1 put: anObject getHandle length: 40.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -324,7 +325,7 @@ S3SDL_Event >> mdevice [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> mdevice: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 16.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -336,19 +337,19 @@ S3SDL_Event >> motion [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> motion: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 40.
+	handle structAt: 1 put: anObject getHandle length: 48.
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> padding [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIInt32 size: 128) fromHandle: (handle copyFrom: 1 to: 512)
+	^(FFITypeArray ofType: #FFIUInt8 size: 128) fromHandle: (handle copyFrom: 1 to: 128)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> padding: anObject [
 	"This method was automatically generated"
-	handle replaceFrom: 1 to: 512 with: anObject getHandle startingAt: 1
+	handle replaceFrom: 1 to: 128 with: anObject getHandle startingAt: 1
 ]
 
 { #category : 'accessing - structure variables' }
@@ -360,7 +361,7 @@ S3SDL_Event >> paxis [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> paxis: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 40.
+	handle structAt: 1 put: anObject getHandle length: 48.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -384,7 +385,7 @@ S3SDL_Event >> pmotion [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> pmotion: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 32.
+	handle structAt: 1 put: anObject getHandle length: 40.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -396,7 +397,7 @@ S3SDL_Event >> pproximity [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> pproximity: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 20.
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -420,7 +421,19 @@ S3SDL_Event >> quit [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> quit: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 12.
+	handle structAt: 1 put: anObject getHandle length: 16.
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_Event >> render [
+	"This method was automatically generated"
+	^ S3SDL_RenderEvent fromHandle: (handle referenceStructAt: 1 length: S3SDL_RenderEvent byteSize)
+]
+
+{ #category : 'accessing - structure variables' }
+S3SDL_Event >> render: anObject [
+	"This method was automatically generated"
+	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -432,7 +445,7 @@ S3SDL_Event >> sensor [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> sensor: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 44.
+	handle structAt: 1 put: anObject getHandle length: 56.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -444,7 +457,7 @@ S3SDL_Event >> text [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> text: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 24.
+	handle structAt: 1 put: anObject getHandle length: 32.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -456,19 +469,19 @@ S3SDL_Event >> tfinger [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> tfinger: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 44.
+	handle structAt: 1 put: anObject getHandle length: 56.
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> type [
 	"This method was automatically generated"
-	^handle signedLongAt: 1
+	^handle unsignedLongAt: 1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> type: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: 1 put: anObject
+	handle unsignedLongAt: 1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -492,7 +505,7 @@ S3SDL_Event >> wheel [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> wheel: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 40.
+	handle structAt: 1 put: anObject getHandle length: 48.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -504,5 +517,5 @@ S3SDL_Event >> window [
 { #category : 'accessing - structure variables' }
 S3SDL_Event >> window: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 24.
+	handle structAt: 1 put: anObject getHandle length: 32.
 ]

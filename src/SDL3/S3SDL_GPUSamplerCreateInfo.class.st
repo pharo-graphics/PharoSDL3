@@ -39,11 +39,11 @@ S3SDL_GPUSamplerCreateInfo class >> fieldsDesc [
 	SDL_GPUCompareOp compare_op;
 	float min_lod;
 	float max_lod;
-	int enable_anisotropy;
-	int enable_compare;
-	int padding1;
-	int padding2;
-	int props
+	bool enable_anisotropy;
+	bool enable_compare;
+	Uint8 padding1;
+	Uint8 padding2;
+	SDL_PropertiesID props
 	)
 ]
 
@@ -98,25 +98,25 @@ S3SDL_GPUSamplerCreateInfo >> compare_op: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> enable_anisotropy [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_ANISOTROPY
+	^handle booleanAt: OFFSET_ENABLE_ANISOTROPY
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> enable_anisotropy: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_ANISOTROPY put: anObject
+	handle booleanAt: OFFSET_ENABLE_ANISOTROPY put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> enable_compare [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_ENABLE_COMPARE
+	^handle booleanAt: OFFSET_ENABLE_COMPARE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> enable_compare: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_ENABLE_COMPARE put: anObject
+	handle booleanAt: OFFSET_ENABLE_COMPARE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -206,35 +206,35 @@ S3SDL_GPUSamplerCreateInfo >> mipmap_mode: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> padding1 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_PADDING1
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> padding1: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING1 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> padding2 [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PADDING2
+	^handle unsignedByteAt: OFFSET_PADDING2
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> padding2: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> props [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PROPS
+	^handle unsignedLongAt: OFFSET_PROPS
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUSamplerCreateInfo >> props: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PROPS put: anObject
+	handle unsignedLongAt: OFFSET_PROPS put: anObject
 ]

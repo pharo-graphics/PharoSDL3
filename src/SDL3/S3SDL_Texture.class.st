@@ -16,7 +16,7 @@ Class {
 S3SDL_Texture class >> fieldsDesc [
 
 	^ #(
-	int format;
+	SDL_PixelFormat format;
 	int w;
 	int h;
 	int refcount
@@ -26,13 +26,13 @@ S3SDL_Texture class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_Texture >> format [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FORMAT
+	^S3SDL_PixelFormat fromInteger: (handle unsignedLongAt: OFFSET_FORMAT)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_Texture >> format: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FORMAT put: anObject
+	handle unsignedLongAt: OFFSET_FORMAT put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }

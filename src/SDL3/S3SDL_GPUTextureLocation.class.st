@@ -19,36 +19,36 @@ S3SDL_GPUTextureLocation class >> fieldsDesc [
 
 	^ #(
 	SDL_GPUTexture* texture;
-	int mip_level;
-	int layer;
-	int x;
-	int y;
-	int z
+	Uint32 mip_level;
+	Uint32 layer;
+	Uint32 x;
+	Uint32 y;
+	Uint32 z
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> layer [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_LAYER
+	^handle unsignedLongAt: OFFSET_LAYER
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> layer: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_LAYER put: anObject
+	handle unsignedLongAt: OFFSET_LAYER put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> mip_level [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_MIP_LEVEL
+	^handle unsignedLongAt: OFFSET_MIP_LEVEL
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> mip_level: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_MIP_LEVEL put: anObject
+	handle unsignedLongAt: OFFSET_MIP_LEVEL put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -66,35 +66,35 @@ S3SDL_GPUTextureLocation >> texture: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> x [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_X
+	^handle unsignedLongAt: OFFSET_X
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> x: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_X put: anObject
+	handle unsignedLongAt: OFFSET_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> y [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_Y
+	^handle unsignedLongAt: OFFSET_Y
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> y: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_Y put: anObject
+	handle unsignedLongAt: OFFSET_Y put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> z [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_Z
+	^handle unsignedLongAt: OFFSET_Z
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTextureLocation >> z: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_Z put: anObject
+	handle unsignedLongAt: OFFSET_Z put: anObject
 ]

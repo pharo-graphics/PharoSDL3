@@ -19,10 +19,10 @@ S3SDL_JoyBatteryEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
-	int reserved;
-	int timestamp;
-	int which;
-	int state;
+	Uint32 reserved;
+	Uint64 timestamp;
+	SDL_JoystickID which;
+	SDL_PowerState state;
 	int percent
 	)
 ]
@@ -42,37 +42,37 @@ S3SDL_JoyBatteryEvent >> percent: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> reserved [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_RESERVED
+	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> reserved: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_RESERVED put: anObject
+	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> state [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_STATE
+	^S3SDL_PowerState fromInteger: (handle signedLongAt: OFFSET_STATE)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> state: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_STATE put: anObject
+	handle signedLongAt: OFFSET_STATE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> timestamp [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TIMESTAMP put: anObject
+	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -90,11 +90,11 @@ S3SDL_JoyBatteryEvent >> type: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> which [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WHICH
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_JoyBatteryEvent >> which: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

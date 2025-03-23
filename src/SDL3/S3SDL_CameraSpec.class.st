@@ -18,8 +18,8 @@ Class {
 S3SDL_CameraSpec class >> fieldsDesc [
 
 	^ #(
-	int format;
-	int colorspace;
+	SDL_PixelFormat format;
+	SDL_Colorspace colorspace;
 	int width;
 	int height;
 	int framerate_numerator;
@@ -30,25 +30,25 @@ S3SDL_CameraSpec class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_CameraSpec >> colorspace [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_COLORSPACE
+	^S3SDL_Colorspace fromInteger: (handle unsignedLongAt: OFFSET_COLORSPACE)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_CameraSpec >> colorspace: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_COLORSPACE put: anObject
+	handle unsignedLongAt: OFFSET_COLORSPACE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_CameraSpec >> format [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_FORMAT
+	^S3SDL_PixelFormat fromInteger: (handle unsignedLongAt: OFFSET_FORMAT)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_CameraSpec >> format: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_FORMAT put: anObject
+	handle unsignedLongAt: OFFSET_FORMAT put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }

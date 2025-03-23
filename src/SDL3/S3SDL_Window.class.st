@@ -9,5 +9,5 @@ Class {
 { #category : 'finalizing' }
 S3SDL_Window >> dispose [
 
-	self ffiCall: #(void SDL_Window_dispose(SDL_Window self))
+	self ffiCall: #(void SDL_Window_dispose(SDL_Window* self))
 ]

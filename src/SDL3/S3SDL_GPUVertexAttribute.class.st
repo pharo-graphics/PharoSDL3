@@ -16,23 +16,23 @@ Class {
 S3SDL_GPUVertexAttribute class >> fieldsDesc [
 
 	^ #(
-	int location;
-	int buffer_slot;
+	Uint32 location;
+	Uint32 buffer_slot;
 	SDL_GPUVertexElementFormat format;
-	int offset
+	Uint32 offset
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexAttribute >> buffer_slot [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_BUFFER_SLOT
+	^handle unsignedLongAt: OFFSET_BUFFER_SLOT
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexAttribute >> buffer_slot: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_BUFFER_SLOT put: anObject
+	handle unsignedLongAt: OFFSET_BUFFER_SLOT put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -50,23 +50,23 @@ S3SDL_GPUVertexAttribute >> format: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexAttribute >> location [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_LOCATION
+	^handle unsignedLongAt: OFFSET_LOCATION
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexAttribute >> location: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_LOCATION put: anObject
+	handle unsignedLongAt: OFFSET_LOCATION put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexAttribute >> offset [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_OFFSET
+	^handle unsignedLongAt: OFFSET_OFFSET
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUVertexAttribute >> offset: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_OFFSET put: anObject
+	handle unsignedLongAt: OFFSET_OFFSET put: anObject
 ]

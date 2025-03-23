@@ -15,20 +15,20 @@ S3SDL_GPUTransferBufferLocation class >> fieldsDesc [
 
 	^ #(
 	SDL_GPUTransferBuffer* transfer_buffer;
-	int offset
+	Uint32 offset
 	)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTransferBufferLocation >> offset [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_OFFSET
+	^handle unsignedLongAt: OFFSET_OFFSET
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_GPUTransferBufferLocation >> offset: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_OFFSET put: anObject
+	handle unsignedLongAt: OFFSET_OFFSET put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
