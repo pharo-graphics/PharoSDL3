@@ -26104,7 +26104,6 @@ LibSDL3 >> SDL_wcstolStr: str endp: endp base: base [
 LibSDL3 >> macLibraryName [
 
 	^ FFIMacLibraryFinder new
-		userPaths: #('./CIG/lib');
 		findLibrary: 'libSDL3.dylib'
 ]
 
