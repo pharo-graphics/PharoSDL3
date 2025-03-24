@@ -600,7 +600,6 @@ S3SDL3Typedef class >> initialize [
 	SDL_IOStream := S3SDL_IOStream.
 	SDL_IOStreamInterface := S3SDL_IOStreamInterface.
 	SDL_IOWhence := S3SDL_IOWhence.
-	SDL_InitFlags := Uint32.
 	SDL_InitState := S3SDL_InitState.
 	SDL_InitStatus := S3SDL_InitStatus.
 	SDL_JoyAxisEvent := S3SDL_JoyAxisEvent.
@@ -816,5 +815,6 @@ S3SDL3Typedef class >> initialize [
 	uint_least64_t := __uint_least64_t.
 	uint_least8_t := __uint_least8_t.
 	uintmax_t := __uintmax_t.
-	uintptr_t := #ulong
+	uintptr_t := #ulong.
+	SDL_InitFlags := Uint32
 ]
