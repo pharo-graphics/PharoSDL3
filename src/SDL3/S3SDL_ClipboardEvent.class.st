@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_ClipboardEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_MIME_TYPES',
 		'OFFSET_NUM_MIME_TYPES',

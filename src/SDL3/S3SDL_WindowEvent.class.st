@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_WindowEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_DATA1',
 		'OFFSET_DATA2',

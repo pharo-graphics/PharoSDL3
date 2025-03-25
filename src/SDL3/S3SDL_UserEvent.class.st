@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_UserEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_CODE',
 		'OFFSET_DATA1',

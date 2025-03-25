@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_DropEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_DATA',
 		'OFFSET_RESERVED',

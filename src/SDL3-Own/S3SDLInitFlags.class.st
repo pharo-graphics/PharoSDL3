@@ -33,7 +33,7 @@ typedef Uint32 SDL_InitFlags;
 ```
 "
 Class {
-	#name : 'S3SDL_InitFlagsE',
+	#name : 'S3SDLInitFlags',
 	#superclass : 'S3Enumeration',
 	#classVars : [
 		'SDL_INIT_AUDIO',
@@ -45,61 +45,60 @@ Class {
 		'SDL_INIT_SENSOR',
 		'SDL_INIT_VIDEO'
 	],
-	#category : 'SDL3-Base',
-	#package : 'SDL3',
-	#tag : 'Base'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_AUDIO [
+S3SDLInitFlags class >> SDL_INIT_AUDIO [
 	"This method was automatically generated"
 	^ SDL_INIT_AUDIO
 ]
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_CAMERA [
+S3SDLInitFlags class >> SDL_INIT_CAMERA [
 	"This method was automatically generated"
 	^ SDL_INIT_CAMERA
 ]
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_EVENTS [
+S3SDLInitFlags class >> SDL_INIT_EVENTS [
 	"This method was automatically generated"
 	^ SDL_INIT_EVENTS
 ]
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_GAMEPAD [
+S3SDLInitFlags class >> SDL_INIT_GAMEPAD [
 	"This method was automatically generated"
 	^ SDL_INIT_GAMEPAD
 ]
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_HAPTIC [
+S3SDLInitFlags class >> SDL_INIT_HAPTIC [
 	"This method was automatically generated"
 	^ SDL_INIT_HAPTIC
 ]
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_JOYSTICK [
+S3SDLInitFlags class >> SDL_INIT_JOYSTICK [
 	"This method was automatically generated"
 	^ SDL_INIT_JOYSTICK
 ]
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_SENSOR [
+S3SDLInitFlags class >> SDL_INIT_SENSOR [
 	"This method was automatically generated"
 	^ SDL_INIT_SENSOR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_InitFlagsE class >> SDL_INIT_VIDEO [
+S3SDLInitFlags class >> SDL_INIT_VIDEO [
 	"This method was automatically generated"
 	^ SDL_INIT_VIDEO
 ]
 
 { #category : 'enum declaration' }
-S3SDL_InitFlagsE class >> enumDecl [
+S3SDLInitFlags class >> enumDecl [
 	"self rebuildEnumAccessors"
 	
 	^ #(
@@ -114,7 +113,7 @@ S3SDL_InitFlagsE class >> enumDecl [
 ]
 
 { #category : 'converting' }
-S3SDL_InitFlagsE >> asInteger [
+S3SDLInitFlags >> asInteger [
 
 	^ value
 ]

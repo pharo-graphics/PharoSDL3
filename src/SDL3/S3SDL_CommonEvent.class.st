@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_CommonEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TIMESTAMP',

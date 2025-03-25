@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_JoyButtonEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_BUTTON',
 		'OFFSET_DOWN',

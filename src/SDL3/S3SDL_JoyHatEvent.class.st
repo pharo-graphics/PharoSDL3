@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_JoyHatEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_HAT',
 		'OFFSET_PADDING1',

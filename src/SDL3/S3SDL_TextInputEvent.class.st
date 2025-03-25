@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_TextInputEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TEXT',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_AudioDeviceEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_PADDING1',
 		'OFFSET_PADDING2',

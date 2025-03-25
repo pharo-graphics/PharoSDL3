@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_PenAxisEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_AXIS',
 		'OFFSET_PEN_STATE',

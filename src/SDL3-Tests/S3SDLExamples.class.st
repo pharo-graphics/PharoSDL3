@@ -82,20 +82,20 @@ S3SDLExamples >> close [
 S3SDLExamples >> ensureInitVideo [
 
 	"Return early if video subsystem is already initialized"
-	(lib SDL_WasInit: S3SDL_InitFlagsE SDL_INIT_VIDEO)
-		= S3SDL_InitFlagsE SDL_INIT_VIDEO value ifTrue: [ ^ self ].
+	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+		= S3SDLInitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
 	
 	"Initialize the video subsystem"
-	self assert: (lib SDL_InitSubSystem: S3SDL_InitFlagsE SDL_INIT_VIDEO)
+	self assert: (lib SDL_InitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO)
 ]
 
 { #category : 'instance creation' }
 S3SDLExamples >> ensureQuitVideo [
 
-	(lib SDL_WasInit: S3SDL_InitFlagsE SDL_INIT_VIDEO)
-		= S3SDL_InitFlagsE SDL_INIT_VIDEO ifFalse: [ ^ self ].
+	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+		= S3SDLInitFlags SDL_INIT_VIDEO ifFalse: [ ^ self ].
 	
-	lib SDL_QuitSubSystem: S3SDL_InitFlagsE SDL_INIT_VIDEO
+	lib SDL_QuitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO
 ]
 
 { #category : 'initialization' }

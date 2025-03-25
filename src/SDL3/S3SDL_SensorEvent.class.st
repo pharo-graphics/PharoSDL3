@@ -1,6 +1,6 @@
 Class {
 	#name : 'S3SDL_SensorEvent',
-	#superclass : 'S3Structure',
+	#superclass : 'S3SDLMappedEvent',
 	#classVars : [
 		'OFFSET_DATA',
 		'OFFSET_RESERVED',
