@@ -124,10 +124,12 @@ S3SDLExamples >> open [
 { #category : 'enumerating' }
 S3SDLExamples >> pollEventsDo: aUnaryBlock [
 
-	| event |
+	| event map |
 	event := S3SDL_Event new.
+	map := S3SDLEventMap new.
 
-	[ lib SDL_PollEvent: event ] whileTrue: [ aUnaryBlock value: event ]
+	[ lib SDL_PollEvent: event ] whileTrue: [
+		aUnaryBlock value: (map conversionOf: event) ]
 ]
 
 { #category : 'instance creation' }
