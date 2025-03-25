@@ -8,6 +8,8 @@ Links:
 
 These Pharo bindings were generated with https://github.com/estebanlm/pharo-cig
 
+For details on SDL3 version and other details, check [this wiki page](../../wiki).
+
 ## Install
 
 In Pharo 12:
@@ -19,7 +21,7 @@ Metacello new
         load
 ```
 
-Build SDL3 and make the lib findable by the FFI finder. For example, put it together with the Pharo image.
+Build SDL3 and make the lib findable by the Pharo's FFI finder. For example, put it together with the Pharo image install it on your system (e.g. Mac's homebrew).
 Build steps here: https://wiki.libsdl.org/SDL3/Installation
 
 ## License
