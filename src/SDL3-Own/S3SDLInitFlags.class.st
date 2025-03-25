@@ -1,7 +1,7 @@
 "
 Bindings for `SDL_InitFlags` constants in `SDL_init.h`, in SDL3 3.1.3.
 
-The reason of the 'E' suffix: SDL3 doesn't define these flags as an enumeration but as `#define` macros.
+This class isn't generated automatically, it's manual. Why? SDL3 doesn't define these flags as an enumeration but as `#define` macros.
 CIG already translated `SDL_InitFlags` as an alias of uint32. So, this avoid a potential conflict.
 
 
