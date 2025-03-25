@@ -8,6 +8,8 @@ Links:
 
 These Pharo bindings were generated with https://github.com/estebanlm/pharo-cig
 
+For details on SDL3 version and other details, check [this wiki page](../../wiki).
+
 ## Install
 
 In Pharo 12:
