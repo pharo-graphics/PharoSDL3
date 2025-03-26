@@ -7,7 +7,10 @@ Class {
 
 { #category : 'baseline' }
 BaselineOfSDL3 >> baseline: spec [
-
 	<baseline>
-	spec for: #common do: [ spec package: 'SDL3' ]
+
+	spec for: #common do: [
+		spec package: 'SDL3'.
+		spec package: 'SDL3-Own'.
+		spec package: 'SDL3-Tests' ]
 ]
