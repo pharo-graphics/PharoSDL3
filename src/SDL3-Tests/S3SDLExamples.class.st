@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'window',
 		'renderer',
-		'lib'
+		'lib',
+		'event',
+		'map'
 	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
@@ -34,17 +36,18 @@ S3SDLExamples class >> example02StdoutEvents [
 	| demo shouldFinish |
 	demo := self new.
 
-	demo
-		ensureInitVideo;
-		open;
-		clearColor: Color blue darker;
-		present.
+	demo ensureInitVideo; open.
 
 	shouldFinish := false.
 	
 	[	[ shouldFinish ] whileFalse: [ 
 			demo pollEventsDo: [ :evt |
-				Stdio stdout print: evt; lf; flush ].
+				Stdio stdout print: evt; lf; flush.
+				demo
+					clearColor: Color black;
+					rendererDrawColor: Color white;
+					showText: evt asString x: 10 y: 10;
+					present ].
 			5 milliSeconds wait ]
 		] forkAt: Processor lowIOPriority.
 
@@ -54,21 +57,12 @@ S3SDLExamples class >> example02StdoutEvents [
 	demo close; ensureQuitVideo
 ]
 
-{ #category : 'instance creation' }
+{ #category : 'renderer' }
 S3SDLExamples >> clearColor: aColor [
 
-	| success |
-	success :=
-		lib
-			SDL_SetRenderDrawColorFloatRenderer: renderer
-			r: aColor red
-			g: aColor green
-			b: aColor blue
-			a: aColor alpha.
-	self assert: success.
+	self rendererDrawColor: aColor.
 
-	success := lib SDL_RenderClear: renderer.
-	self assert: success
+	self assert: (lib SDL_RenderClear: renderer)
 ]
 
 { #category : 'instance creation' }
@@ -90,6 +84,12 @@ S3SDLExamples >> ensureInitVideo [
 ]
 
 { #category : 'instance creation' }
+S3SDLExamples >> ensureNoError [
+
+	lib SDL_GetError ifNotEmpty: [ :msg | self error: msg ]
+]
+
+{ #category : 'instance creation' }
 S3SDLExamples >> ensureQuitVideo [
 
 	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
@@ -103,7 +103,10 @@ S3SDLExamples >> initialize [
 
 	super initialize.
 	
-	lib := LibSDL3 uniqueInstance
+	lib := LibSDL3 uniqueInstance.
+
+	event := S3SDL_Event new.
+	map := S3SDLEventMap new
 ]
 
 { #category : 'instance creation' }
@@ -124,10 +127,6 @@ S3SDLExamples >> open [
 { #category : 'enumerating' }
 S3SDLExamples >> pollEventsDo: aUnaryBlock [
 
-	| event map |
-	event := S3SDL_Event new.
-	map := S3SDLEventMap new.
-
 	[ lib SDL_PollEvent: event ] whileTrue: [
 		aUnaryBlock value: (map conversionOf: event) ]
 ]
@@ -136,4 +135,27 @@ S3SDLExamples >> pollEventsDo: aUnaryBlock [
 S3SDLExamples >> present [
 
 	self assert: (lib SDL_RenderPresent: renderer)
+]
+
+{ #category : 'renderer' }
+S3SDLExamples >> rendererDrawColor: aColor [
+
+	self assert:
+		(lib
+			SDL_SetRenderDrawColorFloatRenderer: renderer
+			r: aColor red
+			g: aColor green
+			b: aColor blue
+			a: aColor alpha)
+]
+
+{ #category : 'renderer' }
+S3SDLExamples >> showText: aString x: x y: y [
+
+	self assert:
+		(lib
+			SDL_RenderDebugTextRenderer: renderer
+			x: x
+			y: y
+			str: aString)
 ]

@@ -2,27 +2,26 @@ Class {
 	#name : 'S3SDLEventMap',
 	#superclass : 'Object',
 	#instVars : [
-		'eventClassByType'
+		'eventClassByTypeNumber'
 	],
-	#category : 'SDL3-Tests-Library',
-	#package : 'SDL3-Tests',
-	#tag : 'Library'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
 
 { #category : 'accessing' }
 S3SDLEventMap >> conversionOf: anEvent [
 
 	| eventClass |
-	eventClass := self eventClassFor: anEvent.
+	eventClass := self eventClassFor: anEvent type.
 
-	"Inspired on how FFIUnion's generated accessors"
+	"Inspired on FFIUnion's generated accessors (e.g. S3SDL_Event>>#display)"
 	^ eventClass fromHandle: (anEvent getHandle referenceStructAt: 1 length: eventClass byteSize)
 ]
 
 { #category : 'accessing' }
-S3SDLEventMap >> eventClassFor: anEvent [
+S3SDLEventMap >> eventClassFor: typeNumber [
 
-	^ eventClassByType at: anEvent type
+	^ eventClassByTypeNumber at: typeNumber
 ]
 
 { #category : 'initialization' }
@@ -30,7 +29,7 @@ S3SDLEventMap >> initialize [
 
 	super initialize.
 
-	eventClassByType := Dictionary new.
+	eventClassByTypeNumber := Dictionary new.
 	
  	{
 	#(SDL_EVENT_QUIT 256)
@@ -187,7 +186,7 @@ S3SDLEventMap >> initialize [
 	SDL_EVENT_USER 32768" 
 	} do: [ :association |
 		association key pairsDo: [ :eachName :eachValue |
-			eventClassByType
+			eventClassByTypeNumber
 				at: eachValue
 				put: association value ] ]
 ]

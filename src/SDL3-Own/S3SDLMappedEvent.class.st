@@ -10,10 +10,11 @@ S3SDLMappedEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
+		nextPutAll: ' time: ';
+		print: self timestamp;
 		nextPutAll: ' type: ';
-		print: self type;
-		nextPutAll: ' timestamp: ';
-		print: self timestamp
+		print: self type item
+
 ]
 
 { #category : 'accessing - structure variables' }
