@@ -120,3 +120,46 @@ LibSDL3Test >> test07VideoSubsystemLifecycle [
 		assert: (lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		equals: 0
 ]
+
+{ #category : 'tests' }
+LibSDL3Test >> test08Properties [
+
+	| id |
+	id := lib SDL_CreateProperties.
+
+	self assert:
+		(lib
+			SDL_SetStringPropertyProps: id
+			name: 'bonjour'
+			value: 'hola').
+
+	self assert:
+		(lib
+			SDL_HasPropertyProps: id
+			name: 'bonjour').
+
+	self
+		assert:
+			(lib
+				SDL_GetStringPropertyProps: id
+				name: 'bonjour'
+				default_value: 'none')
+		equals: 'hola'.
+
+		self
+			assert:
+				(lib
+					SDL_GetPropertyTypeProps: id
+					name: 'bonjour')
+			equals: S3SDL_PropertyType SDL_PROPERTY_TYPE_STRING.
+
+"	self
+		assert:
+			(lib
+				SDL_GetStringPropertyProps: id
+				name: 'HELLO'
+				default_value: 'none')
+		equals: 'none'.
+"
+	lib SDL_DestroyProperties: id
+]
