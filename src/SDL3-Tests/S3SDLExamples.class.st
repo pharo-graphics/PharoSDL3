@@ -57,6 +57,37 @@ S3SDLExamples class >> example02StdoutEvents [
 	demo close; ensureQuitVideo
 ]
 
+{ #category : 'examples' }
+S3SDLExamples class >> example03HandleEvents [
+
+	| demo |
+	demo := self new.
+	demo ensureInitVideo; open.
+
+	[	| shouldFinish |
+		shouldFinish := false.
+		[	demo pollEventsDo: [ :evt |
+				evt type = S3SDL_EventType SDL_EVENT_QUIT
+					ifTrue: [ shouldFinish := true ].
+				evt type = S3SDL_EventType SDL_EVENT_MOUSE_BUTTON_DOWN ifTrue: [
+					demo clearColor: Color random; present  ].
+				"evt type = S3SDL_EventType SDL_EVENT_KEY_DOWN ifTrue: [
+					Stdio stdout print: evt; lf; flush.
+					evt scancode = S3SDL_Scancode SDL_SCANCODE_ESCAPE ifTrue: [ 
+						shouldFinish := true ].
+					evt scancode = S3SDL_Scancode SDL_SCANCODE_SPACE ifTrue: [ 
+						shouldFinish := true ] ]"
+				].
+			10 milliSeconds wait ] doWhileFalse: [ shouldFinish ].
+
+		demo close; ensureQuitVideo.
+		Stdio stdout print: 'Closed'; lf; flush 
+
+		] fork.
+	
+	demo inspect
+]
+
 { #category : 'renderer' }
 S3SDLExamples >> clearColor: aColor [
 
