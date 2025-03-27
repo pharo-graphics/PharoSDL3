@@ -74,11 +74,16 @@ S3SDLExamples >> close [
 
 { #category : 'instance creation' }
 S3SDLExamples >> ensureInitVideo [
-
 	"Return early if video subsystem is already initialized"
+
 	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		= S3SDLInitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
-	
+
+	lib
+		SDL_SetAppMetadataAppname: self className
+		appversion: 'v1.2.3.4.5.6.7'
+		appidentifier: 'org.pharo.sdl3.', self className.
+
 	"Initialize the video subsystem"
 	self assert: (lib SDL_InitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO)
 ]
