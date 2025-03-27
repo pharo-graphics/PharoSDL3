@@ -19,6 +19,12 @@ S3SDL_GPUSwapchainComposition class >> SDL_GPU_SWAPCHAINCOMPOSITION_HDR10_ST2048
 ]
 
 { #category : 'accessing enum' }
+S3SDL_GPUSwapchainComposition class >> SDL_GPU_SWAPCHAINCOMPOSITION_HDR10_ST2084 [
+	"This method was automatically generated"
+	^ SDL_GPU_SWAPCHAINCOMPOSITION_HDR10_ST2084
+]
+
+{ #category : 'accessing enum' }
 S3SDL_GPUSwapchainComposition class >> SDL_GPU_SWAPCHAINCOMPOSITION_HDR_EXTENDED_LINEAR [
 	"This method was automatically generated"
 	^ SDL_GPU_SWAPCHAINCOMPOSITION_HDR_EXTENDED_LINEAR

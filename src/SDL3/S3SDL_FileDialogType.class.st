@@ -11,6 +11,24 @@ Class {
 	#tag : 'Base'
 }
 
+{ #category : 'accessing enum' }
+S3SDL_FileDialogType class >> SDL_FILEDIALOG_OPENFILE [
+	"This method was automatically generated"
+	^ SDL_FILEDIALOG_OPENFILE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_FileDialogType class >> SDL_FILEDIALOG_OPENFOLDER [
+	"This method was automatically generated"
+	^ SDL_FILEDIALOG_OPENFOLDER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_FileDialogType class >> SDL_FILEDIALOG_SAVEFILE [
+	"This method was automatically generated"
+	^ SDL_FILEDIALOG_SAVEFILE
+]
+
 { #category : 'enum declaration' }
 S3SDL_FileDialogType class >> enumDecl [
 
