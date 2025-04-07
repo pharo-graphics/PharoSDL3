@@ -302,6 +302,7 @@ Class {
 		'Uint8_128',
 		'Uint8_16',
 		'Uint8_2',
+		'_Bool',
 		'__blkcnt64_t',
 		'__blkcnt_t',
 		'__blksize_t',
