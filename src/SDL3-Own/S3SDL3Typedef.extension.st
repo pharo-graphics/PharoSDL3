@@ -314,6 +314,7 @@ S3SDL3Typedef class >> initialize [
 	Uint8_128 := FFIArray ofType: Uint8 size: 128.
 	Uint8_16 := FFIArray ofType: Uint8 size: 16.
 	Uint8_2 := FFIArray ofType: Uint8 size: 2.
+	_Bool := #bool.
 	__blkcnt64_t := #long.
 	__blkcnt_t := #long.
 	__blksize_t := #long.
