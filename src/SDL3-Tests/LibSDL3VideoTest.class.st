@@ -9,6 +9,12 @@ Class {
 	#tag : 'Library'
 }
 
+{ #category : 'private' }
+LibSDL3VideoTest >> assertEmptySDLError [
+
+	self assert: lib SDL_GetError equals: ''.
+]
+
 { #category : 'running' }
 LibSDL3VideoTest >> setUp [
 
@@ -54,16 +60,14 @@ LibSDL3VideoTest >> test02CreateWindow [
 	window :=
 		lib
 			SDL_CreateWindowTitle: 'Pharo SDL3'
-			w: 800
-			h: 600
+			w: 800 h: 600
 			flags: 0.
 	self deny: window isNull.
 
 	self waitToSee.
 
-	lib SDL_ClearError.
 	lib SDL_DestroyWindow: window.
-	self assertEmpty: lib SDL_GetError
+	self assertEmptySDLError
 ]
 
 { #category : 'tests' }
@@ -87,9 +91,9 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 
 	lib SDL_ClearError.
 	lib SDL_DestroyRenderer: renderer getHandle.
-	self assert: lib SDL_GetError equals: ''.
+	self assertEmptySDLError.
 	lib SDL_DestroyWindow: window getHandle.
-	self assert: lib SDL_GetError equals: ''
+	self assertEmptySDLError
 ]
 
 { #category : 'tests' }
@@ -130,11 +134,10 @@ LibSDL3VideoTest >> test04CreateRendererAndClear [
 	self waitToSee.
 	
 	"Tear down"
-	lib SDL_ClearError.
 	lib SDL_DestroyRenderer: renderer.
-	self assert: lib SDL_GetError equals: ''.
+	self assertEmptySDLError.
 	lib SDL_DestroyWindow: window.
-	self assert: lib SDL_GetError equals: ''
+	self assertEmptySDLError
 ]
 
 { #category : 'private' }
