@@ -15,6 +15,12 @@ LibSDL3VideoTest >> assertEmptySDLError [
 	self assert: lib SDL_GetError equals: ''.
 ]
 
+{ #category : 'private' }
+LibSDL3VideoTest >> pollAllEvents [
+
+	[ lib SDL_PollEvent: S3SDL_Event new ] whileTrue
+]
+
 { #category : 'running' }
 LibSDL3VideoTest >> setUp [
 
@@ -163,6 +169,63 @@ LibSDL3VideoTest >> test05RenderSurface [
 	self assertEmptySDLError.
 	lib SDL_DestroyTexture: texture.
 	self assertEmptySDLError.
+	lib SDL_DestroyRenderer: renderer.
+	self assertEmptySDLError.
+	lib SDL_DestroyWindow: window.
+	self assertEmptySDLError
+]
+
+{ #category : 'tests' }
+LibSDL3VideoTest >> test06ShapedWindow [
+	"It doesn't seem to work on Mac"
+
+	| success window extent shapeForm surface renderer |
+	extent := 500 @ 500.
+	window :=
+		lib
+			SDL_CreateWindowTitle: ''
+			w: extent x h: extent y
+			flags: S3SDLWindowFlags SDL_WINDOW_HIDDEN | S3SDLWindowFlags SDL_WINDOW_TRANSPARENT "| S3SDLWindowFlags SDL_WINDOW_BORDERLESS".
+	success := window isNull not.
+	self assert: success.
+
+	renderer := lib SDL_CreateRendererWindow: window name: nil.
+	self assertEmptySDLError.
+
+
+	shapeForm := Form extent: extent depth: 32.
+	shapeForm getCanvas
+		fillColor: Color transparent;
+		fillOval: (0@0 corner: extent) color: Color blue.
+	surface := self unownedSurfaceFromForm: shapeForm.
+
+	lib SDL_SetWindowShapeWindow: window shape: surface.
+	lib SDL_ShowWindow: window.
+
+
+
+	"Set cyan color"
+	success :=
+		lib
+			SDL_SetRenderDrawColorFloatRenderer: renderer
+			r: 0.0 g: 1.0 b: 1.0 a: 0.0.
+	self assert: success.
+
+	"Let's clear with that color"
+	success := lib SDL_RenderClear: renderer.
+	self assert: success.
+
+	"Present will actually apply the clear operation"
+	success := lib SDL_RenderPresent: renderer.
+	self assert: success.
+
+
+	self pollAllEvents.
+
+	2 seconds wait.
+	self waitToSee.
+	
+	"Tear down"
 	lib SDL_DestroyRenderer: renderer.
 	self assertEmptySDLError.
 	lib SDL_DestroyWindow: window.
