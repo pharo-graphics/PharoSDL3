@@ -232,6 +232,26 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	self assertEmptySDLError
 ]
 
+{ #category : 'tests' }
+LibSDL3VideoTest >> test07Fullscreen [
+
+	| success window |
+	window :=
+		lib
+			SDL_CreateWindowTitle: ''
+			w: 0 h: 0
+			flags: S3SDLWindowFlags SDL_WINDOW_FULLSCREEN.
+	success := window isNull not.
+	self assert: success.
+
+	self waitToSee.
+	self waitToSee.
+	
+	"Tear down"
+	lib SDL_DestroyWindow: window.
+	self assertEmptySDLError
+]
+
 { #category : 'private' }
 LibSDL3VideoTest >> waitToSee [
 	"May perform a wait to let use visually check the window"
