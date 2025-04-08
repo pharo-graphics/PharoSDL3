@@ -103,9 +103,7 @@ LibSDL3VideoTest >> test04CreateRendererAndClear [
 	window :=
 		lib
 			SDL_CreateWindowTitle: 'Pharo SDL3'
-			w: 800
-			h: 600
-			flags: 0.
+			w: 800 h: 600 flags: 0.
 	success := window isNull not.
 	self assert: success.
 
@@ -117,10 +115,7 @@ LibSDL3VideoTest >> test04CreateRendererAndClear [
 	success :=
 		lib
 			SDL_SetRenderDrawColorFloatRenderer: renderer
-			r: 0.0
-			g: 1.0
-			b: 1.0
-			a: 0.0.
+			r: 0.0 g: 1.0 b: 1.0 a: 0.0.
 	self assert: success.
 
 	"Let's clear with that color"
@@ -134,6 +129,40 @@ LibSDL3VideoTest >> test04CreateRendererAndClear [
 	self waitToSee.
 	
 	"Tear down"
+	lib SDL_DestroyRenderer: renderer.
+	self assertEmptySDLError.
+	lib SDL_DestroyWindow: window.
+	self assertEmptySDLError
+]
+
+{ #category : 'tests' }
+LibSDL3VideoTest >> test05RenderSurface [
+
+	| extent window renderer texture shapeForm surface |
+	extent := 600@800.
+
+	window :=
+		lib
+			SDL_CreateWindowTitle: ''
+			w: extent x h: extent y flags: 0.
+	self assertEmptySDLError.
+	renderer := lib SDL_CreateRendererWindow: window name: nil.
+	self assertEmptySDLError.
+
+	shapeForm := self iconNamed: #pharoBig.
+	surface := self unownedSurfaceFromForm: shapeForm.
+	texture := lib SDL_CreateTextureFromSurfaceRenderer: renderer surface: surface.
+	lib SDL_RenderTextureRenderer: renderer texture: texture srcrect: nil dstrect: nil.
+	lib SDL_RenderPresent: renderer.
+
+
+	self waitToSee.
+	
+	"Tear down"
+	lib SDL_DestroySurface: surface.
+	self assertEmptySDLError.
+	lib SDL_DestroyTexture: texture.
+	self assertEmptySDLError.
 	lib SDL_DestroyRenderer: renderer.
 	self assertEmptySDLError.
 	lib SDL_DestroyWindow: window.
