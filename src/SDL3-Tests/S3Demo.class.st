@@ -1,5 +1,5 @@
 Class {
-	#name : 'S3SDLExamples',
+	#name : 'S3Demo',
 	#superclass : 'Object',
 	#instVars : [
 		'window',
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : 'examples' }
-S3SDLExamples class >> example01ColorWheel [
+S3Demo class >> example01ColorWheel [
 
 	| demo |
 	demo := self new.
@@ -31,7 +31,7 @@ S3SDLExamples class >> example01ColorWheel [
 ]
 
 { #category : 'examples' }
-S3SDLExamples class >> example02LogEventsForSomeSconds [
+S3Demo class >> example02LogEventsForSomeSconds [
 
 	| demo shouldFinish |
 	demo := self new.
@@ -69,7 +69,7 @@ S3SDLExamples class >> example02LogEventsForSomeSconds [
 ]
 
 { #category : 'examples' }
-S3SDLExamples class >> example03HandleEvents [
+S3Demo class >> example03HandleEvents [
 	<sampleInstance>
 
 	| demo |
@@ -101,7 +101,7 @@ S3SDLExamples class >> example03HandleEvents [
 ]
 
 { #category : 'examples' }
-S3SDLExamples class >> example04OpenFolderDialog [
+S3Demo class >> example04OpenFolderDialog [
 	"It is prepared to run headless with:
 	./pharo Pharo.image eval --no-quit 'S3SDLExamples example04OpenFolderDialog' "
 	<sampleInstance>
@@ -151,20 +151,20 @@ S3SDLExamples class >> example04OpenFolderDialog [
 ]
 
 { #category : 'renderer' }
-S3SDLExamples >> clear [
+S3Demo >> clear [
 
 	self ensureNoErrorIfFalse: (lib SDL_RenderClear: renderer)
 ]
 
 { #category : 'renderer' }
-S3SDLExamples >> clearColor: aColor [
+S3Demo >> clearColor: aColor [
 
 	self color: aColor.
 	self clear
 ]
 
 { #category : 'lifecycle' }
-S3SDLExamples >> close [
+S3Demo >> close [
 
 	lib SDL_ClearError.
 	lib SDL_DestroyRenderer: renderer.
@@ -174,7 +174,7 @@ S3SDLExamples >> close [
 ]
 
 { #category : 'renderer' }
-S3SDLExamples >> color: aColor [
+S3Demo >> color: aColor [
 
 	self ensureNoErrorIfFalse:
 		(lib
@@ -186,7 +186,7 @@ S3SDLExamples >> color: aColor [
 ]
 
 { #category : 'lifecycle' }
-S3SDLExamples >> ensureInitVideo [
+S3Demo >> ensureInitVideo [
 	"Return early if video subsystem is already initialized"
 
 	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
@@ -202,14 +202,14 @@ S3SDLExamples >> ensureInitVideo [
 ]
 
 { #category : 'private' }
-S3SDLExamples >> ensureNoError [
+S3Demo >> ensureNoError [
 	<debuggerCompleteToSender>
 
 	lib SDL_GetError ifNotEmpty: [ :msg | Error new signal: msg ]
 ]
 
 { #category : 'private' }
-S3SDLExamples >> ensureNoErrorIfFalse: aBoolean [
+S3Demo >> ensureNoErrorIfFalse: aBoolean [
 	<debuggerCompleteToSender>
 	
 	aBoolean ifTrue: [ ^ self ].
@@ -217,7 +217,7 @@ S3SDLExamples >> ensureNoErrorIfFalse: aBoolean [
 ]
 
 { #category : 'private' }
-S3SDLExamples >> ensureNoErrorIfNull: anExternalObject [
+S3Demo >> ensureNoErrorIfNull: anExternalObject [
 	<debuggerCompleteToSender>
 
 	anExternalObject isNull ifFalse: [ ^ self ].
@@ -225,7 +225,7 @@ S3SDLExamples >> ensureNoErrorIfNull: anExternalObject [
 ]
 
 { #category : 'lifecycle' }
-S3SDLExamples >> ensureQuitVideo [
+S3Demo >> ensureQuitVideo [
 
 	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		= S3SDLInitFlags SDL_INIT_VIDEO ifFalse: [ ^ self ].
@@ -234,7 +234,7 @@ S3SDLExamples >> ensureQuitVideo [
 ]
 
 { #category : 'initialization' }
-S3SDLExamples >> initialize [
+S3Demo >> initialize [
 
 	super initialize.
 	
@@ -245,7 +245,7 @@ S3SDLExamples >> initialize [
 ]
 
 { #category : 'lifecycle' }
-S3SDLExamples >> open [
+S3Demo >> open [
 
 	window :=
 		lib
@@ -260,7 +260,7 @@ S3SDLExamples >> open [
 ]
 
 { #category : 'private' }
-S3SDLExamples >> parsedArrayOfCStringsFrom: firstAddress [
+S3Demo >> parsedArrayOfCStringsFrom: firstAddress [
 
 	^ Array streamContents: [ :aStream |
 		| index currentAddress |
@@ -275,27 +275,27 @@ S3SDLExamples >> parsedArrayOfCStringsFrom: firstAddress [
 ]
 
 { #category : 'enumerating' }
-S3SDLExamples >> pollEvents [
+S3Demo >> pollEvents [
 
 	^ Array new: 10 streamContents: [ :stream |
 		self pollEventsDo: [ :evt | stream nextPut: evt copy ]]
 ]
 
 { #category : 'enumerating' }
-S3SDLExamples >> pollEventsDo: aUnaryBlock [
+S3Demo >> pollEventsDo: aUnaryBlock [
 
 	[ lib SDL_PollEvent: event ] whileTrue: [
 		aUnaryBlock value: (map conversionOf: event) ]
 ]
 
 { #category : 'renderer' }
-S3SDLExamples >> present [
+S3Demo >> present [
 
 	self ensureNoErrorIfFalse: (lib SDL_RenderPresent: renderer)
 ]
 
 { #category : 'utilities' }
-S3SDLExamples >> showOpenFolderModal: aBoolean [
+S3Demo >> showOpenFolderModal: aBoolean [
 
 	| callback result |
 	callback :=
@@ -336,7 +336,7 @@ S3SDLExamples >> showOpenFolderModal: aBoolean [
 ]
 
 { #category : 'renderer' }
-S3SDLExamples >> showText: aString x: x y: y [
+S3Demo >> showText: aString x: x y: y [
 
 	self ensureNoErrorIfFalse:
 		(lib
@@ -347,7 +347,7 @@ S3SDLExamples >> showText: aString x: x y: y [
 ]
 
 { #category : 'renderer' }
-S3SDLExamples >> showText: aString x: x y: y color: aColor [
+S3Demo >> showText: aString x: x y: y color: aColor [
 
 	self color: aColor.
 	self showText: aString x: x y: y
