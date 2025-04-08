@@ -253,6 +253,27 @@ LibSDL3VideoTest >> test07Fullscreen [
 ]
 
 { #category : 'private' }
+LibSDL3VideoTest >> unownedSurfaceFromForm: aForm [
+
+	| convertedForm aSDLSurface |
+	convertedForm :=
+		aForm
+			unhibernate;
+			asFormOfDepth: 32.
+
+	aSDLSurface := lib
+		               SDL_CreateSurfaceFromWidth: convertedForm width
+		               height: convertedForm height
+		               format: S3SDL_PixelFormat SDL_PIXELFORMAT_ARGB8888 
+		               pixels: convertedForm bits
+		               pitch: convertedForm width * 4.
+
+	self assertEmptySDLError.
+
+	^ aSDLSurface
+]
+
+{ #category : 'private' }
 LibSDL3VideoTest >> waitToSee [
 	"May perform a wait to let use visually check the window"
 
