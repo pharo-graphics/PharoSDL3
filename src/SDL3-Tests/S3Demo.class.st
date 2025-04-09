@@ -124,6 +124,7 @@ S3Demo class >> example03HandleEvents [
 			"Do a little wait before next frame"
 			10 milliSeconds wait ].
 	
+		"Tear down"
 		demo close.
 		UIManager default class = NonInteractiveUIManager ifTrue: [ 
 			demo ensureQuitVideo.
@@ -137,48 +138,54 @@ S3Demo class >> example03HandleEvents [
 { #category : 'examples' }
 S3Demo class >> example04OpenFolderDialog [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval --no-quit 'S3SDLExamples example04OpenFolderDialog' "
+	./pharo Pharo.image eval --no-quit 'S3Demo example04OpenFolderDialog' "
 	<sampleInstance>
 
-	| demo |
+	| demo logs |
 	demo := self new.
 	demo ensureInitVideo; open.
 
-	demo
-		clearColor: Color blue muchDarker;
-		showText: 'CLICK TO OPEN DIALOG' x: 10 y: 10 color: Color white;
-		present.
-					
-	[	| quit logs |
+	logs := LinkedList new.
+	logs add: 'CLICK TO OPEN DIALOG'.
+
+	[	| quit |
 		quit := false.
-		logs := LinkedList new.
-		[	demo pollEventsDo: [ :evt |
-				evt type = S3SDL_EventType SDL_EVENT_WINDOW_CLOSE_REQUESTED
+		[ quit ] whileFalse: [
+			demo pollEventsDo: [ :evt |
+				evt type = S3SDL_EventType SDL_EVENT_QUIT
 					ifTrue: [ quit := true ].
 				evt type = S3SDL_EventType SDL_EVENT_MOUSE_BUTTON_DOWN
 					ifTrue: [
 						| result |
-						result := demo showOpenFolderModal: true.
-						logs addLast: result.
+						result := demo showOpenFolderModal: false.
+						result
+							ifEmpty: [ 
+								logs addLast: 'Cancelled' ]
+							ifNotEmpty: [
+								logs addLast:
+									('Selected ', result size asString,
+									' directories: ', result asString) ] ]
 
-						"Stdio stdout
-							nextPutAll: '---->';
-							nextPutAll: result asString;
-							lf; flush" 
-						] ].
+				].
 
 			"Render frame"
 			demo clearColor: Color blue muchDarker.
-			logs size > 10 ifTrue: [ logs := logs last: 10 ]. "cap"
+			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
 			logs withIndexDo: [ :each :index |
-				demo showText: each asString x: 10 y: 10 * index ].
+				demo
+					showText: each
+					x: 10 y: 10 * index
+					color: Color white ].
 			demo present.
 
 			"Do a little wait before next frame"
-			10 milliSeconds wait ] doWhileFalse: [ quit ].
+			10 milliSeconds wait ].
 
-		demo close; ensureQuitVideo.
-		Stdio stdout nextPutAll: '-- FINISHING EVENT LOOP PROCESS --'; lf; flush 
+		"Tear down"
+		demo close.
+		UIManager default class = NonInteractiveUIManager ifTrue: [ 
+			demo ensureQuitVideo.
+			Smalltalk snapshot: false andQuit: true ]
 
 		] fork.
 	
@@ -337,19 +344,9 @@ S3Demo >> showOpenFolderModal: aBoolean [
 		FFICallback
 			signature: #(void (void *userdata, char **filelist, int filter))
 			block: [ :userdata :filelist :filter |
-				filelist isNull
-					ifTrue: [
-"						Stdio stdout nextPutAll: 'User cancelled'."
-						result := #() ]
-					ifFalse: [
-						result := self parsedArrayOfCStringsFrom: filelist.
-"						Stdio stdout
-							nextPutAll: result asString;
-							lf; flush" ] .
-						
-					"Stdio stdout
-							nextPutAll: result asString;
-							lf; flush" ].
+				result := filelist isNull
+					ifTrue: [ #() ]
+					ifFalse: [ self parsedArrayOfCStringsFrom: filelist ] ].
 
 	lib
 		SDL_ShowOpenFolderDialogCallback: callback
@@ -357,15 +354,6 @@ S3Demo >> showOpenFolderModal: aBoolean [
 		window: (aBoolean ifTrue: [ window ] ifFalse: [ S3SDL_Window null ])
 		default_location: nil
 		allow_many: true.
-
-	Stdio stdout
-		nextPutAll: '-> ';
-		nextPutAll: result asString;
-		lf; flush.
-
-	self
-		clearColor: Color random muchDarker;
-		present.						
 
 	^ result
 ]
