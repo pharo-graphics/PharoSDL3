@@ -70,30 +70,64 @@ S3Demo class >> example02LogEventsForSomeSconds [
 
 { #category : 'examples' }
 S3Demo class >> example03HandleEvents [
+	"It is prepared to run headless with:
+	./pharo Pharo.image eval --no-quit 'S3Demo example03HandleEvents' "
 	<sampleInstance>
 
 	| demo |
 	demo := self new.
 	demo ensureInitVideo; open.
 
-	[	| shouldFinish |
-		shouldFinish := false.
-		[	demo pollEventsDo: [ :evt |
-				evt type = S3SDL_EventType SDL_EVENT_QUIT
-					ifTrue: [ shouldFinish := true ].
-				evt type = S3SDL_EventType SDL_EVENT_MOUSE_BUTTON_DOWN ifTrue: [
-					demo clearColor: Color random; present  ].
-				"evt type = S3SDL_EventType SDL_EVENT_KEY_DOWN ifTrue: [
-					Stdio stdout print: evt; lf; flush.
-					evt scancode = S3SDL_Scancode SDL_SCANCODE_ESCAPE ifTrue: [ 
-						shouldFinish := true ].
-					evt scancode = S3SDL_Scancode SDL_SCANCODE_SPACE ifTrue: [ 
-						shouldFinish := true ] ]"
-				].
-			10 milliSeconds wait ] doWhileFalse: [ shouldFinish ].
+	[	| quit hue bright backgroundColor |
+		quit := false.
+		hue := 250.
+		bright := 0.5.
 
-		demo close; ensureQuitVideo.
-		Stdio stdout print: 'Closed'; lf; flush 
+		"main loop"
+		[ quit ] whileFalse: [
+
+			"Process all pending events"
+			demo pollEventsDo: [ :evt |
+				evt type = S3SDL_EventType SDL_EVENT_QUIT
+					ifTrue: [ quit := true ].
+
+				evt type = S3SDL_EventType SDL_EVENT_KEY_DOWN ifTrue: [
+					
+					evt scancode = S3SDL_Scancode SDL_SCANCODE_DOWN
+						ifTrue: [ bright := (bright - 0.1) max: 0 ].
+					evt scancode = S3SDL_Scancode SDL_SCANCODE_UP
+						ifTrue: [ bright := (bright + 0.1) min: 1.0 ].
+
+					evt scancode = S3SDL_Scancode SDL_SCANCODE_LEFT
+						ifTrue: [ hue := (hue - 5) max: 0 ].
+					evt scancode = S3SDL_Scancode SDL_SCANCODE_RIGHT
+						ifTrue: [ hue := (hue + 5) min: 360 ].
+
+					evt scancode = S3SDL_Scancode SDL_SCANCODE_ESCAPE
+						ifTrue: [ quit := true ] ]
+				].
+			
+			"Render frame"
+			backgroundColor := Color h: hue s: 1.0 v: bright.
+			demo
+				clearColor: backgroundColor;
+				showText: ('Hue: {1} Bright: {2}%.' format: { hue. (bright*100) asInteger })
+					x: 10 y: 10 color: backgroundColor negated;
+				showText: 'Press LEFT/RIGHT to change hue'
+					x: 10 y: 20 color: backgroundColor negated;
+				showText: 'Press UP/DOWN to change brigthness'
+					x: 10 y: 30 color: backgroundColor negated;
+				showText: 'Press ESCAPE to quit'
+					x: 10 y: 40 color: backgroundColor negated;
+				present.
+
+			"Do a little wait before next frame"
+			10 milliSeconds wait ].
+	
+		demo close.
+		UIManager default class = NonInteractiveUIManager ifTrue: [ 
+			demo ensureQuitVideo.
+			Smalltalk snapshot: false andQuit: true ]
 
 		] fork.
 	
@@ -115,12 +149,12 @@ S3Demo class >> example04OpenFolderDialog [
 		showText: 'CLICK TO OPEN DIALOG' x: 10 y: 10 color: Color white;
 		present.
 					
-	[	| shouldFinish logs |
-		shouldFinish := false.
+	[	| quit logs |
+		quit := false.
 		logs := LinkedList new.
 		[	demo pollEventsDo: [ :evt |
 				evt type = S3SDL_EventType SDL_EVENT_WINDOW_CLOSE_REQUESTED
-					ifTrue: [ shouldFinish := true ].
+					ifTrue: [ quit := true ].
 				evt type = S3SDL_EventType SDL_EVENT_MOUSE_BUTTON_DOWN
 					ifTrue: [
 						| result |
@@ -133,14 +167,15 @@ S3Demo class >> example04OpenFolderDialog [
 							lf; flush" 
 						] ].
 
-			"render frame"
+			"Render frame"
 			demo clearColor: Color blue muchDarker.
 			logs size > 10 ifTrue: [ logs := logs last: 10 ]. "cap"
 			logs withIndexDo: [ :each :index |
 				demo showText: each asString x: 10 y: 10 * index ].
 			demo present.
 
-			10 milliSeconds wait ] doWhileFalse: [ shouldFinish ].
+			"Do a little wait before next frame"
+			10 milliSeconds wait ] doWhileFalse: [ quit ].
 
 		demo close; ensureQuitVideo.
 		Stdio stdout nextPutAll: '-- FINISHING EVENT LOOP PROCESS --'; lf; flush 
