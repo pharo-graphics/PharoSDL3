@@ -22,7 +22,7 @@ Metacello new
 ```
 
 Build SDL3 and make the lib findable by the Pharo's FFI finder. For example, put it together with the Pharo image install it on your system (e.g. Mac's homebrew).
-Build steps here: https://wiki.libsdl.org/SDL3/Installation
+Build steps here: https://github.com/libsdl-org/SDL/blob/main/INSTALL.md
 
 ## License
 
