@@ -11,6 +11,16 @@ ExternalAddress >> arrayOfStringsOfSize: anInteger [
 ]
 
 { #category : '*SDL3-Own' }
+ExternalAddress >> bytesFromNext: size [
+
+	^ ByteArray new: size streamContents: [ :aStream |
+			1 to: size do: [ :index |
+				| aByte |
+				aByte := self unsignedByteAt: index.
+				aStream nextPut: aByte ] ]
+]
+
+{ #category : '*SDL3-Own' }
 ExternalAddress >> nullTerminatedArrayOfCStrings [
 	"Try: readArrayOf: aType until: aBlock"
 

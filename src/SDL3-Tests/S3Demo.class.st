@@ -192,6 +192,70 @@ S3Demo class >> example04OpenFolderDialog [
 	^ demo
 ]
 
+{ #category : 'examples' }
+S3Demo class >> example05Clipboard [
+	"It is prepared to run headless with:
+	./pharo Pharo.image eval --no-quit 'S3Demo example05Clipboard' "
+	<sampleInstance>
+
+	| demo |
+	demo := self new.
+	demo ensureInitVideo; open.
+
+	[	| quit pasted |
+		quit := false.
+		pasted := OrderedCollection new.
+
+		"main loop"
+		[ quit ] whileFalse: [
+
+			"Process all pending events"
+			demo pollEventsDo: [ :evt |
+				evt type = S3SDL_EventType SDL_EVENT_QUIT
+					ifTrue: [ quit := true ].
+				evt type = S3SDL_EventType SDL_EVENT_WINDOW_CLOSE_REQUESTED
+					ifTrue: [ quit := true ].
+				evt type = S3SDL_EventType SDL_EVENT_MOUSE_BUTTON_DOWN
+					ifTrue: [
+						demo
+							clipboardMimeType: 'image/png'
+							ifPresent: [ :bytes |
+								| form texture rect |
+								form := PNGReadWriter formFromStream: bytes readStream.
+								texture := demo unownedNewTextureFromForm: form.
+								rect := S3SDL_FRect new
+									x: evt x;
+									y: evt y;
+									w: form width;
+									h: form height;
+									yourself.
+								pasted add: (texture -> rect)  ]
+							ifAbsent: [ "ignore click" ] ]
+				].
+			
+			"Render frame"
+			demo clearColor: Color blue muchDarker.
+			pasted do: [ :each |
+				demo
+					renderTexture: each key
+					at: each value ].
+			demo present.
+
+			"Do a little wait before next frame"
+			10 milliSeconds wait ].
+	
+		"Tear down"
+		"TODO: destroy textures" 
+		demo close.
+		UIManager default class = NonInteractiveUIManager ifTrue: [ 
+			demo ensureQuitVideo.
+			Smalltalk snapshot: false andQuit: true ]
+
+		] fork.
+	
+	^ demo
+]
+
 { #category : 'renderer' }
 S3Demo >> clear [
 
@@ -203,6 +267,23 @@ S3Demo >> clearColor: aColor [
 
 	self color: aColor.
 	self clear
+]
+
+{ #category : 'utilities' }
+S3Demo >> clipboardMimeType: mimeType ifPresent: presentBlock ifAbsent: absentBlock [
+
+	(lib SDL_HasClipboardData: mimeType) ifFalse: [ ^ absentBlock value ].
+
+	^ presentBlock value:
+		(ExternalAddress
+			allocate: FFIUInt64 pointerSize
+			bytesDuring: [ :dataSizePointer |
+				| dataPointer dataSize |
+				dataPointer := lib
+					SDL_GetClipboardDataMime_type: mimeType
+					size: dataSizePointer.
+				dataSize := dataSizePointer signedLongLongAt: 1.
+				dataPointer bytesFromNext: dataSize ])
 ]
 
 { #category : 'lifecycle' }
@@ -321,6 +402,17 @@ S3Demo >> present [
 	self ensureNoErrorIfFalse: (lib SDL_RenderPresent: renderer)
 ]
 
+{ #category : 'renderer' }
+S3Demo >> renderTexture: texture at: aSDLFRect [
+
+	self ensureNoErrorIfFalse:
+		(lib
+			 SDL_RenderTextureRenderer: renderer
+			 texture: texture
+			 srcrect: nil
+			 dstrect: aSDLFRect)
+]
+
 { #category : 'utilities' }
 S3Demo >> showOpenFolderModal: aBoolean [
 
@@ -359,4 +451,15 @@ S3Demo >> showText: aString x: x y: y color: aColor [
 
 	self color: aColor.
 	self showText: aString x: x y: y
+]
+
+{ #category : 'utilities' }
+S3Demo >> unownedNewTextureFromForm: aForm [
+
+	| aSurface aTexture |
+	aSurface := aForm asUnownedNewSDL3Surface.
+	self ensureNoErrorIfNull: aSurface.
+	aTexture := lib SDL_CreateTextureFromSurfaceRenderer: renderer surface: aSurface.
+	lib SDL_DestroySurface: aSurface.
+	^ aTexture
 ]
