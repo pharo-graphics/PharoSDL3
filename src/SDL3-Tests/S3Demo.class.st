@@ -301,21 +301,6 @@ S3Demo >> open [
 	self ensureNoErrorIfNull: window
 ]
 
-{ #category : 'private' }
-S3Demo >> parsedArrayOfCStringsFrom: firstAddress [
-
-	^ Array streamContents: [ :aStream |
-		| index currentAddress |
-		index := 1.
-		[ currentAddress := firstAddress pointerAt: index. currentAddress isNull ] whileFalse: [ 
-			aStream nextPut: currentAddress bytesFromCString utf8Decoded.
-			index := index + FFIExternalType pointerSize ]
-"		aStream nextPut: (firstAddress pointerAt: index) bytesFromCString utf8Decoded.
-		index := index + FFIExternalType pointerSize."
-"		aStream nextPut: (firstAddress pointerAt: index) bytesFromCString utf8Decoded."
-		]
-]
-
 { #category : 'enumerating' }
 S3Demo >> pollEvents [
 
@@ -346,7 +331,7 @@ S3Demo >> showOpenFolderModal: aBoolean [
 			block: [ :userdata :filelist :filter |
 				result := filelist isNull
 					ifTrue: [ #() ]
-					ifFalse: [ self parsedArrayOfCStringsFrom: filelist ] ].
+					ifFalse: [ filelist nullTerminatedArrayOfCStrings ] ].
 
 	lib
 		SDL_ShowOpenFolderDialogCallback: callback
