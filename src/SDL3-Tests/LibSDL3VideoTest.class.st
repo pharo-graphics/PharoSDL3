@@ -50,10 +50,21 @@ LibSDL3VideoTest >> tearDown [
 LibSDL3VideoTest >> test01ClipboardAPI [
 
 	"Copy&paste a non-ASCII string"
+	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
 	self assert: (lib SDL_SetClipboardText: 'Hëllo').
 	self assert: lib SDL_HasClipboardText.
 	self assert: lib SDL_GetClipboardText equals: 'Hëllo'.
 
+	"Clipboard supports more than text"
+	mimeTypesCountPointer := FFIInt64 newBuffer.
+	mimeTypesStringArrayPointer := lib SDL_GetClipboardMimeTypes: mimeTypesCountPointer.
+	mimeTypesStringArray :=
+		mimeTypesStringArrayPointer
+			arrayOfStringsOfSize: (mimeTypesCountPointer signedLongLongAt: 1). 
+	lib SDL_free: mimeTypesStringArrayPointer.
+
+	self assert: mimeTypesStringArray equals: #('text/plain;charset=utf-8').
+	
 	"Clear"
 	self assert: lib SDL_ClearClipboardData.
 	self deny: lib SDL_HasClipboardText
