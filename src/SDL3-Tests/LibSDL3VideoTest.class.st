@@ -107,9 +107,9 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 	self waitToSee.
 
 	lib SDL_ClearError.
-	lib SDL_DestroyRenderer: renderer getHandle.
+	lib SDL_DestroyRenderer: renderer.
 	self assertEmptySDLError.
-	lib SDL_DestroyWindow: window getHandle.
+	lib SDL_DestroyWindow: window.
 	self assertEmptySDLError
 ]
 

@@ -32,6 +32,8 @@ S3Demo class >> example01ColorWheel [
 
 { #category : 'examples' }
 S3Demo class >> example02LogEventsForSomeSconds [
+	"It is prepared to run headless with:
+	./pharo Pharo.image eval 'S3Demo example02LogEventsForSomeSconds' "
 
 	| demo shouldFinish |
 	demo := self new.
@@ -290,10 +292,10 @@ S3Demo >> clipboardMimeType: mimeType ifPresent: presentBlock ifAbsent: absentBl
 S3Demo >> close [
 
 	lib SDL_ClearError.
-	lib SDL_DestroyRenderer: renderer.
-	self ensureNoError.
-	lib SDL_DestroyWindow: window.
-	self ensureNoError
+	[ 	lib SDL_DestroyRenderer: renderer.
+		self ensureNoError ] ensure: [
+			lib SDL_DestroyWindow: window.
+			self ensureNoError]
 ]
 
 { #category : 'renderer' }
