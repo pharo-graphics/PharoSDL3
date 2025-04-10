@@ -156,7 +156,7 @@ LibSDL3VideoTest >> test05RenderSurface [
 	self assertEmptySDLError.
 
 	shapeForm := self iconNamed: #pharoBig.
-	surface := self unownedSurfaceFromForm: shapeForm.
+	surface := shapeForm asUnownedNewSDL3Surface.
 	texture := lib SDL_CreateTextureFromSurfaceRenderer: renderer surface: surface.
 	lib SDL_RenderTextureRenderer: renderer texture: texture srcrect: nil dstrect: nil.
 	lib SDL_RenderPresent: renderer.
@@ -197,7 +197,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	shapeForm getCanvas
 		fillColor: Color transparent;
 		fillOval: (0@0 corner: extent) color: Color blue.
-	surface := self unownedSurfaceFromForm: shapeForm.
+	surface := shapeForm asUnownedNewSDL3Surface.
 
 	lib SDL_SetWindowShapeWindow: window shape: surface.
 	lib SDL_ShowWindow: window.
@@ -250,27 +250,6 @@ LibSDL3VideoTest >> test07Fullscreen [
 	"Tear down"
 	lib SDL_DestroyWindow: window.
 	self assertEmptySDLError
-]
-
-{ #category : 'private' }
-LibSDL3VideoTest >> unownedSurfaceFromForm: aForm [
-
-	| convertedForm aSDLSurface |
-	convertedForm :=
-		aForm
-			unhibernate;
-			asFormOfDepth: 32.
-
-	aSDLSurface := lib
-		               SDL_CreateSurfaceFromWidth: convertedForm width
-		               height: convertedForm height
-		               format: S3SDL_PixelFormat SDL_PIXELFORMAT_ARGB8888 
-		               pixels: convertedForm bits
-		               pitch: convertedForm width * 4.
-
-	self assertEmptySDLError.
-
-	^ aSDLSurface
 ]
 
 { #category : 'private' }
