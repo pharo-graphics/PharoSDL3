@@ -111,9 +111,3 @@ S3SDLInitFlags class >> enumDecl [
 		SDL_INIT_SENSOR 16r00008000
 		SDL_INIT_CAMERA 16r00010000 )
 ]
-
-{ #category : 'converting' }
-S3SDLInitFlags >> asInteger [
-
-	^ value
-]
