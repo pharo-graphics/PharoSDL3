@@ -160,7 +160,8 @@ S3Demo class >> example04OpenFolderDialog [
 					ifTrue: [
 						
 						[| result |
-						result := demo showOpenFolderModal: false.
+						result := demo showOpenFolderModal: true.
+						demo showMessageBoxTitle: 'Info' message: 'Thank you'.
 						result
 							ifEmpty: [ 
 								logs addLast: 'Cancelled' ]
@@ -415,6 +416,16 @@ S3Demo >> renderTexture: texture at: aSDLFRect [
 			 texture: texture
 			 srcrect: nil
 			 dstrect: aSDLFRect)
+]
+
+{ #category : 'utilities' }
+S3Demo >> showMessageBoxTitle: title message: message [
+
+	lib
+		SDL_ShowSimpleMessageBoxFlags: S3SDLMessageBoxFlags SDL_MESSAGEBOX_INFORMATION 
+		title: title
+		message: message
+		window: window
 ]
 
 { #category : 'utilities' }
