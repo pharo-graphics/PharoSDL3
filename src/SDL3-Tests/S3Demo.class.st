@@ -158,7 +158,8 @@ S3Demo class >> example04OpenFolderDialog [
 					ifTrue: [ quit := true ].
 				evt type = S3SDL_EventType SDL_EVENT_MOUSE_BUTTON_DOWN
 					ifTrue: [
-						| result |
+						
+						[| result |
 						result := demo showOpenFolderModal: false.
 						result
 							ifEmpty: [ 
@@ -166,7 +167,8 @@ S3Demo class >> example04OpenFolderDialog [
 							ifNotEmpty: [
 								logs addLast:
 									('Selected ', result size asString,
-									' directories: ', result asString) ] ]
+									' directories: ', result asString) ]
+							] onErrorDo: [ :error | logs addLast: error asString ] ]
 
 				].
 
@@ -418,14 +420,22 @@ S3Demo >> renderTexture: texture at: aSDLFRect [
 { #category : 'utilities' }
 S3Demo >> showOpenFolderModal: aBoolean [
 
-	| callback result |
+	| callback result semaphore |
+	semaphore := Semaphore new.
+	
+Stdio stdout << '1'; lf; flush.
+
 	callback :=
 		FFICallback
 			signature: #(void (void *userdata, char **filelist, int filter))
 			block: [ :userdata :filelist :filter |
+
+Stdio stdout << '2'; lf; flush.
+
 				result := filelist isNull
 					ifTrue: [ #() ]
-					ifFalse: [ filelist nullTerminatedArrayOfCStrings ] ].
+					ifFalse: [ filelist nullTerminatedArrayOfCStrings ].
+				semaphore signal ].
 
 	lib
 		SDL_ShowOpenFolderDialogCallback: callback
@@ -433,6 +443,12 @@ S3Demo >> showOpenFolderModal: aBoolean [
 		window: (aBoolean ifTrue: [ window ] ifFalse: [ S3SDL_Window null ])
 		default_location: nil
 		allow_many: true.
+
+Stdio stdout << '3'; lf; flush.
+
+	semaphore wait.
+
+Stdio stdout << '4'; lf; flush.
 
 	^ result
 ]
