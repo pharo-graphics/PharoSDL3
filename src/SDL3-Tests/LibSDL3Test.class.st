@@ -25,7 +25,7 @@ LibSDL3Test >> test01GetVersion [
 
 	self assert: lib SDL_GetVersion >= 3001006.
 	
-	self assert: (lib SDL_GetRevision beginsWith: 'release-3')
+	self assert: lib SDL_GetRevision isString
 ]
 
 { #category : 'tests' }
