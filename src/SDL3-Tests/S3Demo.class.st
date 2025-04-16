@@ -250,7 +250,7 @@ S3Demo class >> example05Clipboard [
 			10 milliSeconds wait ].
 	
 		"Tear down"
-		"TODO: destroy textures" 
+		pasted do: [ :each | each key destroy ].
 		demo close.
 		UIManager default class = NonInteractiveUIManager ifTrue: [ 
 			demo ensureQuitVideo.
