@@ -156,7 +156,7 @@ LibSDL3VideoTest >> test04CreateRendererAndClear [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test05RenderSurface [
+LibSDL3VideoTest >> test05Surface [
 
 	| extent window renderer texture shapeForm surface |
 	extent := 600@800.
