@@ -2,7 +2,8 @@ Class {
 	#name : 'S3SDLMappedEvent',
 	#superclass : 'S3Structure',
 	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#package : 'SDL3',
+	#tag : 'Own'
 }
 
 { #category : 'printing' }
