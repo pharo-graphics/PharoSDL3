@@ -176,32 +176,32 @@ LibSDL3VideoTest >> test04BasicRender [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test05Surface [
+LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 
 	| extent window renderer texture shapeForm surface |
-	extent := 600@800.
+	extent := 400@800.
 
 	window :=
 		lib
-			SDL_CreateWindowTitle: ''
+			SDL_CreateWindowTitle: 'Form -> SDL_Surface -> SDL_Texture'
 			w: extent x h: extent y flags: 0.
 	self assertEmptySDLError.
 	renderer := lib SDL_CreateRendererWindow: window name: nil.
 	self assertEmptySDLError.
 
+	"Render and present a texture created from a surface created from a Form"
 	shapeForm := self iconNamed: #pharoBig.
 	surface := shapeForm asUnownedNewSDL3Surface.
 	texture := lib SDL_CreateTextureFromSurfaceRenderer: renderer surface: surface.
+	lib SDL_DestroySurface: surface.
 	lib SDL_RenderTextureRenderer: renderer texture: texture srcrect: nil dstrect: nil.
 	lib SDL_RenderPresent: renderer.
-
+	self assertEmptySDLError.
 
 	self waitToSee.
 	
 	"Tear down"
-	lib SDL_DestroySurface: surface.
-	self assertEmptySDLError.
-	lib SDL_DestroyTexture: texture.
+	texture destroy.
 	self assertEmptySDLError.
 	lib SDL_DestroyRenderer: renderer.
 	self assertEmptySDLError.
