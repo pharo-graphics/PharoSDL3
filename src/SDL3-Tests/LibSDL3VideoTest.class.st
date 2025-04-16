@@ -77,8 +77,7 @@ LibSDL3VideoTest >> test02CreateWindow [
 	window :=
 		lib
 			SDL_CreateWindowTitle: 'Pharo SDL3'
-			w: 800 h: 600
-			flags: 0.
+			w: 800 h: 600 flags: 0.
 	self deny: window isNull.
 
 	self waitToSee.
@@ -274,8 +273,7 @@ LibSDL3VideoTest >> test07Fullscreen [
 	window :=
 		lib
 			SDL_CreateWindowTitle: ''
-			w: 0 h: 0
-			flags: S3SDLWindowFlags SDL_WINDOW_FULLSCREEN.
+			w: 0 h: 0 flags: S3SDLWindowFlags SDL_WINDOW_FULLSCREEN.
 	success := window isNull not.
 	self assert: success.
 
@@ -289,7 +287,8 @@ LibSDL3VideoTest >> test07Fullscreen [
 
 { #category : 'private' }
 LibSDL3VideoTest >> waitToSee [
-	"May perform a wait to let use visually check the window"
+	"May perform a wait to let user visually check the window"
 
-	0.5 second wait
+	UIManager default class = NonInteractiveUIManager ifTrue: [ ^ self ].
+	1 second wait
 ]
