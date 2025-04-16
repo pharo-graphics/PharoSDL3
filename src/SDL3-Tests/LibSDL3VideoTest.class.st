@@ -90,9 +90,9 @@ LibSDL3VideoTest >> test02CreateWindow [
 { #category : 'tests' }
 LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 
-	| window renderer success |
-	window := S3SDL_Window newPointer.
-	renderer := S3SDL_Renderer newPointer.
+	| windowPointer rendererPointer window renderer success |
+	windowPointer := (FFIExternalValueHolder ofType: S3SDL_Window) new.
+	rendererPointer := (FFIExternalValueHolder ofType: S3SDL_Renderer) new.
 
 	success :=
 		lib
@@ -100,9 +100,12 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 			width: 800
 			height: 600
 			window_flags: 0
-			window: window
-			renderer: renderer.
+			window: windowPointer
+			renderer: rendererPointer.
 	self assert: success.
+
+	window := windowPointer value.
+	renderer := rendererPointer value.
 	
 	self waitToSee.
 
