@@ -13,7 +13,7 @@ BaselineOfSDL3 >> baseline: spec [
 		for: #common
 		do: [ 
 			spec
-				package: 'SDL3' with: [ spec requires: #('SDL3-Own') ];
+				package: 'SDL3';
 				package: 'SDL3-Own' with: [ spec requires: #('SDL3') ];
 				package: 'SDL3-Tests' with: [ spec requires: #('SDL3' 'SDL3-Own') ] ]
 ]
