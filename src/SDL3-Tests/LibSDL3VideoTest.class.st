@@ -117,13 +117,13 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test04CreateRendererAndClear [
+LibSDL3VideoTest >> test04BasicRender [
 
 	| success window renderer |
 	window :=
 		lib
 			SDL_CreateWindowTitle: 'Pharo SDL3'
-			w: 800 h: 600 flags: 0.
+			w: 400 h: 300 flags: 0.
 	success := window isNull not.
 	self assert: success.
 
@@ -131,20 +131,41 @@ LibSDL3VideoTest >> test04CreateRendererAndClear [
 	success := renderer isNull not.
 	self assert: success.
 
-	"Set cyan color"
-	success :=
-		lib
+	"Clear background with gray color"
+	self assert:
+		(lib
 			SDL_SetRenderDrawColorFloatRenderer: renderer
-			r: 0.0 g: 1.0 b: 1.0 a: 0.0.
-	self assert: success.
+			r: 0.5 g: 0.5 b: 0.5 a: 1.0).
+	self assert: (lib SDL_RenderClear: renderer).
 
-	"Let's clear with that color"
-	success := lib SDL_RenderClear: renderer.
-	self assert: success.
+	"Render a red rectangle"
+	self assert:
+		(lib
+			SDL_SetRenderDrawColorFloatRenderer: renderer
+			r: 0.5 g: 0.0 b: 0.0 a: 1.0).
+	self assert:
+		(lib
+			SDL_RenderFillRectRenderer: renderer
+			rect:
+				(S3SDL_FRect new
+					x: 10;
+					y: 10;
+					w: 120;
+					h: 30;
+					yourself)).
 
-	"Present will actually apply the clear operation"
-	success := lib SDL_RenderPresent: renderer.
-	self assert: success.
+	"Render cyan text (debugging API)"
+	self assert:
+		(lib
+			SDL_SetRenderDrawColorFloatRenderer: renderer
+			r: 0.0 g: 1.0 b: 1.0 a: 1.0).
+	self assert:
+		(lib
+			SDL_RenderDebugTextRenderer: renderer
+			x: 20 y: 20 str: 'Hello World').
+
+	"Present will actually render the previous operations"
+	self assert: (lib SDL_RenderPresent: renderer).
 
 	self waitToSee.
 	
