@@ -343,6 +343,49 @@ LibSDL3 >> SDL_AddVulkanRenderSemaphoresRenderer: renderer wait_stage_mask: wait
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_AsyncIOFromFile: file mode: mode [
+	"/**
+	 * Use this function to create a new SDL_AsyncIO object for reading from
+	 * and/or writing to a named file.
+	 *
+	 * The `mode` string understands the following values:
+	 *
+	 * - ""r"": Open a file for reading only. It must exist.
+	 * - ""w"": Open a file for writing only. It will create missing files or
+	 *   truncate existing ones.
+	 * - ""r+"": Open a file for update both reading and writing. The file must
+	 *   exist.
+	 * - ""w+"": Create an empty file for both reading and writing. If a file with
+	 *   the same name already exists its content is erased and the file is
+	 *   treated as a new empty file.
+	 *
+	 * There is no ""b"" mode, as there is only ""binary"" style I/O, and no ""a"" mode
+	 * for appending, since you specify the position when starting a task.
+	 *
+	 * This function supports Unicode filenames, but they must be encoded in UTF-8
+	 * format, regardless of the underlying operating system.
+	 *
+	 * This call is _not_ asynchronous; it will open the file before returning,
+	 * under the assumption that doing so is generally a fast operation. Future
+	 * reads and writes to the opened file will be async, however.
+	 *
+	 * \param file a UTF-8 string representing the filename to open.
+	 * \param mode an ASCII string representing the mode to be used for opening
+	 *             the file.
+	 * \returns a pointer to the SDL_AsyncIO structure that is created or NULL on
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseAsyncIO
+	 * \sa SDL_ReadAsyncIO
+	 * \sa SDL_WriteAsyncIO
+	 */"
+
+	^ self ffiCall: #(SDL_AsyncIO* SDL_AsyncIOFromFile(const char* file, const char* mode))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_AttachVirtualJoystick: desc [
 	"/**
 	 * Attach a new virtual joystick.
@@ -1442,6 +1485,75 @@ LibSDL3 >> SDL_ClearSurface: surface r: r g: g b: b a: a [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_ClickTrayEntry: entry [
+	"/**
+	 * Simulate a click on a tray entry.
+	 *
+	 * \param entry The entry to activate.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_ClickTrayEntry(SDL_TrayEntry* entry))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_CloseAsyncIO: asyncio flush: flush queue: queue userdata: userdata [
+	"/**
+	 * Close and free any allocated resources for an async I/O object.
+	 *
+	 * Closing a file is _also_ an asynchronous task! If a write failure were to
+	 * happen during the closing process, for example, the task results will
+	 * report it as usual.
+	 *
+	 * Closing a file that has been written to does not guarantee the data has
+	 * made it to physical media; it may remain in the operating system's file
+	 * cache, for later writing to disk. This means that a successfully-closed
+	 * file can be lost if the system crashes or loses power in this small window.
+	 * To prevent this, call this function with the `flush` parameter set to true.
+	 * This will make the operation take longer, and perhaps increase system load
+	 * in general, but a successful result guarantees that the data has made it to
+	 * physical storage. Don't use this for temporary files, caches, and
+	 * unimportant data, and definitely use it for crucial irreplaceable files,
+	 * like game saves.
+	 *
+	 * This function guarantees that the close will happen after any other pending
+	 * tasks to `asyncio`, so it's safe to open a file, start several operations,
+	 * close the file immediately, then check for all results later. This function
+	 * will not block until the tasks have completed.
+	 *
+	 * Once this function returns true, `asyncio` is no longer valid, regardless
+	 * of any future outcomes. Any completed tasks might still contain this
+	 * pointer in their SDL_AsyncIOOutcome data, in case the app was using this
+	 * value to track information, but it should not be used again.
+	 *
+	 * If this function returns false, the close wasn't started at all, and it's
+	 * safe to attempt to close again later.
+	 *
+	 * An SDL_AsyncIOQueue must be specified. The newly-created task will be added
+	 * to it when it completes its work.
+	 *
+	 * \param asyncio a pointer to an SDL_AsyncIO structure to close.
+	 * \param flush true if data should sync to disk before the task completes.
+	 * \param queue a queue to add the new SDL_AsyncIO to.
+	 * \param userdata an app-defined pointer that will be provided with the task
+	 *                 results.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread, but two
+	 *               threads should not attempt to close the same object.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_CloseAsyncIO(SDL_AsyncIO* asyncio, _Bool flush, SDL_AsyncIOQueue* queue, void* userdata))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_CloseAudioDevice: devid [
 	"/**
 	 * Close a previously-opened audio device.
@@ -2015,6 +2127,29 @@ LibSDL3 >> SDL_CopyPropertiesSrc: src dst: dst [
 	 */"
 
 	^ self ffiCall: #(bool SDL_CopyProperties(SDL_PropertiesID src, SDL_PropertiesID dst))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_CreateAsyncIOQueue [
+	"/**
+	 * Create a task queue for tracking multiple I/O operations.
+	 *
+	 * Async I/O operations are assigned to a queue when started. The queue can be
+	 * checked for completed tasks thereafter.
+	 *
+	 * \returns a new task queue object or NULL if there was an error; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyAsyncIOQueue
+	 * \sa SDL_GetAsyncIOResult
+	 * \sa SDL_WaitAsyncIOResult
+	 */"
+
+	^ self ffiCall: #(SDL_AsyncIOQueue* SDL_CreateAsyncIOQueue())
 ]
 
 { #category : 'public' }
@@ -3246,6 +3381,90 @@ LibSDL3 >> SDL_CreateThreadWithPropertiesRuntimeProps: props pfnBeginThread: pfn
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_CreateTrayIcon: icon tooltip: tooltip [
+	"/**
+	 * Create an icon to be placed in the operating system's tray, or equivalent.
+	 *
+	 * Many platforms advise not using a system tray unless persistence is a
+	 * necessary feature. Avoid needlessly creating a tray icon, as the user may
+	 * feel like it clutters their interface.
+	 *
+	 * Using tray icons require the video subsystem.
+	 *
+	 * \param icon a surface to be used as icon. May be NULL.
+	 * \param tooltip a tooltip to be displayed when the mouse hovers the icon in
+	 *                UTF-8 encoding. Not supported on all platforms. May be NULL.
+	 * \returns The newly created system tray icon.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTrayMenu
+	 * \sa SDL_GetTrayMenu
+	 * \sa SDL_DestroyTray
+	 */"
+
+	^ self ffiCall: #(SDL_Tray* SDL_CreateTray(SDL_Surface* icon, const char* tooltip))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_CreateTrayMenu: tray [
+	"/**
+	 * Create a menu for a system tray.
+	 *
+	 * This should be called at most once per tray icon.
+	 *
+	 * This function does the same thing as SDL_CreateTraySubmenu(), except that
+	 * it takes a SDL_Tray instead of a SDL_TrayEntry.
+	 *
+	 * A menu does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param tray the tray to bind the menu to.
+	 * \returns the newly created menu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTray
+	 * \sa SDL_GetTrayMenu
+	 * \sa SDL_GetTrayMenuParentTray
+	 */"
+
+	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTrayMenu(SDL_Tray* tray))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_CreateTraySubmenu: entry [
+	"/**
+	 * Create a submenu for a system tray entry.
+	 *
+	 * This should be called at most once per tray entry.
+	 *
+	 * This function does the same thing as SDL_CreateTrayMenu, except that it
+	 * takes a SDL_TrayEntry instead of a SDL_Tray.
+	 *
+	 * A menu does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param entry the tray entry to bind the menu to.
+	 * \returns the newly created menu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_GetTraySubmenu
+	 * \sa SDL_GetTrayMenuParentEntry
+	 */"
+
+	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTraySubmenu(SDL_TrayEntry* entry))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_CreateWindowAndRendererTitle: title width: width height: height window_flags: window_flags window: window renderer: renderer [
 	"/**
 	 * Create a window and default renderer.
@@ -3591,6 +3810,40 @@ LibSDL3 >> SDL_DelayPrecise: ns [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_DestroyAsyncIOQueue: queue [
+	"/**
+	 * Destroy a previously-created async I/O task queue.
+	 *
+	 * If there are still tasks pending for this queue, this call will block until
+	 * those tasks are finished. All those tasks will be deallocated. Their
+	 * results will be lost to the app.
+	 *
+	 * Any pending reads from SDL_LoadFileAsync() that are still in this queue
+	 * will have their buffers deallocated by this function, to prevent a memory
+	 * leak.
+	 *
+	 * Once this function is called, the queue is no longer valid and should not
+	 * be used, including by other threads that might access it while destruction
+	 * is blocking on pending tasks.
+	 *
+	 * Do not destroy a queue that still has threads waiting on it through
+	 * SDL_WaitAsyncIOResult(). You can call SDL_SignalAsyncIOQueue() first to
+	 * unblock those threads, and take measures (such as SDL_WaitThread()) to make
+	 * sure they have finished their wait and won't wait on the queue again.
+	 *
+	 * \param queue the task queue to destroy.
+	 *
+	 * \threadsafety It is safe to call this function from any thread, so long as
+	 *               no other thread is waiting on the queue with
+	 *               SDL_WaitAsyncIOResult.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_DestroyAsyncIOQueue(SDL_AsyncIOQueue* queue))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_DestroyAudioStream: stream [
 	"/**
 	 * Free an audio stream.
@@ -3842,6 +4095,26 @@ LibSDL3 >> SDL_DestroyTexture: texture [
 	 */"
 
 	self ffiCall: #(void SDL_DestroyTexture(SDL_Texture* texture))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_DestroyTray: tray [
+	"/**
+	 * Destroys a tray object.
+	 *
+	 * This also destroys all associated menus and entries.
+	 *
+	 * \param tray the tray icon to be destroyed.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTray
+	 */"
+
+	self ffiCall: #(void SDL_DestroyTray(SDL_Tray* tray))
 ]
 
 { #category : 'public' }
@@ -5267,6 +5540,57 @@ LibSDL3 >> SDL_GetAssertionReport [
 	 */"
 
 	^ self ffiCall: #(SDL_AssertData* SDL_GetAssertionReport())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetAsyncIOResultQueue: queue outcome: outcome [
+	"/**
+	 * Query an async I/O task queue for completed tasks.
+	 *
+	 * If a task assigned to this queue has finished, this will return true and
+	 * fill in `outcome` with the details of the task. If no task in the queue has
+	 * finished, this function will return false. This function does not block.
+	 *
+	 * If a task has completed, this function will free its resources and the task
+	 * pointer will no longer be valid. The task will be removed from the queue.
+	 *
+	 * It is safe for multiple threads to call this function on the same queue at
+	 * once; a completed task will only go to one of the threads.
+	 *
+	 * \param queue the async I/O task queue to query.
+	 * \param outcome details of a finished task will be written here. May not be
+	 *                NULL.
+	 * \returns true if a task has completed, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_WaitAsyncIOResult
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetAsyncIOResult(SDL_AsyncIOQueue* queue, SDL_AsyncIOOutcome* outcome))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetAsyncIOSize: asyncio [
+	"/**
+	 * Use this function to get the size of the data stream in an SDL_AsyncIO.
+	 *
+	 * This call is _not_ asynchronous; it assumes that obtaining this info is a
+	 * non-blocking operation in most reasonable cases.
+	 *
+	 * \param asyncio the SDL_AsyncIO to get the size of the data stream from.
+	 * \returns the size of the data stream in the SDL_IOStream on success or a
+	 *          negative error code on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(Sint64 SDL_GetAsyncIOSize(SDL_AsyncIO* asyncio))
 ]
 
 { #category : 'public' }
@@ -8635,6 +8959,28 @@ LibSDL3 >> SDL_GetPixelFormatName: format [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_GetPlatform [
+	"/**
+	 * Get the name of the platform.
+	 *
+	 * Here are the names returned for some (but not all) supported platforms:
+	 *
+	 * - ""Windows""
+	 * - ""macOS""
+	 * - ""Linux""
+	 * - ""iOS""
+	 * - ""Android""
+	 *
+	 * \returns the name of the platform. If the correct platform name is not
+	 *          available, returns a string beginning with the text ""Unknown"".
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetPlatform())
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_GetPointerPropertyProps: props name: name default_value: default_value [
 	"/**
 	 * Get a pointer property from a group of properties.
@@ -8762,6 +9108,53 @@ LibSDL3 >> SDL_GetPrefPathOrg: org app: app [
 	 */"
 
 	^ self ffiCall: #(char* SDL_GetPrefPath(const char* org, const char* app))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetPreferredLocales: count [
+	"/**
+	 * Report the user's preferred locale.
+	 *
+	 * Returned language strings are in the format xx, where 'xx' is an ISO-639
+	 * language specifier (such as ""en"" for English, ""de"" for German, etc).
+	 * Country strings are in the format YY, where ""YY"" is an ISO-3166 country
+	 * code (such as ""US"" for the United States, ""CA"" for Canada, etc). Country
+	 * might be NULL if there's no specific guidance on them (so you might get {
+	 * ""en"", ""US"" } for American English, but { ""en"", NULL } means ""English
+	 * language, generically""). Language strings are never NULL, except to
+	 * terminate the array.
+	 *
+	 * Please note that not all of these strings are 2 characters; some are three
+	 * or more.
+	 *
+	 * The returned list of locales are in the order of the user's preference. For
+	 * example, a German citizen that is fluent in US English and knows enough
+	 * Japanese to navigate around Tokyo might have a list like: { ""de"", ""en_US"",
+	 * ""jp"", NULL }. Someone from England might prefer British English (where
+	 * ""color"" is spelled ""colour"", etc), but will settle for anything like it: {
+	 * ""en_GB"", ""en"", NULL }.
+	 *
+	 * This function returns NULL on error, including when the platform does not
+	 * supply this information at all.
+	 *
+	 * This might be a ""slow"" call that has to query the operating system. It's
+	 * best to ask for this once and save the results. However, this list can
+	 * change, usually because the user has changed a system preference outside of
+	 * your program; SDL will send an SDL_EVENT_LOCALE_CHANGED event in this case,
+	 * if possible, and you can call this function again to get an updated copy of
+	 * preferred locales.
+	 *
+	 * \param count a pointer filled in with the number of locales returned, may
+	 *              be NULL.
+	 * \returns a NULL terminated array of locale pointers, or NULL on failure;
+	 *          call SDL_GetError() for more information. This is a single
+	 *          allocation that should be freed with SDL_free() when it is no
+	 *          longer needed.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_Locale** SDL_GetPreferredLocales(int* count))
 ]
 
 { #category : 'public' }
@@ -9721,6 +10114,20 @@ LibSDL3 >> SDL_GetSIMDAlignment [
 	 */"
 
 	^ self ffiCall: #(size_t SDL_GetSIMDAlignment())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetSandbox [
+	"/**
+	 * Get the application sandbox environment, if any.
+	 *
+	 * \returns the application sandbox environment or SDL_SANDBOX_NONE if the
+	 *          application is not running in a sandbox environment.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_Sandbox SDL_GetSandbox())
 ]
 
 { #category : 'public' }
@@ -10715,6 +11122,220 @@ LibSDL3 >> SDL_GetTouchFingersTouchID: touchID count: count [
 	 */"
 
 	^ self ffiCall: #(SDL_Finger** SDL_GetTouchFingers(SDL_TouchID touchID, int* count))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayEntriesMenu: menu count: count [
+	"/**
+	 * Returns a list of entries in the menu, in order.
+	 *
+	 * \param menu The menu to get entries from.
+	 * \param count An optional pointer to obtain the number of entries in the
+	 *              menu.
+	 * \returns a NULL-terminated list of entries within the given menu. The
+	 *          pointer becomes invalid when any function that inserts or deletes
+	 *          entries in the menu is called.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_RemoveTrayEntry
+	 * \sa SDL_InsertTrayEntryAt
+	 */"
+
+	^ self ffiCall: #(SDL_TrayEntry* SDL_GetTrayEntries(SDL_TrayMenu* menu, int* count))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayEntryChecked: entry [
+	"/**
+	 * Gets whether or not an entry is checked.
+	 *
+	 * The entry must have been created with the SDL_TRAYENTRY_CHECKBOX flag.
+	 *
+	 * \param entry the entry to be read.
+	 * \returns true if the entry is checked; false otherwise.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_SetTrayEntryChecked
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetTrayEntryChecked(SDL_TrayEntry* entry))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayEntryEnabled: entry [
+	"/**
+	 * Gets whether or not an entry is enabled.
+	 *
+	 * \param entry the entry to be read.
+	 * \returns true if the entry is enabled; false otherwise.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_SetTrayEntryEnabled
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetTrayEntryEnabled(SDL_TrayEntry* entry))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayEntryLabel: entry [
+	"/**
+	 * Gets the label of an entry.
+	 *
+	 * If the returned value is NULL, the entry is a separator.
+	 *
+	 * \param entry the entry to be read.
+	 * \returns the label of the entry in UTF-8 encoding.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_SetTrayEntryLabel
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetTrayEntryLabel(SDL_TrayEntry* entry))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayEntryParent: entry [
+	"/**
+	 * Gets the menu containing a certain tray entry.
+	 *
+	 * \param entry the entry for which to get the parent menu.
+	 * \returns the parent menu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_InsertTrayEntryAt
+	 */"
+
+	^ self ffiCall: #(SDL_TrayMenu* SDL_GetTrayEntryParent(SDL_TrayEntry* entry))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayMenu: tray [
+	"/**
+	 * Gets a previously created tray menu.
+	 *
+	 * You should have called SDL_CreateTrayMenu() on the tray object. This
+	 * function allows you to fetch it again later.
+	 *
+	 * This function does the same thing as SDL_GetTraySubmenu(), except that it
+	 * takes a SDL_Tray instead of a SDL_TrayEntry.
+	 *
+	 * A menu does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param tray the tray entry to bind the menu to.
+	 * \returns the newly created menu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTray
+	 * \sa SDL_CreateTrayMenu
+	 */"
+
+	^ self ffiCall: #(SDL_TrayMenu* SDL_GetTrayMenu(SDL_Tray* tray))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayMenuParentEntry: menu [
+	"/**
+	 * Gets the entry for which the menu is a submenu, if the current menu is a
+	 * submenu.
+	 *
+	 * Either this function or SDL_GetTrayMenuParentTray() will return non-NULL
+	 * for any given menu.
+	 *
+	 * \param menu the menu for which to get the parent entry.
+	 * \returns the parent entry, or NULL if this menu is not a submenu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTraySubmenu
+	 * \sa SDL_GetTrayMenuParentTray
+	 */"
+
+	^ self ffiCall: #(SDL_TrayEntry* SDL_GetTrayMenuParentEntry(SDL_TrayMenu* menu))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTrayMenuParentTray: menu [
+	"/**
+	 * Gets the tray for which this menu is the first-level menu, if the current
+	 * menu isn't a submenu.
+	 *
+	 * Either this function or SDL_GetTrayMenuParentEntry() will return non-NULL
+	 * for any given menu.
+	 *
+	 * \param menu the menu for which to get the parent enttrayry.
+	 * \returns the parent tray, or NULL if this menu is a submenu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTrayMenu
+	 * \sa SDL_GetTrayMenuParentEntry
+	 */"
+
+	^ self ffiCall: #(SDL_Tray* SDL_GetTrayMenuParentTray(SDL_TrayMenu* menu))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_GetTraySubmenu: entry [
+	"/**
+	 * Gets a previously created tray entry submenu.
+	 *
+	 * You should have called SDL_CreateTraySubmenu() on the entry object. This
+	 * function allows you to fetch it again later.
+	 *
+	 * This function does the same thing as SDL_GetTrayMenu(), except that it
+	 * takes a SDL_TrayEntry instead of a SDL_Tray.
+	 *
+	 * A menu does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param entry the tray entry to bind the menu to.
+	 * \returns the newly created menu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_CreateTraySubmenu
+	 */"
+
+	^ self ffiCall: #(SDL_TrayMenu* SDL_GetTraySubmenu(SDL_TrayEntry* entry))
 ]
 
 { #category : 'public' }
@@ -12441,6 +13062,38 @@ LibSDL3 >> SDL_InsertGPUDebugLabelCommand_buffer: command_buffer text: text [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_InsertTrayEntryAtMenu: menu pos: pos label: label flags: flags [
+	"/**
+	 * Insert a tray entry at a given position.
+	 *
+	 * If label is NULL, the entry will be a separator. Many functions won't work
+	 * for an entry that is a separator.
+	 *
+	 * An entry does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param menu the menu to append the entry to.
+	 * \param pos the desired position for the new entry. Entries at or following
+	 *            this place will be moved. If pos is -1, the entry is appended.
+	 * \param label the text to be displayed on the entry, in UTF-8 encoding, or
+	 *              NULL for a separator.
+	 * \param flags a combination of flags, some of which are mandatory.
+	 * \returns the newly created entry, or NULL if pos is out of bounds.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_TrayEntryFlags
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_RemoveTrayEntry
+	 * \sa SDL_GetTrayEntryParent
+	 */"
+
+	^ self ffiCall: #(SDL_TrayEntry* SDL_InsertTrayEntryAt(SDL_TrayMenu* menu, int pos, const char* label, SDL_TrayEntryFlags flags))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_IsAudioDevicePhysical: devid [
 	"/**
 	 * Determine if an audio device is physical (instead of logical).
@@ -12523,6 +13176,36 @@ LibSDL3 >> SDL_IsMainThread [
 	 */"
 
 	^ self ffiCall: #(bool SDL_IsMainThread())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_IsTV [
+	"/**
+	 * Query if the current device is a TV.
+	 *
+	 * If SDL can't determine this, it will return false.
+	 *
+	 * \returns true if the device is a TV, false otherwise.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_IsTV())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_IsTablet [
+	"/**
+	 * Query if the current device is a tablet.
+	 *
+	 * If SDL can't determine this, it will return false.
+	 *
+	 * \returns true if the device is a tablet, false otherwise.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_IsTablet())
 ]
 
 { #category : 'public' }
@@ -12633,6 +13316,42 @@ LibSDL3 >> SDL_LoadFile: file datasize: datasize [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_LoadFileAsyncFile: file queue: queue userdata: userdata [
+	"/**
+	 * Load all the data from a file path, asynchronously.
+	 *
+	 * This function returns as quickly as possible; it does not wait for the read
+	 * to complete. On a successful return, this work will continue in the
+	 * background. If the work begins, even failure is asynchronous: a failing
+	 * return value from this function only means the work couldn't start at all.
+	 *
+	 * The data is allocated with a zero byte at the end (null terminated) for
+	 * convenience. This extra byte is not included in SDL_AsyncIOOutcome's
+	 * bytes_transferred value.
+	 *
+	 * This function will allocate the buffer to contain the file. It must be
+	 * deallocated by calling SDL_free() on SDL_AsyncIOOutcome's buffer field
+	 * after completion.
+	 *
+	 * An SDL_AsyncIOQueue must be specified. The newly-created task will be added
+	 * to it when it completes its work.
+	 *
+	 * \param file the path to read all available data from.
+	 * \param queue a queue to add the new SDL_AsyncIO to.
+	 * \param userdata an app-defined pointer that will be provided with the task
+	 *                 results.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_LoadFile_IO
+	 */"
+
+	^ self ffiCall: #(bool SDL_LoadFileAsync(const char* file, SDL_AsyncIOQueue* queue, void* userdata))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_LoadFile_IOSrc: src datasize: datasize closeio: closeio [
 	"/**
 	 * Load all the data from an SDL data stream.
@@ -12660,6 +13379,58 @@ LibSDL3 >> SDL_LoadFile_IOSrc: src datasize: datasize closeio: closeio [
 	 */"
 
 	^ self ffiCall: #(void* SDL_LoadFile_IO(SDL_IOStream* src, size_t* datasize, _Bool closeio))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_LoadFunctionHandle: handle name: name [
+	"/**
+	 * Look up the address of the named function in a shared object.
+	 *
+	 * This function pointer is no longer valid after calling SDL_UnloadObject().
+	 *
+	 * This function can only look up C function names. Other languages may have
+	 * name mangling and intrinsic language support that varies from compiler to
+	 * compiler.
+	 *
+	 * Make sure you declare your function pointers with the same calling
+	 * convention as the actual library function. Your code will crash
+	 * mysteriously if you do not do this.
+	 *
+	 * If the requested function doesn't exist, NULL is returned.
+	 *
+	 * \param handle a valid shared object handle returned by SDL_LoadObject().
+	 * \param name the name of the function to look up.
+	 * \returns a pointer to the function or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_LoadObject
+	 */"
+
+	^ self ffiCall: #(SDL_FunctionPointer SDL_LoadFunction(SDL_SharedObject* handle, const char* name))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_LoadObject: sofile [
+	"/**
+	 * Dynamically load a shared object.
+	 *
+	 * \param sofile a system-dependent name of the object file.
+	 * \returns an opaque pointer to the object handle or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_LoadFunction
+	 * \sa SDL_UnloadObject
+	 */"
+
+	^ self ffiCall: #(SDL_SharedObject* SDL_LoadObject(const char* sofile))
 ]
 
 { #category : 'public' }
@@ -13445,6 +14216,132 @@ LibSDL3 >> SDL_MostSignificantBitIndex32: x [
 	 */"
 
 	self ffiCall: #(int SDL_MostSignificantBitIndex32(int x))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_OnApplicationDidEnterBackground [
+	"/**
+	 * Let iOS apps with external event handling report
+	 * onApplicationDidEnterBackground.
+	 *
+	 * This functions allows iOS apps that have their own event handling to hook
+	 * into SDL to generate SDL events. This maps directly to an iOS-specific
+	 * event, but since it doesn't do anything iOS-specific internally, it is
+	 * available on all platforms, in case it might be useful for some specific
+	 * paradigm. Most apps do not need to use this directly; SDL's internal event
+	 * code will handle all this for windows created by SDL_CreateWindow!
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_OnApplicationDidEnterBackground())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_OnApplicationDidEnterForeground [
+	"/**
+	 * Let iOS apps with external event handling report
+	 * onApplicationDidBecomeActive.
+	 *
+	 * This functions allows iOS apps that have their own event handling to hook
+	 * into SDL to generate SDL events. This maps directly to an iOS-specific
+	 * event, but since it doesn't do anything iOS-specific internally, it is
+	 * available on all platforms, in case it might be useful for some specific
+	 * paradigm. Most apps do not need to use this directly; SDL's internal event
+	 * code will handle all this for windows created by SDL_CreateWindow!
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_OnApplicationDidEnterForeground())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_OnApplicationDidReceiveMemoryWarning [
+	"/**
+	 * Let iOS apps with external event handling report
+	 * onApplicationDidReceiveMemoryWarning.
+	 *
+	 * This functions allows iOS apps that have their own event handling to hook
+	 * into SDL to generate SDL events. This maps directly to an iOS-specific
+	 * event, but since it doesn't do anything iOS-specific internally, it is
+	 * available on all platforms, in case it might be useful for some specific
+	 * paradigm. Most apps do not need to use this directly; SDL's internal event
+	 * code will handle all this for windows created by SDL_CreateWindow!
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_OnApplicationDidReceiveMemoryWarning())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_OnApplicationWillEnterBackground [
+	"/**
+	 * Let iOS apps with external event handling report
+	 * onApplicationWillResignActive.
+	 *
+	 * This functions allows iOS apps that have their own event handling to hook
+	 * into SDL to generate SDL events. This maps directly to an iOS-specific
+	 * event, but since it doesn't do anything iOS-specific internally, it is
+	 * available on all platforms, in case it might be useful for some specific
+	 * paradigm. Most apps do not need to use this directly; SDL's internal event
+	 * code will handle all this for windows created by SDL_CreateWindow!
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_OnApplicationWillEnterBackground())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_OnApplicationWillEnterForeground [
+	"/**
+	 * Let iOS apps with external event handling report
+	 * onApplicationWillEnterForeground.
+	 *
+	 * This functions allows iOS apps that have their own event handling to hook
+	 * into SDL to generate SDL events. This maps directly to an iOS-specific
+	 * event, but since it doesn't do anything iOS-specific internally, it is
+	 * available on all platforms, in case it might be useful for some specific
+	 * paradigm. Most apps do not need to use this directly; SDL's internal event
+	 * code will handle all this for windows created by SDL_CreateWindow!
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_OnApplicationWillEnterForeground())
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_OnApplicationWillTerminate [
+	"/**
+	 * Let iOS apps with external event handling report
+	 * onApplicationWillTerminate.
+	 *
+	 * This functions allows iOS apps that have their own event handling to hook
+	 * into SDL to generate SDL events. This maps directly to an iOS-specific
+	 * event, but since it doesn't do anything iOS-specific internally, it is
+	 * available on all platforms, in case it might be useful for some specific
+	 * paradigm. Most apps do not need to use this directly; SDL's internal event
+	 * code will handle all this for windows created by SDL_CreateWindow!
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_OnApplicationWillTerminate())
 ]
 
 { #category : 'public' }
@@ -14310,6 +15207,48 @@ LibSDL3 >> SDL_RaiseWindow: window [
 	 */"
 
 	^ self ffiCall: #(bool SDL_RaiseWindow(SDL_Window* window))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_ReadAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
+	"/**
+	 * Start an async read.
+	 *
+	 * This function reads up to `size` bytes from `offset` position in the data
+	 * source to the area pointed at by `ptr`. This function may read less bytes
+	 * than requested.
+	 *
+	 * This function returns as quickly as possible; it does not wait for the read
+	 * to complete. On a successful return, this work will continue in the
+	 * background. If the work begins, even failure is asynchronous: a failing
+	 * return value from this function only means the work couldn't start at all.
+	 *
+	 * `ptr` must remain available until the work is done, and may be accessed by
+	 * the system at any time until then. Do not allocate it on the stack, as this
+	 * might take longer than the life of the calling function to complete!
+	 *
+	 * An SDL_AsyncIOQueue must be specified. The newly-created task will be added
+	 * to it when it completes its work.
+	 *
+	 * \param asyncio a pointer to an SDL_AsyncIO structure.
+	 * \param ptr a pointer to a buffer to read data into.
+	 * \param offset the position to start reading in the data source.
+	 * \param size the number of bytes to read from the data source.
+	 * \param queue a queue to add the new SDL_AsyncIO to.
+	 * \param userdata an app-defined pointer that will be provided with the task
+	 *                 results.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_WriteAsyncIO
+	 * \sa SDL_CreateAsyncIOQueue
+	 */"
+
+	^ self ffiCall: #(bool SDL_ReadAsyncIO(SDL_AsyncIO* asyncio, void* ptr, Uint64 offset, Uint64 size, SDL_AsyncIOQueue* queue, void* userdata))
 ]
 
 { #category : 'public' }
@@ -15197,6 +16136,25 @@ LibSDL3 >> SDL_RemoveTimer: id [
 	 */"
 
 	^ self ffiCall: #(bool SDL_RemoveTimer(SDL_TimerID id))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_RemoveTrayEntry: entry [
+	"/**
+	 * Removes a tray entry.
+	 *
+	 * \param entry The entry to be deleted.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 */"
+
+	self ffiCall: #(void SDL_RemoveTrayEntry(SDL_TrayEntry* entry))
 ]
 
 { #category : 'public' }
@@ -17618,6 +18576,44 @@ LibSDL3 >> SDL_SetJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad f
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_SetLinuxThreadPriorityAndPolicyThreadID: threadID sdlPriority: sdlPriority schedPolicy: schedPolicy [
+	"/**
+	 * Sets the priority (not nice level) and scheduling policy for a thread.
+	 *
+	 * This uses setpriority() if possible, and RealtimeKit if available.
+	 *
+	 * \param threadID the Unix thread ID to change priority of.
+	 * \param sdlPriority the new SDL_ThreadPriority value.
+	 * \param schedPolicy the new scheduling policy (SCHED_FIFO, SCHED_RR,
+	 *                    SCHED_OTHER, etc...).
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetLinuxThreadPriorityAndPolicy(Sint64 threadID, int sdlPriority, int schedPolicy))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_SetLinuxThreadPriorityThreadID: threadID priority: priority [
+	"/**
+	 * Sets the UNIX nice value for a thread.
+	 *
+	 * This uses setpriority() if possible, and RealtimeKit if available.
+	 *
+	 * \param threadID the Unix thread ID to change priority of.
+	 * \param priority the new, Unix-specific, priority value.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetLinuxThreadPriority(Sint64 threadID, int priority))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_SetMemoryFunctionsMalloc_func: malloc_func calloc_func: calloc_func realloc_func: realloc_func free_func: free_func [
 	"/**
 	 * Replace SDL's memory allocation functions with a custom set.
@@ -18584,6 +19580,136 @@ LibSDL3 >> SDL_SetTextureScaleModeTexture: texture scaleMode: scaleMode [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_SetTrayEntryCallbackEntry: entry callback: callback userdata: userdata [
+	"/**
+	 * Sets a callback to be invoked when the entry is selected.
+	 *
+	 * \param entry the entry to be updated.
+	 * \param callback a callback to be invoked when the entry is selected.
+	 * \param userdata an optional pointer to pass extra data to the callback when
+	 *                 it will be invoked.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 */"
+
+	self ffiCall: #(void SDL_SetTrayEntryCallback(SDL_TrayEntry* entry, SDL_TrayCallback callback, void* userdata))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_SetTrayEntryCheckedEntry: entry checked: checked [
+	"/**
+	 * Sets whether or not an entry is checked.
+	 *
+	 * The entry must have been created with the SDL_TRAYENTRY_CHECKBOX flag.
+	 *
+	 * \param entry the entry to be updated.
+	 * \param checked true if the entry should be checked; false otherwise.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_GetTrayEntryChecked
+	 */"
+
+	self ffiCall: #(void SDL_SetTrayEntryChecked(SDL_TrayEntry* entry, _Bool checked))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_SetTrayEntryEnabledEntry: entry enabled: enabled [
+	"/**
+	 * Sets whether or not an entry is enabled.
+	 *
+	 * \param entry the entry to be updated.
+	 * \param enabled true if the entry should be enabled; false otherwise.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_GetTrayEntryEnabled
+	 */"
+
+	self ffiCall: #(void SDL_SetTrayEntryEnabled(SDL_TrayEntry* entry, _Bool enabled))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_SetTrayEntryLabelEntry: entry label: label [
+	"/**
+	 * Sets the label of an entry.
+	 *
+	 * An entry cannot change between a separator and an ordinary entry; that is,
+	 * it is not possible to set a non-NULL label on an entry that has a NULL
+	 * label (separators), or to set a NULL label to an entry that has a non-NULL
+	 * label. The function will silently fail if that happens.
+	 *
+	 * \param entry the entry to be updated.
+	 * \param label the new label for the entry in UTF-8 encoding.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_GetTrayEntryLabel
+	 */"
+
+	self ffiCall: #(void SDL_SetTrayEntryLabel(SDL_TrayEntry* entry, const char* label))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_SetTrayIconTray: tray icon: icon [
+	"/**
+	 * Updates the system tray icon's icon.
+	 *
+	 * \param tray the tray icon to be updated.
+	 * \param icon the new icon. May be NULL.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTray
+	 */"
+
+	self ffiCall: #(void SDL_SetTrayIcon(SDL_Tray* tray, SDL_Surface* icon))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_SetTrayTooltipTray: tray tooltip: tooltip [
+	"/**
+	 * Updates the system tray icon's tooltip.
+	 *
+	 * \param tray the tray icon to be updated.
+	 * \param tooltip the new tooltip in UTF-8 encoding. May be NULL.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTray
+	 */"
+
+	self ffiCall: #(void SDL_SetTrayTooltip(SDL_Tray* tray, const char* tooltip))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_SetWindowAlwaysOnTopWindow: window on_top: on_top [
 	"/**
 	 * Set the window to always be above the others.
@@ -19294,6 +20420,23 @@ LibSDL3 >> SDL_SetWindowTitleWindow: window title: title [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_SetX11EventHookCallback: callback userdata: userdata [
+	"/**
+	 * Set a callback for every X11 event.
+	 *
+	 * The callback may modify the event, and should return true if the event
+	 * should continue to be processed, or false to prevent further processing.
+	 *
+	 * \param callback the SDL_X11EventHook function to call.
+	 * \param userdata a pointer to pass to every iteration of `callback`.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_SetX11EventHook(SDL_X11EventHook callback, void* userdata))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_ShouldInit: state [
 	"/**
 	 * Return whether initialization should be done.
@@ -19707,6 +20850,34 @@ LibSDL3 >> SDL_ShowWindowSystemMenuWindow: window x: x y: y [
 	 */"
 
 	^ self ffiCall: #(bool SDL_ShowWindowSystemMenu(SDL_Window* window, int x, int y))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_SignalAsyncIOQueue: queue [
+	"/**
+	 * Wake up any threads that are blocking in SDL_WaitAsyncIOResult().
+	 *
+	 * This will unblock any threads that are sleeping in a call to
+	 * SDL_WaitAsyncIOResult for the specified queue, and cause them to return
+	 * from that function.
+	 *
+	 * This can be useful when destroying a queue to make sure nothing is touching
+	 * it indefinitely. In this case, once this call completes, the caller should
+	 * take measures to make sure any previously-blocked threads have returned
+	 * from their wait and will not touch the queue again (perhaps by setting a
+	 * flag to tell the threads to terminate and then using SDL_WaitThread() to
+	 * make sure they've done so).
+	 *
+	 * \param queue the async I/O task queue to signal.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_WaitAsyncIOResult
+	 */"
+
+	self ffiCall: #(void SDL_SignalAsyncIOQueue(SDL_AsyncIOQueue* queue))
 ]
 
 { #category : 'public' }
@@ -20473,6 +21644,26 @@ LibSDL3 >> SDL_UnbindAudioStreams: streams num_streams: num_streams [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_UnloadObject: handle [
+	"/**
+	 * Unload a shared object from memory.
+	 *
+	 * Note that any pointers from this object looked up through
+	 * SDL_LoadFunction() will no longer be valid.
+	 *
+	 * \param handle a valid shared object handle returned by SDL_LoadObject().
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_LoadObject
+	 */"
+
+	self ffiCall: #(void SDL_UnloadObject(SDL_SharedObject* handle))
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_UnlockAudioStream: stream [
 	"/**
 	 * Unlock an audio stream for serialized access.
@@ -20778,6 +21969,22 @@ LibSDL3 >> SDL_UpdateTexture: texture rect: rect pixels: pixels pitch: pitch [
 ]
 
 { #category : 'public' }
+LibSDL3 >> SDL_UpdateTrays [
+	"/**
+	 * Update the trays.
+	 *
+	 * This is called automatically by the event loop and is only needed if you're
+	 * using trays but aren't handling SDL events.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_UpdateTrays())
+]
+
+{ #category : 'public' }
 LibSDL3 >> SDL_UpdateWindowSurface: window [
 	"/**
 	 * Copy the window surface to the screen.
@@ -20960,6 +22167,54 @@ LibSDL3 >> SDL_WaitAndAcquireGPUSwapchainTextureCommand_buffer: command_buffer w
 	 */"
 
 	^ self ffiCall: #(bool SDL_WaitAndAcquireGPUSwapchainTexture(SDL_GPUCommandBuffer* command_buffer, SDL_Window* window, SDL_GPUTexture* swapchain_texture, Uint32* swapchain_texture_width, Uint32* swapchain_texture_height))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_WaitAsyncIOResultQueue: queue outcome: outcome timeoutMS: timeoutMS [
+	"/**
+	 * Block until an async I/O task queue has a completed task.
+	 *
+	 * This function puts the calling thread to sleep until there a task assigned
+	 * to the queue that has finished.
+	 *
+	 * If a task assigned to the queue has finished, this will return true and
+	 * fill in `outcome` with the details of the task. If no task in the queue has
+	 * finished, this function will return false.
+	 *
+	 * If a task has completed, this function will free its resources and the task
+	 * pointer will no longer be valid. The task will be removed from the queue.
+	 *
+	 * It is safe for multiple threads to call this function on the same queue at
+	 * once; a completed task will only go to one of the threads.
+	 *
+	 * Note that by the nature of various platforms, more than one waiting thread
+	 * may wake to handle a single task, but only one will obtain it, so
+	 * `timeoutMS` is a _maximum_ wait time, and this function may return false
+	 * sooner.
+	 *
+	 * This function may return false if there was a system error, the OS
+	 * inadvertently awoke multiple threads, or if SDL_SignalAsyncIOQueue() was
+	 * called to wake up all waiting threads without a finished task.
+	 *
+	 * A timeout can be used to specify a maximum wait time, but rather than
+	 * polling, it is possible to have a timeout of -1 to wait forever, and use
+	 * SDL_SignalAsyncIOQueue() to wake up the waiting threads later.
+	 *
+	 * \param queue the async I/O task queue to wait on.
+	 * \param outcome details of a finished task will be written here. May not be
+	 *                NULL.
+	 * \param timeoutMS the maximum time to wait, in milliseconds, or -1 to wait
+	 *                  indefinitely.
+	 * \returns true if task has completed, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SignalAsyncIOQueue
+	 */"
+
+	^ self ffiCall: #(bool SDL_WaitAsyncIOResult(SDL_AsyncIOQueue* queue, SDL_AsyncIOOutcome* outcome, Sint32 timeoutMS))
 ]
 
 { #category : 'public' }
@@ -21369,6 +22624,47 @@ LibSDL3 >> SDL_WindowSupportsGPUSwapchainCompositionDevice: device window: windo
 	 */"
 
 	^ self ffiCall: #(bool SDL_WindowSupportsGPUSwapchainComposition(SDL_GPUDevice* device, SDL_Window* window, SDL_GPUSwapchainComposition swapchain_composition))
+]
+
+{ #category : 'public' }
+LibSDL3 >> SDL_WriteAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
+	"/**
+	 * Start an async write.
+	 *
+	 * This function writes `size` bytes from `offset` position in the data source
+	 * to the area pointed at by `ptr`.
+	 *
+	 * This function returns as quickly as possible; it does not wait for the
+	 * write to complete. On a successful return, this work will continue in the
+	 * background. If the work begins, even failure is asynchronous: a failing
+	 * return value from this function only means the work couldn't start at all.
+	 *
+	 * `ptr` must remain available until the work is done, and may be accessed by
+	 * the system at any time until then. Do not allocate it on the stack, as this
+	 * might take longer than the life of the calling function to complete!
+	 *
+	 * An SDL_AsyncIOQueue must be specified. The newly-created task will be added
+	 * to it when it completes its work.
+	 *
+	 * \param asyncio a pointer to an SDL_AsyncIO structure.
+	 * \param ptr a pointer to a buffer to write data from.
+	 * \param offset the position to start writing to the data source.
+	 * \param size the number of bytes to write to the data source.
+	 * \param queue a queue to add the new SDL_AsyncIO to.
+	 * \param userdata an app-defined pointer that will be provided with the task
+	 *                 results.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_ReadAsyncIO
+	 * \sa SDL_CreateAsyncIOQueue
+	 */"
+
+	^ self ffiCall: #(bool SDL_WriteAsyncIO(SDL_AsyncIO* asyncio, void* ptr, Uint64 offset, Uint64 size, SDL_AsyncIOQueue* queue, void* userdata))
 ]
 
 { #category : 'public' }
@@ -24466,7 +25762,7 @@ LibSDL3 >> SDL_size_add_check_overflowA: a b: b ret: ret [
 { #category : 'public' }
 LibSDL3 >> SDL_size_add_check_overflow_builtinA: a b: b ret: ret [
 
-	self ffiCall: #(bool SDL_size_add_check_overflow_builtin(size_t a, size_t b, size_t* ret))
+	^ self ffiCall: #(bool SDL_size_add_check_overflow_builtin(size_t a, size_t b, size_t* ret))
 ]
 
 { #category : 'public' }
@@ -24495,7 +25791,7 @@ LibSDL3 >> SDL_size_mul_check_overflowA: a b: b ret: ret [
 { #category : 'public' }
 LibSDL3 >> SDL_size_mul_check_overflow_builtinA: a b: b ret: ret [
 
-	self ffiCall: #(bool SDL_size_mul_check_overflow_builtin(size_t a, size_t b, size_t* ret))
+	^ self ffiCall: #(bool SDL_size_mul_check_overflow_builtin(size_t a, size_t b, size_t* ret))
 ]
 
 { #category : 'public' }
@@ -26104,6 +27400,7 @@ LibSDL3 >> SDL_wcstolStr: str endp: endp base: base [
 LibSDL3 >> macLibraryName [
 
 	^ FFIMacLibraryFinder new
+		userPaths: #('./CIG/lib');
 		findLibrary: 'libSDL3.dylib'
 ]
 

@@ -20,11 +20,11 @@ S3SDL_MessageBoxColorScheme class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_MessageBoxColorScheme >> colors [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIExternalStructureType size: 5) fromHandle: (handle copyFrom: OFFSET_COLORS to: OFFSET_COLORS + 59)
+	^(FFITypeArray ofType: #FFIExternalStructureType size: 5) fromHandle: (handle copyFrom: OFFSET_COLORS to: OFFSET_COLORS + 14)
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_MessageBoxColorScheme >> colors: anObject [
 	"This method was automatically generated"
-	handle replaceFrom: OFFSET_COLORS to: OFFSET_COLORS + 59 with: anObject getHandle startingAt: 1
+	handle replaceFrom: OFFSET_COLORS to: OFFSET_COLORS + 14 with: anObject getHandle startingAt: 1
 ]

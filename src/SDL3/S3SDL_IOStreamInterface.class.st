@@ -80,25 +80,25 @@ S3SDL_IOStreamInterface >> read: anObject [
 { #category : 'accessing - structure variables' }
 S3SDL_IOStreamInterface >> seek [
 	"This method was automatically generated"
-	^handle signedLongLongAt: OFFSET_SEEK
+	^handle platformLongAt: OFFSET_SEEK
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_IOStreamInterface >> seek: anObject [
 	"This method was automatically generated"
-	handle signedLongLongAt: OFFSET_SEEK put: anObject
+	^handle platformLongAt: OFFSET_SEEK put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_IOStreamInterface >> size [
 	"This method was automatically generated"
-	^handle signedLongLongAt: OFFSET_SIZE
+	^handle platformLongAt: OFFSET_SIZE
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_IOStreamInterface >> size: anObject [
 	"This method was automatically generated"
-	handle signedLongLongAt: OFFSET_SIZE put: anObject
+	^handle platformLongAt: OFFSET_SIZE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

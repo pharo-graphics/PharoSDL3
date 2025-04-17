@@ -28,37 +28,37 @@ S3SDL_PathInfo class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 S3SDL_PathInfo >> access_time [
 	"This method was automatically generated"
-	^handle signedLongLongAt: OFFSET_ACCESS_TIME
+	^handle platformLongAt: OFFSET_ACCESS_TIME
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PathInfo >> access_time: anObject [
 	"This method was automatically generated"
-	handle signedLongLongAt: OFFSET_ACCESS_TIME put: anObject
+	^handle platformLongAt: OFFSET_ACCESS_TIME put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PathInfo >> create_time [
 	"This method was automatically generated"
-	^handle signedLongLongAt: OFFSET_CREATE_TIME
+	^handle platformLongAt: OFFSET_CREATE_TIME
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PathInfo >> create_time: anObject [
 	"This method was automatically generated"
-	handle signedLongLongAt: OFFSET_CREATE_TIME put: anObject
+	^handle platformLongAt: OFFSET_CREATE_TIME put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PathInfo >> modify_time [
 	"This method was automatically generated"
-	^handle signedLongLongAt: OFFSET_MODIFY_TIME
+	^handle platformLongAt: OFFSET_MODIFY_TIME
 ]
 
 { #category : 'accessing - structure variables' }
 S3SDL_PathInfo >> modify_time: anObject [
 	"This method was automatically generated"
-	handle signedLongLongAt: OFFSET_MODIFY_TIME put: anObject
+	^handle platformLongAt: OFFSET_MODIFY_TIME put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
