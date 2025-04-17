@@ -25,13 +25,11 @@ jobs:
           install-linux-dependencies: true
           version: 3-latest
           version-sdl-image: 3-latest
-      - run: ls -lR ${{ steps.sdl.outputs.prefix }}
-        shell: bash
-      - run: locate libSDL3
-        shell: bash
       - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
+      - run: ln -s ${{ steps.sdl.outputs.prefix }}/lib/libSDL3.0.dylib libSDL3.dylib
+        shell: bash
       - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         shell: bash
