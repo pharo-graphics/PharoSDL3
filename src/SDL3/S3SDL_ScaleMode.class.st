@@ -2,6 +2,7 @@ Class {
 	#name : 'S3SDL_ScaleMode',
 	#superclass : 'S3Enumeration',
 	#classVars : [
+		'SDL_SCALEMODE_INVALID',
 		'SDL_SCALEMODE_LINEAR',
 		'SDL_SCALEMODE_NEAREST'
 	],
@@ -9,6 +10,12 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'accessing enum' }
+S3SDL_ScaleMode class >> SDL_SCALEMODE_INVALID [
+	"This method was automatically generated"
+	^ SDL_SCALEMODE_INVALID
+]
 
 { #category : 'accessing enum' }
 S3SDL_ScaleMode class >> SDL_SCALEMODE_LINEAR [
@@ -26,6 +33,7 @@ S3SDL_ScaleMode class >> SDL_SCALEMODE_NEAREST [
 S3SDL_ScaleMode class >> enumDecl [
 
 	^ #(
+	SDL_SCALEMODE_INVALID -1
 	SDL_SCALEMODE_NEAREST 0
 	SDL_SCALEMODE_LINEAR 1 )
 ]

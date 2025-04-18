@@ -218,6 +218,8 @@ LibSDL3 >> SDL_AddSurfaceAlternateImageSurface: surface image: image [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_RemoveSurfaceAlternateImages
@@ -938,9 +940,8 @@ LibSDL3 >> SDL_BlitSurface9GridSrc: src srcrect: srcrect left_width: left_width 
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -967,9 +968,8 @@ LibSDL3 >> SDL_BlitSurfaceScaledSrc: src srcrect: srcrect dst: dst dstrect: dstr
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -1048,9 +1048,8 @@ LibSDL3 >> SDL_BlitSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -1078,9 +1077,8 @@ LibSDL3 >> SDL_BlitSurfaceTiledSrc: src srcrect: srcrect dst: dst dstrect: dstre
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -1112,9 +1110,8 @@ LibSDL3 >> SDL_BlitSurfaceTiledWithScaleSrc: src srcrect: srcrect scale: scale s
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -1142,9 +1139,8 @@ LibSDL3 >> SDL_BlitSurfaceUncheckedScaledSrc: src srcrect: srcrect dst: dst dstr
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -1171,9 +1167,8 @@ LibSDL3 >> SDL_BlitSurfaceUncheckedSrc: src srcrect: srcrect dst: dst dstrect: d
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -1477,6 +1472,8 @@ LibSDL3 >> SDL_ClearSurface: surface r: r g: g b: b a: a [
 	 * \param a the alpha component of the pixel, normally in the range 0-1.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -1926,6 +1923,10 @@ LibSDL3 >> SDL_ConvertPixelsAndColorspaceWidth: width height: height src_format:
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety The same destination pixels should not be used from two
+	 *               threads at once. It is safe to use the same source pixels
+	 *               from multiple threads.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_ConvertPixels
@@ -1949,6 +1950,10 @@ LibSDL3 >> SDL_ConvertPixelsWidth: width height: height src_format: src_format s
 	 * \param dst_pitch the pitch of the destination pixels, in bytes.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety The same destination pixels should not be used from two
+	 *               threads at once. It is safe to use the same source pixels
+	 *               from multiple threads.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -1979,6 +1984,8 @@ LibSDL3 >> SDL_ConvertSurface: surface format: format [
 	 * \returns the new SDL_Surface structure that is created or NULL on failure;
 	 *          call SDL_GetError() for more information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_ConvertSurfaceAndColorspace
@@ -2008,6 +2015,8 @@ LibSDL3 >> SDL_ConvertSurfaceAndColorspaceSurface: surface format: format palett
 	 * \param props an SDL_PropertiesID with additional color properties, or 0.
 	 * \returns the new SDL_Surface structure that is created or NULL on failure;
 	 *          call SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -3083,6 +3092,8 @@ LibSDL3 >> SDL_CreateSurfaceFromWidth: width height: height format: format pixel
 	 * \returns the new SDL_Surface structure that is created or NULL on failure;
 	 *          call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_CreateSurface
@@ -3116,6 +3127,8 @@ LibSDL3 >> SDL_CreateSurfacePalette: surface [
 	 *          the surface didn't have an index format); call SDL_GetError() for
 	 *          more information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_SetPaletteColors
@@ -3136,6 +3149,8 @@ LibSDL3 >> SDL_CreateSurfaceWidth: width height: height format: format [
 	 * \param format the SDL_PixelFormat for the new surface's pixel format.
 	 * \returns the new SDL_Surface structure that is created or NULL on failure;
 	 *          call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -4067,6 +4082,8 @@ LibSDL3 >> SDL_DestroySurface: surface [
 	 *
 	 * \param surface the SDL_Surface to free.
 	 *
+	 * \threadsafety No other thread should be using the surface when it is freed.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_CreateSurface
@@ -4446,6 +4463,8 @@ LibSDL3 >> SDL_DuplicateSurface: surface [
 	 * \returns a copy of the surface or NULL on failure; call SDL_GetError() for
 	 *          more information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_DestroySurface
@@ -4704,6 +4723,8 @@ LibSDL3 >> SDL_FillSurfaceRectDst: dst rect: rect color: color [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_FillSurfaceRects
@@ -4732,6 +4753,8 @@ LibSDL3 >> SDL_FillSurfaceRectsDst: dst rects: rects count: count color: color [
 	 * \param color the color to fill with.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -4792,6 +4815,8 @@ LibSDL3 >> SDL_FlipSurface: surface flip: flip [
 	 * \param flip the direction to flip.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -5405,7 +5430,7 @@ LibSDL3 >> SDL_GPUTextureSupportsSampleCountDevice: device format: format sample
 	 * \param device a GPU context.
 	 * \param format the texture format to check.
 	 * \param sample_count the sample count to check.
-	 * \returns a hardware-specific version of min(preferred, possible).
+	 * \returns whether the sample count is supported for this texture format.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -9035,6 +9060,10 @@ LibSDL3 >> SDL_GetPowerInfoSeconds: seconds percent: percent [
 	 * It's possible a platform can only report battery percentage or time left
 	 * but not both.
 	 *
+	 * On some platforms, retrieving power supply details might be expensive. If
+	 * you want to display continuous status you could call this function every
+	 * minute or so.
+	 *
 	 * \param seconds a pointer filled in with the seconds of battery life left,
 	 *                or NULL to ignore. This will be filled in with -1 if we
 	 *                can't determine a value or there is no battery.
@@ -10453,6 +10482,8 @@ LibSDL3 >> SDL_GetSurfaceAlphaModSurface: surface alpha: alpha [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetSurfaceColorMod
@@ -10471,6 +10502,8 @@ LibSDL3 >> SDL_GetSurfaceBlendModeSurface: surface blendMode: blendMode [
 	 * \param blendMode a pointer filled in with the current SDL_BlendMode.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -10495,6 +10528,8 @@ LibSDL3 >> SDL_GetSurfaceClipRectSurface: surface rect: rect [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_SetSurfaceClipRect
@@ -10518,6 +10553,8 @@ LibSDL3 >> SDL_GetSurfaceColorKeySurface: surface key: key [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_SetSurfaceColorKey
@@ -10538,6 +10575,8 @@ LibSDL3 >> SDL_GetSurfaceColorModSurface: surface r: r g: g b: b [
 	 * \param b a pointer filled in with the current blue color value.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -10560,6 +10599,8 @@ LibSDL3 >> SDL_GetSurfaceColorspace: surface [
 	 * \param surface the SDL_Surface structure to query.
 	 * \returns the colorspace used by the surface, or SDL_COLORSPACE_UNKNOWN if
 	 *          the surface is NULL.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -10588,6 +10629,8 @@ LibSDL3 >> SDL_GetSurfaceImagesSurface: surface count: count [
 	 *          failure; call SDL_GetError() for more information. This should be
 	 *          freed with SDL_free() when it is no longer needed.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_AddSurfaceAlternateImage
@@ -10606,6 +10649,8 @@ LibSDL3 >> SDL_GetSurfacePalette: surface [
 	 * \param surface the SDL_Surface structure to query.
 	 * \returns a pointer to the palette used by the surface, or NULL if there is
 	 *          no palette used.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -10644,6 +10689,8 @@ LibSDL3 >> SDL_GetSurfaceProperties: surface [
 	 * \param surface the SDL_Surface structure to query.
 	 * \returns a valid property ID on success or 0 on failure; call
 	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -13254,6 +13301,8 @@ LibSDL3 >> SDL_LoadBMP: file [
 	 * \returns a pointer to a new SDL_Surface structure or NULL on failure; call
 	 *          SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_DestroySurface
@@ -13277,6 +13326,8 @@ LibSDL3 >> SDL_LoadBMP_IOSrc: src closeio: closeio [
 	 *                in the case of an error.
 	 * \returns a pointer to a new SDL_Surface structure or NULL on failure; call
 	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -13775,6 +13826,10 @@ LibSDL3 >> SDL_LockSurface: surface [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe. The locking referred to by
+	 *               this function is making the pixels available for direct
+	 *               access, not thread-safe locking.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_MUSTLOCK
@@ -13993,6 +14048,8 @@ LibSDL3 >> SDL_MapSurfaceRGBASurface: surface r: r g: g b: b a: a [
 	 * \param a the alpha component of the pixel in the range 0-255.
 	 * \returns a pixel value.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_MapSurfaceRGB
@@ -14026,6 +14083,8 @@ LibSDL3 >> SDL_MapSurfaceRGBSurface: surface r: r g: g b: b [
 	 * \param g the green component of the pixel in the range 0-255.
 	 * \param b the blue component of the pixel in the range 0-255.
 	 * \returns a pixel value.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -14911,6 +14970,10 @@ LibSDL3 >> SDL_PremultiplyAlphaWidth: width height: height src_format: src_forma
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety The same destination pixels should not be used from two
+	 *               threads at once. It is safe to use the same source pixels
+	 *               from multiple threads.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -14929,6 +14992,8 @@ LibSDL3 >> SDL_PremultiplySurfaceAlphaSurface: surface linear: linear [
 	 *               multiplication, false to do multiplication in sRGB space.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -15488,6 +15553,8 @@ LibSDL3 >> SDL_ReadSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a:
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -15518,6 +15585,8 @@ LibSDL3 >> SDL_ReadSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	 *          ignore this channel.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -16108,6 +16177,8 @@ LibSDL3 >> SDL_RemoveSurfaceAlternateImages: surface [
 	 * destroying them if this is the last reference to them.
 	 *
 	 * \param surface the SDL_Surface structure to update.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -17104,6 +17175,8 @@ LibSDL3 >> SDL_SaveBMPSurface: surface file: file [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_LoadBMP
@@ -17130,6 +17203,8 @@ LibSDL3 >> SDL_SaveBMP_IOSurface: surface dst: dst closeio: closeio [
 	 *                in the case of an error.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -17202,6 +17277,8 @@ LibSDL3 >> SDL_ScaleSurface: surface width: width height: height scaleMode: scal
 	 * \param scaleMode the SDL_ScaleMode to be used.
 	 * \returns a copy of the surface or NULL on failure; call SDL_GetError() for
 	 *          more information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -17747,7 +17824,7 @@ LibSDL3 >> SDL_SetAudioStreamGetCallbackStream: stream callback: callback userda
 	 * audio to the stream during this call; if needed, the request that triggered
 	 * this callback will obtain the new data immediately.
 	 *
-	 * The callback's `approx_request` argument is roughly how many bytes of
+	 * The callback's `additional_amount` argument is roughly how many bytes of
 	 * _unconverted_ data (in the stream's input format) is needed by the caller,
 	 * although this may overestimate a little for safety. This takes into account
 	 * how much is already in the stream and only asks for any extra necessary to
@@ -17922,13 +17999,13 @@ LibSDL3 >> SDL_SetAudioStreamPutCallbackStream: stream callback: callback userda
 	 * The callback can (optionally) call SDL_GetAudioStreamData() to obtain audio
 	 * from the stream during this call.
 	 *
-	 * The callback's `approx_request` argument is how many bytes of _converted_
-	 * data (in the stream's output format) was provided by the caller, although
-	 * this may underestimate a little for safety. This value might be less than
-	 * what is currently available in the stream, if data was already there, and
-	 * might be less than the caller provided if the stream needs to keep a buffer
-	 * to aid in resampling. Which means the callback may be provided with zero
-	 * bytes, and a different amount on each call.
+	 * The callback's `additional_amount` argument is how many bytes of
+	 * _converted_ data (in the stream's output format) was provided by the
+	 * caller, although this may underestimate a little for safety. This value
+	 * might be less than what is currently available in the stream, if data was
+	 * already there, and might be less than the caller provided if the stream
+	 * needs to keep a buffer to aid in resampling. Which means the callback may
+	 * be provided with zero bytes, and a different amount on each call.
 	 *
 	 * The callback may call SDL_GetAudioStreamAvailable to see the total amount
 	 * currently available to read from the stream, instead of the total provided
@@ -19170,6 +19247,8 @@ LibSDL3 >> SDL_SetSurfaceAlphaModSurface: surface alpha: alpha [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetSurfaceAlphaMod
@@ -19192,6 +19271,8 @@ LibSDL3 >> SDL_SetSurfaceBlendModeSurface: surface blendMode: blendMode [
 	 * \param blendMode the SDL_BlendMode to use for blit blending.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19218,6 +19299,8 @@ LibSDL3 >> SDL_SetSurfaceClipRectSurface: surface rect: rect [
 	 * \returns true if the rectangle intersects the surface, otherwise false and
 	 *          blits will be completely clipped.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetSurfaceClipRect
@@ -19243,6 +19326,8 @@ LibSDL3 >> SDL_SetSurfaceColorKeySurface: surface enabled: enabled key: key [
 	 * \param key the transparent pixel.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19272,6 +19357,8 @@ LibSDL3 >> SDL_SetSurfaceColorModSurface: surface r: r g: g b: b [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetSurfaceColorMod
@@ -19295,6 +19382,8 @@ LibSDL3 >> SDL_SetSurfaceColorspaceSurface: surface colorspace: colorspace [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetSurfaceColorspace
@@ -19314,6 +19403,8 @@ LibSDL3 >> SDL_SetSurfacePaletteSurface: surface palette: palette [
 	 * \param palette the SDL_Palette structure to use.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19336,6 +19427,8 @@ LibSDL3 >> SDL_SetSurfaceRLESurface: surface enabled: enabled [
 	 * \param enabled true to enable RLE acceleration, false to disable it.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21125,9 +21218,8 @@ LibSDL3 >> SDL_StretchSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety The same destination surface should not be used from two
-	 *               threads at once. It is safe to use the same source surface
-	 *               from multiple threads.
+	 * \threadsafety Only one thread should be using the `src` and `dst` surfaces
+	 *               at any given time.
 	 *
 	 * \since This function is available since SDL 3.4.0.
 	 *
@@ -21224,6 +21316,8 @@ LibSDL3 >> SDL_SurfaceHasAlternateImages: surface [
 	 * \param surface the SDL_Surface structure to query.
 	 * \returns true if alternate versions are available or false otherwise.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_AddSurfaceAlternateImage
@@ -21244,6 +21338,8 @@ LibSDL3 >> SDL_SurfaceHasColorKey: surface [
 	 * \param surface the SDL_Surface structure to query.
 	 * \returns true if the surface has a color key, false otherwise.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_SetSurfaceColorKey
@@ -21262,6 +21358,8 @@ LibSDL3 >> SDL_SurfaceHasRLE: surface [
 	 *
 	 * \param surface the SDL_Surface structure to query.
 	 * \returns true if the surface is RLE enabled, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21794,6 +21892,10 @@ LibSDL3 >> SDL_UnlockSurface: surface [
 	 * Release a surface after directly accessing the pixels.
 	 *
 	 * \param surface the SDL_Surface structure to be unlocked.
+	 *
+	 * \threadsafety This function is not thread safe. The locking referred to by
+	 *               this function is making the pixels available for direct
+	 *               access, not thread-safe locking.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -22874,6 +22976,8 @@ LibSDL3 >> SDL_WriteSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety This function is not thread safe.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -22900,6 +23004,8 @@ LibSDL3 >> SDL_WriteSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	 * \param a the alpha channel value, 0-255.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -23591,6 +23697,10 @@ LibSDL3 >> SDL_callocNmemb: nmemb size: size [
 	 * The memory returned by this function must be freed with SDL_free().
 	 *
 	 * If either of `nmemb` or `size` is 0, they will both be set to 1.
+	 *
+	 * If the allocation is successful, the returned pointer is guaranteed to be
+	 * aligned to either the *fundamental alignment* (`alignof(max_align_t)` in
+	 * C11 and later) or `2 * sizeof(void *)`, whichever is smaller.
 	 *
 	 * \param nmemb the number of elements in the array.
 	 * \param size the size of each element of the array.
@@ -24905,8 +25015,11 @@ LibSDL3 >> SDL_malloc: size [
 	 *
 	 * If `size` is 0, it will be set to 1.
 	 *
-	 * If you want to allocate memory aligned to a specific alignment, consider
-	 * using SDL_aligned_alloc().
+	 * If the allocation is successful, the returned pointer is guaranteed to be
+	 * aligned to either the *fundamental alignment* (`alignof(max_align_t)` in
+	 * C11 and later) or `2 * sizeof(void *)`, whichever is smaller. Use
+	 * SDL_aligned_alloc() if you need to allocate memory aligned to an alignment
+	 * greater than this guarantee.
 	 *
 	 * \param size the size to allocate.
 	 * \returns a pointer to the allocated memory, or NULL if allocation failed.
@@ -25508,6 +25621,11 @@ LibSDL3 >> SDL_reallocMem: mem size: size [
 	 *   and cannot be dereferenced anymore.
 	 * - If it returns NULL (indicating failure), then `mem` will remain valid and
 	 *   must still be freed with SDL_free().
+	 *
+	 * If the allocation is successfully resized, the returned pointer is
+	 * guaranteed to be aligned to either the *fundamental alignment*
+	 * (`alignof(max_align_t)` in C11 and later) or `2 * sizeof(void *)`,
+	 * whichever is smaller.
 	 *
 	 * \param mem a pointer to allocated memory to reallocate, or NULL.
 	 * \param size the new size of the memory.
