@@ -23,23 +23,23 @@ LibSDL3Test >> setUp [
 { #category : 'tests' }
 LibSDL3Test >> test01GetVersion [
 
-	self assert: lib SDL_GetVersion >= 3001006.
+	self assert: lib getVersion >= 3001006.
 	
-	self assert: lib SDL_GetRevision isString
+	self assert: lib getRevision isString
 ]
 
 { #category : 'tests' }
 LibSDL3Test >> test02GetTicksAndDelay [
 
 	| ticks1 ticks2 delta |
-	ticks1 := lib SDL_GetTicks.
-	ticks2 := lib SDL_GetTicks.
+	ticks1 := lib getTicks.
+	ticks2 := lib getTicks.
 	delta := ticks2 - ticks1.
 	self assert: delta equals: 0.
 
-	ticks1 := lib SDL_GetTicks.
-	lib SDL_Delay: 5.
-	ticks2 := lib SDL_GetTicks.
+	ticks1 := lib getTicks.
+	lib delay: 5.
+	ticks2 := lib getTicks.
 	delta := ticks2 - ticks1.
 	self assert: delta >= 5
 ]
@@ -48,14 +48,14 @@ LibSDL3Test >> test02GetTicksAndDelay [
 LibSDL3Test >> test03GetTicksNSAndDelayNS [
 
 	| ticks1 ticks2 delta |
-	ticks1 := lib SDL_GetTicksNS.
-	ticks2 := lib SDL_GetTicksNS.
+	ticks1 := lib getTicksNS.
+	ticks2 := lib getTicksNS.
 	delta := ticks2 - ticks1.
 	self assert: delta > 0.
 
-	ticks1 := lib SDL_GetTicksNS.
-	lib SDL_DelayNS: 100000.
-	ticks2 := lib SDL_GetTicksNS.
+	ticks1 := lib getTicksNS.
+	lib delayNS: 100000.
+	ticks2 := lib getTicksNS.
 	self assert: ticks2 - ticks1 > delta
 ]
 
@@ -64,11 +64,11 @@ LibSDL3Test >> test04PerformanceCounter [
 
 	| count1 count2 delta |
 	"Number of counts per second"
-	self assert: lib SDL_GetPerformanceFrequency > 0.
+	self assert: lib getPerformanceFrequency > 0.
 	
 	"This is the FFI bottleneck"
-	count1 := lib SDL_GetPerformanceCounter.
-	count2 := lib SDL_GetPerformanceCounter.
+	count1 := lib getPerformanceCounter.
+	count2 := lib getPerformanceCounter.
 	delta := count2 - count1.
 	self assert: delta > 0
 ]
@@ -76,13 +76,13 @@ LibSDL3Test >> test04PerformanceCounter [
 { #category : 'tests' }
 LibSDL3Test >> test05CPUinfo [
 
-	self assert: lib SDL_GetSystemRAM > 0.
+	self assert: lib getSystemRAM > 0.
 	
-	self assert: lib SDL_GetNumLogicalCPUCores > 0.
+	self assert: lib getNumLogicalCPUCores > 0.
 	
-	self assert: lib SDL_GetCPUCacheLineSize > 0.
+	self assert: lib getCPUCacheLineSize > 0.
 
-	#(SDL_HasAltiVec SDL_HasMMX SDL_HasSSE SDL_HasSSE2 SDL_HasSSE3 SDL_HasSSE41 SDL_HasSSE42 SDL_HasAVX SDL_HasAVX2 SDL_HasAVX512F SDL_HasARMSIMD SDL_HasNEON SDL_HasLSX SDL_HasLASX) do: [ :each |
+	#(#hasAltiVec #hasMMX #hasSSE #hasSSE2 #hasSSE3 #hasSSE41 #hasSSE42 #hasAVX #hasAVX2 #hasAVX512F #hasARMSIMD #hasNEON #hasLSX #hasLASX) do: [ :each |
 		| result |
 		result := lib perform: each.
 		self assert: result class superclass equals: Boolean ]
@@ -93,31 +93,31 @@ LibSDL3Test >> test05CPUinfo [
 LibSDL3Test >> test06FilesystemAPI [
 
 	self
-		assert: lib SDL_GetCurrentDirectory asFileReference 
+		assert: lib getCurrentDirectory asFileReference 
 		equals: '.' asFileReference.
 	
 	self assert:
 		(FileLocator vmDirectory asPath <=
-			lib SDL_GetBasePath asFileReference asPath)
+			lib getBasePath asFileReference asPath)
 ]
 
 { #category : 'tests' }
 LibSDL3Test >> test07VideoSubsystemLifecycle [
 
 	"Video subsystem may be already initialized"
-	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO) =
+	(lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO) =
 		S3SDLInitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self skip ].
 
-	self assert: (lib SDL_InitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO).
+	self assert: (lib initSubSystem: S3SDLInitFlags SDL_INIT_VIDEO).
 
 	self
-		assert: (lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+		assert: (lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		equals: S3SDLInitFlags SDL_INIT_VIDEO value.
 
-	lib SDL_QuitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO.
+	lib quitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO.
 
 	self
-		assert: (lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+		assert: (lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		equals: 0
 ]
 
@@ -125,31 +125,31 @@ LibSDL3Test >> test07VideoSubsystemLifecycle [
 LibSDL3Test >> test08Properties [
 
 	| id |
-	id := lib SDL_CreateProperties.
+	id := lib newProperties.
 
 	self assert:
 		(lib
-			SDL_SetStringPropertyProps: id
+			setStringPropertyProps: id
 			name: 'bonjour'
 			value: 'hola').
 
 	self assert:
 		(lib
-			SDL_HasPropertyProps: id
+			hasPropertyProps: id
 			name: 'bonjour').
 
 	self
 		assert:
 			(lib
-				SDL_GetStringPropertyProps: id
+				getStringPropertyProps: id
 				name: 'bonjour'
-				default_value: 'none')
+				defaultValue: 'none')
 		equals: 'hola'.
 
 		self
 			assert:
 				(lib
-					SDL_GetPropertyTypeProps: id
+					getPropertyTypeProps: id
 					name: 'bonjour')
 			equals: S3SDL_PropertyType SDL_PROPERTY_TYPE_STRING.
 
@@ -161,5 +161,5 @@ LibSDL3Test >> test08Properties [
 				default_value: 'none')
 		equals: 'none'.
 "
-	lib SDL_DestroyProperties: id
+	lib destroyProperties: id
 ]

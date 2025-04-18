@@ -264,7 +264,7 @@ S3Demo class >> example05Clipboard [
 { #category : 'renderer' }
 S3Demo >> clear [
 
-	self ensureNoErrorIfFalse: (lib SDL_RenderClear: renderer)
+	self ensureNoErrorIfFalse: (lib renderClear: renderer)
 ]
 
 { #category : 'renderer' }
@@ -277,7 +277,7 @@ S3Demo >> clearColor: aColor [
 { #category : 'utilities' }
 S3Demo >> clipboardMimeType: mimeType ifPresent: presentBlock ifAbsent: absentBlock [
 
-	(lib SDL_HasClipboardData: mimeType) ifFalse: [ ^ absentBlock value ].
+	(lib hasClipboardData: mimeType) ifFalse: [ ^ absentBlock value ].
 
 	^ presentBlock value:
 		(ExternalAddress
@@ -285,7 +285,7 @@ S3Demo >> clipboardMimeType: mimeType ifPresent: presentBlock ifAbsent: absentBl
 			bytesDuring: [ :dataSizePointer |
 				| dataPointer dataSize |
 				dataPointer := lib
-					SDL_GetClipboardDataMime_type: mimeType
+					getClipboardDataMimeType: mimeType
 					size: dataSizePointer.
 				dataSize := dataSizePointer signedLongLongAt: 1.
 				dataPointer bytesFromNext: dataSize ])
@@ -294,10 +294,10 @@ S3Demo >> clipboardMimeType: mimeType ifPresent: presentBlock ifAbsent: absentBl
 { #category : 'lifecycle' }
 S3Demo >> close [
 
-	lib SDL_ClearError.
-	[ 	lib SDL_DestroyRenderer: renderer.
+	lib clearError.
+	[ 	lib destroyRenderer: renderer.
 		self ensureNoError ] ensure: [
-			lib SDL_DestroyWindow: window.
+			lib destroyWindow: window.
 			self ensureNoError]
 ]
 
@@ -306,7 +306,7 @@ S3Demo >> color: aColor [
 
 	self ensureNoErrorIfFalse:
 		(lib
-			SDL_SetRenderDrawColorFloatRenderer: renderer
+			setRenderDrawColorFloatRenderer: renderer
 			r: aColor red
 			g: aColor green
 			b: aColor blue
@@ -317,23 +317,23 @@ S3Demo >> color: aColor [
 S3Demo >> ensureInitVideo [
 	"Return early if video subsystem is already initialized"
 
-	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+	(lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		= S3SDLInitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
 
 	lib
-		SDL_SetAppMetadataAppname: self className
+		setAppMetadataAppname: self className
 		appversion: 'v1.2.3.4.5.6.7'
 		appidentifier: 'org.pharo.sdl3.', self className.
 
 	"Initialize the video subsystem"
-	self assert: (lib SDL_InitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO)
+	self assert: (lib initSubSystem: S3SDLInitFlags SDL_INIT_VIDEO)
 ]
 
 { #category : 'private' }
 S3Demo >> ensureNoError [
 	<debuggerCompleteToSender>
 
-	lib SDL_GetError ifNotEmpty: [ :msg | Error new signal: msg ]
+	lib getError ifNotEmpty: [ :msg | Error new signal: msg ]
 ]
 
 { #category : 'private' }
@@ -355,10 +355,10 @@ S3Demo >> ensureNoErrorIfNull: anExternalObject [
 { #category : 'lifecycle' }
 S3Demo >> ensureQuitVideo [
 
-	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+	(lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		= S3SDLInitFlags SDL_INIT_VIDEO ifFalse: [ ^ self ].
 	
-	lib SDL_QuitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO
+	lib quitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO
 ]
 
 { #category : 'initialization' }
@@ -377,13 +377,13 @@ S3Demo >> open [
 
 	window :=
 		lib
-			SDL_CreateWindowTitle: 'Pharo-SDL3 Demo'
+			newWindowTitle: 'Pharo-SDL3 Demo'
 			w: 800
 			h: 600
 			flags: S3SDLWindowFlags SDL_WINDOW_RESIZABLE | S3SDLWindowFlags SDL_WINDOW_INPUT_FOCUS.
 	self ensureNoErrorIfNull: window.
 
-	renderer := lib SDL_CreateRendererWindow: window name: nil.
+	renderer := lib newRendererWindow: window name: nil.
 	self ensureNoErrorIfNull: window
 ]
 
@@ -397,14 +397,14 @@ S3Demo >> pollEvents [
 { #category : 'enumerating' }
 S3Demo >> pollEventsDo: aUnaryBlock [
 
-	[ lib SDL_PollEvent: event ] whileTrue: [
+	[ lib pollEvent: event ] whileTrue: [
 		aUnaryBlock value: (map conversionOf: event) ]
 ]
 
 { #category : 'renderer' }
 S3Demo >> present [
 
-	self ensureNoErrorIfFalse: (lib SDL_RenderPresent: renderer)
+	self ensureNoErrorIfFalse: (lib renderPresent: renderer)
 ]
 
 { #category : 'renderer' }
@@ -412,7 +412,7 @@ S3Demo >> renderTexture: texture at: aSDLFRect [
 
 	self ensureNoErrorIfFalse:
 		(lib
-			 SDL_RenderTextureRenderer: renderer
+			 renderTextureRenderer: renderer
 			 texture: texture
 			 srcrect: nil
 			 dstrect: aSDLFRect)
@@ -422,7 +422,7 @@ S3Demo >> renderTexture: texture at: aSDLFRect [
 S3Demo >> showMessageBoxTitle: title message: message [
 
 	lib
-		SDL_ShowSimpleMessageBoxFlags: S3SDLMessageBoxFlags SDL_MESSAGEBOX_INFORMATION 
+		showSimpleMessageBoxFlags: S3SDLMessageBoxFlags SDL_MESSAGEBOX_INFORMATION 
 		title: title
 		message: message
 		window: window
@@ -449,11 +449,11 @@ Stdio stdout << '2'; lf; flush.
 				semaphore signal ].
 
 	lib
-		SDL_ShowOpenFolderDialogCallback: callback
+		showOpenFolderDialogCallback: callback
 		userdata: nil
 		window: (aBoolean ifTrue: [ window ] ifFalse: [ S3SDL_Window null ])
-		default_location: nil
-		allow_many: true.
+		defaultLocation: nil
+		allowMany: true.
 
 Stdio stdout << '3'; lf; flush.
 
@@ -469,7 +469,7 @@ S3Demo >> showText: aString x: x y: y [
 
 	self ensureNoErrorIfFalse:
 		(lib
-			SDL_RenderDebugTextRenderer: renderer
+			renderDebugTextRenderer: renderer
 			x: x
 			y: y
 			str: aString)
@@ -488,7 +488,7 @@ S3Demo >> unownedNewTextureFromForm: aForm [
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
 	self ensureNoErrorIfNull: aSurface.
-	aTexture := lib SDL_CreateTextureFromSurfaceRenderer: renderer surface: aSurface.
-	lib SDL_DestroySurface: aSurface.
+	aTexture := lib newTextureFromSurfaceRenderer: renderer surface: aSurface.
+	lib destroySurface: aSurface.
 	^ aTexture
 ]

@@ -12,13 +12,13 @@ Class {
 { #category : 'private' }
 LibSDL3VideoTest >> assertEmptySDLError [
 
-	self assert: lib SDL_GetError equals: ''.
+	self assert: lib getError equals: ''.
 ]
 
 { #category : 'private' }
 LibSDL3VideoTest >> pollAllEvents [
 
-	[ lib SDL_PollEvent: S3SDL_Event new ] whileTrue
+	[ lib pollEvent: S3SDL_Event new ] whileTrue
 ]
 
 { #category : 'running' }
@@ -29,19 +29,19 @@ LibSDL3VideoTest >> setUp [
 	lib := LibSDL3 uniqueInstance.
 
 	"Return early if video subsystem is already initialized"
-	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+	(lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		= S3SDLInitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
 	
 	"Initialize the video subsystem"
-	self assert: (lib SDL_InitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO)
+	self assert: (lib initSubSystem: S3SDLInitFlags SDL_INIT_VIDEO)
 ]
 
 { #category : 'running' }
 LibSDL3VideoTest >> tearDown [
 
-	(lib SDL_WasInit: S3SDLInitFlags SDL_INIT_VIDEO)
+	(lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
 		= S3SDLInitFlags SDL_INIT_VIDEO ifTrue: [
-			lib SDL_QuitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO ].
+			lib quitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO ].
 
 	super tearDown
 ]
@@ -51,23 +51,23 @@ LibSDL3VideoTest >> test01ClipboardAPI [
 
 	"Copy&paste a non-ASCII string"
 	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
-	self assert: (lib SDL_SetClipboardText: 'Hëllo').
-	self assert: lib SDL_HasClipboardText.
-	self assert: lib SDL_GetClipboardText equals: 'Hëllo'.
+	self assert: (lib setClipboardText: 'Hëllo').
+	self assert: lib hasClipboardText.
+	self assert: lib getClipboardText equals: 'Hëllo'.
 
 	"Clipboard supports more than text"
 	mimeTypesCountPointer := FFIInt64 newBuffer.
-	mimeTypesStringArrayPointer := lib SDL_GetClipboardMimeTypes: mimeTypesCountPointer.
+	mimeTypesStringArrayPointer := lib getClipboardMimeTypes: mimeTypesCountPointer.
 	mimeTypesStringArray :=
 		mimeTypesStringArrayPointer
 			arrayOfStringsOfSize: (mimeTypesCountPointer signedLongLongAt: 1). 
-	lib SDL_free: mimeTypesStringArrayPointer.
+	lib free: mimeTypesStringArrayPointer.
 
 	self assert: mimeTypesStringArray equals: #('text/plain;charset=utf-8').
 	
 	"Clear"
-	self assert: lib SDL_ClearClipboardData.
-	self deny: lib SDL_HasClipboardText
+	self assert: lib clearClipboardData.
+	self deny: lib hasClipboardText
 ]
 
 { #category : 'tests' }
@@ -76,13 +76,13 @@ LibSDL3VideoTest >> test02CreateWindow [
 	| window |
 	window :=
 		lib
-			SDL_CreateWindowTitle: 'Pharo SDL3'
+			newWindowTitle: 'Pharo SDL3'
 			w: 800 h: 600 flags: 0.
 	self deny: window isNull.
 
 	self waitToSee.
 
-	lib SDL_DestroyWindow: window.
+	lib destroyWindow: window.
 	self assertEmptySDLError
 ]
 
@@ -95,10 +95,10 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 
 	success :=
 		lib
-			SDL_CreateWindowAndRendererTitle: 'Pharo SDL3'
+			newWindowAndRendererTitle: 'Pharo SDL3'
 			width: 800
 			height: 600
-			window_flags: 0
+			windowFlags: 0
 			window: windowPointer
 			renderer: rendererPointer.
 	self assert: success.
@@ -108,10 +108,10 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 	
 	self waitToSee.
 
-	lib SDL_ClearError.
-	lib SDL_DestroyRenderer: renderer.
+	lib clearError.
+	lib destroyRenderer: renderer.
 	self assertEmptySDLError.
-	lib SDL_DestroyWindow: window.
+	lib destroyWindow: window.
 	self assertEmptySDLError
 ]
 
@@ -121,30 +121,30 @@ LibSDL3VideoTest >> test04BasicRender [
 	| success window renderer |
 	window :=
 		lib
-			SDL_CreateWindowTitle: 'Pharo SDL3'
+			newWindowTitle: 'Pharo SDL3'
 			w: 400 h: 300 flags: 0.
 	success := window isNull not.
 	self assert: success.
 
-	renderer := lib SDL_CreateRendererWindow: window name: nil.
+	renderer := lib newRendererWindow: window name: nil.
 	success := renderer isNull not.
 	self assert: success.
 
 	"Clear background with gray color"
 	self assert:
 		(lib
-			SDL_SetRenderDrawColorFloatRenderer: renderer
+			setRenderDrawColorFloatRenderer: renderer
 			r: 0.5 g: 0.5 b: 0.5 a: 1.0).
-	self assert: (lib SDL_RenderClear: renderer).
+	self assert: (lib renderClear: renderer).
 
 	"Render a red rectangle"
 	self assert:
 		(lib
-			SDL_SetRenderDrawColorFloatRenderer: renderer
+			setRenderDrawColorFloatRenderer: renderer
 			r: 0.5 g: 0.0 b: 0.0 a: 1.0).
 	self assert:
 		(lib
-			SDL_RenderFillRectRenderer: renderer
+			renderFillRectRenderer: renderer
 			rect:
 				(S3SDL_FRect new
 					x: 10;
@@ -156,22 +156,22 @@ LibSDL3VideoTest >> test04BasicRender [
 	"Render cyan text (debugging API)"
 	self assert:
 		(lib
-			SDL_SetRenderDrawColorFloatRenderer: renderer
+			setRenderDrawColorFloatRenderer: renderer
 			r: 0.0 g: 1.0 b: 1.0 a: 1.0).
 	self assert:
 		(lib
-			SDL_RenderDebugTextRenderer: renderer
+			renderDebugTextRenderer: renderer
 			x: 20 y: 20 str: 'Hello World').
 
 	"Present will actually render the previous operations"
-	self assert: (lib SDL_RenderPresent: renderer).
+	self assert: (lib renderPresent: renderer).
 
 	self waitToSee.
 	
 	"Tear down"
-	lib SDL_DestroyRenderer: renderer.
+	lib destroyRenderer: renderer.
 	self assertEmptySDLError.
-	lib SDL_DestroyWindow: window.
+	lib destroyWindow: window.
 	self assertEmptySDLError
 ]
 
@@ -183,19 +183,19 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 
 	window :=
 		lib
-			SDL_CreateWindowTitle: 'Form -> SDL_Surface -> SDL_Texture'
+			newWindowTitle: 'Form -> SDL_Surface -> SDL_Texture'
 			w: extent x h: extent y flags: 0.
 	self assertEmptySDLError.
-	renderer := lib SDL_CreateRendererWindow: window name: nil.
+	renderer := lib newRendererWindow: window name: nil.
 	self assertEmptySDLError.
 
 	"Render and present a texture created from a surface created from a Form"
 	shapeForm := self iconNamed: #pharoBig.
 	surface := shapeForm asUnownedNewSDL3Surface.
-	texture := lib SDL_CreateTextureFromSurfaceRenderer: renderer surface: surface.
-	lib SDL_DestroySurface: surface.
-	lib SDL_RenderTextureRenderer: renderer texture: texture srcrect: nil dstrect: nil.
-	lib SDL_RenderPresent: renderer.
+	texture := lib newTextureFromSurfaceRenderer: renderer surface: surface.
+	lib destroySurface: surface.
+	lib renderTextureRenderer: renderer texture: texture srcrect: nil dstrect: nil.
+	lib renderPresent: renderer.
 	self assertEmptySDLError.
 
 	self waitToSee.
@@ -203,9 +203,9 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 	"Tear down"
 	texture destroy.
 	self assertEmptySDLError.
-	lib SDL_DestroyRenderer: renderer.
+	lib destroyRenderer: renderer.
 	self assertEmptySDLError.
-	lib SDL_DestroyWindow: window.
+	lib destroyWindow: window.
 	self assertEmptySDLError
 ]
 
@@ -217,13 +217,13 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	extent := 500 @ 500.
 	window :=
 		lib
-			SDL_CreateWindowTitle: ''
+			newWindowTitle: ''
 			w: extent x h: extent y
 			flags: S3SDLWindowFlags SDL_WINDOW_HIDDEN | S3SDLWindowFlags SDL_WINDOW_TRANSPARENT "| S3SDLWindowFlags SDL_WINDOW_BORDERLESS".
 	success := window isNull not.
 	self assert: success.
 
-	renderer := lib SDL_CreateRendererWindow: window name: nil.
+	renderer := lib newRendererWindow: window name: nil.
 	self assertEmptySDLError.
 
 
@@ -233,24 +233,24 @@ LibSDL3VideoTest >> test06ShapedWindow [
 		fillOval: (0@0 corner: extent) color: Color blue.
 	surface := shapeForm asUnownedNewSDL3Surface.
 
-	lib SDL_SetWindowShapeWindow: window shape: surface.
-	lib SDL_ShowWindow: window.
+	lib setWindowShapeWindow: window shape: surface.
+	lib showWindow: window.
 
 
 
 	"Set cyan color"
 	success :=
 		lib
-			SDL_SetRenderDrawColorFloatRenderer: renderer
+			setRenderDrawColorFloatRenderer: renderer
 			r: 0.0 g: 1.0 b: 1.0 a: 0.0.
 	self assert: success.
 
 	"Let's clear with that color"
-	success := lib SDL_RenderClear: renderer.
+	success := lib renderClear: renderer.
 	self assert: success.
 
 	"Present will actually apply the clear operation"
-	success := lib SDL_RenderPresent: renderer.
+	success := lib renderPresent: renderer.
 	self assert: success.
 
 
@@ -260,9 +260,9 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	self waitToSee.
 	
 	"Tear down"
-	lib SDL_DestroyRenderer: renderer.
+	lib destroyRenderer: renderer.
 	self assertEmptySDLError.
-	lib SDL_DestroyWindow: window.
+	lib destroyWindow: window.
 	self assertEmptySDLError
 ]
 
@@ -272,7 +272,7 @@ LibSDL3VideoTest >> test07Fullscreen [
 	| success window |
 	window :=
 		lib
-			SDL_CreateWindowTitle: ''
+			newWindowTitle: ''
 			w: 0 h: 0 flags: S3SDLWindowFlags SDL_WINDOW_FULLSCREEN.
 	success := window isNull not.
 	self assert: success.
@@ -281,7 +281,7 @@ LibSDL3VideoTest >> test07Fullscreen [
 	self waitToSee.
 	
 	"Tear down"
-	lib SDL_DestroyWindow: window.
+	lib destroyWindow: window.
 	self assertEmptySDLError
 ]
 

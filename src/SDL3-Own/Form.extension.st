@@ -11,7 +11,7 @@ Form >> asUnownedNewSDL3Surface [
 			asFormOfDepth: 32.
 
 	aSDLSurface := LibSDL3 uniqueInstance
-		               SDL_CreateSurfaceFromWidth: convertedForm width
+		               newSurfaceFromWidth: convertedForm width
 		               height: convertedForm height
 		               format: S3SDL_PixelFormat SDL_PIXELFORMAT_ARGB8888 
 		               pixels: convertedForm bits
