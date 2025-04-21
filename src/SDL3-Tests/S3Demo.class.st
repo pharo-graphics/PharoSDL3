@@ -222,32 +222,35 @@ S3Demo class >> example05Clipboard [
 					ifTrue: [ quit := true ].
 				evt type = S3SDL_EventType SDL_EVENT_MOUSE_BUTTON_DOWN
 					ifTrue: [
-						demo
-							clipboardMimeType: 'image/png'
-							ifPresent: [ :bytes |
+						| pasteAsTextureFromClipboardBlock |
+						Stdio stdout << demo clipboardMimeTypes asString; lf; flush.
+
+						pasteAsTextureFromClipboardBlock := [ :mimeType :bytes |
 								| form texture rect |
-								form := PNGReadWriter formFromStream: bytes readStream.
+								form := ImageReadWriter formFromStream: bytes readStream.
+								"form writeBMPfileNamed: 'last.bmp'."
 								texture := demo unownedNewTextureFromForm: form.
 								rect := S3SDL_FRect new
 									x: evt x;
 									y: evt y;
 									w: form width;
 									h: form height;
-									yourself.
-								pasted add: (texture -> rect)  ]
+									yourself. 
+								pasted add: (texture -> rect) ].
+
+						demo
+							clipboardMimeTypeAnyOf: #('image/png' 'image/bmp')
+							ifPresent: pasteAsTextureFromClipboardBlock
 							ifAbsent: [ "ignore click" ] ]
 				].
 			
 			"Render frame"
 			demo clearColor: Color blue muchDarker.
-			pasted do: [ :each |
-				demo
-					renderTexture: each key
-					at: each value ].
+			pasted do: [ :each | demo renderTexture: each key at: each value ].
 			demo present.
 
 			"Do a little wait before next frame"
-			10 milliSeconds wait ].
+			30 milliSeconds wait ].
 	
 		"Tear down"
 		pasted do: [ :each | each key destroy ].
@@ -275,20 +278,39 @@ S3Demo >> clearColor: aColor [
 ]
 
 { #category : 'utilities' }
-S3Demo >> clipboardMimeType: mimeType ifPresent: presentBlock ifAbsent: absentBlock [
+S3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: absentBlock [
 
-	(lib hasClipboardData: mimeType) ifFalse: [ ^ absentBlock value ].
+	| mimeType |
+	mimeType := mimeTypes
+		detect: [ :each | lib hasClipboardData: each ]
+		ifNone: [ ^ absentBlock value ].
 
-	^ presentBlock value:
-		(ExternalAddress
-			allocate: FFIUInt64 pointerSize
-			bytesDuring: [ :dataSizePointer |
-				| dataPointer dataSize |
-				dataPointer := lib
-					getClipboardDataMimeType: mimeType
-					size: dataSizePointer.
-				dataSize := dataSizePointer signedLongLongAt: 1.
-				dataPointer bytesFromNext: dataSize ])
+	^ presentBlock
+		value: mimeType
+		value:
+			(ExternalAddress
+				allocate: FFIUInt64 pointerSize
+				bytesDuring: [ :dataSizePointer |
+					| dataPointer dataSize |
+					dataPointer := lib
+						getClipboardDataMimeType: mimeType
+						size: dataSizePointer.
+					dataSize := dataSizePointer signedLongLongAt: 1.
+					dataPointer bytesFromNext: dataSize ])
+]
+
+{ #category : 'utilities' }
+S3Demo >> clipboardMimeTypes [
+
+	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
+	mimeTypesCountPointer := FFIInt64 newBuffer.
+	mimeTypesStringArrayPointer := lib getClipboardMimeTypes: mimeTypesCountPointer.
+	mimeTypesStringArray :=
+		mimeTypesStringArrayPointer
+			arrayOfStringsOfSize: (mimeTypesCountPointer signedLongLongAt: 1). 
+	lib free: mimeTypesStringArrayPointer.
+
+	^ mimeTypesStringArray
 ]
 
 { #category : 'lifecycle' }
