@@ -317,6 +317,7 @@ Class {
 		'Uint8_16',
 		'Uint8_2',
 		'XEvent',
+		'_Bool',
 		'_XEvent',
 		'__blkcnt64_t',
 		'__blkcnt_t',

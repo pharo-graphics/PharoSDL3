@@ -11,6 +11,7 @@ S3SDL3Typedef class >> initialize [
 	time_t := #int.
 	pid_t := #int.
 	bool := #Boolean.
+	_Bool := bool.
 	int8_t := #int8.
 	int16_t := #int16.
 	int64_t := #int64.
