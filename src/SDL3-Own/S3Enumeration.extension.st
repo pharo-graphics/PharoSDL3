@@ -29,39 +29,58 @@ S3Enumeration class >> enumDeclCommonPrefix [
 ]
 
 { #category : '*SDL3-Own' }
+S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix [
+
+	| newName |
+	newName := aName withoutPrefix: prefix.
+	newName := String streamContents: [ :stringStream |
+		($_ split: newName) do: [ :each |
+			stringStream << each asLowercase asCamelCase ] ].
+	newName := newName uncapitalized.
+
+	newName isValidSelector ifFalse: [
+		newName :=
+			self
+				enumDeclToCamelCaseAt: aName
+				prefix: prefix
+				givenInvalidName: newName ].
+	
+	^ newName
+]
+
+{ #category : '*SDL3-Own' }
+S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix givenInvalidName: invalidName [
+
+	aName first isDigit ifFalse: [ self error ].
+
+	^ 'at', aName
+]
+
+{ #category : '*SDL3-Own' }
+S3Enumeration class >> enumDeclToCamelCaseDictionary [
+
+	| prefix result |
+	"Must take another approach if there is only one pair"
+	self assert: [ self enumDecl size > 2 ].
+
+	prefix := self enumDeclCommonPrefix.
+	result := OrderedDictionary new.
+
+	self enumDecl pairsDo: [ :aName :aValue |
+		result
+			at: aName
+			put: (self enumDeclToCamelCaseAt: aName prefix: prefix) ].
+
+	^ result
+]
+
+{ #category : '*SDL3-Own' }
 S3Enumeration class >> initialize [
 
 	self allSubclassesDo: [ :each |
 		each
 			initializeEnumeration;
 			rebuildEnumAccessors ]
-]
-
-{ #category : '*SDL3-Own' }
-S3Enumeration class >> underscoreToCamelCaseDictionary [
-
-	| prefix renames |
-	"must take another approach if there is only one pair!"
-	Halt if: [ self enumDecl size <= 2 ].
-
-	prefix := self enumDeclCommonPrefix.
-	renames := OrderedDictionary new.
-
-	self enumDecl pairsDo: [ :eachName :eachValue |
-		| newName |
-		newName := eachName withoutPrefix: prefix.
-		newName := String streamContents: [ :stringStream |
-			($_ split: newName) do: [ :each |
-				stringStream << each asLowercase asCamelCase ] ].
-		newName := newName uncapitalized.
-
-		newName first isDigit ifTrue: [
-			newName := '_', newName ].
-		Halt if: [newName isValidSelector not].
-
-		renames at: eachName put: newName ].
-
-	^ renames
 ]
 
 { #category : '*SDL3-Own' }
