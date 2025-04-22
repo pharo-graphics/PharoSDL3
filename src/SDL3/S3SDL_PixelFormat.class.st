@@ -82,441 +82,183 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR128_FLOAT [
+S3SDL_PixelFormat class >> abgr128Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR128_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR1555 [
+S3SDL_PixelFormat class >> abgr1555 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR1555
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR2101010 [
+S3SDL_PixelFormat class >> abgr2101010 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR2101010
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR32 [
+S3SDL_PixelFormat class >> abgr32 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR32
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR4444 [
+S3SDL_PixelFormat class >> abgr4444 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR4444
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR64 [
+S3SDL_PixelFormat class >> abgr64 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR64
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR64_FLOAT [
+S3SDL_PixelFormat class >> abgr64Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR64_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ABGR8888 [
+S3SDL_PixelFormat class >> abgr8888 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ABGR8888
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB128_FLOAT [
+S3SDL_PixelFormat class >> argb128Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB128_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB1555 [
+S3SDL_PixelFormat class >> argb1555 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB1555
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB2101010 [
+S3SDL_PixelFormat class >> argb2101010 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB2101010
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB32 [
+S3SDL_PixelFormat class >> argb32 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB32
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB4444 [
+S3SDL_PixelFormat class >> argb4444 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB4444
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB64 [
+S3SDL_PixelFormat class >> argb64 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB64
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB64_FLOAT [
+S3SDL_PixelFormat class >> argb64Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB64_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_ARGB8888 [
+S3SDL_PixelFormat class >> argb8888 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_ARGB8888
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGR24 [
+S3SDL_PixelFormat class >> bgr24 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGR24
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGR48 [
+S3SDL_PixelFormat class >> bgr48 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGR48
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGR48_FLOAT [
+S3SDL_PixelFormat class >> bgr48Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGR48_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGR565 [
+S3SDL_PixelFormat class >> bgr565 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGR565
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGR96_FLOAT [
+S3SDL_PixelFormat class >> bgr96Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGR96_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRA128_FLOAT [
+S3SDL_PixelFormat class >> bgra128Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRA128_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRA32 [
+S3SDL_PixelFormat class >> bgra32 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRA32
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRA4444 [
+S3SDL_PixelFormat class >> bgra4444 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRA4444
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRA5551 [
+S3SDL_PixelFormat class >> bgra5551 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRA5551
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRA64 [
+S3SDL_PixelFormat class >> bgra64 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRA64
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRA64_FLOAT [
+S3SDL_PixelFormat class >> bgra64Float [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRA64_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRA8888 [
+S3SDL_PixelFormat class >> bgra8888 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRA8888
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRX32 [
+S3SDL_PixelFormat class >> bgrx32 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRX32
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_BGRX8888 [
+S3SDL_PixelFormat class >> bgrx8888 [
 	"This method was automatically generated"
 	^ SDL_PIXELFORMAT_BGRX8888
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_EXTERNAL_OES [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_EXTERNAL_OES
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_INDEX1LSB [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_INDEX1LSB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_INDEX1MSB [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_INDEX1MSB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_INDEX2LSB [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_INDEX2LSB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_INDEX2MSB [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_INDEX2MSB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_INDEX4LSB [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_INDEX4LSB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_INDEX4MSB [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_INDEX4MSB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_INDEX8 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_INDEX8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_IYUV [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_IYUV
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_MJPG [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_MJPG
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_NV12 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_NV12
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_NV21 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_NV21
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_P010 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_P010
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGB24 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGB24
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGB332 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGB332
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGB48 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGB48
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGB48_FLOAT [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGB48_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGB565 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGB565
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGB96_FLOAT [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGB96_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBA128_FLOAT [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBA128_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBA32 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBA32
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBA4444 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBA4444
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBA5551 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBA5551
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBA64 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBA64
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBA64_FLOAT [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBA64_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBA8888 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBA8888
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBX32 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBX32
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_RGBX8888 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_RGBX8888
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_UNKNOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_UYVY [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_UYVY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XBGR1555 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XBGR1555
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XBGR2101010 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XBGR2101010
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XBGR32 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XBGR32
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XBGR4444 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XBGR4444
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XBGR8888 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XBGR8888
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XRGB1555 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XRGB1555
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XRGB2101010 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XRGB2101010
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XRGB32 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XRGB32
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XRGB4444 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XRGB4444
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_XRGB8888 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_XRGB8888
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_YUY2 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_YUY2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_YV12 [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_YV12
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelFormat class >> SDL_PIXELFORMAT_YVYU [
-	"This method was automatically generated"
-	^ SDL_PIXELFORMAT_YVYU
 ]
 
 { #category : 'enum declaration' }
@@ -596,4 +338,262 @@ S3SDL_PixelFormat class >> enumDecl [
 	SDL_PIXELFORMAT_XRGB32 375789572
 	SDL_PIXELFORMAT_BGRX32 370546692
 	SDL_PIXELFORMAT_XBGR32 371595268 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> externalOes [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_EXTERNAL_OES
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> index1lsb [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_INDEX1LSB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> index1msb [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_INDEX1MSB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> index2lsb [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_INDEX2LSB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> index2msb [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_INDEX2MSB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> index4lsb [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_INDEX4LSB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> index4msb [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_INDEX4MSB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> index8 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_INDEX8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> iyuv [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_IYUV
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> mjpg [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_MJPG
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> nv12 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_NV12
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> nv21 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_NV21
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> p010 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_P010
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgb24 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGB24
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgb332 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGB332
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgb48 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGB48
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgb48Float [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGB48_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgb565 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGB565
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgb96Float [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGB96_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgba128Float [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBA128_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgba32 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBA32
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgba4444 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBA4444
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgba5551 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBA5551
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgba64 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBA64
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgba64Float [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBA64_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgba8888 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBA8888
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgbx32 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBX32
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> rgbx8888 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_RGBX8888
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> unknown [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_UNKNOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> uyvy [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_UYVY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xbgr1555 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XBGR1555
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xbgr2101010 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XBGR2101010
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xbgr32 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XBGR32
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xbgr4444 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XBGR4444
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xbgr8888 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XBGR8888
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xrgb1555 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XRGB1555
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xrgb2101010 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XRGB2101010
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xrgb32 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XRGB32
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xrgb4444 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XRGB4444
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> xrgb8888 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_XRGB8888
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> yuy2 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_YUY2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> yv12 [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_YV12
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelFormat class >> yvyu [
+	"This method was automatically generated"
+	^ SDL_PIXELFORMAT_YVYU
 ]

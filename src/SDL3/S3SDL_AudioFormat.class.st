@@ -20,78 +20,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_F32 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_F32
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_F32BE [
-	"This method was automatically generated"
-	^ SDL_AUDIO_F32BE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_F32LE [
-	"This method was automatically generated"
-	^ SDL_AUDIO_F32LE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_S16 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S16
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_S16BE [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S16BE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_S16LE [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S16LE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_S32 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S32
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_S32BE [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S32BE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_S32LE [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S32LE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_S8 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_U8 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_U8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AudioFormat class >> SDL_AUDIO_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_AUDIO_UNKNOWN
-]
-
 { #category : 'enum declaration' }
 S3SDL_AudioFormat class >> enumDecl [
 
@@ -108,4 +36,76 @@ S3SDL_AudioFormat class >> enumDecl [
 	SDL_AUDIO_S16 32784
 	SDL_AUDIO_S32 32800
 	SDL_AUDIO_F32 33056 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> f32 [
+	"This method was automatically generated"
+	^ SDL_AUDIO_F32
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> f32be [
+	"This method was automatically generated"
+	^ SDL_AUDIO_F32BE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> f32le [
+	"This method was automatically generated"
+	^ SDL_AUDIO_F32LE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> s16 [
+	"This method was automatically generated"
+	^ SDL_AUDIO_S16
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> s16be [
+	"This method was automatically generated"
+	^ SDL_AUDIO_S16BE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> s16le [
+	"This method was automatically generated"
+	^ SDL_AUDIO_S16LE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> s32 [
+	"This method was automatically generated"
+	^ SDL_AUDIO_S32
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> s32be [
+	"This method was automatically generated"
+	^ SDL_AUDIO_S32BE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> s32le [
+	"This method was automatically generated"
+	^ SDL_AUDIO_S32LE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> s8 [
+	"This method was automatically generated"
+	^ SDL_AUDIO_S8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> u8 [
+	"This method was automatically generated"
+	^ SDL_AUDIO_U8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AudioFormat class >> unknown [
+	"This method was automatically generated"
+	^ SDL_AUDIO_UNKNOWN
 ]

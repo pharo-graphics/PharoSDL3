@@ -12,21 +12,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUSamplerAddressMode class >> SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE [
+S3SDL_GPUSamplerAddressMode class >> clampToEdge [
 	"This method was automatically generated"
 	^ SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUSamplerAddressMode class >> SDL_GPU_SAMPLERADDRESSMODE_MIRRORED_REPEAT [
-	"This method was automatically generated"
-	^ SDL_GPU_SAMPLERADDRESSMODE_MIRRORED_REPEAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUSamplerAddressMode class >> SDL_GPU_SAMPLERADDRESSMODE_REPEAT [
-	"This method was automatically generated"
-	^ SDL_GPU_SAMPLERADDRESSMODE_REPEAT
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +24,16 @@ S3SDL_GPUSamplerAddressMode class >> enumDecl [
 	SDL_GPU_SAMPLERADDRESSMODE_REPEAT 0
 	SDL_GPU_SAMPLERADDRESSMODE_MIRRORED_REPEAT 1
 	SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUSamplerAddressMode class >> mirroredRepeat [
+	"This method was automatically generated"
+	^ SDL_GPU_SAMPLERADDRESSMODE_MIRRORED_REPEAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUSamplerAddressMode class >> repeat [
+	"This method was automatically generated"
+	^ SDL_GPU_SAMPLERADDRESSMODE_REPEAT
 ]

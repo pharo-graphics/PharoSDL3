@@ -14,42 +14,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_GPUCubeMapFace class >> SDL_GPU_CUBEMAPFACE_NEGATIVEX [
-	"This method was automatically generated"
-	^ SDL_GPU_CUBEMAPFACE_NEGATIVEX
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCubeMapFace class >> SDL_GPU_CUBEMAPFACE_NEGATIVEY [
-	"This method was automatically generated"
-	^ SDL_GPU_CUBEMAPFACE_NEGATIVEY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCubeMapFace class >> SDL_GPU_CUBEMAPFACE_NEGATIVEZ [
-	"This method was automatically generated"
-	^ SDL_GPU_CUBEMAPFACE_NEGATIVEZ
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCubeMapFace class >> SDL_GPU_CUBEMAPFACE_POSITIVEX [
-	"This method was automatically generated"
-	^ SDL_GPU_CUBEMAPFACE_POSITIVEX
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCubeMapFace class >> SDL_GPU_CUBEMAPFACE_POSITIVEY [
-	"This method was automatically generated"
-	^ SDL_GPU_CUBEMAPFACE_POSITIVEY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCubeMapFace class >> SDL_GPU_CUBEMAPFACE_POSITIVEZ [
-	"This method was automatically generated"
-	^ SDL_GPU_CUBEMAPFACE_POSITIVEZ
-]
-
 { #category : 'enum declaration' }
 S3SDL_GPUCubeMapFace class >> enumDecl [
 
@@ -60,4 +24,40 @@ S3SDL_GPUCubeMapFace class >> enumDecl [
 	SDL_GPU_CUBEMAPFACE_NEGATIVEY 3
 	SDL_GPU_CUBEMAPFACE_POSITIVEZ 4
 	SDL_GPU_CUBEMAPFACE_NEGATIVEZ 5 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCubeMapFace class >> negativeX [
+	"This method was automatically generated"
+	^ SDL_GPU_CUBEMAPFACE_NEGATIVEX
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCubeMapFace class >> negativeY [
+	"This method was automatically generated"
+	^ SDL_GPU_CUBEMAPFACE_NEGATIVEY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCubeMapFace class >> negativeZ [
+	"This method was automatically generated"
+	^ SDL_GPU_CUBEMAPFACE_NEGATIVEZ
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCubeMapFace class >> positiveX [
+	"This method was automatically generated"
+	^ SDL_GPU_CUBEMAPFACE_POSITIVEX
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCubeMapFace class >> positiveY [
+	"This method was automatically generated"
+	^ SDL_GPU_CUBEMAPFACE_POSITIVEY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCubeMapFace class >> positiveZ [
+	"This method was automatically generated"
+	^ SDL_GPU_CUBEMAPFACE_POSITIVEZ
 ]

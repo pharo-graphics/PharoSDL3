@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_TimeFormat class >> SDL_TIME_FORMAT_12HR [
+S3SDL_TimeFormat class >> at12hr [
 	"This method was automatically generated"
 	^ SDL_TIME_FORMAT_12HR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_TimeFormat class >> SDL_TIME_FORMAT_24HR [
+S3SDL_TimeFormat class >> at24hr [
 	"This method was automatically generated"
 	^ SDL_TIME_FORMAT_24HR
 ]

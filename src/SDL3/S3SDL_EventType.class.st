@@ -127,673 +127,673 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_AUDIO_DEVICE_ADDED [
+S3SDL_EventType class >> audioDeviceAdded [
 	"This method was automatically generated"
 	^ SDL_EVENT_AUDIO_DEVICE_ADDED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED [
+S3SDL_EventType class >> audioDeviceFormatChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_AUDIO_DEVICE_REMOVED [
+S3SDL_EventType class >> audioDeviceRemoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_AUDIO_DEVICE_REMOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_CAMERA_DEVICE_ADDED [
+S3SDL_EventType class >> cameraDeviceAdded [
 	"This method was automatically generated"
 	^ SDL_EVENT_CAMERA_DEVICE_ADDED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_CAMERA_DEVICE_APPROVED [
+S3SDL_EventType class >> cameraDeviceApproved [
 	"This method was automatically generated"
 	^ SDL_EVENT_CAMERA_DEVICE_APPROVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_CAMERA_DEVICE_DENIED [
+S3SDL_EventType class >> cameraDeviceDenied [
 	"This method was automatically generated"
 	^ SDL_EVENT_CAMERA_DEVICE_DENIED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_CAMERA_DEVICE_REMOVED [
+S3SDL_EventType class >> cameraDeviceRemoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_CAMERA_DEVICE_REMOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_CLIPBOARD_UPDATE [
+S3SDL_EventType class >> clipboardUpdate [
 	"This method was automatically generated"
 	^ SDL_EVENT_CLIPBOARD_UPDATE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DID_ENTER_BACKGROUND [
+S3SDL_EventType class >> didEnterBackground [
 	"This method was automatically generated"
 	^ SDL_EVENT_DID_ENTER_BACKGROUND
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DID_ENTER_FOREGROUND [
+S3SDL_EventType class >> didEnterForeground [
 	"This method was automatically generated"
 	^ SDL_EVENT_DID_ENTER_FOREGROUND
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DISPLAY_ADDED [
+S3SDL_EventType class >> displayAdded [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_ADDED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED [
+S3SDL_EventType class >> displayContentScaleChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED [
+S3SDL_EventType class >> displayCurrentModeChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED [
+S3SDL_EventType class >> displayDesktopModeChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DISPLAY_MOVED [
+S3SDL_EventType class >> displayMoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_MOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DISPLAY_ORIENTATION [
+S3SDL_EventType class >> displayOrientation [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_ORIENTATION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DISPLAY_REMOVED [
+S3SDL_EventType class >> displayRemoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_REMOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DROP_BEGIN [
+S3SDL_EventType class >> dropBegin [
 	"This method was automatically generated"
 	^ SDL_EVENT_DROP_BEGIN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DROP_COMPLETE [
+S3SDL_EventType class >> dropComplete [
 	"This method was automatically generated"
 	^ SDL_EVENT_DROP_COMPLETE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DROP_FILE [
+S3SDL_EventType class >> dropFile [
 	"This method was automatically generated"
 	^ SDL_EVENT_DROP_FILE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DROP_POSITION [
+S3SDL_EventType class >> dropPosition [
 	"This method was automatically generated"
 	^ SDL_EVENT_DROP_POSITION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_DROP_TEXT [
+S3SDL_EventType class >> dropText [
 	"This method was automatically generated"
 	^ SDL_EVENT_DROP_TEXT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_ENUM_PADDING [
+S3SDL_EventType class >> enumPadding [
 	"This method was automatically generated"
 	^ SDL_EVENT_ENUM_PADDING
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_FINGER_CANCELED [
+S3SDL_EventType class >> fingerCanceled [
 	"This method was automatically generated"
 	^ SDL_EVENT_FINGER_CANCELED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_FINGER_DOWN [
+S3SDL_EventType class >> fingerDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_FINGER_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_FINGER_MOTION [
+S3SDL_EventType class >> fingerMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_FINGER_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_FINGER_UP [
+S3SDL_EventType class >> fingerUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_FINGER_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_ADDED [
+S3SDL_EventType class >> gamepadAdded [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_ADDED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_AXIS_MOTION [
+S3SDL_EventType class >> gamepadAxisMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_AXIS_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_BUTTON_DOWN [
+S3SDL_EventType class >> gamepadButtonDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_BUTTON_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_BUTTON_UP [
+S3SDL_EventType class >> gamepadButtonUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_BUTTON_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_REMAPPED [
+S3SDL_EventType class >> gamepadRemapped [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_REMAPPED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_REMOVED [
+S3SDL_EventType class >> gamepadRemoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_REMOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_SENSOR_UPDATE [
+S3SDL_EventType class >> gamepadSensorUpdate [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_SENSOR_UPDATE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED [
+S3SDL_EventType class >> gamepadSteamHandleUpdated [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN [
+S3SDL_EventType class >> gamepadTouchpadDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION [
+S3SDL_EventType class >> gamepadTouchpadMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_TOUCHPAD_UP [
+S3SDL_EventType class >> gamepadTouchpadUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_TOUCHPAD_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_GAMEPAD_UPDATE_COMPLETE [
+S3SDL_EventType class >> gamepadUpdateComplete [
 	"This method was automatically generated"
 	^ SDL_EVENT_GAMEPAD_UPDATE_COMPLETE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_ADDED [
+S3SDL_EventType class >> joystickAdded [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_ADDED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_AXIS_MOTION [
+S3SDL_EventType class >> joystickAxisMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_AXIS_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_BALL_MOTION [
+S3SDL_EventType class >> joystickBallMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_BALL_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_BATTERY_UPDATED [
+S3SDL_EventType class >> joystickBatteryUpdated [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_BATTERY_UPDATED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_BUTTON_DOWN [
+S3SDL_EventType class >> joystickButtonDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_BUTTON_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_BUTTON_UP [
+S3SDL_EventType class >> joystickButtonUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_BUTTON_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_HAT_MOTION [
+S3SDL_EventType class >> joystickHatMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_HAT_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_REMOVED [
+S3SDL_EventType class >> joystickRemoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_REMOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_JOYSTICK_UPDATE_COMPLETE [
+S3SDL_EventType class >> joystickUpdateComplete [
 	"This method was automatically generated"
 	^ SDL_EVENT_JOYSTICK_UPDATE_COMPLETE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_KEYBOARD_ADDED [
-	"This method was automatically generated"
-	^ SDL_EVENT_KEYBOARD_ADDED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_KEYBOARD_REMOVED [
-	"This method was automatically generated"
-	^ SDL_EVENT_KEYBOARD_REMOVED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_KEYMAP_CHANGED [
-	"This method was automatically generated"
-	^ SDL_EVENT_KEYMAP_CHANGED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_KEY_DOWN [
+S3SDL_EventType class >> keyDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_KEY_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_KEY_UP [
+S3SDL_EventType class >> keyUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_KEY_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_LOCALE_CHANGED [
+S3SDL_EventType class >> keyboardAdded [
+	"This method was automatically generated"
+	^ SDL_EVENT_KEYBOARD_ADDED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_EventType class >> keyboardRemoved [
+	"This method was automatically generated"
+	^ SDL_EVENT_KEYBOARD_REMOVED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_EventType class >> keymapChanged [
+	"This method was automatically generated"
+	^ SDL_EVENT_KEYMAP_CHANGED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_EventType class >> localeChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_LOCALE_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_LOW_MEMORY [
+S3SDL_EventType class >> lowMemory [
 	"This method was automatically generated"
 	^ SDL_EVENT_LOW_MEMORY
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_MOUSE_ADDED [
+S3SDL_EventType class >> mouseAdded [
 	"This method was automatically generated"
 	^ SDL_EVENT_MOUSE_ADDED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_MOUSE_BUTTON_DOWN [
+S3SDL_EventType class >> mouseButtonDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_MOUSE_BUTTON_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_MOUSE_BUTTON_UP [
+S3SDL_EventType class >> mouseButtonUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_MOUSE_BUTTON_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_MOUSE_MOTION [
+S3SDL_EventType class >> mouseMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_MOUSE_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_MOUSE_REMOVED [
+S3SDL_EventType class >> mouseRemoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_MOUSE_REMOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_MOUSE_WHEEL [
+S3SDL_EventType class >> mouseWheel [
 	"This method was automatically generated"
 	^ SDL_EVENT_MOUSE_WHEEL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_AXIS [
+S3SDL_EventType class >> penAxis [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_AXIS
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_BUTTON_DOWN [
+S3SDL_EventType class >> penButtonDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_BUTTON_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_BUTTON_UP [
+S3SDL_EventType class >> penButtonUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_BUTTON_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_DOWN [
+S3SDL_EventType class >> penDown [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_MOTION [
+S3SDL_EventType class >> penMotion [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_MOTION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_PROXIMITY_IN [
+S3SDL_EventType class >> penProximityIn [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_PROXIMITY_IN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_PROXIMITY_OUT [
+S3SDL_EventType class >> penProximityOut [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_PROXIMITY_OUT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PEN_UP [
+S3SDL_EventType class >> penUp [
 	"This method was automatically generated"
 	^ SDL_EVENT_PEN_UP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_POLL_SENTINEL [
+S3SDL_EventType class >> pollSentinel [
 	"This method was automatically generated"
 	^ SDL_EVENT_POLL_SENTINEL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PRIVATE0 [
+S3SDL_EventType class >> private0 [
 	"This method was automatically generated"
 	^ SDL_EVENT_PRIVATE0
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PRIVATE1 [
+S3SDL_EventType class >> private1 [
 	"This method was automatically generated"
 	^ SDL_EVENT_PRIVATE1
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PRIVATE2 [
+S3SDL_EventType class >> private2 [
 	"This method was automatically generated"
 	^ SDL_EVENT_PRIVATE2
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_PRIVATE3 [
+S3SDL_EventType class >> private3 [
 	"This method was automatically generated"
 	^ SDL_EVENT_PRIVATE3
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_QUIT [
+S3SDL_EventType class >> quit [
 	"This method was automatically generated"
 	^ SDL_EVENT_QUIT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_RENDER_DEVICE_LOST [
+S3SDL_EventType class >> renderDeviceLost [
 	"This method was automatically generated"
 	^ SDL_EVENT_RENDER_DEVICE_LOST
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_RENDER_DEVICE_RESET [
+S3SDL_EventType class >> renderDeviceReset [
 	"This method was automatically generated"
 	^ SDL_EVENT_RENDER_DEVICE_RESET
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_RENDER_TARGETS_RESET [
+S3SDL_EventType class >> renderTargetsReset [
 	"This method was automatically generated"
 	^ SDL_EVENT_RENDER_TARGETS_RESET
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_SENSOR_UPDATE [
+S3SDL_EventType class >> sensorUpdate [
 	"This method was automatically generated"
 	^ SDL_EVENT_SENSOR_UPDATE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_SYSTEM_THEME_CHANGED [
+S3SDL_EventType class >> systemThemeChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_SYSTEM_THEME_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_TERMINATING [
+S3SDL_EventType class >> terminating [
 	"This method was automatically generated"
 	^ SDL_EVENT_TERMINATING
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_TEXT_EDITING [
+S3SDL_EventType class >> textEditing [
 	"This method was automatically generated"
 	^ SDL_EVENT_TEXT_EDITING
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_TEXT_EDITING_CANDIDATES [
+S3SDL_EventType class >> textEditingCandidates [
 	"This method was automatically generated"
 	^ SDL_EVENT_TEXT_EDITING_CANDIDATES
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_TEXT_INPUT [
+S3SDL_EventType class >> textInput [
 	"This method was automatically generated"
 	^ SDL_EVENT_TEXT_INPUT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_USER [
+S3SDL_EventType class >> user [
 	"This method was automatically generated"
 	^ SDL_EVENT_USER
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WILL_ENTER_BACKGROUND [
+S3SDL_EventType class >> willEnterBackground [
 	"This method was automatically generated"
 	^ SDL_EVENT_WILL_ENTER_BACKGROUND
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WILL_ENTER_FOREGROUND [
+S3SDL_EventType class >> willEnterForeground [
 	"This method was automatically generated"
 	^ SDL_EVENT_WILL_ENTER_FOREGROUND
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_CLOSE_REQUESTED [
+S3SDL_EventType class >> windowCloseRequested [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_CLOSE_REQUESTED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_DESTROYED [
+S3SDL_EventType class >> windowDestroyed [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_DESTROYED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_DISPLAY_CHANGED [
+S3SDL_EventType class >> windowDisplayChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_DISPLAY_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED [
+S3SDL_EventType class >> windowDisplayScaleChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_ENTER_FULLSCREEN [
+S3SDL_EventType class >> windowEnterFullscreen [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_ENTER_FULLSCREEN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_EXPOSED [
+S3SDL_EventType class >> windowExposed [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_EXPOSED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_FOCUS_GAINED [
+S3SDL_EventType class >> windowFocusGained [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_FOCUS_GAINED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_FOCUS_LOST [
+S3SDL_EventType class >> windowFocusLost [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_FOCUS_LOST
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_HDR_STATE_CHANGED [
+S3SDL_EventType class >> windowHdrStateChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_HDR_STATE_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_HIDDEN [
+S3SDL_EventType class >> windowHidden [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_HIDDEN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_HIT_TEST [
+S3SDL_EventType class >> windowHitTest [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_HIT_TEST
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_ICCPROF_CHANGED [
+S3SDL_EventType class >> windowIccprofChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_ICCPROF_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_LEAVE_FULLSCREEN [
+S3SDL_EventType class >> windowLeaveFullscreen [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_LEAVE_FULLSCREEN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_MAXIMIZED [
+S3SDL_EventType class >> windowMaximized [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_MAXIMIZED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_METAL_VIEW_RESIZED [
+S3SDL_EventType class >> windowMetalViewResized [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_METAL_VIEW_RESIZED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_MINIMIZED [
+S3SDL_EventType class >> windowMinimized [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_MINIMIZED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_MOUSE_ENTER [
+S3SDL_EventType class >> windowMouseEnter [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_MOUSE_ENTER
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_MOUSE_LEAVE [
+S3SDL_EventType class >> windowMouseLeave [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_MOUSE_LEAVE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_MOVED [
+S3SDL_EventType class >> windowMoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_MOVED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_OCCLUDED [
+S3SDL_EventType class >> windowOccluded [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_OCCLUDED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED [
+S3SDL_EventType class >> windowPixelSizeChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_RESIZED [
+S3SDL_EventType class >> windowResized [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_RESIZED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_RESTORED [
+S3SDL_EventType class >> windowRestored [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_RESTORED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_SAFE_AREA_CHANGED [
+S3SDL_EventType class >> windowSafeAreaChanged [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_SAFE_AREA_CHANGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_EventType class >> SDL_EVENT_WINDOW_SHOWN [
+S3SDL_EventType class >> windowShown [
 	"This method was automatically generated"
 	^ SDL_EVENT_WINDOW_SHOWN
 ]

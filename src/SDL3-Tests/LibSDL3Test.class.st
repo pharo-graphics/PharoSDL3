@@ -151,7 +151,7 @@ LibSDL3Test >> test08Properties [
 				(lib
 					getPropertyTypeProps: id
 					name: 'bonjour')
-			equals: S3SDL_PropertyType SDL_PROPERTY_TYPE_STRING.
+			equals: S3SDL_PropertyType string.
 
 "	self
 		assert:

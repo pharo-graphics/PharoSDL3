@@ -10,22 +10,22 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_GPUFilter class >> SDL_GPU_FILTER_LINEAR [
-	"This method was automatically generated"
-	^ SDL_GPU_FILTER_LINEAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUFilter class >> SDL_GPU_FILTER_NEAREST [
-	"This method was automatically generated"
-	^ SDL_GPU_FILTER_NEAREST
-]
-
 { #category : 'enum declaration' }
 S3SDL_GPUFilter class >> enumDecl [
 
 	^ #(
 	SDL_GPU_FILTER_NEAREST 0
 	SDL_GPU_FILTER_LINEAR 1 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUFilter class >> linear [
+	"This method was automatically generated"
+	^ SDL_GPU_FILTER_LINEAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUFilter class >> nearest [
+	"This method was automatically generated"
+	^ SDL_GPU_FILTER_NEAREST
 ]

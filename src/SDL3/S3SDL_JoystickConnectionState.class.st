@@ -12,30 +12,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_JoystickConnectionState class >> SDL_JOYSTICK_CONNECTION_INVALID [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_CONNECTION_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickConnectionState class >> SDL_JOYSTICK_CONNECTION_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_CONNECTION_UNKNOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickConnectionState class >> SDL_JOYSTICK_CONNECTION_WIRED [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_CONNECTION_WIRED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickConnectionState class >> SDL_JOYSTICK_CONNECTION_WIRELESS [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_CONNECTION_WIRELESS
-]
-
 { #category : 'enum declaration' }
 S3SDL_JoystickConnectionState class >> enumDecl [
 
@@ -44,4 +20,28 @@ S3SDL_JoystickConnectionState class >> enumDecl [
 	SDL_JOYSTICK_CONNECTION_UNKNOWN 0
 	SDL_JOYSTICK_CONNECTION_WIRED 1
 	SDL_JOYSTICK_CONNECTION_WIRELESS 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickConnectionState class >> invalid [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_CONNECTION_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickConnectionState class >> unknown [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_CONNECTION_UNKNOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickConnectionState class >> wired [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_CONNECTION_WIRED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickConnectionState class >> wireless [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_CONNECTION_WIRELESS
 ]

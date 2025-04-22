@@ -12,21 +12,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPULoadOp class >> SDL_GPU_LOADOP_CLEAR [
+S3SDL_GPULoadOp class >> clear [
 	"This method was automatically generated"
 	^ SDL_GPU_LOADOP_CLEAR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPULoadOp class >> SDL_GPU_LOADOP_DONT_CARE [
+S3SDL_GPULoadOp class >> dontCare [
 	"This method was automatically generated"
 	^ SDL_GPU_LOADOP_DONT_CARE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPULoadOp class >> SDL_GPU_LOADOP_LOAD [
-	"This method was automatically generated"
-	^ SDL_GPU_LOADOP_LOAD
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +30,10 @@ S3SDL_GPULoadOp class >> enumDecl [
 	SDL_GPU_LOADOP_LOAD 0
 	SDL_GPU_LOADOP_CLEAR 1
 	SDL_GPU_LOADOP_DONT_CARE 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPULoadOp class >> load [
+	"This method was automatically generated"
+	^ SDL_GPU_LOADOP_LOAD
 ]

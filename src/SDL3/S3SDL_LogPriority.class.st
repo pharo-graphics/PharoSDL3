@@ -18,57 +18,21 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_COUNT [
+S3SDL_LogPriority class >> count [
 	"This method was automatically generated"
 	^ SDL_LOG_PRIORITY_COUNT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_CRITICAL [
+S3SDL_LogPriority class >> critical [
 	"This method was automatically generated"
 	^ SDL_LOG_PRIORITY_CRITICAL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_DEBUG [
+S3SDL_LogPriority class >> debug [
 	"This method was automatically generated"
 	^ SDL_LOG_PRIORITY_DEBUG
-]
-
-{ #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_ERROR [
-	"This method was automatically generated"
-	^ SDL_LOG_PRIORITY_ERROR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_INFO [
-	"This method was automatically generated"
-	^ SDL_LOG_PRIORITY_INFO
-]
-
-{ #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_INVALID [
-	"This method was automatically generated"
-	^ SDL_LOG_PRIORITY_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_TRACE [
-	"This method was automatically generated"
-	^ SDL_LOG_PRIORITY_TRACE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_VERBOSE [
-	"This method was automatically generated"
-	^ SDL_LOG_PRIORITY_VERBOSE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_LogPriority class >> SDL_LOG_PRIORITY_WARN [
-	"This method was automatically generated"
-	^ SDL_LOG_PRIORITY_WARN
 ]
 
 { #category : 'enum declaration' }
@@ -84,4 +48,40 @@ S3SDL_LogPriority class >> enumDecl [
 	SDL_LOG_PRIORITY_ERROR 6
 	SDL_LOG_PRIORITY_CRITICAL 7
 	SDL_LOG_PRIORITY_COUNT 8 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_LogPriority class >> error [
+	"This method was automatically generated"
+	^ SDL_LOG_PRIORITY_ERROR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_LogPriority class >> info [
+	"This method was automatically generated"
+	^ SDL_LOG_PRIORITY_INFO
+]
+
+{ #category : 'accessing enum' }
+S3SDL_LogPriority class >> invalid [
+	"This method was automatically generated"
+	^ SDL_LOG_PRIORITY_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_LogPriority class >> trace [
+	"This method was automatically generated"
+	^ SDL_LOG_PRIORITY_TRACE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_LogPriority class >> verbose [
+	"This method was automatically generated"
+	^ SDL_LOG_PRIORITY_VERBOSE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_LogPriority class >> warn [
+	"This method was automatically generated"
+	^ SDL_LOG_PRIORITY_WARN
 ]

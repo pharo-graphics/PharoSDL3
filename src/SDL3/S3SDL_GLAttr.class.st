@@ -37,171 +37,111 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_ACCELERATED_VISUAL [
+S3SDL_GLAttr class >> acceleratedVisual [
 	"This method was automatically generated"
 	^ SDL_GL_ACCELERATED_VISUAL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_ACCUM_ALPHA_SIZE [
+S3SDL_GLAttr class >> accumAlphaSize [
 	"This method was automatically generated"
 	^ SDL_GL_ACCUM_ALPHA_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_ACCUM_BLUE_SIZE [
+S3SDL_GLAttr class >> accumBlueSize [
 	"This method was automatically generated"
 	^ SDL_GL_ACCUM_BLUE_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_ACCUM_GREEN_SIZE [
+S3SDL_GLAttr class >> accumGreenSize [
 	"This method was automatically generated"
 	^ SDL_GL_ACCUM_GREEN_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_ACCUM_RED_SIZE [
+S3SDL_GLAttr class >> accumRedSize [
 	"This method was automatically generated"
 	^ SDL_GL_ACCUM_RED_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_ALPHA_SIZE [
+S3SDL_GLAttr class >> alphaSize [
 	"This method was automatically generated"
 	^ SDL_GL_ALPHA_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_BLUE_SIZE [
+S3SDL_GLAttr class >> blueSize [
 	"This method was automatically generated"
 	^ SDL_GL_BLUE_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_BUFFER_SIZE [
+S3SDL_GLAttr class >> bufferSize [
 	"This method was automatically generated"
 	^ SDL_GL_BUFFER_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_CONTEXT_FLAGS [
+S3SDL_GLAttr class >> contextFlags [
 	"This method was automatically generated"
 	^ SDL_GL_CONTEXT_FLAGS
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_CONTEXT_MAJOR_VERSION [
+S3SDL_GLAttr class >> contextMajorVersion [
 	"This method was automatically generated"
 	^ SDL_GL_CONTEXT_MAJOR_VERSION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_CONTEXT_MINOR_VERSION [
+S3SDL_GLAttr class >> contextMinorVersion [
 	"This method was automatically generated"
 	^ SDL_GL_CONTEXT_MINOR_VERSION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_CONTEXT_NO_ERROR [
+S3SDL_GLAttr class >> contextNoError [
 	"This method was automatically generated"
 	^ SDL_GL_CONTEXT_NO_ERROR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_CONTEXT_PROFILE_MASK [
+S3SDL_GLAttr class >> contextProfileMask [
 	"This method was automatically generated"
 	^ SDL_GL_CONTEXT_PROFILE_MASK
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_CONTEXT_RELEASE_BEHAVIOR [
+S3SDL_GLAttr class >> contextReleaseBehavior [
 	"This method was automatically generated"
 	^ SDL_GL_CONTEXT_RELEASE_BEHAVIOR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_CONTEXT_RESET_NOTIFICATION [
+S3SDL_GLAttr class >> contextResetNotification [
 	"This method was automatically generated"
 	^ SDL_GL_CONTEXT_RESET_NOTIFICATION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_DEPTH_SIZE [
+S3SDL_GLAttr class >> depthSize [
 	"This method was automatically generated"
 	^ SDL_GL_DEPTH_SIZE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_DOUBLEBUFFER [
+S3SDL_GLAttr class >> doublebuffer [
 	"This method was automatically generated"
 	^ SDL_GL_DOUBLEBUFFER
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_EGL_PLATFORM [
+S3SDL_GLAttr class >> eglPlatform [
 	"This method was automatically generated"
 	^ SDL_GL_EGL_PLATFORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_FLOATBUFFERS [
-	"This method was automatically generated"
-	^ SDL_GL_FLOATBUFFERS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_FRAMEBUFFER_SRGB_CAPABLE [
-	"This method was automatically generated"
-	^ SDL_GL_FRAMEBUFFER_SRGB_CAPABLE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_GREEN_SIZE [
-	"This method was automatically generated"
-	^ SDL_GL_GREEN_SIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_MULTISAMPLEBUFFERS [
-	"This method was automatically generated"
-	^ SDL_GL_MULTISAMPLEBUFFERS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_MULTISAMPLESAMPLES [
-	"This method was automatically generated"
-	^ SDL_GL_MULTISAMPLESAMPLES
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_RED_SIZE [
-	"This method was automatically generated"
-	^ SDL_GL_RED_SIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_RETAINED_BACKING [
-	"This method was automatically generated"
-	^ SDL_GL_RETAINED_BACKING
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_SHARE_WITH_CURRENT_CONTEXT [
-	"This method was automatically generated"
-	^ SDL_GL_SHARE_WITH_CURRENT_CONTEXT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_STENCIL_SIZE [
-	"This method was automatically generated"
-	^ SDL_GL_STENCIL_SIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GLAttr class >> SDL_GL_STEREO [
-	"This method was automatically generated"
-	^ SDL_GL_STEREO
 ]
 
 { #category : 'enum declaration' }
@@ -236,4 +176,64 @@ S3SDL_GLAttr class >> enumDecl [
 	SDL_GL_CONTEXT_NO_ERROR 25
 	SDL_GL_FLOATBUFFERS 26
 	SDL_GL_EGL_PLATFORM 27 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> floatbuffers [
+	"This method was automatically generated"
+	^ SDL_GL_FLOATBUFFERS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> framebufferSrgbCapable [
+	"This method was automatically generated"
+	^ SDL_GL_FRAMEBUFFER_SRGB_CAPABLE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> greenSize [
+	"This method was automatically generated"
+	^ SDL_GL_GREEN_SIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> multisamplebuffers [
+	"This method was automatically generated"
+	^ SDL_GL_MULTISAMPLEBUFFERS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> multisamplesamples [
+	"This method was automatically generated"
+	^ SDL_GL_MULTISAMPLESAMPLES
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> redSize [
+	"This method was automatically generated"
+	^ SDL_GL_RED_SIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> retainedBacking [
+	"This method was automatically generated"
+	^ SDL_GL_RETAINED_BACKING
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> shareWithCurrentContext [
+	"This method was automatically generated"
+	^ SDL_GL_SHARE_WITH_CURRENT_CONTEXT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> stencilSize [
+	"This method was automatically generated"
+	^ SDL_GL_STENCIL_SIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GLAttr class >> stereo [
+	"This method was automatically generated"
+	^ SDL_GL_STEREO
 ]

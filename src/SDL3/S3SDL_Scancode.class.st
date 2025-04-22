@@ -258,1497 +258,267 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_0 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_0
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_1 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_1
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_2 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_3 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_4 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_5 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_5
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_6 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_6
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_7 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_7
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_8 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_9 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_9
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_A [
+S3SDL_Scancode class >> a [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_A
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_BACK [
+S3SDL_Scancode class >> acBack [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_BACK
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_BOOKMARKS [
+S3SDL_Scancode class >> acBookmarks [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_BOOKMARKS
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_CLOSE [
+S3SDL_Scancode class >> acClose [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_CLOSE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_EXIT [
+S3SDL_Scancode class >> acExit [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_EXIT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_FORWARD [
+S3SDL_Scancode class >> acForward [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_FORWARD
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_HOME [
+S3SDL_Scancode class >> acHome [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_HOME
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_NEW [
+S3SDL_Scancode class >> acNew [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_NEW
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_OPEN [
+S3SDL_Scancode class >> acOpen [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_OPEN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_PRINT [
+S3SDL_Scancode class >> acPrint [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_PRINT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_PROPERTIES [
+S3SDL_Scancode class >> acProperties [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_PROPERTIES
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_REFRESH [
+S3SDL_Scancode class >> acRefresh [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_REFRESH
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_SAVE [
+S3SDL_Scancode class >> acSave [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_SAVE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_SEARCH [
+S3SDL_Scancode class >> acSearch [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_SEARCH
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AC_STOP [
+S3SDL_Scancode class >> acStop [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AC_STOP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_AGAIN [
+S3SDL_Scancode class >> again [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_AGAIN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_ALTERASE [
+S3SDL_Scancode class >> alterase [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_ALTERASE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_APOSTROPHE [
+S3SDL_Scancode class >> apostrophe [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_APOSTROPHE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_APPLICATION [
+S3SDL_Scancode class >> application [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_APPLICATION
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_B [
+S3SDL_Scancode class >> b [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_B
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_BACKSLASH [
+S3SDL_Scancode class >> backslash [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_BACKSLASH
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_BACKSPACE [
+S3SDL_Scancode class >> backspace [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_BACKSPACE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_C [
+S3SDL_Scancode class >> c [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_C
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CALL [
+S3SDL_Scancode class >> call [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CALL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CANCEL [
+S3SDL_Scancode class >> cancel [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CANCEL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CAPSLOCK [
+S3SDL_Scancode class >> capslock [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CAPSLOCK
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CHANNEL_DECREMENT [
+S3SDL_Scancode class >> channelDecrement [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CHANNEL_DECREMENT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CHANNEL_INCREMENT [
+S3SDL_Scancode class >> channelIncrement [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CHANNEL_INCREMENT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CLEAR [
+S3SDL_Scancode class >> clear [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CLEAR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CLEARAGAIN [
+S3SDL_Scancode class >> clearagain [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CLEARAGAIN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_COMMA [
+S3SDL_Scancode class >> comma [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_COMMA
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_COPY [
+S3SDL_Scancode class >> copy [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_COPY
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_COUNT [
+S3SDL_Scancode class >> count [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_COUNT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CRSEL [
+S3SDL_Scancode class >> crsel [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CRSEL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CURRENCYSUBUNIT [
+S3SDL_Scancode class >> currencysubunit [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CURRENCYSUBUNIT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CURRENCYUNIT [
+S3SDL_Scancode class >> currencyunit [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CURRENCYUNIT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_CUT [
+S3SDL_Scancode class >> cut [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_CUT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_D [
+S3SDL_Scancode class >> d [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_D
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_DECIMALSEPARATOR [
+S3SDL_Scancode class >> decimalseparator [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_DECIMALSEPARATOR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_DELETE [
+S3SDL_Scancode class >> delete [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_DELETE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_DOWN [
+S3SDL_Scancode class >> down [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_DOWN
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_E [
+S3SDL_Scancode class >> e [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_E
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_END [
+S3SDL_Scancode class >> end [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_END
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_ENDCALL [
+S3SDL_Scancode class >> endcall [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_ENDCALL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_EQUALS [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_EQUALS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_ESCAPE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_ESCAPE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_EXECUTE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_EXECUTE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_EXSEL [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_EXSEL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F1 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F1
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F10 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F10
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F11 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F11
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F12 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F12
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F13 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F13
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F14 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F14
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F15 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F15
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F16 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F16
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F17 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F17
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F18 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F18
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F19 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F19
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F2 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F20 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F20
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F21 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F21
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F22 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F22
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F23 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F23
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F24 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F24
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F3 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F4 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F5 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F5
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F6 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F6
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F7 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F7
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F8 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_F9 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_F9
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_FIND [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_FIND
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_G [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_G
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_GRAVE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_GRAVE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_H [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_H
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_HELP [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_HELP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_HOME [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_HOME
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_I [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_I
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INSERT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INSERT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL1 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL1
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL2 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL3 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL4 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL5 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL5
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL6 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL6
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL7 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL7
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL8 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_INTERNATIONAL9 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_INTERNATIONAL9
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_J [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_J
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_K [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_K
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_0 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_0
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_00 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_00
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_000 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_000
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_1 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_1
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_2 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_3 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_4 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_5 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_5
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_6 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_6
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_7 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_7
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_8 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_9 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_9
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_A [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_A
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_AMPERSAND [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_AMPERSAND
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_AT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_AT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_B [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_B
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_BACKSPACE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_BACKSPACE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_BINARY [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_BINARY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_C [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_C
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_CLEAR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_CLEAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_CLEARENTRY [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_CLEARENTRY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_COLON [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_COLON
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_COMMA [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_COMMA
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_D [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_D
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_DBLAMPERSAND [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_DBLAMPERSAND
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_DBLVERTICALBAR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_DBLVERTICALBAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_DECIMAL [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_DECIMAL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_DIVIDE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_DIVIDE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_E [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_E
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_ENTER [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_ENTER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_EQUALS [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_EQUALS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_EQUALSAS400 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_EQUALSAS400
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_EXCLAM [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_EXCLAM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_F [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_F
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_GREATER [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_GREATER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_HASH [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_HASH
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_HEXADECIMAL [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_HEXADECIMAL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_LEFTBRACE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_LEFTBRACE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_LEFTPAREN [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_LEFTPAREN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_LESS [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_LESS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MEMADD [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MEMADD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MEMCLEAR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MEMCLEAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MEMDIVIDE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MEMDIVIDE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MEMMULTIPLY [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MEMMULTIPLY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MEMRECALL [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MEMRECALL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MEMSTORE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MEMSTORE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MEMSUBTRACT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MEMSUBTRACT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MINUS [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MINUS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_MULTIPLY [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_MULTIPLY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_OCTAL [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_OCTAL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_PERCENT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_PERCENT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_PERIOD [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_PERIOD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_PLUS [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_PLUS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_PLUSMINUS [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_PLUSMINUS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_POWER [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_POWER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_RIGHTBRACE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_RIGHTBRACE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_RIGHTPAREN [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_RIGHTPAREN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_SPACE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_SPACE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_TAB [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_TAB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_VERTICALBAR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_VERTICALBAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_KP_XOR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_KP_XOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_L [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_L
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LALT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LALT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG1 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG1
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG2 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG3 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG4 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG5 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG5
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG6 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG6
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG7 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG7
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG8 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LANG9 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LANG9
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LCTRL [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LCTRL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LEFT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LEFT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LEFTBRACKET [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LEFTBRACKET
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LGUI [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LGUI
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_LSHIFT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_LSHIFT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_M [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_M
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_EJECT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_EJECT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_FAST_FORWARD [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_FAST_FORWARD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_NEXT_TRACK [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_NEXT_TRACK
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_PAUSE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_PAUSE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_PLAY [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_PLAY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_PLAY_PAUSE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_PLAY_PAUSE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_PREVIOUS_TRACK [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_PREVIOUS_TRACK
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_RECORD [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_RECORD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_REWIND [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_REWIND
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_SELECT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_SELECT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MEDIA_STOP [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MEDIA_STOP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MENU [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MENU
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MINUS [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MINUS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MODE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MODE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_MUTE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_MUTE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_N [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_N
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_NONUSBACKSLASH [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_NONUSBACKSLASH
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_NONUSHASH [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_NONUSHASH
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_NUMLOCKCLEAR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_NUMLOCKCLEAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_O [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_O
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_OPER [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_OPER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_OUT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_OUT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_P [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_P
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_PAGEDOWN [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_PAGEDOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_PAGEUP [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_PAGEUP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_PASTE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_PASTE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_PAUSE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_PAUSE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_PERIOD [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_PERIOD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_POWER [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_POWER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_PRINTSCREEN [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_PRINTSCREEN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_PRIOR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_PRIOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_Q [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_Q
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_R [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_R
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RALT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RALT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RCTRL [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RCTRL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RESERVED [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RESERVED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RETURN [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RETURN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RETURN2 [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RETURN2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RGUI [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RGUI
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RIGHT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RIGHT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RIGHTBRACKET [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RIGHTBRACKET
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_RSHIFT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_RSHIFT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_S [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_S
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SCROLLLOCK [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SCROLLLOCK
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SELECT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SELECT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SEMICOLON [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SEMICOLON
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SEPARATOR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SEPARATOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SLASH [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SLASH
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SLEEP [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SLEEP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SOFTLEFT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SOFTLEFT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SOFTRIGHT [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SOFTRIGHT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SPACE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SPACE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_STOP [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_STOP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_SYSREQ [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_SYSREQ
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_T [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_T
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_TAB [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_TAB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_THOUSANDSSEPARATOR [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_THOUSANDSSEPARATOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_U [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_U
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_UNDO [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_UNDO
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_UNKNOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_UP [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_UP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_V [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_V
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_VOLUMEDOWN [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_VOLUMEDOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_VOLUMEUP [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_VOLUMEUP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_W [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_W
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_WAKE [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_WAKE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_X [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_X
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_Y [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_Y
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Scancode class >> SDL_SCANCODE_Z [
-	"This method was automatically generated"
-	^ SDL_SCANCODE_Z
 ]
 
 { #category : 'enum declaration' }
@@ -2004,4 +774,1234 @@ S3SDL_Scancode class >> enumDecl [
 	SDL_SCANCODE_ENDCALL 290
 	SDL_SCANCODE_RESERVED 400
 	SDL_SCANCODE_COUNT 512 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> equals [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_EQUALS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> escape [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_ESCAPE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> execute [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_EXECUTE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> exsel [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_EXSEL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f1 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F1
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f10 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F10
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f11 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F11
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f12 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F12
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f13 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F13
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f14 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F14
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f15 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F15
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f16 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F16
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f17 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F17
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f18 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F18
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f19 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F19
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f2 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f20 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F20
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f21 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F21
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f22 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F22
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f23 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F23
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f24 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F24
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f3 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f4 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f5 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F5
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f6 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F6
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f7 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F7
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f8 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> f9 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_F9
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> find [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_FIND
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> g [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_G
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> grave [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_GRAVE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> h [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_H
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> help [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_HELP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> home [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_HOME
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> i [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_I
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> insert [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INSERT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international1 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL1
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international2 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international3 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international4 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international5 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL5
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international6 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL6
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international7 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL7
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international8 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> international9 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_INTERNATIONAL9
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> j [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_J
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> k [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_K
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp0 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_0
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp00 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_00
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp000 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_000
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp1 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_1
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp2 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp3 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp4 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp5 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_5
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp6 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_6
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp7 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_7
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp8 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kp9 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_9
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpA [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_A
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpAmpersand [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_AMPERSAND
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpAt [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_AT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpB [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_B
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpBackspace [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_BACKSPACE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpBinary [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_BINARY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpC [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_C
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpClear [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_CLEAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpClearentry [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_CLEARENTRY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpColon [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_COLON
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpComma [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_COMMA
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpD [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_D
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpDblampersand [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_DBLAMPERSAND
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpDblverticalbar [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_DBLVERTICALBAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpDecimal [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_DECIMAL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpDivide [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_DIVIDE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpE [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_E
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpEnter [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_ENTER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpEquals [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_EQUALS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpEqualsas400 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_EQUALSAS400
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpExclam [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_EXCLAM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpF [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_F
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpGreater [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_GREATER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpHash [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_HASH
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpHexadecimal [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_HEXADECIMAL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpLeftbrace [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_LEFTBRACE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpLeftparen [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_LEFTPAREN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpLess [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_LESS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMemadd [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MEMADD
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMemclear [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MEMCLEAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMemdivide [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MEMDIVIDE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMemmultiply [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MEMMULTIPLY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMemrecall [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MEMRECALL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMemstore [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MEMSTORE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMemsubtract [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MEMSUBTRACT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMinus [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MINUS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpMultiply [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_MULTIPLY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpOctal [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_OCTAL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpPercent [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_PERCENT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpPeriod [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_PERIOD
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpPlus [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_PLUS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpPlusminus [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_PLUSMINUS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpPower [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_POWER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpRightbrace [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_RIGHTBRACE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpRightparen [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_RIGHTPAREN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpSpace [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_SPACE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpTab [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_TAB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpVerticalbar [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_VERTICALBAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> kpXor [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_KP_XOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> l [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_L
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lalt [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LALT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang1 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG1
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang2 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang3 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang4 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang5 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG5
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang6 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG6
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang7 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG7
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang8 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lang9 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LANG9
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lctrl [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LCTRL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> left [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LEFT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> leftbracket [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LEFTBRACKET
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lgui [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LGUI
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> lshift [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_LSHIFT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> m [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_M
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaEject [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_EJECT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaFastForward [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_FAST_FORWARD
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaNextTrack [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_NEXT_TRACK
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaPause [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_PAUSE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaPlay [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_PLAY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaPlayPause [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_PLAY_PAUSE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaPreviousTrack [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_PREVIOUS_TRACK
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaRecord [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_RECORD
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaRewind [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_REWIND
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaSelect [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_SELECT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mediaStop [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MEDIA_STOP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> menu [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MENU
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> minus [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MINUS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mode [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MODE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> mute [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_MUTE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> n [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_N
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> nonusbackslash [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_NONUSBACKSLASH
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> nonushash [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_NONUSHASH
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_0 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_0
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_1 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_1
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_2 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_3 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_4 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_5 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_5
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_6 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_6
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_7 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_7
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_8 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numberSDL_SCANCODE_9 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_9
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> numlockclear [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_NUMLOCKCLEAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> o [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_O
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> oper [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_OPER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> out [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_OUT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> p [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_P
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> pagedown [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_PAGEDOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> pageup [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_PAGEUP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> paste [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_PASTE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> pause [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_PAUSE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> period [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_PERIOD
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> power [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_POWER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> printscreen [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_PRINTSCREEN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> prior [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_PRIOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> q [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_Q
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> r [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_R
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> ralt [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RALT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> rctrl [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RCTRL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> reserved [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RESERVED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> return [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RETURN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> return2 [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RETURN2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> rgui [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RGUI
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> right [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RIGHT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> rightbracket [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RIGHTBRACKET
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> rshift [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_RSHIFT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> s [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_S
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> scrolllock [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SCROLLLOCK
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> select [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SELECT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> semicolon [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SEMICOLON
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> separator [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SEPARATOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> slash [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SLASH
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> sleep [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SLEEP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> softleft [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SOFTLEFT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> softright [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SOFTRIGHT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> space [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SPACE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> stop [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_STOP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> sysreq [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_SYSREQ
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> t [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_T
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> tab [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_TAB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> thousandsseparator [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_THOUSANDSSEPARATOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> u [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_U
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> undo [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_UNDO
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> unknown [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_UNKNOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> up [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_UP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> v [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_V
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> volumedown [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_VOLUMEDOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> volumeup [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_VOLUMEUP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> w [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_W
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> wake [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_WAKE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> x [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_X
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> y [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_Y
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Scancode class >> z [
+	"This method was automatically generated"
+	^ SDL_SCANCODE_Z
 ]

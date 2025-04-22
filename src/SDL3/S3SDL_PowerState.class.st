@@ -15,39 +15,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_PowerState class >> SDL_POWERSTATE_CHARGED [
+S3SDL_PowerState class >> charged [
 	"This method was automatically generated"
 	^ SDL_POWERSTATE_CHARGED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PowerState class >> SDL_POWERSTATE_CHARGING [
+S3SDL_PowerState class >> charging [
 	"This method was automatically generated"
 	^ SDL_POWERSTATE_CHARGING
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PowerState class >> SDL_POWERSTATE_ERROR [
-	"This method was automatically generated"
-	^ SDL_POWERSTATE_ERROR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PowerState class >> SDL_POWERSTATE_NO_BATTERY [
-	"This method was automatically generated"
-	^ SDL_POWERSTATE_NO_BATTERY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PowerState class >> SDL_POWERSTATE_ON_BATTERY [
-	"This method was automatically generated"
-	^ SDL_POWERSTATE_ON_BATTERY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PowerState class >> SDL_POWERSTATE_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_POWERSTATE_UNKNOWN
 ]
 
 { #category : 'enum declaration' }
@@ -60,4 +36,28 @@ S3SDL_PowerState class >> enumDecl [
 	SDL_POWERSTATE_NO_BATTERY 2
 	SDL_POWERSTATE_CHARGING 3
 	SDL_POWERSTATE_CHARGED 4 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PowerState class >> error [
+	"This method was automatically generated"
+	^ SDL_POWERSTATE_ERROR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PowerState class >> noBattery [
+	"This method was automatically generated"
+	^ SDL_POWERSTATE_NO_BATTERY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PowerState class >> onBattery [
+	"This method was automatically generated"
+	^ SDL_POWERSTATE_ON_BATTERY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PowerState class >> unknown [
+	"This method was automatically generated"
+	^ SDL_POWERSTATE_UNKNOWN
 ]

@@ -13,36 +13,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_Sandbox class >> SDL_SANDBOX_FLATPAK [
-	"This method was automatically generated"
-	^ SDL_SANDBOX_FLATPAK
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Sandbox class >> SDL_SANDBOX_MACOS [
-	"This method was automatically generated"
-	^ SDL_SANDBOX_MACOS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Sandbox class >> SDL_SANDBOX_NONE [
-	"This method was automatically generated"
-	^ SDL_SANDBOX_NONE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Sandbox class >> SDL_SANDBOX_SNAP [
-	"This method was automatically generated"
-	^ SDL_SANDBOX_SNAP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Sandbox class >> SDL_SANDBOX_UNKNOWN_CONTAINER [
-	"This method was automatically generated"
-	^ SDL_SANDBOX_UNKNOWN_CONTAINER
-]
-
 { #category : 'enum declaration' }
 S3SDL_Sandbox class >> enumDecl [
 
@@ -52,4 +22,34 @@ S3SDL_Sandbox class >> enumDecl [
 	SDL_SANDBOX_FLATPAK 2
 	SDL_SANDBOX_SNAP 3
 	SDL_SANDBOX_MACOS 4 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Sandbox class >> flatpak [
+	"This method was automatically generated"
+	^ SDL_SANDBOX_FLATPAK
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Sandbox class >> macos [
+	"This method was automatically generated"
+	^ SDL_SANDBOX_MACOS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Sandbox class >> none [
+	"This method was automatically generated"
+	^ SDL_SANDBOX_NONE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Sandbox class >> snap [
+	"This method was automatically generated"
+	^ SDL_SANDBOX_SNAP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Sandbox class >> unknownContainer [
+	"This method was automatically generated"
+	^ SDL_SANDBOX_UNKNOWN_CONTAINER
 ]

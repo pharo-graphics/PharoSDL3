@@ -10,22 +10,22 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_GPUShaderStage class >> SDL_GPU_SHADERSTAGE_FRAGMENT [
-	"This method was automatically generated"
-	^ SDL_GPU_SHADERSTAGE_FRAGMENT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUShaderStage class >> SDL_GPU_SHADERSTAGE_VERTEX [
-	"This method was automatically generated"
-	^ SDL_GPU_SHADERSTAGE_VERTEX
-]
-
 { #category : 'enum declaration' }
 S3SDL_GPUShaderStage class >> enumDecl [
 
 	^ #(
 	SDL_GPU_SHADERSTAGE_VERTEX 0
 	SDL_GPU_SHADERSTAGE_FRAGMENT 1 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUShaderStage class >> fragment [
+	"This method was automatically generated"
+	^ SDL_GPU_SHADERSTAGE_FRAGMENT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUShaderStage class >> vertex [
+	"This method was automatically generated"
+	^ SDL_GPU_SHADERSTAGE_VERTEX
 ]

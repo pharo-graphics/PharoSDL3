@@ -13,27 +13,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_TouchDeviceType class >> SDL_TOUCH_DEVICE_DIRECT [
+S3SDL_TouchDeviceType class >> direct [
 	"This method was automatically generated"
 	^ SDL_TOUCH_DEVICE_DIRECT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_TouchDeviceType class >> SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE [
-	"This method was automatically generated"
-	^ SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_TouchDeviceType class >> SDL_TOUCH_DEVICE_INDIRECT_RELATIVE [
-	"This method was automatically generated"
-	^ SDL_TOUCH_DEVICE_INDIRECT_RELATIVE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_TouchDeviceType class >> SDL_TOUCH_DEVICE_INVALID [
-	"This method was automatically generated"
-	^ SDL_TOUCH_DEVICE_INVALID
 ]
 
 { #category : 'enum declaration' }
@@ -44,4 +26,22 @@ S3SDL_TouchDeviceType class >> enumDecl [
 	SDL_TOUCH_DEVICE_DIRECT 0
 	SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE 1
 	SDL_TOUCH_DEVICE_INDIRECT_RELATIVE 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_TouchDeviceType class >> indirectAbsolute [
+	"This method was automatically generated"
+	^ SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_TouchDeviceType class >> indirectRelative [
+	"This method was automatically generated"
+	^ SDL_TOUCH_DEVICE_INDIRECT_RELATIVE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_TouchDeviceType class >> invalid [
+	"This method was automatically generated"
+	^ SDL_TOUCH_DEVICE_INVALID
 ]

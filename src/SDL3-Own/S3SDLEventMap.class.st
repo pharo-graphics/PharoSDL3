@@ -32,183 +32,183 @@ S3SDLEventMap >> initialize [
 	eventClassByTypeNumber := Dictionary new.
 	
  	{
-	#(SDL_EVENT_QUIT 256)
+	#(#quit 256)
 		-> S3SDL_QuitEvent.
 
-	#(SDL_EVENT_LOCALE_CHANGED 263
-	SDL_EVENT_SYSTEM_THEME_CHANGED 264)
+	#(#localeChanged 263
+	#systemThemeChanged 264)
 		-> S3SDL_CommonEvent. "ok?"
 
-	#(SDL_EVENT_DISPLAY_ORIENTATION 337
-	SDL_EVENT_DISPLAY_ADDED 338
-	SDL_EVENT_DISPLAY_REMOVED 339
-	SDL_EVENT_DISPLAY_MOVED 340
-	SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED 341
-	SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED 342
-	SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED 343)
+	#(#displayOrientation 337
+	#displayAdded 338
+	#displayRemoved 339
+	#displayMoved 340
+	#displayDesktopModeChanged 341
+	#displayCurrentModeChanged 342
+	#displayContentScaleChanged 343)
 		-> S3SDL_DisplayEvent.
 
-	#(SDL_EVENT_WINDOW_SHOWN 514
-	SDL_EVENT_WINDOW_HIDDEN 515
-	SDL_EVENT_WINDOW_EXPOSED 516
-	SDL_EVENT_WINDOW_MOVED 517
-	SDL_EVENT_WINDOW_RESIZED 518
-	SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED 519
-	SDL_EVENT_WINDOW_METAL_VIEW_RESIZED 520
-	SDL_EVENT_WINDOW_MINIMIZED 521
-	SDL_EVENT_WINDOW_MAXIMIZED 522
-	SDL_EVENT_WINDOW_RESTORED 523
-	SDL_EVENT_WINDOW_MOUSE_ENTER 524
-	SDL_EVENT_WINDOW_MOUSE_LEAVE 525
-	SDL_EVENT_WINDOW_FOCUS_GAINED 526
-	SDL_EVENT_WINDOW_FOCUS_LOST 527
-	SDL_EVENT_WINDOW_CLOSE_REQUESTED 528
-	SDL_EVENT_WINDOW_HIT_TEST 529
-	SDL_EVENT_WINDOW_ICCPROF_CHANGED 530
-	SDL_EVENT_WINDOW_DISPLAY_CHANGED 531
-	SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED 532
-	SDL_EVENT_WINDOW_SAFE_AREA_CHANGED 533
-	SDL_EVENT_WINDOW_OCCLUDED 534
-	SDL_EVENT_WINDOW_ENTER_FULLSCREEN 535
-	SDL_EVENT_WINDOW_LEAVE_FULLSCREEN 536
-	SDL_EVENT_WINDOW_DESTROYED 537
-	SDL_EVENT_WINDOW_HDR_STATE_CHANGED 538)
+	#(#windowShown 514
+	#windowHidden 515
+	#windowExposed 516
+	#windowMoved 517
+	#windowResized 518
+	#windowPixelSizeChanged 519
+	#windowMetalViewResized 520
+	#windowMinimized 521
+	#windowMaximized 522
+	#windowRestored 523
+	#windowMouseEnter 524
+	#windowMouseLeave 525
+	#windowFocusGained 526
+	#windowFocusLost 527
+	#windowCloseRequested 528
+	#windowHitTest 529
+	#windowIccprofChanged 530
+	#windowDisplayChanged 531
+	#windowDisplayScaleChanged 532
+	#windowSafeAreaChanged 533
+	#windowOccluded 534
+	#windowEnterFullscreen 535
+	#windowLeaveFullscreen 536
+	#windowDestroyed 537
+	#windowHdrStateChanged 538)
 		-> S3SDL_WindowEvent.
 	
-	#(SDL_EVENT_KEY_DOWN 768
-	SDL_EVENT_KEY_UP 769)
+	#(#keyDown 768
+	#keyUp 769)
 		-> S3SDL_KeyboardEvent.
 
-	#(SDL_EVENT_TEXT_EDITING 770)
+	#(#textEditing 770)
 		-> S3SDL_TextEditingEvent.
 	
-	#(SDL_EVENT_TEXT_INPUT 771)
+	#(#textInput 771)
 		-> S3SDL_TextInputEvent.
 
-	#(SDL_EVENT_KEYMAP_CHANGED 772)
+	#(#keymapChanged 772)
 		-> S3SDL_CommonEvent.
 
-	#(SDL_EVENT_KEYBOARD_ADDED 773
-	SDL_EVENT_KEYBOARD_REMOVED 774)
+	#(#keyboardAdded 773
+	#keyboardRemoved 774)
 		-> S3SDL_KeyboardDeviceEvent.
 
-	#(SDL_EVENT_TEXT_EDITING_CANDIDATES 775)
+	#(#textEditingCandidates 775)
 		-> S3SDL_TextEditingCandidatesEvent.
 
-	#(SDL_EVENT_MOUSE_MOTION 1024)
+	#(#mouseMotion 1024)
 		-> S3SDL_MouseMotionEvent.
 	
-	#(SDL_EVENT_MOUSE_BUTTON_DOWN 1025
-	SDL_EVENT_MOUSE_BUTTON_UP 1026)
+	#(#mouseButtonDown 1025
+	#mouseButtonUp 1026)
 		-> S3SDL_MouseButtonEvent.
 
-	#(SDL_EVENT_MOUSE_WHEEL 1027)
+	#(#mouseWheel 1027)
 		-> S3SDL_MouseWheelEvent.
 
-	#(SDL_EVENT_MOUSE_ADDED 1028
-	SDL_EVENT_MOUSE_REMOVED 1029)
+	#(#mouseAdded 1028
+	#mouseRemoved 1029)
 		-> S3SDL_MouseDeviceEvent.
 
-	#(SDL_EVENT_JOYSTICK_AXIS_MOTION 1536)
+	#(#joystickAxisMotion 1536)
 		-> S3SDL_JoyAxisEvent.
 
-	#(SDL_EVENT_JOYSTICK_BALL_MOTION 1537)
+	#(#joystickBallMotion 1537)
 		-> S3SDL_JoyBallEvent.
 
-	#(SDL_EVENT_JOYSTICK_HAT_MOTION 1538)
+	#(#joystickHatMotion 1538)
 		-> S3SDL_JoyHatEvent.
 	
-	#(SDL_EVENT_JOYSTICK_BUTTON_DOWN 1539
-	SDL_EVENT_JOYSTICK_BUTTON_UP 1540)
+	#(#joystickButtonDown 1539
+	#joystickButtonUp 1540)
 		-> S3SDL_JoyButtonEvent.
 
-	#(SDL_EVENT_JOYSTICK_ADDED 1541
-	SDL_EVENT_JOYSTICK_REMOVED 1542
-	SDL_EVENT_JOYSTICK_UPDATE_COMPLETE 1544)
+	#(#joystickAdded 1541
+	#joystickRemoved 1542
+	#joystickUpdateComplete 1544)
 		-> S3SDL_JoyDeviceEvent.
 
-	#(SDL_EVENT_JOYSTICK_BATTERY_UPDATED 1543)
+	#(#joystickBatteryUpdated 1543)
 		-> S3SDL_JoyBatteryEvent.
 
-	#(SDL_EVENT_GAMEPAD_AXIS_MOTION 1616)
+	#(#gamepadAxisMotion 1616)
 		-> S3SDL_GamepadAxisEvent.
 
-	#(SDL_EVENT_GAMEPAD_BUTTON_DOWN 1617
-	SDL_EVENT_GAMEPAD_BUTTON_UP 1618)
+	#(#gamepadButtonDown 1617
+	#gamepadButtonUp 1618)
 		-> S3SDL_GamepadButtonEvent.
 
-	#(SDL_EVENT_GAMEPAD_ADDED 1619
-	SDL_EVENT_GAMEPAD_REMOVED 1620
-	SDL_EVENT_GAMEPAD_REMAPPED 1621
-	SDL_EVENT_GAMEPAD_UPDATE_COMPLETE 1626
-	SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED 1627)
+	#(#gamepadAdded 1619
+	#gamepadRemoved 1620
+	#gamepadRemapped 1621
+	#gamepadUpdateComplete 1626
+	#gamepadSteamHandleUpdated 1627)
 		-> S3SDL_GamepadDeviceEvent.
 
-	#(SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN 1622
-	SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION 1623
-	SDL_EVENT_GAMEPAD_TOUCHPAD_UP 1624)
+	#(#gamepadTouchpadDown 1622
+	#gamepadTouchpadMotion 1623
+	#gamepadTouchpadUp 1624)
 		-> S3SDL_GamepadTouchpadEvent.
 
-	#(SDL_EVENT_GAMEPAD_SENSOR_UPDATE 1625)
+	#(#gamepadSensorUpdate 1625)
 		-> S3SDL_GamepadSensorEvent.
 
-	#(SDL_EVENT_FINGER_DOWN 1792
-	SDL_EVENT_FINGER_UP 1793
-	SDL_EVENT_FINGER_MOTION 1794
-	SDL_EVENT_FINGER_CANCELED 1795)
+	#(#fingerDown 1792
+	#fingerUp 1793
+	#fingerMotion 1794
+	#fingerCanceled 1795)
 		-> S3SDL_TouchFingerEvent.
 
-	#(SDL_EVENT_CLIPBOARD_UPDATE 2304)
+	#(#clipboardUpdate 2304)
 		-> S3SDL_ClipboardEvent.
 
-	#(SDL_EVENT_DROP_FILE 4096
-	SDL_EVENT_DROP_TEXT 4097
-	SDL_EVENT_DROP_BEGIN 4098
-	SDL_EVENT_DROP_COMPLETE 4099
-	SDL_EVENT_DROP_POSITION 4100)
+	#(#dropFile 4096
+	#dropText 4097
+	#dropBegin 4098
+	#dropComplete 4099
+	#dropPosition 4100)
 		-> S3SDL_DropEvent.
 
-	#(SDL_EVENT_AUDIO_DEVICE_ADDED 4352
-	SDL_EVENT_AUDIO_DEVICE_REMOVED 4353
-	SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED 4354)
+	#(#audioDeviceAdded 4352
+	#audioDeviceRemoved 4353
+	#audioDeviceFormatChanged 4354)
 		-> S3SDL_AudioDeviceEvent.
 
-	#(SDL_EVENT_SENSOR_UPDATE 4608)
+	#(#sensorUpdate 4608)
 		-> S3SDL_SensorEvent.
 
-	#(SDL_EVENT_PEN_PROXIMITY_IN 4864
-	SDL_EVENT_PEN_PROXIMITY_OUT 4865)
+	#(#penProximityIn 4864
+	#penProximityOut 4865)
 		-> S3SDL_PenProximityEvent.
 
-	#(SDL_EVENT_PEN_DOWN 4866
-	SDL_EVENT_PEN_UP 4867)
+	#(#penDown 4866
+	#penUp 4867)
 		-> S3SDL_PenTouchEvent.
 
-	#(SDL_EVENT_PEN_BUTTON_DOWN 4868
-	SDL_EVENT_PEN_BUTTON_UP 4869)
+	#(#penButtonDown 4868
+	#penButtonUp 4869)
 		-> S3SDL_PenButtonEvent.
 
-	#(SDL_EVENT_PEN_MOTION 4870)
+	#(#penMotion 4870)
 		-> S3SDL_PenMotionEvent.
 
-	#(SDL_EVENT_PEN_AXIS 4871)
+	#(#penAxis 4871)
 		-> S3SDL_PenAxisEvent.
 
-	#(SDL_EVENT_CAMERA_DEVICE_ADDED 5120
-	SDL_EVENT_CAMERA_DEVICE_REMOVED 5121
-	SDL_EVENT_CAMERA_DEVICE_APPROVED 5122
-	SDL_EVENT_CAMERA_DEVICE_DENIED 5123)
+	#(#cameraDeviceAdded 5120
+	#cameraDeviceRemoved 5121
+	#cameraDeviceApproved 5122
+	#cameraDeviceDenied 5123)
 		-> S3SDL_CameraDeviceEvent.
 
-	#(SDL_EVENT_RENDER_TARGETS_RESET 8192
-	SDL_EVENT_RENDER_DEVICE_RESET 8193
-	SDL_EVENT_RENDER_DEVICE_LOST 8194)
+	#(#renderTargetsReset 8192
+	#renderDeviceReset 8193
+	#renderDeviceLost 8194)
 		-> S3SDL_RenderEvent.
 
-	#(SDL_EVENT_POLL_SENTINEL 32512)
+	#(#pollSentinel 32512)
 		-> S3SDL_CommonEvent.
 
-	#(SDL_EVENT_USER 32768)
+	#(#user 32768)
 		-> S3SDL_UserEvent 
 
 	} do: [ :association |

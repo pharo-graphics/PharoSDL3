@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUIndexElementSize class >> SDL_GPU_INDEXELEMENTSIZE_16BIT [
+S3SDL_GPUIndexElementSize class >> at16bit [
 	"This method was automatically generated"
 	^ SDL_GPU_INDEXELEMENTSIZE_16BIT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUIndexElementSize class >> SDL_GPU_INDEXELEMENTSIZE_32BIT [
+S3SDL_GPUIndexElementSize class >> at32bit [
 	"This method was automatically generated"
 	^ SDL_GPU_INDEXELEMENTSIZE_32BIT
 ]

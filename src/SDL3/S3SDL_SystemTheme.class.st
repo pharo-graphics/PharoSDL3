@@ -12,21 +12,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_SystemTheme class >> SDL_SYSTEM_THEME_DARK [
+S3SDL_SystemTheme class >> dark [
 	"This method was automatically generated"
 	^ SDL_SYSTEM_THEME_DARK
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemTheme class >> SDL_SYSTEM_THEME_LIGHT [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_THEME_LIGHT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemTheme class >> SDL_SYSTEM_THEME_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_THEME_UNKNOWN
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +24,16 @@ S3SDL_SystemTheme class >> enumDecl [
 	SDL_SYSTEM_THEME_UNKNOWN 0
 	SDL_SYSTEM_THEME_LIGHT 1
 	SDL_SYSTEM_THEME_DARK 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemTheme class >> light [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_THEME_LIGHT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemTheme class >> unknown [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_THEME_UNKNOWN
 ]

@@ -22,81 +22,33 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_ARRAYF16 [
+S3SDL_PixelType class >> arrayf16 [
 	"This method was automatically generated"
 	^ SDL_PIXELTYPE_ARRAYF16
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_ARRAYF32 [
+S3SDL_PixelType class >> arrayf32 [
 	"This method was automatically generated"
 	^ SDL_PIXELTYPE_ARRAYF32
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_ARRAYU16 [
+S3SDL_PixelType class >> arrayu16 [
 	"This method was automatically generated"
 	^ SDL_PIXELTYPE_ARRAYU16
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_ARRAYU32 [
+S3SDL_PixelType class >> arrayu32 [
 	"This method was automatically generated"
 	^ SDL_PIXELTYPE_ARRAYU32
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_ARRAYU8 [
+S3SDL_PixelType class >> arrayu8 [
 	"This method was automatically generated"
 	^ SDL_PIXELTYPE_ARRAYU8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_INDEX1 [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_INDEX1
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_INDEX2 [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_INDEX2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_INDEX4 [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_INDEX4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_INDEX8 [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_INDEX8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_PACKED16 [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_PACKED16
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_PACKED32 [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_PACKED32
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_PACKED8 [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_PACKED8
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PixelType class >> SDL_PIXELTYPE_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_PIXELTYPE_UNKNOWN
 ]
 
 { #category : 'enum declaration' }
@@ -116,4 +68,52 @@ S3SDL_PixelType class >> enumDecl [
 	SDL_PIXELTYPE_ARRAYF16 10
 	SDL_PIXELTYPE_ARRAYF32 11
 	SDL_PIXELTYPE_INDEX2 12 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> index1 [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_INDEX1
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> index2 [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_INDEX2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> index4 [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_INDEX4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> index8 [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_INDEX8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> packed16 [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_PACKED16
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> packed32 [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_PACKED32
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> packed8 [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_PACKED8
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PixelType class >> unknown [
+	"This method was automatically generated"
+	^ SDL_PIXELTYPE_UNKNOWN
 ]

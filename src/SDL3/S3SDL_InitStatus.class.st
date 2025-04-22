@@ -12,30 +12,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_InitStatus class >> SDL_INIT_STATUS_INITIALIZED [
-	"This method was automatically generated"
-	^ SDL_INIT_STATUS_INITIALIZED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_InitStatus class >> SDL_INIT_STATUS_INITIALIZING [
-	"This method was automatically generated"
-	^ SDL_INIT_STATUS_INITIALIZING
-]
-
-{ #category : 'accessing enum' }
-S3SDL_InitStatus class >> SDL_INIT_STATUS_UNINITIALIZED [
-	"This method was automatically generated"
-	^ SDL_INIT_STATUS_UNINITIALIZED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_InitStatus class >> SDL_INIT_STATUS_UNINITIALIZING [
-	"This method was automatically generated"
-	^ SDL_INIT_STATUS_UNINITIALIZING
-]
-
 { #category : 'enum declaration' }
 S3SDL_InitStatus class >> enumDecl [
 
@@ -44,4 +20,28 @@ S3SDL_InitStatus class >> enumDecl [
 	SDL_INIT_STATUS_INITIALIZING 1
 	SDL_INIT_STATUS_INITIALIZED 2
 	SDL_INIT_STATUS_UNINITIALIZING 3 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_InitStatus class >> initialized [
+	"This method was automatically generated"
+	^ SDL_INIT_STATUS_INITIALIZED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_InitStatus class >> initializing [
+	"This method was automatically generated"
+	^ SDL_INIT_STATUS_INITIALIZING
+]
+
+{ #category : 'accessing enum' }
+S3SDL_InitStatus class >> uninitialized [
+	"This method was automatically generated"
+	^ SDL_INIT_STATUS_UNINITIALIZED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_InitStatus class >> uninitializing [
+	"This method was automatically generated"
+	^ SDL_INIT_STATUS_UNINITIALIZING
 ]

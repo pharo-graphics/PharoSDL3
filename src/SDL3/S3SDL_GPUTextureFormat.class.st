@@ -114,633 +114,393 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_A8_UNORM [
+S3SDL_GPUTextureFormat class >> a8Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_A8_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x10_FLOAT [
+S3SDL_GPUTextureFormat class >> astc10x10Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x10_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x10_UNORM [
+S3SDL_GPUTextureFormat class >> astc10x10Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x10_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x10_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc10x10UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x10_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x5_FLOAT [
+S3SDL_GPUTextureFormat class >> astc10x5Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x5_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x5_UNORM [
+S3SDL_GPUTextureFormat class >> astc10x5Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x5_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x5_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc10x5UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x5_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x6_FLOAT [
+S3SDL_GPUTextureFormat class >> astc10x6Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x6_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x6_UNORM [
+S3SDL_GPUTextureFormat class >> astc10x6Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x6_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x6_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc10x6UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x6_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x8_FLOAT [
+S3SDL_GPUTextureFormat class >> astc10x8Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x8_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x8_UNORM [
+S3SDL_GPUTextureFormat class >> astc10x8Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x8_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_10x8_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc10x8UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_10x8_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_12x10_FLOAT [
+S3SDL_GPUTextureFormat class >> astc12x10Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_12x10_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_12x10_UNORM [
+S3SDL_GPUTextureFormat class >> astc12x10Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_12x10_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_12x10_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc12x10UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_12x10_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_12x12_FLOAT [
+S3SDL_GPUTextureFormat class >> astc12x12Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_12x12_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_12x12_UNORM [
+S3SDL_GPUTextureFormat class >> astc12x12Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_12x12_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_12x12_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc12x12UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_12x12_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_4x4_FLOAT [
+S3SDL_GPUTextureFormat class >> astc4x4Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_4x4_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_4x4_UNORM [
+S3SDL_GPUTextureFormat class >> astc4x4Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_4x4_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_4x4_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc4x4UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_4x4_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_5x4_FLOAT [
+S3SDL_GPUTextureFormat class >> astc5x4Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_5x4_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_5x4_UNORM [
+S3SDL_GPUTextureFormat class >> astc5x4Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_5x4_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_5x4_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc5x4UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_5x4_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_5x5_FLOAT [
+S3SDL_GPUTextureFormat class >> astc5x5Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_5x5_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_5x5_UNORM [
+S3SDL_GPUTextureFormat class >> astc5x5Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_5x5_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_5x5_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc5x5UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_5x5_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_6x5_FLOAT [
+S3SDL_GPUTextureFormat class >> astc6x5Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_6x5_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_6x5_UNORM [
+S3SDL_GPUTextureFormat class >> astc6x5Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_6x5_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_6x5_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc6x5UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_6x5_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_6x6_FLOAT [
+S3SDL_GPUTextureFormat class >> astc6x6Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_6x6_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_6x6_UNORM [
+S3SDL_GPUTextureFormat class >> astc6x6Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_6x6_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_6x6_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc6x6UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_6x6_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x5_FLOAT [
+S3SDL_GPUTextureFormat class >> astc8x5Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x5_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x5_UNORM [
+S3SDL_GPUTextureFormat class >> astc8x5Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x5_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x5_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc8x5UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x5_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x6_FLOAT [
+S3SDL_GPUTextureFormat class >> astc8x6Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x6_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x6_UNORM [
+S3SDL_GPUTextureFormat class >> astc8x6Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x6_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x6_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc8x6UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x6_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x8_FLOAT [
+S3SDL_GPUTextureFormat class >> astc8x8Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x8_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x8_UNORM [
+S3SDL_GPUTextureFormat class >> astc8x8Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x8_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_ASTC_8x8_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> astc8x8UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_ASTC_8x8_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_B4G4R4A4_UNORM [
+S3SDL_GPUTextureFormat class >> b4g4r4a4Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_B4G4R4A4_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_B5G5R5A1_UNORM [
+S3SDL_GPUTextureFormat class >> b5g5r5a1Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_B5G5R5A1_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_B5G6R5_UNORM [
+S3SDL_GPUTextureFormat class >> b5g6r5Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_B5G6R5_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM [
+S3SDL_GPUTextureFormat class >> b8g8r8a8Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> b8g8r8a8UnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC1_RGBA_UNORM [
+S3SDL_GPUTextureFormat class >> bc1RgbaUnorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC1_RGBA_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC1_RGBA_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> bc1RgbaUnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC1_RGBA_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC2_RGBA_UNORM [
+S3SDL_GPUTextureFormat class >> bc2RgbaUnorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC2_RGBA_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC2_RGBA_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> bc2RgbaUnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC2_RGBA_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC3_RGBA_UNORM [
+S3SDL_GPUTextureFormat class >> bc3RgbaUnorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC3_RGBA_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC3_RGBA_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> bc3RgbaUnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC3_RGBA_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC4_R_UNORM [
+S3SDL_GPUTextureFormat class >> bc4RUnorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC4_R_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC5_RG_UNORM [
+S3SDL_GPUTextureFormat class >> bc5RgUnorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC5_RG_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC6H_RGB_FLOAT [
+S3SDL_GPUTextureFormat class >> bc6hRgbFloat [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC6H_RGB_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC6H_RGB_UFLOAT [
+S3SDL_GPUTextureFormat class >> bc6hRgbUfloat [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC6H_RGB_UFLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC7_RGBA_UNORM [
+S3SDL_GPUTextureFormat class >> bc7RgbaUnorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC7_RGBA_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_BC7_RGBA_UNORM_SRGB [
+S3SDL_GPUTextureFormat class >> bc7RgbaUnormSrgb [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_BC7_RGBA_UNORM_SRGB
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_D16_UNORM [
+S3SDL_GPUTextureFormat class >> d16Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_D16_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_D24_UNORM [
+S3SDL_GPUTextureFormat class >> d24Unorm [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_D24_UNORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_D24_UNORM_S8_UINT [
+S3SDL_GPUTextureFormat class >> d24UnormS8Uint [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_D24_UNORM_S8_UINT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_D32_FLOAT [
+S3SDL_GPUTextureFormat class >> d32Float [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_D32_FLOAT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_D32_FLOAT_S8_UINT [
+S3SDL_GPUTextureFormat class >> d32FloatS8Uint [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTUREFORMAT_D32_FLOAT_S8_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_INVALID [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R10G10B10A2_UNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R10G10B10A2_UNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R11G11B10_UFLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R11G11B10_UFLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16B16A16_FLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16B16A16_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16B16A16_SNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_SNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16B16A16_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16B16A16_UNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_UNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16_FLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16_SNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16_SNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16G16_UNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16G16_UNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16_FLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16_SNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16_SNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R16_UNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R16_UNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32G32B32A32_FLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32G32B32A32_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32G32B32A32_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32G32B32A32_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32G32B32A32_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32G32B32A32_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32G32_FLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32G32_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32G32_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32G32_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32G32_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32G32_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32_FLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R32_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R32_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8B8A8_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8B8A8_SNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_SNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM_SRGB [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM_SRGB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8_SNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8_SNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8G8_UNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8G8_UNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8_SNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8_SNORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTextureFormat class >> SDL_GPU_TEXTUREFORMAT_R8_UNORM [
-	"This method was automatically generated"
-	^ SDL_GPU_TEXTUREFORMAT_R8_UNORM
 ]
 
 { #category : 'enum declaration' }
@@ -852,4 +612,244 @@ S3SDL_GPUTextureFormat class >> enumDecl [
 	SDL_GPU_TEXTUREFORMAT_ASTC_10x10_FLOAT 102
 	SDL_GPU_TEXTUREFORMAT_ASTC_12x10_FLOAT 103
 	SDL_GPU_TEXTUREFORMAT_ASTC_12x12_FLOAT 104 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> invalid [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r10g10b10a2Unorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R10G10B10A2_UNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r11g11b10Ufloat [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R11G11B10_UFLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16Float [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16Snorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16_SNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16Unorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16_UNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16Float [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16Snorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16_SNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16Unorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16_UNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16b16a16Float [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16b16a16Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16b16a16Snorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_SNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16b16a16Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r16g16b16a16Unorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R16G16B16A16_UNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32Float [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32g32Float [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32G32_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32g32Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32G32_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32g32Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32G32_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32g32b32a32Float [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32G32B32A32_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32g32b32a32Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32G32B32A32_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r32g32b32a32Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R32G32B32A32_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8Snorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8_SNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8Unorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8_UNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8Snorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8_SNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8Unorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8_UNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8b8a8Int [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8b8a8Snorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_SNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8b8a8Uint [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8b8a8Unorm [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTextureFormat class >> r8g8b8a8UnormSrgb [
+	"This method was automatically generated"
+	^ SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM_SRGB
 ]

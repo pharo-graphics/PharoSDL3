@@ -23,87 +23,21 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_CONSTANT_COLOR [
+S3SDL_GPUBlendFactor class >> constantColor [
 	"This method was automatically generated"
 	^ SDL_GPU_BLENDFACTOR_CONSTANT_COLOR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_DST_ALPHA [
+S3SDL_GPUBlendFactor class >> dstAlpha [
 	"This method was automatically generated"
 	^ SDL_GPU_BLENDFACTOR_DST_ALPHA
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_DST_COLOR [
+S3SDL_GPUBlendFactor class >> dstColor [
 	"This method was automatically generated"
 	^ SDL_GPU_BLENDFACTOR_DST_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_INVALID [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_ONE [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_ONE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_ONE_MINUS_CONSTANT_COLOR [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_CONSTANT_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_ONE_MINUS_DST_ALPHA [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_DST_ALPHA
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_ONE_MINUS_DST_COLOR [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_DST_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_COLOR [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_SRC_ALPHA [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_SRC_ALPHA
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_SRC_ALPHA_SATURATE [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_SRC_ALPHA_SATURATE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_SRC_COLOR [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_SRC_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendFactor class >> SDL_GPU_BLENDFACTOR_ZERO [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDFACTOR_ZERO
 ]
 
 { #category : 'enum declaration' }
@@ -124,4 +58,70 @@ S3SDL_GPUBlendFactor class >> enumDecl [
 	SDL_GPU_BLENDFACTOR_CONSTANT_COLOR 11
 	SDL_GPU_BLENDFACTOR_ONE_MINUS_CONSTANT_COLOR 12
 	SDL_GPU_BLENDFACTOR_SRC_ALPHA_SATURATE 13 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> invalid [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> one [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_ONE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> oneMinusConstantColor [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_CONSTANT_COLOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> oneMinusDstAlpha [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_DST_ALPHA
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> oneMinusDstColor [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_DST_COLOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> oneMinusSrcAlpha [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> oneMinusSrcColor [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_COLOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> srcAlpha [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_SRC_ALPHA
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> srcAlphaSaturate [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_SRC_ALPHA_SATURATE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> srcColor [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_SRC_COLOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendFactor class >> zero [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDFACTOR_ZERO
 ]

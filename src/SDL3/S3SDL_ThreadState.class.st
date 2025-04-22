@@ -13,27 +13,21 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_ThreadState class >> SDL_THREAD_ALIVE [
+S3SDL_ThreadState class >> alive [
 	"This method was automatically generated"
 	^ SDL_THREAD_ALIVE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ThreadState class >> SDL_THREAD_COMPLETE [
+S3SDL_ThreadState class >> complete [
 	"This method was automatically generated"
 	^ SDL_THREAD_COMPLETE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ThreadState class >> SDL_THREAD_DETACHED [
+S3SDL_ThreadState class >> detached [
 	"This method was automatically generated"
 	^ SDL_THREAD_DETACHED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ThreadState class >> SDL_THREAD_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_THREAD_UNKNOWN
 ]
 
 { #category : 'enum declaration' }
@@ -44,4 +38,10 @@ S3SDL_ThreadState class >> enumDecl [
 	SDL_THREAD_ALIVE 1
 	SDL_THREAD_DETACHED 2
 	SDL_THREAD_COMPLETE 3 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ThreadState class >> unknown [
+	"This method was automatically generated"
+	^ SDL_THREAD_UNKNOWN
 ]

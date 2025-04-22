@@ -12,21 +12,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_DateFormat class >> SDL_DATE_FORMAT_DDMMYYYY [
+S3SDL_DateFormat class >> ddmmyyyy [
 	"This method was automatically generated"
 	^ SDL_DATE_FORMAT_DDMMYYYY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_DateFormat class >> SDL_DATE_FORMAT_MMDDYYYY [
-	"This method was automatically generated"
-	^ SDL_DATE_FORMAT_MMDDYYYY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_DateFormat class >> SDL_DATE_FORMAT_YYYYMMDD [
-	"This method was automatically generated"
-	^ SDL_DATE_FORMAT_YYYYMMDD
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +24,16 @@ S3SDL_DateFormat class >> enumDecl [
 	SDL_DATE_FORMAT_YYYYMMDD 0
 	SDL_DATE_FORMAT_DDMMYYYY 1
 	SDL_DATE_FORMAT_MMDDYYYY 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_DateFormat class >> mmddyyyy [
+	"This method was automatically generated"
+	^ SDL_DATE_FORMAT_MMDDYYYY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_DateFormat class >> yyyymmdd [
+	"This method was automatically generated"
+	^ SDL_DATE_FORMAT_YYYYMMDD
 ]

@@ -40,189 +40,27 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_BYTE2 [
+S3SDL_GPUVertexElementFormat class >> byte2 [
 	"This method was automatically generated"
 	^ SDL_GPU_VERTEXELEMENTFORMAT_BYTE2
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_BYTE2_NORM [
+S3SDL_GPUVertexElementFormat class >> byte2Norm [
 	"This method was automatically generated"
 	^ SDL_GPU_VERTEXELEMENTFORMAT_BYTE2_NORM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_BYTE4 [
+S3SDL_GPUVertexElementFormat class >> byte4 [
 	"This method was automatically generated"
 	^ SDL_GPU_VERTEXELEMENTFORMAT_BYTE4
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_BYTE4_NORM [
+S3SDL_GPUVertexElementFormat class >> byte4Norm [
 	"This method was automatically generated"
 	^ SDL_GPU_VERTEXELEMENTFORMAT_BYTE4_NORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_FLOAT [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_HALF2 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_HALF2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_HALF4 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_HALF4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_INT [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_INT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_INT2 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_INT2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_INT3 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_INT3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_INT4 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_INT4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_INVALID [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_SHORT2 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_SHORT2_NORM [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT2_NORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_SHORT4 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_SHORT4_NORM [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT4_NORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UBYTE2 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UBYTE2_NORM [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE2_NORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UBYTE4 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UBYTE4_NORM [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE4_NORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UINT [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UINT2 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UINT3 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT3
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_UINT4 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_USHORT2 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT2
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_USHORT2_NORM [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT2_NORM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_USHORT4 [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT4
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexElementFormat class >> SDL_GPU_VERTEXELEMENTFORMAT_USHORT4_NORM [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT4_NORM
 ]
 
 { #category : 'enum declaration' }
@@ -260,4 +98,166 @@ S3SDL_GPUVertexElementFormat class >> enumDecl [
 	SDL_GPU_VERTEXELEMENTFORMAT_USHORT4_NORM 28
 	SDL_GPU_VERTEXELEMENTFORMAT_HALF2 29
 	SDL_GPU_VERTEXELEMENTFORMAT_HALF4 30 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> float [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> float2 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> float3 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> float4 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> half2 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_HALF2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> half4 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_HALF4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> int [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_INT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> int2 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_INT2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> int3 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_INT3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> int4 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_INT4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> invalid [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> short2 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> short2Norm [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT2_NORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> short4 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> short4Norm [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_SHORT4_NORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ubyte2 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ubyte2Norm [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE2_NORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ubyte4 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ubyte4Norm [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UBYTE4_NORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> uint [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> uint2 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> uint3 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT3
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> uint4 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_UINT4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ushort2 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT2
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ushort2Norm [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT2_NORM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ushort4 [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT4
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexElementFormat class >> ushort4Norm [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXELEMENTFORMAT_USHORT4_NORM
 ]

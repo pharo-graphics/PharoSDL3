@@ -30,129 +30,27 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_COUNT [
+S3SDL_SystemCursor class >> count [
 	"This method was automatically generated"
 	^ SDL_SYSTEM_CURSOR_COUNT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_CROSSHAIR [
+S3SDL_SystemCursor class >> crosshair [
 	"This method was automatically generated"
 	^ SDL_SYSTEM_CURSOR_CROSSHAIR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_DEFAULT [
+S3SDL_SystemCursor class >> default [
 	"This method was automatically generated"
 	^ SDL_SYSTEM_CURSOR_DEFAULT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_EW_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_EW_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_E_RESIZE [
+S3SDL_SystemCursor class >> eResize [
 	"This method was automatically generated"
 	^ SDL_SYSTEM_CURSOR_E_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_MOVE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_MOVE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_NESW_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_NESW_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_NE_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_NE_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_NOT_ALLOWED [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_NOT_ALLOWED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_NS_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_NS_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_NWSE_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_NWSE_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_NW_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_NW_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_N_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_N_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_POINTER [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_POINTER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_PROGRESS [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_PROGRESS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_SE_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_SE_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_SW_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_SW_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_S_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_S_RESIZE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_TEXT [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_TEXT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_WAIT [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_WAIT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SystemCursor class >> SDL_SYSTEM_CURSOR_W_RESIZE [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_W_RESIZE
 ]
 
 { #category : 'enum declaration' }
@@ -180,4 +78,106 @@ S3SDL_SystemCursor class >> enumDecl [
 	SDL_SYSTEM_CURSOR_SW_RESIZE 18
 	SDL_SYSTEM_CURSOR_W_RESIZE 19
 	SDL_SYSTEM_CURSOR_COUNT 20 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> ewResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_EW_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> move [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_MOVE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> nResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_N_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> neResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_NE_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> neswResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_NESW_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> notAllowed [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_NOT_ALLOWED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> nsResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_NS_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> nwResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_NW_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> nwseResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_NWSE_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> pointer [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_POINTER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> progress [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_PROGRESS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> sResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_S_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> seResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_SE_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> swResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_SW_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> text [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_TEXT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> wResize [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_W_RESIZE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SystemCursor class >> wait [
+	"This method was automatically generated"
+	^ SDL_SYSTEM_CURSOR_WAIT
 ]

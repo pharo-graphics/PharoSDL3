@@ -19,63 +19,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_DST_ALPHA [
+S3SDL_BlendFactor class >> dstAlpha [
 	"This method was automatically generated"
 	^ SDL_BLENDFACTOR_DST_ALPHA
 ]
 
 { #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_DST_COLOR [
+S3SDL_BlendFactor class >> dstColor [
 	"This method was automatically generated"
 	^ SDL_BLENDFACTOR_DST_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_ONE [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_ONE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_SRC_ALPHA [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_SRC_ALPHA
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_SRC_COLOR [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_SRC_COLOR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_BlendFactor class >> SDL_BLENDFACTOR_ZERO [
-	"This method was automatically generated"
-	^ SDL_BLENDFACTOR_ZERO
 ]
 
 { #category : 'enum declaration' }
@@ -92,4 +44,52 @@ S3SDL_BlendFactor class >> enumDecl [
 	SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR 8
 	SDL_BLENDFACTOR_DST_ALPHA 9
 	SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA 10 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> one [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_ONE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> oneMinusDstAlpha [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> oneMinusDstColor [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> oneMinusSrcAlpha [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> oneMinusSrcColor [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> srcAlpha [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_SRC_ALPHA
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> srcColor [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_SRC_COLOR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_BlendFactor class >> zero [
+	"This method was automatically generated"
+	^ SDL_BLENDFACTOR_ZERO
 ]

@@ -18,57 +18,51 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_1010102 [
+S3SDL_PackedLayout class >> at1010102 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_1010102
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_1555 [
+S3SDL_PackedLayout class >> at1555 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_1555
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_2101010 [
+S3SDL_PackedLayout class >> at2101010 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_2101010
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_332 [
+S3SDL_PackedLayout class >> at332 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_332
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_4444 [
+S3SDL_PackedLayout class >> at4444 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_4444
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_5551 [
+S3SDL_PackedLayout class >> at5551 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_5551
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_565 [
+S3SDL_PackedLayout class >> at565 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_565
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_8888 [
+S3SDL_PackedLayout class >> at8888 [
 	"This method was automatically generated"
 	^ SDL_PACKEDLAYOUT_8888
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PackedLayout class >> SDL_PACKEDLAYOUT_NONE [
-	"This method was automatically generated"
-	^ SDL_PACKEDLAYOUT_NONE
 ]
 
 { #category : 'enum declaration' }
@@ -84,4 +78,10 @@ S3SDL_PackedLayout class >> enumDecl [
 	SDL_PACKEDLAYOUT_8888 6
 	SDL_PACKEDLAYOUT_2101010 7
 	SDL_PACKEDLAYOUT_1010102 8 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PackedLayout class >> none [
+	"This method was automatically generated"
+	^ SDL_PACKEDLAYOUT_NONE
 ]

@@ -17,51 +17,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_COUNT [
+S3SDL_PenAxis class >> count [
 	"This method was automatically generated"
 	^ SDL_PEN_AXIS_COUNT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_DISTANCE [
+S3SDL_PenAxis class >> distance [
 	"This method was automatically generated"
 	^ SDL_PEN_AXIS_DISTANCE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_PRESSURE [
-	"This method was automatically generated"
-	^ SDL_PEN_AXIS_PRESSURE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_ROTATION [
-	"This method was automatically generated"
-	^ SDL_PEN_AXIS_ROTATION
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_SLIDER [
-	"This method was automatically generated"
-	^ SDL_PEN_AXIS_SLIDER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_TANGENTIAL_PRESSURE [
-	"This method was automatically generated"
-	^ SDL_PEN_AXIS_TANGENTIAL_PRESSURE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_XTILT [
-	"This method was automatically generated"
-	^ SDL_PEN_AXIS_XTILT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PenAxis class >> SDL_PEN_AXIS_YTILT [
-	"This method was automatically generated"
-	^ SDL_PEN_AXIS_YTILT
 ]
 
 { #category : 'enum declaration' }
@@ -76,4 +40,40 @@ S3SDL_PenAxis class >> enumDecl [
 	SDL_PEN_AXIS_SLIDER 5
 	SDL_PEN_AXIS_TANGENTIAL_PRESSURE 6
 	SDL_PEN_AXIS_COUNT 7 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PenAxis class >> pressure [
+	"This method was automatically generated"
+	^ SDL_PEN_AXIS_PRESSURE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PenAxis class >> rotation [
+	"This method was automatically generated"
+	^ SDL_PEN_AXIS_ROTATION
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PenAxis class >> slider [
+	"This method was automatically generated"
+	^ SDL_PEN_AXIS_SLIDER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PenAxis class >> tangentialPressure [
+	"This method was automatically generated"
+	^ SDL_PEN_AXIS_TANGENTIAL_PRESSURE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PenAxis class >> xtilt [
+	"This method was automatically generated"
+	^ SDL_PEN_AXIS_XTILT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PenAxis class >> ytilt [
+	"This method was automatically generated"
+	^ SDL_PEN_AXIS_YTILT
 ]

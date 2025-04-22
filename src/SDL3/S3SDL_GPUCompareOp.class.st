@@ -18,57 +18,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_ALWAYS [
+S3SDL_GPUCompareOp class >> always [
 	"This method was automatically generated"
 	^ SDL_GPU_COMPAREOP_ALWAYS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_EQUAL [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_EQUAL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_GREATER [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_GREATER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_GREATER_OR_EQUAL [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_GREATER_OR_EQUAL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_INVALID [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_LESS [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_LESS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_LESS_OR_EQUAL [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_LESS_OR_EQUAL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_NEVER [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_NEVER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUCompareOp class >> SDL_GPU_COMPAREOP_NOT_EQUAL [
-	"This method was automatically generated"
-	^ SDL_GPU_COMPAREOP_NOT_EQUAL
 ]
 
 { #category : 'enum declaration' }
@@ -84,4 +36,52 @@ S3SDL_GPUCompareOp class >> enumDecl [
 	SDL_GPU_COMPAREOP_NOT_EQUAL 6
 	SDL_GPU_COMPAREOP_GREATER_OR_EQUAL 7
 	SDL_GPU_COMPAREOP_ALWAYS 8 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> equal [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_EQUAL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> greater [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_GREATER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> greaterOrEqual [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_GREATER_OR_EQUAL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> invalid [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> less [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_LESS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> lessOrEqual [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_LESS_OR_EQUAL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> never [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_NEVER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUCompareOp class >> notEqual [
+	"This method was automatically generated"
+	^ SDL_GPU_COMPAREOP_NOT_EQUAL
 ]
