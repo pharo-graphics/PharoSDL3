@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : 'public' }
-LibSDL_image >> IMG_FreeAnimation: anim [
+LibSDL_image >> freeAnimation: anim [
 	"/**
 	 * Dispose of an IMG_Animation and free its resources.
 	 *
@@ -30,7 +30,854 @@ LibSDL_image >> IMG_FreeAnimation: anim [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_Load: file [
+LibSDL_image >> isAVIF: src [
+	"/**
+	 * Detect AVIF image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is AVIF data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isAVIF(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isBMP: src [
+	"/**
+	 * Detect BMP image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is BMP data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isBMP(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isCUR: src [
+	"/**
+	 * Detect CUR image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is CUR data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isCUR(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isGIF: src [
+	"/**
+	 * Detect GIF image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is GIF data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isGIF(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isICO: src [
+	"/**
+	 * Detect ICO image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is ICO data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isICO(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isJPG: src [
+	"/**
+	 * Detect JPG image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is JPG data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isJPG(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isJXL: src [
+	"/**
+	 * Detect JXL image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is JXL data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isJXL(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isLBM: src [
+	"/**
+	 * Detect LBM image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is LBM data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isLBM(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isPCX: src [
+	"/**
+	 * Detect PCX image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is PCX data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isPCX(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isPNG: src [
+	"/**
+	 * Detect PNG image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is PNG data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isPNG(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isPNM: src [
+	"/**
+	 * Detect PNM image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is PNM data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isPNM(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isQOI: src [
+	"/**
+	 * Detect QOI image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is QOI data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isQOI(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isSVG: src [
+	"/**
+	 * Detect SVG image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is SVG data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isSVG(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isTIF: src [
+	"/**
+	 * Detect TIFF image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is TIFF data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isTIF(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isWEBP: src [
+	"/**
+	 * Detect WEBP image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is WEBP data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 */"
+
+	^ self ffiCall: #(bool IMG_isWEBP(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isXCF: src [
+	"/**
+	 * Detect XCF image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is XCF data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isXCF(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isXPM: src [
+	"/**
+	 * Detect XPM image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is XPM data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXV
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isXPM(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> isXV: src [
+	"/**
+	 * Detect XV image data on a readable/seekable SDL_IOStream.
+	 *
+	 * This function attempts to determine if a file is a given filetype, reading
+	 * the least amount possible from the SDL_IOStream (usually a few bytes).
+	 *
+	 * There is no distinction made between ""not the filetype in question"" and
+	 * basic i/o errors.
+	 *
+	 * This function will always attempt to seek `src` back to where it started
+	 * when this function was called, but it will not report any errors in doing
+	 * so, but assuming seeking works, this means you can immediately use this
+	 * with a different IMG_isTYPE function, or load the image without further
+	 * seeking.
+	 *
+	 * You do not need to call this function to load data; SDL_image can work to
+	 * determine file type in many cases in its standard load functions.
+	 *
+	 * \param src a seekable/readable SDL_IOStream to provide image data.
+	 * \returns non-zero if this is XV data, zero otherwise.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_isAVIF
+	 * \sa IMG_isICO
+	 * \sa IMG_isCUR
+	 * \sa IMG_isBMP
+	 * \sa IMG_isGIF
+	 * \sa IMG_isJPG
+	 * \sa IMG_isJXL
+	 * \sa IMG_isLBM
+	 * \sa IMG_isPCX
+	 * \sa IMG_isPNG
+	 * \sa IMG_isPNM
+	 * \sa IMG_isSVG
+	 * \sa IMG_isQOI
+	 * \sa IMG_isTIF
+	 * \sa IMG_isXCF
+	 * \sa IMG_isXPM
+	 * \sa IMG_isWEBP
+	 */"
+
+	^ self ffiCall: #(bool IMG_isXV(SDL_IOStream* src))
+]
+
+{ #category : 'public' }
+LibSDL_image >> load: file [
 	"/**
 	 * Load an image from a filesystem path into a software surface.
 	 *
@@ -79,7 +926,7 @@ LibSDL_image >> IMG_Load: file [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadAVIF_IO: src [
+LibSDL_image >> loadAVIFIO: src [
 	"/**
 	 * Load a AVIF image directly.
 	 *
@@ -117,7 +964,7 @@ LibSDL_image >> IMG_LoadAVIF_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadAnimation: file [
+LibSDL_image >> loadAnimation: file [
 	"/**
 	 * Load an animation from a file.
 	 *
@@ -136,7 +983,32 @@ LibSDL_image >> IMG_LoadAnimation: file [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadAnimationTyped_IOSrc: src closeio: closeio type: type [
+LibSDL_image >> loadAnimationIOSrc: src closeio: closeio [
+	"/**
+	 * Load an animation from an SDL_IOStream.
+	 *
+	 * If `closeio` is true, `src` will be closed before returning, whether this
+	 * function succeeds or not. SDL_image reads everything it needs from `src`
+	 * during this call in any case.
+	 *
+	 * When done with the returned animation, the app should dispose of it with a
+	 * call to IMG_FreeAnimation().
+	 *
+	 * \param src an SDL_IOStream that data will be read from.
+	 * \param closeio true to close/free the SDL_IOStream before returning, false
+	 *                to leave it open.
+	 * \returns a new IMG_Animation, or NULL on error.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_FreeAnimation
+	 */"
+
+	^ self ffiCall: #(IMG_Animation* IMG_LoadAnimation_IO(SDL_IOStream* src, _Bool closeio))
+]
+
+{ #category : 'public' }
+LibSDL_image >> loadAnimationTypedIOSrc: src closeio: closeio type: type [
 	"/**
 	 * Load an animation from an SDL datasource
 	 *
@@ -170,32 +1042,7 @@ LibSDL_image >> IMG_LoadAnimationTyped_IOSrc: src closeio: closeio type: type [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadAnimation_IOSrc: src closeio: closeio [
-	"/**
-	 * Load an animation from an SDL_IOStream.
-	 *
-	 * If `closeio` is true, `src` will be closed before returning, whether this
-	 * function succeeds or not. SDL_image reads everything it needs from `src`
-	 * during this call in any case.
-	 *
-	 * When done with the returned animation, the app should dispose of it with a
-	 * call to IMG_FreeAnimation().
-	 *
-	 * \param src an SDL_IOStream that data will be read from.
-	 * \param closeio true to close/free the SDL_IOStream before returning, false
-	 *                to leave it open.
-	 * \returns a new IMG_Animation, or NULL on error.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_FreeAnimation
-	 */"
-
-	^ self ffiCall: #(IMG_Animation* IMG_LoadAnimation_IO(SDL_IOStream* src, _Bool closeio))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_LoadBMP_IO: src [
+LibSDL_image >> loadBMPIO: src [
 	"/**
 	 * Load a BMP image directly.
 	 *
@@ -233,7 +1080,7 @@ LibSDL_image >> IMG_LoadBMP_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadCUR_IO: src [
+LibSDL_image >> loadCURIO: src [
 	"/**
 	 * Load a CUR image directly.
 	 *
@@ -271,7 +1118,7 @@ LibSDL_image >> IMG_LoadCUR_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadGIFAnimation_IO: src [
+LibSDL_image >> loadGIFAnimationIO: src [
 	"/**
 	 * Load a GIF animation directly.
 	 *
@@ -295,7 +1142,7 @@ LibSDL_image >> IMG_LoadGIFAnimation_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadGIF_IO: src [
+LibSDL_image >> loadGIFIO: src [
 	"/**
 	 * Load a GIF image directly.
 	 *
@@ -333,7 +1180,7 @@ LibSDL_image >> IMG_LoadGIF_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadICO_IO: src [
+LibSDL_image >> loadICOIO: src [
 	"/**
 	 * Load a ICO image directly.
 	 *
@@ -371,7 +1218,65 @@ LibSDL_image >> IMG_LoadICO_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadJPG_IO: src [
+LibSDL_image >> loadIOSrc: src closeio: closeio [
+	"/**
+	 * Load an image from an SDL data source into a software surface.
+	 *
+	 * An SDL_Surface is a buffer of pixels in memory accessible by the CPU. Use
+	 * this if you plan to hand the data to something else or manipulate it
+	 * further in code.
+	 *
+	 * There are no guarantees about what format the new SDL_Surface data will be;
+	 * in many cases, SDL_image will attempt to supply a surface that exactly
+	 * matches the provided image, but in others it might have to convert (either
+	 * because the image is in a format that SDL doesn't directly support or
+	 * because it's compressed data that could reasonably uncompress to various
+	 * formats and SDL_image had to pick one). You can inspect an SDL_Surface for
+	 * its specifics, and use SDL_ConvertSurface to then migrate to any supported
+	 * format.
+	 *
+	 * If the image format supports a transparent pixel, SDL will set the colorkey
+	 * for the surface. You can enable RLE acceleration on the surface afterwards
+	 * by calling: SDL_SetSurfaceColorKey(image, SDL_RLEACCEL,
+	 * image->format->colorkey);
+	 *
+	 * If `closeio` is true, `src` will be closed before returning, whether this
+	 * function succeeds or not. SDL_image reads everything it needs from `src`
+	 * during this call in any case.
+	 *
+	 * There is a separate function to read files from disk without having to deal
+	 * with SDL_IOStream: `IMG_Load(""filename.jpg"")` will call this function and
+	 * manage those details for you, determining the file type from the filename's
+	 * extension.
+	 *
+	 * There is also IMG_LoadTyped_IO(), which is equivalent to this function
+	 * except a file extension (like ""BMP"", ""JPG"", etc) can be specified, in case
+	 * SDL_image cannot autodetect the file format.
+	 *
+	 * If you are using SDL's 2D rendering API, there is an equivalent call to
+	 * load images directly into an SDL_Texture for use by the GPU without using a
+	 * software surface: call IMG_LoadTexture_IO() instead.
+	 *
+	 * When done with the returned surface, the app should dispose of it with a
+	 * call to SDL_DestroySurface().
+	 *
+	 * \param src an SDL_IOStream that data will be read from.
+	 * \param closeio true to close/free the SDL_IOStream before returning, false
+	 *                to leave it open.
+	 * \returns a new SDL surface, or NULL on error.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_Load
+	 * \sa IMG_LoadTyped_IO
+	 * \sa SDL_DestroySurface
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* IMG_Load_IO(SDL_IOStream* src, _Bool closeio))
+]
+
+{ #category : 'public' }
+LibSDL_image >> loadJPGIO: src [
 	"/**
 	 * Load a JPG image directly.
 	 *
@@ -409,7 +1314,7 @@ LibSDL_image >> IMG_LoadJPG_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadJXL_IO: src [
+LibSDL_image >> loadJXLIO: src [
 	"/**
 	 * Load a JXL image directly.
 	 *
@@ -447,7 +1352,7 @@ LibSDL_image >> IMG_LoadJXL_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadLBM_IO: src [
+LibSDL_image >> loadLBMIO: src [
 	"/**
 	 * Load a LBM image directly.
 	 *
@@ -485,7 +1390,7 @@ LibSDL_image >> IMG_LoadLBM_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadPCX_IO: src [
+LibSDL_image >> loadPCXIO: src [
 	"/**
 	 * Load a PCX image directly.
 	 *
@@ -523,7 +1428,7 @@ LibSDL_image >> IMG_LoadPCX_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadPNG_IO: src [
+LibSDL_image >> loadPNGIO: src [
 	"/**
 	 * Load a PNG image directly.
 	 *
@@ -561,7 +1466,7 @@ LibSDL_image >> IMG_LoadPNG_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadPNM_IO: src [
+LibSDL_image >> loadPNMIO: src [
 	"/**
 	 * Load a PNM image directly.
 	 *
@@ -599,7 +1504,7 @@ LibSDL_image >> IMG_LoadPNM_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadQOI_IO: src [
+LibSDL_image >> loadQOIIO: src [
 	"/**
 	 * Load a QOI image directly.
 	 *
@@ -637,7 +1542,7 @@ LibSDL_image >> IMG_LoadQOI_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadSVG_IO: src [
+LibSDL_image >> loadSVGIO: src [
 	"/**
 	 * Load a SVG image directly.
 	 *
@@ -675,7 +1580,7 @@ LibSDL_image >> IMG_LoadSVG_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadSizedSVG_IOSrc: src width: width height: height [
+LibSDL_image >> loadSizedSVGIOSrc: src width: width height: height [
 	"/**
 	 * Load an SVG image, scaled to a specific size.
 	 *
@@ -700,7 +1605,7 @@ LibSDL_image >> IMG_LoadSizedSVG_IOSrc: src width: width height: height [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadTGA_IO: src [
+LibSDL_image >> loadTGAIO: src [
 	"/**
 	 * Load a TGA image directly.
 	 *
@@ -738,7 +1643,7 @@ LibSDL_image >> IMG_LoadTGA_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadTIF_IO: src [
+LibSDL_image >> loadTIFIO: src [
 	"/**
 	 * Load a TIFF image directly.
 	 *
@@ -776,7 +1681,58 @@ LibSDL_image >> IMG_LoadTIF_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadTextureRenderer: renderer file: file [
+LibSDL_image >> loadTextureIORenderer: renderer src: src closeio: closeio [
+	"/**
+	 * Load an image from an SDL data source into a GPU texture.
+	 *
+	 * An SDL_Texture represents an image in GPU memory, usable by SDL's 2D Render
+	 * API. This can be significantly more efficient than using a CPU-bound
+	 * SDL_Surface if you don't need to manipulate the image directly after
+	 * loading it.
+	 *
+	 * If the loaded image has transparency or a colorkey, a texture with an alpha
+	 * channel will be created. Otherwise, SDL_image will attempt to create an
+	 * SDL_Texture in the most format that most reasonably represents the image
+	 * data (but in many cases, this will just end up being 32-bit RGB or 32-bit
+	 * RGBA).
+	 *
+	 * If `closeio` is true, `src` will be closed before returning, whether this
+	 * function succeeds or not. SDL_image reads everything it needs from `src`
+	 * during this call in any case.
+	 *
+	 * There is a separate function to read files from disk without having to deal
+	 * with SDL_IOStream: `IMG_LoadTexture(renderer, ""filename.jpg"")` will call
+	 * this function and manage those details for you, determining the file type
+	 * from the filename's extension.
+	 *
+	 * There is also IMG_LoadTextureTyped_IO(), which is equivalent to this
+	 * function except a file extension (like ""BMP"", ""JPG"", etc) can be specified,
+	 * in case SDL_image cannot autodetect the file format.
+	 *
+	 * If you would rather decode an image to an SDL_Surface (a buffer of pixels
+	 * in CPU memory), call IMG_Load() instead.
+	 *
+	 * When done with the returned texture, the app should dispose of it with a
+	 * call to SDL_DestroyTexture().
+	 *
+	 * \param renderer the SDL_Renderer to use to create the GPU texture.
+	 * \param src an SDL_IOStream that data will be read from.
+	 * \param closeio true to close/free the SDL_IOStream before returning, false
+	 *                to leave it open.
+	 * \returns a new texture, or NULL on error.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_LoadTexture
+	 * \sa IMG_LoadTextureTyped_IO
+	 * \sa SDL_DestroyTexture
+	 */"
+
+	^ self ffiCall: #(SDL_Texture* IMG_LoadTexture_IO(SDL_Renderer* renderer, SDL_IOStream* src, _Bool closeio))
+]
+
+{ #category : 'public' }
+LibSDL_image >> loadTextureRenderer: renderer file: file [
 	"/**
 	 * Load an image from a filesystem path into a GPU texture.
 	 *
@@ -815,7 +1771,7 @@ LibSDL_image >> IMG_LoadTextureRenderer: renderer file: file [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadTextureTyped_IORenderer: renderer src: src closeio: closeio type: type [
+LibSDL_image >> loadTextureTypedIORenderer: renderer src: src closeio: closeio type: type [
 	"/**
 	 * Load an image from an SDL data source into a GPU texture.
 	 *
@@ -874,58 +1830,7 @@ LibSDL_image >> IMG_LoadTextureTyped_IORenderer: renderer src: src closeio: clos
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadTexture_IORenderer: renderer src: src closeio: closeio [
-	"/**
-	 * Load an image from an SDL data source into a GPU texture.
-	 *
-	 * An SDL_Texture represents an image in GPU memory, usable by SDL's 2D Render
-	 * API. This can be significantly more efficient than using a CPU-bound
-	 * SDL_Surface if you don't need to manipulate the image directly after
-	 * loading it.
-	 *
-	 * If the loaded image has transparency or a colorkey, a texture with an alpha
-	 * channel will be created. Otherwise, SDL_image will attempt to create an
-	 * SDL_Texture in the most format that most reasonably represents the image
-	 * data (but in many cases, this will just end up being 32-bit RGB or 32-bit
-	 * RGBA).
-	 *
-	 * If `closeio` is true, `src` will be closed before returning, whether this
-	 * function succeeds or not. SDL_image reads everything it needs from `src`
-	 * during this call in any case.
-	 *
-	 * There is a separate function to read files from disk without having to deal
-	 * with SDL_IOStream: `IMG_LoadTexture(renderer, ""filename.jpg"")` will call
-	 * this function and manage those details for you, determining the file type
-	 * from the filename's extension.
-	 *
-	 * There is also IMG_LoadTextureTyped_IO(), which is equivalent to this
-	 * function except a file extension (like ""BMP"", ""JPG"", etc) can be specified,
-	 * in case SDL_image cannot autodetect the file format.
-	 *
-	 * If you would rather decode an image to an SDL_Surface (a buffer of pixels
-	 * in CPU memory), call IMG_Load() instead.
-	 *
-	 * When done with the returned texture, the app should dispose of it with a
-	 * call to SDL_DestroyTexture().
-	 *
-	 * \param renderer the SDL_Renderer to use to create the GPU texture.
-	 * \param src an SDL_IOStream that data will be read from.
-	 * \param closeio true to close/free the SDL_IOStream before returning, false
-	 *                to leave it open.
-	 * \returns a new texture, or NULL on error.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_LoadTexture
-	 * \sa IMG_LoadTextureTyped_IO
-	 * \sa SDL_DestroyTexture
-	 */"
-
-	^ self ffiCall: #(SDL_Texture* IMG_LoadTexture_IO(SDL_Renderer* renderer, SDL_IOStream* src, _Bool closeio))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_LoadTyped_IOSrc: src closeio: closeio type: type [
+LibSDL_image >> loadTypedIOSrc: src closeio: closeio type: type [
 	"/**
 	 * Load an image from an SDL data source into a software surface.
 	 *
@@ -991,7 +1896,7 @@ LibSDL_image >> IMG_LoadTyped_IOSrc: src closeio: closeio type: type [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadWEBPAnimation_IO: src [
+LibSDL_image >> loadWEBPAnimationIO: src [
 	"/**
 	 * Load a WEBP animation directly.
 	 *
@@ -1015,7 +1920,7 @@ LibSDL_image >> IMG_LoadWEBPAnimation_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadWEBP_IO: src [
+LibSDL_image >> loadWEBPIO: src [
 	"/**
 	 * Load a WEBP image directly.
 	 *
@@ -1053,7 +1958,7 @@ LibSDL_image >> IMG_LoadWEBP_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadXCF_IO: src [
+LibSDL_image >> loadXCFIO: src [
 	"/**
 	 * Load a XCF image directly.
 	 *
@@ -1091,7 +1996,7 @@ LibSDL_image >> IMG_LoadXCF_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadXPM_IO: src [
+LibSDL_image >> loadXPMIO: src [
 	"/**
 	 * Load a XPM image directly.
 	 *
@@ -1129,7 +2034,7 @@ LibSDL_image >> IMG_LoadXPM_IO: src [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_LoadXV_IO: src [
+LibSDL_image >> loadXVIO: src [
 	"/**
 	 * Load a XV image directly.
 	 *
@@ -1166,66 +2071,14 @@ LibSDL_image >> IMG_LoadXV_IO: src [
 	^ self ffiCall: #(SDL_Surface* IMG_LoadXV_IO(SDL_IOStream* src))
 ]
 
-{ #category : 'public' }
-LibSDL_image >> IMG_Load_IOSrc: src closeio: closeio [
-	"/**
-	 * Load an image from an SDL data source into a software surface.
-	 *
-	 * An SDL_Surface is a buffer of pixels in memory accessible by the CPU. Use
-	 * this if you plan to hand the data to something else or manipulate it
-	 * further in code.
-	 *
-	 * There are no guarantees about what format the new SDL_Surface data will be;
-	 * in many cases, SDL_image will attempt to supply a surface that exactly
-	 * matches the provided image, but in others it might have to convert (either
-	 * because the image is in a format that SDL doesn't directly support or
-	 * because it's compressed data that could reasonably uncompress to various
-	 * formats and SDL_image had to pick one). You can inspect an SDL_Surface for
-	 * its specifics, and use SDL_ConvertSurface to then migrate to any supported
-	 * format.
-	 *
-	 * If the image format supports a transparent pixel, SDL will set the colorkey
-	 * for the surface. You can enable RLE acceleration on the surface afterwards
-	 * by calling: SDL_SetSurfaceColorKey(image, SDL_RLEACCEL,
-	 * image->format->colorkey);
-	 *
-	 * If `closeio` is true, `src` will be closed before returning, whether this
-	 * function succeeds or not. SDL_image reads everything it needs from `src`
-	 * during this call in any case.
-	 *
-	 * There is a separate function to read files from disk without having to deal
-	 * with SDL_IOStream: `IMG_Load(""filename.jpg"")` will call this function and
-	 * manage those details for you, determining the file type from the filename's
-	 * extension.
-	 *
-	 * There is also IMG_LoadTyped_IO(), which is equivalent to this function
-	 * except a file extension (like ""BMP"", ""JPG"", etc) can be specified, in case
-	 * SDL_image cannot autodetect the file format.
-	 *
-	 * If you are using SDL's 2D rendering API, there is an equivalent call to
-	 * load images directly into an SDL_Texture for use by the GPU without using a
-	 * software surface: call IMG_LoadTexture_IO() instead.
-	 *
-	 * When done with the returned surface, the app should dispose of it with a
-	 * call to SDL_DestroySurface().
-	 *
-	 * \param src an SDL_IOStream that data will be read from.
-	 * \param closeio true to close/free the SDL_IOStream before returning, false
-	 *                to leave it open.
-	 * \returns a new SDL surface, or NULL on error.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_Load
-	 * \sa IMG_LoadTyped_IO
-	 * \sa SDL_DestroySurface
-	 */"
+{ #category : 'accessing - platform' }
+LibSDL_image >> macLibraryName [
 
-	^ self ffiCall: #(SDL_Surface* IMG_Load_IO(SDL_IOStream* src, _Bool closeio))
+	^ FFIMacLibraryFinder findLibrary: 'libSDL_image.dylib'
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_ReadXPMFromArray: xpm [
+LibSDL_image >> readXPMFromArray: xpm [
 	"/**
 	 * Load an XPM image from a memory array.
 	 *
@@ -1248,7 +2101,7 @@ LibSDL_image >> IMG_ReadXPMFromArray: xpm [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_ReadXPMFromArrayToRGB888: xpm [
+LibSDL_image >> readXPMFromArrayToRGB888: xpm [
 	"/**
 	 * Load an XPM image from a memory array.
 	 *
@@ -1270,30 +2123,16 @@ LibSDL_image >> IMG_ReadXPMFromArrayToRGB888: xpm [
 	^ self ffiCall: #(SDL_Surface* IMG_ReadXPMFromArrayToRGB888(char** xpm))
 ]
 
-{ #category : 'public' }
-LibSDL_image >> IMG_SaveAVIFSurface: surface file: file quality: quality [
-	"/**
-	 * Save an SDL_Surface into a AVIF image file.
-	 *
-	 * If the file already exists, it will be overwritten.
-	 *
-	 * \param surface the SDL surface to save.
-	 * \param file path on the filesystem to write new file to.
-	 * \param quality the desired quality, ranging between 0 (lowest) and 100
-	 *                (highest).
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_SaveAVIF_IO
-	 */"
-
-	^ self ffiCall: #(bool IMG_SaveAVIF(SDL_Surface* surface, const char* file, int quality))
+{ #category : 'accessing' }
+LibSDL_image >> runner [
+	
+	^ TFProcessLocalWorker new 
+		defaultWorker: TFSameThreadRunner uniqueInstance;
+		yourself
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_SaveAVIF_IOSurface: surface dst: dst closeio: closeio quality: quality [
+LibSDL_image >> saveAVIFIOSurface: surface dst: dst closeio: closeio quality: quality [
 	"/**
 	 * Save an SDL_Surface into AVIF image data, via an SDL_IOStream.
 	 *
@@ -1320,29 +2159,29 @@ LibSDL_image >> IMG_SaveAVIF_IOSurface: surface dst: dst closeio: closeio qualit
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_SaveJPGSurface: surface file: file quality: quality [
+LibSDL_image >> saveAVIFSurface: surface file: file quality: quality [
 	"/**
-	 * Save an SDL_Surface into a JPEG image file.
+	 * Save an SDL_Surface into a AVIF image file.
 	 *
 	 * If the file already exists, it will be overwritten.
 	 *
 	 * \param surface the SDL surface to save.
 	 * \param file path on the filesystem to write new file to.
-	 * \param quality [0; 33] is Lowest quality, [34; 66] is Middle quality, [67;
-	 *                100] is Highest quality.
+	 * \param quality the desired quality, ranging between 0 (lowest) and 100
+	 *                (highest).
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
 	 * \since This function is available since SDL_image 3.0.0.
 	 *
-	 * \sa IMG_SaveJPG_IO
+	 * \sa IMG_SaveAVIF_IO
 	 */"
 
-	^ self ffiCall: #(bool IMG_SaveJPG(SDL_Surface* surface, const char* file, int quality))
+	^ self ffiCall: #(bool IMG_SaveAVIF(SDL_Surface* surface, const char* file, int quality))
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_SaveJPG_IOSurface: surface dst: dst closeio: closeio quality: quality [
+LibSDL_image >> saveJPGIOSurface: surface dst: dst closeio: closeio quality: quality [
 	"/**
 	 * Save an SDL_Surface into JPEG image data, via an SDL_IOStream.
 	 *
@@ -1369,27 +2208,29 @@ LibSDL_image >> IMG_SaveJPG_IOSurface: surface dst: dst closeio: closeio quality
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_SavePNGSurface: surface file: file [
+LibSDL_image >> saveJPGSurface: surface file: file quality: quality [
 	"/**
-	 * Save an SDL_Surface into a PNG image file.
+	 * Save an SDL_Surface into a JPEG image file.
 	 *
 	 * If the file already exists, it will be overwritten.
 	 *
 	 * \param surface the SDL surface to save.
 	 * \param file path on the filesystem to write new file to.
+	 * \param quality [0; 33] is Lowest quality, [34; 66] is Middle quality, [67;
+	 *                100] is Highest quality.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
 	 * \since This function is available since SDL_image 3.0.0.
 	 *
-	 * \sa IMG_SavePNG_IO
+	 * \sa IMG_SaveJPG_IO
 	 */"
 
-	^ self ffiCall: #(bool IMG_SavePNG(SDL_Surface* surface, const char* file))
+	^ self ffiCall: #(bool IMG_SaveJPG(SDL_Surface* surface, const char* file, int quality))
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_SavePNG_IOSurface: surface dst: dst closeio: closeio [
+LibSDL_image >> savePNGIOSurface: surface dst: dst closeio: closeio [
 	"/**
 	 * Save an SDL_Surface into PNG image data, via an SDL_IOStream.
 	 *
@@ -1414,7 +2255,33 @@ LibSDL_image >> IMG_SavePNG_IOSurface: surface dst: dst closeio: closeio [
 ]
 
 { #category : 'public' }
-LibSDL_image >> IMG_Version [
+LibSDL_image >> savePNGSurface: surface file: file [
+	"/**
+	 * Save an SDL_Surface into a PNG image file.
+	 *
+	 * If the file already exists, it will be overwritten.
+	 *
+	 * \param surface the SDL surface to save.
+	 * \param file path on the filesystem to write new file to.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL_image 3.0.0.
+	 *
+	 * \sa IMG_SavePNG_IO
+	 */"
+
+	^ self ffiCall: #(bool IMG_SavePNG(SDL_Surface* surface, const char* file))
+]
+
+{ #category : 'accessing - platform' }
+LibSDL_image >> unix64LibraryName [
+
+	^ FFIUnix64LibraryFinder findLibrary: 'libSDL_image.so'
+]
+
+{ #category : 'public' }
+LibSDL_image >> version [
 	"/**
 	 * This function gets the version of the dynamically linked SDL_image library.
 	 *
@@ -1424,873 +2291,6 @@ LibSDL_image >> IMG_Version [
 	 */"
 
 	^ self ffiCall: #(int IMG_Version())
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isAVIF: src [
-	"/**
-	 * Detect AVIF image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is AVIF data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isAVIF(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isBMP: src [
-	"/**
-	 * Detect BMP image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is BMP data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isBMP(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isCUR: src [
-	"/**
-	 * Detect CUR image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is CUR data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isCUR(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isGIF: src [
-	"/**
-	 * Detect GIF image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is GIF data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isGIF(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isICO: src [
-	"/**
-	 * Detect ICO image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is ICO data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isICO(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isJPG: src [
-	"/**
-	 * Detect JPG image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is JPG data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isJPG(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isJXL: src [
-	"/**
-	 * Detect JXL image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is JXL data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isJXL(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isLBM: src [
-	"/**
-	 * Detect LBM image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is LBM data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isLBM(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isPCX: src [
-	"/**
-	 * Detect PCX image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is PCX data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isPCX(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isPNG: src [
-	"/**
-	 * Detect PNG image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is PNG data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isPNG(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isPNM: src [
-	"/**
-	 * Detect PNM image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is PNM data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isPNM(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isQOI: src [
-	"/**
-	 * Detect QOI image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is QOI data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isQOI(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isSVG: src [
-	"/**
-	 * Detect SVG image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is SVG data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isSVG(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isTIF: src [
-	"/**
-	 * Detect TIFF image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is TIFF data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isTIF(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isWEBP: src [
-	"/**
-	 * Detect WEBP image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is WEBP data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 */"
-
-	^ self ffiCall: #(bool IMG_isWEBP(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isXCF: src [
-	"/**
-	 * Detect XCF image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is XCF data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isXCF(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isXPM: src [
-	"/**
-	 * Detect XPM image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is XPM data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXV
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isXPM(SDL_IOStream* src))
-]
-
-{ #category : 'public' }
-LibSDL_image >> IMG_isXV: src [
-	"/**
-	 * Detect XV image data on a readable/seekable SDL_IOStream.
-	 *
-	 * This function attempts to determine if a file is a given filetype, reading
-	 * the least amount possible from the SDL_IOStream (usually a few bytes).
-	 *
-	 * There is no distinction made between ""not the filetype in question"" and
-	 * basic i/o errors.
-	 *
-	 * This function will always attempt to seek `src` back to where it started
-	 * when this function was called, but it will not report any errors in doing
-	 * so, but assuming seeking works, this means you can immediately use this
-	 * with a different IMG_isTYPE function, or load the image without further
-	 * seeking.
-	 *
-	 * You do not need to call this function to load data; SDL_image can work to
-	 * determine file type in many cases in its standard load functions.
-	 *
-	 * \param src a seekable/readable SDL_IOStream to provide image data.
-	 * \returns non-zero if this is XV data, zero otherwise.
-	 *
-	 * \since This function is available since SDL_image 3.0.0.
-	 *
-	 * \sa IMG_isAVIF
-	 * \sa IMG_isICO
-	 * \sa IMG_isCUR
-	 * \sa IMG_isBMP
-	 * \sa IMG_isGIF
-	 * \sa IMG_isJPG
-	 * \sa IMG_isJXL
-	 * \sa IMG_isLBM
-	 * \sa IMG_isPCX
-	 * \sa IMG_isPNG
-	 * \sa IMG_isPNM
-	 * \sa IMG_isSVG
-	 * \sa IMG_isQOI
-	 * \sa IMG_isTIF
-	 * \sa IMG_isXCF
-	 * \sa IMG_isXPM
-	 * \sa IMG_isWEBP
-	 */"
-
-	^ self ffiCall: #(bool IMG_isXV(SDL_IOStream* src))
-]
-
-{ #category : 'accessing - platform' }
-LibSDL_image >> macLibraryName [
-
-	^ FFIMacLibraryFinder findLibrary: 'libSDL_image.dylib'
-]
-
-{ #category : 'accessing' }
-LibSDL_image >> runner [
-	
-	^ TFProcessLocalWorker new 
-		defaultWorker: TFSameThreadRunner uniqueInstance;
-		yourself
-]
-
-{ #category : 'accessing - platform' }
-LibSDL_image >> unix64LibraryName [
-
-	^ FFIUnix64LibraryFinder findLibrary: 'libSDL_image.so'
 ]
 
 { #category : 'accessing - platform' }
