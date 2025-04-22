@@ -13,27 +13,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_ChromaLocation class >> SDL_CHROMA_LOCATION_CENTER [
+S3SDL_ChromaLocation class >> center [
 	"This method was automatically generated"
 	^ SDL_CHROMA_LOCATION_CENTER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ChromaLocation class >> SDL_CHROMA_LOCATION_LEFT [
-	"This method was automatically generated"
-	^ SDL_CHROMA_LOCATION_LEFT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ChromaLocation class >> SDL_CHROMA_LOCATION_NONE [
-	"This method was automatically generated"
-	^ SDL_CHROMA_LOCATION_NONE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ChromaLocation class >> SDL_CHROMA_LOCATION_TOPLEFT [
-	"This method was automatically generated"
-	^ SDL_CHROMA_LOCATION_TOPLEFT
 ]
 
 { #category : 'enum declaration' }
@@ -44,4 +26,22 @@ S3SDL_ChromaLocation class >> enumDecl [
 	SDL_CHROMA_LOCATION_LEFT 1
 	SDL_CHROMA_LOCATION_CENTER 2
 	SDL_CHROMA_LOCATION_TOPLEFT 3 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ChromaLocation class >> left [
+	"This method was automatically generated"
+	^ SDL_CHROMA_LOCATION_LEFT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ChromaLocation class >> none [
+	"This method was automatically generated"
+	^ SDL_CHROMA_LOCATION_NONE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ChromaLocation class >> topLeft [
+	"This method was automatically generated"
+	^ SDL_CHROMA_LOCATION_TOPLEFT
 ]

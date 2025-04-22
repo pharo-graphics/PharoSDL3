@@ -17,51 +17,21 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_ACCEL [
+S3SDL_SensorType class >> accel [
 	"This method was automatically generated"
 	^ SDL_SENSOR_ACCEL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_ACCEL_L [
+S3SDL_SensorType class >> accelL [
 	"This method was automatically generated"
 	^ SDL_SENSOR_ACCEL_L
 ]
 
 { #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_ACCEL_R [
+S3SDL_SensorType class >> accelR [
 	"This method was automatically generated"
 	^ SDL_SENSOR_ACCEL_R
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_GYRO [
-	"This method was automatically generated"
-	^ SDL_SENSOR_GYRO
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_GYRO_L [
-	"This method was automatically generated"
-	^ SDL_SENSOR_GYRO_L
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_GYRO_R [
-	"This method was automatically generated"
-	^ SDL_SENSOR_GYRO_R
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_INVALID [
-	"This method was automatically generated"
-	^ SDL_SENSOR_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_SensorType class >> SDL_SENSOR_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_SENSOR_UNKNOWN
 ]
 
 { #category : 'enum declaration' }
@@ -76,4 +46,34 @@ S3SDL_SensorType class >> enumDecl [
 	SDL_SENSOR_GYRO_L 4
 	SDL_SENSOR_ACCEL_R 5
 	SDL_SENSOR_GYRO_R 6 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SensorType class >> gyro [
+	"This method was automatically generated"
+	^ SDL_SENSOR_GYRO
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SensorType class >> gyroL [
+	"This method was automatically generated"
+	^ SDL_SENSOR_GYRO_L
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SensorType class >> gyroR [
+	"This method was automatically generated"
+	^ SDL_SENSOR_GYRO_R
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SensorType class >> invalid [
+	"This method was automatically generated"
+	^ SDL_SENSOR_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_SensorType class >> unknown [
+	"This method was automatically generated"
+	^ SDL_SENSOR_UNKNOWN
 ]

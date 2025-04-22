@@ -15,39 +15,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_PropertyType class >> SDL_PROPERTY_TYPE_BOOLEAN [
+S3SDL_PropertyType class >> boolean [
 	"This method was automatically generated"
 	^ SDL_PROPERTY_TYPE_BOOLEAN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PropertyType class >> SDL_PROPERTY_TYPE_FLOAT [
-	"This method was automatically generated"
-	^ SDL_PROPERTY_TYPE_FLOAT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PropertyType class >> SDL_PROPERTY_TYPE_INVALID [
-	"This method was automatically generated"
-	^ SDL_PROPERTY_TYPE_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PropertyType class >> SDL_PROPERTY_TYPE_NUMBER [
-	"This method was automatically generated"
-	^ SDL_PROPERTY_TYPE_NUMBER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PropertyType class >> SDL_PROPERTY_TYPE_POINTER [
-	"This method was automatically generated"
-	^ SDL_PROPERTY_TYPE_POINTER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_PropertyType class >> SDL_PROPERTY_TYPE_STRING [
-	"This method was automatically generated"
-	^ SDL_PROPERTY_TYPE_STRING
 ]
 
 { #category : 'enum declaration' }
@@ -60,4 +30,34 @@ S3SDL_PropertyType class >> enumDecl [
 	SDL_PROPERTY_TYPE_NUMBER 3
 	SDL_PROPERTY_TYPE_FLOAT 4
 	SDL_PROPERTY_TYPE_BOOLEAN 5 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PropertyType class >> float [
+	"This method was automatically generated"
+	^ SDL_PROPERTY_TYPE_FLOAT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PropertyType class >> invalid [
+	"This method was automatically generated"
+	^ SDL_PROPERTY_TYPE_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PropertyType class >> number [
+	"This method was automatically generated"
+	^ SDL_PROPERTY_TYPE_NUMBER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PropertyType class >> pointer [
+	"This method was automatically generated"
+	^ SDL_PROPERTY_TYPE_POINTER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_PropertyType class >> string [
+	"This method was automatically generated"
+	^ SDL_PROPERTY_TYPE_STRING
 ]

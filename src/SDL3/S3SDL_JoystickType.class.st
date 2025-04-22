@@ -20,69 +20,33 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_ARCADE_PAD [
+S3SDL_JoystickType class >> arcadePad [
 	"This method was automatically generated"
 	^ SDL_JOYSTICK_TYPE_ARCADE_PAD
 ]
 
 { #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_ARCADE_STICK [
+S3SDL_JoystickType class >> arcadeStick [
 	"This method was automatically generated"
 	^ SDL_JOYSTICK_TYPE_ARCADE_STICK
 ]
 
 { #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_COUNT [
+S3SDL_JoystickType class >> count [
 	"This method was automatically generated"
 	^ SDL_JOYSTICK_TYPE_COUNT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_DANCE_PAD [
+S3SDL_JoystickType class >> dancePad [
 	"This method was automatically generated"
 	^ SDL_JOYSTICK_TYPE_DANCE_PAD
 ]
 
 { #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_DRUM_KIT [
+S3SDL_JoystickType class >> drumKit [
 	"This method was automatically generated"
 	^ SDL_JOYSTICK_TYPE_DRUM_KIT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_FLIGHT_STICK [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_TYPE_FLIGHT_STICK
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_GAMEPAD [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_TYPE_GAMEPAD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_GUITAR [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_TYPE_GUITAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_THROTTLE [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_TYPE_THROTTLE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_TYPE_UNKNOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_JoystickType class >> SDL_JOYSTICK_TYPE_WHEEL [
-	"This method was automatically generated"
-	^ SDL_JOYSTICK_TYPE_WHEEL
 ]
 
 { #category : 'enum declaration' }
@@ -100,4 +64,40 @@ S3SDL_JoystickType class >> enumDecl [
 	SDL_JOYSTICK_TYPE_ARCADE_PAD 8
 	SDL_JOYSTICK_TYPE_THROTTLE 9
 	SDL_JOYSTICK_TYPE_COUNT 10 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickType class >> flightStick [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_TYPE_FLIGHT_STICK
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickType class >> gamepad [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_TYPE_GAMEPAD
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickType class >> guitar [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_TYPE_GUITAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickType class >> throttle [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_TYPE_THROTTLE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickType class >> unknown [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_TYPE_UNKNOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_JoystickType class >> wheel [
+	"This method was automatically generated"
+	^ SDL_JOYSTICK_TYPE_WHEEL
 ]

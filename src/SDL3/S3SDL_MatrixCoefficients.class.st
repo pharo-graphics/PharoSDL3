@@ -24,93 +24,51 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_BT2020_CL [
+S3SDL_MatrixCoefficients class >> bt2020Cl [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_BT2020_CL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_BT2020_NCL [
+S3SDL_MatrixCoefficients class >> bt2020Ncl [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_BT2020_NCL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_BT470BG [
+S3SDL_MatrixCoefficients class >> bt470bg [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_BT470BG
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_BT601 [
+S3SDL_MatrixCoefficients class >> bt601 [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_BT601
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_BT709 [
+S3SDL_MatrixCoefficients class >> bt709 [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_BT709
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_CHROMA_DERIVED_CL [
+S3SDL_MatrixCoefficients class >> chromaDerivedCl [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_CHROMA_DERIVED_CL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_CHROMA_DERIVED_NCL [
+S3SDL_MatrixCoefficients class >> chromaDerivedNcl [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_CHROMA_DERIVED_NCL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_CUSTOM [
+S3SDL_MatrixCoefficients class >> custom [
 	"This method was automatically generated"
 	^ SDL_MATRIX_COEFFICIENTS_CUSTOM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_FCC [
-	"This method was automatically generated"
-	^ SDL_MATRIX_COEFFICIENTS_FCC
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_ICTCP [
-	"This method was automatically generated"
-	^ SDL_MATRIX_COEFFICIENTS_ICTCP
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_IDENTITY [
-	"This method was automatically generated"
-	^ SDL_MATRIX_COEFFICIENTS_IDENTITY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_SMPTE2085 [
-	"This method was automatically generated"
-	^ SDL_MATRIX_COEFFICIENTS_SMPTE2085
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_SMPTE240 [
-	"This method was automatically generated"
-	^ SDL_MATRIX_COEFFICIENTS_SMPTE240
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_UNSPECIFIED [
-	"This method was automatically generated"
-	^ SDL_MATRIX_COEFFICIENTS_UNSPECIFIED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MatrixCoefficients class >> SDL_MATRIX_COEFFICIENTS_YCGCO [
-	"This method was automatically generated"
-	^ SDL_MATRIX_COEFFICIENTS_YCGCO
 ]
 
 { #category : 'enum declaration' }
@@ -132,4 +90,46 @@ S3SDL_MatrixCoefficients class >> enumDecl [
 	SDL_MATRIX_COEFFICIENTS_CHROMA_DERIVED_CL 13
 	SDL_MATRIX_COEFFICIENTS_ICTCP 14
 	SDL_MATRIX_COEFFICIENTS_CUSTOM 31 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MatrixCoefficients class >> fcc [
+	"This method was automatically generated"
+	^ SDL_MATRIX_COEFFICIENTS_FCC
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MatrixCoefficients class >> ictcp [
+	"This method was automatically generated"
+	^ SDL_MATRIX_COEFFICIENTS_ICTCP
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MatrixCoefficients class >> identity [
+	"This method was automatically generated"
+	^ SDL_MATRIX_COEFFICIENTS_IDENTITY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MatrixCoefficients class >> smpte2085 [
+	"This method was automatically generated"
+	^ SDL_MATRIX_COEFFICIENTS_SMPTE2085
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MatrixCoefficients class >> smpte240 [
+	"This method was automatically generated"
+	^ SDL_MATRIX_COEFFICIENTS_SMPTE240
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MatrixCoefficients class >> unspecified [
+	"This method was automatically generated"
+	^ SDL_MATRIX_COEFFICIENTS_UNSPECIFIED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MatrixCoefficients class >> ycgco [
+	"This method was automatically generated"
+	^ SDL_MATRIX_COEFFICIENTS_YCGCO
 ]

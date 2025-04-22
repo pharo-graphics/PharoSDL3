@@ -14,42 +14,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_IOStatus class >> SDL_IO_STATUS_EOF [
-	"This method was automatically generated"
-	^ SDL_IO_STATUS_EOF
-]
-
-{ #category : 'accessing enum' }
-S3SDL_IOStatus class >> SDL_IO_STATUS_ERROR [
-	"This method was automatically generated"
-	^ SDL_IO_STATUS_ERROR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_IOStatus class >> SDL_IO_STATUS_NOT_READY [
-	"This method was automatically generated"
-	^ SDL_IO_STATUS_NOT_READY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_IOStatus class >> SDL_IO_STATUS_READONLY [
-	"This method was automatically generated"
-	^ SDL_IO_STATUS_READONLY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_IOStatus class >> SDL_IO_STATUS_READY [
-	"This method was automatically generated"
-	^ SDL_IO_STATUS_READY
-]
-
-{ #category : 'accessing enum' }
-S3SDL_IOStatus class >> SDL_IO_STATUS_WRITEONLY [
-	"This method was automatically generated"
-	^ SDL_IO_STATUS_WRITEONLY
-]
-
 { #category : 'enum declaration' }
 S3SDL_IOStatus class >> enumDecl [
 
@@ -60,4 +24,40 @@ S3SDL_IOStatus class >> enumDecl [
 	SDL_IO_STATUS_NOT_READY 3
 	SDL_IO_STATUS_READONLY 4
 	SDL_IO_STATUS_WRITEONLY 5 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_IOStatus class >> eof [
+	"This method was automatically generated"
+	^ SDL_IO_STATUS_EOF
+]
+
+{ #category : 'accessing enum' }
+S3SDL_IOStatus class >> error [
+	"This method was automatically generated"
+	^ SDL_IO_STATUS_ERROR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_IOStatus class >> notReady [
+	"This method was automatically generated"
+	^ SDL_IO_STATUS_NOT_READY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_IOStatus class >> readonly [
+	"This method was automatically generated"
+	^ SDL_IO_STATUS_READONLY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_IOStatus class >> ready [
+	"This method was automatically generated"
+	^ SDL_IO_STATUS_READY
+]
+
+{ #category : 'accessing enum' }
+S3SDL_IOStatus class >> writeonly [
+	"This method was automatically generated"
+	^ SDL_IO_STATUS_WRITEONLY
 ]

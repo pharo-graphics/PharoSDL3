@@ -23,87 +23,45 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_BT2020 [
+S3SDL_ColorPrimaries class >> bt2020 [
 	"This method was automatically generated"
 	^ SDL_COLOR_PRIMARIES_BT2020
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_BT470BG [
+S3SDL_ColorPrimaries class >> bt470bg [
 	"This method was automatically generated"
 	^ SDL_COLOR_PRIMARIES_BT470BG
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_BT470M [
+S3SDL_ColorPrimaries class >> bt470m [
 	"This method was automatically generated"
 	^ SDL_COLOR_PRIMARIES_BT470M
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_BT601 [
+S3SDL_ColorPrimaries class >> bt601 [
 	"This method was automatically generated"
 	^ SDL_COLOR_PRIMARIES_BT601
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_BT709 [
+S3SDL_ColorPrimaries class >> bt709 [
 	"This method was automatically generated"
 	^ SDL_COLOR_PRIMARIES_BT709
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_CUSTOM [
+S3SDL_ColorPrimaries class >> custom [
 	"This method was automatically generated"
 	^ SDL_COLOR_PRIMARIES_CUSTOM
 ]
 
 { #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_EBU3213 [
+S3SDL_ColorPrimaries class >> ebu3213 [
 	"This method was automatically generated"
 	^ SDL_COLOR_PRIMARIES_EBU3213
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_GENERIC_FILM [
-	"This method was automatically generated"
-	^ SDL_COLOR_PRIMARIES_GENERIC_FILM
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_SMPTE240 [
-	"This method was automatically generated"
-	^ SDL_COLOR_PRIMARIES_SMPTE240
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_SMPTE431 [
-	"This method was automatically generated"
-	^ SDL_COLOR_PRIMARIES_SMPTE431
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_SMPTE432 [
-	"This method was automatically generated"
-	^ SDL_COLOR_PRIMARIES_SMPTE432
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_COLOR_PRIMARIES_UNKNOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_UNSPECIFIED [
-	"This method was automatically generated"
-	^ SDL_COLOR_PRIMARIES_UNSPECIFIED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_ColorPrimaries class >> SDL_COLOR_PRIMARIES_XYZ [
-	"This method was automatically generated"
-	^ SDL_COLOR_PRIMARIES_XYZ
 ]
 
 { #category : 'enum declaration' }
@@ -124,4 +82,46 @@ S3SDL_ColorPrimaries class >> enumDecl [
 	SDL_COLOR_PRIMARIES_SMPTE432 12
 	SDL_COLOR_PRIMARIES_EBU3213 22
 	SDL_COLOR_PRIMARIES_CUSTOM 31 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ColorPrimaries class >> genericFilm [
+	"This method was automatically generated"
+	^ SDL_COLOR_PRIMARIES_GENERIC_FILM
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ColorPrimaries class >> smpte240 [
+	"This method was automatically generated"
+	^ SDL_COLOR_PRIMARIES_SMPTE240
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ColorPrimaries class >> smpte431 [
+	"This method was automatically generated"
+	^ SDL_COLOR_PRIMARIES_SMPTE431
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ColorPrimaries class >> smpte432 [
+	"This method was automatically generated"
+	^ SDL_COLOR_PRIMARIES_SMPTE432
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ColorPrimaries class >> unknown [
+	"This method was automatically generated"
+	^ SDL_COLOR_PRIMARIES_UNKNOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ColorPrimaries class >> unspecified [
+	"This method was automatically generated"
+	^ SDL_COLOR_PRIMARIES_UNSPECIFIED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_ColorPrimaries class >> xyz [
+	"This method was automatically generated"
+	^ SDL_COLOR_PRIMARIES_XYZ
 ]

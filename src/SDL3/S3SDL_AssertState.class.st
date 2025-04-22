@@ -14,33 +14,21 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_AssertState class >> SDL_ASSERTION_ABORT [
+S3SDL_AssertState class >> abort [
 	"This method was automatically generated"
 	^ SDL_ASSERTION_ABORT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_AssertState class >> SDL_ASSERTION_ALWAYS_IGNORE [
+S3SDL_AssertState class >> alwaysIgnore [
 	"This method was automatically generated"
 	^ SDL_ASSERTION_ALWAYS_IGNORE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_AssertState class >> SDL_ASSERTION_BREAK [
+S3SDL_AssertState class >> break [
 	"This method was automatically generated"
 	^ SDL_ASSERTION_BREAK
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AssertState class >> SDL_ASSERTION_IGNORE [
-	"This method was automatically generated"
-	^ SDL_ASSERTION_IGNORE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_AssertState class >> SDL_ASSERTION_RETRY [
-	"This method was automatically generated"
-	^ SDL_ASSERTION_RETRY
 ]
 
 { #category : 'enum declaration' }
@@ -52,4 +40,16 @@ S3SDL_AssertState class >> enumDecl [
 	SDL_ASSERTION_ABORT 2
 	SDL_ASSERTION_IGNORE 3
 	SDL_ASSERTION_ALWAYS_IGNORE 4 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AssertState class >> ignore [
+	"This method was automatically generated"
+	^ SDL_ASSERTION_IGNORE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AssertState class >> retry [
+	"This method was automatically generated"
+	^ SDL_ASSERTION_RETRY
 ]

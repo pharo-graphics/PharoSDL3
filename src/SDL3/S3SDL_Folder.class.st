@@ -21,75 +21,27 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_COUNT [
+S3SDL_Folder class >> count [
 	"This method was automatically generated"
 	^ SDL_FOLDER_COUNT
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_DESKTOP [
+S3SDL_Folder class >> desktop [
 	"This method was automatically generated"
 	^ SDL_FOLDER_DESKTOP
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_DOCUMENTS [
+S3SDL_Folder class >> documents [
 	"This method was automatically generated"
 	^ SDL_FOLDER_DOCUMENTS
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_DOWNLOADS [
+S3SDL_Folder class >> downloads [
 	"This method was automatically generated"
 	^ SDL_FOLDER_DOWNLOADS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_HOME [
-	"This method was automatically generated"
-	^ SDL_FOLDER_HOME
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_MUSIC [
-	"This method was automatically generated"
-	^ SDL_FOLDER_MUSIC
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_PICTURES [
-	"This method was automatically generated"
-	^ SDL_FOLDER_PICTURES
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_PUBLICSHARE [
-	"This method was automatically generated"
-	^ SDL_FOLDER_PUBLICSHARE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_SAVEDGAMES [
-	"This method was automatically generated"
-	^ SDL_FOLDER_SAVEDGAMES
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_SCREENSHOTS [
-	"This method was automatically generated"
-	^ SDL_FOLDER_SCREENSHOTS
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_TEMPLATES [
-	"This method was automatically generated"
-	^ SDL_FOLDER_TEMPLATES
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Folder class >> SDL_FOLDER_VIDEOS [
-	"This method was automatically generated"
-	^ SDL_FOLDER_VIDEOS
 ]
 
 { #category : 'enum declaration' }
@@ -108,4 +60,52 @@ S3SDL_Folder class >> enumDecl [
 	SDL_FOLDER_TEMPLATES 9
 	SDL_FOLDER_VIDEOS 10
 	SDL_FOLDER_COUNT 11 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> home [
+	"This method was automatically generated"
+	^ SDL_FOLDER_HOME
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> music [
+	"This method was automatically generated"
+	^ SDL_FOLDER_MUSIC
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> pictures [
+	"This method was automatically generated"
+	^ SDL_FOLDER_PICTURES
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> publicshare [
+	"This method was automatically generated"
+	^ SDL_FOLDER_PUBLICSHARE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> savedgames [
+	"This method was automatically generated"
+	^ SDL_FOLDER_SAVEDGAMES
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> screenshots [
+	"This method was automatically generated"
+	^ SDL_FOLDER_SCREENSHOTS
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> templates [
+	"This method was automatically generated"
+	^ SDL_FOLDER_TEMPLATES
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Folder class >> videos [
+	"This method was automatically generated"
+	^ SDL_FOLDER_VIDEOS
 ]

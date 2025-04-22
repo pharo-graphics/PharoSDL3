@@ -10,22 +10,22 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_MouseWheelDirection class >> SDL_MOUSEWHEEL_FLIPPED [
-	"This method was automatically generated"
-	^ SDL_MOUSEWHEEL_FLIPPED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MouseWheelDirection class >> SDL_MOUSEWHEEL_NORMAL [
-	"This method was automatically generated"
-	^ SDL_MOUSEWHEEL_NORMAL
-]
-
 { #category : 'enum declaration' }
 S3SDL_MouseWheelDirection class >> enumDecl [
 
 	^ #(
 	SDL_MOUSEWHEEL_NORMAL 0
 	SDL_MOUSEWHEEL_FLIPPED 1 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MouseWheelDirection class >> flipped [
+	"This method was automatically generated"
+	^ SDL_MOUSEWHEEL_FLIPPED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MouseWheelDirection class >> normal [
+	"This method was automatically generated"
+	^ SDL_MOUSEWHEEL_NORMAL
 ]

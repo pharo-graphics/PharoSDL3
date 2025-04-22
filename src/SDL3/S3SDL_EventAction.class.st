@@ -12,21 +12,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_EventAction class >> SDL_ADDEVENT [
+S3SDL_EventAction class >> addEvent [
 	"This method was automatically generated"
 	^ SDL_ADDEVENT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_EventAction class >> SDL_GETEVENT [
-	"This method was automatically generated"
-	^ SDL_GETEVENT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_EventAction class >> SDL_PEEKEVENT [
-	"This method was automatically generated"
-	^ SDL_PEEKEVENT
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +24,16 @@ S3SDL_EventAction class >> enumDecl [
 	SDL_ADDEVENT 0
 	SDL_PEEKEVENT 1
 	SDL_GETEVENT 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_EventAction class >> getEvent [
+	"This method was automatically generated"
+	^ SDL_GETEVENT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_EventAction class >> peekEvent [
+	"This method was automatically generated"
+	^ SDL_PEEKEVENT
 ]

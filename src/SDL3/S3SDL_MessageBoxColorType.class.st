@@ -15,39 +15,33 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_MessageBoxColorType class >> SDL_MESSAGEBOX_COLOR_BACKGROUND [
+S3SDL_MessageBoxColorType class >> background [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_COLOR_BACKGROUND
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MessageBoxColorType class >> SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND [
+S3SDL_MessageBoxColorType class >> buttonBackground [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MessageBoxColorType class >> SDL_MESSAGEBOX_COLOR_BUTTON_BORDER [
+S3SDL_MessageBoxColorType class >> buttonBorder [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_COLOR_BUTTON_BORDER
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MessageBoxColorType class >> SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED [
+S3SDL_MessageBoxColorType class >> buttonSelected [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_MessageBoxColorType class >> SDL_MESSAGEBOX_COLOR_COUNT [
+S3SDL_MessageBoxColorType class >> count [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_COLOR_COUNT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_MessageBoxColorType class >> SDL_MESSAGEBOX_COLOR_TEXT [
-	"This method was automatically generated"
-	^ SDL_MESSAGEBOX_COLOR_TEXT
 ]
 
 { #category : 'enum declaration' }
@@ -60,4 +54,10 @@ S3SDL_MessageBoxColorType class >> enumDecl [
 	SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND 3
 	SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED 4
 	SDL_MESSAGEBOX_COLOR_COUNT 5 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_MessageBoxColorType class >> text [
+	"This method was automatically generated"
+	^ SDL_MESSAGEBOX_COLOR_TEXT
 ]

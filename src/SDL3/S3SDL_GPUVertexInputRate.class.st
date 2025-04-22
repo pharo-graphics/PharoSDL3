@@ -10,22 +10,22 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexInputRate class >> SDL_GPU_VERTEXINPUTRATE_INSTANCE [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXINPUTRATE_INSTANCE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUVertexInputRate class >> SDL_GPU_VERTEXINPUTRATE_VERTEX [
-	"This method was automatically generated"
-	^ SDL_GPU_VERTEXINPUTRATE_VERTEX
-]
-
 { #category : 'enum declaration' }
 S3SDL_GPUVertexInputRate class >> enumDecl [
 
 	^ #(
 	SDL_GPU_VERTEXINPUTRATE_VERTEX 0
 	SDL_GPU_VERTEXINPUTRATE_INSTANCE 1 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexInputRate class >> instance [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXINPUTRATE_INSTANCE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUVertexInputRate class >> vertex [
+	"This method was automatically generated"
+	^ SDL_GPU_VERTEXINPUTRATE_VERTEX
 ]

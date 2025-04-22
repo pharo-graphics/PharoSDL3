@@ -12,21 +12,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_FlashOperation class >> SDL_FLASH_BRIEFLY [
+S3SDL_FlashOperation class >> briefly [
 	"This method was automatically generated"
 	^ SDL_FLASH_BRIEFLY
 ]
 
 { #category : 'accessing enum' }
-S3SDL_FlashOperation class >> SDL_FLASH_CANCEL [
+S3SDL_FlashOperation class >> cancel [
 	"This method was automatically generated"
 	^ SDL_FLASH_CANCEL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_FlashOperation class >> SDL_FLASH_UNTIL_FOCUSED [
-	"This method was automatically generated"
-	^ SDL_FLASH_UNTIL_FOCUSED
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +30,10 @@ S3SDL_FlashOperation class >> enumDecl [
 	SDL_FLASH_CANCEL 0
 	SDL_FLASH_BRIEFLY 1
 	SDL_FLASH_UNTIL_FOCUSED 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_FlashOperation class >> untilFocused [
+	"This method was automatically generated"
+	^ SDL_FLASH_UNTIL_FOCUSED
 ]

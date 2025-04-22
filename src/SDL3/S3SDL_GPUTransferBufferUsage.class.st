@@ -11,15 +11,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUTransferBufferUsage class >> SDL_GPU_TRANSFERBUFFERUSAGE_DOWNLOAD [
+S3SDL_GPUTransferBufferUsage class >> download [
 	"This method was automatically generated"
 	^ SDL_GPU_TRANSFERBUFFERUSAGE_DOWNLOAD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUTransferBufferUsage class >> SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD [
-	"This method was automatically generated"
-	^ SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD
 ]
 
 { #category : 'enum declaration' }
@@ -28,4 +22,10 @@ S3SDL_GPUTransferBufferUsage class >> enumDecl [
 	^ #(
 	SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD 0
 	SDL_GPU_TRANSFERBUFFERUSAGE_DOWNLOAD 1 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUTransferBufferUsage class >> upload [
+	"This method was automatically generated"
+	^ SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD
 ]

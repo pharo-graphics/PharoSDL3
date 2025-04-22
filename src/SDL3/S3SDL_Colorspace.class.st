@@ -22,81 +22,39 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_BT2020_FULL [
+S3SDL_Colorspace class >> bt2020Full [
 	"This method was automatically generated"
 	^ SDL_COLORSPACE_BT2020_FULL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_BT2020_LIMITED [
+S3SDL_Colorspace class >> bt2020Limited [
 	"This method was automatically generated"
 	^ SDL_COLORSPACE_BT2020_LIMITED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_BT601_FULL [
+S3SDL_Colorspace class >> bt601Full [
 	"This method was automatically generated"
 	^ SDL_COLORSPACE_BT601_FULL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_BT601_LIMITED [
+S3SDL_Colorspace class >> bt601Limited [
 	"This method was automatically generated"
 	^ SDL_COLORSPACE_BT601_LIMITED
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_BT709_FULL [
+S3SDL_Colorspace class >> bt709Full [
 	"This method was automatically generated"
 	^ SDL_COLORSPACE_BT709_FULL
 ]
 
 { #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_BT709_LIMITED [
+S3SDL_Colorspace class >> bt709Limited [
 	"This method was automatically generated"
 	^ SDL_COLORSPACE_BT709_LIMITED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_HDR10 [
-	"This method was automatically generated"
-	^ SDL_COLORSPACE_HDR10
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_JPEG [
-	"This method was automatically generated"
-	^ SDL_COLORSPACE_JPEG
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_RGB_DEFAULT [
-	"This method was automatically generated"
-	^ SDL_COLORSPACE_RGB_DEFAULT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_SRGB [
-	"This method was automatically generated"
-	^ SDL_COLORSPACE_SRGB
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_SRGB_LINEAR [
-	"This method was automatically generated"
-	^ SDL_COLORSPACE_SRGB_LINEAR
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_UNKNOWN [
-	"This method was automatically generated"
-	^ SDL_COLORSPACE_UNKNOWN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_Colorspace class >> SDL_COLORSPACE_YUV_DEFAULT [
-	"This method was automatically generated"
-	^ SDL_COLORSPACE_YUV_DEFAULT
 ]
 
 { #category : 'enum declaration' }
@@ -116,4 +74,46 @@ S3SDL_Colorspace class >> enumDecl [
 	SDL_COLORSPACE_BT2020_FULL 571483657
 	SDL_COLORSPACE_RGB_DEFAULT 301991328
 	SDL_COLORSPACE_YUV_DEFAULT 570426566 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Colorspace class >> hdr10 [
+	"This method was automatically generated"
+	^ SDL_COLORSPACE_HDR10
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Colorspace class >> jpeg [
+	"This method was automatically generated"
+	^ SDL_COLORSPACE_JPEG
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Colorspace class >> rgbDefault [
+	"This method was automatically generated"
+	^ SDL_COLORSPACE_RGB_DEFAULT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Colorspace class >> srgb [
+	"This method was automatically generated"
+	^ SDL_COLORSPACE_SRGB
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Colorspace class >> srgbLinear [
+	"This method was automatically generated"
+	^ SDL_COLORSPACE_SRGB_LINEAR
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Colorspace class >> unknown [
+	"This method was automatically generated"
+	^ SDL_COLORSPACE_UNKNOWN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_Colorspace class >> yuvDefault [
+	"This method was automatically generated"
+	^ SDL_COLORSPACE_YUV_DEFAULT
 ]

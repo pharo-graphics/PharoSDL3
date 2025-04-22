@@ -14,31 +14,31 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureType class >> SDL_GPU_TEXTURETYPE_2D [
+S3SDL_GPUTextureType class >> at2d [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTURETYPE_2D
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureType class >> SDL_GPU_TEXTURETYPE_2D_ARRAY [
+S3SDL_GPUTextureType class >> at2dArray [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTURETYPE_2D_ARRAY
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureType class >> SDL_GPU_TEXTURETYPE_3D [
+S3SDL_GPUTextureType class >> at3d [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTURETYPE_3D
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureType class >> SDL_GPU_TEXTURETYPE_CUBE [
+S3SDL_GPUTextureType class >> atCube [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTURETYPE_CUBE
 ]
 
 { #category : 'accessing enum' }
-S3SDL_GPUTextureType class >> SDL_GPU_TEXTURETYPE_CUBE_ARRAY [
+S3SDL_GPUTextureType class >> atCubeArray [
 	"This method was automatically generated"
 	^ SDL_GPU_TEXTURETYPE_CUBE_ARRAY
 ]

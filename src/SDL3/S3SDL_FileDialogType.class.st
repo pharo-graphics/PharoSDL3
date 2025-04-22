@@ -11,24 +11,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-S3SDL_FileDialogType class >> SDL_FILEDIALOG_OPENFILE [
-	"This method was automatically generated"
-	^ SDL_FILEDIALOG_OPENFILE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_FileDialogType class >> SDL_FILEDIALOG_OPENFOLDER [
-	"This method was automatically generated"
-	^ SDL_FILEDIALOG_OPENFOLDER
-]
-
-{ #category : 'accessing enum' }
-S3SDL_FileDialogType class >> SDL_FILEDIALOG_SAVEFILE [
-	"This method was automatically generated"
-	^ SDL_FILEDIALOG_SAVEFILE
-]
-
 { #category : 'enum declaration' }
 S3SDL_FileDialogType class >> enumDecl [
 
@@ -36,4 +18,22 @@ S3SDL_FileDialogType class >> enumDecl [
 	SDL_FILEDIALOG_OPENFILE 0
 	SDL_FILEDIALOG_SAVEFILE 1
 	SDL_FILEDIALOG_OPENFOLDER 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_FileDialogType class >> openFile [
+	"This method was automatically generated"
+	^ SDL_FILEDIALOG_OPENFILE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_FileDialogType class >> openFolder [
+	"This method was automatically generated"
+	^ SDL_FILEDIALOG_OPENFOLDER
+]
+
+{ #category : 'accessing enum' }
+S3SDL_FileDialogType class >> saveFile [
+	"This method was automatically generated"
+	^ SDL_FILEDIALOG_SAVEFILE
 ]

@@ -12,21 +12,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_IOWhence class >> SDL_IO_SEEK_CUR [
+S3SDL_IOWhence class >> cur [
 	"This method was automatically generated"
 	^ SDL_IO_SEEK_CUR
 ]
 
 { #category : 'accessing enum' }
-S3SDL_IOWhence class >> SDL_IO_SEEK_END [
+S3SDL_IOWhence class >> end [
 	"This method was automatically generated"
 	^ SDL_IO_SEEK_END
-]
-
-{ #category : 'accessing enum' }
-S3SDL_IOWhence class >> SDL_IO_SEEK_SET [
-	"This method was automatically generated"
-	^ SDL_IO_SEEK_SET
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +30,10 @@ S3SDL_IOWhence class >> enumDecl [
 	SDL_IO_SEEK_SET 0
 	SDL_IO_SEEK_CUR 1
 	SDL_IO_SEEK_END 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_IOWhence class >> set [
+	"This method was automatically generated"
+	^ SDL_IO_SEEK_SET
 ]

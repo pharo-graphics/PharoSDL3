@@ -12,21 +12,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_HintPriority class >> SDL_HINT_DEFAULT [
+S3SDL_HintPriority class >> default [
 	"This method was automatically generated"
 	^ SDL_HINT_DEFAULT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_HintPriority class >> SDL_HINT_NORMAL [
-	"This method was automatically generated"
-	^ SDL_HINT_NORMAL
-]
-
-{ #category : 'accessing enum' }
-S3SDL_HintPriority class >> SDL_HINT_OVERRIDE [
-	"This method was automatically generated"
-	^ SDL_HINT_OVERRIDE
 ]
 
 { #category : 'enum declaration' }
@@ -36,4 +24,16 @@ S3SDL_HintPriority class >> enumDecl [
 	SDL_HINT_DEFAULT 0
 	SDL_HINT_NORMAL 1
 	SDL_HINT_OVERRIDE 2 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_HintPriority class >> normal [
+	"This method was automatically generated"
+	^ SDL_HINT_NORMAL
+]
+
+{ #category : 'accessing enum' }
+S3SDL_HintPriority class >> override [
+	"This method was automatically generated"
+	^ SDL_HINT_OVERRIDE
 ]

@@ -15,39 +15,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_GPUBlendOp class >> SDL_GPU_BLENDOP_ADD [
+S3SDL_GPUBlendOp class >> add [
 	"This method was automatically generated"
 	^ SDL_GPU_BLENDOP_ADD
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendOp class >> SDL_GPU_BLENDOP_INVALID [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDOP_INVALID
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendOp class >> SDL_GPU_BLENDOP_MAX [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDOP_MAX
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendOp class >> SDL_GPU_BLENDOP_MIN [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDOP_MIN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendOp class >> SDL_GPU_BLENDOP_REVERSE_SUBTRACT [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDOP_REVERSE_SUBTRACT
-]
-
-{ #category : 'accessing enum' }
-S3SDL_GPUBlendOp class >> SDL_GPU_BLENDOP_SUBTRACT [
-	"This method was automatically generated"
-	^ SDL_GPU_BLENDOP_SUBTRACT
 ]
 
 { #category : 'enum declaration' }
@@ -60,4 +30,34 @@ S3SDL_GPUBlendOp class >> enumDecl [
 	SDL_GPU_BLENDOP_REVERSE_SUBTRACT 3
 	SDL_GPU_BLENDOP_MIN 4
 	SDL_GPU_BLENDOP_MAX 5 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendOp class >> invalid [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDOP_INVALID
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendOp class >> max [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDOP_MAX
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendOp class >> min [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDOP_MIN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendOp class >> reverseSubtract [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDOP_REVERSE_SUBTRACT
+]
+
+{ #category : 'accessing enum' }
+S3SDL_GPUBlendOp class >> subtract [
+	"This method was automatically generated"
+	^ SDL_GPU_BLENDOP_SUBTRACT
 ]

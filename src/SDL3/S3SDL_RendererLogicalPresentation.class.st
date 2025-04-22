@@ -14,33 +14,9 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDL_RendererLogicalPresentation class >> SDL_LOGICAL_PRESENTATION_DISABLED [
+S3SDL_RendererLogicalPresentation class >> disabled [
 	"This method was automatically generated"
 	^ SDL_LOGICAL_PRESENTATION_DISABLED
-]
-
-{ #category : 'accessing enum' }
-S3SDL_RendererLogicalPresentation class >> SDL_LOGICAL_PRESENTATION_INTEGER_SCALE [
-	"This method was automatically generated"
-	^ SDL_LOGICAL_PRESENTATION_INTEGER_SCALE
-]
-
-{ #category : 'accessing enum' }
-S3SDL_RendererLogicalPresentation class >> SDL_LOGICAL_PRESENTATION_LETTERBOX [
-	"This method was automatically generated"
-	^ SDL_LOGICAL_PRESENTATION_LETTERBOX
-]
-
-{ #category : 'accessing enum' }
-S3SDL_RendererLogicalPresentation class >> SDL_LOGICAL_PRESENTATION_OVERSCAN [
-	"This method was automatically generated"
-	^ SDL_LOGICAL_PRESENTATION_OVERSCAN
-]
-
-{ #category : 'accessing enum' }
-S3SDL_RendererLogicalPresentation class >> SDL_LOGICAL_PRESENTATION_STRETCH [
-	"This method was automatically generated"
-	^ SDL_LOGICAL_PRESENTATION_STRETCH
 ]
 
 { #category : 'enum declaration' }
@@ -52,4 +28,28 @@ S3SDL_RendererLogicalPresentation class >> enumDecl [
 	SDL_LOGICAL_PRESENTATION_LETTERBOX 2
 	SDL_LOGICAL_PRESENTATION_OVERSCAN 3
 	SDL_LOGICAL_PRESENTATION_INTEGER_SCALE 4 )
+]
+
+{ #category : 'accessing enum' }
+S3SDL_RendererLogicalPresentation class >> integerScale [
+	"This method was automatically generated"
+	^ SDL_LOGICAL_PRESENTATION_INTEGER_SCALE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_RendererLogicalPresentation class >> letterbox [
+	"This method was automatically generated"
+	^ SDL_LOGICAL_PRESENTATION_LETTERBOX
+]
+
+{ #category : 'accessing enum' }
+S3SDL_RendererLogicalPresentation class >> overscan [
+	"This method was automatically generated"
+	^ SDL_LOGICAL_PRESENTATION_OVERSCAN
+]
+
+{ #category : 'accessing enum' }
+S3SDL_RendererLogicalPresentation class >> stretch [
+	"This method was automatically generated"
+	^ SDL_LOGICAL_PRESENTATION_STRETCH
 ]
