@@ -51,9 +51,9 @@ S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix [
 { #category : '*SDL3-Own' }
 S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix givenInvalidName: invalidName [
 
-	aName first isDigit ifFalse: [ self error ].
+	invalidName first isDigit ifFalse: [ self error ].
 
-	^ 'at', aName
+	^ 'at', invalidName
 ]
 
 { #category : '*SDL3-Own' }
