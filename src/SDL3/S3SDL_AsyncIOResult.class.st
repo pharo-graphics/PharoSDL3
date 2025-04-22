@@ -11,6 +11,24 @@ Class {
 	#tag : 'Base'
 }
 
+{ #category : 'accessing enum' }
+S3SDL_AsyncIOResult class >> SDL_ASYNCIO_CANCELED [
+	"This method was automatically generated"
+	^ SDL_ASYNCIO_CANCELED
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AsyncIOResult class >> SDL_ASYNCIO_COMPLETE [
+	"This method was automatically generated"
+	^ SDL_ASYNCIO_COMPLETE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AsyncIOResult class >> SDL_ASYNCIO_FAILURE [
+	"This method was automatically generated"
+	^ SDL_ASYNCIO_FAILURE
+]
+
 { #category : 'enum declaration' }
 S3SDL_AsyncIOResult class >> enumDecl [
 

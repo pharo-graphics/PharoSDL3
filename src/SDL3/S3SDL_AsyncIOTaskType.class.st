@@ -11,6 +11,24 @@ Class {
 	#tag : 'Base'
 }
 
+{ #category : 'accessing enum' }
+S3SDL_AsyncIOTaskType class >> SDL_ASYNCIO_TASK_CLOSE [
+	"This method was automatically generated"
+	^ SDL_ASYNCIO_TASK_CLOSE
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AsyncIOTaskType class >> SDL_ASYNCIO_TASK_READ [
+	"This method was automatically generated"
+	^ SDL_ASYNCIO_TASK_READ
+]
+
+{ #category : 'accessing enum' }
+S3SDL_AsyncIOTaskType class >> SDL_ASYNCIO_TASK_WRITE [
+	"This method was automatically generated"
+	^ SDL_ASYNCIO_TASK_WRITE
+]
+
 { #category : 'enum declaration' }
 S3SDL_AsyncIOTaskType class >> enumDecl [
 
