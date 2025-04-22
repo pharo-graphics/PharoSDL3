@@ -2074,7 +2074,7 @@ LibSDL_image >> loadXVIO: src [
 { #category : 'accessing - platform' }
 LibSDL_image >> macLibraryName [
 
-	^ FFIMacLibraryFinder findLibrary: 'libSDL_image.dylib'
+	^ FFIMacLibraryFinder findLibrary: 'libSDL3_image.dylib'
 ]
 
 { #category : 'public' }
@@ -2277,7 +2277,7 @@ LibSDL_image >> savePNGSurface: surface file: file [
 { #category : 'accessing - platform' }
 LibSDL_image >> unix64LibraryName [
 
-	^ FFIUnix64LibraryFinder findLibrary: 'libSDL_image.so'
+	^ FFIUnix64LibraryFinder findLibrary: 'libSDL3_image.so'
 ]
 
 { #category : 'public' }
@@ -2296,5 +2296,5 @@ LibSDL_image >> version [
 { #category : 'accessing - platform' }
 LibSDL_image >> win32LibraryName [
 
-	^ FFIWindowsLibraryFinder findLibrary: 'SDL_image.dll'
+	^ FFIWindowsLibraryFinder findLibrary: 'SDL3_image.dll'
 ]
