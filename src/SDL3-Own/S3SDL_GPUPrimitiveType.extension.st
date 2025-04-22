@@ -3,7 +3,7 @@ Extension { #name : 'S3SDL_GPUPrimitiveType' }
 { #category : '*SDL3-Own' }
 S3SDL_GPUPrimitiveType class >> enumDeclToCamelCaseDictionary [
 
-	^ super enumDeclToCamelCaseDictionary  
+	^ super enumDeclToCamelCaseDictionary
 		at: #SDL_GPU_PRIMITIVETYPE_LINELIST put: #lineList;
 		at: #SDL_GPU_PRIMITIVETYPE_LINESTRIP put: #lineStrip;
 		at: #SDL_GPU_PRIMITIVETYPE_POINTLIST put: #pointList;
