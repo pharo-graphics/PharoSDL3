@@ -41,6 +41,9 @@ S3Enumeration class >> initialize [
 S3Enumeration class >> underscoreToCamelCaseDictionary [
 
 	| prefix renames |
+	"must take another approach if there is only one pair!"
+	Halt if: [ self enumDecl size <= 2 ].
+
 	prefix := self enumDeclCommonPrefix.
 	renames := OrderedDictionary new.
 
@@ -51,6 +54,11 @@ S3Enumeration class >> underscoreToCamelCaseDictionary [
 			($_ split: newName) do: [ :each |
 				stringStream << each asLowercase asCamelCase ] ].
 		newName := newName uncapitalized.
+
+		newName first isDigit ifTrue: [
+			newName := '_', newName ].
+		Halt if: [newName isValidSelector not].
+
 		renames at: eachName put: newName ].
 
 	^ renames
