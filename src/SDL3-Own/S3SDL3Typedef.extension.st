@@ -186,7 +186,6 @@ S3SDL3Typedef class >> initialize [
 	SDL_DisplayModeData := S3SDL_DisplayModeData.
 	SDL_DisplayOrientation := S3SDL_DisplayOrientation.
 	SDL_DropEvent := S3SDL_DropEvent.
-	SDL_DUMMY_ENUM := S3SDL_DUMMY_ENUM.
 	SDL_EGLAttrib := intptr_t.
 	SDL_EGLAttribArrayCallback := FFICallback.
 	SDL_EGLConfig := #'void *'.
