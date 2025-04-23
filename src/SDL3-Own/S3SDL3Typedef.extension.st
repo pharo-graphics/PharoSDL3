@@ -126,7 +126,6 @@ S3SDL3Typedef class >> initialize [
 	uint_least8_t := __uint_least8_t.
 	uintmax_t := __uintmax_t.
 
-	SDL_alignment_test := S3SDL_alignment_test.
 	SDL_AppEvent_func := FFICallback.
 	SDL_AppInit_func := FFICallback.
 	SDL_AppIterate_func := FFICallback.
