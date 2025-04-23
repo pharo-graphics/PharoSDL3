@@ -38,85 +38,85 @@ SDL3GPUColorTargetBlendState class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> alpha_blend_op [
+SDL3GPUColorTargetBlendState >> alphaBlendOp [
 	"This method was automatically generated"
 	^SDL3GPUBlendOp fromInteger: (handle unsignedLongAt: OFFSET_ALPHA_BLEND_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> alpha_blend_op: anObject [
+SDL3GPUColorTargetBlendState >> alphaBlendOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_ALPHA_BLEND_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> color_blend_op [
+SDL3GPUColorTargetBlendState >> colorBlendOp [
 	"This method was automatically generated"
 	^SDL3GPUBlendOp fromInteger: (handle unsignedLongAt: OFFSET_COLOR_BLEND_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> color_blend_op: anObject [
+SDL3GPUColorTargetBlendState >> colorBlendOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_COLOR_BLEND_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> color_write_mask [
+SDL3GPUColorTargetBlendState >> colorWriteMask [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_COLOR_WRITE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> color_write_mask: anObject [
+SDL3GPUColorTargetBlendState >> colorWriteMask: anObject [
 	"This method was automatically generated"
 	handle unsignedByteAt: OFFSET_COLOR_WRITE_MASK put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> dst_alpha_blendfactor [
+SDL3GPUColorTargetBlendState >> dstAlphaBlendfactor [
 	"This method was automatically generated"
 	^SDL3GPUBlendFactor fromInteger: (handle unsignedLongAt: OFFSET_DST_ALPHA_BLENDFACTOR)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> dst_alpha_blendfactor: anObject [
+SDL3GPUColorTargetBlendState >> dstAlphaBlendfactor: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_DST_ALPHA_BLENDFACTOR put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> dst_color_blendfactor [
+SDL3GPUColorTargetBlendState >> dstColorBlendfactor [
 	"This method was automatically generated"
 	^SDL3GPUBlendFactor fromInteger: (handle unsignedLongAt: OFFSET_DST_COLOR_BLENDFACTOR)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> dst_color_blendfactor: anObject [
+SDL3GPUColorTargetBlendState >> dstColorBlendfactor: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_DST_COLOR_BLENDFACTOR put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> enable_blend [
+SDL3GPUColorTargetBlendState >> enableBlend [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_BLEND
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> enable_blend: anObject [
+SDL3GPUColorTargetBlendState >> enableBlend: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_BLEND put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> enable_color_write_mask [
+SDL3GPUColorTargetBlendState >> enableColorWriteMask [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_COLOR_WRITE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> enable_color_write_mask: anObject [
+SDL3GPUColorTargetBlendState >> enableColorWriteMask: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_COLOR_WRITE_MASK put: anObject
 ]
@@ -146,25 +146,25 @@ SDL3GPUColorTargetBlendState >> padding2: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> src_alpha_blendfactor [
+SDL3GPUColorTargetBlendState >> srcAlphaBlendfactor [
 	"This method was automatically generated"
 	^SDL3GPUBlendFactor fromInteger: (handle unsignedLongAt: OFFSET_SRC_ALPHA_BLENDFACTOR)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> src_alpha_blendfactor: anObject [
+SDL3GPUColorTargetBlendState >> srcAlphaBlendfactor: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_SRC_ALPHA_BLENDFACTOR put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> src_color_blendfactor [
+SDL3GPUColorTargetBlendState >> srcColorBlendfactor [
 	"This method was automatically generated"
 	^SDL3GPUBlendFactor fromInteger: (handle unsignedLongAt: OFFSET_SRC_COLOR_BLENDFACTOR)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> src_color_blendfactor: anObject [
+SDL3GPUColorTargetBlendState >> srcColorBlendfactor: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_SRC_COLOR_BLENDFACTOR put: anObject value
 ]

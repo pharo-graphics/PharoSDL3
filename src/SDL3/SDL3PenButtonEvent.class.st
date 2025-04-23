@@ -60,13 +60,13 @@ SDL3PenButtonEvent >> down: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> pen_state [
+SDL3PenButtonEvent >> penState [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_PEN_STATE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> pen_state: anObject [
+SDL3PenButtonEvent >> penState: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_PEN_STATE put: anObject
 ]

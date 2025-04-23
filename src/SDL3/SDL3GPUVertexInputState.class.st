@@ -24,49 +24,49 @@ SDL3GPUVertexInputState class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> num_vertex_attributes [
+SDL3GPUVertexInputState >> numVertexAttributes [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_VERTEX_ATTRIBUTES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> num_vertex_attributes: anObject [
+SDL3GPUVertexInputState >> numVertexAttributes: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_VERTEX_ATTRIBUTES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> num_vertex_buffers [
+SDL3GPUVertexInputState >> numVertexBuffers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_VERTEX_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> num_vertex_buffers: anObject [
+SDL3GPUVertexInputState >> numVertexBuffers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_VERTEX_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> vertex_attributes [
+SDL3GPUVertexInputState >> vertexAttributes [
 	"This method was automatically generated"
 	^SDL3GPUVertexAttribute fromHandle: (handle pointerAt: OFFSET_VERTEX_ATTRIBUTES)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> vertex_attributes: anObject [
+SDL3GPUVertexInputState >> vertexAttributes: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_VERTEX_ATTRIBUTES put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> vertex_buffer_descriptions [
+SDL3GPUVertexInputState >> vertexBufferDescriptions [
 	"This method was automatically generated"
 	^SDL3GPUVertexBufferDescription fromHandle: (handle pointerAt: OFFSET_VERTEX_BUFFER_DESCRIPTIONS)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexInputState >> vertex_buffer_descriptions: anObject [
+SDL3GPUVertexInputState >> vertexBufferDescriptions: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_VERTEX_BUFFER_DESCRIPTIONS put: anObject getHandle.
 ]

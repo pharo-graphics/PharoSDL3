@@ -36,13 +36,13 @@ SDL3GPUBlitInfo class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> clear_color [
+SDL3GPUBlitInfo >> clearColor [
 	"This method was automatically generated"
 	^ SDL3FColor fromHandle: (handle referenceStructAt: OFFSET_CLEAR_COLOR length: SDL3FColor byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> clear_color: anObject [
+SDL3GPUBlitInfo >> clearColor: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_CLEAR_COLOR put: anObject getHandle length: SDL3FColor byteSize
 ]
@@ -84,25 +84,25 @@ SDL3GPUBlitInfo >> filter: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> flip_mode [
+SDL3GPUBlitInfo >> flipMode [
 	"This method was automatically generated"
 	^SDL3FlipMode fromInteger: (handle unsignedLongAt: OFFSET_FLIP_MODE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> flip_mode: anObject [
+SDL3GPUBlitInfo >> flipMode: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FLIP_MODE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> load_op [
+SDL3GPUBlitInfo >> loadOp [
 	"This method was automatically generated"
 	^SDL3GPULoadOp fromInteger: (handle unsignedLongAt: OFFSET_LOAD_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> load_op: anObject [
+SDL3GPUBlitInfo >> loadOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_LOAD_OP put: anObject value
 ]

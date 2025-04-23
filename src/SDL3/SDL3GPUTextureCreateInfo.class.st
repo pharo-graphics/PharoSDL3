@@ -58,25 +58,25 @@ SDL3GPUTextureCreateInfo >> height: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureCreateInfo >> layer_count_or_depth [
+SDL3GPUTextureCreateInfo >> layerCountOrDepth [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_LAYER_COUNT_OR_DEPTH
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureCreateInfo >> layer_count_or_depth: anObject [
+SDL3GPUTextureCreateInfo >> layerCountOrDepth: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_LAYER_COUNT_OR_DEPTH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureCreateInfo >> num_levels [
+SDL3GPUTextureCreateInfo >> numLevels [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_LEVELS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureCreateInfo >> num_levels: anObject [
+SDL3GPUTextureCreateInfo >> numLevels: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_LEVELS put: anObject
 ]
@@ -94,13 +94,13 @@ SDL3GPUTextureCreateInfo >> props: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureCreateInfo >> sample_count [
+SDL3GPUTextureCreateInfo >> sampleCount [
 	"This method was automatically generated"
 	^SDL3GPUSampleCount fromInteger: (handle unsignedLongAt: OFFSET_SAMPLE_COUNT)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureCreateInfo >> sample_count: anObject [
+SDL3GPUTextureCreateInfo >> sampleCount: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_SAMPLE_COUNT put: anObject value
 ]

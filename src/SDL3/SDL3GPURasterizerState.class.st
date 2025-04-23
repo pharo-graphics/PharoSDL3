@@ -36,97 +36,97 @@ SDL3GPURasterizerState class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> cull_mode [
+SDL3GPURasterizerState >> cullMode [
 	"This method was automatically generated"
 	^SDL3GPUCullMode fromInteger: (handle unsignedLongAt: OFFSET_CULL_MODE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> cull_mode: anObject [
+SDL3GPURasterizerState >> cullMode: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_CULL_MODE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> depth_bias_clamp [
+SDL3GPURasterizerState >> depthBiasClamp [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_DEPTH_BIAS_CLAMP
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> depth_bias_clamp: anObject [
+SDL3GPURasterizerState >> depthBiasClamp: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_DEPTH_BIAS_CLAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> depth_bias_constant_factor [
+SDL3GPURasterizerState >> depthBiasConstantFactor [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_DEPTH_BIAS_CONSTANT_FACTOR
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> depth_bias_constant_factor: anObject [
+SDL3GPURasterizerState >> depthBiasConstantFactor: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_DEPTH_BIAS_CONSTANT_FACTOR put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> depth_bias_slope_factor [
+SDL3GPURasterizerState >> depthBiasSlopeFactor [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_DEPTH_BIAS_SLOPE_FACTOR
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> depth_bias_slope_factor: anObject [
+SDL3GPURasterizerState >> depthBiasSlopeFactor: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_DEPTH_BIAS_SLOPE_FACTOR put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> enable_depth_bias [
+SDL3GPURasterizerState >> enableDepthBias [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_DEPTH_BIAS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> enable_depth_bias: anObject [
+SDL3GPURasterizerState >> enableDepthBias: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_DEPTH_BIAS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> enable_depth_clip [
+SDL3GPURasterizerState >> enableDepthClip [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_DEPTH_CLIP
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> enable_depth_clip: anObject [
+SDL3GPURasterizerState >> enableDepthClip: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_DEPTH_CLIP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> fill_mode [
+SDL3GPURasterizerState >> fillMode [
 	"This method was automatically generated"
 	^SDL3GPUFillMode fromInteger: (handle unsignedLongAt: OFFSET_FILL_MODE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> fill_mode: anObject [
+SDL3GPURasterizerState >> fillMode: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FILL_MODE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> front_face [
+SDL3GPURasterizerState >> frontFace [
 	"This method was automatically generated"
 	^SDL3GPUFrontFace fromInteger: (handle unsignedLongAt: OFFSET_FRONT_FACE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> front_face: anObject [
+SDL3GPURasterizerState >> frontFace: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FRONT_FACE put: anObject value
 ]

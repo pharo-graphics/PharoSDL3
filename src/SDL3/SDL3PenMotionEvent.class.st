@@ -32,13 +32,13 @@ SDL3PenMotionEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenMotionEvent >> pen_state [
+SDL3PenMotionEvent >> penState [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_PEN_STATE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenMotionEvent >> pen_state: anObject [
+SDL3PenMotionEvent >> penState: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_PEN_STATE put: anObject
 ]

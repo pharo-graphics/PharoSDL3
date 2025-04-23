@@ -48,25 +48,25 @@ SDL3MouseWheelEvent >> direction: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseWheelEvent >> mouse_x [
+SDL3MouseWheelEvent >> mouseX [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_MOUSE_X
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseWheelEvent >> mouse_x: anObject [
+SDL3MouseWheelEvent >> mouseX: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_MOUSE_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseWheelEvent >> mouse_y [
+SDL3MouseWheelEvent >> mouseY [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_MOUSE_Y
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseWheelEvent >> mouse_y: anObject [
+SDL3MouseWheelEvent >> mouseY: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_MOUSE_Y put: anObject
 ]

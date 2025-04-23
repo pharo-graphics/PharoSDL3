@@ -46,13 +46,13 @@ SDL3Vertex >> position: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3Vertex >> tex_coord [
+SDL3Vertex >> texCoord [
 	"This method was automatically generated"
 	^ SDL3FPoint fromHandle: (handle referenceStructAt: OFFSET_TEX_COORD length: SDL3FPoint byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3Vertex >> tex_coord: anObject [
+SDL3Vertex >> texCoord: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_TEX_COORD put: anObject getHandle length: SDL3FPoint byteSize
 ]

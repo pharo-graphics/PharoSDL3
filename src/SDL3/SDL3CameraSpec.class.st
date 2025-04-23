@@ -52,25 +52,25 @@ SDL3CameraSpec >> format: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CameraSpec >> framerate_denominator [
+SDL3CameraSpec >> framerateDenominator [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_FRAMERATE_DENOMINATOR
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CameraSpec >> framerate_denominator: anObject [
+SDL3CameraSpec >> framerateDenominator: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_FRAMERATE_DENOMINATOR put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CameraSpec >> framerate_numerator [
+SDL3CameraSpec >> framerateNumerator [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_FRAMERATE_NUMERATOR
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CameraSpec >> framerate_numerator: anObject [
+SDL3CameraSpec >> framerateNumerator: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_FRAMERATE_NUMERATOR put: anObject
 ]

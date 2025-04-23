@@ -36,37 +36,37 @@ SDL3GPUTextureTransferInfo >> offset: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureTransferInfo >> pixels_per_row [
+SDL3GPUTextureTransferInfo >> pixelsPerRow [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_PIXELS_PER_ROW
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureTransferInfo >> pixels_per_row: anObject [
+SDL3GPUTextureTransferInfo >> pixelsPerRow: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_PIXELS_PER_ROW put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureTransferInfo >> rows_per_layer [
+SDL3GPUTextureTransferInfo >> rowsPerLayer [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_ROWS_PER_LAYER
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureTransferInfo >> rows_per_layer: anObject [
+SDL3GPUTextureTransferInfo >> rowsPerLayer: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_ROWS_PER_LAYER put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureTransferInfo >> transfer_buffer [
+SDL3GPUTextureTransferInfo >> transferBuffer [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_TRANSFER_BUFFER) type: ExternalType void asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureTransferInfo >> transfer_buffer: anObject [
+SDL3GPUTextureTransferInfo >> transferBuffer: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_TRANSFER_BUFFER put: anObject getHandle.
 ]

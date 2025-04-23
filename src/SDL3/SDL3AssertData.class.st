@@ -30,13 +30,13 @@ SDL3AssertData class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3AssertData >> always_ignore [
+SDL3AssertData >> alwaysIgnore [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ALWAYS_IGNORE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3AssertData >> always_ignore: anObject [
+SDL3AssertData >> alwaysIgnore: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ALWAYS_IGNORE put: anObject
 ]
@@ -102,13 +102,13 @@ SDL3AssertData >> next: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3AssertData >> trigger_count [
+SDL3AssertData >> triggerCount [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_TRIGGER_COUNT
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3AssertData >> trigger_count: anObject [
+SDL3AssertData >> triggerCount: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_TRIGGER_COUNT put: anObject
 ]

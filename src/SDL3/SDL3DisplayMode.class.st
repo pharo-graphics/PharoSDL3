@@ -82,49 +82,49 @@ SDL3DisplayMode >> internal: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> pixel_density [
+SDL3DisplayMode >> pixelDensity [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_PIXEL_DENSITY
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> pixel_density: anObject [
+SDL3DisplayMode >> pixelDensity: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_PIXEL_DENSITY put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> refresh_rate [
+SDL3DisplayMode >> refreshRate [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_REFRESH_RATE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> refresh_rate: anObject [
+SDL3DisplayMode >> refreshRate: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_REFRESH_RATE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> refresh_rate_denominator [
+SDL3DisplayMode >> refreshRateDenominator [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_REFRESH_RATE_DENOMINATOR
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> refresh_rate_denominator: anObject [
+SDL3DisplayMode >> refreshRateDenominator: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_REFRESH_RATE_DENOMINATOR put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> refresh_rate_numerator [
+SDL3DisplayMode >> refreshRateNumerator [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_REFRESH_RATE_NUMERATOR
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DisplayMode >> refresh_rate_numerator: anObject [
+SDL3DisplayMode >> refreshRateNumerator: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_REFRESH_RATE_NUMERATOR put: anObject
 ]

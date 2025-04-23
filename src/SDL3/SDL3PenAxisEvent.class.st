@@ -48,13 +48,13 @@ SDL3PenAxisEvent >> axis: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenAxisEvent >> pen_state [
+SDL3PenAxisEvent >> penState [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_PEN_STATE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenAxisEvent >> pen_state: anObject [
+SDL3PenAxisEvent >> penState: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_PEN_STATE put: anObject
 ]

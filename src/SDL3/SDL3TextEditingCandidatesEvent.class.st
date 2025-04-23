@@ -62,13 +62,13 @@ SDL3TextEditingCandidatesEvent >> horizontal: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> num_candidates [
+SDL3TextEditingCandidatesEvent >> numCandidates [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_NUM_CANDIDATES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> num_candidates: anObject [
+SDL3TextEditingCandidatesEvent >> numCandidates: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_NUM_CANDIDATES put: anObject
 ]
@@ -122,13 +122,13 @@ SDL3TextEditingCandidatesEvent >> reserved: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> selected_candidate [
+SDL3TextEditingCandidatesEvent >> selectedCandidate [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_SELECTED_CANDIDATE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> selected_candidate: anObject [
+SDL3TextEditingCandidatesEvent >> selectedCandidate: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_SELECTED_CANDIDATE put: anObject
 ]

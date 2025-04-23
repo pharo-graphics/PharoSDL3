@@ -54,13 +54,13 @@ SDL3GPUStorageTextureReadWriteBinding >> layer: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> mip_level [
+SDL3GPUStorageTextureReadWriteBinding >> mipLevel [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_MIP_LEVEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> mip_level: anObject [
+SDL3GPUStorageTextureReadWriteBinding >> mipLevel: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_MIP_LEVEL put: anObject
 ]

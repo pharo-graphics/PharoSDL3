@@ -56,13 +56,13 @@ SDL3GPUComputePipelineCreateInfo >> code: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> code_size [
+SDL3GPUComputePipelineCreateInfo >> codeSize [
 	"This method was automatically generated"
 	^handle platformSizeTAt: OFFSET_CODE_SIZE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> code_size: anObject [
+SDL3GPUComputePipelineCreateInfo >> codeSize: anObject [
 	"This method was automatically generated"
 	^handle platformSizeTAt: OFFSET_CODE_SIZE put: anObject
 ]
@@ -92,73 +92,73 @@ SDL3GPUComputePipelineCreateInfo >> format: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readonly_storage_buffers [
+SDL3GPUComputePipelineCreateInfo >> numReadonlyStorageBuffers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readonly_storage_buffers: anObject [
+SDL3GPUComputePipelineCreateInfo >> numReadonlyStorageBuffers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readonly_storage_textures [
+SDL3GPUComputePipelineCreateInfo >> numReadonlyStorageTextures [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_TEXTURES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readonly_storage_textures: anObject [
+SDL3GPUComputePipelineCreateInfo >> numReadonlyStorageTextures: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_READONLY_STORAGE_TEXTURES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readwrite_storage_buffers [
+SDL3GPUComputePipelineCreateInfo >> numReadwriteStorageBuffers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readwrite_storage_buffers: anObject [
+SDL3GPUComputePipelineCreateInfo >> numReadwriteStorageBuffers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readwrite_storage_textures [
+SDL3GPUComputePipelineCreateInfo >> numReadwriteStorageTextures [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_TEXTURES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_readwrite_storage_textures: anObject [
+SDL3GPUComputePipelineCreateInfo >> numReadwriteStorageTextures: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_READWRITE_STORAGE_TEXTURES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_samplers [
+SDL3GPUComputePipelineCreateInfo >> numSamplers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_SAMPLERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_samplers: anObject [
+SDL3GPUComputePipelineCreateInfo >> numSamplers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_SAMPLERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_uniform_buffers [
+SDL3GPUComputePipelineCreateInfo >> numUniformBuffers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> num_uniform_buffers: anObject [
+SDL3GPUComputePipelineCreateInfo >> numUniformBuffers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS put: anObject
 ]
@@ -176,37 +176,37 @@ SDL3GPUComputePipelineCreateInfo >> props: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> threadcount_x [
+SDL3GPUComputePipelineCreateInfo >> threadcountX [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_THREADCOUNT_X
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> threadcount_x: anObject [
+SDL3GPUComputePipelineCreateInfo >> threadcountX: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_THREADCOUNT_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> threadcount_y [
+SDL3GPUComputePipelineCreateInfo >> threadcountY [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_THREADCOUNT_Y
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> threadcount_y: anObject [
+SDL3GPUComputePipelineCreateInfo >> threadcountY: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_THREADCOUNT_Y put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> threadcount_z [
+SDL3GPUComputePipelineCreateInfo >> threadcountZ [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_THREADCOUNT_Z
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUComputePipelineCreateInfo >> threadcount_z: anObject [
+SDL3GPUComputePipelineCreateInfo >> threadcountZ: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_THREADCOUNT_Z put: anObject
 ]

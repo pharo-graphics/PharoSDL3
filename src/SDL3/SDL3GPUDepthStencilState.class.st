@@ -38,85 +38,85 @@ SDL3GPUDepthStencilState class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> back_stencil_state [
+SDL3GPUDepthStencilState >> backStencilState [
 	"This method was automatically generated"
 	^ SDL3GPUStencilOpState fromHandle: (handle referenceStructAt: OFFSET_BACK_STENCIL_STATE length: SDL3GPUStencilOpState byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> back_stencil_state: anObject [
+SDL3GPUDepthStencilState >> backStencilState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_BACK_STENCIL_STATE put: anObject getHandle length: SDL3GPUStencilOpState byteSize
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> compare_mask [
+SDL3GPUDepthStencilState >> compareMask [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_COMPARE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> compare_mask: anObject [
+SDL3GPUDepthStencilState >> compareMask: anObject [
 	"This method was automatically generated"
 	handle unsignedByteAt: OFFSET_COMPARE_MASK put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> compare_op [
+SDL3GPUDepthStencilState >> compareOp [
 	"This method was automatically generated"
 	^SDL3GPUCompareOp fromInteger: (handle unsignedLongAt: OFFSET_COMPARE_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> compare_op: anObject [
+SDL3GPUDepthStencilState >> compareOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_COMPARE_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> enable_depth_test [
+SDL3GPUDepthStencilState >> enableDepthTest [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_DEPTH_TEST
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> enable_depth_test: anObject [
+SDL3GPUDepthStencilState >> enableDepthTest: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_DEPTH_TEST put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> enable_depth_write [
+SDL3GPUDepthStencilState >> enableDepthWrite [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_DEPTH_WRITE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> enable_depth_write: anObject [
+SDL3GPUDepthStencilState >> enableDepthWrite: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_DEPTH_WRITE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> enable_stencil_test [
+SDL3GPUDepthStencilState >> enableStencilTest [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_STENCIL_TEST
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> enable_stencil_test: anObject [
+SDL3GPUDepthStencilState >> enableStencilTest: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_STENCIL_TEST put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> front_stencil_state [
+SDL3GPUDepthStencilState >> frontStencilState [
 	"This method was automatically generated"
 	^ SDL3GPUStencilOpState fromHandle: (handle referenceStructAt: OFFSET_FRONT_STENCIL_STATE length: SDL3GPUStencilOpState byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> front_stencil_state: anObject [
+SDL3GPUDepthStencilState >> frontStencilState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_FRONT_STENCIL_STATE put: anObject getHandle length: SDL3GPUStencilOpState byteSize
 ]
@@ -158,13 +158,13 @@ SDL3GPUDepthStencilState >> padding3: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> write_mask [
+SDL3GPUDepthStencilState >> writeMask [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_WRITE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilState >> write_mask: anObject [
+SDL3GPUDepthStencilState >> writeMask: anObject [
 	"This method was automatically generated"
 	handle unsignedByteAt: OFFSET_WRITE_MASK put: anObject
 ]

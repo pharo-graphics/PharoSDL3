@@ -34,49 +34,49 @@ SDL3GPUGraphicsPipelineCreateInfo class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> depth_stencil_state [
+SDL3GPUGraphicsPipelineCreateInfo >> depthStencilState [
 	"This method was automatically generated"
 	^ SDL3GPUDepthStencilState fromHandle: (handle referenceStructAt: OFFSET_DEPTH_STENCIL_STATE length: SDL3GPUDepthStencilState byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> depth_stencil_state: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> depthStencilState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_DEPTH_STENCIL_STATE put: anObject getHandle length: SDL3GPUDepthStencilState byteSize
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> fragment_shader [
+SDL3GPUGraphicsPipelineCreateInfo >> fragmentShader [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_FRAGMENT_SHADER) type: ExternalType void asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> fragment_shader: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> fragmentShader: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_FRAGMENT_SHADER put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> multisample_state [
+SDL3GPUGraphicsPipelineCreateInfo >> multisampleState [
 	"This method was automatically generated"
 	^ SDL3GPUMultisampleState fromHandle: (handle referenceStructAt: OFFSET_MULTISAMPLE_STATE length: SDL3GPUMultisampleState byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> multisample_state: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> multisampleState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_MULTISAMPLE_STATE put: anObject getHandle length: SDL3GPUMultisampleState byteSize
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> primitive_type [
+SDL3GPUGraphicsPipelineCreateInfo >> primitiveType [
 	"This method was automatically generated"
 	^SDL3GPUPrimitiveType fromInteger: (handle unsignedLongAt: OFFSET_PRIMITIVE_TYPE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> primitive_type: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> primitiveType: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_PRIMITIVE_TYPE put: anObject value
 ]
@@ -94,49 +94,49 @@ SDL3GPUGraphicsPipelineCreateInfo >> props: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> rasterizer_state [
+SDL3GPUGraphicsPipelineCreateInfo >> rasterizerState [
 	"This method was automatically generated"
 	^ SDL3GPURasterizerState fromHandle: (handle referenceStructAt: OFFSET_RASTERIZER_STATE length: SDL3GPURasterizerState byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> rasterizer_state: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> rasterizerState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_RASTERIZER_STATE put: anObject getHandle length: SDL3GPURasterizerState byteSize
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> target_info [
+SDL3GPUGraphicsPipelineCreateInfo >> targetInfo [
 	"This method was automatically generated"
 	^ SDL3GPUGraphicsPipelineTargetInfo fromHandle: (handle referenceStructAt: OFFSET_TARGET_INFO length: SDL3GPUGraphicsPipelineTargetInfo byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> target_info: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> targetInfo: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_TARGET_INFO put: anObject getHandle length: SDL3GPUGraphicsPipelineTargetInfo byteSize
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> vertex_input_state [
+SDL3GPUGraphicsPipelineCreateInfo >> vertexInputState [
 	"This method was automatically generated"
 	^ SDL3GPUVertexInputState fromHandle: (handle referenceStructAt: OFFSET_VERTEX_INPUT_STATE length: SDL3GPUVertexInputState byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> vertex_input_state: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> vertexInputState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_VERTEX_INPUT_STATE put: anObject getHandle length: SDL3GPUVertexInputState byteSize
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> vertex_shader [
+SDL3GPUGraphicsPipelineCreateInfo >> vertexShader [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_VERTEX_SHADER) type: ExternalType void asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineCreateInfo >> vertex_shader: anObject [
+SDL3GPUGraphicsPipelineCreateInfo >> vertexShader: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_VERTEX_SHADER put: anObject getHandle.
 ]

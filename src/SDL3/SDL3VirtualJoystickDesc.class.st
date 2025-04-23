@@ -196,25 +196,25 @@ SDL3VirtualJoystickDesc >> Update: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> axis_mask [
+SDL3VirtualJoystickDesc >> axisMask [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_AXIS_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> axis_mask: anObject [
+SDL3VirtualJoystickDesc >> axisMask: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_AXIS_MASK put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> button_mask [
+SDL3VirtualJoystickDesc >> buttonMask [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_BUTTON_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> button_mask: anObject [
+SDL3VirtualJoystickDesc >> buttonMask: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_BUTTON_MASK put: anObject
 ]
@@ -328,13 +328,13 @@ SDL3VirtualJoystickDesc >> padding: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> product_id [
+SDL3VirtualJoystickDesc >> productId [
 	"This method was automatically generated"
 	^handle unsignedShortAt: OFFSET_PRODUCT_ID
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> product_id: anObject [
+SDL3VirtualJoystickDesc >> productId: anObject [
 	"This method was automatically generated"
 	handle unsignedShortAt: OFFSET_PRODUCT_ID put: anObject
 ]
@@ -388,13 +388,13 @@ SDL3VirtualJoystickDesc >> userdata: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> vendor_id [
+SDL3VirtualJoystickDesc >> vendorId [
 	"This method was automatically generated"
 	^handle unsignedShortAt: OFFSET_VENDOR_ID
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3VirtualJoystickDesc >> vendor_id: anObject [
+SDL3VirtualJoystickDesc >> vendorId: anObject [
 	"This method was automatically generated"
 	handle unsignedShortAt: OFFSET_VENDOR_ID put: anObject
 ]

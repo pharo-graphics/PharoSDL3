@@ -42,13 +42,13 @@ SDL3GPUColorTargetInfo class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> clear_color [
+SDL3GPUColorTargetInfo >> clearColor [
 	"This method was automatically generated"
 	^ SDL3FColor fromHandle: (handle referenceStructAt: OFFSET_CLEAR_COLOR length: SDL3FColor byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> clear_color: anObject [
+SDL3GPUColorTargetInfo >> clearColor: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_CLEAR_COLOR put: anObject getHandle length: SDL3FColor byteSize
 ]
@@ -66,49 +66,49 @@ SDL3GPUColorTargetInfo >> cycle: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> cycle_resolve_texture [
+SDL3GPUColorTargetInfo >> cycleResolveTexture [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_CYCLE_RESOLVE_TEXTURE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> cycle_resolve_texture: anObject [
+SDL3GPUColorTargetInfo >> cycleResolveTexture: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_CYCLE_RESOLVE_TEXTURE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> layer_or_depth_plane [
+SDL3GPUColorTargetInfo >> layerOrDepthPlane [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_LAYER_OR_DEPTH_PLANE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> layer_or_depth_plane: anObject [
+SDL3GPUColorTargetInfo >> layerOrDepthPlane: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_LAYER_OR_DEPTH_PLANE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> load_op [
+SDL3GPUColorTargetInfo >> loadOp [
 	"This method was automatically generated"
 	^SDL3GPULoadOp fromInteger: (handle unsignedLongAt: OFFSET_LOAD_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> load_op: anObject [
+SDL3GPUColorTargetInfo >> loadOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_LOAD_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> mip_level [
+SDL3GPUColorTargetInfo >> mipLevel [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_MIP_LEVEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> mip_level: anObject [
+SDL3GPUColorTargetInfo >> mipLevel: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_MIP_LEVEL put: anObject
 ]
@@ -138,49 +138,49 @@ SDL3GPUColorTargetInfo >> padding2: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> resolve_layer [
+SDL3GPUColorTargetInfo >> resolveLayer [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESOLVE_LAYER
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> resolve_layer: anObject [
+SDL3GPUColorTargetInfo >> resolveLayer: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_RESOLVE_LAYER put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> resolve_mip_level [
+SDL3GPUColorTargetInfo >> resolveMipLevel [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESOLVE_MIP_LEVEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> resolve_mip_level: anObject [
+SDL3GPUColorTargetInfo >> resolveMipLevel: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_RESOLVE_MIP_LEVEL put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> resolve_texture [
+SDL3GPUColorTargetInfo >> resolveTexture [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_RESOLVE_TEXTURE) type: ExternalType void asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> resolve_texture: anObject [
+SDL3GPUColorTargetInfo >> resolveTexture: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_RESOLVE_TEXTURE put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> store_op [
+SDL3GPUColorTargetInfo >> storeOp [
 	"This method was automatically generated"
 	^SDL3GPUStoreOp fromInteger: (handle unsignedLongAt: OFFSET_STORE_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> store_op: anObject [
+SDL3GPUColorTargetInfo >> storeOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_STORE_OP put: anObject value
 ]

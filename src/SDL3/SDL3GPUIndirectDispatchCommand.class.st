@@ -22,37 +22,37 @@ SDL3GPUIndirectDispatchCommand class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDispatchCommand >> groupcount_x [
+SDL3GPUIndirectDispatchCommand >> groupcountX [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_GROUPCOUNT_X
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDispatchCommand >> groupcount_x: anObject [
+SDL3GPUIndirectDispatchCommand >> groupcountX: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_GROUPCOUNT_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDispatchCommand >> groupcount_y [
+SDL3GPUIndirectDispatchCommand >> groupcountY [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_GROUPCOUNT_Y
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDispatchCommand >> groupcount_y: anObject [
+SDL3GPUIndirectDispatchCommand >> groupcountY: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_GROUPCOUNT_Y put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDispatchCommand >> groupcount_z [
+SDL3GPUIndirectDispatchCommand >> groupcountZ [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_GROUPCOUNT_Z
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDispatchCommand >> groupcount_z: anObject [
+SDL3GPUIndirectDispatchCommand >> groupcountZ: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_GROUPCOUNT_Z put: anObject
 ]

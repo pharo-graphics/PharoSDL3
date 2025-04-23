@@ -24,25 +24,25 @@ SDL3GPUVertexBufferDescription class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexBufferDescription >> input_rate [
+SDL3GPUVertexBufferDescription >> inputRate [
 	"This method was automatically generated"
 	^SDL3GPUVertexInputRate fromInteger: (handle unsignedLongAt: OFFSET_INPUT_RATE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexBufferDescription >> input_rate: anObject [
+SDL3GPUVertexBufferDescription >> inputRate: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_INPUT_RATE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexBufferDescription >> instance_step_rate [
+SDL3GPUVertexBufferDescription >> instanceStepRate [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_INSTANCE_STEP_RATE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexBufferDescription >> instance_step_rate: anObject [
+SDL3GPUVertexBufferDescription >> instanceStepRate: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_INSTANCE_STEP_RATE put: anObject
 ]

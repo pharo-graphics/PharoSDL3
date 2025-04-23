@@ -20,13 +20,13 @@ SDL3GPUColorTargetDescription class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetDescription >> blend_state [
+SDL3GPUColorTargetDescription >> blendState [
 	"This method was automatically generated"
 	^ SDL3GPUColorTargetBlendState fromHandle: (handle referenceStructAt: OFFSET_BLEND_STATE length: SDL3GPUColorTargetBlendState byteSize)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetDescription >> blend_state: anObject [
+SDL3GPUColorTargetDescription >> blendState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_BLEND_STATE put: anObject getHandle length: SDL3GPUColorTargetBlendState byteSize
 ]

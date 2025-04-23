@@ -70,13 +70,13 @@ SDL3GPUTextureRegion >> layer: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureRegion >> mip_level [
+SDL3GPUTextureRegion >> mipLevel [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_MIP_LEVEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTextureRegion >> mip_level: anObject [
+SDL3GPUTextureRegion >> mipLevel: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_MIP_LEVEL put: anObject
 ]

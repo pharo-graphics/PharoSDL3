@@ -26,61 +26,61 @@ SDL3GPUIndexedIndirectDrawCommand class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> first_index [
+SDL3GPUIndexedIndirectDrawCommand >> firstIndex [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_FIRST_INDEX
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> first_index: anObject [
+SDL3GPUIndexedIndirectDrawCommand >> firstIndex: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FIRST_INDEX put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> first_instance [
+SDL3GPUIndexedIndirectDrawCommand >> firstInstance [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_FIRST_INSTANCE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> first_instance: anObject [
+SDL3GPUIndexedIndirectDrawCommand >> firstInstance: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FIRST_INSTANCE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> num_indices [
+SDL3GPUIndexedIndirectDrawCommand >> numIndices [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_INDICES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> num_indices: anObject [
+SDL3GPUIndexedIndirectDrawCommand >> numIndices: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_INDICES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> num_instances [
+SDL3GPUIndexedIndirectDrawCommand >> numInstances [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_INSTANCES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> num_instances: anObject [
+SDL3GPUIndexedIndirectDrawCommand >> numInstances: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_INSTANCES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> vertex_offset [
+SDL3GPUIndexedIndirectDrawCommand >> vertexOffset [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_VERTEX_OFFSET
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndexedIndirectDrawCommand >> vertex_offset: anObject [
+SDL3GPUIndexedIndirectDrawCommand >> vertexOffset: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_VERTEX_OFFSET put: anObject
 ]

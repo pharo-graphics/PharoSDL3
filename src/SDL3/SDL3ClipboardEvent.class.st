@@ -28,37 +28,37 @@ SDL3ClipboardEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> mime_types [
+SDL3ClipboardEvent >> mimeTypes [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_MIME_TYPES) type: ExternalType char asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> mime_types: anObject [
+SDL3ClipboardEvent >> mimeTypes: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_MIME_TYPES put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> n_mime_types [
+SDL3ClipboardEvent >> nMimeTypes [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_N_MIME_TYPES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> n_mime_types: anObject [
+SDL3ClipboardEvent >> nMimeTypes: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_N_MIME_TYPES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> num_mime_types [
+SDL3ClipboardEvent >> numMimeTypes [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_NUM_MIME_TYPES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> num_mime_types: anObject [
+SDL3ClipboardEvent >> numMimeTypes: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_NUM_MIME_TYPES put: anObject
 ]

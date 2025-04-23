@@ -36,25 +36,25 @@ SDL3GPUDepthStencilTargetInfo class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> clear_depth [
+SDL3GPUDepthStencilTargetInfo >> clearDepth [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_CLEAR_DEPTH
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> clear_depth: anObject [
+SDL3GPUDepthStencilTargetInfo >> clearDepth: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_CLEAR_DEPTH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> clear_stencil [
+SDL3GPUDepthStencilTargetInfo >> clearStencil [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_CLEAR_STENCIL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> clear_stencil: anObject [
+SDL3GPUDepthStencilTargetInfo >> clearStencil: anObject [
 	"This method was automatically generated"
 	handle unsignedByteAt: OFFSET_CLEAR_STENCIL put: anObject
 ]
@@ -72,13 +72,13 @@ SDL3GPUDepthStencilTargetInfo >> cycle: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> load_op [
+SDL3GPUDepthStencilTargetInfo >> loadOp [
 	"This method was automatically generated"
 	^SDL3GPULoadOp fromInteger: (handle unsignedLongAt: OFFSET_LOAD_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> load_op: anObject [
+SDL3GPUDepthStencilTargetInfo >> loadOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_LOAD_OP put: anObject value
 ]
@@ -108,37 +108,37 @@ SDL3GPUDepthStencilTargetInfo >> padding2: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> stencil_load_op [
+SDL3GPUDepthStencilTargetInfo >> stencilLoadOp [
 	"This method was automatically generated"
 	^SDL3GPULoadOp fromInteger: (handle unsignedLongAt: OFFSET_STENCIL_LOAD_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> stencil_load_op: anObject [
+SDL3GPUDepthStencilTargetInfo >> stencilLoadOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_STENCIL_LOAD_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> stencil_store_op [
+SDL3GPUDepthStencilTargetInfo >> stencilStoreOp [
 	"This method was automatically generated"
 	^SDL3GPUStoreOp fromInteger: (handle unsignedLongAt: OFFSET_STENCIL_STORE_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> stencil_store_op: anObject [
+SDL3GPUDepthStencilTargetInfo >> stencilStoreOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_STENCIL_STORE_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> store_op [
+SDL3GPUDepthStencilTargetInfo >> storeOp [
 	"This method was automatically generated"
 	^SDL3GPUStoreOp fromInteger: (handle unsignedLongAt: OFFSET_STORE_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> store_op: anObject [
+SDL3GPUDepthStencilTargetInfo >> storeOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_STORE_OP put: anObject value
 ]

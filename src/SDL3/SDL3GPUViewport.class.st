@@ -40,25 +40,25 @@ SDL3GPUViewport >> h: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUViewport >> max_depth [
+SDL3GPUViewport >> maxDepth [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_MAX_DEPTH
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUViewport >> max_depth: anObject [
+SDL3GPUViewport >> maxDepth: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_MAX_DEPTH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUViewport >> min_depth [
+SDL3GPUViewport >> minDepth [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_MIN_DEPTH
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUViewport >> min_depth: anObject [
+SDL3GPUViewport >> minDepth: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_MIN_DEPTH put: anObject
 ]

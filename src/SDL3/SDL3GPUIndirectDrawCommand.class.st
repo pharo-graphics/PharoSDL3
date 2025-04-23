@@ -24,49 +24,49 @@ SDL3GPUIndirectDrawCommand class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> first_instance [
+SDL3GPUIndirectDrawCommand >> firstInstance [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_FIRST_INSTANCE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> first_instance: anObject [
+SDL3GPUIndirectDrawCommand >> firstInstance: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FIRST_INSTANCE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> first_vertex [
+SDL3GPUIndirectDrawCommand >> firstVertex [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_FIRST_VERTEX
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> first_vertex: anObject [
+SDL3GPUIndirectDrawCommand >> firstVertex: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FIRST_VERTEX put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> num_instances [
+SDL3GPUIndirectDrawCommand >> numInstances [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_INSTANCES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> num_instances: anObject [
+SDL3GPUIndirectDrawCommand >> numInstances: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_INSTANCES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> num_vertices [
+SDL3GPUIndirectDrawCommand >> numVertices [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_VERTICES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUIndirectDrawCommand >> num_vertices: anObject [
+SDL3GPUIndirectDrawCommand >> numVertices: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_VERTICES put: anObject
 ]

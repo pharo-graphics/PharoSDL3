@@ -46,13 +46,13 @@ SDL3DateTime >> day: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DateTime >> day_of_week [
+SDL3DateTime >> dayOfWeek [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_DAY_OF_WEEK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DateTime >> day_of_week: anObject [
+SDL3DateTime >> dayOfWeek: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_DAY_OF_WEEK put: anObject
 ]
@@ -118,13 +118,13 @@ SDL3DateTime >> second: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DateTime >> utc_offset [
+SDL3DateTime >> utcOffset [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_UTC_OFFSET
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DateTime >> utc_offset: anObject [
+SDL3DateTime >> utcOffset: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_UTC_OFFSET put: anObject
 ]

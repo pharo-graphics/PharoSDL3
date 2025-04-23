@@ -24,49 +24,49 @@ SDL3GPUStencilOpState class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> compare_op [
+SDL3GPUStencilOpState >> compareOp [
 	"This method was automatically generated"
 	^SDL3GPUCompareOp fromInteger: (handle unsignedLongAt: OFFSET_COMPARE_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> compare_op: anObject [
+SDL3GPUStencilOpState >> compareOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_COMPARE_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> depth_fail_op [
+SDL3GPUStencilOpState >> depthFailOp [
 	"This method was automatically generated"
 	^SDL3GPUStencilOp fromInteger: (handle unsignedLongAt: OFFSET_DEPTH_FAIL_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> depth_fail_op: anObject [
+SDL3GPUStencilOpState >> depthFailOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_DEPTH_FAIL_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> fail_op [
+SDL3GPUStencilOpState >> failOp [
 	"This method was automatically generated"
 	^SDL3GPUStencilOp fromInteger: (handle unsignedLongAt: OFFSET_FAIL_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> fail_op: anObject [
+SDL3GPUStencilOpState >> failOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FAIL_OP put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> pass_op [
+SDL3GPUStencilOpState >> passOp [
 	"This method was automatically generated"
 	^SDL3GPUStencilOp fromInteger: (handle unsignedLongAt: OFFSET_PASS_OP)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStencilOpState >> pass_op: anObject [
+SDL3GPUStencilOpState >> passOp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_PASS_OP put: anObject value
 ]

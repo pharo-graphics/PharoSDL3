@@ -28,13 +28,13 @@ SDL3GPUMultisampleState class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> enable_mask [
+SDL3GPUMultisampleState >> enableMask [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_ENABLE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> enable_mask: anObject [
+SDL3GPUMultisampleState >> enableMask: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_MASK put: anObject
 ]
@@ -76,25 +76,25 @@ SDL3GPUMultisampleState >> padding3: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> sample_count [
+SDL3GPUMultisampleState >> sampleCount [
 	"This method was automatically generated"
 	^SDL3GPUSampleCount fromInteger: (handle unsignedLongAt: OFFSET_SAMPLE_COUNT)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> sample_count: anObject [
+SDL3GPUMultisampleState >> sampleCount: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_SAMPLE_COUNT put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> sample_mask [
+SDL3GPUMultisampleState >> sampleMask [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_SAMPLE_MASK
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> sample_mask: anObject [
+SDL3GPUMultisampleState >> sampleMask: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_SAMPLE_MASK put: anObject
 ]

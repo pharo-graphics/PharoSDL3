@@ -42,25 +42,25 @@ SDL3GPUBlitRegion >> h: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitRegion >> layer_or_depth_plane [
+SDL3GPUBlitRegion >> layerOrDepthPlane [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_LAYER_OR_DEPTH_PLANE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitRegion >> layer_or_depth_plane: anObject [
+SDL3GPUBlitRegion >> layerOrDepthPlane: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_LAYER_OR_DEPTH_PLANE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitRegion >> mip_level [
+SDL3GPUBlitRegion >> mipLevel [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_MIP_LEVEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitRegion >> mip_level: anObject [
+SDL3GPUBlitRegion >> mipLevel: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_MIP_LEVEL put: anObject
 ]

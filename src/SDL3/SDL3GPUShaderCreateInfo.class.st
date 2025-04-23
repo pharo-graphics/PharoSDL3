@@ -48,13 +48,13 @@ SDL3GPUShaderCreateInfo >> code: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> code_size [
+SDL3GPUShaderCreateInfo >> codeSize [
 	"This method was automatically generated"
 	^handle platformSizeTAt: OFFSET_CODE_SIZE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> code_size: anObject [
+SDL3GPUShaderCreateInfo >> codeSize: anObject [
 	"This method was automatically generated"
 	^handle platformSizeTAt: OFFSET_CODE_SIZE put: anObject
 ]
@@ -84,49 +84,49 @@ SDL3GPUShaderCreateInfo >> format: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_samplers [
+SDL3GPUShaderCreateInfo >> numSamplers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_SAMPLERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_samplers: anObject [
+SDL3GPUShaderCreateInfo >> numSamplers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_SAMPLERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_storage_buffers [
+SDL3GPUShaderCreateInfo >> numStorageBuffers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_STORAGE_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_storage_buffers: anObject [
+SDL3GPUShaderCreateInfo >> numStorageBuffers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_STORAGE_BUFFERS put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_storage_textures [
+SDL3GPUShaderCreateInfo >> numStorageTextures [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_STORAGE_TEXTURES
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_storage_textures: anObject [
+SDL3GPUShaderCreateInfo >> numStorageTextures: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_STORAGE_TEXTURES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_uniform_buffers [
+SDL3GPUShaderCreateInfo >> numUniformBuffers [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUShaderCreateInfo >> num_uniform_buffers: anObject [
+SDL3GPUShaderCreateInfo >> numUniformBuffers: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_UNIFORM_BUFFERS put: anObject
 ]

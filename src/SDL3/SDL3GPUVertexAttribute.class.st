@@ -24,13 +24,13 @@ SDL3GPUVertexAttribute class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexAttribute >> buffer_slot [
+SDL3GPUVertexAttribute >> bufferSlot [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_BUFFER_SLOT
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUVertexAttribute >> buffer_slot: anObject [
+SDL3GPUVertexAttribute >> bufferSlot: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_BUFFER_SLOT put: anObject
 ]

@@ -32,13 +32,13 @@ SDL3GPUTransferBufferLocation >> offset: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTransferBufferLocation >> transfer_buffer [
+SDL3GPUTransferBufferLocation >> transferBuffer [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_TRANSFER_BUFFER) type: ExternalType void asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUTransferBufferLocation >> transfer_buffer: anObject [
+SDL3GPUTransferBufferLocation >> transferBuffer: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_TRANSFER_BUFFER put: anObject getHandle.
 ]

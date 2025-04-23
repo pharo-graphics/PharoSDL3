@@ -60,13 +60,13 @@ SDL3PenTouchEvent >> eraser: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenTouchEvent >> pen_state [
+SDL3PenTouchEvent >> penState [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_PEN_STATE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenTouchEvent >> pen_state: anObject [
+SDL3PenTouchEvent >> penState: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_PEN_STATE put: anObject
 ]

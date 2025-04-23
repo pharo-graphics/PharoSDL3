@@ -192,25 +192,25 @@ SDL3PixelFormatDetails >> Rshift: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PixelFormatDetails >> bits_per_pixel [
+SDL3PixelFormatDetails >> bitsPerPixel [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_BITS_PER_PIXEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PixelFormatDetails >> bits_per_pixel: anObject [
+SDL3PixelFormatDetails >> bitsPerPixel: anObject [
 	"This method was automatically generated"
 	handle unsignedByteAt: OFFSET_BITS_PER_PIXEL put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PixelFormatDetails >> bytes_per_pixel [
+SDL3PixelFormatDetails >> bytesPerPixel [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_BYTES_PER_PIXEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PixelFormatDetails >> bytes_per_pixel: anObject [
+SDL3PixelFormatDetails >> bytesPerPixel: anObject [
 	"This method was automatically generated"
 	handle unsignedByteAt: OFFSET_BYTES_PER_PIXEL put: anObject
 ]

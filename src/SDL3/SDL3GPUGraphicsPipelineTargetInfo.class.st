@@ -30,49 +30,49 @@ SDL3GPUGraphicsPipelineTargetInfo class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> color_target_descriptions [
+SDL3GPUGraphicsPipelineTargetInfo >> colorTargetDescriptions [
 	"This method was automatically generated"
 	^SDL3GPUColorTargetDescription fromHandle: (handle pointerAt: OFFSET_COLOR_TARGET_DESCRIPTIONS)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> color_target_descriptions: anObject [
+SDL3GPUGraphicsPipelineTargetInfo >> colorTargetDescriptions: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_COLOR_TARGET_DESCRIPTIONS put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> depth_stencil_format [
+SDL3GPUGraphicsPipelineTargetInfo >> depthStencilFormat [
 	"This method was automatically generated"
 	^SDL3GPUTextureFormat fromInteger: (handle unsignedLongAt: OFFSET_DEPTH_STENCIL_FORMAT)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> depth_stencil_format: anObject [
+SDL3GPUGraphicsPipelineTargetInfo >> depthStencilFormat: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_DEPTH_STENCIL_FORMAT put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> has_depth_stencil_target [
+SDL3GPUGraphicsPipelineTargetInfo >> hasDepthStencilTarget [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_HAS_DEPTH_STENCIL_TARGET
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> has_depth_stencil_target: anObject [
+SDL3GPUGraphicsPipelineTargetInfo >> hasDepthStencilTarget: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_HAS_DEPTH_STENCIL_TARGET put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> num_color_targets [
+SDL3GPUGraphicsPipelineTargetInfo >> numColorTargets [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_NUM_COLOR_TARGETS
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> num_color_targets: anObject [
+SDL3GPUGraphicsPipelineTargetInfo >> numColorTargets: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_COLOR_TARGETS put: anObject
 ]

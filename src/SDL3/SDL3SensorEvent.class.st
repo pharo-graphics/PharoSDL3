@@ -52,13 +52,13 @@ SDL3SensorEvent >> reserved: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3SensorEvent >> sensor_timestamp [
+SDL3SensorEvent >> sensorTimestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3SensorEvent >> sensor_timestamp: anObject [
+SDL3SensorEvent >> sensorTimestamp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP put: anObject
 ]
