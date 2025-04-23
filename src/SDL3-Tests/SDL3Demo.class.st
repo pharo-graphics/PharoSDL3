@@ -339,8 +339,8 @@ SDL3Demo >> color: aColor [
 SDL3Demo >> ensureInitVideo [
 	"Return early if video subsystem is already initialized"
 
-	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
-		= SDL3InitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
+	(lib wasInit: SDL3InitFlags video)
+		= SDL3InitFlags video value ifTrue: [ ^ self ].
 
 	lib
 		setAppMetadataAppname: self className
@@ -348,7 +348,7 @@ SDL3Demo >> ensureInitVideo [
 		appidentifier: 'org.pharo.sdl3.', self className.
 
 	"Initialize the video subsystem"
-	self assert: (lib initSubSystem: SDL3InitFlags SDL_INIT_VIDEO)
+	self assert: (lib initSubSystem: SDL3InitFlags video)
 ]
 
 { #category : 'private' }
@@ -377,10 +377,10 @@ SDL3Demo >> ensureNoErrorIfNull: anExternalObject [
 { #category : 'lifecycle' }
 SDL3Demo >> ensureQuitVideo [
 
-	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
-		= SDL3InitFlags SDL_INIT_VIDEO ifFalse: [ ^ self ].
+	(lib wasInit: SDL3InitFlags video)
+		= SDL3InitFlags video ifFalse: [ ^ self ].
 	
-	lib quitSubSystem: SDL3InitFlags SDL_INIT_VIDEO
+	lib quitSubSystem: SDL3InitFlags video
 ]
 
 { #category : 'initialization' }
@@ -402,7 +402,7 @@ SDL3Demo >> open [
 			newWindowTitle: 'Pharo-SDL3 Demo'
 			w: 800
 			h: 600
-			flags: SDL3WindowFlags SDL_WINDOW_RESIZABLE | SDL3WindowFlags SDL_WINDOW_INPUT_FOCUS.
+			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
 	self ensureNoErrorIfNull: window.
 
 	renderer := lib newRendererWindow: window name: nil.
@@ -444,7 +444,7 @@ SDL3Demo >> renderTexture: texture at: aSDLFRect [
 SDL3Demo >> showMessageBoxTitle: title message: message [
 
 	lib
-		showSimpleMessageBoxFlags: SDL3MessageBoxFlags SDL_MESSAGEBOX_INFORMATION 
+		showSimpleMessageBoxFlags: SDL3MessageBoxFlags information 
 		title: title
 		message: message
 		window: window

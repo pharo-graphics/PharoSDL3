@@ -29,19 +29,19 @@ LibSDL3VideoTest >> setUp [
 	lib := LibSDL3 uniqueInstance.
 
 	"Return early if video subsystem is already initialized"
-	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
-		= SDL3InitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
+	(lib wasInit: SDL3InitFlags video)
+		= SDL3InitFlags video value ifTrue: [ ^ self ].
 	
 	"Initialize the video subsystem"
-	self assert: (lib initSubSystem: SDL3InitFlags SDL_INIT_VIDEO)
+	self assert: (lib initSubSystem: SDL3InitFlags video)
 ]
 
 { #category : 'running' }
 LibSDL3VideoTest >> tearDown [
 
-	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
-		= SDL3InitFlags SDL_INIT_VIDEO ifTrue: [
-			lib quitSubSystem: SDL3InitFlags SDL_INIT_VIDEO ].
+	(lib wasInit: SDL3InitFlags video)
+		= SDL3InitFlags video ifTrue: [
+			lib quitSubSystem: SDL3InitFlags video ].
 
 	super tearDown
 ]
@@ -219,7 +219,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 		lib
 			newWindowTitle: ''
 			w: extent x h: extent y
-			flags: SDL3WindowFlags SDL_WINDOW_HIDDEN | SDL3WindowFlags SDL_WINDOW_TRANSPARENT "| S3SDLWindowFlags SDL_WINDOW_BORDERLESS".
+			flags: SDL3WindowFlags hidden | SDL3WindowFlags transparent "| S3SDLWindowFlags SDL_WINDOW_BORDERLESS".
 	success := window isNull not.
 	self assert: success.
 
@@ -273,7 +273,7 @@ LibSDL3VideoTest >> test07Fullscreen [
 	window :=
 		lib
 			newWindowTitle: ''
-			w: 0 h: 0 flags: SDL3WindowFlags SDL_WINDOW_FULLSCREEN.
+			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
 	success := window isNull not.
 	self assert: success.
 

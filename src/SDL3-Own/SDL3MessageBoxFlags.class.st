@@ -36,33 +36,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT [
+SDL3MessageBoxFlags class >> buttonsLeftToRight [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT
 ]
 
 { #category : 'accessing enum' }
-SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT [
+SDL3MessageBoxFlags class >> buttonsRightToLeft [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT
-]
-
-{ #category : 'accessing enum' }
-SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_ERROR [
-	"This method was automatically generated"
-	^ SDL_MESSAGEBOX_ERROR
-]
-
-{ #category : 'accessing enum' }
-SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_INFORMATION [
-	"This method was automatically generated"
-	^ SDL_MESSAGEBOX_INFORMATION
-]
-
-{ #category : 'accessing enum' }
-SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_WARNING [
-	"This method was automatically generated"
-	^ SDL_MESSAGEBOX_WARNING
 ]
 
 { #category : 'enum declaration' }
@@ -75,4 +57,22 @@ SDL3MessageBoxFlags class >> enumDecl [
 		SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT    16r0080
 		SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT    16r0100
 		)
+]
+
+{ #category : 'accessing enum' }
+SDL3MessageBoxFlags class >> error [
+	"This method was automatically generated"
+	^ SDL_MESSAGEBOX_ERROR
+]
+
+{ #category : 'accessing enum' }
+SDL3MessageBoxFlags class >> information [
+	"This method was automatically generated"
+	^ SDL_MESSAGEBOX_INFORMATION
+]
+
+{ #category : 'accessing enum' }
+SDL3MessageBoxFlags class >> warning [
+	"This method was automatically generated"
+	^ SDL_MESSAGEBOX_WARNING
 ]

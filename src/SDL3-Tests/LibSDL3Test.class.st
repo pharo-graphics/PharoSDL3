@@ -105,19 +105,19 @@ LibSDL3Test >> test06FilesystemAPI [
 LibSDL3Test >> test07VideoSubsystemLifecycle [
 
 	"Video subsystem may be already initialized"
-	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO) =
-		SDL3InitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self skip ].
+	(lib wasInit: SDL3InitFlags video) =
+		SDL3InitFlags video value ifTrue: [ ^ self skip ].
 
-	self assert: (lib initSubSystem: SDL3InitFlags SDL_INIT_VIDEO).
-
-	self
-		assert: (lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
-		equals: SDL3InitFlags SDL_INIT_VIDEO value.
-
-	lib quitSubSystem: SDL3InitFlags SDL_INIT_VIDEO.
+	self assert: (lib initSubSystem: SDL3InitFlags video).
 
 	self
-		assert: (lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
+		assert: (lib wasInit: SDL3InitFlags video)
+		equals: SDL3InitFlags video value.
+
+	lib quitSubSystem: SDL3InitFlags video.
+
+	self
+		assert: (lib wasInit: SDL3InitFlags video)
 		equals: 0
 ]
 

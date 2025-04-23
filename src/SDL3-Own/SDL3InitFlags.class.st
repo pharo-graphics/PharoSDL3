@@ -50,51 +50,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_AUDIO [
+SDL3InitFlags class >> audio [
 	"This method was automatically generated"
 	^ SDL_INIT_AUDIO
 ]
 
 { #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_CAMERA [
+SDL3InitFlags class >> camera [
 	"This method was automatically generated"
 	^ SDL_INIT_CAMERA
-]
-
-{ #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_EVENTS [
-	"This method was automatically generated"
-	^ SDL_INIT_EVENTS
-]
-
-{ #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_GAMEPAD [
-	"This method was automatically generated"
-	^ SDL_INIT_GAMEPAD
-]
-
-{ #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_HAPTIC [
-	"This method was automatically generated"
-	^ SDL_INIT_HAPTIC
-]
-
-{ #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_JOYSTICK [
-	"This method was automatically generated"
-	^ SDL_INIT_JOYSTICK
-]
-
-{ #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_SENSOR [
-	"This method was automatically generated"
-	^ SDL_INIT_SENSOR
-]
-
-{ #category : 'accessing enum' }
-SDL3InitFlags class >> SDL_INIT_VIDEO [
-	"This method was automatically generated"
-	^ SDL_INIT_VIDEO
 ]
 
 { #category : 'enum declaration' }
@@ -110,4 +74,40 @@ SDL3InitFlags class >> enumDecl [
 		SDL_INIT_EVENTS 16r00004000
 		SDL_INIT_SENSOR 16r00008000
 		SDL_INIT_CAMERA 16r00010000 )
+]
+
+{ #category : 'accessing enum' }
+SDL3InitFlags class >> events [
+	"This method was automatically generated"
+	^ SDL_INIT_EVENTS
+]
+
+{ #category : 'accessing enum' }
+SDL3InitFlags class >> gamepad [
+	"This method was automatically generated"
+	^ SDL_INIT_GAMEPAD
+]
+
+{ #category : 'accessing enum' }
+SDL3InitFlags class >> haptic [
+	"This method was automatically generated"
+	^ SDL_INIT_HAPTIC
+]
+
+{ #category : 'accessing enum' }
+SDL3InitFlags class >> joystick [
+	"This method was automatically generated"
+	^ SDL_INIT_JOYSTICK
+]
+
+{ #category : 'accessing enum' }
+SDL3InitFlags class >> sensor [
+	"This method was automatically generated"
+	^ SDL_INIT_SENSOR
+]
+
+{ #category : 'accessing enum' }
+SDL3InitFlags class >> video [
+	"This method was automatically generated"
+	^ SDL_INIT_VIDEO
 ]

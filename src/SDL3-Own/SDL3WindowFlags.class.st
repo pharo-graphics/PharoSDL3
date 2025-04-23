@@ -81,153 +81,15 @@ Class {
 }
 
 { #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_ALWAYS_ON_TOP [
+SDL3WindowFlags class >> alwaysOnTop [
 	"This method was automatically generated"
 	^ SDL_WINDOW_ALWAYS_ON_TOP
 ]
 
 { #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_BORDERLESS [
+SDL3WindowFlags class >> borderless [
 	"This method was automatically generated"
 	^ SDL_WINDOW_BORDERLESS
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_EXTERNAL [
-	"This method was automatically generated"
-	^ SDL_WINDOW_EXTERNAL
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_FULLSCREEN [
-	"This method was automatically generated"
-	^ SDL_WINDOW_FULLSCREEN
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_HIDDEN [
-	"This method was automatically generated"
-	^ SDL_WINDOW_HIDDEN
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_HIGH_PIXEL_DENSITY [
-	"This method was automatically generated"
-	^ SDL_WINDOW_HIGH_PIXEL_DENSITY
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_INPUT_FOCUS [
-	"This method was automatically generated"
-	^ SDL_WINDOW_INPUT_FOCUS
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_KEYBOARD_GRABBED [
-	"This method was automatically generated"
-	^ SDL_WINDOW_KEYBOARD_GRABBED
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_MAXIMIZED [
-	"This method was automatically generated"
-	^ SDL_WINDOW_MAXIMIZED
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_METAL [
-	"This method was automatically generated"
-	^ SDL_WINDOW_METAL
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_MINIMIZED [
-	"This method was automatically generated"
-	^ SDL_WINDOW_MINIMIZED
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_MODAL [
-	"This method was automatically generated"
-	^ SDL_WINDOW_MODAL
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_MOUSE_CAPTURE [
-	"This method was automatically generated"
-	^ SDL_WINDOW_MOUSE_CAPTURE
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_MOUSE_FOCUS [
-	"This method was automatically generated"
-	^ SDL_WINDOW_MOUSE_FOCUS
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_MOUSE_GRABBED [
-	"This method was automatically generated"
-	^ SDL_WINDOW_MOUSE_GRABBED
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_MOUSE_RELATIVE_MODE [
-	"This method was automatically generated"
-	^ SDL_WINDOW_MOUSE_RELATIVE_MODE
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_NOT_FOCUSABLE [
-	"This method was automatically generated"
-	^ SDL_WINDOW_NOT_FOCUSABLE
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_OCCLUDED [
-	"This method was automatically generated"
-	^ SDL_WINDOW_OCCLUDED
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_OPENGL [
-	"This method was automatically generated"
-	^ SDL_WINDOW_OPENGL
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_POPUP_MENU [
-	"This method was automatically generated"
-	^ SDL_WINDOW_POPUP_MENU
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_RESIZABLE [
-	"This method was automatically generated"
-	^ SDL_WINDOW_RESIZABLE
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_TOOLTIP [
-	"This method was automatically generated"
-	^ SDL_WINDOW_TOOLTIP
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_TRANSPARENT [
-	"This method was automatically generated"
-	^ SDL_WINDOW_TRANSPARENT
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_UTILITY [
-	"This method was automatically generated"
-	^ SDL_WINDOW_UTILITY
-]
-
-{ #category : 'accessing enum' }
-SDL3WindowFlags class >> SDL_WINDOW_VULKAN [
-	"This method was automatically generated"
-	^ SDL_WINDOW_VULKAN
 ]
 
 { #category : 'enum declaration' }
@@ -263,4 +125,142 @@ SDL3WindowFlags class >> enumDecl [
 		SDL_WINDOW_TRANSPARENT          16r0040000000
 		SDL_WINDOW_NOT_FOCUSABLE        16r0080000000
 		)
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> external [
+	"This method was automatically generated"
+	^ SDL_WINDOW_EXTERNAL
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> fullscreen [
+	"This method was automatically generated"
+	^ SDL_WINDOW_FULLSCREEN
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> hidden [
+	"This method was automatically generated"
+	^ SDL_WINDOW_HIDDEN
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> highPixelDensity [
+	"This method was automatically generated"
+	^ SDL_WINDOW_HIGH_PIXEL_DENSITY
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> inputFocus [
+	"This method was automatically generated"
+	^ SDL_WINDOW_INPUT_FOCUS
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> keyboardGrabbed [
+	"This method was automatically generated"
+	^ SDL_WINDOW_KEYBOARD_GRABBED
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> maximized [
+	"This method was automatically generated"
+	^ SDL_WINDOW_MAXIMIZED
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> metal [
+	"This method was automatically generated"
+	^ SDL_WINDOW_METAL
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> minimized [
+	"This method was automatically generated"
+	^ SDL_WINDOW_MINIMIZED
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> modal [
+	"This method was automatically generated"
+	^ SDL_WINDOW_MODAL
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> mouseCapture [
+	"This method was automatically generated"
+	^ SDL_WINDOW_MOUSE_CAPTURE
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> mouseFocus [
+	"This method was automatically generated"
+	^ SDL_WINDOW_MOUSE_FOCUS
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> mouseGrabbed [
+	"This method was automatically generated"
+	^ SDL_WINDOW_MOUSE_GRABBED
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> mouseRelativeMode [
+	"This method was automatically generated"
+	^ SDL_WINDOW_MOUSE_RELATIVE_MODE
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> notFocusable [
+	"This method was automatically generated"
+	^ SDL_WINDOW_NOT_FOCUSABLE
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> occluded [
+	"This method was automatically generated"
+	^ SDL_WINDOW_OCCLUDED
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> opengl [
+	"This method was automatically generated"
+	^ SDL_WINDOW_OPENGL
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> popupMenu [
+	"This method was automatically generated"
+	^ SDL_WINDOW_POPUP_MENU
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> resizable [
+	"This method was automatically generated"
+	^ SDL_WINDOW_RESIZABLE
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> tooltip [
+	"This method was automatically generated"
+	^ SDL_WINDOW_TOOLTIP
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> transparent [
+	"This method was automatically generated"
+	^ SDL_WINDOW_TRANSPARENT
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> utility [
+	"This method was automatically generated"
+	^ SDL_WINDOW_UTILITY
+]
+
+{ #category : 'accessing enum' }
+SDL3WindowFlags class >> vulkan [
+	"This method was automatically generated"
+	^ SDL_WINDOW_VULKAN
 ]
