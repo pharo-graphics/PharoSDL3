@@ -90,22 +90,22 @@ S3Demo class >> example03HandleEvents [
 
 			"Process all pending events"
 			demo pollEventsDo: [ :evt |
-				evt type = S3SDL_EventType quit
+				evt type = SDL3EventType quit
 					ifTrue: [ quit := true ].
 
-				evt type = S3SDL_EventType keyDown ifTrue: [
+				evt type = SDL3EventType keyDown ifTrue: [
 					
-					evt scancode = S3SDL_Scancode down
+					evt scancode = SDL3Scancode down
 						ifTrue: [ bright := (bright - 0.1) max: 0 ].
-					evt scancode = S3SDL_Scancode up
+					evt scancode = SDL3Scancode up
 						ifTrue: [ bright := (bright + 0.1) min: 1.0 ].
 
-					evt scancode = S3SDL_Scancode left
+					evt scancode = SDL3Scancode left
 						ifTrue: [ hue := (hue - 5) max: 0 ].
-					evt scancode = S3SDL_Scancode right
+					evt scancode = SDL3Scancode right
 						ifTrue: [ hue := (hue + 5) min: 360 ].
 
-					evt scancode = S3SDL_Scancode escape
+					evt scancode = SDL3Scancode escape
 						ifTrue: [ quit := true ] ]
 				].
 			
@@ -154,9 +154,9 @@ S3Demo class >> example04OpenFolderDialog [
 		quit := false.
 		[ quit ] whileFalse: [
 			demo pollEventsDo: [ :evt |
-				evt type = S3SDL_EventType quit
+				evt type = SDL3EventType quit
 					ifTrue: [ quit := true ].
-				evt type = S3SDL_EventType mouseButtonDown
+				evt type = SDL3EventType mouseButtonDown
 					ifTrue: [
 						
 						[| result |
@@ -216,11 +216,11 @@ S3Demo class >> example05Clipboard [
 
 			"Process all pending events"
 			demo pollEventsDo: [ :evt |
-				evt type = S3SDL_EventType quit
+				evt type = SDL3EventType quit
 					ifTrue: [ quit := true ].
-				evt type = S3SDL_EventType windowCloseRequested
+				evt type = SDL3EventType windowCloseRequested
 					ifTrue: [ quit := true ].
-				evt type = S3SDL_EventType mouseButtonDown
+				evt type = SDL3EventType mouseButtonDown
 					ifTrue: [
 						| pasteAsTextureFromClipboardBlock |
 						Stdio stdout << demo clipboardMimeTypes asString; lf; flush.
@@ -230,7 +230,7 @@ S3Demo class >> example05Clipboard [
 								form := ImageReadWriter formFromStream: bytes readStream.
 								"form writeBMPfileNamed: 'last.bmp'."
 								texture := demo unownedNewTextureFromForm: form.
-								rect := S3SDL_FRect new
+								rect := SDL3FRect new
 									x: evt x;
 									y: evt y;
 									w: form width;
@@ -390,7 +390,7 @@ S3Demo >> initialize [
 	
 	lib := LibSDL3 uniqueInstance.
 
-	event := S3SDL_Event new.
+	event := SDL3Event new.
 	map := S3SDLEventMap new
 ]
 
@@ -473,7 +473,7 @@ Stdio stdout << '2'; lf; flush.
 	lib
 		showOpenFolderDialogCallback: callback
 		userdata: nil
-		window: (aBoolean ifTrue: [ window ] ifFalse: [ S3SDL_Window null ])
+		window: (aBoolean ifTrue: [ window ] ifFalse: [ SDL3Window null ])
 		defaultLocation: nil
 		allowMany: true.
 

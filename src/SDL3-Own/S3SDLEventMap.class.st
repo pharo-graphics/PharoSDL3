@@ -33,11 +33,11 @@ S3SDLEventMap >> initialize [
 	
  	{
 	#(#quit 256)
-		-> S3SDL_QuitEvent.
+		-> SDL3QuitEvent.
 
 	#(#localeChanged 263
 	#systemThemeChanged 264)
-		-> S3SDL_CommonEvent. "ok?"
+		-> SDL3CommonEvent. "ok?"
 
 	#(#displayOrientation 337
 	#displayAdded 338
@@ -46,7 +46,7 @@ S3SDLEventMap >> initialize [
 	#displayDesktopModeChanged 341
 	#displayCurrentModeChanged 342
 	#displayContentScaleChanged 343)
-		-> S3SDL_DisplayEvent.
+		-> SDL3DisplayEvent.
 
 	#(#windowShown 514
 	#windowHidden 515
@@ -73,143 +73,143 @@ S3SDLEventMap >> initialize [
 	#windowLeaveFullscreen 536
 	#windowDestroyed 537
 	#windowHdrStateChanged 538)
-		-> S3SDL_WindowEvent.
+		-> SDL3WindowEvent.
 	
 	#(#keyDown 768
 	#keyUp 769)
-		-> S3SDL_KeyboardEvent.
+		-> SDL3KeyboardEvent.
 
 	#(#textEditing 770)
-		-> S3SDL_TextEditingEvent.
+		-> SDL3TextEditingEvent.
 	
 	#(#textInput 771)
-		-> S3SDL_TextInputEvent.
+		-> SDL3TextInputEvent.
 
 	#(#keymapChanged 772)
-		-> S3SDL_CommonEvent.
+		-> SDL3CommonEvent.
 
 	#(#keyboardAdded 773
 	#keyboardRemoved 774)
-		-> S3SDL_KeyboardDeviceEvent.
+		-> SDL3KeyboardDeviceEvent.
 
 	#(#textEditingCandidates 775)
-		-> S3SDL_TextEditingCandidatesEvent.
+		-> SDL3TextEditingCandidatesEvent.
 
 	#(#mouseMotion 1024)
-		-> S3SDL_MouseMotionEvent.
+		-> SDL3MouseMotionEvent.
 	
 	#(#mouseButtonDown 1025
 	#mouseButtonUp 1026)
-		-> S3SDL_MouseButtonEvent.
+		-> SDL3MouseButtonEvent.
 
 	#(#mouseWheel 1027)
-		-> S3SDL_MouseWheelEvent.
+		-> SDL3MouseWheelEvent.
 
 	#(#mouseAdded 1028
 	#mouseRemoved 1029)
-		-> S3SDL_MouseDeviceEvent.
+		-> SDL3MouseDeviceEvent.
 
 	#(#joystickAxisMotion 1536)
-		-> S3SDL_JoyAxisEvent.
+		-> SDL3JoyAxisEvent.
 
 	#(#joystickBallMotion 1537)
-		-> S3SDL_JoyBallEvent.
+		-> SDL3JoyBallEvent.
 
 	#(#joystickHatMotion 1538)
-		-> S3SDL_JoyHatEvent.
+		-> SDL3JoyHatEvent.
 	
 	#(#joystickButtonDown 1539
 	#joystickButtonUp 1540)
-		-> S3SDL_JoyButtonEvent.
+		-> SDL3JoyButtonEvent.
 
 	#(#joystickAdded 1541
 	#joystickRemoved 1542
 	#joystickUpdateComplete 1544)
-		-> S3SDL_JoyDeviceEvent.
+		-> SDL3JoyDeviceEvent.
 
 	#(#joystickBatteryUpdated 1543)
-		-> S3SDL_JoyBatteryEvent.
+		-> SDL3JoyBatteryEvent.
 
 	#(#gamepadAxisMotion 1616)
-		-> S3SDL_GamepadAxisEvent.
+		-> SDL3GamepadAxisEvent.
 
 	#(#gamepadButtonDown 1617
 	#gamepadButtonUp 1618)
-		-> S3SDL_GamepadButtonEvent.
+		-> SDL3GamepadButtonEvent.
 
 	#(#gamepadAdded 1619
 	#gamepadRemoved 1620
 	#gamepadRemapped 1621
 	#gamepadUpdateComplete 1626
 	#gamepadSteamHandleUpdated 1627)
-		-> S3SDL_GamepadDeviceEvent.
+		-> SDL3GamepadDeviceEvent.
 
 	#(#gamepadTouchpadDown 1622
 	#gamepadTouchpadMotion 1623
 	#gamepadTouchpadUp 1624)
-		-> S3SDL_GamepadTouchpadEvent.
+		-> SDL3GamepadTouchpadEvent.
 
 	#(#gamepadSensorUpdate 1625)
-		-> S3SDL_GamepadSensorEvent.
+		-> SDL3GamepadSensorEvent.
 
 	#(#fingerDown 1792
 	#fingerUp 1793
 	#fingerMotion 1794
 	#fingerCanceled 1795)
-		-> S3SDL_TouchFingerEvent.
+		-> SDL3TouchFingerEvent.
 
 	#(#clipboardUpdate 2304)
-		-> S3SDL_ClipboardEvent.
+		-> SDL3ClipboardEvent.
 
 	#(#dropFile 4096
 	#dropText 4097
 	#dropBegin 4098
 	#dropComplete 4099
 	#dropPosition 4100)
-		-> S3SDL_DropEvent.
+		-> SDL3DropEvent.
 
 	#(#audioDeviceAdded 4352
 	#audioDeviceRemoved 4353
 	#audioDeviceFormatChanged 4354)
-		-> S3SDL_AudioDeviceEvent.
+		-> SDL3AudioDeviceEvent.
 
 	#(#sensorUpdate 4608)
-		-> S3SDL_SensorEvent.
+		-> SDL3SensorEvent.
 
 	#(#penProximityIn 4864
 	#penProximityOut 4865)
-		-> S3SDL_PenProximityEvent.
+		-> SDL3PenProximityEvent.
 
 	#(#penDown 4866
 	#penUp 4867)
-		-> S3SDL_PenTouchEvent.
+		-> SDL3PenTouchEvent.
 
 	#(#penButtonDown 4868
 	#penButtonUp 4869)
-		-> S3SDL_PenButtonEvent.
+		-> SDL3PenButtonEvent.
 
 	#(#penMotion 4870)
-		-> S3SDL_PenMotionEvent.
+		-> SDL3PenMotionEvent.
 
 	#(#penAxis 4871)
-		-> S3SDL_PenAxisEvent.
+		-> SDL3PenAxisEvent.
 
 	#(#cameraDeviceAdded 5120
 	#cameraDeviceRemoved 5121
 	#cameraDeviceApproved 5122
 	#cameraDeviceDenied 5123)
-		-> S3SDL_CameraDeviceEvent.
+		-> SDL3CameraDeviceEvent.
 
 	#(#renderTargetsReset 8192
 	#renderDeviceReset 8193
 	#renderDeviceLost 8194)
-		-> S3SDL_RenderEvent.
+		-> SDL3RenderEvent.
 
 	#(#pollSentinel 32512)
-		-> S3SDL_CommonEvent.
+		-> SDL3CommonEvent.
 
 	#(#user 32768)
-		-> S3SDL_UserEvent 
+		-> SDL3UserEvent 
 
 	} do: [ :association |
 		association key pairsDo: [ :eachName :eachValue |

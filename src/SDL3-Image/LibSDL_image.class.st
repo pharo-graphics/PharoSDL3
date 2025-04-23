@@ -3,7 +3,7 @@ Class {
 	#superclass : 'FFILibrary',
 	#pools : [
 		'S3SDL3Typedef',
-		'S3SDL_imageTypedef'
+		'SDL3ImageTypedef'
 	],
 	#category : 'SDL3-Image-Library',
 	#package : 'SDL3-Image',

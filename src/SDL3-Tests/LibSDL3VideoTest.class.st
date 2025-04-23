@@ -18,7 +18,7 @@ LibSDL3VideoTest >> assertEmptySDLError [
 { #category : 'private' }
 LibSDL3VideoTest >> pollAllEvents [
 
-	[ lib pollEvent: S3SDL_Event new ] whileTrue
+	[ lib pollEvent: SDL3Event new ] whileTrue
 ]
 
 { #category : 'running' }
@@ -90,8 +90,8 @@ LibSDL3VideoTest >> test02CreateWindow [
 LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 
 	| windowPointer rendererPointer window renderer success |
-	windowPointer := (FFIExternalValueHolder ofType: S3SDL_Window) new.
-	rendererPointer := (FFIExternalValueHolder ofType: S3SDL_Renderer) new.
+	windowPointer := (FFIExternalValueHolder ofType: SDL3Window) new.
+	rendererPointer := (FFIExternalValueHolder ofType: SDL3Renderer) new.
 
 	success :=
 		lib
@@ -146,7 +146,7 @@ LibSDL3VideoTest >> test04BasicRender [
 		(lib
 			renderFillRectRenderer: renderer
 			rect:
-				(S3SDL_FRect new
+				(SDL3FRect new
 					x: 10;
 					y: 10;
 					w: 120;

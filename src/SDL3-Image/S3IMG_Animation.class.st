@@ -10,7 +10,7 @@ Class {
 	],
 	#pools : [
 		'S3SDL3Typedef',
-		'S3SDL_imageTypedef'
+		'SDL3ImageTypedef'
 	],
 	#category : 'SDL3-Image-Base',
 	#package : 'SDL3-Image',
@@ -56,7 +56,7 @@ S3IMG_Animation >> delays: anObject [
 { #category : 'accessing - structure variables' }
 S3IMG_Animation >> frames [
 	"This method was automatically generated"
-	^S3SDL_Surface fromHandle: (handle pointerAt: OFFSET_FRAMES)
+	^SDL3Surface fromHandle: (handle pointerAt: OFFSET_FRAMES)
 ]
 
 { #category : 'accessing - structure variables' }
