@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MouseButtonEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_BUTTON',
 		'OFFSET_CLICKS',

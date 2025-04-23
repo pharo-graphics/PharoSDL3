@@ -33,7 +33,7 @@ typedef Uint32 SDL_InitFlags;
 ```
 "
 Class {
-	#name : 'S3SDLInitFlags',
+	#name : 'SDL3InitFlags',
 	#superclass : 'S3Enumeration',
 	#classVars : [
 		'SDL_INIT_AUDIO',
@@ -50,55 +50,55 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_AUDIO [
+SDL3InitFlags class >> SDL_INIT_AUDIO [
 	"This method was automatically generated"
 	^ SDL_INIT_AUDIO
 ]
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_CAMERA [
+SDL3InitFlags class >> SDL_INIT_CAMERA [
 	"This method was automatically generated"
 	^ SDL_INIT_CAMERA
 ]
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_EVENTS [
+SDL3InitFlags class >> SDL_INIT_EVENTS [
 	"This method was automatically generated"
 	^ SDL_INIT_EVENTS
 ]
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_GAMEPAD [
+SDL3InitFlags class >> SDL_INIT_GAMEPAD [
 	"This method was automatically generated"
 	^ SDL_INIT_GAMEPAD
 ]
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_HAPTIC [
+SDL3InitFlags class >> SDL_INIT_HAPTIC [
 	"This method was automatically generated"
 	^ SDL_INIT_HAPTIC
 ]
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_JOYSTICK [
+SDL3InitFlags class >> SDL_INIT_JOYSTICK [
 	"This method was automatically generated"
 	^ SDL_INIT_JOYSTICK
 ]
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_SENSOR [
+SDL3InitFlags class >> SDL_INIT_SENSOR [
 	"This method was automatically generated"
 	^ SDL_INIT_SENSOR
 ]
 
 { #category : 'accessing enum' }
-S3SDLInitFlags class >> SDL_INIT_VIDEO [
+SDL3InitFlags class >> SDL_INIT_VIDEO [
 	"This method was automatically generated"
 	^ SDL_INIT_VIDEO
 ]
 
 { #category : 'enum declaration' }
-S3SDLInitFlags class >> enumDecl [
+SDL3InitFlags class >> enumDecl [
 	"self rebuildEnumAccessors"
 	
 	^ #(

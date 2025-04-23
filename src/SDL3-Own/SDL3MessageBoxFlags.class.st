@@ -22,7 +22,7 @@ typedef Uint32 SDL_MessageBoxFlags;
 ```
 "
 Class {
-	#name : 'S3SDLMessageBoxFlags',
+	#name : 'SDL3MessageBoxFlags',
 	#superclass : 'S3Enumeration',
 	#classVars : [
 		'SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT',
@@ -36,37 +36,37 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDLMessageBoxFlags class >> SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT [
+SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT
 ]
 
 { #category : 'accessing enum' }
-S3SDLMessageBoxFlags class >> SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT [
+SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT
 ]
 
 { #category : 'accessing enum' }
-S3SDLMessageBoxFlags class >> SDL_MESSAGEBOX_ERROR [
+SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_ERROR [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_ERROR
 ]
 
 { #category : 'accessing enum' }
-S3SDLMessageBoxFlags class >> SDL_MESSAGEBOX_INFORMATION [
+SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_INFORMATION [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_INFORMATION
 ]
 
 { #category : 'accessing enum' }
-S3SDLMessageBoxFlags class >> SDL_MESSAGEBOX_WARNING [
+SDL3MessageBoxFlags class >> SDL_MESSAGEBOX_WARNING [
 	"This method was automatically generated"
 	^ SDL_MESSAGEBOX_WARNING
 ]
 
 { #category : 'enum declaration' }
-S3SDLMessageBoxFlags class >> enumDecl [
+SDL3MessageBoxFlags class >> enumDecl [
 	
 	^ #(
 		SDL_MESSAGEBOX_ERROR                    16r0010

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenButtonEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_BUTTON',
 		'OFFSET_DOWN',

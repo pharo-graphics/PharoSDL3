@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyBatteryEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_PERCENT',
 		'OFFSET_RESERVED',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyBallEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_BALL',
 		'OFFSET_PADDING1',

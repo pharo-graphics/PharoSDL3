@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GamepadAxisEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_AXIS',
 		'OFFSET_PADDING1',

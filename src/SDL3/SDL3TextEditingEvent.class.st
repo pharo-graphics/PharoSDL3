@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextEditingEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_LENGTH',
 		'OFFSET_RESERVED',

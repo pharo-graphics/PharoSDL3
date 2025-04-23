@@ -1,5 +1,5 @@
 Class {
-	#name : 'S3SDLMappedEvent',
+	#name : 'SDL3MappedEvent',
 	#superclass : 'S3Structure',
 	#category : 'SDL3-Own',
 	#package : 'SDL3',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'printing' }
-S3SDLMappedEvent >> printOn: aStream [
+SDL3MappedEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
@@ -19,13 +19,13 @@ S3SDLMappedEvent >> printOn: aStream [
 ]
 
 { #category : 'accessing - structure variables' }
-S3SDLMappedEvent >> timestamp [
+SDL3MappedEvent >> timestamp [
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'accessing - structure variables' }
-S3SDLMappedEvent >> type [
+SDL3MappedEvent >> type [
 
 	^ self subclassResponsibility
 ]

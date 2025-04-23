@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GamepadSensorEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_DATA',
 		'OFFSET_RESERVED',

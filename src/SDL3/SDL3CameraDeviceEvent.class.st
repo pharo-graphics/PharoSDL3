@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3CameraDeviceEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TIMESTAMP',

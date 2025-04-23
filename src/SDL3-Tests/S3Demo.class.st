@@ -339,8 +339,8 @@ S3Demo >> color: aColor [
 S3Demo >> ensureInitVideo [
 	"Return early if video subsystem is already initialized"
 
-	(lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
-		= S3SDLInitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
+	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
+		= SDL3InitFlags SDL_INIT_VIDEO value ifTrue: [ ^ self ].
 
 	lib
 		setAppMetadataAppname: self className
@@ -348,7 +348,7 @@ S3Demo >> ensureInitVideo [
 		appidentifier: 'org.pharo.sdl3.', self className.
 
 	"Initialize the video subsystem"
-	self assert: (lib initSubSystem: S3SDLInitFlags SDL_INIT_VIDEO)
+	self assert: (lib initSubSystem: SDL3InitFlags SDL_INIT_VIDEO)
 ]
 
 { #category : 'private' }
@@ -377,10 +377,10 @@ S3Demo >> ensureNoErrorIfNull: anExternalObject [
 { #category : 'lifecycle' }
 S3Demo >> ensureQuitVideo [
 
-	(lib wasInit: S3SDLInitFlags SDL_INIT_VIDEO)
-		= S3SDLInitFlags SDL_INIT_VIDEO ifFalse: [ ^ self ].
+	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
+		= SDL3InitFlags SDL_INIT_VIDEO ifFalse: [ ^ self ].
 	
-	lib quitSubSystem: S3SDLInitFlags SDL_INIT_VIDEO
+	lib quitSubSystem: SDL3InitFlags SDL_INIT_VIDEO
 ]
 
 { #category : 'initialization' }
@@ -391,7 +391,7 @@ S3Demo >> initialize [
 	lib := LibSDL3 uniqueInstance.
 
 	event := SDL3Event new.
-	map := S3SDLEventMap new
+	map := SDL3EventMap new
 ]
 
 { #category : 'lifecycle' }
@@ -402,7 +402,7 @@ S3Demo >> open [
 			newWindowTitle: 'Pharo-SDL3 Demo'
 			w: 800
 			h: 600
-			flags: S3SDLWindowFlags SDL_WINDOW_RESIZABLE | S3SDLWindowFlags SDL_WINDOW_INPUT_FOCUS.
+			flags: SDL3WindowFlags SDL_WINDOW_RESIZABLE | SDL3WindowFlags SDL_WINDOW_INPUT_FOCUS.
 	self ensureNoErrorIfNull: window.
 
 	renderer := lib newRendererWindow: window name: nil.
@@ -444,7 +444,7 @@ S3Demo >> renderTexture: texture at: aSDLFRect [
 S3Demo >> showMessageBoxTitle: title message: message [
 
 	lib
-		showSimpleMessageBoxFlags: S3SDLMessageBoxFlags SDL_MESSAGEBOX_INFORMATION 
+		showSimpleMessageBoxFlags: SDL3MessageBoxFlags SDL_MESSAGEBOX_INFORMATION 
 		title: title
 		message: message
 		window: window

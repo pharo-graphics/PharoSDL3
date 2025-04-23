@@ -1,5 +1,5 @@
 Class {
-	#name : 'S3SDLEventMap',
+	#name : 'SDL3EventMap',
 	#superclass : 'Object',
 	#instVars : [
 		'eventClassByTypeNumber'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : 'accessing' }
-S3SDLEventMap >> conversionOf: anEvent [
+SDL3EventMap >> conversionOf: anEvent [
 
 	| eventClass |
 	eventClass := self eventClassFor: anEvent type.
@@ -19,13 +19,13 @@ S3SDLEventMap >> conversionOf: anEvent [
 ]
 
 { #category : 'accessing' }
-S3SDLEventMap >> eventClassFor: typeNumber [
+SDL3EventMap >> eventClassFor: typeNumber [
 
 	^ eventClassByTypeNumber at: typeNumber
 ]
 
 { #category : 'initialization' }
-S3SDLEventMap >> initialize [
+SDL3EventMap >> initialize [
 
 	super initialize.
 

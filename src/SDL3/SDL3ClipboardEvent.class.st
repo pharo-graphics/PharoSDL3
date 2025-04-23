@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ClipboardEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_MIME_TYPES',
 		'OFFSET_NUM_MIME_TYPES',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MouseWheelEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_DIRECTION',
 		'OFFSET_MOUSE_X',

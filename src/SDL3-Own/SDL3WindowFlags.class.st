@@ -47,7 +47,7 @@ typedef Uint64 SDL_WindowFlags;
 ```
 "
 Class {
-	#name : 'S3SDLWindowFlags',
+	#name : 'SDL3WindowFlags',
 	#superclass : 'S3Enumeration',
 	#classVars : [
 		'SDL_WINDOW_ALWAYS_ON_TOP',
@@ -81,157 +81,157 @@ Class {
 }
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_ALWAYS_ON_TOP [
+SDL3WindowFlags class >> SDL_WINDOW_ALWAYS_ON_TOP [
 	"This method was automatically generated"
 	^ SDL_WINDOW_ALWAYS_ON_TOP
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_BORDERLESS [
+SDL3WindowFlags class >> SDL_WINDOW_BORDERLESS [
 	"This method was automatically generated"
 	^ SDL_WINDOW_BORDERLESS
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_EXTERNAL [
+SDL3WindowFlags class >> SDL_WINDOW_EXTERNAL [
 	"This method was automatically generated"
 	^ SDL_WINDOW_EXTERNAL
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_FULLSCREEN [
+SDL3WindowFlags class >> SDL_WINDOW_FULLSCREEN [
 	"This method was automatically generated"
 	^ SDL_WINDOW_FULLSCREEN
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_HIDDEN [
+SDL3WindowFlags class >> SDL_WINDOW_HIDDEN [
 	"This method was automatically generated"
 	^ SDL_WINDOW_HIDDEN
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_HIGH_PIXEL_DENSITY [
+SDL3WindowFlags class >> SDL_WINDOW_HIGH_PIXEL_DENSITY [
 	"This method was automatically generated"
 	^ SDL_WINDOW_HIGH_PIXEL_DENSITY
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_INPUT_FOCUS [
+SDL3WindowFlags class >> SDL_WINDOW_INPUT_FOCUS [
 	"This method was automatically generated"
 	^ SDL_WINDOW_INPUT_FOCUS
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_KEYBOARD_GRABBED [
+SDL3WindowFlags class >> SDL_WINDOW_KEYBOARD_GRABBED [
 	"This method was automatically generated"
 	^ SDL_WINDOW_KEYBOARD_GRABBED
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_MAXIMIZED [
+SDL3WindowFlags class >> SDL_WINDOW_MAXIMIZED [
 	"This method was automatically generated"
 	^ SDL_WINDOW_MAXIMIZED
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_METAL [
+SDL3WindowFlags class >> SDL_WINDOW_METAL [
 	"This method was automatically generated"
 	^ SDL_WINDOW_METAL
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_MINIMIZED [
+SDL3WindowFlags class >> SDL_WINDOW_MINIMIZED [
 	"This method was automatically generated"
 	^ SDL_WINDOW_MINIMIZED
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_MODAL [
+SDL3WindowFlags class >> SDL_WINDOW_MODAL [
 	"This method was automatically generated"
 	^ SDL_WINDOW_MODAL
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_MOUSE_CAPTURE [
+SDL3WindowFlags class >> SDL_WINDOW_MOUSE_CAPTURE [
 	"This method was automatically generated"
 	^ SDL_WINDOW_MOUSE_CAPTURE
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_MOUSE_FOCUS [
+SDL3WindowFlags class >> SDL_WINDOW_MOUSE_FOCUS [
 	"This method was automatically generated"
 	^ SDL_WINDOW_MOUSE_FOCUS
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_MOUSE_GRABBED [
+SDL3WindowFlags class >> SDL_WINDOW_MOUSE_GRABBED [
 	"This method was automatically generated"
 	^ SDL_WINDOW_MOUSE_GRABBED
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_MOUSE_RELATIVE_MODE [
+SDL3WindowFlags class >> SDL_WINDOW_MOUSE_RELATIVE_MODE [
 	"This method was automatically generated"
 	^ SDL_WINDOW_MOUSE_RELATIVE_MODE
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_NOT_FOCUSABLE [
+SDL3WindowFlags class >> SDL_WINDOW_NOT_FOCUSABLE [
 	"This method was automatically generated"
 	^ SDL_WINDOW_NOT_FOCUSABLE
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_OCCLUDED [
+SDL3WindowFlags class >> SDL_WINDOW_OCCLUDED [
 	"This method was automatically generated"
 	^ SDL_WINDOW_OCCLUDED
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_OPENGL [
+SDL3WindowFlags class >> SDL_WINDOW_OPENGL [
 	"This method was automatically generated"
 	^ SDL_WINDOW_OPENGL
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_POPUP_MENU [
+SDL3WindowFlags class >> SDL_WINDOW_POPUP_MENU [
 	"This method was automatically generated"
 	^ SDL_WINDOW_POPUP_MENU
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_RESIZABLE [
+SDL3WindowFlags class >> SDL_WINDOW_RESIZABLE [
 	"This method was automatically generated"
 	^ SDL_WINDOW_RESIZABLE
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_TOOLTIP [
+SDL3WindowFlags class >> SDL_WINDOW_TOOLTIP [
 	"This method was automatically generated"
 	^ SDL_WINDOW_TOOLTIP
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_TRANSPARENT [
+SDL3WindowFlags class >> SDL_WINDOW_TRANSPARENT [
 	"This method was automatically generated"
 	^ SDL_WINDOW_TRANSPARENT
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_UTILITY [
+SDL3WindowFlags class >> SDL_WINDOW_UTILITY [
 	"This method was automatically generated"
 	^ SDL_WINDOW_UTILITY
 ]
 
 { #category : 'accessing enum' }
-S3SDLWindowFlags class >> SDL_WINDOW_VULKAN [
+SDL3WindowFlags class >> SDL_WINDOW_VULKAN [
 	"This method was automatically generated"
 	^ SDL_WINDOW_VULKAN
 ]
 
 { #category : 'enum declaration' }
-S3SDLWindowFlags class >> enumDecl [
+SDL3WindowFlags class >> enumDecl [
 	"self
 		initializeEnumeration;
 		rebuildEnumAccessors"

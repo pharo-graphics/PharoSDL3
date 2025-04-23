@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3UserEvent',
-	#superclass : 'S3SDLMappedEvent',
+	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_CODE',
 		'OFFSET_DATA1',
