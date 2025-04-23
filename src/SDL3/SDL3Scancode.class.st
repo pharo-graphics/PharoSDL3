@@ -1641,61 +1641,61 @@ SDL3Scancode class >> nonushash [
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_0 [
+SDL3Scancode class >> number0 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_0
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_1 [
+SDL3Scancode class >> number1 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_1
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_2 [
+SDL3Scancode class >> number2 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_2
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_3 [
+SDL3Scancode class >> number3 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_3
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_4 [
+SDL3Scancode class >> number4 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_4
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_5 [
+SDL3Scancode class >> number5 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_5
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_6 [
+SDL3Scancode class >> number6 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_6
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_7 [
+SDL3Scancode class >> number7 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_7
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_8 [
+SDL3Scancode class >> number8 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_8
 ]
 
 { #category : 'accessing enum' }
-SDL3Scancode class >> numberSDL_SCANCODE_9 [
+SDL3Scancode class >> number9 [
 	"This method was automatically generated"
 	^ SDL_SCANCODE_9
 ]
