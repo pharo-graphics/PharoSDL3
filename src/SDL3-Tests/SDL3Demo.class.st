@@ -33,7 +33,7 @@ SDL3Demo class >> example01ColorWheel [
 { #category : 'examples' }
 SDL3Demo class >> example02LogEventsForSomeSconds [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval 'S3Demo example02LogEventsForSomeSconds' "
+	./pharo Pharo.image eval 'SDL3Demo example02LogEventsForSomeSconds' "
 
 	| demo shouldFinish |
 	demo := self new.
@@ -73,7 +73,7 @@ SDL3Demo class >> example02LogEventsForSomeSconds [
 { #category : 'examples' }
 SDL3Demo class >> example03HandleEvents [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval --no-quit 'S3Demo example03HandleEvents' "
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example03HandleEvents' "
 	<sampleInstance>
 
 	| demo |
@@ -140,7 +140,7 @@ SDL3Demo class >> example03HandleEvents [
 { #category : 'examples' }
 SDL3Demo class >> example04OpenFolderDialog [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval --no-quit 'S3Demo example04OpenFolderDialog' "
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example04OpenFolderDialog' "
 	<sampleInstance>
 
 	| demo logs |
@@ -200,7 +200,7 @@ SDL3Demo class >> example04OpenFolderDialog [
 { #category : 'examples' }
 SDL3Demo class >> example05Clipboard [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval --no-quit 'S3Demo example05Clipboard' "
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example05Clipboard' "
 	<sampleInstance>
 
 	| demo |
