@@ -2,8 +2,8 @@ Class {
 	#name : 'LibSDL_image',
 	#superclass : 'FFILibrary',
 	#pools : [
-		'S3SDL3Typedef',
-		'S3SDL_imageTypedef'
+		'SDL3ImageTypedef',
+		'SDL3Typedef'
 	],
 	#category : 'SDL3-Image-Library',
 	#package : 'SDL3-Image',
