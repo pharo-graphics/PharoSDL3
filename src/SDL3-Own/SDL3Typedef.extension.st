@@ -1,7 +1,7 @@
-Extension { #name : 'S3SDL3Typedef' }
+Extension { #name : 'SDL3Typedef' }
 
 { #category : '*SDL3-Own' }
-S3SDL3Typedef class >> initialize [
+SDL3Typedef class >> initialize [
 
 	uint16_t := #uint16.
 	uint64_t := #uint64.

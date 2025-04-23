@@ -1,5 +1,5 @@
 Class {
-	#name : 'S3SDL3Typedef',
+	#name : 'SDL3Typedef',
 	#superclass : 'SharedPool',
 	#classVars : [
 		'SDL_AppEvent_func',

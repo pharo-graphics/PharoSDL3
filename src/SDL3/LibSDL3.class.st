@@ -2,7 +2,7 @@ Class {
 	#name : 'LibSDL3',
 	#superclass : 'FFILibrary',
 	#pools : [
-		'S3SDL3Typedef'
+		'SDL3Typedef'
 	],
 	#category : 'SDL3-Library',
 	#package : 'SDL3',
