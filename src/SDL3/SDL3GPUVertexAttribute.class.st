@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUVertexAttribute',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_BUFFER_SLOT',
 		'OFFSET_FORMAT',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextureAccess',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_TEXTUREACCESS_STATIC',
 		'SDL_TEXTUREACCESS_STREAMING',

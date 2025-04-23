@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ArrayOrder',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_ARRAYORDER_ABGR',
 		'SDL_ARRAYORDER_ARGB',

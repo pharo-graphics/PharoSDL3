@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUBlendFactor',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_BLENDFACTOR_CONSTANT_COLOR',
 		'SDL_GPU_BLENDFACTOR_DST_ALPHA',

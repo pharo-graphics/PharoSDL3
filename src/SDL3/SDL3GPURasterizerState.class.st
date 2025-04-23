@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPURasterizerState',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_CULL_MODE',
 		'OFFSET_DEPTH_BIAS_CLAMP',

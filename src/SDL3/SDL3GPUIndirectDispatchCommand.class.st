@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUIndirectDispatchCommand',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_GROUPCOUNT_X',
 		'OFFSET_GROUPCOUNT_Y',

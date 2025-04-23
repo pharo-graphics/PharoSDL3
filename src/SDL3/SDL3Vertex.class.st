@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Vertex',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_COLOR',
 		'OFFSET_POSITION',

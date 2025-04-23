@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3FlashOperation',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_FLASH_BRIEFLY',
 		'SDL_FLASH_CANCEL',

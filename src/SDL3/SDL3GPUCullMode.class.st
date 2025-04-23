@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUCullMode',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_CULLMODE_BACK',
 		'SDL_GPU_CULLMODE_FRONT',

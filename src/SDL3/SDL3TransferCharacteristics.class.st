@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TransferCharacteristics',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_TRANSFER_CHARACTERISTICS_BT1361',
 		'SDL_TRANSFER_CHARACTERISTICS_BT2020_10BIT',

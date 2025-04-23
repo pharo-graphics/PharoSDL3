@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUVertexInputState',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_NUM_VERTEX_ATTRIBUTES',
 		'OFFSET_NUM_VERTEX_BUFFERS',

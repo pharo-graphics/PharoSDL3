@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUTransferBufferUsage',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_TRANSFERBUFFERUSAGE_DOWNLOAD',
 		'SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD'

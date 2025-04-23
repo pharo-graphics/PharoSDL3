@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3VirtualJoystickTouchpadDesc',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_NFINGERS',
 		'OFFSET_PADDING'

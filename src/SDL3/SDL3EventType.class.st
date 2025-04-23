@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3EventType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_EVENT_AUDIO_DEVICE_ADDED',
 		'SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED',

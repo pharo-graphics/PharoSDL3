@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ColorType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_COLOR_TYPE_RGB',
 		'SDL_COLOR_TYPE_UNKNOWN',

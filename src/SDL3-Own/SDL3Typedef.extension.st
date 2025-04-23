@@ -425,8 +425,8 @@ SDL3Typedef class >> initialize [
 	SDL_WindowFlags := Uint64.
 	SDL_WindowID := Uint32.
 	SDL_X11EventHook := FFICallback.
-	_XEvent := S3_XEvent.
-	XEvent := S3_XEvent
+	_XEvent := SDL3XEvent.
+	XEvent := SDL3XEvent
 	
 
 

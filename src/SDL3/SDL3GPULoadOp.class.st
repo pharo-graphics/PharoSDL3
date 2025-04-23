@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPULoadOp',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_LOADOP_CLEAR',
 		'SDL_GPU_LOADOP_DONT_CARE',

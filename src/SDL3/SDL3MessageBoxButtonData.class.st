@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MessageBoxButtonData',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_BUTTONID',
 		'OFFSET_FLAGS',

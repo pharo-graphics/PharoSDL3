@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3DisplayMode',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_DISPLAYID',
 		'OFFSET_FORMAT',

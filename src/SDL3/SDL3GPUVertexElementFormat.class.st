@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUVertexElementFormat',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_VERTEXELEMENTFORMAT_BYTE2',
 		'SDL_GPU_VERTEXELEMENTFORMAT_BYTE2_NORM',

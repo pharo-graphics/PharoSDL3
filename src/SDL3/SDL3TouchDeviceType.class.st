@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TouchDeviceType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_TOUCH_DEVICE_DIRECT',
 		'SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE',

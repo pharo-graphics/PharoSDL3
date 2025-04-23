@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PowerState',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_POWERSTATE_CHARGED',
 		'SDL_POWERSTATE_CHARGING',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUTextureLocation',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_LAYER',
 		'OFFSET_MIP_LEVEL',

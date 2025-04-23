@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ThreadState',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_THREAD_ALIVE',
 		'SDL_THREAD_COMPLETE',

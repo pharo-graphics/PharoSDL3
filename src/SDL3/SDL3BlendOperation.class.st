@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3BlendOperation',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_BLENDOPERATION_ADD',
 		'SDL_BLENDOPERATION_MAXIMUM',

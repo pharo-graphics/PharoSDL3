@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TimeFormat',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_TIME_FORMAT_12HR',
 		'SDL_TIME_FORMAT_24HR'

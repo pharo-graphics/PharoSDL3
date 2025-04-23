@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUFillMode',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_FILLMODE_FILL',
 		'SDL_GPU_FILLMODE_LINE'

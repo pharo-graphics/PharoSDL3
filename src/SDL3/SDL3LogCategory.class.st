@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3LogCategory',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_LOG_CATEGORY_APPLICATION',
 		'SDL_LOG_CATEGORY_ASSERT',

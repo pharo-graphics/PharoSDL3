@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ChromaLocation',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_CHROMA_LOCATION_CENTER',
 		'SDL_CHROMA_LOCATION_LEFT',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUBlitInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_CLEAR_COLOR',
 		'OFFSET_CYCLE',

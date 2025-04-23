@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PropertyType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PROPERTY_TYPE_BOOLEAN',
 		'SDL_PROPERTY_TYPE_FLOAT',

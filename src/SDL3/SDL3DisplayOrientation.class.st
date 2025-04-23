@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3DisplayOrientation',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_ORIENTATION_LANDSCAPE',
 		'SDL_ORIENTATION_LANDSCAPE_FLIPPED',

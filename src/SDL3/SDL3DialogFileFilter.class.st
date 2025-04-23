@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3DialogFileFilter',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_NAME',
 		'OFFSET_PATTERN'

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUSampleCount',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_SAMPLECOUNT_1',
 		'SDL_GPU_SAMPLECOUNT_2',

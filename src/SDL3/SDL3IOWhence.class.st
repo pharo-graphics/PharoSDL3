@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3IOWhence',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_IO_SEEK_CUR',
 		'SDL_IO_SEEK_END',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUIndexElementSize',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_INDEXELEMENTSIZE_16BIT',
 		'SDL_GPU_INDEXELEMENTSIZE_32BIT'

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUTransferBufferLocation',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_OFFSET',
 		'OFFSET_TRANSFER_BUFFER'

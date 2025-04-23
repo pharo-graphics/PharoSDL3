@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GLAttr',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GL_ACCELERATED_VISUAL',
 		'SDL_GL_ACCUM_ALPHA_SIZE',

@@ -1,5 +1,5 @@
 Class {
-	#name : 'S3Demo',
+	#name : 'SDL3Demo',
 	#superclass : 'Object',
 	#instVars : [
 		'window',
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : 'examples' }
-S3Demo class >> example01ColorWheel [
+SDL3Demo class >> example01ColorWheel [
 
 	| demo |
 	demo := self new.
@@ -31,7 +31,7 @@ S3Demo class >> example01ColorWheel [
 ]
 
 { #category : 'examples' }
-S3Demo class >> example02LogEventsForSomeSconds [
+SDL3Demo class >> example02LogEventsForSomeSconds [
 	"It is prepared to run headless with:
 	./pharo Pharo.image eval 'S3Demo example02LogEventsForSomeSconds' "
 
@@ -71,7 +71,7 @@ S3Demo class >> example02LogEventsForSomeSconds [
 ]
 
 { #category : 'examples' }
-S3Demo class >> example03HandleEvents [
+SDL3Demo class >> example03HandleEvents [
 	"It is prepared to run headless with:
 	./pharo Pharo.image eval --no-quit 'S3Demo example03HandleEvents' "
 	<sampleInstance>
@@ -138,7 +138,7 @@ S3Demo class >> example03HandleEvents [
 ]
 
 { #category : 'examples' }
-S3Demo class >> example04OpenFolderDialog [
+SDL3Demo class >> example04OpenFolderDialog [
 	"It is prepared to run headless with:
 	./pharo Pharo.image eval --no-quit 'S3Demo example04OpenFolderDialog' "
 	<sampleInstance>
@@ -198,7 +198,7 @@ S3Demo class >> example04OpenFolderDialog [
 ]
 
 { #category : 'examples' }
-S3Demo class >> example05Clipboard [
+SDL3Demo class >> example05Clipboard [
 	"It is prepared to run headless with:
 	./pharo Pharo.image eval --no-quit 'S3Demo example05Clipboard' "
 	<sampleInstance>
@@ -265,20 +265,20 @@ S3Demo class >> example05Clipboard [
 ]
 
 { #category : 'renderer' }
-S3Demo >> clear [
+SDL3Demo >> clear [
 
 	self ensureNoErrorIfFalse: (lib renderClear: renderer)
 ]
 
 { #category : 'renderer' }
-S3Demo >> clearColor: aColor [
+SDL3Demo >> clearColor: aColor [
 
 	self color: aColor.
 	self clear
 ]
 
 { #category : 'utilities' }
-S3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: absentBlock [
+SDL3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: absentBlock [
 
 	| mimeType |
 	mimeType := mimeTypes
@@ -300,7 +300,7 @@ S3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: ab
 ]
 
 { #category : 'utilities' }
-S3Demo >> clipboardMimeTypes [
+SDL3Demo >> clipboardMimeTypes [
 
 	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
 	mimeTypesCountPointer := FFIInt64 newBuffer.
@@ -314,7 +314,7 @@ S3Demo >> clipboardMimeTypes [
 ]
 
 { #category : 'lifecycle' }
-S3Demo >> close [
+SDL3Demo >> close [
 
 	lib clearError.
 	[ 	lib destroyRenderer: renderer.
@@ -324,7 +324,7 @@ S3Demo >> close [
 ]
 
 { #category : 'renderer' }
-S3Demo >> color: aColor [
+SDL3Demo >> color: aColor [
 
 	self ensureNoErrorIfFalse:
 		(lib
@@ -336,7 +336,7 @@ S3Demo >> color: aColor [
 ]
 
 { #category : 'lifecycle' }
-S3Demo >> ensureInitVideo [
+SDL3Demo >> ensureInitVideo [
 	"Return early if video subsystem is already initialized"
 
 	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
@@ -352,14 +352,14 @@ S3Demo >> ensureInitVideo [
 ]
 
 { #category : 'private' }
-S3Demo >> ensureNoError [
+SDL3Demo >> ensureNoError [
 	<debuggerCompleteToSender>
 
 	lib getError ifNotEmpty: [ :msg | Error new signal: msg ]
 ]
 
 { #category : 'private' }
-S3Demo >> ensureNoErrorIfFalse: aBoolean [
+SDL3Demo >> ensureNoErrorIfFalse: aBoolean [
 	<debuggerCompleteToSender>
 	
 	aBoolean ifTrue: [ ^ self ].
@@ -367,7 +367,7 @@ S3Demo >> ensureNoErrorIfFalse: aBoolean [
 ]
 
 { #category : 'private' }
-S3Demo >> ensureNoErrorIfNull: anExternalObject [
+SDL3Demo >> ensureNoErrorIfNull: anExternalObject [
 	<debuggerCompleteToSender>
 
 	anExternalObject isNull ifFalse: [ ^ self ].
@@ -375,7 +375,7 @@ S3Demo >> ensureNoErrorIfNull: anExternalObject [
 ]
 
 { #category : 'lifecycle' }
-S3Demo >> ensureQuitVideo [
+SDL3Demo >> ensureQuitVideo [
 
 	(lib wasInit: SDL3InitFlags SDL_INIT_VIDEO)
 		= SDL3InitFlags SDL_INIT_VIDEO ifFalse: [ ^ self ].
@@ -384,7 +384,7 @@ S3Demo >> ensureQuitVideo [
 ]
 
 { #category : 'initialization' }
-S3Demo >> initialize [
+SDL3Demo >> initialize [
 
 	super initialize.
 	
@@ -395,7 +395,7 @@ S3Demo >> initialize [
 ]
 
 { #category : 'lifecycle' }
-S3Demo >> open [
+SDL3Demo >> open [
 
 	window :=
 		lib
@@ -410,27 +410,27 @@ S3Demo >> open [
 ]
 
 { #category : 'enumerating' }
-S3Demo >> pollEvents [
+SDL3Demo >> pollEvents [
 
 	^ Array new: 10 streamContents: [ :stream |
 		self pollEventsDo: [ :evt | stream nextPut: evt copy ]]
 ]
 
 { #category : 'enumerating' }
-S3Demo >> pollEventsDo: aUnaryBlock [
+SDL3Demo >> pollEventsDo: aUnaryBlock [
 
 	[ lib pollEvent: event ] whileTrue: [
 		aUnaryBlock value: (map conversionOf: event) ]
 ]
 
 { #category : 'renderer' }
-S3Demo >> present [
+SDL3Demo >> present [
 
 	self ensureNoErrorIfFalse: (lib renderPresent: renderer)
 ]
 
 { #category : 'renderer' }
-S3Demo >> renderTexture: texture at: aSDLFRect [
+SDL3Demo >> renderTexture: texture at: aSDLFRect [
 
 	self ensureNoErrorIfFalse:
 		(lib
@@ -441,7 +441,7 @@ S3Demo >> renderTexture: texture at: aSDLFRect [
 ]
 
 { #category : 'utilities' }
-S3Demo >> showMessageBoxTitle: title message: message [
+SDL3Demo >> showMessageBoxTitle: title message: message [
 
 	lib
 		showSimpleMessageBoxFlags: SDL3MessageBoxFlags SDL_MESSAGEBOX_INFORMATION 
@@ -451,7 +451,7 @@ S3Demo >> showMessageBoxTitle: title message: message [
 ]
 
 { #category : 'utilities' }
-S3Demo >> showOpenFolderModal: aBoolean [
+SDL3Demo >> showOpenFolderModal: aBoolean [
 
 	| callback result semaphore |
 	semaphore := Semaphore new.
@@ -487,7 +487,7 @@ Stdio stdout << '4'; lf; flush.
 ]
 
 { #category : 'renderer' }
-S3Demo >> showText: aString x: x y: y [
+SDL3Demo >> showText: aString x: x y: y [
 
 	self ensureNoErrorIfFalse:
 		(lib
@@ -498,14 +498,14 @@ S3Demo >> showText: aString x: x y: y [
 ]
 
 { #category : 'renderer' }
-S3Demo >> showText: aString x: x y: y color: aColor [
+SDL3Demo >> showText: aString x: x y: y color: aColor [
 
 	self color: aColor.
 	self showText: aString x: x y: y
 ]
 
 { #category : 'utilities' }
-S3Demo >> unownedNewTextureFromForm: aForm [
+SDL3Demo >> unownedNewTextureFromForm: aForm [
 
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.

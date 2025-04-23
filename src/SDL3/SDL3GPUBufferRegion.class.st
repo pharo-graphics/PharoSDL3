@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUBufferRegion',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_BUFFER',
 		'OFFSET_OFFSET',

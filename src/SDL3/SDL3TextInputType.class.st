@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextInputType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_TEXTINPUT_TYPE_NUMBER',
 		'SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN',

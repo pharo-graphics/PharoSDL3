@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Finger',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_ID',
 		'OFFSET_PRESSURE',

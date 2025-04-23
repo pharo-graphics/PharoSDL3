@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MessageBoxColor',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_B',
 		'OFFSET_G',

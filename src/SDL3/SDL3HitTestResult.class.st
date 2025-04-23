@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3HitTestResult',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_HITTEST_DRAGGABLE',
 		'SDL_HITTEST_NORMAL',

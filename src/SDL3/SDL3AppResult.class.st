@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AppResult',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_APP_CONTINUE',
 		'SDL_APP_FAILURE',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUStorageTextureReadWriteBinding',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_CYCLE',
 		'OFFSET_LAYER',

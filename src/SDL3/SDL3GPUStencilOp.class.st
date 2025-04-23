@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUStencilOp',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_STENCILOP_DECREMENT_AND_CLAMP',
 		'SDL_GPU_STENCILOP_DECREMENT_AND_WRAP',

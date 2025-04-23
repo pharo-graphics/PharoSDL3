@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3BlendFactor',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_BLENDFACTOR_DST_ALPHA',
 		'SDL_BLENDFACTOR_DST_COLOR',

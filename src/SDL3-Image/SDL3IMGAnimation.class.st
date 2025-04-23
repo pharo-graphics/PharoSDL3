@@ -1,6 +1,6 @@
 Class {
-	#name : 'S3IMG_Animation',
-	#superclass : 'S3Structure',
+	#name : 'SDL3IMGAnimation',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_COUNT',
 		'OFFSET_DELAYS',
@@ -9,8 +9,8 @@ Class {
 		'OFFSET_W'
 	],
 	#pools : [
-		'S3SDL3Typedef',
-		'SDL3ImageTypedef'
+		'SDL3ImageTypedef',
+		'SDL3Typedef'
 	],
 	#category : 'SDL3-Image-Base',
 	#package : 'SDL3-Image',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : 'field definition' }
-S3IMG_Animation class >> fieldsDesc [
+SDL3IMGAnimation class >> fieldsDesc [
 
 	^ #(
 	int w;
@@ -30,61 +30,61 @@ S3IMG_Animation class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> count [
+SDL3IMGAnimation >> count [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_COUNT
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> count: anObject [
+SDL3IMGAnimation >> count: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_COUNT put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> delays [
+SDL3IMGAnimation >> delays [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_DELAYS) type: ExternalType long asPointerType
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> delays: anObject [
+SDL3IMGAnimation >> delays: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_DELAYS put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> frames [
+SDL3IMGAnimation >> frames [
 	"This method was automatically generated"
 	^SDL3Surface fromHandle: (handle pointerAt: OFFSET_FRAMES)
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> frames: anObject [
+SDL3IMGAnimation >> frames: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_FRAMES put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> h [
+SDL3IMGAnimation >> h [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_H
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> h: anObject [
+SDL3IMGAnimation >> h: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_H put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> w [
+SDL3IMGAnimation >> w [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_W
 ]
 
 { #category : 'accessing - structure variables' }
-S3IMG_Animation >> w: anObject [
+SDL3IMGAnimation >> w: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_W put: anObject
 ]

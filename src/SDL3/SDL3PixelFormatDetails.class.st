@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PixelFormatDetails',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_ABITS',
 		'OFFSET_AMASK',

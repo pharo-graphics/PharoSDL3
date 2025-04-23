@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AsyncIOOutcome',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_ASYNCIO',
 		'OFFSET_BUFFER',

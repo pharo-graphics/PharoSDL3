@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PackedOrder',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PACKEDORDER_ABGR',
 		'SDL_PACKEDORDER_ARGB',

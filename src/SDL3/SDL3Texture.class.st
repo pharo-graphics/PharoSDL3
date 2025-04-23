@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Texture',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_FORMAT',
 		'OFFSET_H',

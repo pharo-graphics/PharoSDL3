@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3RendererLogicalPresentation',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_LOGICAL_PRESENTATION_DISABLED',
 		'SDL_LOGICAL_PRESENTATION_INTEGER_SCALE',

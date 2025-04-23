@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Locale',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_COUNTRY',
 		'OFFSET_LANGUAGE'

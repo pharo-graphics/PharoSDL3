@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUVertexBufferDescription',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_INPUT_RATE',
 		'OFFSET_INSTANCE_STEP_RATE',

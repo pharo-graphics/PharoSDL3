@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUBufferCreateInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_PROPS',
 		'OFFSET_SIZE',

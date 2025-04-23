@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUTextureRegion',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_D',
 		'OFFSET_H',

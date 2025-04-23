@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3HidBusType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_HID_API_BUS_BLUETOOTH',
 		'SDL_HID_API_BUS_I2C',

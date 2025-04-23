@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PixelFormat',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PIXELFORMAT_ABGR128_FLOAT',
 		'SDL_PIXELFORMAT_ABGR1555',

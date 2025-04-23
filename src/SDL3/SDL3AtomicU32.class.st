@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AtomicU32',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_VALUE'
 	],

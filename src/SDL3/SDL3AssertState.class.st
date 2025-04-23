@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AssertState',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_ASSERTION_ABORT',
 		'SDL_ASSERTION_ALWAYS_IGNORE',

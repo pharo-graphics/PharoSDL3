@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Colorspace',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_COLORSPACE_BT2020_FULL',
 		'SDL_COLORSPACE_BT2020_LIMITED',

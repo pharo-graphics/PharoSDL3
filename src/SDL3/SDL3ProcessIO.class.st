@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ProcessIO',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PROCESS_STDIO_APP',
 		'SDL_PROCESS_STDIO_INHERITED',

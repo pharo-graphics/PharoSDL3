@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AsyncIOResult',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_ASYNCIO_CANCELED',
 		'SDL_ASYNCIO_COMPLETE',

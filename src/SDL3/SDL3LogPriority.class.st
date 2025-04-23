@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3LogPriority',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_LOG_PRIORITY_COUNT',
 		'SDL_LOG_PRIORITY_CRITICAL',

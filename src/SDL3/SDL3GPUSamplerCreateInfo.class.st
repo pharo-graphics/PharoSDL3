@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUSamplerCreateInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_ADDRESS_MODE_U',
 		'OFFSET_ADDRESS_MODE_V',

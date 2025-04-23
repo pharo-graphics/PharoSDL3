@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoystickType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_JOYSTICK_TYPE_ARCADE_PAD',
 		'SDL_JOYSTICK_TYPE_ARCADE_STICK',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MatrixCoefficients',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_MATRIX_COEFFICIENTS_BT2020_CL',
 		'SDL_MATRIX_COEFFICIENTS_BT2020_NCL',

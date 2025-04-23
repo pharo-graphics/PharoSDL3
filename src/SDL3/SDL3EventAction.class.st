@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3EventAction',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_ADDEVENT',
 		'SDL_GETEVENT',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3VirtualJoystickDesc',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_AXIS_MASK',
 		'OFFSET_BUTTON_MASK',

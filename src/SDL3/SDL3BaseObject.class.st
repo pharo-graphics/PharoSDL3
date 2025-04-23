@@ -1,5 +1,5 @@
 Class {
-	#name : 'S3BaseObject',
+	#name : 'SDL3BaseObject',
 	#superclass : 'FFIOpaqueObject',
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
@@ -12,25 +12,25 @@ Class {
 }
 
 { #category : 'finalization' }
-S3BaseObject >> autoRelease [
+SDL3BaseObject >> autoRelease [
 	
 	FinalizationRegistry default add: self
 ]
 
 { #category : 'finalization' }
-S3BaseObject >> dispose [
+SDL3BaseObject >> dispose [
 	
 	self subclassResponsibility
 ]
 
 { #category : 'finalization' }
-S3BaseObject >> finalize [
+SDL3BaseObject >> finalize [
 	
 	self dispose.
 	handle beNull
 ]
 
 { #category : 'initialization' }
-S3BaseObject >> initialize [
+SDL3BaseObject >> initialize [
 	"do nothing (prevent initialize to set the handle)"
 ]

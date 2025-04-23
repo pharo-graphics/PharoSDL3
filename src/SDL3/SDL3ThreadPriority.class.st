@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ThreadPriority',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_THREAD_PRIORITY_HIGH',
 		'SDL_THREAD_PRIORITY_LOW',

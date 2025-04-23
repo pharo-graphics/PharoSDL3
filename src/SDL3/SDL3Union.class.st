@@ -1,5 +1,5 @@
 Class {
-	#name : 'S3Union',
+	#name : 'SDL3Union',
 	#superclass : 'FFIUnion',
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUTextureFormat',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_TEXTUREFORMAT_A8_UNORM',
 		'SDL_GPU_TEXTUREFORMAT_ASTC_10x10_FLOAT',

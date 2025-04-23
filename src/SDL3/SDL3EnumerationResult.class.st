@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3EnumerationResult',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_ENUM_CONTINUE',
 		'SDL_ENUM_FAILURE',

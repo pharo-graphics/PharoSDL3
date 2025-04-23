@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUSamplerAddressMode',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE',
 		'SDL_GPU_SAMPLERADDRESSMODE_MIRRORED_REPEAT',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUViewport',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_H',
 		'OFFSET_MAX_DEPTH',

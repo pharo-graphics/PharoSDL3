@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MessageBoxColorType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_MESSAGEBOX_COLOR_BACKGROUND',
 		'SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND',

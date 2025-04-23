@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AssertData',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_ALWAYS_IGNORE',
 		'OFFSET_CONDITION',

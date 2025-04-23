@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Event',
-	#superclass : 'S3Union',
+	#superclass : 'SDL3Union',
 	#category : 'SDL3-Base',
 	#package : 'SDL3',
 	#tag : 'Base'

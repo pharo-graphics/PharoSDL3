@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUBlitRegion',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_H',
 		'OFFSET_LAYER_OR_DEPTH_PLANE',

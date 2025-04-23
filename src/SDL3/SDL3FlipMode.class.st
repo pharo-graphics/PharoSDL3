@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3FlipMode',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_FLIP_HORIZONTAL',
 		'SDL_FLIP_NONE',

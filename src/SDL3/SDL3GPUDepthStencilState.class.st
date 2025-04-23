@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUDepthStencilState',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_BACK_STENCIL_STATE',
 		'OFFSET_COMPARE_MASK',

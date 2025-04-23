@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ColorRange',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_COLOR_RANGE_FULL',
 		'SDL_COLOR_RANGE_LIMITED',

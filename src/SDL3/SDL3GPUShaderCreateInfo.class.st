@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUShaderCreateInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_CODE',
 		'OFFSET_CODE_SIZE',

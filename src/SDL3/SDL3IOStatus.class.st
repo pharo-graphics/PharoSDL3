@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3IOStatus',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_IO_STATUS_EOF',
 		'SDL_IO_STATUS_ERROR',

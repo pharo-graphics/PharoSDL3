@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3BitmapOrder',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_BITMAPORDER_1234',
 		'SDL_BITMAPORDER_4321',

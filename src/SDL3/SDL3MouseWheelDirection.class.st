@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MouseWheelDirection',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_MOUSEWHEEL_FLIPPED',
 		'SDL_MOUSEWHEEL_NORMAL'

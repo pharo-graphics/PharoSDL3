@@ -12,5 +12,5 @@ Class {
 { #category : 'class initialization' }
 SDL3ImageTypedef class >> initialize [
 
-	IMG_Animation := S3IMG_Animation
+	IMG_Animation := SDL3IMGAnimation
 ]

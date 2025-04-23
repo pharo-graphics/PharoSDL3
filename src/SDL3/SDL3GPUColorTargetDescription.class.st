@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUColorTargetDescription',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_BLEND_STATE',
 		'OFFSET_FORMAT'

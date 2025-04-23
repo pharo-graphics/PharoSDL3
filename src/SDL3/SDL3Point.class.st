@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Point',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_X',
 		'OFFSET_Y'

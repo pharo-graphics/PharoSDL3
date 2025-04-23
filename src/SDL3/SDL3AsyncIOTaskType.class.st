@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AsyncIOTaskType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_ASYNCIO_TASK_CLOSE',
 		'SDL_ASYNCIO_TASK_READ',

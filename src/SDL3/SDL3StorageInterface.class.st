@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3StorageInterface',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_UINT64',
 		'OFFSET_VERSION'

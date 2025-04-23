@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUIndexedIndirectDrawCommand',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_FIRST_INDEX',
 		'OFFSET_FIRST_INSTANCE',

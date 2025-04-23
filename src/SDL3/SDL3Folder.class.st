@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Folder',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_FOLDER_COUNT',
 		'SDL_FOLDER_DESKTOP',

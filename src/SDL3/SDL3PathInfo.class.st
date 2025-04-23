@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PathInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_ACCESS_TIME',
 		'OFFSET_CREATE_TIME',

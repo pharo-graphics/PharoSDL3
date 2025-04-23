@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUBlendOp',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_BLENDOP_ADD',
 		'SDL_GPU_BLENDOP_INVALID',

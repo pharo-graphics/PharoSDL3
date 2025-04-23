@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AudioFormat',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_AUDIO_F32',
 		'SDL_AUDIO_F32BE',

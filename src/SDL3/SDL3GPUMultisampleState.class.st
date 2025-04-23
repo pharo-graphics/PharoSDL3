@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUMultisampleState',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_ENABLE_MASK',
 		'OFFSET_PADDING1',

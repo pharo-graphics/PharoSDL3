@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3FColor',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_A',
 		'OFFSET_B',

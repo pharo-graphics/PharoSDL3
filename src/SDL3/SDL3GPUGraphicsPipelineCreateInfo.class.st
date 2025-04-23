@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUGraphicsPipelineCreateInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_DEPTH_STENCIL_STATE',
 		'OFFSET_FRAGMENT_SHADER',

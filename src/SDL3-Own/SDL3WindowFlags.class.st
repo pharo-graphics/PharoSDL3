@@ -48,7 +48,7 @@ typedef Uint64 SDL_WindowFlags;
 "
 Class {
 	#name : 'SDL3WindowFlags',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_WINDOW_ALWAYS_ON_TOP',
 		'SDL_WINDOW_BORDERLESS',

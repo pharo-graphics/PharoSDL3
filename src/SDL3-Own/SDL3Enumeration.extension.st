@@ -1,19 +1,19 @@
-Extension { #name : 'S3Enumeration' }
+Extension { #name : 'SDL3Enumeration' }
 
 { #category : '*SDL3-Own' }
-S3Enumeration >> asInteger [
+SDL3Enumeration >> asInteger [
 
 	^ value
 ]
 
 { #category : '*SDL3-Own' }
-S3Enumeration >> bitOr: anInteger [
+SDL3Enumeration >> bitOr: anInteger [
 
 	^ self asInteger bitOr: anInteger
 ]
 
 { #category : '*SDL3-Own' }
-S3Enumeration class >> enumDeclCommonPrefix [
+SDL3Enumeration class >> enumDeclCommonPrefix [
 
 	| shortestName names |
 	names := self enumDecl
@@ -29,7 +29,7 @@ S3Enumeration class >> enumDeclCommonPrefix [
 ]
 
 { #category : '*SDL3-Own' }
-S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix [
+SDL3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix [
 
 	| newName |
 	newName := aName withoutPrefix: prefix.
@@ -49,7 +49,7 @@ S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix [
 ]
 
 { #category : '*SDL3-Own' }
-S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix givenInvalidName: invalidName [
+SDL3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix givenInvalidName: invalidName [
 
 	invalidName first isDigit ifFalse: [ self error ].
 
@@ -57,7 +57,7 @@ S3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix givenInvalidN
 ]
 
 { #category : '*SDL3-Own' }
-S3Enumeration class >> enumDeclToCamelCaseDictionary [
+SDL3Enumeration class >> enumDeclToCamelCaseDictionary [
 
 	| prefix result |
 	"Must take another approach if there is only one pair"
@@ -75,7 +75,7 @@ S3Enumeration class >> enumDeclToCamelCaseDictionary [
 ]
 
 { #category : '*SDL3-Own' }
-S3Enumeration class >> initialize [
+SDL3Enumeration class >> initialize [
 
 	self allSubclassesDo: [ :each |
 		each
@@ -84,7 +84,7 @@ S3Enumeration class >> initialize [
 ]
 
 { #category : '*SDL3-Own' }
-S3Enumeration >> | another [
+SDL3Enumeration >> | another [
 
 	^ self asInteger | another asInteger
 ]

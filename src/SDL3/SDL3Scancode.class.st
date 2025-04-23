@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Scancode',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_SCANCODE_0',
 		'SDL_SCANCODE_1',

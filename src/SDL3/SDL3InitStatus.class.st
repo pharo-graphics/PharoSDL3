@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3InitStatus',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_INIT_STATUS_INITIALIZED',
 		'SDL_INIT_STATUS_INITIALIZING',

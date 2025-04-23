@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PixelType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PIXELTYPE_ARRAYF16',
 		'SDL_PIXELTYPE_ARRAYF32',

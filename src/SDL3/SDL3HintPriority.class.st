@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3HintPriority',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_HINT_DEFAULT',
 		'SDL_HINT_NORMAL',

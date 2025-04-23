@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUFilter',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_FILTER_LINEAR',
 		'SDL_GPU_FILTER_NEAREST'

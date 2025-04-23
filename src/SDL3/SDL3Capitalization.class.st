@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Capitalization',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_CAPITALIZE_LETTERS',
 		'SDL_CAPITALIZE_NONE',

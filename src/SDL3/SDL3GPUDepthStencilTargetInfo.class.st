@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUDepthStencilTargetInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_CLEAR_DEPTH',
 		'OFFSET_CLEAR_STENCIL',

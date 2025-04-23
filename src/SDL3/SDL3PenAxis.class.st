@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenAxis',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PEN_AXIS_COUNT',
 		'SDL_PEN_AXIS_DISTANCE',

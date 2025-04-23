@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoystickConnectionState',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_JOYSTICK_CONNECTION_INVALID',
 		'SDL_JOYSTICK_CONNECTION_UNKNOWN',

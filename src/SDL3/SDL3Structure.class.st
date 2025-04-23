@@ -1,6 +1,6 @@
 Class {
-	#name : 'S3Enumeration',
-	#superclass : 'FFIEnumeration',
+	#name : 'SDL3Structure',
+	#superclass : 'FFIStructure',
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#pools : [

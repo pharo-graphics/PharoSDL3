@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUPrimitiveType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_PRIMITIVETYPE_LINELIST',
 		'SDL_GPU_PRIMITIVETYPE_LINESTRIP',

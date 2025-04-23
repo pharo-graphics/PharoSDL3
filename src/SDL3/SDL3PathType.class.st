@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PathType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PATHTYPE_DIRECTORY',
 		'SDL_PATHTYPE_FILE',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUTextureSamplerBinding',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_SAMPLER',
 		'OFFSET_TEXTURE'

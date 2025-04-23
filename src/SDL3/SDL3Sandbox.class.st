@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3Sandbox',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_SANDBOX_FLATPAK',
 		'SDL_SANDBOX_MACOS',

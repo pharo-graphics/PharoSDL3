@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3DateFormat',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_DATE_FORMAT_DDMMYYYY',
 		'SDL_DATE_FORMAT_MMDDYYYY',

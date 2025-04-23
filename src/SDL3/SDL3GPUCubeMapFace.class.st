@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUCubeMapFace',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_CUBEMAPFACE_NEGATIVEX',
 		'SDL_GPU_CUBEMAPFACE_NEGATIVEY',

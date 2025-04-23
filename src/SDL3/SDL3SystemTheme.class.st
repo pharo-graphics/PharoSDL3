@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3SystemTheme',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_SYSTEM_THEME_DARK',
 		'SDL_SYSTEM_THEME_LIGHT',

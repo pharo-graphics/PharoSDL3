@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUGraphicsPipelineTargetInfo',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_COLOR_TARGET_DESCRIPTIONS',
 		'OFFSET_DEPTH_STENCIL_FORMAT',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3CameraPosition',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_CAMERA_POSITION_BACK_FACING',
 		'SDL_CAMERA_POSITION_FRONT_FACING',

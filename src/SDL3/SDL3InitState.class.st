@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3InitState',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_STATUS',

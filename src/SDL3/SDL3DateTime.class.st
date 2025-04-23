@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3DateTime',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_DAY',
 		'OFFSET_DAY_OF_WEEK',

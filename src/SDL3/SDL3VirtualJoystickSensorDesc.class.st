@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3VirtualJoystickSensorDesc',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_RATE',
 		'OFFSET_TYPE'

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUVertexInputRate',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_VERTEXINPUTRATE_INSTANCE',
 		'SDL_GPU_VERTEXINPUTRATE_VERTEX'

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUPresentMode',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_PRESENTMODE_IMMEDIATE',
 		'SDL_GPU_PRESENTMODE_MAILBOX',

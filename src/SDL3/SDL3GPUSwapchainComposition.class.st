@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUSwapchainComposition',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_SWAPCHAINCOMPOSITION_HDR10_ST2084',
 		'SDL_GPU_SWAPCHAINCOMPOSITION_HDR_EXTENDED_LINEAR',

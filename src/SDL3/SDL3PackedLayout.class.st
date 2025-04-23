@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PackedLayout',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_PACKEDLAYOUT_1010102',
 		'SDL_PACKEDLAYOUT_1555',

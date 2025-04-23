@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUFrontFace',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_FRONTFACE_CLOCKWISE',
 		'SDL_GPU_FRONTFACE_COUNTER_CLOCKWISE'

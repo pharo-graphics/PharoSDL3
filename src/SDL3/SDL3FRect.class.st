@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3FRect',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_H',
 		'OFFSET_W',

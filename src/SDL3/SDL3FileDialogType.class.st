@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3FileDialogType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_FILEDIALOG_OPENFILE',
 		'SDL_FILEDIALOG_OPENFOLDER',

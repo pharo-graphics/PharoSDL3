@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ColorPrimaries',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_COLOR_PRIMARIES_BT2020',
 		'SDL_COLOR_PRIMARIES_BT470BG',

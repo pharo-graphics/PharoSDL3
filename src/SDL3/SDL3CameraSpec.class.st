@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3CameraSpec',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_COLORSPACE',
 		'OFFSET_FORMAT',

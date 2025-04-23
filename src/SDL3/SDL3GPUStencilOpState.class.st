@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUStencilOpState',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_COMPARE_OP',
 		'OFFSET_DEPTH_FAIL_OP',

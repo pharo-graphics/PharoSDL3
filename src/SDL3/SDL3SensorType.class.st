@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3SensorType',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_SENSOR_ACCEL',
 		'SDL_SENSOR_ACCEL_L',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3AudioSpec',
-	#superclass : 'S3Structure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_CHANNELS',
 		'OFFSET_FORMAT',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUCompareOp',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_COMPAREOP_ALWAYS',
 		'SDL_GPU_COMPAREOP_EQUAL',

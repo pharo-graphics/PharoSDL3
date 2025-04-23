@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3ScaleMode',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_SCALEMODE_INVALID',
 		'SDL_SCALEMODE_LINEAR',

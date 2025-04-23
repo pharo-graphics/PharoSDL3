@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUShaderStage',
-	#superclass : 'S3Enumeration',
+	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_GPU_SHADERSTAGE_FRAGMENT',
 		'SDL_GPU_SHADERSTAGE_VERTEX'
