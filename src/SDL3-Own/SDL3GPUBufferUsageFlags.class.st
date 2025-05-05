@@ -34,7 +34,7 @@ typedef Uint32 SDL_GPUBufferUsageFlags;
 "
 Class {
 	#name : 'SDL3GPUBufferUsageFlags',
-	#superclass : 'SDL3Enumeration',
+	#superclass : 'SDL3MacroDefinedFlag',
 	#classVars : [
 		'SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ',
 		'SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE',

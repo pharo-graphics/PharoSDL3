@@ -1,18 +1,6 @@
 Extension { #name : 'SDL3Enumeration' }
 
 { #category : '*SDL3-Own' }
-SDL3Enumeration >> asInteger [
-
-	^ value
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Enumeration >> bitOr: anInteger [
-
-	^ self asInteger bitOr: anInteger
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Enumeration class >> enumDeclCommonPrefix [
 
 	| shortestName names |
@@ -76,15 +64,11 @@ SDL3Enumeration class >> enumDeclToCamelCaseDictionary [
 
 { #category : '*SDL3-Own' }
 SDL3Enumeration class >> initialize [
+	"We take the responsibility of initializing the whole hierarchy.
+	Why? To avoid duplication of initialize on each subclass.
+	However, we have to only initialize subclasses that define #enumDecl on classSide."
 
 	self allSubclassesDo: [ :each |
-		each
-			initializeEnumeration;
-			rebuildEnumAccessors ]
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Enumeration >> | another [
-
-	^ self asInteger | another asInteger
+		(each classSide includesSelector: #enumDecl) ifTrue: [
+			each initializeEnumeration ] ]
 ]

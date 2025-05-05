@@ -34,7 +34,7 @@ typedef Uint32 SDL_InitFlags;
 "
 Class {
 	#name : 'SDL3InitFlags',
-	#superclass : 'SDL3Enumeration',
+	#superclass : 'SDL3MacroDefinedFlag',
 	#classVars : [
 		'SDL_INIT_AUDIO',
 		'SDL_INIT_CAMERA',

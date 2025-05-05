@@ -23,7 +23,7 @@ typedef Uint32 SDL_MessageBoxFlags;
 "
 Class {
 	#name : 'SDL3MessageBoxFlags',
-	#superclass : 'SDL3Enumeration',
+	#superclass : 'SDL3MacroDefinedFlag',
 	#classVars : [
 		'SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT',
 		'SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT',

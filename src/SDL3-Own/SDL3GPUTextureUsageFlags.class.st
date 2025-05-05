@@ -38,7 +38,7 @@ typedef Uint32 SDL_GPUTextureUsageFlags;
 "
 Class {
 	#name : 'SDL3GPUTextureUsageFlags',
-	#superclass : 'SDL3Enumeration',
+	#superclass : 'SDL3MacroDefinedFlag',
 	#classVars : [
 		'SDL_GPU_TEXTUREUSAGE_COLOR_TARGET',
 		'SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ',

@@ -27,7 +27,7 @@ typedef Uint32 SDL_GPUShaderFormat;
 "
 Class {
 	#name : 'SDL3GPUShaderFormat',
-	#superclass : 'SDL3Enumeration',
+	#superclass : 'SDL3MacroDefinedFlag',
 	#classVars : [
 		'SDL_GPU_SHADERFORMAT_DXBC',
 		'SDL_GPU_SHADERFORMAT_DXIL',
