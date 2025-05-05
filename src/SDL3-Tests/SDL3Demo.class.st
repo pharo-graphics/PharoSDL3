@@ -31,9 +31,70 @@ SDL3Demo class >> example01ColorWheel [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example02LogEventsForSomeSconds [
+SDL3Demo class >> example02LogInfoSomeSeconds [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval 'SDL3Demo example02LogEventsForSomeSconds' "
+	./pharo Pharo.image eval 'SDL3Demo example02LogInfoSomeSeconds' "
+
+	| demo shouldFinish |
+	demo := self new.
+	demo ensureInitVideo; open.
+	shouldFinish := false.
+
+	[	| logs |
+		logs := LinkedList new.
+
+		"Main loop"
+		[ shouldFinish ] whileFalse: [ 
+
+			demo pollEventsDo: [ :evt | "we need to consume events, else window may not show" ].
+
+			logs removeAll.
+			logs add: #getRevision -> LibSDL3 uniqueInstance getRevision.
+			logs add: #getBasePath -> LibSDL3 uniqueInstance getBasePath.
+			logs add: #getCurrentDirectory -> LibSDL3 uniqueInstance getCurrentDirectory.
+			logs add: #getCurrentVideoDriver -> LibSDL3 uniqueInstance getCurrentVideoDriver.
+
+			logs add: ''.
+			logs add: #getMouseStateX:y:.
+			ExternalAddress
+				allocate: ExternalType float byteSize
+				allocate: ExternalType float byteSize
+				during: [ :pointerForX :pointerForY |
+					| state |
+					state := LibSDL3 uniqueInstance getMouseStateX: pointerForX y: pointerForY.
+					logs add: 'x: ', (pointerForX floatAt: 1) asString.
+					logs add: 'y: ', (pointerForY floatAt: 1) asString.
+					logs addAll: (SDL3MouseButtonFlags allValuesIn: state) ].
+
+			logs add: ''.
+			logs add: #getModState.
+			logs addAll: (SDL3Keymod allValuesIn: LibSDL3 uniqueInstance getModState).
+
+			"Render frame"
+			demo clearColor: Color blue muchDarker.
+			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
+			logs withIndexDo: [ :each :index |
+				demo
+					showText: each asString
+					x: 10 y: 10 * index
+					color: Color white ].
+			demo present.
+
+			"Do a little wait before next frame"
+			50 milliSeconds wait ]
+
+		] fork.
+
+	11 seconds wait.
+	shouldFinish := true.
+	Processor yield.
+	demo close; ensureQuitVideo
+]
+
+{ #category : 'examples' }
+SDL3Demo class >> example03LogEventsSomeSeconds [
+	"It is prepared to run headless with:
+	./pharo Pharo.image eval 'SDL3Demo example03LogEventsSomeSeconds' "
 
 	| demo shouldFinish |
 	demo := self new.
@@ -71,9 +132,9 @@ SDL3Demo class >> example02LogEventsForSomeSconds [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example03HandleEvents [
+SDL3Demo class >> example04HandleEvents [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval --no-quit 'SDL3Demo example03HandleEvents' "
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example04HandleEvents' "
 	<sampleInstance>
 
 	| demo |
@@ -126,66 +187,6 @@ SDL3Demo class >> example03HandleEvents [
 			"Do a little wait before next frame"
 			10 milliSeconds wait ].
 	
-		"Tear down"
-		demo close.
-		UIManager default class = NonInteractiveUIManager ifTrue: [ 
-			demo ensureQuitVideo.
-			Smalltalk snapshot: false andQuit: true ]
-
-		] fork.
-	
-	^ demo
-]
-
-{ #category : 'examples' }
-SDL3Demo class >> example04OpenFolderDialog [
-	"It is prepared to run headless with:
-	./pharo Pharo.image eval --no-quit 'SDL3Demo example04OpenFolderDialog' "
-	<sampleInstance>
-
-	| demo logs |
-	demo := self new.
-	demo ensureInitVideo; open.
-
-	logs := LinkedList new.
-	logs add: 'CLICK TO OPEN DIALOG'.
-
-	[	| quit |
-		quit := false.
-		[ quit ] whileFalse: [
-			demo pollEventsDo: [ :evt |
-				evt type = SDL3EventType quit
-					ifTrue: [ quit := true ].
-				evt type = SDL3EventType mouseButtonDown
-					ifTrue: [
-						
-						[| result |
-						result := demo showOpenFolderModal: true.
-						demo showMessageBoxTitle: 'Info' message: 'Thank you'.
-						result
-							ifEmpty: [ 
-								logs addLast: 'Cancelled' ]
-							ifNotEmpty: [
-								logs addLast:
-									('Selected ', result size asString,
-									' directories: ', result asString) ]
-							] onErrorDo: [ :error | logs addLast: error asString ] ]
-
-				].
-
-			"Render frame"
-			demo clearColor: Color blue muchDarker.
-			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
-			logs withIndexDo: [ :each :index |
-				demo
-					showText: each
-					x: 10 y: 10 * index
-					color: Color white ].
-			demo present.
-
-			"Do a little wait before next frame"
-			10 milliSeconds wait ].
-
 		"Tear down"
 		demo close.
 		UIManager default class = NonInteractiveUIManager ifTrue: [ 
@@ -254,6 +255,66 @@ SDL3Demo class >> example05Clipboard [
 	
 		"Tear down"
 		pasted do: [ :each | each key destroy ].
+		demo close.
+		UIManager default class = NonInteractiveUIManager ifTrue: [ 
+			demo ensureQuitVideo.
+			Smalltalk snapshot: false andQuit: true ]
+
+		] fork.
+	
+	^ demo
+]
+
+{ #category : 'examples' }
+SDL3Demo class >> example06OpenFolderDialog [
+	"It is prepared to run headless with:
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example06OpenFolderDialog' "
+	<sampleInstance>
+
+	| demo logs |
+	demo := self new.
+	demo ensureInitVideo; open.
+
+	logs := LinkedList new.
+	logs add: 'CLICK TO OPEN DIALOG'.
+
+	[	| quit |
+		quit := false.
+		[ quit ] whileFalse: [
+			demo pollEventsDo: [ :evt |
+				evt type = SDL3EventType quit
+					ifTrue: [ quit := true ].
+				evt type = SDL3EventType mouseButtonDown
+					ifTrue: [
+						
+						[| result |
+						result := demo showOpenFolderModal: true.
+						demo showMessageBoxTitle: 'Info' message: 'Thank you'.
+						result
+							ifEmpty: [ 
+								logs addLast: 'Cancelled' ]
+							ifNotEmpty: [
+								logs addLast:
+									('Selected ', result size asString,
+									' directories: ', result asString) ]
+							] onErrorDo: [ :error | logs addLast: error asString ] ]
+
+				].
+
+			"Render frame"
+			demo clearColor: Color blue muchDarker.
+			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
+			logs withIndexDo: [ :each :index |
+				demo
+					showText: each
+					x: 10 y: 10 * index
+					color: Color white ].
+			demo present.
+
+			"Do a little wait before next frame"
+			10 milliSeconds wait ].
+
+		"Tear down"
 		demo close.
 		UIManager default class = NonInteractiveUIManager ifTrue: [ 
 			demo ensureQuitVideo.
