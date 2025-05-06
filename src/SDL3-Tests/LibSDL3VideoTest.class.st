@@ -269,13 +269,22 @@ LibSDL3VideoTest >> test06ShapedWindow [
 { #category : 'tests' }
 LibSDL3VideoTest >> test07Fullscreen [
 
-	| success window |
+	| window renderer |
 	window :=
 		lib
 			newWindowTitle: ''
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
-	success := window isNull not.
-	self assert: success.
+	renderer := lib newRendererWindow: window name: nil.
+
+	"Render text (debugging API)"
+	lib
+		setRenderDrawColorFloatRenderer: renderer
+		r: 1.0 g: 1.0 b: 1.0 a: 1.0.
+	lib
+		renderDebugTextRenderer: renderer
+		x: 100 y: 100 str: 'Hello FULLSCREEN'.
+	lib renderPresent: renderer.
+	self assertEmptySDLError.
 
 	self waitToSee.
 	self waitToSee.
