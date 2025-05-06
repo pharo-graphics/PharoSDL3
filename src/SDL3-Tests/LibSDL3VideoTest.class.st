@@ -294,6 +294,31 @@ LibSDL3VideoTest >> test07Fullscreen [
 	self assertEmptySDLError
 ]
 
+{ #category : 'tests' }
+LibSDL3VideoTest >> test08CursorAPI [
+
+	| cursorId cursor |
+	cursorId := SDL3SystemCursor crosshair.
+	cursor := lib newSystemCursor: cursorId.
+	self assert: (lib setCursor: cursor).
+
+	self assert: lib getCursor getHandle equals: cursor getHandle.
+
+	lib hideCursor.
+	self deny: lib cursorVisible.
+
+	lib showCursor.
+	self assert: lib cursorVisible.
+
+	lib destroyCursor: cursor.
+	
+	cursor := lib getDefaultCursor.
+	self deny: cursor isNull.
+	self assert: (lib setCursor: cursor).
+	"You do not have to call SDL_DestroyCursor() on the return value, but it is safe to do so."
+	lib destroyCursor: cursor 
+]
+
 { #category : 'private' }
 LibSDL3VideoTest >> waitToSee [
 	"May perform a wait to let user visually check the window"

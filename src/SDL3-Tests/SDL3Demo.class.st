@@ -325,6 +325,68 @@ SDL3Demo class >> example06OpenFolderDialog [
 	^ demo
 ]
 
+{ #category : 'examples' }
+SDL3Demo class >> example07SystemCursors [
+	"It is prepared to run headless with:
+	./pharo Pharo.image eval --no-quit 'SDL3Demo ' "
+	<sampleInstance>
+
+	| demo |
+	demo := self new.
+	demo ensureInitVideo; open.
+
+	[	| quit logs cursorGenerator |
+		quit := false.
+		logs := LinkedList new.
+		logs add: 'Click to change to next System Cursor.'.
+		
+		cursorGenerator := Generator on: [ :g |
+			[ SDL3SystemCursor allValues
+				do: [ :each | g yield: each ] ] repeat ].
+		
+		"main loop"
+		[ quit ] whileFalse: [
+
+			"Process all pending events"
+			demo pollEventsDo: [ :evt |
+				evt type = SDL3EventType quit
+					ifTrue: [ quit := true ].
+				evt type = SDL3EventType windowCloseRequested
+					ifTrue: [ quit := true ].
+				evt type = SDL3EventType mouseButtonDown
+					ifTrue: [
+						| cursorId cursor |
+						cursorId := cursorGenerator next. 
+						cursor := LibSDL3 uniqueInstance newSystemCursor: cursorId.
+						self assert: (LibSDL3 uniqueInstance setCursor: cursor).
+						logs add: cursorId item ]
+
+				].
+			
+			"Render frame"
+			demo clearColor: Color blue muchDarker.
+			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
+			logs withIndexDo: [ :each :index |
+				demo
+					showText: each
+					x: 10 y: 10 * index
+					color: Color white ].
+			demo present.
+
+			"Do a little wait before next frame"
+			30 milliSeconds wait ].
+	
+		"Tear down"
+		demo close.
+		UIManager default class = NonInteractiveUIManager ifTrue: [ 
+			demo ensureQuitVideo.
+			Smalltalk snapshot: false andQuit: true ]
+
+		] fork.
+	
+	^ demo
+]
+
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
