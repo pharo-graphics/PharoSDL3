@@ -8,24 +8,6 @@ Class {
 	#package : 'SDL3-Own'
 }
 
-{ #category : 'accessing' }
-SDL3MacroDefinedFlag class >> allValues [
-
-	^ Array streamContents: [ :stream |
-		self allValuesDo: [ :each | stream nextPut: each ] ]
-]
-
-{ #category : 'enumerating' }
-SDL3MacroDefinedFlag class >> allValuesDo: aBlock [
-
-	self withAllSuperclassesDo: [ :eachClass |
-		eachClass = SDL3Enumeration
-			ifFalse: [
-				eachClass classPool valuesDo: [ :eachValue |
-					aBlock value: eachValue ] ]
-			ifTrue: [ ^ self "done!" ] ]
-]
-
 { #category : 'converting' }
 SDL3MacroDefinedFlag class >> allValuesIn: anInteger [
 
