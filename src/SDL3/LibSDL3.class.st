@@ -1721,18 +1721,6 @@ LibSDL3 >> bsearchRKey: key base: base nmemb: nmemb size: size compare: compare 
 ]
 
 { #category : 'public' }
-LibSDL3 >> cOMPILETIMEASSERT [
-
-	self ffiCall: #(int SDL_COMPILE_TIME_ASSERT_1())
-]
-
-{ #category : 'public' }
-LibSDL3 >> cOMPILETIMEASSERT: arg1 [
-
-	self ffiCall: #(int SDL_COMPILE_TIME_ASSERT_2(SDL_Event arg1))
-]
-
-{ #category : 'public' }
 LibSDL3 >> calculateGPUTextureFormatSizeFormat: format width: width height: height depthOrLayerCount: depth_or_layer_count [
 	"/**
 	 * Calculate the size in bytes of a texture format with dimensions.
