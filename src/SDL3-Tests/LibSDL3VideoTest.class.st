@@ -4,6 +4,9 @@ Class {
 	#instVars : [
 		'lib'
 	],
+	#classInstVars : [
+		'shouldWaitToSee'
+	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
 	#tag : 'Library'
@@ -222,7 +225,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 		lib
 			newWindowTitle: ''
 			w: extent x h: extent y
-			flags: SDL3WindowFlags hidden | SDL3WindowFlags transparent "| S3SDLWindowFlags SDL_WINDOW_BORDERLESS".
+			flags: SDL3WindowFlags hidden | SDL3WindowFlags transparent | SDL3WindowFlags borderless.
 	success := window isNull not.
 	self assert: success.
 
@@ -257,9 +260,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	self assert: success.
 
 
-	self pollAllEvents.
-
-	2 seconds wait.
+	"self pollAllEvents. May need to consume all events"
 	self waitToSee.
 	
 	"Tear down"
