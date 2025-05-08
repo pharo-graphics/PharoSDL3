@@ -12,6 +12,22 @@ Class {
 	#tag : 'Library'
 }
 
+{ #category : 'accessing' }
+LibSDL3VideoTest class >> shouldWaitToSee [
+
+	^ shouldWaitToSee ifNil: [ UIManager default class ~= NonInteractiveUIManager ]
+]
+
+{ #category : 'accessing' }
+LibSDL3VideoTest class >> shouldWaitToSee: aBoolean [
+	"Establish whether the wait to see tests is actually enabled.
+	Useful to be run from terminal, e.g.:
+	
+	./pharo Pharo.image eval 'LibSDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest suite run' "
+
+	shouldWaitToSee := aBoolean
+]
+
 { #category : 'private' }
 LibSDL3VideoTest >> assertEmptySDLError [
 
@@ -81,7 +97,7 @@ LibSDL3VideoTest >> test02CreateWindow [
 	| window |
 	window :=
 		lib
-			newWindowTitle: 'Pharo SDL3'
+			newWindowTitle: #test02CreateWindow
 			w: 800 h: 600 flags: 0.
 	self assertEmptySDLError.
 	self deny: window isNull.
@@ -101,7 +117,7 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 
 	success :=
 		lib
-			newWindowAndRendererTitle: 'Pharo SDL3'
+			newWindowAndRendererTitle: #test03CreateWindowAndRenderer
 			width: 800
 			height: 600
 			windowFlags: 0
@@ -127,7 +143,7 @@ LibSDL3VideoTest >> test04BasicRender [
 	| success window renderer |
 	window :=
 		lib
-			newWindowTitle: 'Pharo SDL3'
+			newWindowTitle: #test04BasicRender
 			w: 400 h: 300 flags: 0.
 	success := window isNull not.
 	self assert: success.
@@ -189,7 +205,7 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 
 	window :=
 		lib
-			newWindowTitle: 'Form -> SDL_Surface -> SDL_Texture'
+			newWindowTitle: #test05TextureFromSurfaceFromForm
 			w: extent x h: extent y flags: 0.
 	self assertEmptySDLError.
 	renderer := lib newRendererWindow: window name: nil.
@@ -223,7 +239,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	extent := 500 @ 500.
 	window :=
 		lib
-			newWindowTitle: ''
+			newWindowTitle: #test06ShapedWindow
 			w: extent x h: extent y
 			flags: SDL3WindowFlags hidden | SDL3WindowFlags transparent | SDL3WindowFlags borderless.
 	success := window isNull not.
@@ -260,7 +276,6 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	self assert: success.
 
 
-	"self pollAllEvents. May need to consume all events"
 	self waitToSee.
 	
 	"Tear down"
@@ -276,7 +291,7 @@ LibSDL3VideoTest >> test07Fullscreen [
 	| window renderer |
 	window :=
 		lib
-			newWindowTitle: ''
+			newWindowTitle: #test07Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
 	renderer := lib newRendererWindow: window name: nil.
 
@@ -290,7 +305,6 @@ LibSDL3VideoTest >> test07Fullscreen [
 	lib renderPresent: renderer.
 	self assertEmptySDLError.
 
-	self waitToSee.
 	self waitToSee.
 	
 	"Tear down"
@@ -327,6 +341,10 @@ LibSDL3VideoTest >> test08CursorAPI [
 LibSDL3VideoTest >> waitToSee [
 	"May perform a wait to let user visually check the window"
 
-	UIManager default class = NonInteractiveUIManager ifTrue: [ ^ self ].
-	1 second wait
+	self class shouldWaitToSee ifFalse: [ ^self ].
+
+	"SDL windows need that events are consumed"
+	self pollAllEvents.
+	2 seconds wait.
+	self pollAllEvents
 ]
