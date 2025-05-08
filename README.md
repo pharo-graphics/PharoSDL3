@@ -5,7 +5,7 @@
 
 ## Install
 
-In Pharo 12/13:
+In Pharo 12/13/14:
 
 ```smalltalk
 Metacello new
@@ -22,8 +22,8 @@ Metacello new
 
 ## More information
 
-* **Demos and tests?** Browse the 'SDL3-Tests' package
-* **How were they generated?** These Pharo bindings were generated with https://github.com/estebanlm/pharo-cig . Check [this wiki page](../../wiki) for our post-processing and other details.
+* **Demos and tests?** They are located in the 'SDL3-Tests' package. Check class-side of `SDL3Demo` for instructions to execute from a headless Pharo. The instructions assume you got Pharo with zeroconf scripts, but you can adapt them otherwise. Important: Currently, there are conflicts with Pharo's SDL2 if you execute from the GUI, but some calls work anyway.
+* **Is this code generated?** Yes, it was initially generated with [CIG](https://github.com/estebanlm/pharo-cig) and post-processed manually. Check [this wiki page](../../wiki) for our post-processing and other details.
 * **What's the selector for each function?** [This table](https://github.com/pharo-graphics/PharoSDL3/wiki/Table-of-C-Function-and-Pharo-Selector) shows the Pharo selector for each SDL3 function in this project.
 
 
