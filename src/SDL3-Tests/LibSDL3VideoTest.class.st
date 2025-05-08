@@ -28,6 +28,8 @@ LibSDL3VideoTest >> setUp [
 
 	lib := LibSDL3 uniqueInstance.
 
+	lib clearError.
+
 	"Return early if video subsystem is already initialized"
 	(lib wasInit: SDL3InitFlags video)
 		= SDL3InitFlags video value ifTrue: [ ^ self ].
