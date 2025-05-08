@@ -12,7 +12,7 @@ Class {
 { #category : 'private' }
 LibSDL3VideoTest >> assertEmptySDLError [
 
-	self assert: lib getError equals: ''.
+	self assertEmpty: lib getError
 ]
 
 { #category : 'private' }
@@ -78,6 +78,7 @@ LibSDL3VideoTest >> test02CreateWindow [
 		lib
 			newWindowTitle: 'Pharo SDL3'
 			w: 800 h: 600 flags: 0.
+	self assertEmptySDLError.
 	self deny: window isNull.
 
 	self waitToSee.
