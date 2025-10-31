@@ -2,8 +2,8 @@ Class {
 	#name : 'SDL3GPUMultisampleState',
 	#superclass : 'SDL3Structure',
 	#classVars : [
+		'OFFSET_ENABLE_ALPHA_TO_COVERAGE',
 		'OFFSET_ENABLE_MASK',
-		'OFFSET_PADDING1',
 		'OFFSET_PADDING2',
 		'OFFSET_PADDING3',
 		'OFFSET_SAMPLE_COUNT',
@@ -21,10 +21,22 @@ SDL3GPUMultisampleState class >> fieldsDesc [
 	SDL_GPUSampleCount sample_count;
 	Uint32 sample_mask;
 	bool enable_mask;
-	Uint8 padding1;
+	bool enable_alpha_to_coverage;
 	Uint8 padding2;
 	Uint8 padding3
 	)
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUMultisampleState >> enableAlphaToCoverage [
+	"This method was automatically generated"
+	^handle booleanAt: OFFSET_ENABLE_ALPHA_TO_COVERAGE
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUMultisampleState >> enableAlphaToCoverage: anObject [
+	"This method was automatically generated"
+	handle booleanAt: OFFSET_ENABLE_ALPHA_TO_COVERAGE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -37,18 +49,6 @@ SDL3GPUMultisampleState >> enableMask [
 SDL3GPUMultisampleState >> enableMask: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_ENABLE_MASK put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

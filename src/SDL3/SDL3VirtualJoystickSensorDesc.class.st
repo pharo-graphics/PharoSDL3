@@ -34,11 +34,11 @@ SDL3VirtualJoystickSensorDesc >> rate: anObject [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickSensorDesc >> type [
 	"This method was automatically generated"
-	^SDL3SensorType fromInteger: (handle signedLongAt: OFFSET_TYPE)
+	^SDL3SensorType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickSensorDesc >> type: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TYPE put: anObject value
+	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]

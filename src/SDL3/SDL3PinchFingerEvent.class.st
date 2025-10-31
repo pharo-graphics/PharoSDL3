@@ -1,13 +1,12 @@
 Class {
-	#name : 'SDL3JoyBatteryEvent',
+	#name : 'SDL3PinchFingerEvent',
 	#superclass : 'SDL3MappedEvent',
 	#classVars : [
-		'OFFSET_PERCENT',
 		'OFFSET_RESERVED',
-		'OFFSET_STATE',
+		'OFFSET_SCALE',
 		'OFFSET_TIMESTAMP',
 		'OFFSET_TYPE',
-		'OFFSET_WHICH'
+		'OFFSET_WINDOWID'
 	],
 	#category : 'SDL3-Base',
 	#package : 'SDL3',
@@ -15,86 +14,73 @@ Class {
 }
 
 { #category : 'field definition' }
-SDL3JoyBatteryEvent class >> fieldsDesc [
+SDL3PinchFingerEvent class >> fieldsDesc [
 
 	^ #(
 	SDL_EventType type;
 	Uint32 reserved;
 	Uint64 timestamp;
-	SDL_JoystickID which;
-	SDL_PowerState state;
-	int percent
+	float scale;
+	SDL_WindowID windowID
 	)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> percent [
-	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_PERCENT
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> percent: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PERCENT put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> reserved [
+SDL3PinchFingerEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> reserved: anObject [
+SDL3PinchFingerEvent >> reserved: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> state [
+SDL3PinchFingerEvent >> scale [
 	"This method was automatically generated"
-	^SDL3PowerState fromInteger: (handle unsignedLongAt: OFFSET_STATE)
+	^handle floatAt: OFFSET_SCALE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> state: anObject [
+SDL3PinchFingerEvent >> scale: anObject [
 	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_STATE put: anObject value
+	handle floatAt: OFFSET_SCALE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> timestamp [
+SDL3PinchFingerEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> timestamp: anObject [
+SDL3PinchFingerEvent >> timestamp: anObject [
 	"This method was automatically generated"
 	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> type [
+SDL3PinchFingerEvent >> type [
 	"This method was automatically generated"
 	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> type: anObject [
+SDL3PinchFingerEvent >> type: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> which [
+SDL3PinchFingerEvent >> windowID [
 	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_WHICH
+	^handle unsignedLongAt: OFFSET_WINDOWID
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> which: anObject [
+SDL3PinchFingerEvent >> windowID: anObject [
 	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
+	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

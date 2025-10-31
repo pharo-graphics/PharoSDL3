@@ -5,9 +5,9 @@ Class {
 		'OFFSET_CLEAR_DEPTH',
 		'OFFSET_CLEAR_STENCIL',
 		'OFFSET_CYCLE',
+		'OFFSET_LAYER',
 		'OFFSET_LOAD_OP',
-		'OFFSET_PADDING1',
-		'OFFSET_PADDING2',
+		'OFFSET_MIP_LEVEL',
 		'OFFSET_STENCIL_LOAD_OP',
 		'OFFSET_STENCIL_STORE_OP',
 		'OFFSET_STORE_OP',
@@ -30,8 +30,8 @@ SDL3GPUDepthStencilTargetInfo class >> fieldsDesc [
 	SDL_GPUStoreOp stencil_store_op;
 	bool cycle;
 	Uint8 clear_stencil;
-	Uint8 padding1;
-	Uint8 padding2
+	Uint8 mip_level;
+	Uint8 layer
 	)
 ]
 
@@ -72,6 +72,18 @@ SDL3GPUDepthStencilTargetInfo >> cycle: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
+SDL3GPUDepthStencilTargetInfo >> layer [
+	"This method was automatically generated"
+	^handle unsignedByteAt: OFFSET_LAYER
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUDepthStencilTargetInfo >> layer: anObject [
+	"This method was automatically generated"
+	handle unsignedByteAt: OFFSET_LAYER put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
 SDL3GPUDepthStencilTargetInfo >> loadOp [
 	"This method was automatically generated"
 	^SDL3GPULoadOp fromInteger: (handle unsignedLongAt: OFFSET_LOAD_OP)
@@ -84,27 +96,15 @@ SDL3GPUDepthStencilTargetInfo >> loadOp: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> padding1 [
+SDL3GPUDepthStencilTargetInfo >> mipLevel [
 	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
+	^handle unsignedByteAt: OFFSET_MIP_LEVEL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> padding1: anObject [
+SDL3GPUDepthStencilTargetInfo >> mipLevel: anObject [
 	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUDepthStencilTargetInfo >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
+	handle unsignedByteAt: OFFSET_MIP_LEVEL put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

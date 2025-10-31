@@ -40,18 +40,6 @@ SDL3ClipboardEvent >> mimeTypes: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> nMimeTypes [
-	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_N_MIME_TYPES
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> nMimeTypes: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_N_MIME_TYPES put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3ClipboardEvent >> numMimeTypes [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_NUM_MIME_TYPES

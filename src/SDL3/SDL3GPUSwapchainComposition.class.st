@@ -12,12 +12,6 @@ Class {
 	#tag : 'Base'
 }
 
-{ #category : 'accessing enum' }
-SDL3GPUSwapchainComposition class >> SDL_GPU_SWAPCHAINCOMPOSITION_HDR10_ST2048 [
-	"This method was automatically generated"
-	^ SDL_GPU_SWAPCHAINCOMPOSITION_HDR10_ST2048
-]
-
 { #category : 'enum declaration' }
 SDL3GPUSwapchainComposition class >> enumDecl [
 
