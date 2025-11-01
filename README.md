@@ -5,7 +5,7 @@
 
 ## Install
 
-In Pharo 12/13/14:
+Download a Pharo 12/13/14 and evaluate:
 
 ```smalltalk
 Metacello new
@@ -13,8 +13,15 @@ Metacello new
         repository: 'github://tinchodias/PharoSDL3:master/src';
         load
 ```
+An alternative way to download a Pharo image and load this project is running the following commands in a bash terminal:
+```bash
+$ curl https://get.pharo.org/130+vm | bash
+$ ./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:Update332/src BaselineOfSDL3
+```
 
-[Build SDL3](https://github.com/libsdl-org/SDL/blob/main/INSTALL.md) and make the lib findable by the Pharo's FFI finder. 
+### Get the library
+
+Follow the [install instructions](https://github.com/libsdl-org/SDL/blob/main/INSTALL.md) and make the lib findable by the Pharo's FFI finder. 
 * On Linux, you can download the sources and then build and install using CMake.
 * On Mac, you can use homebrew to install it on the system.
 * On Windows, you can [download it](https://github.com/libsdl-org/SDL/releases) and place it together with the Pharo image.
