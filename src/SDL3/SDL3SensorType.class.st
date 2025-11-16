@@ -5,6 +5,7 @@ Class {
 		'SDL_SENSOR_ACCEL',
 		'SDL_SENSOR_ACCEL_L',
 		'SDL_SENSOR_ACCEL_R',
+		'SDL_SENSOR_COUNT',
 		'SDL_SENSOR_GYRO',
 		'SDL_SENSOR_GYRO_L',
 		'SDL_SENSOR_GYRO_R',
@@ -34,6 +35,12 @@ SDL3SensorType class >> accelR [
 	^ SDL_SENSOR_ACCEL_R
 ]
 
+{ #category : 'accessing enum' }
+SDL3SensorType class >> count [
+	"This method was automatically generated"
+	^ SDL_SENSOR_COUNT
+]
+
 { #category : 'enum declaration' }
 SDL3SensorType class >> enumDecl [
 
@@ -45,7 +52,8 @@ SDL3SensorType class >> enumDecl [
 	SDL_SENSOR_ACCEL_L 3
 	SDL_SENSOR_GYRO_L 4
 	SDL_SENSOR_ACCEL_R 5
-	SDL_SENSOR_GYRO_R 6 )
+	SDL_SENSOR_GYRO_R 6
+	SDL_SENSOR_COUNT 7 )
 ]
 
 { #category : 'accessing enum' }

@@ -3,6 +3,7 @@ Class {
 	#superclass : 'SDL3Enumeration',
 	#classVars : [
 		'SDL_FLIP_HORIZONTAL',
+		'SDL_FLIP_HORIZONTAL_AND_VERTICAL',
 		'SDL_FLIP_NONE',
 		'SDL_FLIP_VERTICAL'
 	],
@@ -17,13 +18,20 @@ SDL3FlipMode class >> enumDecl [
 	^ #(
 	SDL_FLIP_NONE 0
 	SDL_FLIP_HORIZONTAL 1
-	SDL_FLIP_VERTICAL 2 )
+	SDL_FLIP_VERTICAL 2
+	SDL_FLIP_HORIZONTAL_AND_VERTICAL 3 )
 ]
 
 { #category : 'accessing enum' }
 SDL3FlipMode class >> horizontal [
 	"This method was automatically generated"
 	^ SDL_FLIP_HORIZONTAL
+]
+
+{ #category : 'accessing enum' }
+SDL3FlipMode class >> horizontalAndVertical [
+	"This method was automatically generated"
+	^ SDL_FLIP_HORIZONTAL_AND_VERTICAL
 ]
 
 { #category : 'accessing enum' }

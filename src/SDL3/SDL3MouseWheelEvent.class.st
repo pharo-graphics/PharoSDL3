@@ -3,6 +3,8 @@ Class {
 	#superclass : 'SDL3MappedEvent',
 	#classVars : [
 		'OFFSET_DIRECTION',
+		'OFFSET_INTEGER_X',
+		'OFFSET_INTEGER_Y',
 		'OFFSET_MOUSE_X',
 		'OFFSET_MOUSE_Y',
 		'OFFSET_RESERVED',
@@ -31,7 +33,9 @@ SDL3MouseWheelEvent class >> fieldsDesc [
 	float y;
 	SDL_MouseWheelDirection direction;
 	float mouse_x;
-	float mouse_y
+	float mouse_y;
+	Sint32 integer_x;
+	Sint32 integer_y
 	)
 ]
 
@@ -45,6 +49,30 @@ SDL3MouseWheelEvent >> direction [
 SDL3MouseWheelEvent >> direction: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_DIRECTION put: anObject value
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3MouseWheelEvent >> integerX [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_INTEGER_X
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3MouseWheelEvent >> integerX: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_INTEGER_X put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3MouseWheelEvent >> integerY [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_INTEGER_Y
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3MouseWheelEvent >> integerY: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_INTEGER_Y put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

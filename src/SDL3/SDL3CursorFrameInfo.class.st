@@ -1,9 +1,9 @@
 Class {
-	#name : 'SDL3StorageInterface',
+	#name : 'SDL3CursorFrameInfo',
 	#superclass : 'SDL3Structure',
 	#classVars : [
-		'OFFSET_UINT64',
-		'OFFSET_VERSION'
+		'OFFSET_DURATION',
+		'OFFSET_SURFACE'
 	],
 	#category : 'SDL3-Base',
 	#package : 'SDL3',
@@ -11,34 +11,34 @@ Class {
 }
 
 { #category : 'field definition' }
-SDL3StorageInterface class >> fieldsDesc [
+SDL3CursorFrameInfo class >> fieldsDesc [
 
 	^ #(
-	int version;
-	int Uint64
+	SDL_Surface* surface;
+	Uint32 duration
 	)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3StorageInterface >> Uint64 [
+SDL3CursorFrameInfo >> duration [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_UINT64
+	^handle unsignedLongAt: OFFSET_DURATION
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3StorageInterface >> Uint64: anObject [
+SDL3CursorFrameInfo >> duration: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_UINT64 put: anObject
+	handle unsignedLongAt: OFFSET_DURATION put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3StorageInterface >> version [
+SDL3CursorFrameInfo >> surface [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_VERSION
+	^SDL3Surface fromHandle: (handle pointerAt: OFFSET_SURFACE)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3StorageInterface >> version: anObject [
+SDL3CursorFrameInfo >> surface: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_VERSION put: anObject
+	handle pointerAt: OFFSET_SURFACE put: anObject getHandle.
 ]

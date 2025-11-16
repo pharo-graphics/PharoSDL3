@@ -21,6 +21,7 @@ Class {
 		'SDL_EVENT_DISPLAY_MOVED',
 		'SDL_EVENT_DISPLAY_ORIENTATION',
 		'SDL_EVENT_DISPLAY_REMOVED',
+		'SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED',
 		'SDL_EVENT_DROP_BEGIN',
 		'SDL_EVENT_DROP_COMPLETE',
 		'SDL_EVENT_DROP_FILE',
@@ -75,6 +76,9 @@ Class {
 		'SDL_EVENT_PEN_PROXIMITY_IN',
 		'SDL_EVENT_PEN_PROXIMITY_OUT',
 		'SDL_EVENT_PEN_UP',
+		'SDL_EVENT_PINCH_BEGIN',
+		'SDL_EVENT_PINCH_END',
+		'SDL_EVENT_PINCH_UPDATE',
 		'SDL_EVENT_POLL_SENTINEL',
 		'SDL_EVENT_PRIVATE0',
 		'SDL_EVENT_PRIVATE1',
@@ -84,6 +88,8 @@ Class {
 		'SDL_EVENT_RENDER_DEVICE_LOST',
 		'SDL_EVENT_RENDER_DEVICE_RESET',
 		'SDL_EVENT_RENDER_TARGETS_RESET',
+		'SDL_EVENT_SCREEN_KEYBOARD_HIDDEN',
+		'SDL_EVENT_SCREEN_KEYBOARD_SHOWN',
 		'SDL_EVENT_SENSOR_UPDATE',
 		'SDL_EVENT_SYSTEM_THEME_CHANGED',
 		'SDL_EVENT_TERMINATING',
@@ -226,6 +232,12 @@ SDL3EventType class >> displayOrientation [
 SDL3EventType class >> displayRemoved [
 	"This method was automatically generated"
 	^ SDL_EVENT_DISPLAY_REMOVED
+]
+
+{ #category : 'accessing enum' }
+SDL3EventType class >> displayUsableBoundsChanged [
+	"This method was automatically generated"
+	^ SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED
 ]
 
 { #category : 'accessing enum' }
@@ -541,6 +553,24 @@ SDL3EventType class >> penUp [
 ]
 
 { #category : 'accessing enum' }
+SDL3EventType class >> pinchBegin [
+	"This method was automatically generated"
+	^ SDL_EVENT_PINCH_BEGIN
+]
+
+{ #category : 'accessing enum' }
+SDL3EventType class >> pinchEnd [
+	"This method was automatically generated"
+	^ SDL_EVENT_PINCH_END
+]
+
+{ #category : 'accessing enum' }
+SDL3EventType class >> pinchUpdate [
+	"This method was automatically generated"
+	^ SDL_EVENT_PINCH_UPDATE
+]
+
+{ #category : 'accessing enum' }
 SDL3EventType class >> pollSentinel [
 	"This method was automatically generated"
 	^ SDL_EVENT_POLL_SENTINEL
@@ -592,6 +622,18 @@ SDL3EventType class >> renderDeviceReset [
 SDL3EventType class >> renderTargetsReset [
 	"This method was automatically generated"
 	^ SDL_EVENT_RENDER_TARGETS_RESET
+]
+
+{ #category : 'accessing enum' }
+SDL3EventType class >> screenKeyboardHidden [
+	"This method was automatically generated"
+	^ SDL_EVENT_SCREEN_KEYBOARD_HIDDEN
+]
+
+{ #category : 'accessing enum' }
+SDL3EventType class >> screenKeyboardShown [
+	"This method was automatically generated"
+	^ SDL_EVENT_SCREEN_KEYBOARD_SHOWN
 ]
 
 { #category : 'accessing enum' }

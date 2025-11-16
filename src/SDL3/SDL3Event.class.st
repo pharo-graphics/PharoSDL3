@@ -40,6 +40,7 @@ SDL3Event class >> fieldsDesc [
 	SDL_QuitEvent quit;
 	SDL_UserEvent user;
 	SDL_TouchFingerEvent tfinger;
+	SDL_PinchFingerEvent pinch;
 	SDL_PenProximityEvent pproximity;
 	SDL_PenTouchEvent ptouch;
 	SDL_PenMotionEvent pmotion;
@@ -377,6 +378,18 @@ SDL3Event >> pbutton: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
+SDL3Event >> pinch [
+	"This method was automatically generated"
+	^ SDL3PinchFingerEvent fromHandle: (handle referenceStructAt: 1 length: SDL3PinchFingerEvent byteSize)
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3Event >> pinch: anObject [
+	"This method was automatically generated"
+	handle structAt: 1 put: anObject getHandle length: 24.
+]
+
+{ #category : 'accessing - structure variables' }
 SDL3Event >> pmotion [
 	"This method was automatically generated"
 	^ SDL3PenMotionEvent fromHandle: (handle referenceStructAt: 1 length: SDL3PenMotionEvent byteSize)
@@ -516,7 +529,7 @@ SDL3Event >> wheel [
 { #category : 'accessing - structure variables' }
 SDL3Event >> wheel: anObject [
 	"This method was automatically generated"
-	handle structAt: 1 put: anObject getHandle length: 48.
+	handle structAt: 1 put: anObject getHandle length: 56.
 ]
 
 { #category : 'accessing - structure variables' }

@@ -181,7 +181,9 @@ LibSDL3 >> acquireGPUSwapchainTextureCommandBuffer: command_buffer window: windo
 	 * buffer used to acquire it.
 	 *
 	 * This function will fill the swapchain texture handle with NULL if too many
-	 * frames are in flight. This is not an error.
+	 * frames are in flight. This is not an error. This NULL pointer should not be
+	 * passed back into SDL. Instead, it should be considered as an indication to
+	 * wait until the swapchain is available.
 	 *
 	 * If you use this function, it is possible to create a situation where many
 	 * command buffers are allocated while the rendering context waits for the GPU
@@ -248,6 +250,28 @@ LibSDL3 >> addAtomicIntA: a v: v [
 ]
 
 { #category : 'public' }
+LibSDL3 >> addAtomicU32A: a v: v [
+	"/**
+	 * Add to an atomic variable.
+	 *
+	 * This function also acts as a full memory barrier.
+	 *
+	 * ***Note: If you don't know what this function is for, you shouldn't use
+	 * it!***
+	 *
+	 * \param a a pointer to an SDL_AtomicU32 variable to be modified.
+	 * \param v the desired value to add or subtract.
+	 * \returns the previous value of the atomic variable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(Uint32 SDL_AddAtomicU32(SDL_AtomicU32* a, int v))
+]
+
+{ #category : 'public' }
 LibSDL3 >> addEventWatchFilter: filter userdata: userdata [
 	"/**
 	 * Add a callback to be triggered when an event is added to the event queue.
@@ -302,7 +326,8 @@ LibSDL3 >> addSurfaceAlternateImageSurface: surface image: image [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -600,7 +625,7 @@ LibSDL3 >> atan2Y: y x: x [
 	 *
 	 * Domain: `-INF <= x <= INF`, `-INF <= y <= INF`
 	 *
-	 * Range: `-Pi/2 <= y <= Pi/2`
+	 * Range: `-Pi <= y <= Pi`
 	 *
 	 * This function operates on double-precision floating point values, use
 	 * SDL_atan2f for single-precision floats.
@@ -640,7 +665,7 @@ LibSDL3 >> atan2fY: y x: x [
 	 *
 	 * Domain: `-INF <= x <= INF`, `-INF <= y <= INF`
 	 *
-	 * Range: `-Pi/2 <= y <= Pi/2`
+	 * Range: `-Pi <= y <= Pi`
 	 *
 	 * This function operates on single-precision floating point values, use
 	 * SDL_atan2 for double-precision floats.
@@ -799,13 +824,33 @@ LibSDL3 >> attachVirtualJoystick: desc [
 	"/**
 	 * Attach a new virtual joystick.
 	 *
+	 * Apps can create virtual joysticks, that exist without hardware directly
+	 * backing them, and have program-supplied inputs. Once attached, a virtual
+	 * joystick looks like any other joystick that SDL can access. These can be
+	 * used to make other things look like joysticks, or provide pre-recorded
+	 * input, etc.
+	 *
+	 * Once attached, the app can send joystick inputs to the new virtual joystick
+	 * using SDL_SetJoystickVirtualAxis(), etc.
+	 *
+	 * When no longer needed, the virtual joystick can be removed by calling
+	 * SDL_DetachVirtualJoystick().
+	 *
 	 * \param desc joystick description, initialized using SDL_INIT_INTERFACE().
 	 * \returns the joystick instance ID, or 0 on failure; call SDL_GetError() for
 	 *          more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_DetachVirtualJoystick
+	 * \sa SDL_SetJoystickVirtualAxis
+	 * \sa SDL_SetJoystickVirtualButton
+	 * \sa SDL_SetJoystickVirtualBall
+	 * \sa SDL_SetJoystickVirtualHat
+	 * \sa SDL_SetJoystickVirtualTouchpad
+	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
 	^ self ffiCall: #(SDL_JoystickID SDL_AttachVirtualJoystick(SDL_VirtualJoystickDesc* desc))
@@ -916,6 +961,8 @@ LibSDL3 >> beginGPUCopyPass: command_buffer [
 	 * \returns a copy pass handle.
 	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_EndGPUCopyPass
 	 */"
 
 	^ self ffiCall: #(SDL_GPUCopyPass* SDL_BeginGPUCopyPass(SDL_GPUCommandBuffer* command_buffer))
@@ -933,6 +980,14 @@ LibSDL3 >> beginGPURenderPassCommandBuffer: command_buffer colorTargetInfos: col
 	 * pass. A default viewport and scissor state are automatically set when this
 	 * is called. You cannot begin another render pass, or begin a compute pass or
 	 * copy pass until you have ended the render pass.
+	 *
+	 * Using SDL_GPU_LOADOP_LOAD before any contents have been written to the
+	 * texture subresource will result in undefined behavior. SDL_GPU_LOADOP_CLEAR
+	 * will set the contents of the texture subresource to a single value before
+	 * any rendering is performed. It's fine to do an empty render pass using
+	 * SDL_GPU_STOREOP_STORE to clear a texture, but in general it's better to
+	 * think of clearing not as an independent operation but as something that's
+	 * done as the beginning of a render pass.
 	 *
 	 * \param command_buffer a command buffer.
 	 * \param color_target_infos an array of texture subresources with
@@ -998,7 +1053,10 @@ LibSDL3 >> bindAudioStreamsDevid: devid streams: streams numStreams: num_streams
 	 * Binding a stream to a device will set its output format for playback
 	 * devices, and its input format for recording devices, so they match the
 	 * device's settings. The caller is welcome to change the other end of the
-	 * stream's format at any time with SDL_SetAudioStreamFormat().
+	 * stream's format at any time with SDL_SetAudioStreamFormat(). If the other
+	 * end of the stream's format has never been set (the audio stream was created
+	 * with a NULL audio spec), this function will set it to match the device
+	 * end's format.
 	 *
 	 * \param devid an audio device to bind a stream to.
 	 * \param streams an array of audio streams to bind.
@@ -1394,9 +1452,6 @@ LibSDL3 >> blitSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	 *
 	 * If either `srcrect` or `dstrect` are NULL, the entire surface (`src` or
 	 * `dst`) is copied while ensuring clipping to `dst->clip_rect`.
-	 *
-	 * The final blit rectangles are saved in `srcrect` and `dstrect` after all
-	 * clipping is performed.
 	 *
 	 * The blit function should not be called on a locked surface.
 	 *
@@ -1851,7 +1906,7 @@ LibSDL3 >> ceil: x [
 	"/**
 	 * Compute the ceiling of `x`.
 	 *
-	 * The ceiling of `x` is the smallest integer `y` such that `y > x`, i.e `x`
+	 * The ceiling of `x` is the smallest integer `y` such that `y >= x`, i.e `x`
 	 * rounded up to the nearest integer.
 	 *
 	 * Domain: `-INF <= x <= INF`
@@ -1883,7 +1938,7 @@ LibSDL3 >> ceilf: x [
 	"/**
 	 * Compute the ceiling of `x`.
 	 *
-	 * The ceiling of `x` is the smallest integer `y` such that `y > x`, i.e `x`
+	 * The ceiling of `x` is the smallest integer `y` such that `y >= x`, i.e `x`
 	 * rounded up to the nearest integer.
 	 *
 	 * Domain: `-INF <= x <= INF`
@@ -2077,7 +2132,8 @@ LibSDL3 >> clearSurface: surface r: r g: g b: b a: a [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -2224,7 +2280,7 @@ LibSDL3 >> closeIO: context [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -2240,6 +2296,8 @@ LibSDL3 >> closeJoystick: joystick [
 	 * Close a joystick previously opened with SDL_OpenJoystick().
 	 *
 	 * \param joystick the joystick device to close.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -2588,7 +2646,8 @@ LibSDL3 >> convertSurface: surface format: format [
 	 * \returns the new SDL_Surface structure that is created or NULL on failure;
 	 *          call SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -2620,7 +2679,8 @@ LibSDL3 >> convertSurfaceAndColorspaceSurface: surface format: format palette: p
 	 * \returns the new SDL_Surface structure that is created or NULL on failure;
 	 *          call SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -2668,6 +2728,10 @@ LibSDL3 >> copyFileOldpath: oldpath newpath: newpath [
 	 * \param newpath the new path.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread, but this
+	 *               operation is not atomic, so the app might need to protect
+	 *               access to specific paths from other threads if appropriate.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -2734,7 +2798,9 @@ LibSDL3 >> copyPropertiesSrc: src dst: dst [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety It is safe to call this function from any thread.
+	 * \threadsafety It is safe to call this function from any thread. This
+	 *               function acquires simultaneous mutex locks on both the source
+	 *               and destination property sets.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -3108,6 +3174,7 @@ LibSDL3 >> destroyCursor: cursor [
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
+	 * \sa SDL_CreateAnimatedCursor
 	 * \sa SDL_CreateColorCursor
 	 * \sa SDL_CreateCursor
 	 * \sa SDL_CreateSystemCursor
@@ -3147,6 +3214,24 @@ LibSDL3 >> destroyGPUDevice: device [
 	 */"
 
 	self ffiCall: #(void SDL_DestroyGPUDevice(SDL_GPUDevice* device))
+]
+
+{ #category : 'public' }
+LibSDL3 >> destroyGPURenderState: state [
+	"/**
+	 * Destroy custom GPU render state.
+	 *
+	 * \param state the state to destroy.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               renderer.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_CreateGPURenderState
+	 */"
+
+	self ffiCall: #(void SDL_DestroyGPURenderState(SDL_GPURenderState* state))
 ]
 
 { #category : 'public' }
@@ -3426,6 +3511,8 @@ LibSDL3 >> detachVirtualJoystick: instance_id [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_AttachVirtualJoystick
@@ -3659,7 +3746,8 @@ LibSDL3 >> duplicateSurface: surface [
 	 * \returns a copy of the surface or NULL on failure; call SDL_GetError() for
 	 *          more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -3852,6 +3940,8 @@ LibSDL3 >> enumerateDirectoryPath: path callback: callback userdata: userdata [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -4041,7 +4131,8 @@ LibSDL3 >> fillSurfaceRectDst: dst rect: rect color: color [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -4072,7 +4163,8 @@ LibSDL3 >> fillSurfaceRectsDst: dst rects: rects count: count color: color [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -4134,7 +4226,8 @@ LibSDL3 >> flipSurface: surface flip: flip [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -4147,7 +4240,7 @@ LibSDL3 >> floor: x [
 	"/**
 	 * Compute the floor of `x`.
 	 *
-	 * The floor of `x` is the largest integer `y` such that `y > x`, i.e `x`
+	 * The floor of `x` is the largest integer `y` such that `y <= x`, i.e `x`
 	 * rounded down to the nearest integer.
 	 *
 	 * Domain: `-INF <= x <= INF`
@@ -4179,7 +4272,7 @@ LibSDL3 >> floorf: x [
 	"/**
 	 * Compute the floor of `x`.
 	 *
-	 * The floor of `x` is the largest integer `y` such that `y > x`, i.e `x`
+	 * The floor of `x` is the largest integer `y` such that `y <= x`, i.e `x`
 	 * rounded down to the nearest integer.
 	 *
 	 * Domain: `-INF <= x <= INF`
@@ -4306,7 +4399,7 @@ LibSDL3 >> flushIO: context [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -4964,7 +5057,8 @@ LibSDL3 >> getAudioStreamDevice: stream [
 	"/**
 	 * Query an audio stream for its currently-bound device.
 	 *
-	 * This reports the audio device that an audio stream is currently bound to.
+	 * This reports the logical audio device that an audio stream is currently
+	 * bound to.
 	 *
 	 * If not bound, or invalid, this returns zero, which is not a valid device
 	 * ID.
@@ -5111,6 +5205,17 @@ LibSDL3 >> getAudioStreamProperties: stream [
 	"/**
 	 * Get the properties associated with an audio stream.
 	 *
+	 * The application can hang any data it wants here, but the following
+	 * properties are understood by SDL:
+	 *
+	 * - `SDL_PROP_AUDIOSTREAM_AUTO_CLEANUP_BOOLEAN`: if true (the default), the
+	 *   stream be automatically cleaned up when the audio subsystem quits. If set
+	 *   to false, the streams will persist beyond that. This property is ignored
+	 *   for streams created through SDL_OpenAudioDeviceStream(), and will always
+	 *   be cleaned up. Streams that are not cleaned up will still be unbound from
+	 *   devices when the audio subsystem quits. This property was added in SDL
+	 *   3.4.0.
+	 *
 	 * \param stream the SDL_AudioStream to query.
 	 * \returns a valid property ID on success or 0 on failure; call
 	 *          SDL_GetError() for more information.
@@ -5201,6 +5306,8 @@ LibSDL3 >> getBasePath [
 	 *          directory. NULL will be returned on error or when the platform
 	 *          doesn't implement this functionality, call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -5361,8 +5468,9 @@ LibSDL3 >> getCameraPermissionState: camera [
 	 * on others the approval might be implicit and not alert the user at all.
 	 *
 	 * This function can be used to check the status of that approval. It will
-	 * return 0 if still waiting for user response, 1 if the camera is approved
-	 * for use, and -1 if the user denied access.
+	 * return SDL_CAMERA_PERMISSION_STATE_PENDING if waiting for user response,
+	 * SDL_CAMERA_PERMISSION_STATE_APPROVED if the camera is approved for use, and
+	 * SDL_CAMERA_PERMISSION_STATE_DENIED if the user denied access.
 	 *
 	 * Instead of polling with this function, you can wait for a
 	 * SDL_EVENT_CAMERA_DEVICE_APPROVED (or SDL_EVENT_CAMERA_DEVICE_DENIED) event
@@ -5373,8 +5481,9 @@ LibSDL3 >> getCameraPermissionState: camera [
 	 * SDL_CloseCamera() to dispose of it.
 	 *
 	 * \param camera the opened camera device to query.
-	 * \returns -1 if user denied access to the camera, 1 if user approved access,
-	 *          0 if no decision has been made yet.
+	 * \returns an SDL_CameraPermissionState value indicating if access is
+	 *          granted, or `SDL_CAMERA_PERMISSION_STATE_PENDING` if the decision
+	 *          is still pending.
 	 *
 	 * \threadsafety It is safe to call this function from any thread.
 	 *
@@ -5384,7 +5493,7 @@ LibSDL3 >> getCameraPermissionState: camera [
 	 * \sa SDL_CloseCamera
 	 */"
 
-	^ self ffiCall: #(int SDL_GetCameraPermissionState(SDL_Camera* camera))
+	^ self ffiCall: #(SDL_CameraPermissionState SDL_GetCameraPermissionState(SDL_Camera* camera))
 ]
 
 { #category : 'public' }
@@ -5494,10 +5603,10 @@ LibSDL3 >> getCameras: count [
 { #category : 'public' }
 LibSDL3 >> getClipboardDataMimeType: mime_type size: size [
 	"/**
-	 * Get the data from clipboard for a given mime type.
+	 * Get the data from the clipboard for a given mime type.
 	 *
 	 * The size of text data does not include the terminator, but the text is
-	 * guaranteed to be null terminated.
+	 * guaranteed to be null-terminated.
 	 *
 	 * \param mime_type the mime type to read from the clipboard.
 	 * \param size a pointer filled in with the length of the returned data.
@@ -5523,7 +5632,7 @@ LibSDL3 >> getClipboardMimeTypes: num_mime_types [
 	 *
 	 * \param num_mime_types a pointer filled with the number of mime types, may
 	 *                       be NULL.
-	 * \returns a null terminated array of strings with mime types, or NULL on
+	 * \returns a null-terminated array of strings with mime types, or NULL on
 	 *          failure; call SDL_GetError() for more information. This should be
 	 *          freed with SDL_free() when it is no longer needed.
 	 *
@@ -5542,7 +5651,7 @@ LibSDL3 >> getClipboardText [
 	"/**
 	 * Get UTF-8 text from the clipboard.
 	 *
-	 * This functions returns an empty string if there was not enough memory left
+	 * This function returns an empty string if there is not enough memory left
 	 * for a copy of the clipboard's content.
 	 *
 	 * \returns the clipboard text on success or an empty string on failure; call
@@ -5593,39 +5702,6 @@ LibSDL3 >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refresh
 	 */"
 
 	^ self ffiCall: #(bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, _Bool include_high_density_modes, SDL_DisplayMode* closest))
-]
-
-{ #category : 'public' }
-LibSDL3 >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refreshRate: refresh_rate includeHighDensityModes: include_high_density_modes mode: mode [
-	"/**
-	 * Get the closest match to the requested display mode.
-	 *
-	 * The available display modes are scanned and `closest` is filled in with the
-	 * closest mode matching the requested mode and returned. The mode format and
-	 * refresh rate default to the desktop mode if they are set to 0. The modes
-	 * are scanned with size being first priority, format being second priority,
-	 * and finally checking the refresh rate. If all the available modes are too
-	 * small, then false is returned.
-	 *
-	 * \param displayID the instance ID of the display to query.
-	 * \param w the width in pixels of the desired display mode.
-	 * \param h the height in pixels of the desired display mode.
-	 * \param refresh_rate the refresh rate of the desired display mode, or 0.0f
-	 *                     for the desktop refresh rate.
-	 * \param include_high_density_modes boolean to include high density modes in
-	 *                                   the search.
-	 * \param mode a pointer filled in with the closest display mode equal to or
-	 *             larger than the desired mode.
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL 3.1.3.
-	 *
-	 * \sa SDL_GetDisplays
-	 * \sa SDL_GetFullscreenDisplayModes
-	 */"
-
-	self ffiCall: #(int SDL_GetClosestFullscreenDisplayMode(int displayID, int w, int h, float refresh_rate, int include_high_density_modes, SDL_DisplayMode* mode))
 ]
 
 { #category : 'public' }
@@ -5686,6 +5762,8 @@ LibSDL3 >> getCurrentDirectory [
 	 * \returns a UTF-8 string of the current working directory in
 	 *          platform-dependent notation. NULL if there's a problem. This
 	 *          should be freed with SDL_free() when it is no longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -5961,6 +6039,28 @@ LibSDL3 >> getDefaultCursor [
 ]
 
 { #category : 'public' }
+LibSDL3 >> getDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
+	"/**
+	 * Get default texture scale mode of the given renderer.
+	 *
+	 * \param renderer the renderer to get data from.
+	 * \param scale_mode a SDL_ScaleMode filled with current default scale mode.
+	 *                   See SDL_SetDefaultTextureScaleMode() for the meaning of
+	 *                   the value.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_SetDefaultTextureScaleMode
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetDefaultTextureScaleMode(SDL_Renderer* renderer, SDL_ScaleMode scale_mode))
+]
+
+{ #category : 'public' }
 LibSDL3 >> getDesktopDisplayMode: displayID [
 	"/**
 	 * Get information about the desktop's display mode.
@@ -6141,6 +6241,11 @@ LibSDL3 >> getDisplayProperties: displayID [
 	 *   responsible for any coordinate transformations needed to conform to the
 	 *   requested display orientation.
 	 *
+	 * On Wayland:
+	 *
+	 * - `SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER`: the wl_output associated
+	 *   with the display
+	 *
 	 * \param displayID the instance ID of the display to query.
 	 * \returns a valid property ID on success or 0 on failure; call
 	 *          SDL_GetError() for more information.
@@ -6320,6 +6425,42 @@ LibSDL3 >> getError [
 ]
 
 { #category : 'public' }
+LibSDL3 >> getEventDescriptionEvent: event buf: buf buflen: buflen [
+	"/**
+	 * Generate an English description of an event.
+	 *
+	 * This will fill `buf` with a null-terminated string that might look
+	 * something like this:
+	 *
+	 * ```
+	 * SDL_EVENT_MOUSE_MOTION (timestamp=1140256324 windowid=2 which=0 state=0 x=492.99 y=139.09 xrel=52 yrel=6)
+	 * ```
+	 *
+	 * The exact format of the string is not guaranteed; it is intended for
+	 * logging purposes, to be read by a human, and not parsed by a computer.
+	 *
+	 * The returned value follows the same rules as SDL_snprintf(): `buf` will
+	 * always be NULL-terminated (unless `buflen` is zero), and will be truncated
+	 * if `buflen` is too small. The return code is the number of bytes needed for
+	 * the complete string, not counting the NULL-terminator, whether the string
+	 * was truncated or not. Unlike SDL_snprintf(), though, this function never
+	 * returns -1.
+	 *
+	 * \param event an event to describe. May be NULL.
+	 * \param buf the buffer to fill with the description string. May be NULL.
+	 * \param buflen the maximum bytes that can be written to `buf`.
+	 * \returns number of bytes needed for the full string, not counting the
+	 *          null-terminator byte.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_GetEventDescription(SDL_Event* event, char* buf, int buflen))
+]
+
+{ #category : 'public' }
 LibSDL3 >> getEventFilter: filter userdata: userdata [
 	"/**
 	 * Query the current event filter.
@@ -6415,6 +6556,114 @@ LibSDL3 >> getGPUDeviceDriver: device [
 ]
 
 { #category : 'public' }
+LibSDL3 >> getGPUDeviceProperties: device [
+	"/**
+	 * Get the properties associated with a GPU device.
+	 *
+	 * All properties are optional and may differ between GPU backends and SDL
+	 * versions.
+	 *
+	 * The following properties are provided by SDL:
+	 *
+	 * `SDL_PROP_GPU_DEVICE_NAME_STRING`: Contains the name of the underlying
+	 * device as reported by the system driver. This string has no standardized
+	 * format, is highly inconsistent between hardware devices and drivers, and is
+	 * able to change at any time. Do not attempt to parse this string as it is
+	 * bound to fail at some point in the future when system drivers are updated,
+	 * new hardware devices are introduced, or when SDL adds new GPU backends or
+	 * modifies existing ones.
+	 *
+	 * Strings that have been found in the wild include:
+	 *
+	 * - GTX 970
+	 * - GeForce GTX 970
+	 * - NVIDIA GeForce GTX 970
+	 * - Microsoft Direct3D12 (NVIDIA GeForce GTX 970)
+	 * - NVIDIA Graphics Device
+	 * - GeForce GPU
+	 * - P106-100
+	 * - AMD 15D8:C9
+	 * - AMD Custom GPU 0405
+	 * - AMD Radeon (TM) Graphics
+	 * - ASUS Radeon RX 470 Series
+	 * - Intel(R) Arc(tm) A380 Graphics (DG2)
+	 * - Virtio-GPU Venus (NVIDIA TITAN V)
+	 * - SwiftShader Device (LLVM 16.0.0)
+	 * - llvmpipe (LLVM 15.0.4, 256 bits)
+	 * - Microsoft Basic Render Driver
+	 * - unknown device
+	 *
+	 * The above list shows that the same device can have different formats, the
+	 * vendor name may or may not appear in the string, the included vendor name
+	 * may not be the vendor of the chipset on the device, some manufacturers
+	 * include pseudo-legal marks while others don't, some devices may not use a
+	 * marketing name in the string, the device string may be wrapped by the name
+	 * of a translation interface, the device may be emulated in software, or the
+	 * string may contain generic text that does not identify the device at all.
+	 *
+	 * `SDL_PROP_GPU_DEVICE_DRIVER_NAME_STRING`: Contains the self-reported name
+	 * of the underlying system driver.
+	 *
+	 * Strings that have been found in the wild include:
+	 *
+	 * - Intel Corporation
+	 * - Intel open-source Mesa driver
+	 * - Qualcomm Technologies Inc. Adreno Vulkan Driver
+	 * - MoltenVK
+	 * - Mali-G715
+	 * - venus
+	 *
+	 * `SDL_PROP_GPU_DEVICE_DRIVER_VERSION_STRING`: Contains the self-reported
+	 * version of the underlying system driver. This is a relatively short version
+	 * string in an unspecified format. If SDL_PROP_GPU_DEVICE_DRIVER_INFO_STRING
+	 * is available then that property should be preferred over this one as it may
+	 * contain additional information that is useful for identifying the exact
+	 * driver version used.
+	 *
+	 * Strings that have been found in the wild include:
+	 *
+	 * - 53.0.0
+	 * - 0.405.2463
+	 * - 32.0.15.6614
+	 *
+	 * `SDL_PROP_GPU_DEVICE_DRIVER_INFO_STRING`: Contains the detailed version
+	 * information of the underlying system driver as reported by the driver. This
+	 * is an arbitrary string with no standardized format and it may contain
+	 * newlines. This property should be preferred over
+	 * SDL_PROP_GPU_DEVICE_DRIVER_VERSION_STRING if it is available as it usually
+	 * contains the same information but in a format that is easier to read.
+	 *
+	 * Strings that have been found in the wild include:
+	 *
+	 * - 101.6559
+	 * - 1.2.11
+	 * - Mesa 21.2.2 (LLVM 12.0.1)
+	 * - Mesa 22.2.0-devel (git-f226222 2022-04-14 impish-oibaf-ppa)
+	 * - v1.r53p0-00eac0.824c4f31403fb1fbf8ee1042422c2129
+	 *
+	 * This string has also been observed to be a multiline string (which has a
+	 * trailing newline):
+	 *
+	 * ```
+	 * Driver Build: 85da404, I46ff5fc46f, 1606794520
+	 * Date: 11/30/20
+	 * Compiler Version: EV031.31.04.01
+	 * Driver Branch: promo490_3_Google
+	 * ```
+	 *
+	 * \param device a GPU context to query.
+	 * \returns a valid property ID on success or 0 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_PropertiesID SDL_GetGPUDeviceProperties(SDL_GPUDevice* device))
+]
+
+{ #category : 'public' }
 LibSDL3 >> getGPUDriver: index [
 	"/**
 	 * Get the name of a built in GPU driver.
@@ -6435,6 +6684,23 @@ LibSDL3 >> getGPUDriver: index [
 	 */"
 
 	^ self ffiCall: #(const char* SDL_GetGPUDriver(int index))
+]
+
+{ #category : 'public' }
+LibSDL3 >> getGPURendererDevice: renderer [
+	"/**
+	 * Return the GPU device used by a renderer.
+	 *
+	 * \param renderer the rendering context.
+	 * \returns the GPU device used by the renderer, or NULL if the renderer is
+	 *          not a GPU renderer; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_GPUDevice* SDL_GetGPURendererDevice(SDL_Renderer* renderer))
 ]
 
 { #category : 'public' }
@@ -6467,6 +6733,22 @@ LibSDL3 >> getGPUSwapchainTextureFormatDevice: device window: window [
 	 */"
 
 	^ self ffiCall: #(SDL_GPUTextureFormat SDL_GetGPUSwapchainTextureFormat(SDL_GPUDevice* device, SDL_Window* window))
+]
+
+{ #category : 'public' }
+LibSDL3 >> getGPUTextureFormatFromPixelFormat: format [
+	"/**
+	 * Get the GPU texture format corresponding to an SDL pixel format.
+	 *
+	 * \param format a pixel format.
+	 * \returns the corresponding GPU texture format, or
+	 *          SDL_GPU_TEXTUREFORMAT_INVALID if there is no corresponding GPU
+	 *          texture format.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_GPUTextureFormat SDL_GetGPUTextureFormatFromPixelFormat(SDL_PixelFormat format))
 ]
 
 { #category : 'public' }
@@ -6551,7 +6833,7 @@ LibSDL3 >> getIOProperties: context [
 	 * \returns a valid property ID on success or 0 on failure; call
 	 *          SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -6569,7 +6851,7 @@ LibSDL3 >> getIOSize: context [
 	 *          negative error code on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -6593,7 +6875,7 @@ LibSDL3 >> getIOStatus: context [
 	 * \param context the SDL_IOStream to query.
 	 * \returns an SDL_IOStatus enum with the current state.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -6614,6 +6896,8 @@ LibSDL3 >> getJoystickAxisInitialStateJoystick: joystick axis: axis state: state
 	 * \param axis the axis to query; the axis indices start at index 0.
 	 * \param state upon return, the initial value is supplied here.
 	 * \returns true if this axis has any initial value, or false if not.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -6641,6 +6925,8 @@ LibSDL3 >> getJoystickAxisJoystick: joystick axis: axis [
 	 * \returns a 16-bit signed integer representing the current position of the
 	 *          axis or 0 on failure; call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetNumJoystickAxes
@@ -6666,6 +6952,8 @@ LibSDL3 >> getJoystickBallJoystick: joystick ball: ball dx: dx dy: dy [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetNumJoystickBalls
@@ -6683,6 +6971,8 @@ LibSDL3 >> getJoystickButtonJoystick: joystick button: button [
 	 * \param button the button index to get the state from; indices start at
 	 *               index 0.
 	 * \returns true if the button is pressed, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -6702,6 +6992,8 @@ LibSDL3 >> getJoystickConnectionState: joystick [
 	 *          `SDL_JOYSTICK_CONNECTION_INVALID` on failure; call SDL_GetError()
 	 *          for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -6719,6 +7011,8 @@ LibSDL3 >> getJoystickFirmwareVersion: joystick [
 	 * \returns the firmware version of the selected joystick, or 0 if
 	 *          unavailable.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -6734,6 +7028,8 @@ LibSDL3 >> getJoystickFromID: instance_id [
 	 * \returns an SDL_Joystick on success or NULL on failure or if it hasn't been
 	 *          opened yet; call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -6748,6 +7044,8 @@ LibSDL3 >> getJoystickFromPlayerIndex: player_index [
 	 * \param player_index the player index to get the SDL_Joystick for.
 	 * \returns an SDL_Joystick on success or NULL on failure; call SDL_GetError()
 	 *          for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -6770,6 +7068,8 @@ LibSDL3 >> getJoystickGUID: joystick [
 	 *          this function returns a zero GUID; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickGUIDForID
@@ -6789,6 +7089,8 @@ LibSDL3 >> getJoystickGUIDForID: instance_id [
 	 * \param instance_id the joystick instance ID.
 	 * \returns the GUID of the selected joystick. If called with an invalid
 	 *          instance_id, this function returns a zero GUID.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -6814,6 +7116,8 @@ LibSDL3 >> getJoystickGUIDInfoGuid: guid vendor: vendor product: product version
 	 * \param crc16 a pointer filled in with a CRC used to distinguish different
 	 *              products with the same VID/PID, or 0 if not available.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickGUIDForID
@@ -6833,6 +7137,8 @@ LibSDL3 >> getJoystickHatJoystick: joystick hat: hat [
 	 * \param hat the hat index to get the state from; indices start at index 0.
 	 * \returns the current hat position.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetNumJoystickHats
@@ -6850,6 +7156,8 @@ LibSDL3 >> getJoystickID: joystick [
 	 * \returns the instance ID of the specified joystick on success or 0 on
 	 *          failure; call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -6864,6 +7172,8 @@ LibSDL3 >> getJoystickName: joystick [
 	 * \param joystick the SDL_Joystick obtained from SDL_OpenJoystick().
 	 * \returns the name of the selected joystick. If no name can be found, this
 	 *          function returns NULL; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -6884,6 +7194,8 @@ LibSDL3 >> getJoystickNameForID: instance_id [
 	 * \returns the name of the selected joystick. If no name can be found, this
 	 *          function returns NULL; call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickName
@@ -6901,6 +7213,8 @@ LibSDL3 >> getJoystickPath: joystick [
 	 * \param joystick the SDL_Joystick obtained from SDL_OpenJoystick().
 	 * \returns the path of the selected joystick. If no path can be found, this
 	 *          function returns NULL; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -6920,6 +7234,8 @@ LibSDL3 >> getJoystickPathForID: instance_id [
 	 * \param instance_id the joystick instance ID.
 	 * \returns the path of the selected joystick. If no path can be found, this
 	 *          function returns NULL; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -6941,6 +7257,8 @@ LibSDL3 >> getJoystickPlayerIndex: joystick [
 	 * \param joystick the SDL_Joystick obtained from SDL_OpenJoystick().
 	 * \returns the player index, or -1 if it's not available.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_SetJoystickPlayerIndex
@@ -6958,6 +7276,8 @@ LibSDL3 >> getJoystickPlayerIndexForID: instance_id [
 	 *
 	 * \param instance_id the joystick instance ID.
 	 * \returns the player index of a joystick, or -1 if it's not available.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -6987,6 +7307,8 @@ LibSDL3 >> getJoystickPowerInfoJoystick: joystick percent: percent [
 	 * \returns the current battery state or `SDL_POWERSTATE_ERROR` on failure;
 	 *          call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -7002,6 +7324,8 @@ LibSDL3 >> getJoystickProduct: joystick [
 	 *
 	 * \param joystick the SDL_Joystick obtained from SDL_OpenJoystick().
 	 * \returns the USB product ID of the selected joystick, or 0 if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -7023,6 +7347,8 @@ LibSDL3 >> getJoystickProductForID: instance_id [
 	 * \returns the USB product ID of the selected joystick. If called with an
 	 *          invalid instance_id, this function returns 0.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickProduct
@@ -7041,6 +7367,8 @@ LibSDL3 >> getJoystickProductVersion: joystick [
 	 *
 	 * \param joystick the SDL_Joystick obtained from SDL_OpenJoystick().
 	 * \returns the product version of the selected joystick, or 0 if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -7061,6 +7389,8 @@ LibSDL3 >> getJoystickProductVersionForID: instance_id [
 	 * \param instance_id the joystick instance ID.
 	 * \returns the product version of the selected joystick. If called with an
 	 *          invalid instance_id, this function returns 0.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -7093,6 +7423,8 @@ LibSDL3 >> getJoystickProperties: joystick [
 	 * \returns a valid property ID on success or 0 on failure; call
 	 *          SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -7110,6 +7442,8 @@ LibSDL3 >> getJoystickSerial: joystick [
 	 * \returns the serial number of the selected joystick, or NULL if
 	 *          unavailable.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -7123,6 +7457,8 @@ LibSDL3 >> getJoystickType: joystick [
 	 *
 	 * \param joystick the SDL_Joystick obtained from SDL_OpenJoystick().
 	 * \returns the SDL_JoystickType of the selected joystick.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -7144,6 +7480,8 @@ LibSDL3 >> getJoystickTypeForID: instance_id [
 	 *          invalid instance_id, this function returns
 	 *          `SDL_JOYSTICK_TYPE_UNKNOWN`.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickType
@@ -7162,6 +7500,8 @@ LibSDL3 >> getJoystickVendor: joystick [
 	 *
 	 * \param joystick the SDL_Joystick obtained from SDL_OpenJoystick().
 	 * \returns the USB vendor ID of the selected joystick, or 0 if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -7183,6 +7523,8 @@ LibSDL3 >> getJoystickVendorForID: instance_id [
 	 * \returns the USB vendor ID of the selected joystick. If called with an
 	 *          invalid instance_id, this function returns 0.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickVendor
@@ -7202,6 +7544,8 @@ LibSDL3 >> getJoysticks: count [
 	 * \returns a 0 terminated array of joystick instance IDs or NULL on failure;
 	 *          call SDL_GetError() for more information. This should be freed
 	 *          with SDL_free() when it is no longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -7464,8 +7808,7 @@ LibSDL3 >> getModState [
 	"/**
 	 * Get the current key modifier state for the keyboard.
 	 *
-	 * \returns an OR'd combination of the modifier keys for the keyboard. See
-	 *          SDL_Keymod for details.
+	 * \returns an OR'd combination of the modifier keys for the keyboard.
 	 *
 	 * \threadsafety It is safe to call this function from any thread.
 	 *
@@ -7668,6 +8011,8 @@ LibSDL3 >> getNumJoystickAxes: joystick [
 	 * \returns the number of axis controls/number of axes on success or -1 on
 	 *          failure; call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickAxis
@@ -7693,6 +8038,8 @@ LibSDL3 >> getNumJoystickBalls: joystick [
 	 * \returns the number of trackballs on success or -1 on failure; call
 	 *          SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickBall
@@ -7713,6 +8060,8 @@ LibSDL3 >> getNumJoystickButtons: joystick [
 	 * \returns the number of buttons on success or -1 on failure; call
 	 *          SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_GetJoystickButton
@@ -7732,6 +8081,8 @@ LibSDL3 >> getNumJoystickHats: joystick [
 	 * \param joystick an SDL_Joystick structure containing joystick information.
 	 * \returns the number of POV hats on success or -1 on failure; call
 	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -7862,10 +8213,32 @@ LibSDL3 >> getPathInfoPath: path info: info [
 	 * \returns true on success or false if the file doesn't exist, or another
 	 *          failure; call SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
 	^ self ffiCall: #(bool SDL_GetPathInfo(const char* path, SDL_PathInfo* info))
+]
+
+{ #category : 'public' }
+LibSDL3 >> getPenDeviceType: instance_id [
+	"/**
+	 * Get the device type of the given pen.
+	 *
+	 * Many platforms do not supply this information, so an app must always be
+	 * prepared to get an SDL_PEN_DEVICE_TYPE_UNKNOWN result.
+	 *
+	 * \param instance_id the pen instance ID.
+	 * \returns the device type of the given pen, or SDL_PEN_DEVICE_TYPE_INVALID
+	 *          on failure; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_PenDeviceType SDL_GetPenDeviceType(SDL_PenID instance_id))
 ]
 
 { #category : 'public' }
@@ -7953,6 +8326,21 @@ LibSDL3 >> getPixelFormatForMasksBpp: bpp Rmask: Rmask Gmask: Gmask Bmask: Bmask
 	 */"
 
 	^ self ffiCall: #(SDL_PixelFormat SDL_GetPixelFormatForMasks(int bpp, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask))
+]
+
+{ #category : 'public' }
+LibSDL3 >> getPixelFormatFromGPUTextureFormat: format [
+	"/**
+	 * Get the SDL pixel format corresponding to a GPU texture format.
+	 *
+	 * \param format a texture format.
+	 * \returns the corresponding pixel format, or SDL_PIXELFORMAT_UNKNOWN if
+	 *          there is no corresponding pixel format.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_PixelFormat SDL_GetPixelFormatFromGPUTextureFormat(SDL_GPUTextureFormat format))
 ]
 
 { #category : 'public' }
@@ -8058,8 +8446,8 @@ LibSDL3 >> getPowerInfoSeconds: seconds percent: percent [
 	 *                can't determine a value or there is no battery.
 	 * \param percent a pointer filled in with the percentage of battery life
 	 *                left, between 0 and 100, or NULL to ignore. This will be
-	 *                filled in with -1 we can't determine a value or there is no
-	 *                battery.
+	 *                filled in with -1 when we can't determine a value or there
+	 *                is no battery.
 	 * \returns the current battery state or `SDL_POWERSTATE_ERROR` on failure;
 	 *          call SDL_GetError() for more information.
 	 *
@@ -8110,6 +8498,12 @@ LibSDL3 >> getPrefPathOrg: org app: app [
 	 * - ...only use letters, numbers, and spaces. Avoid punctuation like ""Game
 	 *   Name 2: Bad Guy's Revenge!"" ... ""Game Name 2"" is sufficient.
 	 *
+	 * Due to historical mistakes, `org` is allowed to be NULL or """". In such
+	 * cases, SDL will omit the org subdirectory, including on platforms where it
+	 * shouldn't, and including on platforms where this would make your app fail
+	 * certification for an app store. New apps should definitely specify a real
+	 * string for `org`.
+	 *
 	 * The returned path is guaranteed to end with a path separator ('\\' on
 	 * Windows, '/' on most other platforms).
 	 *
@@ -8119,6 +8513,8 @@ LibSDL3 >> getPrefPathOrg: org app: app [
 	 *          notation. NULL if there's a problem (creating directory failed,
 	 *          etc.). This should be freed with SDL_free() when it is no longer
 	 *          needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -8198,7 +8594,7 @@ LibSDL3 >> getPrimarySelectionText [
 	"/**
 	 * Get UTF-8 text from the primary selection.
 	 *
-	 * This functions returns an empty string if there was not enough memory left
+	 * This function returns an empty string if there is not enough memory left
 	 * for a copy of the primary selection's content.
 	 *
 	 * \returns the primary selection text on success or an empty string on
@@ -8237,7 +8633,7 @@ LibSDL3 >> getPropertyTypeProps: props name: name [
 ]
 
 { #category : 'public' }
-LibSDL3 >> getRGBAPixel: pixel format: format palette: palette r: r g: g b: b a: a [
+LibSDL3 >> getRGBAPixel: pixelvalue format: format palette: palette r: r g: g b: b a: a [
 	"/**
 	 * Get RGBA values from a pixel in the specified format.
 	 *
@@ -8249,7 +8645,7 @@ LibSDL3 >> getRGBAPixel: pixel format: format palette: palette r: r g: g b: b a:
 	 * If the surface has no alpha component, the alpha will be returned as 0xff
 	 * (100% opaque).
 	 *
-	 * \param pixel a pixel value.
+	 * \param pixelvalue a pixel value.
 	 * \param format a pointer to SDL_PixelFormatDetails describing the pixel
 	 *               format.
 	 * \param palette an optional palette for indexed formats, may be NULL.
@@ -8269,11 +8665,11 @@ LibSDL3 >> getRGBAPixel: pixel format: format palette: palette r: r g: g b: b a:
 	 * \sa SDL_MapRGBA
 	 */"
 
-	self ffiCall: #(void SDL_GetRGBA(Uint32 pixel, SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8* r, Uint8* g, Uint8* b, Uint8* a))
+	self ffiCall: #(void SDL_GetRGBA(Uint32 pixelvalue, SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8* r, Uint8* g, Uint8* b, Uint8* a))
 ]
 
 { #category : 'public' }
-LibSDL3 >> getRGBPixel: pixel format: format palette: palette r: r g: g b: b [
+LibSDL3 >> getRGBPixel: pixelvalue format: format palette: palette r: r g: g b: b [
 	"/**
 	 * Get RGB values from a pixel in the specified format.
 	 *
@@ -8282,7 +8678,7 @@ LibSDL3 >> getRGBPixel: pixel format: format palette: palette r: r g: g b: b [
 	 * (e.g., a completely white pixel in 16-bit RGB565 format would return [0xff,
 	 * 0xff, 0xff] not [0xf8, 0xfc, 0xf8]).
 	 *
-	 * \param pixel a pixel value.
+	 * \param pixelvalue a pixel value.
 	 * \param format a pointer to SDL_PixelFormatDetails describing the pixel
 	 *               format.
 	 * \param palette an optional palette for indexed formats, may be NULL.
@@ -8301,7 +8697,7 @@ LibSDL3 >> getRGBPixel: pixel format: format palette: palette r: r g: g b: b [
 	 * \sa SDL_MapRGBA
 	 */"
 
-	self ffiCall: #(void SDL_GetRGB(Uint32 pixel, SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8* r, Uint8* g, Uint8* b))
+	self ffiCall: #(void SDL_GetRGB(Uint32 pixelvalue, SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8* r, Uint8* g, Uint8* b))
 ]
 
 { #category : 'public' }
@@ -8701,15 +9097,16 @@ LibSDL3 >> getRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	 * Get device independent resolution and presentation mode for rendering.
 	 *
 	 * This function gets the width and height of the logical rendering output, or
-	 * the output size in pixels if a logical resolution is not enabled.
+	 * 0 if a logical resolution is not enabled.
 	 *
 	 * Each render target has its own logical presentation state. This function
 	 * gets the state for the current render target.
 	 *
 	 * \param renderer the rendering context.
-	 * \param w an int to be filled with the width.
-	 * \param h an int to be filled with the height.
-	 * \param mode the presentation mode used.
+	 * \param w an int filled with the logical presentation width.
+	 * \param h an int filled with the logical presentation height.
+	 * \param mode a variable filled with the logical presentation mode being
+	 *             used.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
@@ -8871,6 +9268,29 @@ LibSDL3 >> getRenderTarget: renderer [
 ]
 
 { #category : 'public' }
+LibSDL3 >> getRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
+	"/**
+	 * Get the texture addressing mode used in SDL_RenderGeometry().
+	 *
+	 * \param renderer the rendering context.
+	 * \param u_mode a pointer filled in with the SDL_TextureAddressMode to use
+	 *               for horizontal texture coordinates in SDL_RenderGeometry(),
+	 *               may be NULL.
+	 * \param v_mode a pointer filled in with the SDL_TextureAddressMode to use
+	 *               for vertical texture coordinates in SDL_RenderGeometry(), may
+	 *               be NULL.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_SetRenderTextureAddressMode
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetRenderTextureAddressMode(SDL_Renderer* renderer, SDL_TextureAddressMode u_mode, SDL_TextureAddressMode v_mode))
+]
+
+{ #category : 'public' }
 LibSDL3 >> getRenderVSyncRenderer: renderer vsync: vsync [
 	"/**
 	 * Get VSync of the given renderer.
@@ -9004,6 +9424,8 @@ LibSDL3 >> getRendererProperties: renderer [
 	 * - `SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER`: a (const SDL_PixelFormat *)
 	 *   array of pixel formats, terminated with SDL_PIXELFORMAT_UNKNOWN,
 	 *   representing the available texture formats for this renderer.
+	 * - `SDL_PROP_RENDERER_TEXTURE_WRAPPING_BOOLEAN`: true if the renderer
+	 *   supports SDL_TEXTURE_ADDRESS_WRAP on non-power-of-two textures.
 	 * - `SDL_PROP_RENDERER_OUTPUT_COLORSPACE_NUMBER`: an SDL_Colorspace value
 	 *   describing the colorspace for output to the display, defaults to
 	 *   SDL_COLORSPACE_SRGB.
@@ -9079,13 +9501,14 @@ LibSDL3 >> getRendererProperties: renderer [
 { #category : 'public' }
 LibSDL3 >> getRevision [
 	"/**
-	 * Get the code revision of SDL that is linked against your program.
+	 * Get the code revision of the SDL library that is linked against your
+	 * program.
 	 *
-	 * This value is the revision of the code you are linked with and may be
+	 * This value is the revision of the code you are linking against and may be
 	 * different from the code you are compiling with, which is found in the
 	 * constant SDL_REVISION.
 	 *
-	 * The revision is arbitrary string (a hash value) uniquely identifying the
+	 * The revision is an arbitrary string (a hash value) uniquely identifying the
 	 * exact revision of the SDL library in use, and is only useful in comparing
 	 * against other revisions. It is NOT an incrementing number.
 	 *
@@ -9517,7 +9940,8 @@ LibSDL3 >> getSurfaceClipRectSurface: surface rect: rect [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -9565,7 +9989,8 @@ LibSDL3 >> getSurfaceColorModSurface: surface r: r g: g b: b [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -9589,7 +10014,8 @@ LibSDL3 >> getSurfaceColorspace: surface [
 	 * \returns the colorspace used by the surface, or SDL_COLORSPACE_UNKNOWN if
 	 *          the surface is NULL.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -9618,7 +10044,8 @@ LibSDL3 >> getSurfaceImagesSurface: surface count: count [
 	 *          failure; call SDL_GetError() for more information. This should be
 	 *          freed with SDL_free() when it is no longer needed.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -9685,6 +10112,31 @@ LibSDL3 >> getSurfaceProperties: surface [
 	 */"
 
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetSurfaceProperties(SDL_Surface* surface))
+]
+
+{ #category : 'public' }
+LibSDL3 >> getSystemPageSize [
+	"/**
+	 * Report the size of a page of memory.
+	 *
+	 * Different platforms might have different memory page sizes. In current
+	 * times, 4 kilobytes is not unusual, but newer systems are moving to larger
+	 * page sizes, and esoteric platforms might have any unexpected size.
+	 *
+	 * Note that this function can return 0, which means SDL can't determine the
+	 * page size on this platform. It will _not_ set an error string to be
+	 * retrieved with SDL_GetError() in this case! In this case, defaulting to
+	 * 4096 is often a reasonable option.
+	 *
+	 * \returns the size of a single page of memory, in bytes, or 0 if SDL can't
+	 *          determine this information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_GetSystemPageSize())
 ]
 
 { #category : 'public' }
@@ -9874,6 +10326,25 @@ LibSDL3 >> getTextureColorModTexture: texture r: r g: g b: b [
 ]
 
 { #category : 'public' }
+LibSDL3 >> getTexturePalette: texture [
+	"/**
+	 * Get the palette used by a texture.
+	 *
+	 * \param texture the texture to query.
+	 * \returns a pointer to the palette used by the texture, or NULL if there is
+	 *          no palette used.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_SetTexturePalette
+	 */"
+
+	^ self ffiCall: #(SDL_Palette* SDL_GetTexturePalette(SDL_Texture* texture))
+]
+
+{ #category : 'public' }
 LibSDL3 >> getTextureProperties: texture [
 	"/**
 	 * Get the properties associated with a texture.
@@ -9952,6 +10423,17 @@ LibSDL3 >> getTextureProperties: texture [
 	 *   associated with the V plane of a YUV texture
 	 * - `SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_TARGET_NUMBER`: the GLenum for the
 	 *   texture target (`GL_TEXTURE_2D`, `GL_TEXTURE_EXTERNAL_OES`, etc)
+	 *
+	 * With the gpu renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER`: the SDL_GPUTexture associated
+	 *   with the texture
+	 * - `SDL_PROP_TEXTURE_GPU_TEXTURE_UV_POINTER`: the SDL_GPUTexture associated
+	 *   with the UV plane of an NV12 texture
+	 * - `SDL_PROP_TEXTURE_GPU_TEXTURE_U_POINTER`: the SDL_GPUTexture associated
+	 *   with the U plane of a YUV texture
+	 * - `SDL_PROP_TEXTURE_GPU_TEXTURE_V_POINTER`: the SDL_GPUTexture associated
+	 *   with the V plane of a YUV texture
 	 *
 	 * \param texture the texture to query.
 	 * \returns a valid property ID on success or 0 on failure; call
@@ -10062,14 +10544,18 @@ LibSDL3 >> getThreadState: thread [
 { #category : 'public' }
 LibSDL3 >> getTicks [
 	"/**
-	 * Get the number of milliseconds since SDL library initialization.
+	 * Get the number of milliseconds that have elapsed since the SDL library
+	 * initialization.
 	 *
-	 * \returns an unsigned 64-bit value representing the number of milliseconds
-	 *          since the SDL library initialized.
+	 * \returns an unsigned 64‑bit integer that represents the number of
+	 *          milliseconds that have elapsed since the SDL library was
+	 *          initialized (typically via a call to SDL_Init).
 	 *
 	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetTicksNS
 	 */"
 
 	^ self ffiCall: #(Uint64 SDL_GetTicks())
@@ -10397,6 +10883,8 @@ LibSDL3 >> getUserFolder: folder [
 	 * \returns either a null-terminated C string containing the full path to the
 	 *          folder, or NULL if an error happened.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -10438,7 +10926,8 @@ LibSDL3 >> getVideoDriver: index [
 	 * to be proper names.
 	 *
 	 * \param index the index of a video driver.
-	 * \returns the name of the video driver with the given **index**.
+	 * \returns the name of the video driver with the given **index**, or NULL if
+	 *          index is out of bounds.
 	 *
 	 * \threadsafety This function should only be called on the main thread.
 	 *
@@ -10453,7 +10942,7 @@ LibSDL3 >> getVideoDriver: index [
 { #category : 'public' }
 LibSDL3 >> getWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: max_aspect [
 	"/**
-	 * Get the size of a window's client area.
+	 * Get the aspect ratio of a window's client area.
 	 *
 	 * \param window the window to query the width and height from.
 	 * \param min_aspect a pointer filled in with the minimum aspect ratio of the
@@ -10889,6 +11378,40 @@ LibSDL3 >> getWindowPositionWindow: window x: x y: y [
 ]
 
 { #category : 'public' }
+LibSDL3 >> getWindowProgressState: window [
+	"/**
+	 * Get the state of the progress bar for the given window’s taskbar icon.
+	 *
+	 * \param window the window to get the current progress state from.
+	 * \returns the progress state, or `SDL_PROGRESS_STATE_INVALID` on failure;
+	 *          call SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_ProgressState SDL_GetWindowProgressState(SDL_Window* window))
+]
+
+{ #category : 'public' }
+LibSDL3 >> getWindowProgressValue: window [
+	"/**
+	 * Get the value of the progress bar for the given window’s taskbar icon.
+	 *
+	 * \param window the window to get the current progress value from.
+	 * \returns the progress value in the range of [0.0f - 1.0f], or -1.0f on
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(float SDL_GetWindowProgressValue(SDL_Window* window))
+]
+
+{ #category : 'public' }
 LibSDL3 >> getWindowProperties: window [
 	"/**
 	 * Get the properties associated with a window.
@@ -10945,12 +11468,12 @@ LibSDL3 >> getWindowProperties: window [
 	 * - `SDL_PROP_WINDOW_COCOA_WINDOW_POINTER`: the `(__unsafe_unretained)`
 	 *   NSWindow associated with the window
 	 * - `SDL_PROP_WINDOW_COCOA_METAL_VIEW_TAG_NUMBER`: the NSInteger tag
-	 *   assocated with metal views on the window
+	 *   associated with metal views on the window
 	 *
 	 * On OpenVR:
 	 *
-	 * - `SDL_PROP_WINDOW_OPENVR_OVERLAY_ID`: the OpenVR Overlay Handle ID for the
-	 *   associated overlay window.
+	 * - `SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER`: the OpenVR Overlay Handle ID
+	 *   for the associated overlay window.
 	 *
 	 * On Vivante:
 	 *
@@ -11001,6 +11524,16 @@ LibSDL3 >> getWindowProperties: window [
 	 *   the window
 	 * - `SDL_PROP_WINDOW_X11_WINDOW_NUMBER`: the X11 Window associated with the
 	 *   window
+	 *
+	 * On Emscripten:
+	 *
+	 * - `SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID_STRING`: the id the canvas element
+	 *   will have
+	 * - `SDL_PROP_WINDOW_EMSCRIPTEN_FILL_DOCUMENT_BOOLEAN`: true if the canvas is
+	 *   set to consume the entire browser window, bypassing some SDL window
+	 *   functionality.
+	 * - `SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING`: the keyboard
+	 *   element that associates keyboard events to this window
 	 *
 	 * \param window the window to query.
 	 * \returns a valid property ID on success or 0 on failure; call
@@ -11248,6 +11781,12 @@ LibSDL3 >> getenvUnsafe: name [
 LibSDL3 >> glCreateContext: window [
 	"/**
 	 * Create an OpenGL context for an OpenGL window, and make it current.
+	 *
+	 * The OpenGL context will be created with the current states set through
+	 * SDL_GL_SetAttribute().
+	 *
+	 * The SDL_Window specified must have been created with the SDL_WINDOW_OPENGL
+	 * flag, or context creation will fail.
 	 *
 	 * Windows users new to OpenGL should note that, for historical reasons, GL
 	 * functions added after OpenGL version 1.1 are not available by default.
@@ -11534,8 +12073,7 @@ LibSDL3 >> glSetAttributeAttr: attr value: value [
 	 * SDL_GL_GetAttribute() to check the values after creating the OpenGL
 	 * context, since the values obtained can differ from the requested ones.
 	 *
-	 * \param attr an SDL_GLAttr enum value specifying the OpenGL attribute to
-	 *             set.
+	 * \param attr an enum value specifying the OpenGL attribute to set.
 	 * \param value the desired value for the attribute.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
@@ -11544,6 +12082,7 @@ LibSDL3 >> glSetAttributeAttr: attr value: value [
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
+	 * \sa SDL_GL_CreateContext
 	 * \sa SDL_GL_GetAttribute
 	 * \sa SDL_GL_ResetAttributes
 	 */"
@@ -11631,10 +12170,10 @@ LibSDL3 >> globDirectoryPath: path pattern: pattern flags: flags count: count [
 	 * Enumerate a directory tree, filtered by pattern, and return a list.
 	 *
 	 * Files are filtered out if they don't match the string in `pattern`, which
-	 * may contain wildcard characters '\*' (match everything) and '?' (match one
+	 * may contain wildcard characters `*` (match everything) and `?` (match one
 	 * character). If pattern is NULL, no filtering is done and all results are
 	 * returned. Subdirectories are permitted, and are specified with a path
-	 * separator of '/'. Wildcard characters '\*' and '?' never match a path
+	 * separator of `/`. Wildcard characters `*` and `?` never match a path
 	 * separator.
 	 *
 	 * `flags` may be set to SDL_GLOB_CASEINSENSITIVE to make the pattern matching
@@ -11870,8 +12409,8 @@ LibSDL3 >> hasClipboardData: mime_type [
 	"/**
 	 * Query whether there is data in the clipboard for the provided mime type.
 	 *
-	 * \param mime_type the mime type to check for data for.
-	 * \returns true if there exists data in clipboard for the provided mime type,
+	 * \param mime_type the mime type to check for data.
+	 * \returns true if data exists in the clipboard for the provided mime type,
 	 *          false if it does not.
 	 *
 	 * \threadsafety This function should only be called on the main thread.
@@ -11955,6 +12494,8 @@ LibSDL3 >> hasJoystick [
 	 * Return whether a joystick is currently connected.
 	 *
 	 * \returns true if a joystick is connected, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -12327,8 +12868,7 @@ LibSDL3 >> iOFromConstMem: mem size: size [
 	 * without writing to the memory buffer.
 	 *
 	 * This memory buffer is not copied by the SDL_IOStream; the pointer you
-	 * provide must remain valid until you close the stream. Closing the stream
-	 * will not free the original buffer.
+	 * provide must remain valid until you close the stream.
 	 *
 	 * If you need to write to a memory buffer, you should use SDL_IOFromMem()
 	 * with a writable buffer of memory instead.
@@ -12339,6 +12879,13 @@ LibSDL3 >> iOFromConstMem: mem size: size [
 	 *   was passed to this function.
 	 * - `SDL_PROP_IOSTREAM_MEMORY_SIZE_NUMBER`: this will be the `size` parameter
 	 *   that was passed to this function.
+	 *
+	 * Additionally, the following properties are recognized:
+	 *
+	 * - `SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC_POINTER`: if this property is set to
+	 *   a non-NULL value it will be interpreted as a function of SDL_free_func
+	 *   type and called with the passed `mem` pointer when closing the stream. By
+	 *   default it is unset, i.e., the memory will not be freed.
 	 *
 	 * \param mem a pointer to a read-only buffer to feed an SDL_IOStream stream.
 	 * \param size the buffer size, in bytes.
@@ -12409,6 +12956,8 @@ LibSDL3 >> iOFromFile: file mode: mode [
 	 * - ""w"": Create an empty file for writing. If a file with the same name
 	 *   already exists its content is erased and the file is treated as a new
 	 *   empty file.
+	 * - ""wx"": Create an empty file for writing. If a file with the same name
+	 *   already exists, the call fails.
 	 * - ""a"": Append to a file. Writing operations append data at the end of the
 	 *   file. The file is created if it does not exist.
 	 * - ""r+"": Open a file for update both reading and writing. The file must
@@ -12416,6 +12965,8 @@ LibSDL3 >> iOFromFile: file mode: mode [
 	 * - ""w+"": Create an empty file for both reading and writing. If a file with
 	 *   the same name already exists its content is erased and the file is
 	 *   treated as a new empty file.
+	 * - ""w+x"": Create an empty file for both reading and writing. If a file with
+	 *   the same name already exists, the call fails.
 	 * - ""a+"": Open a file for reading and appending. All writing operations are
 	 *   performed at the end of the file, protecting the previous content to be
 	 *   overwritten. You can reposition (fseek, rewind) the internal pointer to
@@ -12466,7 +13017,7 @@ LibSDL3 >> iOFromFile: file mode: mode [
 	 * \returns a pointer to the SDL_IOStream structure that is created or NULL on
 	 *          failure; call SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -12491,8 +13042,7 @@ LibSDL3 >> iOFromMem: mem size: size [
 	 * certain size, for both read and write access.
 	 *
 	 * This memory buffer is not copied by the SDL_IOStream; the pointer you
-	 * provide must remain valid until you close the stream. Closing the stream
-	 * will not free the original buffer.
+	 * provide must remain valid until you close the stream.
 	 *
 	 * If you need to make sure the SDL_IOStream never writes to the memory
 	 * buffer, you should use SDL_IOFromConstMem() with a read-only buffer of
@@ -12504,6 +13054,13 @@ LibSDL3 >> iOFromMem: mem size: size [
 	 *   was passed to this function.
 	 * - `SDL_PROP_IOSTREAM_MEMORY_SIZE_NUMBER`: this will be the `size` parameter
 	 *   that was passed to this function.
+	 *
+	 * Additionally, the following properties are recognized:
+	 *
+	 * - `SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC_POINTER`: if this property is set to
+	 *   a non-NULL value it will be interpreted as a function of SDL_free_func
+	 *   type and called with the passed `mem` pointer when closing the stream. By
+	 *   default it is unset, i.e., the memory will not be freed.
 	 *
 	 * \param mem a pointer to a buffer to feed an SDL_IOStream stream.
 	 * \param size the buffer size, in bytes.
@@ -12532,7 +13089,7 @@ LibSDL3 >> iconvCd: cd inbuf: inbuf inbytesleft: inbytesleft outbuf: outbuf outb
 	 * This function converts text between encodings, reading from and writing to
 	 * a buffer.
 	 *
-	 * It returns the number of succesful conversions on success. On error,
+	 * It returns the number of successful conversions on success. On error,
 	 * SDL_ICONV_E2BIG is returned when the output buffer is too small, or
 	 * SDL_ICONV_EILSEQ is returned when an invalid input sequence is encountered,
 	 * or SDL_ICONV_EINVAL is returned when an incomplete input sequence is
@@ -12822,6 +13379,8 @@ LibSDL3 >> isJoystickVirtual: instance_id [
 	 *
 	 * \param instance_id the joystick instance ID.
 	 * \returns true if the joystick is virtual, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -13209,7 +13768,7 @@ LibSDL3 >> itoaValue: value str: str radix: radix [
 	 * Convert an integer into a string.
 	 *
 	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 	 * to 36.
 	 *
 	 * Note that this function will overflow a buffer if `str` is not large enough
@@ -13244,6 +13803,8 @@ LibSDL3 >> joystickConnected: joystick [
 	 * \returns true if the joystick has been opened, false if it has not; call
 	 *          SDL_GetError() for more information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -13261,6 +13822,8 @@ LibSDL3 >> joystickEventsEnabled [
 	 *
 	 * \returns true if joystick events are being processed, false otherwise.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_SetJoystickEventsEnabled
@@ -13275,7 +13838,7 @@ LibSDL3 >> lltoaValue: value str: str radix: radix [
 	 * Convert a long long integer into a string.
 	 *
 	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 	 * to 36.
 	 *
 	 * Note that this function will overflow a buffer if `str` is not large enough
@@ -13367,7 +13930,7 @@ LibSDL3 >> loadFile: file datasize: datasize [
 	 * \returns the data or NULL on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -13433,7 +13996,7 @@ LibSDL3 >> loadFileIOSrc: src datasize: datasize closeio: closeio [
 	 * \returns the data or NULL on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -13494,6 +14057,56 @@ LibSDL3 >> loadObject: sofile [
 	 */"
 
 	^ self ffiCall: #(SDL_SharedObject* SDL_LoadObject(const char* sofile))
+]
+
+{ #category : 'public' }
+LibSDL3 >> loadPNG: file [
+	"/**
+	 * Load a PNG image from a file.
+	 *
+	 * The new surface should be freed with SDL_DestroySurface(). Not doing so
+	 * will result in a memory leak.
+	 *
+	 * \param file the PNG file to load.
+	 * \returns a pointer to a new SDL_Surface structure or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_DestroySurface
+	 * \sa SDL_LoadPNG_IO
+	 * \sa SDL_SavePNG
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* SDL_LoadPNG(const char* file))
+]
+
+{ #category : 'public' }
+LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
+	"/**
+	 * Load a PNG image from a seekable SDL data stream.
+	 *
+	 * The new surface should be freed with SDL_DestroySurface(). Not doing so
+	 * will result in a memory leak.
+	 *
+	 * \param src the data stream for the surface.
+	 * \param closeio if true, calls SDL_CloseIO() on `src` before returning, even
+	 *                in the case of an error.
+	 * \returns a pointer to a new SDL_Surface structure or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_DestroySurface
+	 * \sa SDL_LoadPNG
+	 * \sa SDL_SavePNG_IO
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* SDL_LoadPNG_IO(SDL_IOStream* src, _Bool closeio))
 ]
 
 { #category : 'public' }
@@ -13660,6 +14273,8 @@ LibSDL3 >> lockJoysticks [
 	 * The SDL joystick functions are thread-safe, however you can lock the
 	 * joysticks while processing to guarantee that the joystick list won't change
 	 * and joystick and gamepad events will not be delivered.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -13838,9 +14453,10 @@ LibSDL3 >> lockSurface: surface [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe. The locking referred to by
-	 *               this function is making the pixels available for direct
-	 *               access, not thread-safe locking.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces. The locking referred to by this function
+	 *               is making the pixels available for direct access, not
+	 *               thread-safe locking.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -14134,7 +14750,7 @@ LibSDL3 >> ltoaValue: value str: str radix: radix [
 	 * Convert a long integer into a string.
 	 *
 	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 	 * to 36.
 	 *
 	 * Note that this function will overflow a buffer if `str` is not large enough
@@ -14333,7 +14949,8 @@ LibSDL3 >> mapSurfaceRGBASurface: surface r: r g: g b: b a: a [
 	 * \param a the alpha component of the pixel in the range 0-255.
 	 * \returns a pixel value.
 	 *
-	 * \threadsafety It is safe to call this function from any thread.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -14369,7 +14986,8 @@ LibSDL3 >> mapSurfaceRGBSurface: surface r: r g: g b: b [
 	 * \param b the blue component of the pixel in the range 0-255.
 	 * \returns a pixel value.
 	 *
-	 * \threadsafety It is safe to call this function from any thread.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -14702,30 +15320,6 @@ LibSDL3 >> modffX: x y: y [
 ]
 
 { #category : 'public' }
-LibSDL3 >> mostSignificantBitIndex32: x [
-	"/**
-	 * Get the index of the most significant (set) bit in a 32-bit number.
-	 *
-	 * Result is undefined when called with 0. This operation can also be stated
-	 * as ""count leading zeroes"" and ""log base 2"".
-	 *
-	 * Note that this is a forced-inline function in a header, and not a public
-	 * API function available in the SDL library (which is to say, the code is
-	 * embedded in the calling program and the linker and dynamic loader will not
-	 * be able to find this function inside SDL itself).
-	 *
-	 * \param x the 32-bit value to examine.
-	 * \returns the index of the most significant bit, or -1 if the value is 0.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.1.3.
-	 */"
-
-	self ffiCall: #(int SDL_MostSignificantBitIndex32(int x))
-]
-
-{ #category : 'public' }
 LibSDL3 >> murmur332Data: data len: len seed: seed [
 	"/**
 	 * Calculate a 32-bit MurmurHash3 value for a block of data.
@@ -14753,6 +15347,58 @@ LibSDL3 >> murmur332Data: data len: len seed: seed [
 	 */"
 
 	^ self ffiCall: #(Uint32 SDL_murmur3_32(const void* data, size_t len, Uint32 seed))
+]
+
+{ #category : 'public' }
+LibSDL3 >> newAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x hotY: hot_y [
+	"/**
+	 * Create an animated color cursor.
+	 *
+	 * Animated cursors are composed of a sequential array of frames, specified as
+	 * surfaces and durations in an array of SDL_CursorFrameInfo structs. The hot
+	 * spot coordinates are universal to all frames, and all frames must have the
+	 * same dimensions.
+	 *
+	 * Frame durations are specified in milliseconds. A duration of 0 implies an
+	 * infinite frame time, and the animation will stop on that frame. To create a
+	 * one-shot animation, set the duration of the last frame in the sequence to
+	 * 0.
+	 *
+	 * If this function is passed surfaces with alternate representations added
+	 * with SDL_AddSurfaceAlternateImage(), the surfaces will be interpreted as
+	 * the content to be used for 100% display scale, and the alternate
+	 * representations will be used for high DPI situations. For example, if the
+	 * original surfaces are 32x32, then on a 2x macOS display or 200% display
+	 * scale on Windows, a 64x64 version of the image will be used, if available.
+	 * If a matching version of the image isn't available, the closest larger size
+	 * image will be downscaled to the appropriate size and be used instead, if
+	 * available. Otherwise, the closest smaller image will be upscaled and be
+	 * used instead.
+	 *
+	 * If the underlying platform does not support animated cursors, this function
+	 * will fall back to creating a static color cursor using the first frame in
+	 * the sequence.
+	 *
+	 * \param frames an array of cursor images composing the animation.
+	 * \param frame_count the number of frames in the sequence.
+	 * \param hot_x the x position of the cursor hot spot.
+	 * \param hot_y the y position of the cursor hot spot.
+	 * \returns the new cursor on success or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_AddSurfaceAlternateImage
+	 * \sa SDL_CreateCursor
+	 * \sa SDL_CreateColorCursor
+	 * \sa SDL_CreateSystemCursor
+	 * \sa SDL_DestroyCursor
+	 * \sa SDL_SetCursor
+	 */"
+
+	^ self ffiCall: #(SDL_Cursor* SDL_CreateAnimatedCursor(SDL_CursorFrameInfo* frames, int frame_count, int hot_x, int hot_y))
 ]
 
 { #category : 'public' }
@@ -14809,15 +15455,16 @@ LibSDL3 >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
 	"/**
 	 * Create a color cursor.
 	 *
-	 * If this function is passed a surface with alternate representations, the
-	 * surface will be interpreted as the content to be used for 100% display
-	 * scale, and the alternate representations will be used for high DPI
-	 * situations. For example, if the original surface is 32x32, then on a 2x
-	 * macOS display or 200% display scale on Windows, a 64x64 version of the
-	 * image will be used, if available. If a matching version of the image isn't
-	 * available, the closest larger size image will be downscaled to the
-	 * appropriate size and be used instead, if available. Otherwise, the closest
-	 * smaller image will be upscaled and be used instead.
+	 * If this function is passed a surface with alternate representations added
+	 * with SDL_AddSurfaceAlternateImage(), the surface will be interpreted as the
+	 * content to be used for 100% display scale, and the alternate
+	 * representations will be used for high DPI situations. For example, if the
+	 * original surface is 32x32, then on a 2x macOS display or 200% display scale
+	 * on Windows, a 64x64 version of the image will be used, if available. If a
+	 * matching version of the image isn't available, the closest larger size
+	 * image will be downscaled to the appropriate size and be used instead, if
+	 * available. Otherwise, the closest smaller image will be upscaled and be
+	 * used instead.
 	 *
 	 * \param surface an SDL_Surface structure representing the cursor image.
 	 * \param hot_x the x position of the cursor hot spot.
@@ -14829,6 +15476,8 @@ LibSDL3 >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
+	 * \sa SDL_AddSurfaceAlternateImage
+	 * \sa SDL_CreateAnimatedCursor
 	 * \sa SDL_CreateCursor
 	 * \sa SDL_CreateSystemCursor
 	 * \sa SDL_DestroyCursor
@@ -14899,6 +15548,7 @@ LibSDL3 >> newCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
+	 * \sa SDL_CreateAnimatedCursor
 	 * \sa SDL_CreateColorCursor
 	 * \sa SDL_CreateSystemCursor
 	 * \sa SDL_DestroyCursor
@@ -14921,6 +15571,8 @@ LibSDL3 >> newDirectory: path [
 	 * \param path the path of the directory to create.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -15060,6 +15712,13 @@ LibSDL3 >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: nam
 	"/**
 	 * Creates a GPU context.
 	 *
+	 * The GPU driver name can be one of the following:
+	 *
+	 * - ""vulkan"": [Vulkan](CategoryGPU#vulkan)
+	 * - ""direct3d12"": [D3D12](CategoryGPU#d3d12)
+	 * - ""metal"": [Metal](CategoryGPU#metal)
+	 * - NULL: let SDL pick the optimal driver
+	 *
 	 * \param format_flags a bitflag indicating which shader formats the app is
 	 *                     able to provide.
 	 * \param debug_mode enable debug mode properties and validations.
@@ -15070,6 +15729,7 @@ LibSDL3 >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: nam
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
+	 * \sa SDL_CreateGPUDeviceWithProperties
 	 * \sa SDL_GetGPUShaderFormats
 	 * \sa SDL_GetGPUDeviceDriver
 	 * \sa SDL_DestroyGPUDevice
@@ -15090,8 +15750,31 @@ LibSDL3 >> newGPUDeviceWithProperties: props [
 	 *   properties and validations, defaults to true.
 	 * - `SDL_PROP_GPU_DEVICE_CREATE_PREFERLOWPOWER_BOOLEAN`: enable to prefer
 	 *   energy efficiency over maximum GPU performance, defaults to false.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_VERBOSE_BOOLEAN`: enable to automatically log
+	 *   useful debug information on device creation, defaults to true.
 	 * - `SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING`: the name of the GPU driver to
 	 *   use, if a specific one is desired.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_CLIP_DISTANCE_BOOLEAN`: Enable Vulkan
+	 *   device feature shaderClipDistance. If disabled, clip distances are not
+	 *   supported in shader code: gl_ClipDistance[] built-ins of GLSL,
+	 *   SV_ClipDistance0/1 semantics of HLSL and [[clip_distance]] attribute of
+	 *   Metal. Disabling optional features allows the application to run on some
+	 *   older Android devices. Defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_DEPTH_CLAMPING_BOOLEAN`: Enable
+	 *   Vulkan device feature depthClamp. If disabled, there is no depth clamp
+	 *   support and enable_depth_clip in SDL_GPURasterizerState must always be
+	 *   set to true. Disabling optional features allows the application to run on
+	 *   some older Android devices. Defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_INDIRECT_DRAW_FIRST_INSTANCE_BOOLEAN`:
+	 *   Enable Vulkan device feature drawIndirectFirstInstance. If disabled, the
+	 *   argument first_instance of SDL_GPUIndirectDrawCommand must be set to
+	 *   zero. Disabling optional features allows the application to run on some
+	 *   older Android devices. Defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_ANISOTROPY_BOOLEAN`: Enable Vulkan
+	 *   device feature samplerAnisotropy. If disabled, enable_anisotropy of
+	 *   SDL_GPUSamplerCreateInfo must be set to false. Disabling optional
+	 *   features allows the application to run on some older Android devices.
+	 *   Defaults to true.
 	 *
 	 * These are the current shader format properties:
 	 *
@@ -15112,6 +15795,14 @@ LibSDL3 >> newGPUDeviceWithProperties: props [
 	 *
 	 * - `SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING`: the prefix to
 	 *   use for all vertex semantics, default is ""TEXCOORD"".
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_D3D12_ALLOW_FEWER_RESOURCE_SLOTS_BOOLEAN`: By
+	 *   default, Resourcing Binding Tier 2 is required for D3D12 support.
+	 *   However, an application can set this property to true to enable Tier 1
+	 *   support, if (and only if) the application uses 8 or fewer storage
+	 *   resources across all shader stages. As of writing, this property is
+	 *   useful for targeting Intel Haswell and Broadwell GPUs; other hardware
+	 *   either supports Tier 2 Resource Binding or does not support D3D12 in any
+	 *   capacity. Defaults to false.
 	 *
 	 * \param props the properties to use.
 	 * \returns a GPU context on success or NULL on failure; call SDL_GetError()
@@ -15153,6 +15844,67 @@ LibSDL3 >> newGPUGraphicsPipelineDevice: device createinfo: createinfo [
 	 */"
 
 	^ self ffiCall: #(SDL_GPUGraphicsPipeline* SDL_CreateGPUGraphicsPipeline(SDL_GPUDevice* device, SDL_GPUGraphicsPipelineCreateInfo* createinfo))
+]
+
+{ #category : 'public' }
+LibSDL3 >> newGPURenderStateRenderer: renderer createinfo: createinfo [
+	"/**
+	 * Create custom GPU render state.
+	 *
+	 * \param renderer the renderer to use.
+	 * \param createinfo a struct describing the GPU render state to create.
+	 * \returns a custom GPU render state or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               renderer.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_SetGPURenderStateFragmentUniforms
+	 * \sa SDL_SetGPURenderState
+	 * \sa SDL_DestroyGPURenderState
+	 */"
+
+	^ self ffiCall: #(SDL_GPURenderState* SDL_CreateGPURenderState(SDL_Renderer* renderer, SDL_GPURenderStateCreateInfo* createinfo))
+]
+
+{ #category : 'public' }
+LibSDL3 >> newGPURendererDevice: device window: window [
+	"/**
+	 * Create a 2D GPU rendering context.
+	 *
+	 * The GPU device to use is passed in as a parameter. If this is NULL, then a
+	 * device will be created normally and can be retrieved using
+	 * SDL_GetGPURendererDevice().
+	 *
+	 * The window to use is passed in as a parameter. If this is NULL, then this
+	 * will become an offscreen renderer. In that case, you should call
+	 * SDL_SetRenderTarget() to setup rendering to a texture, and then call
+	 * SDL_RenderPresent() normally to complete drawing a frame.
+	 *
+	 * \param device the GPU device to use with the renderer, or NULL to create a
+	 *               device.
+	 * \param window the window where rendering is displayed, or NULL to create an
+	 *               offscreen renderer.
+	 * \returns a valid rendering context or NULL if there was an error; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety If this function is called with a valid GPU device, it should
+	 *               be called on the thread that created the device. If this
+	 *               function is called with a valid window, it should be called
+	 *               on the thread that created the window.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_CreateRendererWithProperties
+	 * \sa SDL_GetGPURendererDevice
+	 * \sa SDL_CreateGPUShader
+	 * \sa SDL_CreateGPURenderState
+	 * \sa SDL_SetGPURenderState
+	 */"
+
+	^ self ffiCall: #(SDL_Renderer* SDL_CreateGPURenderer(SDL_GPUDevice* device, SDL_Window* window))
 ]
 
 { #category : 'public' }
@@ -15267,7 +16019,8 @@ LibSDL3 >> newGPUTextureDevice: device createinfo: createinfo [
 	 * Creates a texture object to be used in graphics or compute workflows.
 	 *
 	 * The contents of this texture are undefined until data is written to the
-	 * texture.
+	 * texture, either via SDL_UploadToGPUTexture or by performing a render or
+	 * compute pass with this texture as a target.
 	 *
 	 * Note that certain combinations of usage flags are invalid. For example, a
 	 * texture cannot have both the SAMPLER and GRAPHICS_STORAGE_READ flags.
@@ -15294,9 +16047,9 @@ LibSDL3 >> newGPUTextureDevice: device createinfo: createinfo [
 	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_DEPTH_FLOAT`: (Direct3D 12 only)
 	 *   if the texture usage is SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET, clear
 	 *   the texture to a depth of this value. Defaults to zero.
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_UINT8`: (Direct3D 12
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_NUMBER`: (Direct3D 12
 	 *   only) if the texture usage is SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET,
-	 *   clear the texture to a stencil of this value. Defaults to zero.
+	 *   clear the texture to a stencil of this Uint8 value. Defaults to zero.
 	 * - `SDL_PROP_GPU_TEXTURE_CREATE_NAME_STRING`: a name that can be displayed
 	 *   in debugging tools.
 	 *
@@ -15309,6 +16062,8 @@ LibSDL3 >> newGPUTextureDevice: device createinfo: createinfo [
 	 *
 	 * \sa SDL_UploadToGPUTexture
 	 * \sa SDL_DownloadFromGPUTexture
+	 * \sa SDL_BeginGPURenderPass
+	 * \sa SDL_BeginGPUComputePass
 	 * \sa SDL_BindGPUVertexSamplers
 	 * \sa SDL_BindGPUVertexStorageTextures
 	 * \sa SDL_BindGPUFragmentSamplers
@@ -15410,6 +16165,10 @@ LibSDL3 >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w
 	"/**
 	 * Create a child popup window of the specified parent window.
 	 *
+	 * The window size is a request and may be different than expected based on
+	 * the desktop layout and window manager policies. Your application should be
+	 * prepared to handle a window of any size.
+	 *
 	 * The flags parameter **must** contain at least one of the following:
 	 *
 	 * - `SDL_WINDOW_TOOLTIP`: The popup window is a tooltip and will not pass any
@@ -15441,6 +16200,16 @@ LibSDL3 >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w
 	 *
 	 * Popup windows implicitly do not have a border/decorations and do not appear
 	 * on the taskbar/dock or in lists of windows such as alt-tab menus.
+	 *
+	 * By default, popup window positions will automatically be constrained to
+	 * keep the entire window within display bounds. This can be overridden with
+	 * the `SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN` property.
+	 *
+	 * By default, popup menus will automatically grab keyboard focus from the
+	 * parent when shown. This behavior can be overridden by setting the
+	 * `SDL_WINDOW_NOT_FOCUSABLE` flag, setting the
+	 * `SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN` property to false, or toggling
+	 * it after creation via the `SDL_SetWindowFocusable()` function.
 	 *
 	 * If a parent window is hidden or destroyed, any child popup windows will be
 	 * recursively hidden or destroyed as well. Child popup windows not explicitly
@@ -15600,6 +16369,17 @@ LibSDL3 >> newRendererWithProperties: props [
 	 *   present synchronized with the refresh rate. This property can take any
 	 *   value that is supported by SDL_SetRenderVSync() for the renderer.
 	 *
+	 * With the SDL GPU renderer (since SDL 3.4.0):
+	 *
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_DEVICE_POINTER`: the device to use with the
+	 *   renderer, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN`: the app is able to
+	 *   provide SPIR-V shaders to SDL_GPURenderState, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN`: the app is able to
+	 *   provide DXIL shaders to SDL_GPURenderState, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN`: the app is able to
+	 *   provide MSL shaders to SDL_GPURenderState, optional.
+	 *
 	 * With the vulkan renderer:
 	 *
 	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER`: the VkInstance to use
@@ -15676,7 +16456,7 @@ LibSDL3 >> newSoftwareRenderer: surface [
 	 * \returns a valid rendering context or NULL if there was an error; call
 	 *          SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function should only be called on the main thread.
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -15744,7 +16524,8 @@ LibSDL3 >> newSurfacePalette: surface [
 	 *          the surface didn't have an index format); call SDL_GetError() for
 	 *          more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -15878,6 +16659,9 @@ LibSDL3 >> newTextureWithPropertiesRenderer: renderer props: props [
 	 *   pixels, required
 	 * - `SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER`: the height of the texture in
 	 *   pixels, required
+	 * - `SDL_PROP_TEXTURE_CREATE_PALETTE_POINTER`: an SDL_Palette to use with
+	 *   palettized texture formats. This can be set later with
+	 *   SDL_SetTexturePalette()
 	 * - `SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT`: for HDR10 and floating
 	 *   point textures, this defines the value of 100% diffuse white, with higher
 	 *   values being displayed in the High Dynamic Range headroom. This defaults
@@ -15953,6 +16737,20 @@ LibSDL3 >> newTextureWithPropertiesRenderer: renderer props: props [
 	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER`: the VkImage with layout
 	 *   VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL associated with the texture, if
 	 *   you want to wrap an existing texture.
+	 *
+	 * With the GPU renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER`: the SDL_GPUTexture
+	 *   associated with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_NUMBER`: the SDL_GPUTexture
+	 *   associated with the UV plane of an NV12 texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_U_NUMBER`: the SDL_GPUTexture
+	 *   associated with the U plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_V_NUMBER`: the SDL_GPUTexture
+	 *   associated with the V plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
 	 *
 	 * \param renderer the rendering context.
 	 * \param props the properties to use.
@@ -16127,12 +16925,14 @@ LibSDL3 >> newWindowTitle: title w: w h: h flags: flags [
 	"/**
 	 * Create a window with the specified dimensions and flags.
 	 *
+	 * The window size is a request and may be different than expected based on
+	 * the desktop layout and window manager policies. Your application should be
+	 * prepared to handle a window of any size.
+	 *
 	 * `flags` may be any of the following OR'd together:
 	 *
 	 * - `SDL_WINDOW_FULLSCREEN`: fullscreen window at desktop resolution
 	 * - `SDL_WINDOW_OPENGL`: window usable with an OpenGL context
-	 * - `SDL_WINDOW_OCCLUDED`: window partially or completely obscured by another
-	 *   window
 	 * - `SDL_WINDOW_HIDDEN`: window is not visible
 	 * - `SDL_WINDOW_BORDERLESS`: no window decoration
 	 * - `SDL_WINDOW_RESIZABLE`: window can be resized
@@ -16160,7 +16960,8 @@ LibSDL3 >> newWindowTitle: title w: w h: h flags: flags [
 	 * - `SDL_WINDOW_TRANSPARENT`: window with transparent buffer
 	 * - `SDL_WINDOW_NOT_FOCUSABLE`: window should not be focusable
 	 *
-	 * The SDL_Window is implicitly shown if SDL_WINDOW_HIDDEN is not set.
+	 * The SDL_Window will be shown if SDL_WINDOW_HIDDEN is not set. If hidden at
+	 * creation time, SDL_ShowWindow() can be used to show it later.
 	 *
 	 * On Apple's macOS, you **must** set the NSHighResolutionCapable Info.plist
 	 * property to YES, otherwise you will not receive a High-DPI OpenGL canvas.
@@ -16217,12 +17018,20 @@ LibSDL3 >> newWindowWithProperties: props [
 	"/**
 	 * Create a window with the specified properties.
 	 *
+	 * The window size is a request and may be different than expected based on
+	 * the desktop layout and window manager policies. Your application should be
+	 * prepared to handle a window of any size.
+	 *
 	 * These are the supported properties:
 	 *
 	 * - `SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN`: true if the window should
 	 *   be always on top
 	 * - `SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN`: true if the window has no
 	 *   window decoration
+	 * - `SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN`: true if the ""tooltip""
+	 *   and ""menu"" window types should be automatically constrained to be
+	 *   entirely within display bounds (default), false if no constraints on the
+	 *   position are desired.
 	 * - `SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN`: true if the
 	 *   window will be used with an externally managed graphics context.
 	 * - `SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN`: true if the window should
@@ -16284,7 +17093,7 @@ LibSDL3 >> newWindowWithProperties: props [
 	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN` - true if
 	 *   the application wants to use the Wayland surface for a custom role and
 	 *   does not want it attached to an XDG toplevel window. See
-	 *   [README/wayland](README/wayland) for more information on using custom
+	 *   [README-wayland](README-wayland) for more information on using custom
 	 *   surfaces.
 	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN` - true if the
 	 *   application wants an associated `wl_egl_window` object to be created and
@@ -16292,7 +17101,7 @@ LibSDL3 >> newWindowWithProperties: props [
 	 *   property or `SDL_WINDOW_OPENGL` flag set.
 	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER` - the wl_surface
 	 *   associated with the window, if you want to wrap an existing window. See
-	 *   [README/wayland](README/wayland) for more information.
+	 *   [README-wayland](README-wayland) for more information.
 	 *
 	 * These are additional supported properties on Windows:
 	 *
@@ -16308,8 +17117,31 @@ LibSDL3 >> newWindowWithProperties: props [
 	 *
 	 * The window is implicitly shown if the ""hidden"" property is not set.
 	 *
-	 * Windows with the ""tooltip"" and ""menu"" properties are popup windows and have
-	 * the behaviors and guidelines outlined in SDL_CreatePopupWindow().
+	 * These are additional supported properties with Emscripten:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING`: the id given to the
+	 *   canvas element. This should start with a '#' sign
+	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_FILL_DOCUMENT_BOOLEAN`: true to make
+	 *   the canvas element fill the entire document. Resize events will be
+	 *   generated as the browser window is resized, as that will adjust the
+	 *   canvas size as well. The canvas will cover anything else on the page,
+	 *   including any controls provided by Emscripten in its generated HTML file.
+	 *   Often times this is desirable for a browser-based game, but it means
+	 *   several things that we expect of an SDL window on other platforms might
+	 *   not work as expected, such as minimum window sizes and aspect ratios.
+	 *   Default false.
+	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING`: override the
+	 *   binding element for keyboard inputs for this canvas. The variable can be
+	 *   one of:
+	 * - ""#window"": the javascript window object (default)
+	 * - ""#document"": the javascript document object
+	 * - ""#screen"": the javascript window.screen object
+	 * - ""#canvas"": the WebGL canvas element
+	 * - ""#none"": Don't bind anything at all
+	 * - any other string without a leading # sign applies to the element on the
+	 *   page with that ID. Windows with the ""tooltip"" and ""menu"" properties are
+	 *   popup windows and have the behaviors and guidelines outlined in
+	 *   SDL_CreatePopupWindow().
 	 *
 	 * If this window is being created to be used with an SDL_Renderer, you should
 	 * not add a graphics API specific property
@@ -16561,7 +17393,7 @@ LibSDL3 >> openAudioDeviceStreamDevid: devid spec: spec callback: callback userd
 	 * Also unlike other functions, the audio device begins paused. This is to map
 	 * more closely to SDL2-style behavior, since there is no extra step here to
 	 * bind a stream to begin audio flowing. The audio device should be resumed
-	 * with `SDL_ResumeAudioStreamDevice(stream);`
+	 * with SDL_ResumeAudioStreamDevice().
 	 *
 	 * This function works with both playback and recording devices.
 	 *
@@ -16704,6 +17536,8 @@ LibSDL3 >> openJoystick: instance_id [
 	 * \param instance_id the joystick instance ID.
 	 * \returns a joystick identifier or NULL on failure; call SDL_GetError() for
 	 *          more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -16979,6 +17813,13 @@ LibSDL3 >> pollEvent: event [
 	 * }
 	 * ```
 	 *
+	 * Note that Windows (and possibly other platforms) has a quirk about how it
+	 * handles events while dragging/resizing a window, which can cause this
+	 * function to block for significant amounts of time. Technical explanations
+	 * and solutions are discussed on the wiki:
+	 *
+	 * https://wiki.libsdl.org/SDL3/AppFreezeDuringDrag
+	 *
 	 * \param event the SDL_Event structure to be filled with the next event from
 	 *              the queue, or NULL.
 	 * \returns true if this got an event or false if there are none available.
@@ -17125,7 +17966,8 @@ LibSDL3 >> premultiplySurfaceAlphaSurface: surface linear: linear [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17222,7 +18064,7 @@ LibSDL3 >> pushGPUComputeUniformDataCommandBuffer: command_buffer slotIndex: slo
 { #category : 'public' }
 LibSDL3 >> pushGPUDebugGroupCommandBuffer: command_buffer name: name [
 	"/**
-	 * Begins a debug group with an arbitary name.
+	 * Begins a debug group with an arbitrary name.
 	 *
 	 * Used for denoting groups of calls when viewing the command buffer
 	 * callstream in a graphics debugging tool.
@@ -17279,6 +18121,9 @@ LibSDL3 >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot
 	 * terms this means you must ensure that vec3 and vec4 fields are 16-byte
 	 * aligned.
 	 *
+	 * For detailed information about accessing uniform data from a shader, please
+	 * refer to SDL_CreateGPUShader.
+	 *
 	 * \param command_buffer a command buffer.
 	 * \param slot_index the vertex uniform slot to push data to.
 	 * \param data client data to write.
@@ -17288,6 +18133,57 @@ LibSDL3 >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot
 	 */"
 
 	self ffiCall: #(void SDL_PushGPUVertexUniformData(SDL_GPUCommandBuffer* command_buffer, Uint32 slot_index, const void* data, Uint32 length))
+]
+
+{ #category : 'public' }
+LibSDL3 >> putAudioStreamDataNoCopyStream: stream buf: buf len: len callback: callback userdata: userdata [
+	"/**
+	 * Add external data to an audio stream without copying it.
+	 *
+	 * Unlike SDL_PutAudioStreamData(), this function does not make a copy of the
+	 * provided data, instead storing the provided pointer. This means that the
+	 * put operation does not need to allocate and copy the data, but the original
+	 * data must remain available until the stream is done with it, either by
+	 * being read from the stream in its entirety, or a call to
+	 * SDL_ClearAudioStream() or SDL_DestroyAudioStream().
+	 *
+	 * The data must match the format/channels/samplerate specified in the latest
+	 * call to SDL_SetAudioStreamFormat, or the format specified when creating the
+	 * stream if it hasn't been changed.
+	 *
+	 * An optional callback may be provided, which is called when the stream no
+	 * longer needs the data. Once this callback fires, the stream will not access
+	 * the data again. This callback will fire for any reason the data is no
+	 * longer needed, including clearing or destroying the stream.
+	 *
+	 * Note that there is still an allocation to store tracking information, so
+	 * this function is more efficient for larger blocks of data. If you're
+	 * planning to put a few samples at a time, it will be more efficient to use
+	 * SDL_PutAudioStreamData(), which allocates and buffers in blocks.
+	 *
+	 * \param stream the stream the audio data is being added to.
+	 * \param buf a pointer to the audio data to add.
+	 * \param len the number of bytes to add to the stream.
+	 * \param callback the callback function to call when the data is no longer
+	 *                 needed by the stream. May be NULL.
+	 * \param userdata an opaque pointer provided to the callback for its own
+	 *                 personal use.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread, but if the
+	 *               stream has a callback set, the caller might need to manage
+	 *               extra locking.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_ClearAudioStream
+	 * \sa SDL_FlushAudioStream
+	 * \sa SDL_GetAudioStreamData
+	 * \sa SDL_GetAudioStreamQueued
+	 */"
+
+	^ self ffiCall: #(bool SDL_PutAudioStreamDataNoCopy(SDL_AudioStream* stream, const void* buf, int len, SDL_AudioStreamDataCompleteCallback callback, void* userdata))
 ]
 
 { #category : 'public' }
@@ -17322,6 +18218,63 @@ LibSDL3 >> putAudioStreamDataStream: stream buf: buf len: len [
 	 */"
 
 	^ self ffiCall: #(bool SDL_PutAudioStreamData(SDL_AudioStream* stream, const void* buf, int len))
+]
+
+{ #category : 'public' }
+LibSDL3 >> putAudioStreamPlanarDataStream: stream channelBuffers: channel_buffers numChannels: num_channels numSamples: num_samples [
+	"/**
+	 * Add data to the stream with each channel in a separate array.
+	 *
+	 * This data must match the format/channels/samplerate specified in the latest
+	 * call to SDL_SetAudioStreamFormat, or the format specified when creating the
+	 * stream if it hasn't been changed.
+	 *
+	 * The data will be interleaved and queued. Note that SDL_AudioStream only
+	 * operates on interleaved data, so this is simply a convenience function for
+	 * easily queueing data from sources that provide separate arrays. There is no
+	 * equivalent function to retrieve planar data.
+	 *
+	 * The arrays in `channel_buffers` are ordered as they are to be interleaved;
+	 * the first array will be the first sample in the interleaved data. Any
+	 * individual array may be NULL; in this case, silence will be interleaved for
+	 * that channel.
+	 *
+	 * `num_channels` specifies how many arrays are in `channel_buffers`. This can
+	 * be used as a safety to prevent overflow, in case the stream format has
+	 * changed elsewhere. If more channels are specified than the current input
+	 * spec, they are ignored. If less channels are specified, the missing arrays
+	 * are treated as if they are NULL (silence is written to those channels). If
+	 * the count is -1, SDL will assume the array count matches the current input
+	 * spec.
+	 *
+	 * Note that `num_samples` is the number of _samples per array_. This can also
+	 * be thought of as the number of _sample frames_ to be queued. A value of 1
+	 * with stereo arrays will queue two samples to the stream. This is different
+	 * than SDL_PutAudioStreamData, which wants the size of a single array in
+	 * bytes.
+	 *
+	 * \param stream the stream the audio data is being added to.
+	 * \param channel_buffers a pointer to an array of arrays, one array per
+	 *                        channel.
+	 * \param num_channels the number of arrays in `channel_buffers` or -1.
+	 * \param num_samples the number of _samples_ per array to write to the
+	 *                    stream.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread, but if the
+	 *               stream has a callback set, the caller might need to manage
+	 *               extra locking.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_ClearAudioStream
+	 * \sa SDL_FlushAudioStream
+	 * \sa SDL_GetAudioStreamData
+	 * \sa SDL_GetAudioStreamQueued
+	 */"
+
+	^ self ffiCall: #(bool SDL_PutAudioStreamPlanarData(SDL_AudioStream* stream, const void* channel_buffers, int num_channels, int num_samples))
 ]
 
 { #category : 'public' }
@@ -17759,13 +18712,17 @@ LibSDL3 >> readIOContext: context ptr: ptr size: size [
 	 * the stream is not at EOF, SDL_GetIOStatus() will return a different error
 	 * value and SDL_GetError() will offer a human-readable message.
 	 *
+	 * A request for zero bytes on a valid stream will return zero immediately
+	 * without accessing the stream, so the stream status (EOF, err, etc) will not
+	 * change.
+	 *
 	 * \param context a pointer to an SDL_IOStream structure.
 	 * \param ptr a pointer to a buffer to read data into.
 	 * \param size the number of bytes to read from the data source.
 	 * \returns the number of bytes read, or 0 on end of file or other failure;
 	 *          call SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -17792,10 +18749,10 @@ LibSDL3 >> readS16BESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17819,10 +18776,10 @@ LibSDL3 >> readS16LESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17846,10 +18803,10 @@ LibSDL3 >> readS32BESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17873,10 +18830,10 @@ LibSDL3 >> readS32LESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17900,10 +18857,10 @@ LibSDL3 >> readS64BESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17927,10 +18884,10 @@ LibSDL3 >> readS64LESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17953,7 +18910,7 @@ LibSDL3 >> readS8Src: src value: value [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -17983,7 +18940,8 @@ LibSDL3 >> readSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18016,7 +18974,8 @@ LibSDL3 >> readSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18040,10 +18999,10 @@ LibSDL3 >> readU16BESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18067,10 +19026,10 @@ LibSDL3 >> readU16LESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18094,10 +19053,10 @@ LibSDL3 >> readU32BESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18121,10 +19080,10 @@ LibSDL3 >> readU32LESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18148,10 +19107,10 @@ LibSDL3 >> readU64BESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18175,10 +19134,10 @@ LibSDL3 >> readU64LESrc: src value: value [
 	 *
 	 * \param src the stream from which to read data.
 	 * \param value a pointer filled in with the data read.
-	 * \returns true on successful write or false on failure; call SDL_GetError()
+	 * \returns true on successful read or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18201,7 +19160,7 @@ LibSDL3 >> readU8Src: src value: value [
 	 * \returns true on success or false on failure or EOF; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18280,7 +19239,7 @@ LibSDL3 >> rectEmpty: r [
 { #category : 'public' }
 LibSDL3 >> rectEmptyFloat: r [
 	"/**
-	 * Determine whether a floating point rectangle can contain any point.
+	 * Determine whether a floating point rectangle takes no space.
 	 *
 	 * A rectangle is considered ""empty"" for this function if `r` is NULL, or if
 	 * `r`'s width and/or height are < 0.0f.
@@ -18636,6 +19595,8 @@ LibSDL3 >> removePath: path [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -18652,7 +19613,8 @@ LibSDL3 >> removeSurfaceAlternateImages: surface [
 	 *
 	 * \param surface the SDL_Surface structure to update.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -18707,7 +19669,7 @@ LibSDL3 >> renamePathOldpath: oldpath newpath: newpath [
 	"/**
 	 * Rename a file or directory.
 	 *
-	 * If the file at `newpath` already exists, it will replaced.
+	 * If the file at `newpath` already exists, it will be replaced.
 	 *
 	 * Note that this will not copy files across filesystems/drives/volumes, as
 	 * that is a much more complicated (and possibly time-consuming) operation.
@@ -18722,6 +19684,8 @@ LibSDL3 >> renamePathOldpath: oldpath newpath: newpath [
 	 * \param newpath the new path.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -18853,8 +19817,8 @@ LibSDL3 >> renderDebugTextRenderer: renderer x: x y: y str: str [
 	 * Among these limitations:
 	 *
 	 * - It accepts UTF-8 strings, but will only renders ASCII characters.
-	 * - It has a single, tiny size (8x8 pixels). One can use logical presentation
-	 *   or scaling to adjust it, but it will be blurry.
+	 * - It has a single, tiny size (8x8 pixels). You can use logical presentation
+	 *   or SDL_SetRenderScale() to adjust it.
 	 * - It uses a simple, hardcoded bitmap font. It does not allow different font
 	 *   selections and it does not support truetype, for proper scaling.
 	 * - It does no word-wrapping and does not treat newline characters as a line
@@ -18958,6 +19922,7 @@ LibSDL3 >> renderGeometryRawRenderer: renderer texture: texture xy: xy xyStride:
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_RenderGeometry
+	 * \sa SDL_SetRenderTextureAddressMode
 	 */"
 
 	^ self ffiCall: #(bool SDL_RenderGeometryRaw(SDL_Renderer* renderer, SDL_Texture* texture, const float* xy, int xy_stride, SDL_FColor* color, int color_stride, const float* uv, int uv_stride, int num_vertices, const void* indices, int num_indices, int size_indices))
@@ -18986,6 +19951,7 @@ LibSDL3 >> renderGeometryRenderer: renderer texture: texture vertices: vertices 
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_RenderGeometryRaw
+	 * \sa SDL_SetRenderTextureAddressMode
 	 */"
 
 	^ self ffiCall: #(bool SDL_RenderGeometry(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Vertex* vertices, int num_vertices, const int* indices, int num_indices))
@@ -19104,8 +20070,7 @@ LibSDL3 >> renderPresent: renderer [
 	 * should not be done; you are only required to change back the rendering
 	 * target to default via `SDL_SetRenderTarget(renderer, NULL)` afterwards, as
 	 * textures by themselves do not have a concept of backbuffers. Calling
-	 * SDL_RenderPresent while rendering to a texture will still update the screen
-	 * with any current drawing that has been done _to the window itself_.
+	 * SDL_RenderPresent while rendering to a texture will fail.
 	 *
 	 * \param renderer the rendering context.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
@@ -19239,9 +20204,52 @@ LibSDL3 >> renderTexture9GridRenderer: renderer texture: texture srcrect: srcrec
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_RenderTexture
+	 * \sa SDL_RenderTexture9GridTiled
 	 */"
 
 	^ self ffiCall: #(bool SDL_RenderTexture9Grid(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, float left_width, float right_width, float top_height, float bottom_height, float scale, SDL_FRect* dstrect))
+]
+
+{ #category : 'public' }
+LibSDL3 >> renderTexture9GridTiledRenderer: renderer texture: texture srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale dstrect: dstrect tileScale: tileScale [
+	"/**
+	 * Perform a scaled copy using the 9-grid algorithm to the current rendering
+	 * target at subpixel precision.
+	 *
+	 * The pixels in the texture are split into a 3x3 grid, using the different
+	 * corner sizes for each corner, and the sides and center making up the
+	 * remaining pixels. The corners are then scaled using `scale` and fit into
+	 * the corners of the destination rectangle. The sides and center are then
+	 * tiled into place to cover the remaining destination rectangle.
+	 *
+	 * \param renderer the renderer which should copy parts of a texture.
+	 * \param texture the source texture.
+	 * \param srcrect the SDL_Rect structure representing the rectangle to be used
+	 *                for the 9-grid, or NULL to use the entire texture.
+	 * \param left_width the width, in pixels, of the left corners in `srcrect`.
+	 * \param right_width the width, in pixels, of the right corners in `srcrect`.
+	 * \param top_height the height, in pixels, of the top corners in `srcrect`.
+	 * \param bottom_height the height, in pixels, of the bottom corners in
+	 *                      `srcrect`.
+	 * \param scale the scale used to transform the corner of `srcrect` into the
+	 *              corner of `dstrect`, or 0.0f for an unscaled copy.
+	 * \param dstrect a pointer to the destination rectangle, or NULL for the
+	 *                entire rendering target.
+	 * \param tileScale the scale used to transform the borders and center of
+	 *                  `srcrect` into the borders and middle of `dstrect`, or
+	 *                  1.0f for an unscaled copy.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_RenderTexture
+	 * \sa SDL_RenderTexture9Grid
+	 */"
+
+	^ self ffiCall: #(bool SDL_RenderTexture9GridTiled(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, float left_width, float right_width, float top_height, float bottom_height, float scale, SDL_FRect* dstrect, float tileScale))
 ]
 
 { #category : 'public' }
@@ -19371,8 +20379,7 @@ LibSDL3 >> renderViewportSet: renderer [
 	 * Return whether an explicit rectangle was set as the viewport.
 	 *
 	 * This is useful if you're saving and restoring the viewport and want to know
-	 * whether you should restore a specific rectangle or NULL. Note that the
-	 * viewport is always reset when changing rendering targets.
+	 * whether you should restore a specific rectangle or NULL.
 	 *
 	 * Each render target has its own viewport. This function checks the viewport
 	 * for the current render target.
@@ -19528,8 +20535,8 @@ LibSDL3 >> resumeAudioStreamDevice: stream [
 	 * previously been paused. Once unpaused, any bound audio streams will begin
 	 * to progress again, and audio can be generated.
 	 *
-	 * Remember, SDL_OpenAudioDeviceStream opens device in a paused state, so this
-	 * function call is required for audio playback to begin on such device.
+	 * SDL_OpenAudioDeviceStream opens audio devices in a paused state, so this
+	 * function call is required for audio playback to begin on such devices.
 	 *
 	 * \param stream the audio stream associated with the audio device to resume.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
@@ -19543,6 +20550,31 @@ LibSDL3 >> resumeAudioStreamDevice: stream [
 	 */"
 
 	^ self ffiCall: #(bool SDL_ResumeAudioStreamDevice(SDL_AudioStream* stream))
+]
+
+{ #category : 'public' }
+LibSDL3 >> rotateSurface: surface angle: angle [
+	"/**
+	 * Return a copy of a surface rotated clockwise a number of degrees.
+	 *
+	 * The angle of rotation can be negative for counter-clockwise rotation.
+	 *
+	 * When the rotation isn't a multiple of 90 degrees, the resulting surface is
+	 * larger than the original, with the background filled in with the colorkey,
+	 * if available, or RGBA 255/255/255/0 if not.
+	 *
+	 * \param surface the surface to rotate.
+	 * \param angle the rotation angle, in degrees.
+	 * \returns a rotated copy of the surface or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* SDL_RotateSurface(SDL_Surface* surface, float angle))
 ]
 
 { #category : 'public' }
@@ -19630,6 +20662,8 @@ LibSDL3 >> rumbleJoystick: joystick lowFrequencyRumble: low_frequency_rumble hig
 	 * \param duration_ms the duration of the rumble effect, in milliseconds.
 	 * \returns true, or false if rumble isn't supported on this joystick.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -19660,6 +20694,8 @@ LibSDL3 >> rumbleJoystickTriggersJoystick: joystick leftRumble: left_rumble righ
 	 * \param duration_ms the duration of the rumble effect, in milliseconds.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19725,7 +20761,8 @@ LibSDL3 >> saveBMPIOSurface: surface dst: dst closeio: closeio [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19739,7 +20776,7 @@ LibSDL3 >> saveBMPIOSurface: surface dst: dst closeio: closeio [
 { #category : 'public' }
 LibSDL3 >> saveBMPSurface: surface file: file [
 	"/**
-	 * Save a surface to a file.
+	 * Save a surface to a file in BMP format.
 	 *
 	 * Surfaces with a 24-bit, 32-bit and paletted 8-bit format get saved in the
 	 * BMP directly. Other RGB formats with 8-bit or higher get converted to a
@@ -19752,7 +20789,8 @@ LibSDL3 >> saveBMPSurface: surface file: file [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19775,7 +20813,7 @@ LibSDL3 >> saveFile: file data: data datasize: datasize [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19800,7 +20838,7 @@ LibSDL3 >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19809,6 +20847,52 @@ LibSDL3 >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
 	 */"
 
 	^ self ffiCall: #(bool SDL_SaveFile_IO(SDL_IOStream* src, const void* data, size_t datasize, _Bool closeio))
+]
+
+{ #category : 'public' }
+LibSDL3 >> savePNGIOSurface: surface dst: dst closeio: closeio [
+	"/**
+	 * Save a surface to a seekable SDL data stream in PNG format.
+	 *
+	 * \param surface the SDL_Surface structure containing the image to be saved.
+	 * \param dst a data stream to save to.
+	 * \param closeio if true, calls SDL_CloseIO() on `dst` before returning, even
+	 *                in the case of an error.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_LoadPNG_IO
+	 * \sa SDL_SavePNG
+	 */"
+
+	^ self ffiCall: #(bool SDL_SavePNG_IO(SDL_Surface* surface, SDL_IOStream* dst, _Bool closeio))
+]
+
+{ #category : 'public' }
+LibSDL3 >> savePNGSurface: surface file: file [
+	"/**
+	 * Save a surface to a file in PNG format.
+	 *
+	 * \param surface the SDL_Surface structure containing the image to be saved.
+	 * \param file a file to save to.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_LoadPNG
+	 * \sa SDL_SavePNG_IO
+	 */"
+
+	^ self ffiCall: #(bool SDL_SavePNG(SDL_Surface* surface, const char* file))
 ]
 
 { #category : 'public' }
@@ -19884,7 +20968,8 @@ LibSDL3 >> scaleSurface: surface width: width height: height scaleMode: scaleMod
 	 * \returns a copy of the surface or NULL on failure; call SDL_GetError() for
 	 *          more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19957,7 +21042,7 @@ LibSDL3 >> seekIOContext: context offset: offset whence: whence [
 	 * \returns the final offset in the data stream after the seek or -1 on
 	 *          failure; call SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -19977,6 +21062,8 @@ LibSDL3 >> sendJoystickEffectJoystick: joystick data: data size: size [
 	 * \param size the size of the data to send to the joystick.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -20004,7 +21091,15 @@ LibSDL3 >> sendJoystickVirtualSensorDataJoystick: joystick type: type sensorTime
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetJoystickVirtualAxis
+	 * \sa SDL_SetJoystickVirtualButton
+	 * \sa SDL_SetJoystickVirtualBall
+	 * \sa SDL_SetJoystickVirtualHat
+	 * \sa SDL_SetJoystickVirtualTouchpad
 	 */"
 
 	^ self ffiCall: #(bool SDL_SendJoystickVirtualSensorData(SDL_Joystick* joystick, SDL_SensorType type, Uint64 sensor_timestamp, const float* data, int num_values))
@@ -20364,14 +21459,14 @@ LibSDL3 >> setAudioStreamFrequencyRatioStream: stream ratio: ratio [
 	 *
 	 * The frequency ratio is used to adjust the rate at which input data is
 	 * consumed. Changing this effectively modifies the speed and pitch of the
-	 * audio. A value greater than 1.0 will play the audio faster, and at a higher
-	 * pitch. A value less than 1.0 will play the audio slower, and at a lower
-	 * pitch.
+	 * audio. A value greater than 1.0f will play the audio faster, and at a
+	 * higher pitch. A value less than 1.0f will play the audio slower, and at a
+	 * lower pitch. 1.0f means play at normal speed.
 	 *
 	 * This is applied during SDL_GetAudioStreamData, and can be continuously
 	 * changed to create various effects.
 	 *
-	 * \param stream the stream the frequency ratio is being changed.
+	 * \param stream the stream on which the frequency ratio is being changed.
 	 * \param ratio the frequency ratio. 1.0 is normal speed. Must be between 0.01
 	 *              and 100.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
@@ -20540,7 +21635,7 @@ LibSDL3 >> setAudioStreamOutputChannelMapStream: stream chmap: chmap count: coun
 	 * Channel maps are optional; most things do not need them, instead passing
 	 * data in the [order that SDL expects](CategoryAudio#channel-layouts).
 	 *
-	 * The output channel map reorders data that leaving a stream via
+	 * The output channel map reorders data that is leaving a stream via
 	 * SDL_GetAudioStreamData.
 	 *
 	 * Each item in the array represents an input channel, and its value is the
@@ -20679,7 +21774,7 @@ LibSDL3 >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdat
 	 * respond with the data for the requested mime-type.
 	 *
 	 * The size of text data does not include any terminator, and the text does
-	 * not need to be null terminated (e.g. you can directly copy a portion of a
+	 * not need to be null-terminated (e.g., you can directly copy a portion of a
 	 * document).
 	 *
 	 * \param callback a function pointer to the function that provides the
@@ -20687,7 +21782,8 @@ LibSDL3 >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdat
 	 * \param cleanup a function pointer to the function that cleans up the
 	 *                clipboard data.
 	 * \param userdata an opaque pointer that will be forwarded to the callbacks.
-	 * \param mime_types a list of mime-types that are being offered.
+	 * \param mime_types a list of mime-types that are being offered. SDL copies
+	 *                   the given list.
 	 * \param num_mime_types the number of mime-types in the mime_types list.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
@@ -20768,6 +21864,28 @@ LibSDL3 >> setCursor: cursor [
 ]
 
 { #category : 'public' }
+LibSDL3 >> setDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
+	"/**
+	 * Set default scale mode for new textures for given renderer.
+	 *
+	 * When a renderer is created, scale_mode defaults to SDL_SCALEMODE_LINEAR.
+	 *
+	 * \param renderer the renderer to update.
+	 * \param scale_mode the scale mode to change to for new textures.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_GetDefaultTextureScaleMode
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetDefaultTextureScaleMode(SDL_Renderer* renderer, SDL_ScaleMode scale_mode))
+]
+
+{ #category : 'public' }
 LibSDL3 >> setEnvironmentVariableEnv: env name: name value: value overwrite: overwrite [
 	"/**
 	 * Set the value of a variable in the environment.
@@ -20828,7 +21946,10 @@ LibSDL3 >> setEventFilter: filter userdata: userdata [
 	 * allows selective filtering of dynamically arriving events.
 	 *
 	 * **WARNING**: Be very careful of what you do in the event filter function,
-	 * as it may run in a different thread!
+	 * as it may run in a different thread! The exception is handling of
+	 * SDL_EVENT_WINDOW_EXPOSED, which is guaranteed to be sent from the OS on the
+	 * main thread and you are expected to redraw your window in response to this
+	 * event.
 	 *
 	 * On platforms that support it, if the quit event is generated by an
 	 * interrupt signal (e.g. pressing Ctrl-C), it will be delivered to the
@@ -20841,7 +21962,7 @@ LibSDL3 >> setEventFilter: filter userdata: userdata [
 	 * the event filter, but events pushed onto the queue with SDL_PeepEvents() do
 	 * not.
 	 *
-	 * \param filter an SDL_EventFilter function to call when an event happens.
+	 * \param filter a function to call when an event happens.
 	 * \param userdata a pointer that is passed to `filter`.
 	 *
 	 * \threadsafety It is safe to call this function from any thread.
@@ -20951,6 +22072,52 @@ LibSDL3 >> setGPUBufferNameDevice: device buffer: buffer text: text [
 ]
 
 { #category : 'public' }
+LibSDL3 >> setGPURenderStateFragmentUniformsState: state slotIndex: slot_index data: data length: length [
+	"/**
+	 * Set fragment shader uniform variables in a custom GPU render state.
+	 *
+	 * The data is copied and will be pushed using
+	 * SDL_PushGPUFragmentUniformData() during draw call execution.
+	 *
+	 * \param state the state to modify.
+	 * \param slot_index the fragment uniform slot to push data to.
+	 * \param data client data to write.
+	 * \param length the length of the data to write.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               renderer.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetGPURenderStateFragmentUniforms(SDL_GPURenderState* state, Uint32 slot_index, const void* data, Uint32 length))
+]
+
+{ #category : 'public' }
+LibSDL3 >> setGPURenderStateRenderer: renderer state: state [
+	"/**
+	 * Set custom GPU render state.
+	 *
+	 * This function sets custom GPU render state for subsequent draw calls. This
+	 * allows using custom shaders with the GPU renderer.
+	 *
+	 * \param renderer the renderer to use.
+	 * \param state the state to to use, or NULL to clear custom GPU render state.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               renderer.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetGPURenderState(SDL_Renderer* renderer, SDL_GPURenderState* state))
+]
+
+{ #category : 'public' }
 LibSDL3 >> setGPUScissorRenderPass: render_pass scissor: scissor [
 	"/**
 	 * Sets the current scissor state on a command buffer.
@@ -20988,7 +22155,7 @@ LibSDL3 >> setGPUSwapchainParametersDevice: device window: window swapchainCompo
 	 * supported via SDL_WindowSupportsGPUPresentMode /
 	 * SDL_WindowSupportsGPUSwapchainComposition prior to calling this function.
 	 *
-	 * SDL_GPU_PRESENTMODE_VSYNC and SDL_GPU_SWAPCHAINCOMPOSITION_SDR are always
+	 * SDL_GPU_PRESENTMODE_VSYNC with SDL_GPU_SWAPCHAINCOMPOSITION_SDR is always
 	 * supported.
 	 *
 	 * \param device a GPU context.
@@ -21079,6 +22246,8 @@ LibSDL3 >> setJoystickEventsEnabled: enabled [
 	 *
 	 * \param enabled whether to process joystick events or not.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
 	 * \sa SDL_JoystickEventsEnabled
@@ -21106,6 +22275,8 @@ LibSDL3 >> setJoystickLEDJoystick: joystick red: red green: green blue: blue [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
@@ -21122,6 +22293,8 @@ LibSDL3 >> setJoystickPlayerIndexJoystick: joystick playerIndex: player_index [
 	 *                     the player index and turn off player LEDs.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21152,7 +22325,15 @@ LibSDL3 >> setJoystickVirtualAxisJoystick: joystick axis: axis value: value [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetJoystickVirtualButton
+	 * \sa SDL_SetJoystickVirtualBall
+	 * \sa SDL_SetJoystickVirtualHat
+	 * \sa SDL_SetJoystickVirtualTouchpad
+	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualAxis(SDL_Joystick* joystick, int axis, Sint16 value))
@@ -21176,7 +22357,15 @@ LibSDL3 >> setJoystickVirtualBallJoystick: joystick ball: ball xrel: xrel yrel: 
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetJoystickVirtualAxis
+	 * \sa SDL_SetJoystickVirtualButton
+	 * \sa SDL_SetJoystickVirtualHat
+	 * \sa SDL_SetJoystickVirtualTouchpad
+	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualBall(SDL_Joystick* joystick, int ball, Sint16 xrel, Sint16 yrel))
@@ -21199,7 +22388,15 @@ LibSDL3 >> setJoystickVirtualButtonJoystick: joystick button: button down: down 
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetJoystickVirtualAxis
+	 * \sa SDL_SetJoystickVirtualBall
+	 * \sa SDL_SetJoystickVirtualHat
+	 * \sa SDL_SetJoystickVirtualTouchpad
+	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualButton(SDL_Joystick* joystick, int button, _Bool down))
@@ -21222,7 +22419,15 @@ LibSDL3 >> setJoystickVirtualHatJoystick: joystick hat: hat value: value [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetJoystickVirtualAxis
+	 * \sa SDL_SetJoystickVirtualButton
+	 * \sa SDL_SetJoystickVirtualBall
+	 * \sa SDL_SetJoystickVirtualTouchpad
+	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualHat(SDL_Joystick* joystick, int hat, Uint8 value))
@@ -21252,7 +22457,15 @@ LibSDL3 >> setJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad finge
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetJoystickVirtualAxis
+	 * \sa SDL_SetJoystickVirtualButton
+	 * \sa SDL_SetJoystickVirtualBall
+	 * \sa SDL_SetJoystickVirtualHat
+	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualTouchpad(SDL_Joystick* joystick, int touchpad, int finger, _Bool down, float x, float y, float pressure))
@@ -21478,6 +22691,28 @@ LibSDL3 >> setPrimarySelectionText: text [
 ]
 
 { #category : 'public' }
+LibSDL3 >> setRelativeMouseTransformCallback: callback userdata: userdata [
+	"/**
+	 * Set a user-defined function by which to transform relative mouse inputs.
+	 *
+	 * This overrides the relative system scale and relative speed scale hints.
+	 * Should be called prior to enabling relative mouse mode, fails otherwise.
+	 *
+	 * \param callback a callback used to transform relative mouse motion, or NULL
+	 *                 for default behavior.
+	 * \param userdata a pointer that will be passed to `callback`.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetRelativeMouseTransform(SDL_MouseMotionTransformCallback callback, void* userdata))
+]
+
+{ #category : 'public' }
 LibSDL3 >> setRenderClipRectRenderer: renderer rect: rect [
 	"/**
 	 * Set the clip rectangle for rendering on the specified target.
@@ -21639,14 +22874,6 @@ LibSDL3 >> setRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	 * specific dimensions but to make fonts look sharp, the app turns off logical
 	 * presentation while drawing text, for example.
 	 *
-	 * For the renderer's window, letterboxing is drawn into the framebuffer if
-	 * logical presentation is enabled during SDL_RenderPresent; be sure to
-	 * reenable it before presenting if you were toggling it, otherwise the
-	 * letterbox areas might have artifacts from previous frames (or artifacts
-	 * from external overlays, etc). Letterboxing is never drawn into texture
-	 * render targets; be sure to call SDL_RenderClear() before drawing into the
-	 * texture so the letterboxing areas are cleared, if appropriate.
-	 *
 	 * You can convert coordinates in an event into rendering coordinates using
 	 * SDL_ConvertEventToRenderCoordinates().
 	 *
@@ -21730,6 +22957,29 @@ LibSDL3 >> setRenderTargetRenderer: renderer texture: texture [
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetRenderTarget(SDL_Renderer* renderer, SDL_Texture* texture))
+]
+
+{ #category : 'public' }
+LibSDL3 >> setRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
+	"/**
+	 * Set the texture addressing mode used in SDL_RenderGeometry().
+	 *
+	 * \param renderer the rendering context.
+	 * \param u_mode the SDL_TextureAddressMode to use for horizontal texture
+	 *               coordinates in SDL_RenderGeometry().
+	 * \param v_mode the SDL_TextureAddressMode to use for vertical texture
+	 *               coordinates in SDL_RenderGeometry().
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_RenderGeometry
+	 * \sa SDL_RenderGeometryRaw
+	 * \sa SDL_GetRenderTextureAddressMode
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetRenderTextureAddressMode(SDL_Renderer* renderer, SDL_TextureAddressMode u_mode, SDL_TextureAddressMode v_mode))
 ]
 
 { #category : 'public' }
@@ -21853,7 +23103,8 @@ LibSDL3 >> setSurfaceAlphaModSurface: surface alpha: alpha [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21878,7 +23129,8 @@ LibSDL3 >> setSurfaceBlendModeSurface: surface blendMode: blendMode [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21905,7 +23157,8 @@ LibSDL3 >> setSurfaceClipRectSurface: surface rect: rect [
 	 * \returns true if the rectangle intersects the surface, otherwise false and
 	 *          blits will be completely clipped.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21933,7 +23186,8 @@ LibSDL3 >> setSurfaceColorKeySurface: surface enabled: enabled key: key [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21963,7 +23217,8 @@ LibSDL3 >> setSurfaceColorModSurface: surface r: r g: g b: b [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -21988,7 +23243,8 @@ LibSDL3 >> setSurfaceColorspaceSurface: surface colorspace: colorspace [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -22003,6 +23259,9 @@ LibSDL3 >> setSurfacePaletteSurface: surface palette: palette [
 	"/**
 	 * Set the palette used by a surface.
 	 *
+	 * Setting the palette keeps an internal reference to the palette, which can
+	 * be safely destroyed afterwards.
+	 *
 	 * A single palette can be shared with many surfaces.
 	 *
 	 * \param surface the SDL_Surface structure to update.
@@ -22010,7 +23269,8 @@ LibSDL3 >> setSurfacePaletteSurface: surface palette: palette [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -22034,7 +23294,8 @@ LibSDL3 >> setSurfaceRLESurface: surface enabled: enabled [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -22252,6 +23513,32 @@ LibSDL3 >> setTextureColorModTexture: texture r: r g: g b: b [
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetTextureColorMod(SDL_Texture* texture, Uint8 r, Uint8 g, Uint8 b))
+]
+
+{ #category : 'public' }
+LibSDL3 >> setTexturePaletteTexture: texture palette: palette [
+	"/**
+	 * Set the palette used by a texture.
+	 *
+	 * Setting the palette keeps an internal reference to the palette, which can
+	 * be safely destroyed afterwards.
+	 *
+	 * A single palette can be shared with many textures.
+	 *
+	 * \param texture the texture to update.
+	 * \param palette the SDL_Palette structure to use.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_CreatePalette
+	 * \sa SDL_GetTexturePalette
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetTexturePalette(SDL_Texture* texture, SDL_Palette* palette))
 ]
 
 { #category : 'public' }
@@ -22648,15 +23935,16 @@ LibSDL3 >> setWindowIconWindow: window icon: icon [
 	"/**
 	 * Set the icon for a window.
 	 *
-	 * If this function is passed a surface with alternate representations, the
-	 * surface will be interpreted as the content to be used for 100% display
-	 * scale, and the alternate representations will be used for high DPI
-	 * situations. For example, if the original surface is 32x32, then on a 2x
-	 * macOS display or 200% display scale on Windows, a 64x64 version of the
-	 * image will be used, if available. If a matching version of the image isn't
-	 * available, the closest larger size image will be downscaled to the
-	 * appropriate size and be used instead, if available. Otherwise, the closest
-	 * smaller image will be upscaled and be used instead.
+	 * If this function is passed a surface with alternate representations added
+	 * using SDL_AddSurfaceAlternateImage(), the surface will be interpreted as
+	 * the content to be used for 100% display scale, and the alternate
+	 * representations will be used for high DPI situations. For example, if the
+	 * original surface is 32x32, then on a 2x macOS display or 200% display scale
+	 * on Windows, a 64x64 version of the image will be used, if available. If a
+	 * matching version of the image isn't available, the closest larger size
+	 * image will be downscaled to the appropriate size and be used instead, if
+	 * available. Otherwise, the closest smaller image will be upscaled and be
+	 * used instead.
 	 *
 	 * \param window the window to change.
 	 * \param icon an SDL_Surface structure containing the icon for the window.
@@ -22666,6 +23954,8 @@ LibSDL3 >> setWindowIconWindow: window icon: icon [
 	 * \threadsafety This function should only be called on the main thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddSurfaceAlternateImage
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetWindowIcon(SDL_Window* window, SDL_Surface* icon))
@@ -22794,7 +24084,6 @@ LibSDL3 >> setWindowMouseGrabWindow: window grabbed: grabbed [
 	 *
 	 * \sa SDL_GetWindowMouseRect
 	 * \sa SDL_SetWindowMouseRect
-	 * \sa SDL_SetWindowMouseGrab
 	 * \sa SDL_SetWindowKeyboardGrab
 	 */"
 
@@ -22933,6 +24222,44 @@ LibSDL3 >> setWindowPositionWindow: window x: x y: y [
 	 */"
 
 	^ self ffiCall: #(bool SDL_SetWindowPosition(SDL_Window* window, int x, int y))
+]
+
+{ #category : 'public' }
+LibSDL3 >> setWindowProgressStateWindow: window state: state [
+	"/**
+	 * Sets the state of the progress bar for the given window’s taskbar icon.
+	 *
+	 * \param window the window whose progress state is to be modified.
+	 * \param state the progress state. `SDL_PROGRESS_STATE_NONE` stops displaying
+	 *              the progress bar.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetWindowProgressState(SDL_Window* window, SDL_ProgressState state))
+]
+
+{ #category : 'public' }
+LibSDL3 >> setWindowProgressValueWindow: window value: value [
+	"/**
+	 * Sets the value of the progress bar for the given window’s taskbar icon.
+	 *
+	 * \param window the window whose progress value is to be modified.
+	 * \param value the progress value in the range of [0.0f - 1.0f]. If the value
+	 *              is outside the valid range, it gets clamped.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetWindowProgressValue(SDL_Window* window, float value))
 ]
 
 { #category : 'public' }
@@ -23350,10 +24677,12 @@ LibSDL3 >> showOpenFileDialogCallback: callback userdata: userdata window: windo
 	 *                 it will be invoked.
 	 * \param window the window that the dialog should be modal for, may be NULL.
 	 *               Not all platforms support this option.
-	 * \param filters a list of filters, may be NULL. Not all platforms support
-	 *                this option, and platforms that do support it may allow the
-	 *                user to ignore the filters. If non-NULL, it must remain
-	 *                valid at least until the callback is invoked.
+	 * \param filters a list of filters, may be NULL. See the
+	 *                [`SDL_DialogFileFilter` documentation for
+	 *                examples](SDL_DialogFileFilter#code-examples). Not all
+	 *                platforms support this option, and platforms that do support
+	 *                it may allow the user to ignore the filters. If non-NULL, it
+	 *                must remain valid at least until the callback is invoked.
 	 * \param nfilters the number of filters. Ignored if filters is NULL.
 	 * \param default_location the default folder or file to start the dialog at,
 	 *                         may be NULL. Not all platforms support this option.
@@ -24178,10 +25507,11 @@ LibSDL3 >> stretchSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect sca
 	 *
 	 * \param src the SDL_Surface structure to be copied from.
 	 * \param srcrect the SDL_Rect structure representing the rectangle to be
-	 *                copied, may not be NULL.
+	 *                copied, or NULL to copy the entire surface.
 	 * \param dst the SDL_Surface structure that is the blit target.
 	 * \param dstrect the SDL_Rect structure representing the target rectangle in
-	 *                the destination surface, may not be NULL.
+	 *                the destination surface, or NULL to fill the entire
+	 *                destination surface.
 	 * \param scaleMode the SDL_ScaleMode to be used.
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
@@ -24497,7 +25827,7 @@ LibSDL3 >> strnstrHaystack: haystack needle: needle maxlen: maxlen [
 { #category : 'public' }
 LibSDL3 >> strpbrkStr: str breakset: breakset [
 	"/**
-	 * Searches a string for the first occurence of any character contained in a
+	 * Searches a string for the first occurrence of any character contained in a
 	 * breakset, and returns a pointer from the string to that character.
 	 *
 	 * \param str The null-terminated string to be searched. Must not be NULL, and
@@ -24505,7 +25835,7 @@ LibSDL3 >> strpbrkStr: str breakset: breakset [
 	 * \param breakset A null-terminated string containing the list of characters
 	 *                 to look for. Must not be NULL, and must not overlap with
 	 *                 `str`.
-	 * \returns A pointer to the location, in str, of the first occurence of a
+	 * \returns A pointer to the location, in str, of the first occurrence of a
 	 *          character present in the breakset, or NULL if none is found.
 	 *
 	 * \threadsafety It is safe to call this function from any thread.
@@ -24619,12 +25949,6 @@ LibSDL3 >> strtodStr: str endp: endp [
 	 */"
 
 	^ self ffiCall: #(double SDL_strtod(const char* str, char** endp))
-]
-
-{ #category : 'public' }
-LibSDL3 >> strtokRS1: s1 s2: s2 saveptr: saveptr [
-
-	self ffiCall: #(char* SDL_strtok_r(char* s1, const char* s2, char** saveptr))
 ]
 
 { #category : 'public' }
@@ -25095,7 +26419,7 @@ LibSDL3 >> tellIO: context [
 	 * \returns the current offset in the stream, or -1 if the information can not
 	 *          be determined.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -25464,7 +26788,7 @@ LibSDL3 >> uitoaValue: value str: str radix: radix [
 	 * Convert an unsigned integer into a string.
 	 *
 	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 	 * to 36.
 	 *
 	 * Note that this function will overflow a buffer if `str` is not large enough
@@ -25496,7 +26820,7 @@ LibSDL3 >> ulltoaValue: value str: str radix: radix [
 	 * Convert an unsigned long long integer into a string.
 	 *
 	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 	 * to 36.
 	 *
 	 * Note that this function will overflow a buffer if `str` is not large enough
@@ -25528,7 +26852,7 @@ LibSDL3 >> ultoaValue: value str: str radix: radix [
 	 * Convert an unsigned long integer into a string.
 	 *
 	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 	 * to 36.
 	 *
 	 * Note that this function will overflow a buffer if `str` is not large enough
@@ -25653,6 +26977,9 @@ LibSDL3 >> unlockAudioStream: stream [
 LibSDL3 >> unlockJoysticks [
 	"/**
 	 * Unlocking for atomic access to the joystick API.
+	 *
+	 * \threadsafety This should be called from the same thread that called
+	 *               SDL_LockJoysticks().
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -25861,6 +27188,8 @@ LibSDL3 >> updateJoysticks [
 	 *
 	 * This is called automatically by the event loop if any joystick events are
 	 * enabled.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27153,13 +28482,17 @@ LibSDL3 >> writeIOContext: context ptr: ptr size: size [
 	 * recoverable, such as a non-blocking write that can simply be retried later,
 	 * or a fatal error.
 	 *
+	 * A request for zero bytes on a valid stream will return zero immediately
+	 * without accessing the stream, so the stream status (EOF, err, etc) will not
+	 * change.
+	 *
 	 * \param context a pointer to an SDL_IOStream structure.
 	 * \param ptr a pointer to a buffer containing data to write.
 	 * \param size the number of bytes to write.
 	 * \returns the number of bytes written, which will be less than `size` on
 	 *          failure; call SDL_GetError() for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -27187,7 +28520,7 @@ LibSDL3 >> writeS16BEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27210,7 +28543,7 @@ LibSDL3 >> writeS16LEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27232,7 +28565,7 @@ LibSDL3 >> writeS32BEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27255,7 +28588,7 @@ LibSDL3 >> writeS32LEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27277,7 +28610,7 @@ LibSDL3 >> writeS64BEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27300,7 +28633,7 @@ LibSDL3 >> writeS64LEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27318,7 +28651,7 @@ LibSDL3 >> writeS8Dst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27344,7 +28677,8 @@ LibSDL3 >> writeSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a 
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27373,7 +28707,8 @@ LibSDL3 >> writeSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	 * \returns true on success or false on failure; call SDL_GetError() for more
 	 *          information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27395,7 +28730,7 @@ LibSDL3 >> writeU16BEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27418,7 +28753,7 @@ LibSDL3 >> writeU16LEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27440,7 +28775,7 @@ LibSDL3 >> writeU32BEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27463,7 +28798,7 @@ LibSDL3 >> writeU32LEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27485,7 +28820,7 @@ LibSDL3 >> writeU64BEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27508,7 +28843,7 @@ LibSDL3 >> writeU64LEDst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
@@ -27526,7 +28861,7 @@ LibSDL3 >> writeU8Dst: dst value: value [
 	 * \returns true on successful write or false on failure; call SDL_GetError()
 	 *          for more information.
 	 *
-	 * \threadsafety This function is not thread safe.
+	 * \threadsafety Do not use the same SDL_IOStream from two threads at once.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 */"
