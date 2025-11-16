@@ -45,7 +45,8 @@ SDL3EventMap >> initialize [
 	#displayMoved 340
 	#displayDesktopModeChanged 341
 	#displayCurrentModeChanged 342
-	#displayContentScaleChanged 343)
+	#displayContentScaleChanged 343
+	#displayUsableBoundsChanged 344)
 		-> SDL3DisplayEvent.
 
 	#(#windowShown 514
@@ -94,6 +95,15 @@ SDL3EventMap >> initialize [
 
 	#(#textEditingCandidates 775)
 		-> SDL3TextEditingCandidatesEvent.
+
+	#(#screenKeyboardShown 776
+	#screenKeyboardHidden 777)
+		-> SDL3CommonEvent.
+
+	#(#pinchBegin 1808
+	#pinchUpdate 1809
+	#pinchEnd 1810)
+		-> SDL3PinchFingerEvent.
 
 	#(#mouseMotion 1024)
 		-> SDL3MouseMotionEvent.
