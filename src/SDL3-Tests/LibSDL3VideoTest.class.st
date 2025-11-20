@@ -104,7 +104,7 @@ LibSDL3VideoTest >> test02CreateWindow [
 
 	self waitToSee.
 
-	lib destroyWindow: window.
+	window destroy.
 	self assertEmptySDLError
 ]
 
@@ -131,9 +131,9 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 	self waitToSee.
 
 	lib clearError.
-	lib destroyRenderer: renderer.
+	renderer destroy.
 	self assertEmptySDLError.
-	lib destroyWindow: window.
+	window destroy.
 	self assertEmptySDLError
 ]
 
@@ -148,52 +148,42 @@ LibSDL3VideoTest >> test04BasicRender [
 	success := window isNull not.
 	self assert: success.
 
-	renderer := lib newRendererWindow: window name: nil.
+	renderer := window newRendererFor: nil.
 	success := renderer isNull not.
 	self assert: success.
 
 	"Clear background with gray color"
 	self assert:
-		(lib
-			setRenderDrawColorFloatRenderer: renderer
-			r: 0.5 g: 0.5 b: 0.5 a: 1.0).
-	self assert: (lib renderClear: renderer).
+		(renderer
+			renderDrawColorFloatR: 0.5 g: 0.5 b: 0.5 a: 1.0).
+	self assert: renderer renderClear.
 
 	"Render a red rectangle"
 	self assert:
-		(lib
-			setRenderDrawColorFloatRenderer: renderer
-			r: 0.5 g: 0.0 b: 0.0 a: 1.0).
+		(renderer
+			renderDrawColorFloatR: 0.5 g: 0.0 b: 0.0 a: 1.0).
 	self assert:
-		(lib
-			renderFillRectRenderer: renderer
-			rect:
-				(SDL3FRect new
-					x: 10;
-					y: 10;
-					w: 120;
-					h: 30;
-					yourself)).
+		(renderer renderFillRect:
+			(SDL3FRect new
+				x: 10;
+				y: 10;
+				w: 120;
+				h: 30;
+				yourself)).
 
 	"Render cyan text (debugging API)"
-	self assert:
-		(lib
-			setRenderDrawColorFloatRenderer: renderer
-			r: 0.0 g: 1.0 b: 1.0 a: 1.0).
-	self assert:
-		(lib
-			renderDebugTextRenderer: renderer
-			x: 20 y: 20 str: 'Hello World').
+	self assert: (renderer renderDrawColorFloatR: 0.0 g: 1.0 b: 1.0 a: 1.0).
+	self assert: (renderer renderDebugTextX: 20 y: 20 str: 'Hello World').
 
 	"Present will actually render the previous operations"
-	self assert: (lib renderPresent: renderer).
+	self assert: renderer renderPresent.
 
 	self waitToSee.
 	
 	"Tear down"
-	lib destroyRenderer: renderer.
+	renderer destroy.
 	self assertEmptySDLError.
-	lib destroyWindow: window.
+	window destroy.
 	self assertEmptySDLError
 ]
 
@@ -208,16 +198,16 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 			newWindowTitle: #test05TextureFromSurfaceFromForm
 			w: extent x h: extent y flags: 0.
 	self assertEmptySDLError.
-	renderer := lib newRendererWindow: window name: nil.
+	renderer := window newRendererFor: nil.
 	self assertEmptySDLError.
 
 	"Render and present a texture created from a surface created from a Form"
 	shapeForm := self iconNamed: #pharoBig.
 	surface := shapeForm asUnownedNewSDL3Surface.
-	texture := lib newTextureFromSurfaceRenderer: renderer surface: surface.
-	lib destroySurface: surface.
-	lib renderTextureRenderer: renderer texture: texture srcrect: nil dstrect: nil.
-	lib renderPresent: renderer.
+	texture := renderer newTextureFromSurface: surface.
+	surface destroy.
+	renderer renderTexture: texture srcrect: nil dstrect: nil.
+	renderer renderPresent.
 	self assertEmptySDLError.
 
 	self waitToSee.
@@ -225,9 +215,9 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 	"Tear down"
 	texture destroy.
 	self assertEmptySDLError.
-	lib destroyRenderer: renderer.
+	renderer destroy.
 	self assertEmptySDLError.
-	lib destroyWindow: window.
+	window destroy.
 	self assertEmptySDLError
 ]
 
@@ -245,7 +235,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	success := window isNull not.
 	self assert: success.
 
-	renderer := lib newRendererWindow: window name: nil.
+	renderer := window newRendererFor: nil.
 	self assertEmptySDLError.
 
 
@@ -255,33 +245,30 @@ LibSDL3VideoTest >> test06ShapedWindow [
 		fillOval: (0@0 corner: extent) color: Color blue.
 	surface := shapeForm asUnownedNewSDL3Surface.
 
-	lib setWindowShapeWindow: window shape: surface.
-	lib showWindow: window.
+	window shape: surface.
+	window show.
 
 
 
 	"Set cyan color"
-	success :=
-		lib
-			setRenderDrawColorFloatRenderer: renderer
-			r: 0.0 g: 1.0 b: 1.0 a: 0.0.
+	success := renderer renderDrawColorFloatR: 0.0 g: 1.0 b: 1.0 a: 0.0.
 	self assert: success.
 
 	"Let's clear with that color"
-	success := lib renderClear: renderer.
+	success := renderer renderClear.
 	self assert: success.
 
 	"Present will actually apply the clear operation"
-	success := lib renderPresent: renderer.
+	success := renderer renderPresent.
 	self assert: success.
 
 
 	self waitToSee.
 	
 	"Tear down"
-	lib destroyRenderer: renderer.
+	renderer destroy.
 	self assertEmptySDLError.
-	lib destroyWindow: window.
+	window destroy.
 	self assertEmptySDLError
 ]
 
@@ -293,22 +280,18 @@ LibSDL3VideoTest >> test07Fullscreen [
 		lib
 			newWindowTitle: #test07Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
-	renderer := lib newRendererWindow: window name: nil.
+	renderer := window newRendererFor: nil.
 
 	"Render text (debugging API)"
-	lib
-		setRenderDrawColorFloatRenderer: renderer
-		r: 1.0 g: 1.0 b: 1.0 a: 1.0.
-	lib
-		renderDebugTextRenderer: renderer
-		x: 100 y: 100 str: 'Hello FULLSCREEN'.
-	lib renderPresent: renderer.
+	renderer renderDrawColorFloatR: 1.0 g: 1.0 b: 1.0 a: 1.0.
+	renderer renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN'.
+	renderer renderPresent.
 	self assertEmptySDLError.
 
 	self waitToSee.
 	
 	"Tear down"
-	lib destroyWindow: window.
+	window destroy.
 	self assertEmptySDLError
 ]
 
