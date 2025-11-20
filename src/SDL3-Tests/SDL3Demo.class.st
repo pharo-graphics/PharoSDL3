@@ -390,7 +390,7 @@ SDL3Demo class >> example07SystemCursors [
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
-	self ensureNoErrorIfFalse: (lib renderClear: renderer)
+	self ensureNoErrorIfFalse: renderer renderClear
 ]
 
 { #category : 'renderer' }
@@ -450,9 +450,8 @@ SDL3Demo >> close [
 SDL3Demo >> color: aColor [
 
 	self ensureNoErrorIfFalse:
-		(lib
-			setRenderDrawColorFloatRenderer: renderer
-			r: aColor red
+		(renderer
+			renderDrawColorFloatR: aColor red
 			g: aColor green
 			b: aColor blue
 			a: aColor alpha)
@@ -528,7 +527,7 @@ SDL3Demo >> open [
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
 	self ensureNoErrorIfNull: window.
 
-	renderer := lib newRendererWindow: window name: nil.
+	renderer := window newRendererFor: nil.
 	self ensureNoErrorIfNull: window
 ]
 
@@ -549,16 +548,15 @@ SDL3Demo >> pollEventsDo: aUnaryBlock [
 { #category : 'renderer' }
 SDL3Demo >> present [
 
-	self ensureNoErrorIfFalse: (lib renderPresent: renderer)
+	self ensureNoErrorIfFalse: renderer renderPresent
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> renderTexture: texture at: aSDLFRect [
 
 	self ensureNoErrorIfFalse:
-		(lib
-			 renderTextureRenderer: renderer
-			 texture: texture
+		(renderer
+			 renderTexture: texture
 			 srcrect: nil
 			 dstrect: aSDLFRect)
 ]
@@ -613,9 +611,8 @@ Stdio stdout << '4'; lf; flush.
 SDL3Demo >> showText: aString x: x y: y [
 
 	self ensureNoErrorIfFalse:
-		(lib
-			renderDebugTextRenderer: renderer
-			x: x
+		(renderer
+			renderDebugTextX: x
 			y: y
 			str: aString)
 ]
@@ -633,7 +630,7 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
 	self ensureNoErrorIfNull: aSurface.
-	aTexture := lib newTextureFromSurfaceRenderer: renderer surface: aSurface.
-	lib destroySurface: aSurface.
+	aTexture := renderer newTextureFromSurface: aSurface.
+	aSurface destroy.
 	^ aTexture
 ]
