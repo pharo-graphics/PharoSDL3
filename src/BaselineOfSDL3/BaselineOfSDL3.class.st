@@ -15,5 +15,6 @@ BaselineOfSDL3 >> baseline: spec [
 			spec
 				package: 'SDL3';
 				package: 'SDL3-Own' with: [ spec requires: #('SDL3') ];
-				package: 'SDL3-Tests' with: [ spec requires: #('SDL3' 'SDL3-Own') ] ]
+				package: 'SDL3-API' with: [ spec requires: #('SDL3') ];
+				package: 'SDL3-Tests' with: [ spec requires: #('SDL3' 'SDL3-Own' 'SDL3-API') ] ]
 ]
