@@ -66,9 +66,11 @@ SDL3Demo class >> example02LogInfoSomeSeconds [
 					logs add: 'y: ', (pointerForY floatAt: 1) asString.
 					logs addAll: (SDL3MouseButtonFlags allValuesIn: state) ].
 
-			logs add: ''.
-			logs add: #getModState.
-			logs addAll: (SDL3Keymod allValuesIn: LibSDL3 uniqueInstance getModState).
+			LibSDL3 uniqueInstance getModState in: [ :modState |
+				modState > 0 ifTrue: [ 
+					logs add: ''.
+					logs add: #getModState.
+					logs addAll: (SDL3Keymod allValuesIn: modState) ] ].
 
 			"Render frame"
 			demo clearColor: Color blue muchDarker.
@@ -85,50 +87,58 @@ SDL3Demo class >> example02LogInfoSomeSeconds [
 
 		] fork.
 
-	11 seconds wait.
+	10 seconds wait.
 	shouldFinish := true.
 	Processor yield.
 	demo close; ensureQuitVideo
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example03LogEventsSomeSeconds [
+SDL3Demo class >> example03LogEventsUntilThirdQuit [
 	"It is prepared to run headless with:
-	./pharo Pharo.image eval 'SDL3Demo example03LogEventsSomeSeconds' "
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example03LogEventsUntilThirdQuit' "
 
-	| demo shouldFinish |
+	| demo |
 	demo := self new.
 	demo ensureInitVideo; open.
-	shouldFinish := false.
 
-	[	| logs |
+	[	| logs quitCount |
 		logs := LinkedList new.
+		quitCount := 0.
 
 		"Main loop"
-		[ shouldFinish ] whileFalse: [ 
+		[ quitCount < 3 ] whileTrue: [ 
 
 			"Process all pending events"
-			demo pollEventsDo: [ :evt | logs addLast: evt asString ].
+			demo pollEventsDo: [ :evt |
+				logs addLast: evt asString.
+
+				"Handle quit"
+				evt type = SDL3EventType quit ifTrue: [
+					quitCount := quitCount + 1.
+					logs addLast:
+						'===> quitCount = ', quitCount asString,
+						' (wont''t really quit demo until third)' ] ].
 
 			"Render frame"
 			demo clearColor: Color blue muchDarker.
 			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
 			logs withIndexDo: [ :each :index |
-				demo
-					showText: each
-					x: 10 y: 10 * index
-					color: Color white ].
+				demo showText: each x: 10 y: 10 * index color: Color white ].
 			demo present.
 
 			"Do a little wait before next frame"
-			5 milliSeconds wait ]
+			15 milliSeconds wait ].
+	
+		"Tear down"
+		demo close.
+		UIManager default class = NonInteractiveUIManager ifTrue: [ 
+			demo ensureQuitVideo.
+			Smalltalk snapshot: false andQuit: true ]
 
 		] fork.
-
-	7 seconds wait.
-	shouldFinish := true.
-	Processor yield.
-	demo close; ensureQuitVideo
+	
+	^ demo
 ]
 
 { #category : 'examples' }
@@ -185,7 +195,7 @@ SDL3Demo class >> example04HandleEvents [
 				present.
 
 			"Do a little wait before next frame"
-			10 milliSeconds wait ].
+			15 milliSeconds wait ].
 	
 		"Tear down"
 		demo close.
@@ -251,7 +261,7 @@ SDL3Demo class >> example05Clipboard [
 			demo present.
 
 			"Do a little wait before next frame"
-			30 milliSeconds wait ].
+			15 milliSeconds wait ].
 	
 		"Tear down"
 		pasted do: [ :each | each key destroy ].
@@ -312,7 +322,7 @@ SDL3Demo class >> example06OpenFolderDialog [
 			demo present.
 
 			"Do a little wait before next frame"
-			10 milliSeconds wait ].
+			15 milliSeconds wait ].
 
 		"Tear down"
 		demo close.
@@ -374,7 +384,7 @@ SDL3Demo class >> example07SystemCursors [
 			demo present.
 
 			"Do a little wait before next frame"
-			30 milliSeconds wait ].
+			15 milliSeconds wait ].
 	
 		"Tear down"
 		demo close.
@@ -440,10 +450,10 @@ SDL3Demo >> clipboardMimeTypes [
 SDL3Demo >> close [
 
 	lib clearError.
-	[ 	lib destroyRenderer: renderer.
+	[ 	renderer destroy.
 		self ensureNoError ] ensure: [
-			lib destroyWindow: window.
-			self ensureNoError]
+			window destroy.
+			self ensureNoError ]
 ]
 
 { #category : 'renderer' }
@@ -521,9 +531,9 @@ SDL3Demo >> open [
 
 	window :=
 		lib
-			newWindowTitle: 'Pharo-SDL3 Demo'
-			w: 800
-			h: 600
+			newWindowTitle: self className
+			w: 1024
+			h: 768
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
 	self ensureNoErrorIfNull: window.
 
