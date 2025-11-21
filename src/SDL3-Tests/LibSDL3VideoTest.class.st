@@ -155,23 +155,12 @@ LibSDL3VideoTest >> test04BasicRender [
 	self assert: success.
 
 	"Clear background with gray color"
-	self assert:
-		(renderer
-			renderDrawColorFloatR: 0.5 g: 0.5 b: 0.5 a: 1.0).
+	self assert: (renderer renderDrawColorFloatR: 0.5 g: 0.5 b: 0.5 a: 1.0).
 	self assert: renderer renderClear.
 
 	"Render a red rectangle"
-	self assert:
-		(renderer
-			renderDrawColorFloatR: 0.5 g: 0.0 b: 0.0 a: 1.0).
-	self assert:
-		(renderer renderFillRect:
-			(SDL3FRect new
-				x: 10;
-				y: 10;
-				w: 120;
-				h: 30;
-				yourself)).
+	self assert: (renderer renderDrawColorFloatR: 0.5 g: 0.0 b: 0.0 a: 1.0).
+	self assert: (renderer renderFillRect: (SDL3FRect x: 10 y: 10 width: 120 height: 30)).
 
 	"Render cyan text (debugging API)"
 	self assert: (renderer renderDrawColorFloatR: 0.0 g: 1.0 b: 1.0 a: 1.0).
