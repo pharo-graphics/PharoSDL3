@@ -102,6 +102,8 @@ LibSDL3VideoTest >> test02CreateWindow [
 	self assertEmptySDLError.
 	self deny: window isNull.
 
+	self assert: window extent equals: 800 @ 600.
+
 	self waitToSee.
 
 	window destroy.

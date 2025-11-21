@@ -1,1 +1,1 @@
-Package { #name : ' SDL3-API' }
+Package { #name : 'SDL3-API' }
