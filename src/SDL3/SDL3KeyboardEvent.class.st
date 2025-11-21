@@ -73,15 +73,6 @@ SDL3KeyboardEvent >> mod: anObject [
 	handle unsignedShortAt: OFFSET_MOD put: anObject
 ]
 
-{ #category : 'printing' }
-SDL3KeyboardEvent >> printOn: aStream [
-
-	super printOn: aStream.
-	aStream
-		nextPutAll: ' scancode: ';
-		print: self scancode item
-]
-
 { #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> raw [
 	"This method was automatically generated"
