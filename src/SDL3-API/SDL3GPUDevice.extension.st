@@ -1,24 +1,24 @@
 Extension { #name : 'SDL3GPUDevice' }
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> acquireGPUCommandBuffer [
 
 	^ self ffiLibrary acquireGPUCommandBuffer: self
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> claimWindowForWindow: window [
 
 	^ self ffiLibrary claimWindowForGPUDevice: self window: window
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> destroy [
 
 	^ self ffiLibrary destroyGPUDevice: self
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> getGPUSwapchainTextureFormatIntoWindow: window [
 
 	^ self ffiLibrary
@@ -26,7 +26,7 @@ SDL3GPUDevice >> getGPUSwapchainTextureFormatIntoWindow: window [
 		  window: window
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuAllowedFramesInFlightAllowedFramesInFlight: allowed_frames_in_flight [
 
 	^ self ffiLibrary
@@ -34,7 +34,7 @@ SDL3GPUDevice >> gpuAllowedFramesInFlightAllowedFramesInFlight: allowed_frames_i
 		  allowedFramesInFlight: allowed_frames_in_flight
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuBufferNameBuffer: buffer text: text [
 
 	^ self ffiLibrary
@@ -43,25 +43,25 @@ SDL3GPUDevice >> gpuBufferNameBuffer: buffer text: text [
 		  text: text
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuDriver [
 
 	^ self ffiLibrary getGPUDeviceDriver: self
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuProperties [
 
 	^ self ffiLibrary getGPUDeviceProperties: self
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuShaderFormats [
 
 	^ self ffiLibrary getGPUShaderFormats: self
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuSwapchainParametersWindow: window swapchainComposition: swapchain_composition presentMode: present_mode [
 
 	^ self ffiLibrary
@@ -71,7 +71,7 @@ SDL3GPUDevice >> gpuSwapchainParametersWindow: window swapchainComposition: swap
 		  presentMode: present_mode
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuTextureNameTexture: texture text: text [
 
 	^ self ffiLibrary
@@ -80,7 +80,7 @@ SDL3GPUDevice >> gpuTextureNameTexture: texture text: text [
 		  text: text
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuTextureSupportsFormat: format type: type usage: usage [
 
 	^ self ffiLibrary
@@ -90,7 +90,7 @@ SDL3GPUDevice >> gpuTextureSupportsFormat: format type: type usage: usage [
 		  usage: usage
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> gpuTextureSupportsSampleCountFormat: format sampleCount: sample_count [
 
 	^ self ffiLibrary
@@ -99,7 +99,7 @@ SDL3GPUDevice >> gpuTextureSupportsSampleCountFormat: format sampleCount: sample
 		  sampleCount: sample_count
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> mapGPUTransferBuffer: transfer_buffer cycle: cycle [
 
 	^ self ffiLibrary
@@ -108,13 +108,13 @@ SDL3GPUDevice >> mapGPUTransferBuffer: transfer_buffer cycle: cycle [
 		  cycle: cycle
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPUBufferCreateinfo: createinfo [
 
 	^ self ffiLibrary newGPUBufferDevice: self createinfo: createinfo
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPUComputePipelineCreateinfo: createinfo [
 
 	^ self ffiLibrary
@@ -122,7 +122,7 @@ SDL3GPUDevice >> newGPUComputePipelineCreateinfo: createinfo [
 		  createinfo: createinfo
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPUGraphicsPipelineCreateinfo: createinfo [
 
 	^ self ffiLibrary
@@ -130,31 +130,31 @@ SDL3GPUDevice >> newGPUGraphicsPipelineCreateinfo: createinfo [
 		  createinfo: createinfo
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPURendererWindow: window [
 
 	^ self ffiLibrary newGPURendererDevice: self window: window
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPUSamplerCreateinfo: createinfo [
 
 	^ self ffiLibrary newGPUSamplerDevice: self createinfo: createinfo
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPUShaderCreateinfo: createinfo [
 
 	^ self ffiLibrary newGPUShaderDevice: self createinfo: createinfo
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPUTextureCreateinfo: createinfo [
 
 	^ self ffiLibrary newGPUTextureDevice: self createinfo: createinfo
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPUTransferBufferCreateinfo: createinfo [
 
 	^ self ffiLibrary
@@ -162,19 +162,19 @@ SDL3GPUDevice >> newGPUTransferBufferCreateinfo: createinfo [
 		  createinfo: createinfo
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> queryGPUFence: fence [
 
 	^ self ffiLibrary queryGPUFenceDevice: self fence: fence
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUBuffer: buffer [
 
 	^ self ffiLibrary releaseGPUBufferDevice: self buffer: buffer
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUComputePipeline: compute_pipeline [
 
 	^ self ffiLibrary
@@ -182,13 +182,13 @@ SDL3GPUDevice >> releaseGPUComputePipeline: compute_pipeline [
 		  computePipeline: compute_pipeline
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUFence: fence [
 
 	^ self ffiLibrary releaseGPUFenceDevice: self fence: fence
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUGraphicsPipeline: graphics_pipeline [
 
 	^ self ffiLibrary
@@ -196,25 +196,25 @@ SDL3GPUDevice >> releaseGPUGraphicsPipeline: graphics_pipeline [
 		  graphicsPipeline: graphics_pipeline
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUSampler: sampler [
 
 	^ self ffiLibrary releaseGPUSamplerDevice: self sampler: sampler
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUShader: shader [
 
 	^ self ffiLibrary releaseGPUShaderDevice: self shader: shader
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUTexture: texture [
 
 	^ self ffiLibrary releaseGPUTextureDevice: self texture: texture
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseGPUTransferBuffer: transfer_buffer [
 
 	^ self ffiLibrary
@@ -222,13 +222,13 @@ SDL3GPUDevice >> releaseGPUTransferBuffer: transfer_buffer [
 		  transferBuffer: transfer_buffer
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> releaseWindowFromWindow: window [
 
 	^ self ffiLibrary releaseWindowFromGPUDevice: self window: window
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> unmapGPUTransferBuffer: transfer_buffer [
 
 	^ self ffiLibrary
@@ -236,7 +236,7 @@ SDL3GPUDevice >> unmapGPUTransferBuffer: transfer_buffer [
 		  transferBuffer: transfer_buffer
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> waitForGPUFencesWaitAll: wait_all fences: fences numFences: num_fences [
 
 	^ self ffiLibrary
@@ -246,19 +246,19 @@ SDL3GPUDevice >> waitForGPUFencesWaitAll: wait_all fences: fences numFences: num
 		  numFences: num_fences
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> waitForGPUIdle [
 
 	^ self ffiLibrary waitForGPUIdle: self
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> waitForGPUSwapchainWindow: window [
 
 	^ self ffiLibrary waitForGPUSwapchainDevice: self window: window
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> windowSupportsGPUPresentModeWindow: window presentMode: present_mode [
 
 	^ self ffiLibrary
@@ -267,7 +267,7 @@ SDL3GPUDevice >> windowSupportsGPUPresentModeWindow: window presentMode: present
 		  presentMode: present_mode
 ]
 
-{ #category : '* SDL3-API' }
+{ #category : '*SDL3-API' }
 SDL3GPUDevice >> windowSupportsGPUSwapchainCompositionWindow: window swapchainComposition: swapchain_composition [
 
 	^ self ffiLibrary
