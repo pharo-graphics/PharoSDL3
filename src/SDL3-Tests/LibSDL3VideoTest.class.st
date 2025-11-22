@@ -81,7 +81,7 @@ LibSDL3VideoTest >> test01ClipboardAPI [
 	mimeTypesStringArrayPointer := lib getClipboardMimeTypes: mimeTypesCountPointer.
 	mimeTypesStringArray :=
 		mimeTypesStringArrayPointer
-			arrayOfStringsOfSize: (mimeTypesCountPointer signedLongLongAt: 1). 
+			arrayOfStringsOfSize: (mimeTypesCountPointer int64AtOffset: 0). 
 	lib free: mimeTypesStringArrayPointer.
 
 	self assert: mimeTypesStringArray equals: #('text/plain;charset=utf-8').
@@ -181,13 +181,11 @@ LibSDL3VideoTest >> test04BasicRender [
 { #category : 'tests' }
 LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 
-	| extent window renderer texture shapeForm surface |
-	extent := 400@800.
-
+	| window renderer texture shapeForm surface |
 	window :=
 		lib
 			newWindowTitle: #test05TextureFromSurfaceFromForm
-			w: extent x h: extent y flags: 0.
+			w: 400 h: 800 flags: 0.
 	self assertEmptySDLError.
 	renderer := window newRendererFor: nil.
 	self assertEmptySDLError.
@@ -222,7 +220,10 @@ LibSDL3VideoTest >> test06ShapedWindow [
 		lib
 			newWindowTitle: #test06ShapedWindow
 			w: extent x h: extent y
-			flags: SDL3WindowFlags hidden | SDL3WindowFlags transparent | SDL3WindowFlags borderless.
+			flags:
+				SDL3WindowFlags hidden | 
+				SDL3WindowFlags transparent | 
+				SDL3WindowFlags borderless.
 	success := window isNull not.
 	self assert: success.
 
@@ -236,9 +237,9 @@ LibSDL3VideoTest >> test06ShapedWindow [
 		fillOval: (0@0 corner: extent) color: Color blue.
 	surface := shapeForm asUnownedNewSDL3Surface.
 
+
 	window shape: surface.
 	window show.
-
 
 
 	"Set cyan color"
@@ -274,14 +275,17 @@ LibSDL3VideoTest >> test07Fullscreen [
 	renderer := window newRendererFor: nil.
 
 	"Render text (debugging API)"
-	renderer renderDrawColorFloatR: 1.0 g: 1.0 b: 1.0 a: 1.0.
-	renderer renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN'.
-	renderer renderPresent.
+	renderer
+		renderDrawColorFloatR: 1.0 g: 1.0 b: 1.0 a: 1.0;
+		renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN';
+		renderPresent.
 	self assertEmptySDLError.
 
 	self waitToSee.
 	
 	"Tear down"
+	renderer destroy.
+	self assertEmptySDLError.
 	window destroy.
 	self assertEmptySDLError
 ]
