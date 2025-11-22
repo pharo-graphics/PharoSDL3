@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextEditingCandidatesEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3WindowIDEvent',
 	#classVars : [
 		'OFFSET_CANDIDATES',
 		'OFFSET_HORIZONTAL',

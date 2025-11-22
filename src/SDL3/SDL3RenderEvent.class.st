@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3RenderEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3WindowIDEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TIMESTAMP',

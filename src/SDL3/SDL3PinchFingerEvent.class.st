@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PinchFingerEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3WindowIDEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_SCALE',

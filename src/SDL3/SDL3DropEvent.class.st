@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3DropEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3WindowIDEvent',
 	#classVars : [
 		'OFFSET_DATA',
 		'OFFSET_RESERVED',

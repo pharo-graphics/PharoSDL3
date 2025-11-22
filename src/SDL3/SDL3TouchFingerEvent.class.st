@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TouchFingerEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3WindowIDEvent',
 	#classVars : [
 		'OFFSET_DX',
 		'OFFSET_DY',

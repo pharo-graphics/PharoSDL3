@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenMotionEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3WindowIDEvent',
 	#classVars : [
 		'OFFSET_PEN_STATE',
 		'OFFSET_RESERVED',
