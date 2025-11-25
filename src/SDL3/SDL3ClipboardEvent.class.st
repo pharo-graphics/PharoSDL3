@@ -34,21 +34,9 @@ SDL3ClipboardEvent >> mimeTypes [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> mimeTypes: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_MIME_TYPES put: anObject getHandle.
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3ClipboardEvent >> numMimeTypes [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_NUM_MIME_TYPES
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> numMimeTypes: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_MIME_TYPES put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -58,43 +46,13 @@ SDL3ClipboardEvent >> owner [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> owner: anObject [
-	"This method was automatically generated"
-	handle booleanAt: OFFSET_OWNER put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3ClipboardEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3ClipboardEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]

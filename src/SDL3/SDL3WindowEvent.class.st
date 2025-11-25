@@ -34,21 +34,9 @@ SDL3WindowEvent >> data1 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3WindowEvent >> data1: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_DATA1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3WindowEvent >> data2 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_DATA2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3WindowEvent >> data2: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_DATA2 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -58,43 +46,13 @@ SDL3WindowEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3WindowEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3WindowEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3WindowEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3WindowEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3WindowEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3WindowEvent >> windowID [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WINDOWID
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3WindowEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

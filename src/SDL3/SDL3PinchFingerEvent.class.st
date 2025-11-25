@@ -32,21 +32,9 @@ SDL3PinchFingerEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PinchFingerEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PinchFingerEvent >> scale [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_SCALE
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PinchFingerEvent >> scale: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_SCALE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -56,31 +44,7 @@ SDL3PinchFingerEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PinchFingerEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PinchFingerEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PinchFingerEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PinchFingerEvent >> windowID [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WINDOWID
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PinchFingerEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

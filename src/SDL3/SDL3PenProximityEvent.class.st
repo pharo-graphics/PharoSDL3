@@ -32,33 +32,9 @@ SDL3PenProximityEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenProximityEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenProximityEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenProximityEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenProximityEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenProximityEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
@@ -68,19 +44,7 @@ SDL3PenProximityEvent >> which [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenProximityEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenProximityEvent >> windowID [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WINDOWID
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenProximityEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

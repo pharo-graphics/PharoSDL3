@@ -90,12 +90,6 @@ SDL3UserEvent >> timestamp: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3UserEvent >> type [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_TYPE
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3UserEvent >> type: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_TYPE put: anObject

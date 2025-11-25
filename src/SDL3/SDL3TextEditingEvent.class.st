@@ -36,21 +36,9 @@ SDL3TextEditingEvent >> length [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> length: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_LENGTH put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -60,21 +48,9 @@ SDL3TextEditingEvent >> start [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> start: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_START put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingEvent >> text [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_TEXT) type: ExternalType char asPointerType
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> text: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_TEXT put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -84,31 +60,7 @@ SDL3TextEditingEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingEvent >> windowID [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WINDOWID
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

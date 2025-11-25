@@ -32,21 +32,9 @@ SDL3TextInputEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextInputEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextInputEvent >> text [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_TEXT) type: ExternalType char asPointerType
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextInputEvent >> text: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_TEXT put: anObject getHandle.
 ]
 
 { #category : 'accessing - structure variables' }
@@ -56,31 +44,7 @@ SDL3TextInputEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextInputEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextInputEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextInputEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextInputEvent >> windowID [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WINDOWID
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextInputEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

@@ -44,21 +44,9 @@ SDL3TextEditingCandidatesEvent >> candidates [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> candidates: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_CANDIDATES put: anObject getHandle.
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingCandidatesEvent >> horizontal [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_HORIZONTAL
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> horizontal: anObject [
-	"This method was automatically generated"
-	handle booleanAt: OFFSET_HORIZONTAL put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -68,21 +56,9 @@ SDL3TextEditingCandidatesEvent >> numCandidates [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> numCandidates: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_NUM_CANDIDATES put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingCandidatesEvent >> padding1 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -92,21 +68,9 @@ SDL3TextEditingCandidatesEvent >> padding2 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingCandidatesEvent >> padding3 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -116,21 +80,9 @@ SDL3TextEditingCandidatesEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingCandidatesEvent >> selectedCandidate [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_SELECTED_CANDIDATE
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> selectedCandidate: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_SELECTED_CANDIDATE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -140,31 +92,7 @@ SDL3TextEditingCandidatesEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingCandidatesEvent >> windowID [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WINDOWID
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]

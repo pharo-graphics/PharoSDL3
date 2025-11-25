@@ -42,21 +42,9 @@ SDL3JoyBallEvent >> ball [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> ball: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_BALL put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBallEvent >> padding1 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -66,21 +54,9 @@ SDL3JoyBallEvent >> padding2 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBallEvent >> padding3 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -90,33 +66,9 @@ SDL3JoyBallEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBallEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
@@ -126,31 +78,13 @@ SDL3JoyBallEvent >> which [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBallEvent >> xrel [
 	"This method was automatically generated"
 	^handle signedShortAt: OFFSET_XREL
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> xrel: anObject [
-	"This method was automatically generated"
-	handle signedShortAt: OFFSET_XREL put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBallEvent >> yrel [
 	"This method was automatically generated"
 	^handle signedShortAt: OFFSET_YREL
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> yrel: anObject [
-	"This method was automatically generated"
-	handle signedShortAt: OFFSET_YREL put: anObject
 ]

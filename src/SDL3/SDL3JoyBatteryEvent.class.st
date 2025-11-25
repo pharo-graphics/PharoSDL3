@@ -34,21 +34,9 @@ SDL3JoyBatteryEvent >> percent [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> percent: anObject [
-	"This method was automatically generated"
-	handle signedLongAt: OFFSET_PERCENT put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBatteryEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -58,43 +46,13 @@ SDL3JoyBatteryEvent >> state [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> state: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_STATE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBatteryEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBatteryEvent >> which [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WHICH
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

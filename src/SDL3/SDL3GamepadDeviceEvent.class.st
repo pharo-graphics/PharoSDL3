@@ -30,43 +30,13 @@ SDL3GamepadDeviceEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadDeviceEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadDeviceEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadDeviceEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadDeviceEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadDeviceEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadDeviceEvent >> which [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WHICH
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadDeviceEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

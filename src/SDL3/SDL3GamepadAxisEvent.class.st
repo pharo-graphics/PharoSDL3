@@ -42,21 +42,9 @@ SDL3GamepadAxisEvent >> axis [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> axis: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_AXIS put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadAxisEvent >> padding1 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -66,21 +54,9 @@ SDL3GamepadAxisEvent >> padding2 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadAxisEvent >> padding3 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -90,21 +66,9 @@ SDL3GamepadAxisEvent >> padding4 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding4: anObject [
-	"This method was automatically generated"
-	handle unsignedShortAt: OFFSET_PADDING4 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadAxisEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -114,43 +78,13 @@ SDL3GamepadAxisEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadAxisEvent >> value [
 	"This method was automatically generated"
 	^handle signedShortAt: OFFSET_VALUE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> value: anObject [
-	"This method was automatically generated"
-	handle signedShortAt: OFFSET_VALUE put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadAxisEvent >> which [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WHICH
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

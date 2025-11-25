@@ -28,31 +28,7 @@ SDL3CommonEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CommonEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3CommonEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3CommonEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3CommonEvent >> type [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_TYPE
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3CommonEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject
 ]

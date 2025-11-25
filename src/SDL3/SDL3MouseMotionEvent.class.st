@@ -42,21 +42,9 @@ SDL3MouseMotionEvent >> reserved [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> state [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_STATE
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> state: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_STATE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -66,33 +54,9 @@ SDL3MouseMotionEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> which [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WHICH
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -102,21 +66,9 @@ SDL3MouseMotionEvent >> windowID [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> x [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_X
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> x: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -126,31 +78,13 @@ SDL3MouseMotionEvent >> xrel [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> xrel: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_XREL put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> y [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_Y
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> y: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_Y put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> yrel [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_YREL
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> yrel: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_YREL put: anObject
 ]

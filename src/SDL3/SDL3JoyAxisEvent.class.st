@@ -42,21 +42,9 @@ SDL3JoyAxisEvent >> axis [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> axis: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_AXIS put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> padding1 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -66,21 +54,9 @@ SDL3JoyAxisEvent >> padding2 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> padding3 [
 	"This method was automatically generated"
 	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -90,21 +66,9 @@ SDL3JoyAxisEvent >> padding4 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding4: anObject [
-	"This method was automatically generated"
-	handle unsignedShortAt: OFFSET_PADDING4 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -114,43 +78,13 @@ SDL3JoyAxisEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> value [
 	"This method was automatically generated"
 	^handle signedShortAt: OFFSET_VALUE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> value: anObject [
-	"This method was automatically generated"
-	handle signedShortAt: OFFSET_VALUE put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> which [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WHICH
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]

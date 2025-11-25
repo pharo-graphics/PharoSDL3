@@ -42,21 +42,9 @@ SDL3PenButtonEvent >> button [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> button: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_BUTTON put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenButtonEvent >> down [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_DOWN
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> down: anObject [
-	"This method was automatically generated"
-	handle booleanAt: OFFSET_DOWN put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -66,21 +54,9 @@ SDL3PenButtonEvent >> penState [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> penState: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_PEN_STATE put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenButtonEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -90,33 +66,9 @@ SDL3PenButtonEvent >> timestamp [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenButtonEvent >> which [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WHICH
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -126,31 +78,13 @@ SDL3PenButtonEvent >> windowID [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenButtonEvent >> x [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_X
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> x: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_X put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenButtonEvent >> y [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_Y
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> y: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_Y put: anObject
 ]

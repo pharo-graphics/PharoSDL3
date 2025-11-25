@@ -538,7 +538,8 @@ SDL3Demo >> open [
 	self ensureNoErrorIfNull: window.
 
 	renderer := window newRendererFor: nil.
-	self ensureNoErrorIfNull: window
+	self ensureNoErrorIfNull: window.
+	self ensureNoErrorIfFalse: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
 { #category : 'enumerating' }

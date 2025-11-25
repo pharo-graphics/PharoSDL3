@@ -38,21 +38,9 @@ SDL3DropEvent >> data [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DropEvent >> data: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_DATA put: anObject getHandle.
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3DropEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3DropEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -62,33 +50,9 @@ SDL3DropEvent >> source [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DropEvent >> source: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_SOURCE put: anObject getHandle.
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3DropEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3DropEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3DropEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3DropEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
@@ -98,31 +62,13 @@ SDL3DropEvent >> windowID [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DropEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3DropEvent >> x [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_X
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DropEvent >> x: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_X put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3DropEvent >> y [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_Y
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3DropEvent >> y: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_Y put: anObject
 ]

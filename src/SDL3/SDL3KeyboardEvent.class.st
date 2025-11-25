@@ -44,21 +44,9 @@ SDL3KeyboardEvent >> down [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> down: anObject [
-	"This method was automatically generated"
-	handle booleanAt: OFFSET_DOWN put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> key [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_KEY
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> key: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_KEY put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -68,21 +56,9 @@ SDL3KeyboardEvent >> mod [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> mod: anObject [
-	"This method was automatically generated"
-	handle unsignedShortAt: OFFSET_MOD put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> raw [
 	"This method was automatically generated"
 	^handle unsignedShortAt: OFFSET_RAW
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> raw: anObject [
-	"This method was automatically generated"
-	handle unsignedShortAt: OFFSET_RAW put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -92,21 +68,9 @@ SDL3KeyboardEvent >> repeat [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> repeat: anObject [
-	"This method was automatically generated"
-	handle booleanAt: OFFSET_REPEAT put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> reserved [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> reserved: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_RESERVED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
@@ -116,33 +80,9 @@ SDL3KeyboardEvent >> scancode [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> scancode: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_SCANCODE put: anObject value
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> timestamp: anObject [
-	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> type [
-	"This method was automatically generated"
-	^SDL3EventType fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> type: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]
 
 { #category : 'accessing - structure variables' }
@@ -152,19 +92,7 @@ SDL3KeyboardEvent >> which [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> which: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WHICH put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> windowID [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_WINDOWID
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> windowID: anObject [
-	"This method was automatically generated"
-	handle unsignedLongAt: OFFSET_WINDOWID put: anObject
 ]
