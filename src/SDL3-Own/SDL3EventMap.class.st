@@ -1,3 +1,8 @@
+"
+I know how to efficiently convert any `SDL3Event` as its corresponding `SDL3MappedEvent`.
+
+To optimize eficciency, keep the instance of myself, i.e. avoid initializing the internal convertion dictionary on each event.
+"
 Class {
 	#name : 'SDL3EventMap',
 	#superclass : 'Object',
@@ -10,6 +15,7 @@ Class {
 
 { #category : 'accessing' }
 SDL3EventMap >> conversionOf: aSDL3Event [
+	"Convert a `SDL3Event` as the corresponding `SDL3MappedEvent`."
 
 	| eventClass |
 	eventClass := self eventClassFor: aSDL3Event type.
@@ -30,11 +36,8 @@ SDL3EventMap >> initialize [
 	super initialize.
 
 	eventClassByTypeNumber := Dictionary new.
-	
+
 	SDL3MappedEvent allSubclassesDo: [ :eachEventClass |
 		eachEventClass eventTypes do: [ :eachEventType |
-			eventClassByTypeNumber
-				at: eachEventType value
-				put: eachEventClass ]
-			 ]
+			eventClassByTypeNumber at: eachEventType value put: eachEventClass ] ]
 ]
