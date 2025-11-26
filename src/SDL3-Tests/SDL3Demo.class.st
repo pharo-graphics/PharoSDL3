@@ -515,6 +515,12 @@ SDL3Demo >> ensureQuitVideo [
 	lib quitSubSystem: SDL3InitFlags video
 ]
 
+{ #category : 'api' }
+SDL3Demo >> initialExtent [
+	
+	^ 1024 @ 768
+]
+
 { #category : 'initialization' }
 SDL3Demo >> initialize [
 
@@ -532,8 +538,8 @@ SDL3Demo >> open [
 	window :=
 		lib
 			newWindowTitle: self className
-			w: 1024
-			h: 768
+			w: self initialExtent x
+			h: self initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
 	self ensureNoErrorIfNull: window.
 

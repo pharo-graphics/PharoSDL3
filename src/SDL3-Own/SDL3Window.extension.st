@@ -12,3 +12,9 @@ SDL3Window >> extent [
 
 	^ (widthPointer int32AtOffset: 0) @ (heightPointer int32AtOffset: 0)
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> newGPURenderer [
+
+	^ self newRendererFor: 'gpu'
+]

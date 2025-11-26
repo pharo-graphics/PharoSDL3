@@ -17,6 +17,12 @@ SDL3MacroDefinedFlag class >> allValuesIn: anInteger [
 				ifFalse: [ stream nextPut: each ] ] ]
 ]
 
+{ #category : 'flag operations' }
+SDL3MacroDefinedFlag >> & another [
+
+	^ self asInteger & another asInteger
+]
+
 { #category : 'comparing' }
 SDL3MacroDefinedFlag >> <= another [
 
