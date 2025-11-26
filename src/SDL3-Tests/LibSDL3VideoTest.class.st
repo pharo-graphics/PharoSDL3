@@ -317,6 +317,16 @@ LibSDL3VideoTest >> test08CursorAPI [
 	lib destroyCursor: cursor 
 ]
 
+{ #category : 'tests' }
+LibSDL3VideoTest >> test09RenderDrivers [
+
+	| driverNames |
+	driverNames := lib renderDrivers.
+
+	self denyEmpty: driverNames.
+	self assert: (#(vulkan metal direct3d) includesAnyOf: driverNames)
+]
+
 { #category : 'private' }
 LibSDL3VideoTest >> waitToSee [
 	"May perform a wait to let user visually check the window"
