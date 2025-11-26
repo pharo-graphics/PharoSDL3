@@ -194,6 +194,8 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 	shapeForm := self iconNamed: #pharoBig.
 	surface := shapeForm asUnownedNewSDL3Surface.
 	texture := renderer newTextureFromSurface: surface.
+	self assert: surface extent equals: 256 @ 256.
+	self assert: texture extent equals: 256.0 @ 256.0.
 	surface destroy.
 	renderer renderTexture: texture srcrect: nil dstrect: nil.
 	renderer renderPresent.
