@@ -23,8 +23,8 @@ LibSDL3Test >> setUp [
 { #category : 'tests' }
 LibSDL3Test >> test01GetVersion [
 
-	self assert: lib getVersion >= 3001006.
-	
+	self assert: lib getVersion >= 3003000.
+
 	self assert: lib getRevision isString
 ]
 
