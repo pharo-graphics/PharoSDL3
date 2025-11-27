@@ -166,17 +166,17 @@ SDL3Demo class >> example04HandleEvents [
 
 				evt type = SDL3EventType keyDown ifTrue: [
 					
-					evt scancode = SDL3Scancode down
+					evt key = SDL3Keycode down asInteger
 						ifTrue: [ bright := (bright - 0.1) max: 0 ].
-					evt scancode = SDL3Scancode up
+					evt key = SDL3Keycode up asInteger
 						ifTrue: [ bright := (bright + 0.1) min: 1.0 ].
 
-					evt scancode = SDL3Scancode left
+					evt key = SDL3Keycode left asInteger
 						ifTrue: [ hue := (hue - 5) max: 0 ].
-					evt scancode = SDL3Scancode right
+					evt key = SDL3Keycode right asInteger
 						ifTrue: [ hue := (hue + 5) min: 360 ].
 
-					evt scancode = SDL3Scancode escape
+					evt key = SDL3Keycode escape asInteger
 						ifTrue: [ quit := true ] ]
 				].
 			

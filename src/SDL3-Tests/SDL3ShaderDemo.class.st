@@ -155,8 +155,8 @@ SDL3ShaderDemo >> run [
 				evt type = SDL3EventType quit ifTrue: [ quit := true ].
 
 				evt type = SDL3EventType keyDown ifTrue: [
-					evt scancode = SDL3Scancode escape ifTrue: [ quit := true ].
-					evt scancode = SDL3Scancode space ifTrue: [ effectEnabled := effectEnabled not ] ]
+					evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ].
+					evt key = SDL3Keycode space asInteger ifTrue: [ effectEnabled := effectEnabled not ] ]
 					].
 
 			self render.
