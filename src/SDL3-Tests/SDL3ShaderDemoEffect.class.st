@@ -21,7 +21,7 @@ SDL3ShaderDemoEffect class >> crt [
 		initializeName: 'CRT'
 		samplers: 1
 		uniformBuffers: 1
-		sources: { SDL3ShaderSource crtMsl };
+		sources: SDL3ShaderSource crtAll;
 		yourself
 ]
 

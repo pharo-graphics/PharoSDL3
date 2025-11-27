@@ -65,8 +65,8 @@ SDL3ShaderDemo >> initializeCRTEffect [
 	"Set the CRT shader parameters"
 	uniforms := FFIExternalArray newType: 'float' size: 2.
 	uniforms
-		at: 1 put: self initialExtent x;
-		at: 2 put: self initialExtent y.
+		at: 1 put: pharoLogoTexture w;
+		at: 2 put: pharoLogoTexture h.
 	self ensureNoErrorIfFalse:
 		(crtEffect state
 			 gpuRenderFragmentUniformsSlotIndex: 0
@@ -92,7 +92,7 @@ SDL3ShaderDemo >> open [
 
 	window :=
 		lib
-			newWindowTitle: self className, ' - Press SPACE to disable/enable shader'
+			newWindowTitle: self className, ' - Press SPACE to disable/enable shader - Press ESC to quit'
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: 0.
@@ -157,8 +157,7 @@ SDL3ShaderDemo >> run [
 				evt type = SDL3EventType keyDown ifTrue: [
 					evt scancode = SDL3Scancode escape ifTrue: [ quit := true ].
 					evt scancode = SDL3Scancode space ifTrue: [ effectEnabled := effectEnabled not ] ]
-
-				].
+					].
 
 			self render.
 			
