@@ -17,13 +17,13 @@ Class {
 { #category : 'lifecycle' }
 SDL3ShaderDemo >> close [
 
-	super close.
-	
 	crtEffect state destroy.
 	device releaseGPUShader: crtEffect shader.
 
 	pharoLogoTexture destroy.
 	pharoLogoTexture2 destroy.
+
+	super close.
 	
 	UIManager default class = NonInteractiveUIManager ifTrue: [ 
 		self ensureQuitVideo.
