@@ -11,6 +11,9 @@ SDL3KeyboardEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
+		nextPutAll: ' key: ';
+		print: (SDL3Keycode fromInteger: self key) item.
+	aStream
 		nextPutAll: ' scancode: ';
 		print: self scancode item
 ]
