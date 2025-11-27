@@ -24,6 +24,14 @@ SDL3ShaderSource class >> crtMsl [
 { #category : 'examples' }
 SDL3ShaderSource class >> initialize [
 
+	SessionManager default registerSystemClassNamed: self name.
+
+	self initializeExamples
+]
+
+{ #category : 'examples' }
+SDL3ShaderSource class >> initializeExamples [
+
 	"CRT effect shader, in MSL format. Extracted from SDL/test/testgpurender_effects_CRT.frag.msl.h"
 	CRTmsl :=
 		self new
@@ -133,6 +141,14 @@ SDL3ShaderSource class >> initialize [
 	  16r20 16r20 16r72 16r65 16r74 16r75 16r72 16r6e 16r20 16r6f 16r75 16r74
 	  16r3b 16r0a 16r7d 16r0a 16r0a ];
 			yourself
+]
+
+{ #category : 'system startup' }
+SDL3ShaderSource class >> startUp: isImageStarting [
+
+	isImageStarting ifFalse: [ ^ self ].
+
+	self initializeExamples
 ]
 
 { #category : 'accessing' }

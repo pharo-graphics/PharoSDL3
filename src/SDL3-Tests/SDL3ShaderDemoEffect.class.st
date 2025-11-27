@@ -9,9 +9,6 @@ Class {
 		'state',
 		'shaderSources'
 	],
-	#classVars : [
-		'CRT'
-	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
 	#tag : 'Shaders'
