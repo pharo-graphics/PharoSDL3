@@ -517,8 +517,8 @@ SDL3Demo >> ensureQuitVideo [
 
 { #category : 'api' }
 SDL3Demo >> initialExtent [
-	
-	^ 1024 @ 768
+
+	^ 1280 @ 720 "720p"
 ]
 
 { #category : 'initialization' }
