@@ -1898,7 +1898,7 @@ LibSDL3 >> captureMouse: enabled [
 	 * \sa SDL_GetGlobalMouseState
 	 */"
 
-	^ self ffiCall: #(bool SDL_CaptureMouse(_Bool enabled))
+	^ self ffiCall: #(bool SDL_CaptureMouse(#bool enabled))
 ]
 
 { #category : 'public' }
@@ -2207,7 +2207,7 @@ LibSDL3 >> closeAsyncIO: asyncio flush: flush queue: queue userdata: userdata [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_CloseAsyncIO(SDL_AsyncIO* asyncio, _Bool flush, SDL_AsyncIOQueue* queue, void* userdata))
+	^ self ffiCall: #(bool SDL_CloseAsyncIO(SDL_AsyncIO* asyncio, #bool flush, SDL_AsyncIOQueue* queue, void* userdata))
 ]
 
 { #category : 'public' }
@@ -2757,7 +2757,7 @@ LibSDL3 >> copyGPUBufferToBufferCopyPass: copy_pass source: source destination: 
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	self ffiCall: #(void SDL_CopyGPUBufferToBuffer(SDL_GPUCopyPass* copy_pass, SDL_GPUBufferLocation* source, SDL_GPUBufferLocation* destination, Uint32 size, _Bool cycle))
+	self ffiCall: #(void SDL_CopyGPUBufferToBuffer(SDL_GPUCopyPass* copy_pass, SDL_GPUBufferLocation* source, SDL_GPUBufferLocation* destination, Uint32 size, #bool cycle))
 ]
 
 { #category : 'public' }
@@ -2780,7 +2780,7 @@ LibSDL3 >> copyGPUTextureToTextureCopyPass: copy_pass source: source destination
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	self ffiCall: #(void SDL_CopyGPUTextureToTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureLocation* source, SDL_GPUTextureLocation* destination, Uint32 w, Uint32 h, Uint32 d, _Bool cycle))
+	self ffiCall: #(void SDL_CopyGPUTextureToTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureLocation* source, SDL_GPUTextureLocation* destination, Uint32 w, Uint32 h, Uint32 d, #bool cycle))
 ]
 
 { #category : 'public' }
@@ -5340,7 +5340,7 @@ LibSDL3 >> getBooleanPropertyProps: props name: name defaultValue: default_value
 	 * \sa SDL_SetBooleanProperty
 	 */"
 
-	^ self ffiCall: #(bool SDL_GetBooleanProperty(SDL_PropertiesID props, const char* name, _Bool default_value))
+	^ self ffiCall: #(bool SDL_GetBooleanProperty(SDL_PropertiesID props, const char* name, #bool default_value))
 ]
 
 { #category : 'public' }
@@ -5701,7 +5701,7 @@ LibSDL3 >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refresh
 	 * \sa SDL_GetFullscreenDisplayModes
 	 */"
 
-	^ self ffiCall: #(bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, _Bool include_high_density_modes, SDL_DisplayMode* closest))
+	^ self ffiCall: #(bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, #bool include_high_density_modes, SDL_DisplayMode* closest))
 ]
 
 { #category : 'public' }
@@ -7602,7 +7602,7 @@ LibSDL3 >> getKeyFromScancode: scancode modstate: modstate keyEvent: key_event [
 	 * \sa SDL_GetScancodeFromKey
 	 */"
 
-	^ self ffiCall: #(SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode, SDL_Keymod modstate, _Bool key_event))
+	^ self ffiCall: #(SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode, SDL_Keymod modstate, #bool key_event))
 ]
 
 { #category : 'public' }
@@ -13911,7 +13911,7 @@ LibSDL3 >> loadBMPIOSrc: src closeio: closeio [
 	 * \sa SDL_SaveBMP_IO
 	 */"
 
-	^ self ffiCall: #(SDL_Surface* SDL_LoadBMP_IO(SDL_IOStream* src, _Bool closeio))
+	^ self ffiCall: #(SDL_Surface* SDL_LoadBMP_IO(SDL_IOStream* src, #bool closeio))
 ]
 
 { #category : 'public' }
@@ -14004,7 +14004,7 @@ LibSDL3 >> loadFileIOSrc: src datasize: datasize closeio: closeio [
 	 * \sa SDL_SaveFile_IO
 	 */"
 
-	^ self ffiCall: #(void* SDL_LoadFile_IO(SDL_IOStream* src, size_t* datasize, _Bool closeio))
+	^ self ffiCall: #(void* SDL_LoadFile_IO(SDL_IOStream* src, size_t* datasize, #bool closeio))
 ]
 
 { #category : 'public' }
@@ -14106,7 +14106,7 @@ LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
 	 * \sa SDL_SavePNG_IO
 	 */"
 
-	^ self ffiCall: #(SDL_Surface* SDL_LoadPNG_IO(SDL_IOStream* src, _Bool closeio))
+	^ self ffiCall: #(SDL_Surface* SDL_LoadPNG_IO(SDL_IOStream* src, #bool closeio))
 ]
 
 { #category : 'public' }
@@ -14190,7 +14190,7 @@ LibSDL3 >> loadWAVIOSrc: src closeio: closeio spec: spec audioBuf: audio_buf aud
 	 * \sa SDL_LoadWAV
 	 */"
 
-	^ self ffiCall: #(bool SDL_LoadWAV_IO(SDL_IOStream* src, _Bool closeio, SDL_AudioSpec* spec, Uint8** audio_buf, Uint32* audio_len))
+	^ self ffiCall: #(bool SDL_LoadWAV_IO(SDL_IOStream* src, #bool closeio, SDL_AudioSpec* spec, Uint8** audio_buf, Uint32* audio_len))
 ]
 
 { #category : 'public' }
@@ -14834,7 +14834,7 @@ LibSDL3 >> mapGPUTransferBufferDevice: device transferBuffer: transfer_buffer cy
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(void* SDL_MapGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBuffer* transfer_buffer, _Bool cycle))
+	^ self ffiCall: #(void* SDL_MapGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBuffer* transfer_buffer, #bool cycle))
 ]
 
 { #category : 'public' }
@@ -15603,7 +15603,7 @@ LibSDL3 >> newEnvironment: populated [
 	 * \sa SDL_DestroyEnvironment
 	 */"
 
-	^ self ffiCall: #(SDL_Environment* SDL_CreateEnvironment(_Bool populated))
+	^ self ffiCall: #(SDL_Environment* SDL_CreateEnvironment(#bool populated))
 ]
 
 { #category : 'public' }
@@ -15736,7 +15736,7 @@ LibSDL3 >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: nam
 	 * \sa SDL_GPUSupportsShaderFormats
 	 */"
 
-	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDevice(SDL_GPUShaderFormat format_flags, _Bool debug_mode, const char* name))
+	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDevice(SDL_GPUShaderFormat format_flags, #bool debug_mode, const char* name))
 ]
 
 { #category : 'public' }
@@ -17950,7 +17950,7 @@ LibSDL3 >> premultiplyAlphaWidth: width height: height srcFormat: src_format src
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_PremultiplyAlpha(int width, int height, SDL_PixelFormat src_format, const void* src, int src_pitch, SDL_PixelFormat dst_format, void* dst, int dst_pitch, _Bool linear))
+	^ self ffiCall: #(bool SDL_PremultiplyAlpha(int width, int height, SDL_PixelFormat src_format, const void* src, int src_pitch, SDL_PixelFormat dst_format, void* dst, int dst_pitch, #bool linear))
 ]
 
 { #category : 'public' }
@@ -17972,7 +17972,7 @@ LibSDL3 >> premultiplySurfaceAlphaSurface: surface linear: linear [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_PremultiplySurfaceAlpha(SDL_Surface* surface, _Bool linear))
+	^ self ffiCall: #(bool SDL_PremultiplySurfaceAlpha(SDL_Surface* surface, #bool linear))
 ]
 
 { #category : 'public' }
@@ -20732,7 +20732,7 @@ LibSDL3 >> runOnMainThreadCallback: callback userdata: userdata waitComplete: wa
 	 * \sa SDL_IsMainThread
 	 */"
 
-	^ self ffiCall: #(bool SDL_RunOnMainThread(SDL_MainThreadCallback callback, void* userdata, _Bool wait_complete))
+	^ self ffiCall: #(bool SDL_RunOnMainThread(SDL_MainThreadCallback callback, void* userdata, #bool wait_complete))
 ]
 
 { #category : 'accessing' }
@@ -20770,7 +20770,7 @@ LibSDL3 >> saveBMPIOSurface: surface dst: dst closeio: closeio [
 	 * \sa SDL_SaveBMP
 	 */"
 
-	^ self ffiCall: #(bool SDL_SaveBMP_IO(SDL_Surface* surface, SDL_IOStream* dst, _Bool closeio))
+	^ self ffiCall: #(bool SDL_SaveBMP_IO(SDL_Surface* surface, SDL_IOStream* dst, #bool closeio))
 ]
 
 { #category : 'public' }
@@ -20846,7 +20846,7 @@ LibSDL3 >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
 	 * \sa SDL_LoadFile_IO
 	 */"
 
-	^ self ffiCall: #(bool SDL_SaveFile_IO(SDL_IOStream* src, const void* data, size_t datasize, _Bool closeio))
+	^ self ffiCall: #(bool SDL_SaveFile_IO(SDL_IOStream* src, const void* data, size_t datasize, #bool closeio))
 ]
 
 { #category : 'public' }
@@ -20870,7 +20870,7 @@ LibSDL3 >> savePNGIOSurface: surface dst: dst closeio: closeio [
 	 * \sa SDL_SavePNG
 	 */"
 
-	^ self ffiCall: #(bool SDL_SavePNG_IO(SDL_Surface* surface, SDL_IOStream* dst, _Bool closeio))
+	^ self ffiCall: #(bool SDL_SavePNG_IO(SDL_Surface* surface, SDL_IOStream* dst, #bool closeio))
 ]
 
 { #category : 'public' }
@@ -21760,7 +21760,7 @@ LibSDL3 >> setBooleanPropertyProps: props name: name value: value [
 	 * \sa SDL_GetBooleanProperty
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetBooleanProperty(SDL_PropertiesID props, const char* name, _Bool value))
+	^ self ffiCall: #(bool SDL_SetBooleanProperty(SDL_PropertiesID props, const char* name, #bool value))
 ]
 
 { #category : 'public' }
@@ -21910,7 +21910,7 @@ LibSDL3 >> setEnvironmentVariableEnv: env name: name value: value overwrite: ove
 	 * \sa SDL_UnsetEnvironmentVariable
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetEnvironmentVariable(SDL_Environment* env, const char* name, const char* value, _Bool overwrite))
+	^ self ffiCall: #(bool SDL_SetEnvironmentVariable(SDL_Environment* env, const char* name, const char* value, #bool overwrite))
 ]
 
 { #category : 'public' }
@@ -21928,7 +21928,7 @@ LibSDL3 >> setEventEnabledType: type enabled: enabled [
 	 * \sa SDL_EventEnabled
 	 */"
 
-	self ffiCall: #(void SDL_SetEventEnabled(Uint32 type, _Bool enabled))
+	self ffiCall: #(void SDL_SetEventEnabled(Uint32 type, #bool enabled))
 ]
 
 { #category : 'public' }
@@ -22232,7 +22232,7 @@ LibSDL3 >> setInitializedState: state initialized: initialized [
 	 * \sa SDL_ShouldQuit
 	 */"
 
-	self ffiCall: #(void SDL_SetInitialized(SDL_InitState* state, _Bool initialized))
+	self ffiCall: #(void SDL_SetInitialized(SDL_InitState* state, #bool initialized))
 ]
 
 { #category : 'public' }
@@ -22254,7 +22254,7 @@ LibSDL3 >> setJoystickEventsEnabled: enabled [
 	 * \sa SDL_UpdateJoysticks
 	 */"
 
-	self ffiCall: #(void SDL_SetJoystickEventsEnabled(_Bool enabled))
+	self ffiCall: #(void SDL_SetJoystickEventsEnabled(#bool enabled))
 ]
 
 { #category : 'public' }
@@ -22399,7 +22399,7 @@ LibSDL3 >> setJoystickVirtualButtonJoystick: joystick button: button down: down 
 	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetJoystickVirtualButton(SDL_Joystick* joystick, int button, _Bool down))
+	^ self ffiCall: #(bool SDL_SetJoystickVirtualButton(SDL_Joystick* joystick, int button, #bool down))
 ]
 
 { #category : 'public' }
@@ -22468,7 +22468,7 @@ LibSDL3 >> setJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad finge
 	 * \sa SDL_SetJoystickVirtualSensorData
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetJoystickVirtualTouchpad(SDL_Joystick* joystick, int touchpad, int finger, _Bool down, float x, float y, float pressure))
+	^ self ffiCall: #(bool SDL_SetJoystickVirtualTouchpad(SDL_Joystick* joystick, int touchpad, int finger, #bool down, float x, float y, float pressure))
 ]
 
 { #category : 'public' }
@@ -23196,7 +23196,7 @@ LibSDL3 >> setSurfaceColorKeySurface: surface enabled: enabled key: key [
 	 * \sa SDL_SurfaceHasColorKey
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetSurfaceColorKey(SDL_Surface* surface, _Bool enabled, Uint32 key))
+	^ self ffiCall: #(bool SDL_SetSurfaceColorKey(SDL_Surface* surface, #bool enabled, Uint32 key))
 ]
 
 { #category : 'public' }
@@ -23304,7 +23304,7 @@ LibSDL3 >> setSurfaceRLESurface: surface enabled: enabled [
 	 * \sa SDL_UnlockSurface
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetSurfaceRLE(SDL_Surface* surface, _Bool enabled))
+	^ self ffiCall: #(bool SDL_SetSurfaceRLE(SDL_Surface* surface, #bool enabled))
 ]
 
 { #category : 'public' }
@@ -23607,7 +23607,7 @@ LibSDL3 >> setTrayEntryCheckedEntry: entry checked: checked [
 	 * \sa SDL_GetTrayEntryChecked
 	 */"
 
-	self ffiCall: #(void SDL_SetTrayEntryChecked(SDL_TrayEntry* entry, _Bool checked))
+	self ffiCall: #(void SDL_SetTrayEntryChecked(SDL_TrayEntry* entry, #bool checked))
 ]
 
 { #category : 'public' }
@@ -23628,7 +23628,7 @@ LibSDL3 >> setTrayEntryEnabledEntry: entry enabled: enabled [
 	 * \sa SDL_GetTrayEntryEnabled
 	 */"
 
-	self ffiCall: #(void SDL_SetTrayEntryEnabled(SDL_TrayEntry* entry, _Bool enabled))
+	self ffiCall: #(void SDL_SetTrayEntryEnabled(SDL_TrayEntry* entry, #bool enabled))
 ]
 
 { #category : 'public' }
@@ -23715,7 +23715,7 @@ LibSDL3 >> setWindowAlwaysOnTopWindow: window onTop: on_top [
 	 * \sa SDL_GetWindowFlags
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowAlwaysOnTop(SDL_Window* window, _Bool on_top))
+	^ self ffiCall: #(bool SDL_SetWindowAlwaysOnTop(SDL_Window* window, #bool on_top))
 ]
 
 { #category : 'public' }
@@ -23786,7 +23786,7 @@ LibSDL3 >> setWindowBorderedWindow: window bordered: bordered [
 	 * \sa SDL_GetWindowFlags
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowBordered(SDL_Window* window, _Bool bordered))
+	^ self ffiCall: #(bool SDL_SetWindowBordered(SDL_Window* window, #bool bordered))
 ]
 
 { #category : 'public' }
@@ -23804,7 +23804,7 @@ LibSDL3 >> setWindowFocusableWindow: window focusable: focusable [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowFocusable(SDL_Window* window, _Bool focusable))
+	^ self ffiCall: #(bool SDL_SetWindowFocusable(SDL_Window* window, #bool focusable))
 ]
 
 { #category : 'public' }
@@ -23879,7 +23879,7 @@ LibSDL3 >> setWindowFullscreenWindow: window fullscreen: fullscreen [
 	 * \sa SDL_WINDOW_FULLSCREEN
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowFullscreen(SDL_Window* window, _Bool fullscreen))
+	^ self ffiCall: #(bool SDL_SetWindowFullscreen(SDL_Window* window, #bool fullscreen))
 ]
 
 { #category : 'public' }
@@ -23995,7 +23995,7 @@ LibSDL3 >> setWindowKeyboardGrabWindow: window grabbed: grabbed [
 	 * \sa SDL_SetWindowMouseGrab
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowKeyboardGrab(SDL_Window* window, _Bool grabbed))
+	^ self ffiCall: #(bool SDL_SetWindowKeyboardGrab(SDL_Window* window, #bool grabbed))
 ]
 
 { #category : 'public' }
@@ -24063,7 +24063,7 @@ LibSDL3 >> setWindowModalWindow: window modal: modal [
 	 * \sa SDL_WINDOW_MODAL
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowModal(SDL_Window* window, _Bool modal))
+	^ self ffiCall: #(bool SDL_SetWindowModal(SDL_Window* window, #bool modal))
 ]
 
 { #category : 'public' }
@@ -24087,7 +24087,7 @@ LibSDL3 >> setWindowMouseGrabWindow: window grabbed: grabbed [
 	 * \sa SDL_SetWindowKeyboardGrab
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowMouseGrab(SDL_Window* window, _Bool grabbed))
+	^ self ffiCall: #(bool SDL_SetWindowMouseGrab(SDL_Window* window, #bool grabbed))
 ]
 
 { #category : 'public' }
@@ -24291,7 +24291,7 @@ LibSDL3 >> setWindowRelativeMouseModeWindow: window enabled: enabled [
 	 * \sa SDL_GetWindowRelativeMouseMode
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowRelativeMouseMode(SDL_Window* window, _Bool enabled))
+	^ self ffiCall: #(bool SDL_SetWindowRelativeMouseMode(SDL_Window* window, #bool enabled))
 ]
 
 { #category : 'public' }
@@ -24317,7 +24317,7 @@ LibSDL3 >> setWindowResizableWindow: window resizable: resizable [
 	 * \sa SDL_GetWindowFlags
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetWindowResizable(SDL_Window* window, _Bool resizable))
+	^ self ffiCall: #(bool SDL_SetWindowResizable(SDL_Window* window, #bool resizable))
 ]
 
 { #category : 'public' }
@@ -24702,7 +24702,7 @@ LibSDL3 >> showOpenFileDialogCallback: callback userdata: userdata window: windo
 	 * \sa SDL_ShowFileDialogWithProperties
 	 */"
 
-	self ffiCall: #(void SDL_ShowOpenFileDialog(SDL_DialogFileCallback callback, void* userdata, SDL_Window* window, SDL_DialogFileFilter* filters, int nfilters, const char* default_location, _Bool allow_many))
+	self ffiCall: #(void SDL_ShowOpenFileDialog(SDL_DialogFileCallback callback, void* userdata, SDL_Window* window, SDL_DialogFileFilter* filters, int nfilters, const char* default_location, #bool allow_many))
 ]
 
 { #category : 'public' }
@@ -24751,7 +24751,7 @@ LibSDL3 >> showOpenFolderDialogCallback: callback userdata: userdata window: win
 	 * \sa SDL_ShowFileDialogWithProperties
 	 */"
 
-	self ffiCall: #(void SDL_ShowOpenFolderDialog(SDL_DialogFileCallback callback, void* userdata, SDL_Window* window, const char* default_location, _Bool allow_many))
+	self ffiCall: #(void SDL_ShowOpenFolderDialog(SDL_DialogFileCallback callback, void* userdata, SDL_Window* window, const char* default_location, #bool allow_many))
 ]
 
 { #category : 'public' }
@@ -26483,7 +26483,7 @@ LibSDL3 >> timeToDateTimeTicks: ticks dt: dt localTime: localTime [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_TimeToDateTime(SDL_Time ticks, SDL_DateTime* dt, _Bool localTime))
+	^ self ffiCall: #(bool SDL_TimeToDateTime(SDL_Time ticks, SDL_DateTime* dt, #bool localTime))
 ]
 
 { #category : 'public' }
@@ -27411,7 +27411,7 @@ LibSDL3 >> uploadToGPUBufferCopyPass: copy_pass source: source destination: dest
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	self ffiCall: #(void SDL_UploadToGPUBuffer(SDL_GPUCopyPass* copy_pass, SDL_GPUTransferBufferLocation* source, SDL_GPUBufferRegion* destination, _Bool cycle))
+	self ffiCall: #(void SDL_UploadToGPUBuffer(SDL_GPUCopyPass* copy_pass, SDL_GPUTransferBufferLocation* source, SDL_GPUBufferRegion* destination, #bool cycle))
 ]
 
 { #category : 'public' }
@@ -27434,7 +27434,7 @@ LibSDL3 >> uploadToGPUTextureCopyPass: copy_pass source: source destination: des
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	self ffiCall: #(void SDL_UploadToGPUTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureTransferInfo* source, SDL_GPUTextureRegion* destination, _Bool cycle))
+	self ffiCall: #(void SDL_UploadToGPUTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureTransferInfo* source, SDL_GPUTextureRegion* destination, #bool cycle))
 ]
 
 { #category : 'public' }
@@ -27781,7 +27781,7 @@ LibSDL3 >> waitForGPUFencesDevice: device waitAll: wait_all fences: fences numFe
 	 * \sa SDL_WaitForGPUIdle
 	 */"
 
-	^ self ffiCall: #(bool SDL_WaitForGPUFences(SDL_GPUDevice* device, _Bool wait_all, SDL_GPUFence* fences, Uint32 num_fences))
+	^ self ffiCall: #(bool SDL_WaitForGPUFences(SDL_GPUDevice* device, #bool wait_all, SDL_GPUFence* fences, Uint32 num_fences))
 ]
 
 { #category : 'public' }
