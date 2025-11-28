@@ -8,7 +8,8 @@ Class {
 		'backgroundTexture',
 		'foregroundTexture',
 		'crtEffectShader',
-		'crtEffectState'
+		'crtEffectState',
+		'backgroundForm'
 	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
@@ -32,6 +33,15 @@ SDL3ShaderDemo >> close [
 	
 	(mainLoopProcess isNotNil and: [ mainLoopProcess isTerminated not ])
 		ifTrue: [ mainLoopProcess terminate ]
+]
+
+{ #category : 'initialization' }
+SDL3ShaderDemo >> initialize [
+
+	super initialize.
+	
+	"We take a snapshot of the current world to use a background"
+	backgroundForm := self currentWorld asForm
 ]
 
 { #category : 'initialization' }
@@ -71,8 +81,7 @@ SDL3ShaderDemo >> initializeTextures [
 	foregroundTexture := renderer newTextureFromSurface: surface.
 	surface destroy.
 
-	aForm := self currentWorld asForm.
-	surface := aForm asUnownedNewSDL3Surface.
+	surface := backgroundForm asUnownedNewSDL3Surface.
 	backgroundTexture := renderer newTextureFromSurface: surface.
 	surface destroy
 ]
@@ -85,8 +94,8 @@ SDL3ShaderDemo >> open [
 	window :=
 		lib
 			newWindowTitle: self className, ' - Press SPACE to disable/enable shader - Press ESC to quit'
-			w: self initialExtent x
-			h: self initialExtent y
+			w: backgroundForm width
+			h: backgroundForm height
 			flags: 0.
 	self assertSDL3Success: window.
 
@@ -101,7 +110,7 @@ SDL3ShaderDemo >> open [
 		initializeCRTEffect
 ]
 
-{ #category : 'running' }
+{ #category : 'lifecycle' }
 SDL3ShaderDemo >> render [
 
 	self clearColor: Color blue.
@@ -127,7 +136,7 @@ SDL3ShaderDemo >> render [
 		 srcrect: nil
 		 dstrect:
 			(SDL3FRect
-				origin: (self initialExtent - foregroundTexture extent / 2)
+				origin: (backgroundTexture extent - foregroundTexture extent / 2)
 				extent: foregroundTexture extent).
 	
 	self present
