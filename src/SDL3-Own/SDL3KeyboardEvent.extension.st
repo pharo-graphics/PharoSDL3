@@ -10,9 +10,14 @@ SDL3KeyboardEvent class >> eventTypeSelectors [
 SDL3KeyboardEvent >> printOn: aStream [
 
 	super printOn: aStream.
+
 	aStream
 		nextPutAll: ' key: ';
-		print: (SDL3Keycode fromInteger: self key) item.
+		nextPutAll:
+			(SDL3Keycode
+				itemAt: self key
+				ifAbsent: [ 'Unknown' ]).
+
 	aStream
 		nextPutAll: ' scancode: ';
 		print: self scancode item
