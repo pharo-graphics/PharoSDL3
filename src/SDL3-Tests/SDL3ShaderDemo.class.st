@@ -3,11 +3,11 @@ Class {
 	#superclass : 'SDL3Demo',
 	#instVars : [
 		'device',
-		'pharoLogoTexture',
 		'crtEffect',
 		'mainLoopProcess',
-		'pharoLogoTexture2',
-		'effectEnabled'
+		'effectEnabled',
+		'backgroundTexture',
+		'foregroundTexture'
 	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
@@ -20,8 +20,8 @@ SDL3ShaderDemo >> close [
 	crtEffect state destroy.
 	device releaseGPUShader: crtEffect shader.
 
-	pharoLogoTexture destroy.
-	pharoLogoTexture2 destroy.
+	foregroundTexture destroy.
+	backgroundTexture destroy.
 
 	super close.
 	
@@ -36,7 +36,7 @@ SDL3ShaderDemo >> close [
 { #category : 'initialization' }
 SDL3ShaderDemo >> initializeCRTEffect [
 
-	| availableShaderFormats shaderInfo shaderSource renderStateInfo uniforms  |
+	| availableShaderFormats shaderInfo shaderSource renderStateInfo |
 
 	availableShaderFormats := device gpuShaderFormatsAsArray.
 
@@ -62,27 +62,23 @@ SDL3ShaderDemo >> initializeCRTEffect [
 	crtEffect state: (renderer newGPURenderStateCreateinfo: renderStateInfo).
 	self ensureNoErrorIfNull: crtEffect state.
 
-	"Set the CRT shader parameters"
-	uniforms := FFIExternalArray newType: 'float' size: 2.
-	uniforms
-		at: 1 put: pharoLogoTexture w;
-		at: 2 put: pharoLogoTexture h.
-	self ensureNoErrorIfFalse:
-		(crtEffect state
-			 gpuRenderFragmentUniformsSlotIndex: 0
-			 data: uniforms
-			 length: uniforms typeSize * uniforms size)
+	self updateCrtEffectWidth: foregroundTexture w height: foregroundTexture h
 ]
 
 { #category : 'initialization' }
 SDL3ShaderDemo >> initializeTextures [
 
-	| shapeForm surface |
-	shapeForm := self iconNamed: #pharoBig.
-	surface := shapeForm asUnownedNewSDL3Surface.
-	pharoLogoTexture := renderer newTextureFromSurface: surface.
-	pharoLogoTexture2 := renderer newTextureFromSurface: surface.
-	surface destroy
+	| aForm surface |
+	aForm := self iconNamed: #pharoBig.
+	surface := aForm asUnownedNewSDL3Surface.
+	foregroundTexture := renderer newTextureFromSurface: surface.
+	surface destroy.
+
+	aForm := World asForm.
+	surface := aForm asUnownedNewSDL3Surface.
+	backgroundTexture := renderer newTextureFromSurface: surface.
+	surface destroy.
+
 ]
 
 { #category : 'lifecycle' }
@@ -115,19 +111,24 @@ SDL3ShaderDemo >> render [
 	self clearColor: Color blue.
 
 	effectEnabled ifTrue: [
+		
+		self
+			updateCrtEffectWidth: foregroundTexture w
+			height: (foregroundTexture h / 5) + ((Time millisecondClockValue / 300) \\ 10).
+
 		renderer gpuRenderState: crtEffect state ].
 
 	renderer
-		 renderTexture: pharoLogoTexture2
+		 renderTexture: backgroundTexture
 		 srcrect: nil
-		 dstrect: (SDL3FRect origin: 0@0 extent: pharoLogoTexture2 extent * 3).
+		 dstrect: (SDL3FRect origin: 0@0 extent: backgroundTexture extent).
 
 	renderer gpuRenderStateClear.
 
 	renderer
-		 renderTexture: pharoLogoTexture
+		 renderTexture: foregroundTexture
 		 srcrect: nil
-		 dstrect: (SDL3FRect origin: pharoLogoTexture extent x * 1.5 @ 0 extent: pharoLogoTexture extent * 3).
+		 dstrect: (SDL3FRect newFrom: ((0@0 extent: self initialExtent) insetBy: 200)).
 	
 	self present.
 	
@@ -162,10 +163,26 @@ SDL3ShaderDemo >> run [
 			self render.
 			
 			"Do a little wait before next frame"
-			15 milliSeconds wait ].
+			16.6 milliSeconds wait ].
 	
 		"Tear down"
 		self close.
 
 		] fork
+]
+
+{ #category : 'initialization' }
+SDL3ShaderDemo >> updateCrtEffectWidth: effectWidth height: effectHeight [
+	"Set the CRT shader parameters"
+
+	| uniforms |
+	uniforms := FFIExternalArray newType: 'float' size: 2.
+	uniforms
+		at: 1 put: effectWidth;
+		at: 2 put: effectHeight.
+	self ensureNoErrorIfFalse:
+		(crtEffect state
+			 gpuRenderFragmentUniformsSlotIndex: 0
+			 data: uniforms
+			 length: uniforms typeSize * uniforms size)
 ]
