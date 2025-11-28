@@ -3,11 +3,12 @@ Class {
 	#superclass : 'SDL3Demo',
 	#instVars : [
 		'device',
-		'crtEffect',
 		'mainLoopProcess',
 		'effectEnabled',
 		'backgroundTexture',
-		'foregroundTexture'
+		'foregroundTexture',
+		'crtEffectShader',
+		'crtEffectState'
 	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
@@ -17,8 +18,8 @@ Class {
 { #category : 'lifecycle' }
 SDL3ShaderDemo >> close [
 
-	crtEffect state destroy.
-	device releaseGPUShader: crtEffect shader.
+	crtEffectState destroy.
+	device releaseGPUShader: crtEffectShader.
 
 	foregroundTexture destroy.
 	backgroundTexture destroy.
@@ -36,33 +37,29 @@ SDL3ShaderDemo >> close [
 { #category : 'initialization' }
 SDL3ShaderDemo >> initializeCRTEffect [
 
-	| availableShaderFormats shaderInfo shaderSource renderStateInfo |
+	| availableShaderFormats crtEffect shaderInfo shaderSource renderStateInfo |
+
+	crtEffect := SDL3CRTEffectShaderSource.
 
 	availableShaderFormats := device gpuShaderFormatsAsArray.
-
-	crtEffect := SDL3ShaderDemoEffect crt.
+	shaderSource := crtEffect allSources detect: [ :each |
+		availableShaderFormats includes: each format ].
 
 	shaderInfo := SDL3GPUShaderCreateInfo new.
 	shaderInfo
 		stage: SDL3GPUShaderStage fragment;
 		numSamplers: crtEffect numberOfSamplers;
-		numUniformBuffers: crtEffect numberOfUniformBuffers.
-	shaderSource := crtEffect shaderSources
-		detect: [ :each | availableShaderFormats includes: each format ].
-
-	shaderInfo
+		numUniformBuffers: crtEffect numberOfUniformBuffers;
 		code: shaderSource source;
 		codeSize: shaderSource source size;
 		format: shaderSource format asInteger.
-	crtEffect shader: (device newGPUShaderCreateinfo: shaderInfo).
-	self ensureNoErrorIfNull: crtEffect shader.
+	crtEffectShader := (device newGPUShaderCreateinfo: shaderInfo).
+	self assertSDL3NotNull: crtEffectShader.
 
 	renderStateInfo := SDL3GPURenderStateCreateInfo new.
-	renderStateInfo fragmentShader: crtEffect shader.
-	crtEffect state: (renderer newGPURenderStateCreateinfo: renderStateInfo).
-	self ensureNoErrorIfNull: crtEffect state.
-
-	self updateCrtEffectWidth: foregroundTexture w height: foregroundTexture h
+	renderStateInfo fragmentShader: crtEffectShader.
+	crtEffectState := renderer newGPURenderStateCreateinfo: renderStateInfo.
+	self assertSDL3NotNull: crtEffectState
 ]
 
 { #category : 'initialization' }
@@ -74,11 +71,10 @@ SDL3ShaderDemo >> initializeTextures [
 	foregroundTexture := renderer newTextureFromSurface: surface.
 	surface destroy.
 
-	aForm := World asForm.
+	aForm := self currentWorld asForm.
 	surface := aForm asUnownedNewSDL3Surface.
 	backgroundTexture := renderer newTextureFromSurface: surface.
-	surface destroy.
-
+	surface destroy
 ]
 
 { #category : 'lifecycle' }
@@ -92,13 +88,13 @@ SDL3ShaderDemo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: 0.
-	self ensureNoErrorIfNull: window.
+	self assertSDL3NotNull: window.
 
 	renderer := window newGPURenderer.
-	self ensureNoErrorIfNull: window.
+	self assertSDL3NotNull: window.
 	
 	device := renderer gpuDevice.
-	self ensureNoErrorIfNull: device.
+	self assertSDL3NotNull: device.
 
 	self
 		initializeTextures;
@@ -111,12 +107,13 @@ SDL3ShaderDemo >> render [
 	self clearColor: Color blue.
 
 	effectEnabled ifTrue: [
-		
+		| extraHeightNow |
+		extraHeightNow := (Time millisecondClockValue / 200) \\ 20.
 		self
 			updateCrtEffectWidth: foregroundTexture w
-			height: (foregroundTexture h / 5) + ((Time millisecondClockValue / 300) \\ 10).
+			height: (foregroundTexture h / 4) + extraHeightNow.
 
-		renderer gpuRenderState: crtEffect state ].
+		renderer gpuRenderState: crtEffectState ].
 
 	renderer
 		 renderTexture: backgroundTexture
@@ -128,18 +125,19 @@ SDL3ShaderDemo >> render [
 	renderer
 		 renderTexture: foregroundTexture
 		 srcrect: nil
-		 dstrect: (SDL3FRect newFrom: ((0@0 extent: self initialExtent) insetBy: 200)).
+		 dstrect:
+			(SDL3FRect
+				origin: (self initialExtent - foregroundTexture extent / 2)
+				extent: foregroundTexture extent).
 	
-	self present.
-	
-"	self ensureNoError"
+	self present
 ]
 
 { #category : 'running' }
 SDL3ShaderDemo >> run [
 	"Run headless with:
 	./pharo Pharo.image eval --no-quit 'SDL3ShaderDemo new run' "
-	<script: 'self new run inspect'>
+	<script: 'self new run'>
 
 	self open.
 	effectEnabled := true.
@@ -180,8 +178,9 @@ SDL3ShaderDemo >> updateCrtEffectWidth: effectWidth height: effectHeight [
 	uniforms
 		at: 1 put: effectWidth;
 		at: 2 put: effectHeight.
-	self ensureNoErrorIfFalse:
-		(crtEffect state
+
+	self assertSDL3Success:
+		(crtEffectState
 			 gpuRenderFragmentUniformsSlotIndex: 0
 			 data: uniforms
 			 length: uniforms typeSize * uniforms size)

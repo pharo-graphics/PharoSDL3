@@ -397,10 +397,37 @@ SDL3Demo class >> example07SystemCursors [
 	^ demo
 ]
 
+{ #category : 'private' }
+SDL3Demo >> assertSDL3EmptyError [
+	<debuggerCompleteToSender>
+
+	lib getError ifNotEmpty: [ :msg | Error new signal: msg ]
+]
+
+{ #category : 'private' }
+SDL3Demo >> assertSDL3NotNull: anExternalObject [
+	<debuggerCompleteToSender>
+
+	anExternalObject isNull ifFalse: [ ^ self ].
+
+	self assertSDL3EmptyError.
+	Error new signal: 'Unknown error in SDL3 FFI call'
+]
+
+{ #category : 'private' }
+SDL3Demo >> assertSDL3Success: aBoolean [
+	<debuggerCompleteToSender>
+	
+	aBoolean ifTrue: [ ^ self ].
+
+	self assertSDL3EmptyError.
+	Error new signal: 'Unknown error in SDL3 FFI call'
+]
+
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
-	self ensureNoErrorIfFalse: renderer renderClear
+	self assertSDL3Success: renderer renderClear
 ]
 
 { #category : 'renderer' }
@@ -451,15 +478,15 @@ SDL3Demo >> close [
 
 	lib clearError.
 	[ 	renderer destroy.
-		self ensureNoError ] ensure: [
+		self assertSDL3EmptyError ] ensure: [
 			window destroy.
-			self ensureNoError ]
+			self assertSDL3EmptyError ]
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> color: aColor [
 
-	self ensureNoErrorIfFalse:
+	self assertSDL3Success:
 		(renderer
 			renderDrawColorFloatR: aColor red
 			g: aColor green
@@ -481,29 +508,6 @@ SDL3Demo >> ensureInitVideo [
 
 	"Initialize the video subsystem"
 	self assert: (lib initSubSystem: SDL3InitFlags video)
-]
-
-{ #category : 'private' }
-SDL3Demo >> ensureNoError [
-	<debuggerCompleteToSender>
-
-	lib getError ifNotEmpty: [ :msg | Error new signal: msg ]
-]
-
-{ #category : 'private' }
-SDL3Demo >> ensureNoErrorIfFalse: aBoolean [
-	<debuggerCompleteToSender>
-	
-	aBoolean ifTrue: [ ^ self ].
-	self ensureNoError
-]
-
-{ #category : 'private' }
-SDL3Demo >> ensureNoErrorIfNull: anExternalObject [
-	<debuggerCompleteToSender>
-
-	anExternalObject isNull ifFalse: [ ^ self ].
-	self ensureNoError
 ]
 
 { #category : 'lifecycle' }
@@ -541,11 +545,11 @@ SDL3Demo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
-	self ensureNoErrorIfNull: window.
+	self assertSDL3NotNull: window.
 
 	renderer := window newRendererFor: nil.
-	self ensureNoErrorIfNull: window.
-	self ensureNoErrorIfFalse: window startTextInput "Enable SDL3TextEditingEvent"
+	self assertSDL3NotNull: window.
+	self assertSDL3Success: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
 { #category : 'enumerating' }
@@ -565,17 +569,17 @@ SDL3Demo >> pollEventsDo: aUnaryBlock [
 { #category : 'renderer' }
 SDL3Demo >> present [
 
-	self ensureNoErrorIfFalse: renderer renderPresent
+	self assertSDL3Success: renderer renderPresent
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> renderTexture: texture at: aSDLFRect [
 
-	self ensureNoErrorIfFalse:
+	self assertSDL3Success:
 		(renderer
-			 renderTexture: texture
-			 srcrect: nil
-			 dstrect: aSDLFRect)
+			renderTexture: texture
+			srcrect: nil
+			dstrect: aSDLFRect)
 ]
 
 { #category : 'utilities' }
@@ -627,7 +631,7 @@ Stdio stdout << '4'; lf; flush.
 { #category : 'renderer' }
 SDL3Demo >> showText: aString x: x y: y [
 
-	self ensureNoErrorIfFalse:
+	self assertSDL3Success:
 		(renderer
 			renderDebugTextX: x
 			y: y
@@ -646,7 +650,7 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
-	self ensureNoErrorIfNull: aSurface.
+	self assertSDL3NotNull: aSurface.
 	aTexture := renderer newTextureFromSurface: aSurface.
 	aSurface destroy.
 	^ aTexture
