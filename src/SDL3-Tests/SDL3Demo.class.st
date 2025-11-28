@@ -72,6 +72,23 @@ SDL3Demo class >> example02LogInfoSomeSeconds [
 					logs add: #getModState.
 					logs addAll: (SDL3Keymod allValuesIn: modState) ] ].
 
+			(LibSDL3 uniqueInstance getKeyboardState: nil) in: [ :booleanArray |
+				logs add: ''.
+				logs add: #getKeyboardState:.
+
+				SDL3Scancode allValues
+					select: [ :each | booleanArray boolean8AtOffset: each value ]
+					thenDo: [ :each |
+						| key |
+						key := LibSDL3 uniqueInstance
+							getKeyFromScancode: each
+							modstate: LibSDL3 uniqueInstance getModState
+							keyEvent: true.
+						logs add:
+							('Scancode: {1} Key: {2]' format: {
+								each item.
+								SDL3Keycode itemAt: key ifAbsent: [ 'Unknown' ] }) ] ].
+
 			"Render frame"
 			demo clearColor: Color blue muchDarker.
 			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
@@ -83,7 +100,7 @@ SDL3Demo class >> example02LogInfoSomeSeconds [
 			demo present.
 
 			"Do a little wait before next frame"
-			50 milliSeconds wait ]
+			15 milliSeconds wait ]
 
 		] fork.
 
