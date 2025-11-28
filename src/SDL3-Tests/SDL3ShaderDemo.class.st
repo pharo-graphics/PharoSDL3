@@ -54,12 +54,12 @@ SDL3ShaderDemo >> initializeCRTEffect [
 		codeSize: shaderSource source size;
 		format: shaderSource format asInteger.
 	crtEffectShader := (device newGPUShaderCreateinfo: shaderInfo).
-	self assertSDL3NotNull: crtEffectShader.
+	self assertSDL3Success: crtEffectShader.
 
 	renderStateInfo := SDL3GPURenderStateCreateInfo new.
 	renderStateInfo fragmentShader: crtEffectShader.
 	crtEffectState := renderer newGPURenderStateCreateinfo: renderStateInfo.
-	self assertSDL3NotNull: crtEffectState
+	self assertSDL3Success: crtEffectState
 ]
 
 { #category : 'initialization' }
@@ -88,13 +88,13 @@ SDL3ShaderDemo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: 0.
-	self assertSDL3NotNull: window.
+	self assertSDL3Success: window.
 
 	renderer := window newGPURenderer.
-	self assertSDL3NotNull: window.
+	self assertSDL3Success: window.
 	
 	device := renderer gpuDevice.
-	self assertSDL3NotNull: device.
+	self assertSDL3Success: device.
 
 	self
 		initializeTextures;

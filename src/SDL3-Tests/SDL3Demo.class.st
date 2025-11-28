@@ -405,20 +405,11 @@ SDL3Demo >> assertSDL3EmptyError [
 ]
 
 { #category : 'private' }
-SDL3Demo >> assertSDL3NotNull: anExternalObject [
-	<debuggerCompleteToSender>
-
-	anExternalObject isNull ifFalse: [ ^ self ].
-
-	self assertSDL3EmptyError.
-	Error new signal: 'Unknown error in SDL3 FFI call'
-]
-
-{ #category : 'private' }
-SDL3Demo >> assertSDL3Success: aBoolean [
+SDL3Demo >> assertSDL3Success: anObject [
+	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of no success, a string may be retrieved from SDL_GetError()."
 	<debuggerCompleteToSender>
 	
-	aBoolean ifTrue: [ ^ self ].
+	(anObject = true or: [ anObject isNull not ]) ifTrue: [ ^ self ].
 
 	self assertSDL3EmptyError.
 	Error new signal: 'Unknown error in SDL3 FFI call'
@@ -545,10 +536,10 @@ SDL3Demo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
-	self assertSDL3NotNull: window.
+	self assertSDL3Success: window.
 
 	renderer := window newRendererFor: nil.
-	self assertSDL3NotNull: window.
+	self assertSDL3Success: window.
 	self assertSDL3Success: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
@@ -650,7 +641,7 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
-	self assertSDL3NotNull: aSurface.
+	self assertSDL3Success: aSurface.
 	aTexture := renderer newTextureFromSurface: aSurface.
 	aSurface destroy.
 	^ aTexture
