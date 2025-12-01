@@ -31,24 +31,26 @@ SDL3Demo class >> example01ColorWheel [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example02LogInfoSomeSeconds [
-	"It is prepared to run headless with:
-	./pharo Pharo.image eval 'SDL3Demo example02LogInfoSomeSeconds' "
+SDL3Demo class >> example02LogState [
+	"Run headless, e.g:
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example02LogState' "
 
-	| demo shouldFinish |
+	| demo |
 	demo := self new.
 	demo ensureInitVideo; open.
-	shouldFinish := false.
 
-	[	| logs |
+	[	| logs quit |
 		logs := LinkedList new.
+		quit := false.
 
 		"Main loop"
-		[ shouldFinish ] whileFalse: [ 
+		[ quit ] whileFalse: [ 
 
-			demo pollEventsDo: [ :evt | "we need to consume events, else window may not show" ].
+			demo pollEventsDo: [ :evt |
+				"Handle quit"
+				evt type = SDL3EventType quit ifTrue: [ quit := true ] ].
 
-			logs removeAll.
+			"Log plenty of SDL state values"
 			logs add: #getRevision -> LibSDL3 uniqueInstance getRevision.
 			logs add: #getBasePath -> LibSDL3 uniqueInstance getBasePath.
 			logs add: #getCurrentDirectory -> LibSDL3 uniqueInstance getCurrentDirectory.
@@ -91,28 +93,31 @@ SDL3Demo class >> example02LogInfoSomeSeconds [
 
 			"Render frame"
 			demo clearColor: Color blue muchDarker.
-			[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
 			logs withIndexDo: [ :each :index |
 				demo
 					showText: each asString
 					x: 10 y: 10 * index
 					color: Color white ].
+			logs removeAll.
 			demo present.
 
 			"Do a little wait before next frame"
-			15 milliSeconds wait ]
+			15 milliSeconds wait ].
+
+		"Tear down"
+		demo close.
+		UIManager default class = NonInteractiveUIManager ifTrue: [ 
+			demo ensureQuitVideo.
+			Smalltalk snapshot: false andQuit: true ]
 
 		] fork.
 
-	10 seconds wait.
-	shouldFinish := true.
-	Processor yield.
-	demo close; ensureQuitVideo
+	^ demo
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example03LogEventsUntilThirdQuit [
-	"It is prepared to run headless with:
+	"Run headless, e.g:
 	./pharo Pharo.image eval --no-quit 'SDL3Demo example03LogEventsUntilThirdQuit' "
 
 	| demo |
@@ -160,9 +165,8 @@ SDL3Demo class >> example03LogEventsUntilThirdQuit [
 
 { #category : 'examples' }
 SDL3Demo class >> example04HandleEvents [
-	"It is prepared to run headless with:
+	"Run headless, e.g:
 	./pharo Pharo.image eval --no-quit 'SDL3Demo example04HandleEvents' "
-	<sampleInstance>
 
 	| demo |
 	demo := self new.
@@ -227,9 +231,8 @@ SDL3Demo class >> example04HandleEvents [
 
 { #category : 'examples' }
 SDL3Demo class >> example05Clipboard [
-	"It is prepared to run headless with:
+	"Run headless, e.g:
 	./pharo Pharo.image eval --no-quit 'SDL3Demo example05Clipboard' "
-	<sampleInstance>
 
 	| demo |
 	demo := self new.
@@ -294,9 +297,8 @@ SDL3Demo class >> example05Clipboard [
 
 { #category : 'examples' }
 SDL3Demo class >> example06OpenFolderDialog [
-	"It is prepared to run headless with:
+	"Run headless, e.g:
 	./pharo Pharo.image eval --no-quit 'SDL3Demo example06OpenFolderDialog' "
-	<sampleInstance>
 
 	| demo logs |
 	demo := self new.
@@ -354,9 +356,8 @@ SDL3Demo class >> example06OpenFolderDialog [
 
 { #category : 'examples' }
 SDL3Demo class >> example07SystemCursors [
-	"It is prepared to run headless with:
+	"Run headless, e.g:
 	./pharo Pharo.image eval --no-quit 'SDL3Demo ' "
-	<sampleInstance>
 
 	| demo |
 	demo := self new.
