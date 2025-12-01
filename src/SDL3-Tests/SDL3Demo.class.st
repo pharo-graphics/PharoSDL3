@@ -54,11 +54,18 @@ SDL3Demo class >> example02LogState [
 			"Handle quit"
 			evt type = SDL3EventType quit ifTrue: [ quit := true ] ].
 
-		"Log plenty of SDL state values"
-		logs add: #getRevision -> LibSDL3 uniqueInstance getRevision.
-		logs add: #getBasePath -> LibSDL3 uniqueInstance getBasePath.
-		logs add: #getCurrentDirectory -> LibSDL3 uniqueInstance getCurrentDirectory.
-		logs add: #getCurrentVideoDriver -> LibSDL3 uniqueInstance getCurrentVideoDriver.
+		"Log some SDL state values"
+		logs add: #SYSTEM.
+		#(#getBasePath #getCurrentDirectory #getCurrentVideoDriver
+		#getPrimaryDisplay #getRevision #getSystemPageSize #getSystemTheme
+		#gpuDrivers #renderDrivers #videoDrivers) do: [ :each |
+			logs add: each -> (LibSDL3 uniqueInstance perform: each) ].
+
+		logs add: ''.
+		logs add: #WINDOW.
+		#(displayScale extent isKeyboardGrabbed isMouseGrabbed pixelDensity
+		pixelFormat title) do: [ :each |
+			logs add: each -> (demo window perform: each) ].
 
 		logs add: ''.
 		logs add: #getMouseStateX:y:.
@@ -657,4 +664,10 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 	aTexture := renderer newTextureFromSurface: aSurface.
 	aSurface destroy.
 	^ aTexture
+]
+
+{ #category : 'accessing' }
+SDL3Demo >> window [
+
+	^ window
 ]
