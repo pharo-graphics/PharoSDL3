@@ -80,13 +80,13 @@ SDL3UserEvent >> reserved: anObject [
 { #category : 'accessing - structure variables' }
 SDL3UserEvent >> timestamp [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
+	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3UserEvent >> timestamp: anObject [
 	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_TIMESTAMP put: anObject
+	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

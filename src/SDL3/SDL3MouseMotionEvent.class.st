@@ -50,7 +50,7 @@ SDL3MouseMotionEvent >> state [
 { #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> timestamp [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
+	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }

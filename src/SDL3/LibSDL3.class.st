@@ -1098,7 +1098,7 @@ LibSDL3 >> bindGPUComputeSamplersComputePass: compute_pass firstSlot: first_slot
 	 * The textures must have been created with SDL_GPU_TEXTUREUSAGE_SAMPLER.
 	 *
 	 * Be sure your shader is set up according to the requirements documented in
-	 * SDL_CreateGPUShader().
+	 * SDL_CreateGPUComputePipeline().
 	 *
 	 * \param compute_pass a compute pass handle.
 	 * \param first_slot the compute sampler slot to begin binding from.
@@ -1109,7 +1109,7 @@ LibSDL3 >> bindGPUComputeSamplersComputePass: compute_pass firstSlot: first_slot
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
-	 * \sa SDL_CreateGPUShader
+	 * \sa SDL_CreateGPUComputePipeline
 	 */"
 
 	self ffiCall: #(void SDL_BindGPUComputeSamplers(SDL_GPUComputePass* compute_pass, Uint32 first_slot, SDL_GPUTextureSamplerBinding* texture_sampler_bindings, Uint32 num_bindings))
@@ -1124,7 +1124,7 @@ LibSDL3 >> bindGPUComputeStorageBuffersComputePass: compute_pass firstSlot: firs
 	 * SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ.
 	 *
 	 * Be sure your shader is set up according to the requirements documented in
-	 * SDL_CreateGPUShader().
+	 * SDL_CreateGPUComputePipeline().
 	 *
 	 * \param compute_pass a compute pass handle.
 	 * \param first_slot the compute storage buffer slot to begin binding from.
@@ -1133,7 +1133,7 @@ LibSDL3 >> bindGPUComputeStorageBuffersComputePass: compute_pass firstSlot: firs
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
-	 * \sa SDL_CreateGPUShader
+	 * \sa SDL_CreateGPUComputePipeline
 	 */"
 
 	self ffiCall: #(void SDL_BindGPUComputeStorageBuffers(SDL_GPUComputePass* compute_pass, Uint32 first_slot, SDL_GPUBuffer* storage_buffers, Uint32 num_bindings))
@@ -1148,7 +1148,7 @@ LibSDL3 >> bindGPUComputeStorageTexturesComputePass: compute_pass firstSlot: fir
 	 * SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ.
 	 *
 	 * Be sure your shader is set up according to the requirements documented in
-	 * SDL_CreateGPUShader().
+	 * SDL_CreateGPUComputePipeline().
 	 *
 	 * \param compute_pass a compute pass handle.
 	 * \param first_slot the compute storage texture slot to begin binding from.
@@ -1157,7 +1157,7 @@ LibSDL3 >> bindGPUComputeStorageTexturesComputePass: compute_pass firstSlot: fir
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
-	 * \sa SDL_CreateGPUShader
+	 * \sa SDL_CreateGPUComputePipeline
 	 */"
 
 	self ffiCall: #(void SDL_BindGPUComputeStorageTextures(SDL_GPUComputePass* compute_pass, Uint32 first_slot, SDL_GPUTexture* storage_textures, Uint32 num_bindings))
@@ -2122,7 +2122,7 @@ LibSDL3 >> clearSurface: surface r: r g: g b: b a: a [
 	 * This function handles all surface formats, and ignores any clip rectangle.
 	 *
 	 * If the surface is YUV, the color is assumed to be in the sRGB colorspace,
-	 * otherwise the color is assumed to be in the colorspace of the suface.
+	 * otherwise the color is assumed to be in the colorspace of the surface.
 	 *
 	 * \param surface the SDL_Surface to clear.
 	 * \param r the red component of the pixel, normally in the range 0-1.
@@ -2547,8 +2547,8 @@ LibSDL3 >> convertEventToRenderCoordinatesRenderer: renderer event: event [
 	 *
 	 * \param renderer the rendering context.
 	 * \param event the event to modify.
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
+	 * \returns true if the event is converted or doesn't need conversion, or
+	 *          false on failure; call SDL_GetError() for more information.
 	 *
 	 * \threadsafety This function should only be called on the main thread.
 	 *
@@ -2767,6 +2767,10 @@ LibSDL3 >> copyGPUTextureToTextureCopyPass: copy_pass source: source destination
 	 *
 	 * This copy occurs on the GPU timeline. You may assume the copy has finished
 	 * in subsequent commands.
+	 *
+	 * This function does not support copying between depth and color textures.
+	 * For those, copy the texture to a buffer and then to the destination
+	 * texture.
 	 *
 	 * \param copy_pass a copy pass handle.
 	 * \param source a source texture region.
@@ -4862,6 +4866,15 @@ LibSDL3 >> getAudioDeviceName: devid [
 	"/**
 	 * Get the human-readable name of a specific audio device.
 	 *
+	 * **WARNING**: this function will work with SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK
+	 * and SDL_AUDIO_DEVICE_DEFAULT_RECORDING, returning the current default
+	 * physical devices' names. However, as the default device may change at any
+	 * time, it is likely better to show a generic name to the user, like ""System
+	 * default audio device"" or perhaps ""default [currently %s]"". Do not store
+	 * this name to disk to reidentify the device in a later run of the program,
+	 * as the default might change in general, and the string will be the name of
+	 * a specific device and not the abstract system default.
+	 *
 	 * \param devid the instance ID of the device to query.
 	 * \returns the name of the audio device, or NULL on failure; call
 	 *          SDL_GetError() for more information.
@@ -5294,6 +5307,9 @@ LibSDL3 >> getBasePath [
 	 *   `/Applications/SDLApp/MyApp.app/`
 	 * - `parent`: the containing directory of the bundle. For example:
 	 *   `/Applications/SDLApp/`
+	 *
+	 * **Android Specific Functionality**: This function returns ""./"", which
+	 * allows filesystem operations to use internal storage and the asset system.
 	 *
 	 * **Nintendo 3DS Specific Functionality**: This function returns ""romfs""
 	 * directory of the application as it is uncommon to store resources outside
@@ -6027,7 +6043,7 @@ LibSDL3 >> getDefaultCursor [
 	 * You do not have to call SDL_DestroyCursor() on the return value, but it is
 	 * safe to do so.
 	 *
-	 * \returns the default cursor on success or NULL on failuree; call
+	 * \returns the default cursor on success or NULL on failure; call
 	 *          SDL_GetError() for more information.
 	 *
 	 * \threadsafety This function should only be called on the main thread.
@@ -6245,6 +6261,11 @@ LibSDL3 >> getDisplayProperties: displayID [
 	 *
 	 * - `SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER`: the wl_output associated
 	 *   with the display
+	 *
+	 * On Windows:
+	 *
+	 * - `SDL_PROP_DISPLAY_WINDOWS_HMONITOR_POINTER`: the monitor handle
+	 *   (HMONITOR) associated with the display
 	 *
 	 * \param displayID the instance ID of the display to query.
 	 * \returns a valid property ID on success or 0 on failure; call
@@ -8633,7 +8654,7 @@ LibSDL3 >> getPropertyTypeProps: props name: name [
 ]
 
 { #category : 'public' }
-LibSDL3 >> getRGBAPixel: pixelvalue format: format palette: palette r: r g: g b: b a: a [
+LibSDL3 >> getRGBAPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b a: a [
 	"/**
 	 * Get RGBA values from a pixel in the specified format.
 	 *
@@ -8669,7 +8690,7 @@ LibSDL3 >> getRGBAPixel: pixelvalue format: format palette: palette r: r g: g b:
 ]
 
 { #category : 'public' }
-LibSDL3 >> getRGBPixel: pixelvalue format: format palette: palette r: r g: g b: b [
+LibSDL3 >> getRGBPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b [
 	"/**
 	 * Get RGB values from a pixel in the specified format.
 	 *
@@ -9506,7 +9527,7 @@ LibSDL3 >> getRevision [
 	 *
 	 * This value is the revision of the code you are linking against and may be
 	 * different from the code you are compiling with, which is found in the
-	 * constant SDL_REVISION.
+	 * constant SDL_REVISION if you explicitly include SDL_revision.h
 	 *
 	 * The revision is an arbitrary string (a hash value) uniquely identifying the
 	 * exact revision of the SDL library in use, and is only useful in comparing
@@ -10101,6 +10122,12 @@ LibSDL3 >> getSurfaceProperties: surface [
 	 *   left edge of the image, if this surface is being used as a cursor.
 	 * - `SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER`: the hotspot pixel offset from the
 	 *   top edge of the image, if this surface is being used as a cursor.
+	 * - `SDL_PROP_SURFACE_ROTATION_FLOAT`: the number of degrees a surface's data
+	 *   is meant to be rotated clockwise to make the image right-side up. Default
+	 *   0. This is used by the camera API, if a mobile device is oriented
+	 *   differently than what its camera provides (i.e. - the camera always
+	 *   provides portrait images but the phone is being held in landscape
+	 *   orientation). Since SDL 3.4.0.
 	 *
 	 * \param surface the SDL_Surface structure to query.
 	 * \returns a valid property ID on success or 0 on failure; call
@@ -11049,6 +11076,7 @@ LibSDL3 >> getWindowFlags: window [
 	 * \sa SDL_MinimizeWindow
 	 * \sa SDL_SetWindowFullscreen
 	 * \sa SDL_SetWindowMouseGrab
+	 * \sa SDL_SetWindowFillDocument
 	 * \sa SDL_ShowWindow
 	 */"
 
@@ -11529,9 +11557,6 @@ LibSDL3 >> getWindowProperties: window [
 	 *
 	 * - `SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID_STRING`: the id the canvas element
 	 *   will have
-	 * - `SDL_PROP_WINDOW_EMSCRIPTEN_FILL_DOCUMENT_BOOLEAN`: true if the canvas is
-	 *   set to consume the entire browser window, bypassing some SDL window
-	 *   functionality.
 	 * - `SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING`: the keyboard
 	 *   element that associates keyboard events to this window
 	 *
@@ -11575,7 +11600,7 @@ LibSDL3 >> getWindowSafeAreaWindow: window rect: rect [
 	 * notches, TV overscan, etc. This function provides the area of the window
 	 * which is safe to have interactable content. You should continue rendering
 	 * into the rest of the window, but it should not contain visually important
-	 * or interactible content.
+	 * or interactable content.
 	 *
 	 * \param window the window to query.
 	 * \param rect a pointer filled in with the client area that is safe for
@@ -11637,6 +11662,7 @@ LibSDL3 >> getWindowSizeWindow: window w: w h: h [
 	 * \sa SDL_GetRenderOutputSize
 	 * \sa SDL_GetWindowSizeInPixels
 	 * \sa SDL_SetWindowSize
+	 * \sa SDL_EVENT_WINDOW_RESIZED
 	 */"
 
 	^ self ffiCall: #(bool SDL_GetWindowSize(SDL_Window* window, int* w, int* h))
@@ -13284,6 +13310,12 @@ LibSDL3 >> insertGPUDebugLabelCommandBuffer: command_buffer text: text [
 	 *
 	 * Useful for debugging.
 	 *
+	 * On Direct3D 12, using SDL_InsertGPUDebugLabel requires
+	 * WinPixEventRuntime.dll to be in your PATH or in the same directory as your
+	 * executable. See
+	 * [here](https://devblogs.microsoft.com/pix/winpixeventruntime/)
+	 * for instructions on how to obtain it.
+	 *
 	 * \param command_buffer a command buffer.
 	 * \param text a UTF-8 string constant to insert as the label.
 	 *
@@ -14064,6 +14096,10 @@ LibSDL3 >> loadPNG: file [
 	"/**
 	 * Load a PNG image from a file.
 	 *
+	 * This is intended as a convenience function for loading images from trusted
+	 * sources. If you want to load arbitrary images you should use libpng or
+	 * another image loading library designed with security in mind.
+	 *
 	 * The new surface should be freed with SDL_DestroySurface(). Not doing so
 	 * will result in a memory leak.
 	 *
@@ -14088,6 +14124,10 @@ LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
 	"/**
 	 * Load a PNG image from a seekable SDL data stream.
 	 *
+	 * This is intended as a convenience function for loading images from trusted
+	 * sources. If you want to load arbitrary images you should use libpng or
+	 * another image loading library designed with security in mind.
+	 *
 	 * The new surface should be freed with SDL_DestroySurface(). Not doing so
 	 * will result in a memory leak.
 	 *
@@ -14107,6 +14147,54 @@ LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
 	 */"
 
 	^ self ffiCall: #(SDL_Surface* SDL_LoadPNG_IO(SDL_IOStream* src, #bool closeio))
+]
+
+{ #category : 'public' }
+LibSDL3 >> loadSurface: file [
+	"/**
+	 * Load a BMP or PNG image from a file.
+	 *
+	 * The new surface should be freed with SDL_DestroySurface(). Not doing so
+	 * will result in a memory leak.
+	 *
+	 * \param file the file to load.
+	 * \returns a pointer to a new SDL_Surface structure or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_DestroySurface
+	 * \sa SDL_LoadSurface_IO
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* SDL_LoadSurface(const char* file))
+]
+
+{ #category : 'public' }
+LibSDL3 >> loadSurfaceIOSrc: src closeio: closeio [
+	"/**
+	 * Load a BMP or PNG image from a seekable SDL data stream.
+	 *
+	 * The new surface should be freed with SDL_DestroySurface(). Not doing so
+	 * will result in a memory leak.
+	 *
+	 * \param src the data stream for the surface.
+	 * \param closeio if true, calls SDL_CloseIO() on `src` before returning, even
+	 *                in the case of an error.
+	 * \returns a pointer to a new SDL_Surface structure or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_DestroySurface
+	 * \sa SDL_LoadSurface
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* SDL_LoadSurface_IO(SDL_IOStream* src, #bool closeio))
 ]
 
 { #category : 'public' }
@@ -15458,9 +15546,10 @@ LibSDL3 >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
 	 * If this function is passed a surface with alternate representations added
 	 * with SDL_AddSurfaceAlternateImage(), the surface will be interpreted as the
 	 * content to be used for 100% display scale, and the alternate
-	 * representations will be used for high DPI situations. For example, if the
-	 * original surface is 32x32, then on a 2x macOS display or 200% display scale
-	 * on Windows, a 64x64 version of the image will be used, if available. If a
+	 * representations will be used for high DPI situations if
+	 * SDL_HINT_MOUSE_DPI_SCALE_CURSORS is enabled. For example, if the original
+	 * surface is 32x32, then on a 2x macOS display or 200% display scale on
+	 * Windows, a 64x64 version of the image will be used, if available. If a
 	 * matching version of the image isn't available, the closest larger size
 	 * image will be downscaled to the appropriate size and be used instead, if
 	 * available. Otherwise, the closest smaller image will be upscaled and be
@@ -15791,7 +15880,7 @@ LibSDL3 >> newGPUDeviceWithProperties: props [
 	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_METALLIB_BOOLEAN`: The app is able to
 	 *   provide Metal shader libraries if applicable.
 	 *
-	 * With the D3D12 renderer:
+	 * With the D3D12 backend:
 	 *
 	 * - `SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING`: the prefix to
 	 *   use for all vertex semantics, default is ""TEXCOORD"".
@@ -15803,6 +15892,20 @@ LibSDL3 >> newGPUDeviceWithProperties: props [
 	 *   useful for targeting Intel Haswell and Broadwell GPUs; other hardware
 	 *   either supports Tier 2 Resource Binding or does not support D3D12 in any
 	 *   capacity. Defaults to false.
+	 *
+	 * With the Vulkan backend:
+	 *
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION_BOOLEAN`:
+	 *   By default, Vulkan device enumeration includes drivers of all types,
+	 *   including software renderers (for example, the Lavapipe Mesa driver).
+	 *   This can be useful if your application _requires_ SDL_GPU, but if you can
+	 *   provide your own fallback renderer (for example, an OpenGL renderer) this
+	 *   property can be set to true. Defaults to false.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_VULKAN_OPTIONS_POINTER`: a pointer to an
+	 *   SDL_GPUVulkanOptions structure to be processed during device creation.
+	 *   This allows configuring a variety of Vulkan-specific options such as
+	 *   increasing the API version and opting into extensions aside from the
+	 *   minimal set SDL requires.
 	 *
 	 * \param props the properties to use.
 	 * \returns a GPU context on success or NULL on failure; call SDL_GetError()
@@ -16734,9 +16837,10 @@ LibSDL3 >> newTextureWithPropertiesRenderer: renderer props: props [
 	 *
 	 * With the vulkan renderer:
 	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER`: the VkImage with layout
-	 *   VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL associated with the texture, if
-	 *   you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER`: the VkImage associated
+	 *   with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER`: the VkImageLayout for the
+	 *   VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.
 	 *
 	 * With the GPU renderer:
 	 *
@@ -17088,6 +17192,12 @@ LibSDL3 >> newWindowWithProperties: props [
 	 * - `SDL_PROP_WINDOW_CREATE_COCOA_VIEW_POINTER`: the `(__unsafe_unretained)`
 	 *   NSView associated with the window, defaults to `[window contentView]`
 	 *
+	 * These are additional supported properties on iOS, tvOS, and visionOS:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_WINDOWSCENE_POINTER`: the `(__unsafe_unretained)`
+	 *   UIWindowScene associated with the window, defaults to the active window
+	 *   scene.
+	 *
 	 * These are additional supported properties on Wayland:
 	 *
 	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN` - true if
@@ -17121,15 +17231,6 @@ LibSDL3 >> newWindowWithProperties: props [
 	 *
 	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING`: the id given to the
 	 *   canvas element. This should start with a '#' sign
-	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_FILL_DOCUMENT_BOOLEAN`: true to make
-	 *   the canvas element fill the entire document. Resize events will be
-	 *   generated as the browser window is resized, as that will adjust the
-	 *   canvas size as well. The canvas will cover anything else on the page,
-	 *   including any controls provided by Emscripten in its generated HTML file.
-	 *   Often times this is desirable for a browser-based game, but it means
-	 *   several things that we expect of an SDL window on other platforms might
-	 *   not work as expected, such as minimum window sizes and aspect ratios.
-	 *   Default false.
 	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING`: override the
 	 *   binding element for keyboard inputs for this canvas. The variable can be
 	 *   one of:
@@ -17841,6 +17942,11 @@ LibSDL3 >> popGPUDebugGroup: command_buffer [
 	"/**
 	 * Ends the most-recently pushed debug group.
 	 *
+	 * On Direct3D 12, using SDL_PopGPUDebugGroup requires WinPixEventRuntime.dll
+	 * to be in your PATH or in the same directory as your executable. See
+	 * [here](https://devblogs.microsoft.com/pix/winpixeventruntime/)
+	 * for instructions on how to obtain it.
+	 *
 	 * \param command_buffer a command buffer.
 	 *
 	 * \since This function is available since SDL 3.2.0.
@@ -18044,7 +18150,7 @@ LibSDL3 >> pushGPUComputeUniformDataCommandBuffer: command_buffer slotIndex: slo
 	"/**
 	 * Pushes data to a uniform slot on the command buffer.
 	 *
-	 * Subsequent draw calls will use this uniform data.
+	 * Subsequent draw calls in this command buffer will use this uniform data.
 	 *
 	 * The data being pushed must respect std140 layout conventions. In practical
 	 * terms this means you must ensure that vec3 and vec4 fields are 16-byte
@@ -18072,6 +18178,11 @@ LibSDL3 >> pushGPUDebugGroupCommandBuffer: command_buffer name: name [
 	 * Each call to SDL_PushGPUDebugGroup must have a corresponding call to
 	 * SDL_PopGPUDebugGroup.
 	 *
+	 * On Direct3D 12, using SDL_PushGPUDebugGroup requires WinPixEventRuntime.dll
+	 * to be in your PATH or in the same directory as your executable. See
+	 * [here](https://devblogs.microsoft.com/pix/winpixeventruntime/)
+	 * for instructions on how to obtain it.
+	 *
 	 * On some backends (e.g. Metal), pushing a debug group during a
 	 * render/blit/compute pass will create a group that is scoped to the native
 	 * pass rather than the command buffer. For best results, if you push a debug
@@ -18093,7 +18204,7 @@ LibSDL3 >> pushGPUFragmentUniformDataCommandBuffer: command_buffer slotIndex: sl
 	"/**
 	 * Pushes data to a fragment uniform slot on the command buffer.
 	 *
-	 * Subsequent draw calls will use this uniform data.
+	 * Subsequent draw calls in this command buffer will use this uniform data.
 	 *
 	 * The data being pushed must respect std140 layout conventions. In practical
 	 * terms this means you must ensure that vec3 and vec4 fields are 16-byte
@@ -18115,7 +18226,7 @@ LibSDL3 >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot
 	"/**
 	 * Pushes data to a vertex uniform slot on the command buffer.
 	 *
-	 * Subsequent draw calls will use this uniform data.
+	 * Subsequent draw calls in this command buffer will use this uniform data.
 	 *
 	 * The data being pushed must respect std140 layout conventions. In practical
 	 * terms this means you must ensure that vec3 and vec4 fields are 16-byte
@@ -20563,6 +20674,14 @@ LibSDL3 >> rotateSurface: surface angle: angle [
 	 * larger than the original, with the background filled in with the colorkey,
 	 * if available, or RGBA 255/255/255/0 if not.
 	 *
+	 * If `surface` has the SDL_PROP_SURFACE_ROTATION_FLOAT property set on it,
+	 * the new copy will have the adjusted value set: if the rotation property is
+	 * 90 and `angle` was 30, the new surface will have a property value of 60
+	 * (that is: to be upright vs gravity, this surface needs to rotate 60 more
+	 * degrees). However, note that further rotations on the new surface in this
+	 * example will produce unexpected results, since the image will have resized
+	 * and padded to accommodate the not-90 degree angle.
+	 *
 	 * \param surface the surface to rotate.
 	 * \param angle the rotation angle, in degrees.
 	 * \returns a rotated copy of the surface or NULL on failure; call
@@ -21617,7 +21736,7 @@ LibSDL3 >> setAudioStreamInputChannelMapStream: stream chmap: chmap count: count
 	 * \threadsafety It is safe to call this function from any thread, as it holds
 	 *               a stream-specific mutex while running. Don't change the
 	 *               stream's format to have a different number of channels from a
-	 *               a different thread at the same time, though!
+	 *               different thread at the same time, though!
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
@@ -23790,6 +23909,41 @@ LibSDL3 >> setWindowBorderedWindow: window bordered: bordered [
 ]
 
 { #category : 'public' }
+LibSDL3 >> setWindowFillDocumentWindow: window fill: fill [
+	"/**
+	 * Set the window to fill the current document space (Emscripten only).
+	 *
+	 * This will add or remove the window's `SDL_WINDOW_FILL_DOCUMENT` flag.
+	 *
+	 * Currently this flag only applies to the Emscripten target.
+	 *
+	 * When enabled, the canvas element fills the entire document. Resize events
+	 * will be generated as the browser window is resized, as that will adjust the
+	 * canvas size as well. The canvas will cover anything else on the page,
+	 * including any controls provided by Emscripten in its generated HTML file
+	 * (in fact, any elements on the page that aren't the canvas will be moved
+	 * into a hidden `div` element).
+	 *
+	 * Often times this is desirable for a browser-based game, but it means
+	 * several things that we expect of an SDL window on other platforms might not
+	 * work as expected, such as minimum window sizes and aspect ratios.
+	 *
+	 * \param window the window of which to change the fill-document state.
+	 * \param fill true to set the window to fill the document, false to disable.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_GetWindowFlags
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetWindowFillDocument(SDL_Window* window, #bool fill))
+]
+
+{ #category : 'public' }
 LibSDL3 >> setWindowFocusableWindow: window focusable: focusable [
 	"/**
 	 * Set whether the window may have input focus.
@@ -24678,11 +24832,11 @@ LibSDL3 >> showOpenFileDialogCallback: callback userdata: userdata window: windo
 	 * \param window the window that the dialog should be modal for, may be NULL.
 	 *               Not all platforms support this option.
 	 * \param filters a list of filters, may be NULL. See the
-	 *                [`SDL_DialogFileFilter` documentation for
-	 *                examples](SDL_DialogFileFilter#code-examples). Not all
-	 *                platforms support this option, and platforms that do support
-	 *                it may allow the user to ignore the filters. If non-NULL, it
-	 *                must remain valid at least until the callback is invoked.
+	 *                [`SDL_DialogFileFilter`](SDL_DialogFileFilter#code-examples)
+	 *                documentation for examples]. Not all platforms support this
+	 *                option, and platforms that do support it may allow the user
+	 *                to ignore the filters. If non-NULL, it must remain valid at
+	 *                least until the callback is invoked.
 	 * \param nfilters the number of filters. Ignored if filters is NULL.
 	 * \param default_location the default folder or file to start the dialog at,
 	 *                         may be NULL. Not all platforms support this option.

@@ -413,17 +413,6 @@ SDL3Event >> pproximity: anObject [
 	handle structAt: 1 put: anObject getHandle length: 24.
 ]
 
-{ #category : 'printing' }
-SDL3Event >> printOn: aStream [
-
-	super printOn: aStream.
-	aStream
-		nextPutAll: ' type: ';
-		print: self type;
-		nextPutAll: ' timestamp: ';
-		print: self common timestamp
-]
-
 { #category : 'accessing - structure variables' }
 SDL3Event >> ptouch [
 	"This method was automatically generated"
