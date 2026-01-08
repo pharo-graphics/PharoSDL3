@@ -42,13 +42,13 @@ SDL3SensorEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3SensorEvent >> sensorTimestamp [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP
+	^handle platformUnsignedLongAt: OFFSET_SENSOR_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3SensorEvent >> timestamp [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
+	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
