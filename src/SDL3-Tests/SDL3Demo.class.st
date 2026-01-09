@@ -59,9 +59,26 @@ SDL3Demo class >> example02LogState [
 		"Log some SDL state values"
 		logs add: #SYSTEM.
 		#(#getBasePath #getCurrentDirectory #getCurrentVideoDriver
-		#getPrimaryDisplay #getRevision #getSystemPageSize #getSystemTheme
+		#getRevision #getSystemPageSize #getSystemTheme
 		#gpuDrivers #renderDrivers #videoDrivers) do: [ :each |
 			logs add: each -> (lib perform: each) ].
+
+		logs add: ''.
+		logs add: #DISPLAYS.
+		logs add: #getPrimaryDisplay -> lib getPrimaryDisplay.
+		logs add: #numberOfDisplays -> lib numberOfDisplays.
+		lib displayIDs do: [ :eachId |
+			logs add: ''.
+			logs add: 'DisplayID:' -> eachId.
+			logs add: 'Name:' -> (lib getDisplayName: eachId).
+			logs add: 'Desktop display mode:' -> (lib getDesktopDisplayMode: eachId).
+			logs add: 'Current display mode:' -> (lib getCurrentDisplayMode: eachId).
+			logs add: 'All display modes:' -> (lib fullscreenDisplayModesOf: eachId).
+			logs add: 'Scale:' -> (lib getDisplayContentScale: eachId).
+			logs add: 'Orientation (current):' -> (lib getCurrentDisplayOrientation: eachId).
+			logs add: 'Orientation (natural):' -> (lib getNaturalDisplayOrientation: eachId).
+			logs add: 'Bounds:' -> (lib boundsOfDisplay: eachId).
+			logs add: 'Bounds (usable):' -> (lib usableBoundsOfDisplay: eachId) ].
 
 		logs add: ''.
 		logs add: #WINDOW.

@@ -327,6 +327,12 @@ LibSDL3VideoTest >> test09RenderDrivers [
 	self assert: (#(vulkan metal direct3d) includesAnyOf: driverNames)
 ]
 
+{ #category : 'tests' }
+LibSDL3VideoTest >> test10QueryDisplays [
+
+	self assert: lib displayIDs size equals: lib numberOfDisplays
+]
+
 { #category : 'private' }
 LibSDL3VideoTest >> waitToSee [
 	"May perform a wait to let user visually check the window"

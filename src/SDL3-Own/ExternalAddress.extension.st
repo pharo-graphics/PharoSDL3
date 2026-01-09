@@ -33,3 +33,34 @@ ExternalAddress >> nullTerminatedArrayOfCStrings [
 			aStream nextPut: currentAddress bytesFromCString utf8Decoded.
 			zeroBasedByteIndex := zeroBasedByteIndex + FFIExternalType pointerSize ]]
 ]
+
+{ #category : '*SDL3-Own' }
+ExternalAddress >> readArrayOf: aType size: count [
+	"Returns an array of aType of the specified size"
+
+	| externalType |
+	"resolve type if needed"
+	externalType := aType isString
+		ifTrue: [ FFIExternalType resolveType: aType ]
+		ifFalse: [ aType ].
+
+	"then build the array"
+	^ Array streamContents: [ :stream |
+		| address |
+		address := self.
+		1 to: count do: [ :index |
+			stream nextPut: (externalType handle: address at: 1).
+			address := address + externalType typeSize ] ]
+]
+
+{ #category : '*SDL3-Own' }
+ExternalAddress >> readStructArrayFromPointers: aFFIStructure size: count [
+	"Return an array of structs of the specified size"
+
+	^ Array streamContents: [ :stream |
+		| address |
+		address := self.
+		1 to: count do: [ :index |
+			stream nextPut: (aFFIStructure fromHandle: (address pointerAt: 1)).
+			address := address + FFIExternalType pointerSize ] ]
+]
