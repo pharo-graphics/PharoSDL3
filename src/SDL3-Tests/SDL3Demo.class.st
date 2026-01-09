@@ -48,7 +48,9 @@ SDL3Demo class >> example02LogState [
 	logs := LinkedList new.
 
 	"Main loop"
-	[ quit ] whileFalse: [ 
+	[ quit ] whileFalse: [
+		| lib |
+		lib := LibSDL3 uniqueInstance.
 
 		demo pollEventsDo: [ :evt |
 			"Handle quit"
@@ -59,7 +61,7 @@ SDL3Demo class >> example02LogState [
 		#(#getBasePath #getCurrentDirectory #getCurrentVideoDriver
 		#getPrimaryDisplay #getRevision #getSystemPageSize #getSystemTheme
 		#gpuDrivers #renderDrivers #videoDrivers) do: [ :each |
-			logs add: each -> (LibSDL3 uniqueInstance perform: each) ].
+			logs add: each -> (lib perform: each) ].
 
 		logs add: ''.
 		logs add: #WINDOW.
@@ -74,18 +76,18 @@ SDL3Demo class >> example02LogState [
 			allocate: ExternalType float byteSize
 			during: [ :pointerForX :pointerForY |
 				| state |
-				state := LibSDL3 uniqueInstance getMouseStateX: pointerForX y: pointerForY.
+				state := lib getMouseStateX: pointerForX y: pointerForY.
 				logs add: 'x: ', (pointerForX floatAt: 1) asString.
 				logs add: 'y: ', (pointerForY floatAt: 1) asString.
 				logs addAll: (SDL3MouseButtonFlags allValuesIn: state) ].
 
-		LibSDL3 uniqueInstance getModState in: [ :modState |
+		lib getModState in: [ :modState |
 			modState > 0 ifTrue: [ 
 				logs add: ''.
 				logs add: #getModState.
 				logs addAll: (SDL3Keymod allValuesIn: modState) ] ].
 
-		(LibSDL3 uniqueInstance getKeyboardState: nil) in: [ :booleanArray |
+		(lib getKeyboardState: nil) in: [ :booleanArray |
 			logs add: ''.
 			logs add: #getKeyboardState:.
 
@@ -93,9 +95,9 @@ SDL3Demo class >> example02LogState [
 				select: [ :each | booleanArray boolean8AtOffset: each value ]
 				thenDo: [ :each |
 					| key |
-					key := LibSDL3 uniqueInstance
+					key := lib
 						getKeyFromScancode: each
-						modstate: LibSDL3 uniqueInstance getModState
+						modstate: lib getModState
 						keyEvent: true.
 					logs add:
 						('Scancode: {1} Key: {2]' format: {
