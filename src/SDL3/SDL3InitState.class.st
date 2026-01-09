@@ -48,11 +48,11 @@ SDL3InitState >> status: anObject [
 { #category : 'accessing - structure variables' }
 SDL3InitState >> thread [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_THREAD
+	^handle platformUnsignedLongAt: OFFSET_THREAD
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3InitState >> thread: anObject [
 	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_THREAD put: anObject
+	^handle platformUnsignedLongAt: OFFSET_THREAD put: anObject
 ]

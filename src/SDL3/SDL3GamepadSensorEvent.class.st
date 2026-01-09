@@ -50,13 +50,13 @@ SDL3GamepadSensorEvent >> sensor [
 { #category : 'accessing - structure variables' }
 SDL3GamepadSensorEvent >> sensorTimestamp [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP
+	^handle platformUnsignedLongAt: OFFSET_SENSOR_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3GamepadSensorEvent >> timestamp [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
+	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }

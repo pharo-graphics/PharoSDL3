@@ -58,37 +58,37 @@ SDL3AsyncIOOutcome >> buffer: anObject [
 { #category : 'accessing - structure variables' }
 SDL3AsyncIOOutcome >> bytesRequested [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_BYTES_REQUESTED
+	^handle platformUnsignedLongAt: OFFSET_BYTES_REQUESTED
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3AsyncIOOutcome >> bytesRequested: anObject [
 	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_BYTES_REQUESTED put: anObject
+	^handle platformUnsignedLongAt: OFFSET_BYTES_REQUESTED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3AsyncIOOutcome >> bytesTransferred [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_BYTES_TRANSFERRED
+	^handle platformUnsignedLongAt: OFFSET_BYTES_TRANSFERRED
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3AsyncIOOutcome >> bytesTransferred: anObject [
 	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_BYTES_TRANSFERRED put: anObject
+	^handle platformUnsignedLongAt: OFFSET_BYTES_TRANSFERRED put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3AsyncIOOutcome >> offset [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_OFFSET
+	^handle platformUnsignedLongAt: OFFSET_OFFSET
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3AsyncIOOutcome >> offset: anObject [
 	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_OFFSET put: anObject
+	^handle platformUnsignedLongAt: OFFSET_OFFSET put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

@@ -54,5 +54,5 @@ SDL3ClipboardEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3ClipboardEvent >> timestamp [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
+	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
 ]

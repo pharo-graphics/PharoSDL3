@@ -26,13 +26,13 @@ SDL3Finger class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 SDL3Finger >> id [
 	"This method was automatically generated"
-	^handle unsignedLongLongAt: OFFSET_ID
+	^handle platformUnsignedLongAt: OFFSET_ID
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3Finger >> id: anObject [
 	"This method was automatically generated"
-	handle unsignedLongLongAt: OFFSET_ID put: anObject
+	^handle platformUnsignedLongAt: OFFSET_ID put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
