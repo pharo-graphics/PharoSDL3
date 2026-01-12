@@ -17,5 +17,7 @@ Form >> asUnownedNewSDL3Surface [
 		               pixels: convertedForm bits
 		               pitch: convertedForm width * 4.
 
+	LibSDL3 uniqueInstance assertSuccess: aSDLSurface.
+
 	^ aSDLSurface
 ]

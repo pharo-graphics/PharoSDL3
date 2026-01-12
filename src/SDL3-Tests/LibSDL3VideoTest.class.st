@@ -99,15 +99,13 @@ LibSDL3VideoTest >> test02CreateWindow [
 		lib
 			newWindowTitle: #test02CreateWindow
 			w: 800 h: 600 flags: 0.
-	self assertEmptySDLError.
-	self deny: window isNull.
+	lib assertSuccess: window.
 
 	self assert: window extent equals: 800 @ 600.
 
 	self waitToSee.
 
-	window destroy.
-	self assertEmptySDLError
+	window destroy
 ]
 
 { #category : 'tests' }
@@ -132,27 +130,22 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 	
 	self waitToSee.
 
-	lib clearError.
 	renderer destroy.
-	self assertEmptySDLError.
-	window destroy.
-	self assertEmptySDLError
+	window destroy
 ]
 
 { #category : 'tests' }
 LibSDL3VideoTest >> test04BasicRender [
 
-	| success window renderer |
+	| window renderer |
 	window :=
 		lib
 			newWindowTitle: #test04BasicRender
 			w: 400 h: 300 flags: 0.
-	success := window isNull not.
-	self assert: success.
+	lib assertSuccess: window.
 
 	renderer := window newRendererFor: nil.
-	success := renderer isNull not.
-	self assert: success.
+	lib assertSuccess: renderer.
 
 	"Clear background with gray color"
 	self assert: (renderer renderDrawColorFloatR: 0.5 g: 0.5 b: 0.5 a: 1.0).
@@ -173,9 +166,7 @@ LibSDL3VideoTest >> test04BasicRender [
 	
 	"Tear down"
 	renderer destroy.
-	self assertEmptySDLError.
-	window destroy.
-	self assertEmptySDLError
+	window destroy
 ]
 
 { #category : 'tests' }
@@ -186,9 +177,9 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 		lib
 			newWindowTitle: #test05TextureFromSurfaceFromForm
 			w: 400 h: 800 flags: 0.
-	self assertEmptySDLError.
+	lib assertSuccess: window.
 	renderer := window newRendererFor: nil.
-	self assertEmptySDLError.
+	lib assertSuccess: renderer.
 
 	"Render and present a texture created from a surface created from a Form"
 	shapeForm := self iconNamed: #pharoBig.
@@ -207,9 +198,7 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 	texture destroy.
 	self assertEmptySDLError.
 	renderer destroy.
-	self assertEmptySDLError.
-	window destroy.
-	self assertEmptySDLError
+	window destroy
 ]
 
 { #category : 'tests' }
@@ -226,11 +215,10 @@ LibSDL3VideoTest >> test06ShapedWindow [
 				SDL3WindowFlags hidden | 
 				SDL3WindowFlags transparent | 
 				SDL3WindowFlags borderless.
-	success := window isNull not.
-	self assert: success.
+	lib assertSuccess: window.
 
 	renderer := window newRendererFor: nil.
-	self assertEmptySDLError.
+	lib assertSuccess: renderer.
 
 
 	shapeForm := Form extent: extent depth: 32.
@@ -261,9 +249,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 	
 	"Tear down"
 	renderer destroy.
-	self assertEmptySDLError.
-	window destroy.
-	self assertEmptySDLError
+	window destroy
 ]
 
 { #category : 'tests' }
@@ -274,7 +260,9 @@ LibSDL3VideoTest >> test07Fullscreen [
 		lib
 			newWindowTitle: #test07Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
+	lib assertSuccess: window.
 	renderer := window newRendererFor: nil.
+	lib assertSuccess: renderer.
 
 	"Render text (debugging API)"
 	renderer
@@ -287,9 +275,7 @@ LibSDL3VideoTest >> test07Fullscreen [
 	
 	"Tear down"
 	renderer destroy.
-	self assertEmptySDLError.
-	window destroy.
-	self assertEmptySDLError
+	window destroy
 ]
 
 { #category : 'tests' }

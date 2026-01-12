@@ -64,12 +64,12 @@ SDL3ShaderDemo >> initializeCRTEffect [
 		codeSize: shaderSource source size;
 		format: shaderSource format asInteger.
 	crtEffectShader := (device newGPUShaderCreateinfo: shaderInfo).
-	self assertSDL3Success: crtEffectShader.
+	lib assertSuccess: crtEffectShader.
 
 	renderStateInfo := SDL3GPURenderStateCreateInfo new.
 	renderStateInfo fragmentShader: crtEffectShader.
 	crtEffectState := renderer newGPURenderStateCreateinfo: renderStateInfo.
-	self assertSDL3Success: crtEffectState
+	lib assertSuccess: crtEffectState
 ]
 
 { #category : 'initialization' }
@@ -79,10 +79,12 @@ SDL3ShaderDemo >> initializeTextures [
 	aForm := self iconNamed: #pharoBig.
 	surface := aForm asUnownedNewSDL3Surface.
 	foregroundTexture := renderer newTextureFromSurface: surface.
+	lib assertSuccess: foregroundTexture.
 	surface destroy.
 
 	surface := backgroundForm asUnownedNewSDL3Surface.
 	backgroundTexture := renderer newTextureFromSurface: surface.
+	lib assertSuccess: backgroundTexture.
 	surface destroy
 ]
 
@@ -97,13 +99,13 @@ SDL3ShaderDemo >> open [
 			w: backgroundForm width
 			h: backgroundForm height
 			flags: 0.
-	self assertSDL3Success: window.
+	lib assertSuccess: window.
 
 	renderer := window newGPURenderer.
-	self assertSDL3Success: window.
+	lib assertSuccess: window.
 	
 	device := renderer gpuDevice.
-	self assertSDL3Success: device.
+	lib assertSuccess: device.
 
 	self
 		initializeTextures;
@@ -188,7 +190,7 @@ SDL3ShaderDemo >> updateCrtEffectWidth: effectWidth height: effectHeight [
 		at: 1 put: effectWidth;
 		at: 2 put: effectHeight.
 
-	self assertSDL3Success:
+	lib assertSuccess:
 		(crtEffectState
 			 gpuRenderFragmentUniformsSlotIndex: 0
 			 data: uniforms

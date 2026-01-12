@@ -435,28 +435,10 @@ SDL3Demo class >> example07SystemCursors [
 	Smalltalk snapshot: false andQuit: true
 ]
 
-{ #category : 'private' }
-SDL3Demo >> assertSDL3EmptyError [
-	<debuggerCompleteToSender>
-
-	lib getError ifNotEmpty: [ :msg | Error new signal: msg ]
-]
-
-{ #category : 'private' }
-SDL3Demo >> assertSDL3Success: anObject [
-	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of no success, a string may be retrieved from SDL_GetError()."
-	<debuggerCompleteToSender>
-	
-	(anObject = true or: [ anObject isNull not ]) ifTrue: [ ^ self ].
-
-	self assertSDL3EmptyError.
-	Error new signal: 'Unknown error in SDL3 FFI call'
-]
-
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
-	self assertSDL3Success: renderer renderClear
+	lib assertSuccess: renderer renderClear
 ]
 
 { #category : 'renderer' }
@@ -507,15 +489,15 @@ SDL3Demo >> close [
 
 	lib clearError.
 	[ 	renderer destroy.
-		self assertSDL3EmptyError ] ensure: [
+		lib assertSuccess ] ensure: [
 			window destroy.
-			self assertSDL3EmptyError ]
+			lib assertSuccess ]
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> color: aColor [
 
-	self assertSDL3Success:
+	lib assertSuccess:
 		(renderer
 			renderDrawColorFloatR: aColor red
 			g: aColor green
@@ -574,11 +556,11 @@ SDL3Demo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
-	self assertSDL3Success: window.
+	lib assertSuccess: window.
 
 	renderer := window newRendererFor: nil.
-	self assertSDL3Success: window.
-	self assertSDL3Success: window startTextInput "Enable SDL3TextEditingEvent"
+	lib assertSuccess: window.
+	lib assertSuccess: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
 { #category : 'enumerating' }
@@ -598,13 +580,13 @@ SDL3Demo >> pollEventsDo: aUnaryBlock [
 { #category : 'renderer' }
 SDL3Demo >> present [
 
-	self assertSDL3Success: renderer renderPresent
+	lib assertSuccess: renderer renderPresent
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> renderTexture: texture at: aSDLFRect [
 
-	self assertSDL3Success:
+	lib assertSuccess:
 		(renderer
 			renderTexture: texture
 			srcrect: nil
@@ -660,7 +642,7 @@ Stdio stdout << '4'; lf; flush.
 { #category : 'renderer' }
 SDL3Demo >> showText: aString x: x y: y [
 
-	self assertSDL3Success:
+	lib assertSuccess:
 		(renderer
 			renderDebugTextX: x
 			y: y
@@ -679,7 +661,7 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
-	self assertSDL3Success: aSurface.
+	lib assertSuccess: aSurface.
 	aTexture := renderer newTextureFromSurface: aSurface.
 	aSurface destroy.
 	^ aTexture

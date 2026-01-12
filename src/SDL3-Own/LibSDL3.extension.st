@@ -1,6 +1,25 @@
 Extension { #name : 'LibSDL3' }
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> assertSuccess [
+	"Signal an error if SDL_GetError() returns a non-empty string. In such case, the error message will describe the most recent error."
+	<debuggerCompleteToSender>
+
+	self getError ifNotEmpty: [ :aString | SDL3Error new signal: aString ]
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> assertSuccess: aReturnedValue [
+	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of an error, a descriptive string can be retrieved from SDL_GetError()."
+	<debuggerCompleteToSender>
+
+	(aReturnedValue = true or: [ aReturnedValue isNull not ]) ifTrue: [ ^ self ].
+
+	"Try to retrieve a descriptive error message"
+	^ SDL3Error new signal: self getError
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> boundsOfDisplay: aDisplayID [
 	"Answer the desktop rectangle of a display."
 
