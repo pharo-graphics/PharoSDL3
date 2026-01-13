@@ -21,7 +21,6 @@ jobs:
       - uses: libsdl-org/setup-sdl@main
         id: sdl
         with:
-          install-linux-dependencies: true
           version: 3-latest
       - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
