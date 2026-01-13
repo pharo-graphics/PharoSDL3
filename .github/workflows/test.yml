@@ -8,30 +8,6 @@ on:
     - cron: "0 8 * * 1"   # Run every Monday at 08:00
 
 jobs:
-  testWindows:
-    strategy:
-      # Default value means that a failure in one combination cancels all 
-      fail-fast: false
-      matrix:
-        smalltalk: [ Pharo64-13, Pharo64-14 ]
-        os: [ windows-latest ]
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
-    steps:
-      - uses: libsdl-org/setup-sdl@main
-        id: sdl
-        with:
-          install-linux-dependencies: true
-          version: 3-latest
-      - uses: actions/checkout@v4
-      - uses: hpi-swa/setup-smalltalkCI@v1
-        with:
-          smalltalk-image: ${{ matrix.smalltalk }}
-      - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
-        env:
-          PATH: ${{ steps.sdl.outputs.prefix }}/bin
-        shell: bash
-
   testLinuxMac:
     strategy:
       # Default value means that a failure in one combination cancels all 
@@ -54,4 +30,28 @@ jobs:
       - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
+        shell: bash
+
+  testWindows:
+    strategy:
+      # Default value means that a failure in one combination cancels all 
+      fail-fast: false
+      matrix:
+        smalltalk: [ Pharo64-13, Pharo64-14 ]
+        os: [ windows-latest ]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
+    steps:
+      - uses: libsdl-org/setup-sdl@main
+        id: sdl
+        with:
+          install-linux-dependencies: true
+          version: 3-latest
+      - uses: actions/checkout@v4
+      - uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-image: ${{ matrix.smalltalk }}
+      - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
+        env:
+          PATH: ${{ steps.sdl.outputs.prefix }}/bin
         shell: bash
