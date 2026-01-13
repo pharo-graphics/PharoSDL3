@@ -11,6 +11,7 @@ Class {
 { #category : 'accessing' }
 SDL3Error >> messageText [
 
-	^ (messageText isNil or: [ messageText isEmpty ]) ifTrue: [
-		messageText := 'Unknown error in a SDL3 FFI call' ]
+	(messageText isNil or: [ messageText isEmpty ]) ifTrue: [
+		messageText := 'Unknown error in a SDL3 FFI call' ].
+	^ messageText
 ]
