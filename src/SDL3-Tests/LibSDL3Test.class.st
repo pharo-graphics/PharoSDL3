@@ -28,6 +28,9 @@ LibSDL3Test >> test00Library [
 		<< 'LD_LIBRARY_PATH: ';
 		<< ((OSEnvironment current at: 'LD_LIBRARY_PATH' ifAbsent: [ '' ]) substrings: ':') asString;
 		lf;
+		<< 'PATH: ';
+		<< ((OSEnvironment current at: 'PATH:' ifAbsent: [ '' ]) substrings: ':') asString;
+		lf;
 		flush
 ]
 
