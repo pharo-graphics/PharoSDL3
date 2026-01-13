@@ -21,20 +21,6 @@ LibSDL3Test >> setUp [
 ]
 
 { #category : 'tests' }
-LibSDL3Test >> test00Library [
-
-	Stdio stdout
-		lf;
-		<< 'LD_LIBRARY_PATH: ';
-		<< ((OSEnvironment current at: 'LD_LIBRARY_PATH' ifAbsent: [ '' ]) substrings: ':') asString;
-		lf;
-		<< 'PATH: ';
-		<< ((OSEnvironment current at: 'PATH' ifAbsent: [ '' ]) substrings: ';') asString;
-		lf;
-		flush
-]
-
-{ #category : 'tests' }
 LibSDL3Test >> test01GetVersion [
 
 	self assert: lib getVersion >= 3003000.
