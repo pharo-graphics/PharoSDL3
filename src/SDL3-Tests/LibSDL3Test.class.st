@@ -26,8 +26,9 @@ LibSDL3Test >> test00Library [
 	Stdio stdout
 		lf;
 		<< 'LD_LIBRARY_PATH: ';
-		print: ((OSEnvironment current at: 'LD_LIBRARY_PATH' ifAbsent: [ '' ]) substrings: ':');
-		lf; flush
+		<< ((OSEnvironment current at: 'LD_LIBRARY_PATH' ifAbsent: [ '' ]) substrings: ':') asString;
+		lf;
+		flush
 ]
 
 { #category : 'tests' }
