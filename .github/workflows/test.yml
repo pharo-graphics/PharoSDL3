@@ -29,5 +29,5 @@ jobs:
           smalltalk-image: ${{ matrix.smalltalk }}
       - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         env:
-          LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}
+          LD_LIBRARY_PATH: "${{ steps.sdl.outputs.prefix }}:${{ steps.sdl.outputs.prefix }}/lib:${{ steps.sdl.outputs.prefix }}/bin:"
         shell: bash
