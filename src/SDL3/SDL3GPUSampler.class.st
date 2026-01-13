@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3GPUSampler >> dispose [
-
-	self ffiCall: #(void SDL_GPUSampler_dispose(SDL_GPUSampler* self))
-]

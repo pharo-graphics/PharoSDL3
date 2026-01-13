@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3AsyncIO >> dispose [
-
-	self ffiCall: #(void SDL_AsyncIO_dispose(SDL_AsyncIO* self))
-]

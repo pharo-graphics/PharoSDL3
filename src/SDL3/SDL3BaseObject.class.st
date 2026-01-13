@@ -19,8 +19,7 @@ SDL3BaseObject >> autoRelease [
 
 { #category : 'finalization' }
 SDL3BaseObject >> dispose [
-	
-	self subclassResponsibility
+	"Hook sent on finalization"
 ]
 
 { #category : 'finalization' }

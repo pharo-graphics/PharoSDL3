@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3Joystick >> dispose [
-
-	self ffiCall: #(void SDL_Joystick_dispose(SDL_Joystick* self))
-]

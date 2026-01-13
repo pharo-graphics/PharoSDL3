@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3Environment >> dispose [
-
-	self ffiCall: #(void SDL_Environment_dispose(SDL_Environment* self))
-]

@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3GPURenderState >> dispose [
-
-	self ffiCall: #(void SDL_GPURenderState_dispose(SDL_GPURenderState* self))
-]

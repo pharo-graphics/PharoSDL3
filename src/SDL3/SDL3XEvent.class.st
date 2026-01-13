@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3XEvent >> dispose [
-
-	self ffiCall: #(void _XEvent_dispose(_XEvent* self))
-]

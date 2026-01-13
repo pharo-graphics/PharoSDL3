@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3Mutex >> dispose [
-
-	self ffiCall: #(void SDL_Mutex_dispose(SDL_Mutex* self))
-]

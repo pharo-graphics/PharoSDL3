@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3Sensor >> dispose [
-
-	self ffiCall: #(void SDL_Sensor_dispose(SDL_Sensor* self))
-]

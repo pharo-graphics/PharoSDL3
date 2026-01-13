@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3Semaphore >> dispose [
-
-	self ffiCall: #(void SDL_Semaphore_dispose(SDL_Semaphore* self))
-]

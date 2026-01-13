@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3GPUCommandBuffer >> dispose [
-
-	self ffiCall: #(void SDL_GPUCommandBuffer_dispose(SDL_GPUCommandBuffer* self))
-]

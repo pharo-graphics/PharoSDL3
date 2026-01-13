@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3IOStream >> dispose [
-
-	self ffiCall: #(void SDL_IOStream_dispose(SDL_IOStream* self))
-]
