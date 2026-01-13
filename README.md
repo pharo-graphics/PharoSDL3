@@ -23,7 +23,7 @@ $ ./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:Update332/
 
 Follow the [install instructions](https://github.com/libsdl-org/SDL/blob/main/INSTALL.md) and make the lib findable by the Pharo's FFI finder. 
 * On Linux, you can download the sources and then build and install using CMake.
-* On Mac, you can use homebrew to install it on the system.
+* On Mac, you can use [homebrew](https://formulae.brew.sh/formula/sdl3) to install it on the system.
 * On Windows, you can [download it](https://github.com/libsdl-org/SDL/releases) and place it together with the Pharo image.
 
 
