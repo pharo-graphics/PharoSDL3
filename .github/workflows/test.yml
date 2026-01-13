@@ -22,8 +22,9 @@ jobs:
         id: sdl
         with:
           install-linux-dependencies: true
-          add-to-environment: true
           version: 3-latest
+      - run: LD_LIBRARY_PATH=${{ steps.sdl.outputs.prefix }}
+        shell: bash
       - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
