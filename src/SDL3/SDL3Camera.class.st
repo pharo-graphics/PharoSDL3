@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3Camera >> dispose [
-
-	self ffiCall: #(void SDL_Camera_dispose(SDL_Camera* self))
-]

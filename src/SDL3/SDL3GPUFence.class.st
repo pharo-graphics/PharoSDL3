@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3GPUFence >> dispose [
-
-	self ffiCall: #(void SDL_GPUFence_dispose(SDL_GPUFence* self))
-]

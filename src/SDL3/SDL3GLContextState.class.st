@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3GLContextState >> dispose [
-
-	self ffiCall: #(void SDL_GLContextState_dispose(SDL_GLContextState* self))
-]

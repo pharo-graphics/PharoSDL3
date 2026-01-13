@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3Condition >> dispose [
-
-	self ffiCall: #(void SDL_Condition_dispose(SDL_Condition* self))
-]

@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3RWLock >> dispose [
-
-	self ffiCall: #(void SDL_RWLock_dispose(SDL_RWLock* self))
-]

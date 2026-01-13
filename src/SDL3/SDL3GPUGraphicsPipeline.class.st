@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3GPUGraphicsPipeline >> dispose [
-
-	self ffiCall: #(void SDL_GPUGraphicsPipeline_dispose(SDL_GPUGraphicsPipeline* self))
-]

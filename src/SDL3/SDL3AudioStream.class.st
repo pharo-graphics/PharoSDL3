@@ -5,9 +5,3 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
-
-{ #category : 'finalizing' }
-SDL3AudioStream >> dispose [
-
-	self ffiCall: #(void SDL_AudioStream_dispose(SDL_AudioStream* self))
-]
