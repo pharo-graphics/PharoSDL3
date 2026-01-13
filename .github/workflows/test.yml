@@ -13,16 +13,19 @@ jobs:
       # Default value means that a failure in one combination cancels all 
       fail-fast: false
       matrix:
-        smalltalk: [ Pharo64-12 ]
-        os: [ macos-latest ]
+        smalltalk: [ Pharo64-13 ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
     steps:
+      - uses: libsdl-org/setup-sdl@main
+        id: sdl
+        with:
+          install-linux-dependencies: true
+          version: 3-latest
       - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - run: brew install sdl3
-        shell: bash
       - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         shell: bash
