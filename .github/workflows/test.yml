@@ -23,7 +23,9 @@ jobs:
         with:
           install-linux-dependencies: true
           version: 3-latest
-      - run: LD_LIBRARY_PATH=${{ steps.sdl.outputs.prefix }}
+      - run: |
+          LD_LIBRARY_PATH=${{ steps.sdl.outputs.prefix }}
+          find $LD_LIBRARY_PATH -type f
         shell: bash
       - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
