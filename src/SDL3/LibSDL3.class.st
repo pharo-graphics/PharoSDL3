@@ -14868,8 +14868,7 @@ LibSDL3 >> ltoaValue: value str: str radix: radix [
 LibSDL3 >> macLibraryName [
 
 	^ FFIMacLibraryFinder new
-		userPaths: #('./CIG/lib');
-		findLibrary: 'libSDL3.dylib'
+		findAnyLibrary: #('libSDL3.dylib' 'libSDL3.0.dylib')
 ]
 
 { #category : 'public' }
@@ -27081,8 +27080,7 @@ LibSDL3 >> unbindAudioStreams: streams numStreams: num_streams [
 LibSDL3 >> unix64LibraryName [
 
 	^ FFIUnix64LibraryFinder new
-		userPaths: #('./CIG/lib');
-		findLibrary: 'libSDL3.so'
+		findAnyLibrary: #('libSDL3.so' 'libSDL3.so.0.4.0')
 ]
 
 { #category : 'public' }
@@ -28516,8 +28514,7 @@ LibSDL3 >> wcstolStr: str endp: endp base: base [
 LibSDL3 >> win32LibraryName [
 
 	^ FFIWindowsLibraryFinder new
-		userPaths: #('./CIG/lib');
-		findLibrary: 'SDL3.dll'
+		findAnyLibrary: #('SDL3.dll')
 ]
 
 { #category : 'public' }
