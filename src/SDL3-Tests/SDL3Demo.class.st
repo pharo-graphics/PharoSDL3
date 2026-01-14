@@ -620,7 +620,7 @@ SDL3Demo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
 		showOpenFolderDialogCallback: dialogFileCallback
 		userdata: nil
 		window: window
-		defaultLocation: nil
+		defaultLocation: OSPlatform current currentWorkingDirectoryPath
 		allowMany: true
 ]
 
