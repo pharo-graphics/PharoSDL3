@@ -611,13 +611,10 @@ SDL3Demo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
 		FFICallback
 			signature: #(void (void *userdata, char **filelist, int filter))
 			block: [ :userdata :filelist :filter |
-				"Stdio stdout << 'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM'; lf; flush."
-"				filelist isNull
+				filelist isNull
 					ifTrue: [ errorBlock value ]
-					ifFalse: [ acceptOrCancelBlock value:
-						filelist nullTerminatedArrayOfCStrings ]."
-				"dialogFileCallback := nil" ].
-			dialogFileCallback pinInMemory.
+					ifFalse: [ acceptOrCancelBlock value: filelist nullTerminatedArrayOfCStrings ].
+				dialogFileCallback := nil ].
 
 	lib
 		showOpenFolderDialogCallback: dialogFileCallback
