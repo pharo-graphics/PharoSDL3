@@ -6,7 +6,8 @@ Class {
 		'renderer',
 		'lib',
 		'event',
-		'map'
+		'map',
+		'dialogFileCallback'
 	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
@@ -604,18 +605,22 @@ SDL3Demo >> showMessageBoxTitle: title message: message [
 { #category : 'utilities' }
 SDL3Demo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
 
-	| callback |
-	callback :=
+	dialogFileCallback ifNotNil: [ ^ errorBlock value ].
+
+	dialogFileCallback :=
 		FFICallback
 			signature: #(void (void *userdata, char **filelist, int filter))
 			block: [ :userdata :filelist :filter |
-				filelist isNull
+				"Stdio stdout << 'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM'; lf; flush."
+"				filelist isNull
 					ifTrue: [ errorBlock value ]
 					ifFalse: [ acceptOrCancelBlock value:
-						filelist nullTerminatedArrayOfCStrings ] ].
+						filelist nullTerminatedArrayOfCStrings ]."
+				"dialogFileCallback := nil" ].
+			dialogFileCallback pinInMemory.
 
 	lib
-		showOpenFolderDialogCallback: callback
+		showOpenFolderDialogCallback: dialogFileCallback
 		userdata: nil
 		window: window
 		defaultLocation: nil
