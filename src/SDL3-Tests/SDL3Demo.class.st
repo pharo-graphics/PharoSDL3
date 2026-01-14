@@ -338,26 +338,24 @@ SDL3Demo class >> example06OpenFolderDialog [
 	[ quit ] whileFalse: [
 		demo pollEventsDo: [ :evt |
 			evt type = SDL3EventType quit
-				ifTrue: [ quit := true ].
+				ifTrue: [
+					demo
+						showMessageBoxTitle: 'Good bye'
+						message: 'Come back soon'.
+					quit := true ].
 			evt type = SDL3EventType mouseButtonDown
 				ifTrue: [
-					
-					[| result |
-					result := demo showOpenFolderModal: true.
-					demo showMessageBoxTitle: 'Info' message: 'Thank you'.
-					result
-						ifEmpty: [ 
-							logs addLast: 'Cancelled' ]
-						ifNotEmpty: [
+					demo
+						showOpenFolderIfSuccess: [ :result |
 							logs addLast:
 								('Selected ', result size asString,
 								' directories: ', result asString) ]
-						] onErrorDo: [ :error | logs addLast: error asString ] ]
-
-			].
+						ifError: [
+							logs addLast: 'Error!!!' ] ]
+				].
 
 		"Render frame"
-		demo clearColor: Color blue muchDarker.
+		demo clearColor: Color random muchDarker.
 		[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
 		logs withIndexDo: [ :each :index |
 			demo
@@ -604,39 +602,24 @@ SDL3Demo >> showMessageBoxTitle: title message: message [
 ]
 
 { #category : 'utilities' }
-SDL3Demo >> showOpenFolderModal: aBoolean [
+SDL3Demo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
 
-	| callback result semaphore |
-	semaphore := Semaphore new.
-	
-Stdio stdout << '1'; lf; flush.
-
+	| callback |
 	callback :=
 		FFICallback
 			signature: #(void (void *userdata, char **filelist, int filter))
 			block: [ :userdata :filelist :filter |
-
-Stdio stdout << '2'; lf; flush.
-
-				result := filelist isNull
-					ifTrue: [ #() ]
-					ifFalse: [ filelist nullTerminatedArrayOfCStrings ].
-				semaphore signal ].
+				filelist isNull
+					ifTrue: [ errorBlock value ]
+					ifFalse: [ acceptOrCancelBlock value:
+						filelist nullTerminatedArrayOfCStrings ] ].
 
 	lib
 		showOpenFolderDialogCallback: callback
 		userdata: nil
-		window: (aBoolean ifTrue: [ window ] ifFalse: [ SDL3Window null ])
+		window: window
 		defaultLocation: nil
-		allowMany: true.
-
-Stdio stdout << '3'; lf; flush.
-
-	semaphore wait.
-
-Stdio stdout << '4'; lf; flush.
-
-	^ result
+		allowMany: true
 ]
 
 { #category : 'renderer' }
