@@ -96,6 +96,10 @@ LibSDL3Test >> test06FilesystemAPI [
 		assert: lib getCurrentDirectory asFileReference 
 		equals: '.' asFileReference.
 	
+	self
+		assert: (lib getUserFolder: SDL3Folder home) asFileReference
+		equals: FileLocator home asFileReference.
+	
 	self assert:
 		(FileLocator vmDirectory asPath <=
 			lib getBasePath asFileReference asPath)
