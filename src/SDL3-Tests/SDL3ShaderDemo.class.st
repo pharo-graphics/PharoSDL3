@@ -185,14 +185,14 @@ SDL3ShaderDemo >> updateCrtEffectWidth: effectWidth height: effectHeight [
 	"Set the CRT shader parameters"
 
 	| uniforms |
-	uniforms := FFIExternalArray newType: 'float' size: 2.
+	uniforms := SDL3CRTEffectInput new.
 	uniforms
-		at: 1 put: effectWidth;
-		at: 2 put: effectHeight.
+		uvX: effectWidth;
+		uvY: effectHeight.
 
 	lib assertSuccess:
 		(crtEffectState
 			 gpuRenderFragmentUniformsSlotIndex: 0
 			 data: uniforms
-			 length: uniforms typeSize * uniforms size)
+			 length: uniforms class byteSize)
 ]
