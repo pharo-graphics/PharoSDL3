@@ -68,6 +68,12 @@ SDL3CRTEffectShaderSource class >> initializeSources [
 		initializeSPIRV
 ]
 
+{ #category : 'instance creation' }
+SDL3CRTEffectShaderSource class >> newInputUniforms [
+
+	^ SDL3CRTEffectInput new
+]
+
 { #category : 'accessing' }
 SDL3CRTEffectShaderSource class >> numberOfSamplers [
 

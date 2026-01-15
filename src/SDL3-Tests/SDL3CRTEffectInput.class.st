@@ -1,3 +1,6 @@
+"
+I represent the input structure for `SDL3CRTEffectShaderSource`
+"
 Class {
 	#name : 'SDL3CRTEffectInput',
 	#superclass : 'FFIStructure',
@@ -17,6 +20,12 @@ SDL3CRTEffectInput class >> fieldsDesc [
 		float uvX;
 		float uvY;
 		)
+]
+
+{ #category : 'accessing' }
+SDL3CRTEffectInput >> byteSize [
+
+	^ self class byteSize
 ]
 
 { #category : 'accessing - structure variables' }

@@ -9,7 +9,8 @@ Class {
 		'foregroundTexture',
 		'crtEffectShader',
 		'crtEffectState',
-		'backgroundForm'
+		'backgroundForm',
+		'crtEffectInputUniforms'
 	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
@@ -69,7 +70,9 @@ SDL3ShaderDemo >> initializeCRTEffect [
 	renderStateInfo := SDL3GPURenderStateCreateInfo new.
 	renderStateInfo fragmentShader: crtEffectShader.
 	crtEffectState := renderer newGPURenderStateCreateinfo: renderStateInfo.
-	lib assertSuccess: crtEffectState
+	lib assertSuccess: crtEffectState.
+	crtEffectInputUniforms := crtEffect newInputUniforms
+
 ]
 
 { #category : 'initialization' }
@@ -184,15 +187,13 @@ SDL3ShaderDemo >> run [
 SDL3ShaderDemo >> updateCrtEffectWidth: effectWidth height: effectHeight [
 	"Set the CRT shader parameters"
 
-	| uniforms |
-	uniforms := SDL3CRTEffectInput new.
-	uniforms
+	crtEffectInputUniforms
 		uvX: effectWidth;
 		uvY: effectHeight.
 
 	lib assertSuccess:
 		(crtEffectState
 			 gpuRenderFragmentUniformsSlotIndex: 0
-			 data: uniforms
-			 length: uniforms class byteSize)
+			 data: crtEffectInputUniforms
+			 length: crtEffectInputUniforms byteSize)
 ]
