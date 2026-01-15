@@ -56,22 +56,15 @@ SDL3ShaderDemo >> initializeCRTEffect [
 	shaderSource := crtEffect allSources detect: [ :each |
 		availableShaderFormats includes: each format ].
 
-	shaderInfo := SDL3GPUShaderCreateInfo new.
-	shaderInfo
-		stage: SDL3GPUShaderStage fragment;
-		numSamplers: crtEffect numberOfSamplers;
-		numUniformBuffers: crtEffect numberOfUniformBuffers;
-		code: shaderSource source;
-		codeSize: shaderSource source size;
-		format: shaderSource format asInteger.
-	crtEffectShader := (device newGPUShaderCreateinfo: shaderInfo).
+	shaderInfo := shaderSource newShaderCreateInfo.
+	crtEffectShader := device newGPUShaderCreateinfo: shaderInfo.
 	lib assertSuccess: crtEffectShader.
 
 	renderStateInfo := SDL3GPURenderStateCreateInfo new.
 	renderStateInfo fragmentShader: crtEffectShader.
 	crtEffectState := renderer newGPURenderStateCreateinfo: renderStateInfo.
 	lib assertSuccess: crtEffectState.
-	crtEffectInputUniforms := crtEffect newInputUniforms
+	crtEffectInputUniforms := shaderSource newInputUniforms
 
 ]
 

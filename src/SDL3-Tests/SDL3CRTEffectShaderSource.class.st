@@ -68,24 +68,6 @@ SDL3CRTEffectShaderSource class >> initializeSources [
 		initializeSPIRV
 ]
 
-{ #category : 'instance creation' }
-SDL3CRTEffectShaderSource class >> newInputUniforms [
-
-	^ SDL3CRTEffectInput new
-]
-
-{ #category : 'accessing' }
-SDL3CRTEffectShaderSource class >> numberOfSamplers [
-
-	^ 1
-]
-
-{ #category : 'accessing' }
-SDL3CRTEffectShaderSource class >> numberOfUniformBuffers [
-
-	^ 1
-]
-
 { #category : 'accessing' }
 SDL3CRTEffectShaderSource class >> shaderName [
 
@@ -98,4 +80,35 @@ SDL3CRTEffectShaderSource class >> startUp: isImageStarting [
 	isImageStarting ifFalse: [ ^ self ].
 
 	self initializeSources
+]
+
+{ #category : 'instance creation' }
+SDL3CRTEffectShaderSource >> newInputUniforms [
+
+	^ SDL3CRTEffectInput new
+]
+
+{ #category : 'instance creation' }
+SDL3CRTEffectShaderSource >> newShaderCreateInfo [
+
+	^ SDL3GPUShaderCreateInfo new
+		stage: SDL3GPUShaderStage fragment;
+		numSamplers: self numberOfSamplers;
+		numUniformBuffers: self numberOfUniformBuffers;
+		code: self source;
+		codeSize: self source size;
+		format: self format asInteger;
+		yourself
+]
+
+{ #category : 'accessing' }
+SDL3CRTEffectShaderSource >> numberOfSamplers [
+
+	^ 1
+]
+
+{ #category : 'accessing' }
+SDL3CRTEffectShaderSource >> numberOfUniformBuffers [
+
+	^ 1
 ]
