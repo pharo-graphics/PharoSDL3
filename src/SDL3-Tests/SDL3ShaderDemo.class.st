@@ -46,26 +46,30 @@ SDL3ShaderDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3ShaderDemo >> initializeCRTEffect [
+SDL3ShaderDemo >> initializeCRTEffectAmong: supportedShaderFormats [
 
-	| availableShaderFormats crtEffect shaderInfo shaderSource renderStateInfo |
+	| shaderSource |
+	shaderSource := SDL3CRTEffectShaderSource newAmong: supportedShaderFormats.
 
-	crtEffect := SDL3CRTEffectShaderSource.
-
-	availableShaderFormats := device gpuShaderFormatsAsArray.
-	shaderSource := crtEffect allSources detect: [ :each |
-		availableShaderFormats includes: each format ].
-
-	shaderInfo := shaderSource newShaderCreateInfo.
-	crtEffectShader := device newGPUShaderCreateinfo: shaderInfo.
+	crtEffectShader := device newGPUShaderCreateinfo: shaderSource newShaderCreateInfo.
 	lib assertSuccess: crtEffectShader.
+
+	"We'll update these input before each render to produce an animation"
+	crtEffectInputUniforms := shaderSource newInputUniforms
+]
+
+{ #category : 'initialization' }
+SDL3ShaderDemo >> initializeGPURenderStates [
+
+	| supportedShaderFormats renderStateInfo |
+	supportedShaderFormats := device gpuShaderFormatsAsArray.
+
+	self initializeCRTEffectAmong: supportedShaderFormats.
 
 	renderStateInfo := SDL3GPURenderStateCreateInfo new.
 	renderStateInfo fragmentShader: crtEffectShader.
 	crtEffectState := renderer newGPURenderStateCreateinfo: renderStateInfo.
-	lib assertSuccess: crtEffectState.
-	crtEffectInputUniforms := shaderSource newInputUniforms
-
+	lib assertSuccess: crtEffectState
 ]
 
 { #category : 'initialization' }
@@ -105,7 +109,7 @@ SDL3ShaderDemo >> open [
 
 	self
 		initializeTextures;
-		initializeCRTEffect
+		initializeGPURenderStates
 ]
 
 { #category : 'lifecycle' }
