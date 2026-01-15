@@ -181,8 +181,8 @@ SDL3ShaderDemo >> updateCrtEffectWidth: effectWidth height: effectHeight [
 	"Set the CRT shader parameters"
 
 	crtEffectInputUniforms
-		uvX: effectWidth;
-		uvY: effectHeight.
+		resolutionX: effectWidth;
+		resolutionY: effectHeight.
 
 	lib assertSuccess:
 		(crtEffectState

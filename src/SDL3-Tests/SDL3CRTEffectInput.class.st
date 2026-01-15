@@ -5,8 +5,8 @@ Class {
 	#name : 'SDL3CRTEffectInput',
 	#superclass : 'FFIStructure',
 	#classVars : [
-		'OFFSET_UVX',
-		'OFFSET_UVY'
+		'OFFSET_RESOLUTIONX',
+		'OFFSET_RESOLUTIONY'
 	],
 	#category : 'SDL3-Tests',
 	#package : 'SDL3-Tests'
@@ -17,8 +17,8 @@ SDL3CRTEffectInput class >> fieldsDesc [
 	"self rebuildFieldAccessors"
 
 	^ #(
-		float uvX;
-		float uvY;
+		float resolutionX;
+		float resolutionY;
 		)
 ]
 
@@ -29,25 +29,25 @@ SDL3CRTEffectInput >> byteSize [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CRTEffectInput >> uvX [
+SDL3CRTEffectInput >> resolutionX [
 	"This method was automatically generated"
-	^handle floatAt: OFFSET_UVX
+	^handle floatAt: OFFSET_RESOLUTIONX
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CRTEffectInput >> uvX: anObject [
+SDL3CRTEffectInput >> resolutionX: anObject [
 	"This method was automatically generated"
-	handle floatAt: OFFSET_UVX put: anObject
+	handle floatAt: OFFSET_RESOLUTIONX put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CRTEffectInput >> uvY [
+SDL3CRTEffectInput >> resolutionY [
 	"This method was automatically generated"
-	^handle floatAt: OFFSET_UVY
+	^handle floatAt: OFFSET_RESOLUTIONY
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CRTEffectInput >> uvY: anObject [
+SDL3CRTEffectInput >> resolutionY: anObject [
 	"This method was automatically generated"
-	handle floatAt: OFFSET_UVY put: anObject
+	handle floatAt: OFFSET_RESOLUTIONY put: anObject
 ]
