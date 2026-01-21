@@ -20,7 +20,7 @@ SDL3MessageBoxColorScheme class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 SDL3MessageBoxColorScheme >> colors [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIExternalStructureType size: 5) fromHandle: (handle copyFrom: OFFSET_COLORS to: OFFSET_COLORS + 14)
+	^(FFIArray ofType: #FFIExternalStructureType size: 5) fromHandle: (handle copyFrom: OFFSET_COLORS to: OFFSET_COLORS + 14)
 ]
 
 { #category : 'accessing - structure variables' }

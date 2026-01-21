@@ -64,7 +64,7 @@ SDL3AudioDeviceEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3AudioDeviceEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }

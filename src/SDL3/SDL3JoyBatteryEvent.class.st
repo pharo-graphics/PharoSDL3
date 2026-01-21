@@ -42,13 +42,13 @@ SDL3JoyBatteryEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3JoyBatteryEvent >> state [
 	"This method was automatically generated"
-	^SDL3PowerState fromInteger: (handle unsignedLongAt: OFFSET_STATE)
+	^SDL3PowerState fromInteger: (handle signedLongAt: OFFSET_STATE)
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3JoyBatteryEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }

@@ -54,5 +54,5 @@ SDL3DisplayEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3DisplayEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]

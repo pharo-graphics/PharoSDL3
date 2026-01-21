@@ -52,7 +52,7 @@ SDL3TouchFingerEvent >> dy [
 { #category : 'accessing - structure variables' }
 SDL3TouchFingerEvent >> fingerID [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_FINGERID
+	^handle unsignedLongLongAt: OFFSET_FINGERID
 ]
 
 { #category : 'accessing - structure variables' }
@@ -70,13 +70,13 @@ SDL3TouchFingerEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3TouchFingerEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3TouchFingerEvent >> touchID [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TOUCHID
+	^handle unsignedLongLongAt: OFFSET_TOUCHID
 ]
 
 { #category : 'accessing - structure variables' }

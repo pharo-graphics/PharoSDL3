@@ -40,7 +40,7 @@ SDL3PinchFingerEvent >> scale [
 { #category : 'accessing - structure variables' }
 SDL3PinchFingerEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }

@@ -32,7 +32,7 @@ SDL3GamepadSensorEvent class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 SDL3GamepadSensorEvent >> data [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIFloat32 size: 3) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 11)
+	^(FFIArray ofType: #FFIFloat32 size: 3) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 11)
 ]
 
 { #category : 'accessing - structure variables' }
@@ -50,13 +50,13 @@ SDL3GamepadSensorEvent >> sensor [
 { #category : 'accessing - structure variables' }
 SDL3GamepadSensorEvent >> sensorTimestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_SENSOR_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3GamepadSensorEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }

@@ -30,7 +30,7 @@ SDL3SensorEvent class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 SDL3SensorEvent >> data [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIFloat32 size: 6) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 23)
+	^(FFIArray ofType: #FFIFloat32 size: 6) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 23)
 ]
 
 { #category : 'accessing - structure variables' }
@@ -42,13 +42,13 @@ SDL3SensorEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3SensorEvent >> sensorTimestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_SENSOR_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_SENSOR_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
 SDL3SensorEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }

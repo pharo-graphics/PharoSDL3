@@ -230,7 +230,7 @@ SDL3PixelFormatDetails >> format: anObject [
 { #category : 'accessing - structure variables' }
 SDL3PixelFormatDetails >> padding [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIUInt8 size: 2) fromHandle: (handle copyFrom: OFFSET_PADDING to: OFFSET_PADDING + 1)
+	^(FFIArray ofType: #FFIUInt8 size: 2) fromHandle: (handle copyFrom: OFFSET_PADDING to: OFFSET_PADDING + 1)
 ]
 
 { #category : 'accessing - structure variables' }
