@@ -29,12 +29,6 @@ SDL3MacroDefinedFlag >> <= another [
 	^ self item <= another item
 ]
 
-{ #category : 'converting' }
-SDL3MacroDefinedFlag >> asInteger [
-
-	^ value
-]
-
 { #category : 'flag operations' }
 SDL3MacroDefinedFlag >> bitOr: anInteger [
 

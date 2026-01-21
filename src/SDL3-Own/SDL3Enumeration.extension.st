@@ -19,6 +19,12 @@ SDL3Enumeration class >> allValuesDo: aBlock [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Enumeration >> asInteger [
+
+	^ value asInteger
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Enumeration class >> enumDeclCommonPrefix [
 
 	| shortestName names |
