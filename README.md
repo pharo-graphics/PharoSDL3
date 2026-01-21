@@ -16,7 +16,7 @@ Metacello new
 An alternative way to download a Pharo image and load this project is running the following commands in a bash terminal:
 ```bash
 $ curl https://get.pharo.org/130+vm | bash
-$ ./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:Update332/src BaselineOfSDL3
+$ ./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:master/src BaselineOfSDL3
 ```
 
 ### Get the library
