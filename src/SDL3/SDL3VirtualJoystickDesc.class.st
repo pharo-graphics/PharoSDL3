@@ -312,7 +312,7 @@ SDL3VirtualJoystickDesc >> padding [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> padding2 [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIUInt16 size: 2) fromHandle: (handle copyFrom: OFFSET_PADDING2 to: OFFSET_PADDING2 + 3)
+	^(FFIArray ofType: #FFIUInt16 size: 2) fromHandle: (handle copyFrom: OFFSET_PADDING2 to: OFFSET_PADDING2 + 3)
 ]
 
 { #category : 'accessing - structure variables' }

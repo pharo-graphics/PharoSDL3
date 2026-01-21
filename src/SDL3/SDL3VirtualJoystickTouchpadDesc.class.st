@@ -34,7 +34,7 @@ SDL3VirtualJoystickTouchpadDesc >> nfingers: anObject [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickTouchpadDesc >> padding [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIUInt16 size: 3) fromHandle: (handle copyFrom: OFFSET_PADDING to: OFFSET_PADDING + 5)
+	^(FFIArray ofType: #FFIUInt16 size: 3) fromHandle: (handle copyFrom: OFFSET_PADDING to: OFFSET_PADDING + 5)
 ]
 
 { #category : 'accessing - structure variables' }

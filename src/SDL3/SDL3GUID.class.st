@@ -20,7 +20,7 @@ SDL3GUID class >> fieldsDesc [
 { #category : 'accessing - structure variables' }
 SDL3GUID >> data [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIUInt8 size: 16) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 15)
+	^(FFIArray ofType: #FFIUInt8 size: 16) fromHandle: (handle copyFrom: OFFSET_DATA to: OFFSET_DATA + 15)
 ]
 
 { #category : 'accessing - structure variables' }

@@ -74,7 +74,7 @@ SDL3JoyAxisEvent >> reserved [
 { #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> timestamp [
 	"This method was automatically generated"
-	^handle platformUnsignedLongAt: OFFSET_TIMESTAMP
+	^handle unsignedLongLongAt: OFFSET_TIMESTAMP
 ]
 
 { #category : 'accessing - structure variables' }
