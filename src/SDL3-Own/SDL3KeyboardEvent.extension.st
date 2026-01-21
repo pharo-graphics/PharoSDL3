@@ -7,6 +7,18 @@ SDL3KeyboardEvent class >> eventTypeSelectors [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3KeyboardEvent >> isDown [
+
+	^ self down
+]
+
+{ #category : '*SDL3-Own' }
+SDL3KeyboardEvent >> isRepeat [
+
+	^ self repeat
+]
+
+{ #category : '*SDL3-Own' }
 SDL3KeyboardEvent >> printOn: aStream [
 
 	super printOn: aStream.
@@ -20,5 +32,13 @@ SDL3KeyboardEvent >> printOn: aStream [
 
 	aStream
 		nextPutAll: ' scancode: ';
-		print: self scancode item
+		print: self scancode item.
+
+	aStream
+		nextPutAll: ' isDown: ';
+		print: self isDown.
+
+	aStream
+		nextPutAll: ' isRepeat: ';
+		print: self isRepeat
 ]
