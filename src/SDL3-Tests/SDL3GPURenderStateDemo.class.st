@@ -136,13 +136,14 @@ SDL3GPURenderStateDemo >> render [
 	self clearColor: Color blue.
 
 	self updateRenderState.
-
 	renderer
 		 renderTexture: backgroundTexture
 		 srcrect: nil
 		 dstrect: (SDL3FRect origin: 0@0 extent: backgroundTexture extent).
 
 	renderer gpuRenderStateClear.
+
+	self showText: (shaderSources at: renderStateIndex) name x: 10 y: 20 color: Color green.
 
 	renderer
 		 renderTexture: foregroundTexture
