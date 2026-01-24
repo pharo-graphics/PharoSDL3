@@ -13,7 +13,8 @@ Class {
 		'shaders',
 		'renderStates',
 		'renderStateIndex',
-		'uniformBuffer'
+		'uniformBuffer',
+		'shaderSources'
 	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
@@ -55,11 +56,21 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 
 	shaders := OrderedCollection new.
 	renderStates := OrderedCollection new.
-
-	{	SDL3CloudsShaderSource.
+	shaderSources := {
+		SDL3RainShaderSource.
+		SDL3BumpedSinusoidalWrapShaderSource.
+		SDL3WaterShaderSource.
+		SDL3NoiseShaderSource.
+		SDL3WigglesShaderSource.
+		SDL3CloudsShaderSource.
+		SDL3VortexShaderSource.
+		SDL3CRTEffectShaderSource.
 		SDL3DotsHalftoneShaderSource.
 		SDL3HighlightShaderSource.
-		SDL3CRTEffectShaderSource } do: [ :eachShaderClass |
+		SDL3MoireShaderSource 
+		}.
+
+	shaderSources do: [ :eachShaderClass |
 		| aSource aShader renderStateInfo aRenderState |
 		aSource := eachShaderClass newAmong: supportedShaderFormats.
 		aShader := device newGPUShaderCreateinfo: aSource newShaderCreateInfo.
@@ -125,13 +136,14 @@ SDL3GPURenderStateDemo >> render [
 	self clearColor: Color blue.
 
 	self updateRenderState.
-
 	renderer
 		 renderTexture: backgroundTexture
 		 srcrect: nil
 		 dstrect: (SDL3FRect origin: 0@0 extent: backgroundTexture extent).
 
 	renderer gpuRenderStateClear.
+
+	self showText: (shaderSources at: renderStateIndex) name x: 10 y: 20 color: Color green.
 
 	renderer
 		 renderTexture: foregroundTexture
