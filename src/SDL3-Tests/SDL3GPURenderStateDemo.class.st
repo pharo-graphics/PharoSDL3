@@ -100,7 +100,9 @@ SDL3GPURenderStateDemo >> initializeTextures [
 	lib assertSuccess: foregroundTexture.
 	surface destroy.
 
+	backgroundForm := self currentWorld asForm.
 	surface := backgroundForm asUnownedNewSDL3Surface.
+"We take a snapshot of the current world to use a background"
 	backgroundTexture := renderer newTextureFromSurface: surface.
 	lib assertSuccess: backgroundTexture.
 	surface destroy
@@ -137,6 +139,7 @@ SDL3GPURenderStateDemo >> render [
 	self clearColor: Color blue.
 
 	"Set the selected shader and render the background"
+	self updateBackgroundTexture.
 	self updateRenderState: (renderStates at: renderStateIndex).
 	renderer
 		 renderTexture: backgroundTexture
@@ -204,6 +207,13 @@ SDL3GPURenderStateDemo >> runUntilQuit [
 		
 		"Do a little wait before next frame"
 		16.6 milliSeconds wait ]
+]
+
+{ #category : 'initialization' }
+SDL3GPURenderStateDemo >> updateBackgroundTexture [
+
+	backgroundForm := self currentWorld asForm.
+	backgroundForm updateInSDL3Texture: backgroundTexture
 ]
 
 { #category : 'initialization' }

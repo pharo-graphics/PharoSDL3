@@ -21,3 +21,18 @@ Form >> asUnownedNewSDL3Surface [
 
 	^ aSDLSurface
 ]
+
+{ #category : '*SDL3-Own' }
+Form >> updateInSDL3Texture: aSDLTexture [
+
+	| convertedForm |
+	convertedForm :=
+		self
+			unhibernate;
+			asFormOfDepth: 32.
+
+	aSDLTexture updateRect: nil pixels: convertedForm bits
+		               pitch: convertedForm width * 4.
+
+	LibSDL3 uniqueInstance assertSuccess: aSDLTexture
+]
