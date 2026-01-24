@@ -13,7 +13,8 @@ Class {
 		'shaders',
 		'renderStates',
 		'renderStateIndex',
-		'uniformBuffer'
+		'uniformBuffer',
+		'shaderSources'
 	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
@@ -55,11 +56,21 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 
 	shaders := OrderedCollection new.
 	renderStates := OrderedCollection new.
-
-	{	SDL3CloudsShaderSource.
+	shaderSources := {
+		SDL3RainShaderSource.
+		SDL3BumpedSinusoidalWrapShaderSource.
+		SDL3WaterShaderSource.
+		SDL3NoiseShaderSource.
+		SDL3WigglesShaderSource.
+		SDL3CloudsShaderSource.
+		SDL3VortexShaderSource.
+		SDL3CRTEffectShaderSource.
 		SDL3DotsHalftoneShaderSource.
 		SDL3HighlightShaderSource.
-		SDL3CRTEffectShaderSource } do: [ :eachShaderClass |
+		SDL3MoireShaderSource 
+		}.
+
+	shaderSources do: [ :eachShaderClass |
 		| aSource aShader renderStateInfo aRenderState |
 		aSource := eachShaderClass newAmong: supportedShaderFormats.
 		aShader := device newGPUShaderCreateinfo: aSource newShaderCreateInfo.
