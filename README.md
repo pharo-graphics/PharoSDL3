@@ -29,9 +29,9 @@ Follow the [install instructions](https://github.com/libsdl-org/SDL/blob/main/IN
 
 ## More information
 
-* **Demos and tests?** They are located in the 'SDL3-Tests' package. Check class-side of `SDL3Demo` for instructions to execute from a headless Pharo. The instructions assume you got Pharo with zeroconf scripts, but you can adapt them otherwise. Important: Currently, there are conflicts with Pharo's SDL2 if you execute from the GUI, but some calls work anyway.
+* **Demos and tests?** They are located in the 'SDL3-Tests' package. Check class-side of [`SDL3Demo`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3Demo.class.st) and [`SDL3GPURenderStateDemo>>run`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3GPURenderStateDemo.class.st) for instructions to execute from a headless Pharo. The instructions assume you got Pharo with zeroconf scripts, but you can adapt them otherwise. Important: Currently, there are conflicts with Pharo's SDL2 if you execute from the GUI, but some calls work anyway.
 * **Is this code generated?** Yes, it was initially generated with [CIG](https://github.com/estebanlm/pharo-cig) and post-processed manually. Check [this wiki page](../../wiki) for our post-processing and other details.
-* **What's the selector for each function?** [This table](https://github.com/pharo-graphics/PharoSDL3/wiki/Table-of-C-Function-and-Pharo-Selector) shows the Pharo selector for each SDL3 function in this project.
+* **What's the selector for each function?** **(OUTDATED)** [This table](https://github.com/pharo-graphics/PharoSDL3/wiki/Table-of-C-Function-and-Pharo-Selector) shows the Pharo selector for each SDL3 function in this project.
 
 
 ## License
