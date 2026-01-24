@@ -133,18 +133,25 @@ SDL3GPURenderStateDemo >> open [
 { #category : 'lifecycle' }
 SDL3GPURenderStateDemo >> render [
 
+	"Clear window"
 	self clearColor: Color blue.
 
-	self updateRenderState.
+	"Set the selected shader and render the background"
+	self updateRenderState: (renderStates at: renderStateIndex).
 	renderer
 		 renderTexture: backgroundTexture
-		 srcrect: nil
+		 srcrect: nil "<-- meaning: take the full texture as source"
 		 dstrect: (SDL3FRect origin: 0@0 extent: backgroundTexture extent).
 
+	"We're done with that shader"
 	renderer gpuRenderStateClear.
 
-	self showText: (shaderSources at: renderStateIndex) name x: 10 y: 20 color: Color green.
+	"Draw the shader name"
+	self
+		showText: (shaderSources at: renderStateIndex) name
+		x: 10 y: 20 color: self currentWorld theme caretColor.
 
+	"Finally, render the Pharo logo"
 	renderer
 		 renderTexture: foregroundTexture
 		 srcrect: nil
@@ -152,7 +159,8 @@ SDL3GPURenderStateDemo >> render [
 			(SDL3FRect
 				origin: (backgroundTexture extent - foregroundTexture extent / 2)
 				extent: foregroundTexture extent).
-	
+
+	"We're done with rendering this frame, so let's present it on the window"	
 	self present
 ]
 
@@ -199,12 +207,10 @@ SDL3GPURenderStateDemo >> runUntilQuit [
 ]
 
 { #category : 'initialization' }
-SDL3GPURenderStateDemo >> updateRenderState [
+SDL3GPURenderStateDemo >> updateRenderState: renderState [
 	"Set updated parameters to shader"
 
-	| renderState |
-	renderState := renderStates at: renderStateIndex.
-
+	"See the class-comment of `SDL3GPURenderStateDemoUniformBuffer`"
 	uniformBuffer
 		time: Time millisecondClockValue / 1000.0;
 		resolutionX: backgroundTexture w;

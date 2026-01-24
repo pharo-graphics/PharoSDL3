@@ -23,7 +23,11 @@ LibSDL3VideoTest class >> shouldWaitToSee: aBoolean [
 	"Establish whether the wait to see tests is actually enabled.
 	Useful to be run from terminal, e.g.:
 	
-	./pharo Pharo.image eval 'LibSDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest suite run' "
+	./pharo Pharo.image eval 'LibSDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest suite run'
+	
+	./pharo Pharo.image eval 'LibSDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest run: #test06ShapedWindow'
+
+	 "
 
 	shouldWaitToSee := aBoolean
 ]
