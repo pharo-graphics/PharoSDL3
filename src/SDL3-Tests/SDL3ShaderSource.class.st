@@ -32,7 +32,7 @@ SDL3ShaderSource class >> generateEmbeddedSourceAt: hlslFilename toExtension: ex
 	outputFilename := '{1}.frag.{2}' format: { self className. extension }.
 	result := LibC runCommand:
 		('shadercross "{1}" -o "{2}"' format: { hlslFilename. outputFilename }).
-	self assert: result = 0.
+	self assert: result = 0 description: 'Compilation error - ', extension.
 
 	fileReference := outputFilename asFileReference.
 	self assert: fileReference exists.
