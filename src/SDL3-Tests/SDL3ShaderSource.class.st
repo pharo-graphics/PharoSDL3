@@ -38,8 +38,7 @@ SDL3ShaderSource class >> generateEmbeddedSourceAt: hlslFilename toExtension: ex
 			tab; nextPutAll: '"This method was generated from #hlslSource"';
 			cr; cr;
 			tab; nextPutAll: '^ ';
-			print: outputContents base64Encoded;
-			nextPutAll: ' base64Decoded' ].
+			print: outputContents base64Encoded ].
 	
 	self classSide
 		compile: methodSourceCode
@@ -68,7 +67,9 @@ SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSL [
 SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSLInAllSubclasses [
 	<example>
 
-	self allSubclassesDo: #generateEmbeddedSourcesFromHLSL
+	self allSubclassesDo: [ :each |
+		(each classSide includesSelector: #hlslSource) ifTrue: [ 
+			each generateEmbeddedSourcesFromHLSL ] ]
 ]
 
 { #category : 'accessing' }
