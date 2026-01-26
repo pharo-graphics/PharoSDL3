@@ -3,7 +3,7 @@ Post-processing fragment shader adapted from https://www.shadertoy.com/view/4l2X
 "
 Class {
 	#name : 'SDL3BumpedSinusoidalWrapShaderSource',
-	#superclass : 'SDL3ShaderSource',
+	#superclass : 'SDL3GPURenderStateDemoShaderSource',
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
 	#tag : 'Shaders'

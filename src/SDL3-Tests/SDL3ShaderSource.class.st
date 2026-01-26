@@ -16,15 +16,6 @@ Class {
 	#tag : 'Shaders'
 }
 
-{ #category : 'formatting' }
-SDL3ShaderSource class >> format: aSDL3GPUShaderFormat sourceByteArray: aByteArray [
-
-	^ self new
-		format: aSDL3GPUShaderFormat;
-		sourceByteArray: aByteArray;
-		yourself
-]
-
 { #category : 'code generation' }
 SDL3ShaderSource class >> generateEmbeddedSourceAt: hlslFilename toExtension: extension [
 
@@ -86,45 +77,6 @@ SDL3ShaderSource class >> hlslSource [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'instance creation' }
-SDL3ShaderSource class >> newAmong: supportedShaderFormats [
-
-	(supportedShaderFormats includes: SDL3GPUShaderFormat dxil)
-		ifTrue: [ ^ self newDXIL ].
-
-	(supportedShaderFormats includes: SDL3GPUShaderFormat msl)
-		ifTrue: [ ^ self newMSL ].
-
-	(supportedShaderFormats includes: SDL3GPUShaderFormat spirv)
-		ifTrue: [ ^ self newSPIRV ].
-	
-	NotFound signal
-]
-
-{ #category : 'instance creation' }
-SDL3ShaderSource class >> newDXIL [
-
-	^ self
-		format: SDL3GPUShaderFormat dxil
-		sourceByteArray: self sourceCompiledAsDXIL
-]
-
-{ #category : 'instance creation' }
-SDL3ShaderSource class >> newMSL [
-
-	^ self
-		format: SDL3GPUShaderFormat msl
-		sourceByteArray: self sourceCompiledAsMSL
-]
-
-{ #category : 'instance creation' }
-SDL3ShaderSource class >> newSPIRV [
-
-	^ self
-		format: SDL3GPUShaderFormat spirv
-		sourceByteArray: self sourceCompiledAsSPV
-]
-
 { #category : 'accessing' }
 SDL3ShaderSource class >> sourceCompiledAsDXIL [
 
@@ -141,66 +93,4 @@ SDL3ShaderSource class >> sourceCompiledAsMSL [
 SDL3ShaderSource class >> sourceCompiledAsSPV [
 
 	^ self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource >> format [
-
-	^ format
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource >> format: aSDL3GPUShaderFormat [
-
-	format := aSDL3GPUShaderFormat
-]
-
-{ #category : 'instance creation' }
-SDL3ShaderSource >> newShaderCreateInfo [
-
-	^ SDL3GPUShaderCreateInfo new
-		stage: SDL3GPUShaderStage fragment;
-		numSamplers: self numberOfSamplers;
-		numUniformBuffers: self numberOfUniformBuffers;
-		code: self source;
-		codeSize: self source size;
-		format: self format asInteger;
-		yourself
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource >> numberOfSamplers [
-
-	^ 1
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource >> numberOfUniformBuffers [
-
-	^ 1
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource >> source [
-
-	^ source
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource >> source: anObject [
-
-	source := anObject
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource >> sourceByteArray: aByteArray [
-
-	source :=
-		FFIExternalArray
-			externalNewType: 'char'
-			size: aByteArray size.
-
-	aByteArray withIndexDo: [ :each :index | source at: index put: each ].
-	
-	source autoRelease
 ]

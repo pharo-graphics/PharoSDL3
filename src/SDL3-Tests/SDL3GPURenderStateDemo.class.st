@@ -70,12 +70,11 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 		SDL3MoireShaderSource 
 		}.
 
-	shaderSources do: [ :eachShaderClass |
-		| aSource aShader renderStateInfo aRenderState |
-		aSource := eachShaderClass newAmong: supportedShaderFormats.
-		aShader := device newGPUShaderCreateinfo: aSource newShaderCreateInfo.
+	shaderSources do: [ :eachSources |
+		| aShader renderStateInfo aRenderState |
+		aShader := eachSources newShaderAmong: supportedShaderFormats device: device.
 		lib assertSuccess: aShader.
-		
+
 		renderStateInfo := SDL3GPURenderStateCreateInfo new.
 		renderStateInfo fragmentShader: aShader.
 		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.

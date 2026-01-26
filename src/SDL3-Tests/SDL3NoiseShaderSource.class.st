@@ -3,7 +3,7 @@ I am a post-processing fragment shader.
 "
 Class {
 	#name : 'SDL3NoiseShaderSource',
-	#superclass : 'SDL3ShaderSource',
+	#superclass : 'SDL3GPURenderStateDemoShaderSource',
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
 	#tag : 'Shaders'

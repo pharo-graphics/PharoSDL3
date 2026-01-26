@@ -3,7 +3,7 @@ Post-processing shader fragment inspired on https://godotshaders.com/shader/2d-i
 "
 Class {
 	#name : 'SDL3HighlightShaderSource',
-	#superclass : 'SDL3ShaderSource',
+	#superclass : 'SDL3GPURenderStateDemoShaderSource',
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
 	#tag : 'Shaders'

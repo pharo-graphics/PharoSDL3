@@ -3,7 +3,7 @@ I am a post-processing fragment shader inspired on SDL/test/testgpurender_effect
 "
 Class {
 	#name : 'SDL3CRTEffectShaderSource',
-	#superclass : 'SDL3ShaderSource',
+	#superclass : 'SDL3GPURenderStateDemoShaderSource',
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
 	#tag : 'Shaders'
