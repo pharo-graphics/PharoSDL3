@@ -27,9 +27,20 @@ Follow the [install instructions](https://github.com/libsdl-org/SDL/blob/main/IN
 * On Windows, you can [download it](https://github.com/libsdl-org/SDL/releases) and place it together with the Pharo image.
 
 
+## Execution
+
+We count with tests that do FFI calls and assert on the resulting code, but "demos" complement testing with human interaction. Some features require visually checking that rendering is correctly done, as well as interacting via mouse and keyboard to check events are correctly handled.
+
+Both **Tests and demos** need to run in **headless mode** Pharo due to conflicts with SDL2, otherwise. Run instructions often assume you downloaded Pharo via zeroconf scripts, but you can adapt them.
+
+**Tests** are located in the `'SDL3-Tests'` package, so they can be executed from terminal: `./pharo Pharo.image test 'SDL3-Tests'`. Follow instructions in class-side of [LibSDL3VideoTest](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/LibSDL3VideoTest.class.st) to enable a wait before closing each video test so you have some seconds to see what happens.
+
+**Demos** can be found in:
+- Class-side of [`SDL3Demo`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3Demo.class.st) (several demos)
+- [`SDL3GPURenderStateDemo>>run`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3GPURenderStateDemo.class.st) ([video](https://www.youtube.com/watch?v=94hMw9pPvBQ)).
+
 ## More information
 
-* **Demos and tests?** They are located in the 'SDL3-Tests' package. Check class-side of [`SDL3Demo`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3Demo.class.st) and [`SDL3GPURenderStateDemo>>run`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3GPURenderStateDemo.class.st) for instructions to execute from a headless Pharo. The instructions assume you got Pharo with zeroconf scripts, but you can adapt them otherwise. Important: Currently, there are conflicts with Pharo's SDL2 if you execute from the GUI, but some calls work anyway.
 * **Is this code generated?** Yes, it was initially generated with [CIG](https://github.com/estebanlm/pharo-cig) and post-processed manually. Check [this wiki page](../../wiki) for our post-processing and other details.
 * **What's the selector for each function?** **(OUTDATED)** [This table](https://github.com/pharo-graphics/PharoSDL3/wiki/Table-of-C-Function-and-Pharo-Selector) shows the Pharo selector for each SDL3 function in this project.
 
