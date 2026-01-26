@@ -56,6 +56,8 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 
 	shaders := OrderedCollection new.
 	renderStates := OrderedCollection new.
+
+	"shaderSources := SDL3GPURenderStateDemoShaderSource allSubclasses."
 	shaderSources := {
 		SDL3RainShaderSource.
 		SDL3BumpedSinusoidalWrapShaderSource.
@@ -70,12 +72,11 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 		SDL3MoireShaderSource 
 		}.
 
-	shaderSources do: [ :eachShaderClass |
-		| aSource aShader renderStateInfo aRenderState |
-		aSource := eachShaderClass newAmong: supportedShaderFormats.
-		aShader := device newGPUShaderCreateinfo: aSource newShaderCreateInfo.
+	shaderSources do: [ :eachSources |
+		| aShader renderStateInfo aRenderState |
+		aShader := eachSources newShaderAmong: supportedShaderFormats device: device.
 		lib assertSuccess: aShader.
-		
+
 		renderStateInfo := SDL3GPURenderStateCreateInfo new.
 		renderStateInfo fragmentShader: aShader.
 		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.
