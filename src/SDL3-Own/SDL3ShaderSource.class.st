@@ -1,5 +1,5 @@
 "
-I represent a fragment shader to be used in the SDL3 library, and provide convenience API to embed shaders as Pharo code. Such API is based on SDL_shadercross to generate DXIL, MSL and SPV compiled shaders from HLSL human-readable source. SDL_shadercross is a library for translating shaders to different formats, and MUST be installed and either in your PATH, or close to the Pharo image's working directory.
+I represent a fragment shader to be used in the SDL3 library, and provide convenience API to embed shaders as Pharo code. Such API is based on `SDL_shadercross` to generate DXIL, MSL and SPV compiled shaders from HLSL (a human-readable format). `SDL_shadercross` is a library for translating shaders to different formats, and MUST be installed and either in your PATH, or close to the Pharo image's working directory.
 
 For more information, see: https://github.com/libsdl-org/SDL_shadercross
 
@@ -7,13 +7,8 @@ For more information, see: https://github.com/libsdl-org/SDL_shadercross
 Class {
 	#name : 'SDL3ShaderSource',
 	#superclass : 'Object',
-	#instVars : [
-		'source',
-		'format'
-	],
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
 
 { #category : 'code generation' }
@@ -74,6 +69,47 @@ SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSLInAllSubclasses [
 
 { #category : 'accessing' }
 SDL3ShaderSource class >> hlslSource [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'instance creation' }
+SDL3ShaderSource class >> newShaderAmong: supportedShaderFormats device: aSDL3GPUDevice [
+
+	| createInfo |
+	createInfo :=
+		SDL3GPUShaderCreateInfo new
+			stage: SDL3GPUShaderStage fragment;
+			numSamplers: self numberOfSamplers;
+			numUniformBuffers: self numberOfUniformBuffers;
+			yourself.
+
+	"TODO: Either write a builder that stores the selector or fill create info in a double-dispatch"
+	(supportedShaderFormats includes: SDL3GPUShaderFormat dxil) ifTrue: [
+		createInfo
+			format: SDL3GPUShaderFormat dxil asInteger;
+			base64Source: self sourceCompiledAsDXIL ].
+	(supportedShaderFormats includes: SDL3GPUShaderFormat msl) ifTrue: [
+		createInfo
+			format: SDL3GPUShaderFormat msl asInteger;
+			base64Source: self sourceCompiledAsMSL ].
+	(supportedShaderFormats includes: SDL3GPUShaderFormat spirv) ifTrue: [
+		createInfo
+			format: SDL3GPUShaderFormat spirv asInteger;
+			base64Source: self sourceCompiledAsSPV ].
+	createInfo format = 0 ifTrue: [ NotFound signal ].
+
+	^ aSDL3GPUDevice newGPUShaderCreateinfo: createInfo
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> numberOfSamplers [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> numberOfUniformBuffers [
 
 	^ self subclassResponsibility
 ]

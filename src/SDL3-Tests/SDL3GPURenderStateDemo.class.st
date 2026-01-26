@@ -56,6 +56,8 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 
 	shaders := OrderedCollection new.
 	renderStates := OrderedCollection new.
+
+	"shaderSources := SDL3GPURenderStateDemoShaderSource allSubclasses."
 	shaderSources := {
 		SDL3RainShaderSource.
 		SDL3BumpedSinusoidalWrapShaderSource.
