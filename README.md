@@ -33,7 +33,7 @@ We count with tests that do FFI calls and assert on the resulting code, but "dem
 
 Both **Tests and demos** need to run in **headless mode** Pharo due to conflicts with SDL2, otherwise. Run instructions often assume you downloaded Pharo via zeroconf scripts, but you can adapt them.
 
-**Tests** are located in the `'SDL3-Tests'` package, so they can be executed from terminal: `./pharo Pharo.image test 'SDL3-Tests'`. Follow instructions in class-side of [LibSDL3VideoTest](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/LibSDL3VideoTest.class.st) to enable a wait before closing each video test so you have some seconds to see what happens.
+**Tests** are located in the `'SDL3-Tests'` package, so they can be executed from terminal: `./pharo Pharo.image test 'SDL3-Tests'`. Follow instructions in class-side of [SDL3VideoTest](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3VideoTest.class.st) to enable a wait before closing each video test so you have some seconds to see what happens.
 
 **Demos** can be found in:
 - Class-side of [`SDL3Demo`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3Demo.class.st) (several demos)
