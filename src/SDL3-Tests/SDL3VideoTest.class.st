@@ -1,9 +1,6 @@
 Class {
-	#name : 'LibSDL3VideoTest',
-	#superclass : 'TestCase',
-	#instVars : [
-		'lib'
-	],
+	#name : 'SDL3VideoTest',
+	#superclass : 'SDL3Test',
 	#classInstVars : [
 		'shouldWaitToSee'
 	],
@@ -13,19 +10,19 @@ Class {
 }
 
 { #category : 'accessing' }
-LibSDL3VideoTest class >> shouldWaitToSee [
+SDL3VideoTest class >> shouldWaitToSee [
 
 	^ shouldWaitToSee ifNil: [ UIManager default class ~= NonInteractiveUIManager ]
 ]
 
 { #category : 'accessing' }
-LibSDL3VideoTest class >> shouldWaitToSee: aBoolean [
+SDL3VideoTest class >> shouldWaitToSee: aBoolean [
 	"Establish whether the wait to see tests is actually enabled.
 	Useful to be run from terminal, e.g.:
 	
-	./pharo Pharo.image eval 'LibSDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest suite run'
+	./pharo Pharo.image eval 'SDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest suite run'
 	
-	./pharo Pharo.image eval 'LibSDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest run: #test06ShapedWindow'
+	./pharo Pharo.image eval 'SDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest run: #test06ShapedWindow'
 
 	 "
 
@@ -33,23 +30,21 @@ LibSDL3VideoTest class >> shouldWaitToSee: aBoolean [
 ]
 
 { #category : 'private' }
-LibSDL3VideoTest >> assertEmptySDLError [
+SDL3VideoTest >> assertEmptySDLError [
 
 	self assertEmpty: lib getError
 ]
 
 { #category : 'private' }
-LibSDL3VideoTest >> pollAllEvents [
+SDL3VideoTest >> pollAllEvents [
 
 	[ lib pollEvent: SDL3Event new ] whileTrue
 ]
 
 { #category : 'running' }
-LibSDL3VideoTest >> setUp [
+SDL3VideoTest >> setUp [
 
 	super setUp.
-
-	lib := LibSDL3 uniqueInstance.
 
 	"Return early if video subsystem is already initialized"
 	(lib wasInit: SDL3InitFlags video)
@@ -60,7 +55,7 @@ LibSDL3VideoTest >> setUp [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test01ClipboardAPI [
+SDL3VideoTest >> test01ClipboardAPI [
 
 	"Copy&paste a non-ASCII string"
 	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
@@ -84,7 +79,7 @@ LibSDL3VideoTest >> test01ClipboardAPI [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test02CreateWindow [
+SDL3VideoTest >> test02CreateWindow [
 
 	| window |
 	window :=
@@ -101,7 +96,7 @@ LibSDL3VideoTest >> test02CreateWindow [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test03CreateWindowAndRenderer [
+SDL3VideoTest >> test03CreateWindowAndRenderer [
 
 	| windowPointer rendererPointer window renderer success |
 	windowPointer := (FFIExternalValueHolder ofType: SDL3Window) new.
@@ -127,7 +122,7 @@ LibSDL3VideoTest >> test03CreateWindowAndRenderer [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test04BasicRender [
+SDL3VideoTest >> test04BasicRender [
 
 	| window renderer |
 	window :=
@@ -162,7 +157,7 @@ LibSDL3VideoTest >> test04BasicRender [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
+SDL3VideoTest >> test05TextureFromSurfaceFromForm [
 
 	| window renderer texture shapeForm surface |
 	window :=
@@ -194,7 +189,7 @@ LibSDL3VideoTest >> test05TextureFromSurfaceFromForm [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test06ShapedWindow [
+SDL3VideoTest >> test06ShapedWindow [
 	"It doesn't seem to work on Mac"
 
 	| success window extent shapeForm surface renderer |
@@ -245,7 +240,7 @@ LibSDL3VideoTest >> test06ShapedWindow [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test07Fullscreen [
+SDL3VideoTest >> test07Fullscreen [
 
 	| window renderer |
 	window :=
@@ -271,7 +266,7 @@ LibSDL3VideoTest >> test07Fullscreen [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test08CursorAPI [
+SDL3VideoTest >> test08CursorAPI [
 
 	| cursorId cursor |
 	cursorId := SDL3SystemCursor crosshair.
@@ -296,7 +291,7 @@ LibSDL3VideoTest >> test08CursorAPI [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test09RenderDrivers [
+SDL3VideoTest >> test09RenderDrivers [
 
 	| driverNames |
 	driverNames := lib renderDrivers.
@@ -306,13 +301,13 @@ LibSDL3VideoTest >> test09RenderDrivers [
 ]
 
 { #category : 'tests' }
-LibSDL3VideoTest >> test10QueryDisplays [
+SDL3VideoTest >> test10QueryDisplays [
 
 	self assert: lib displayIDs size equals: lib numberOfDisplays
 ]
 
 { #category : 'private' }
-LibSDL3VideoTest >> waitToSee [
+SDL3VideoTest >> waitToSee [
 	"May perform a wait to let user visually check the window"
 
 	self class shouldWaitToSee ifFalse: [ ^self ].
