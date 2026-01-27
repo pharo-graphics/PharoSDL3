@@ -20,7 +20,7 @@ SDL3Demo class >> example01ColorWheel [
 	| demo |
 	demo := self new.
 
-	demo ensureInitVideo; open.
+	demo ensureInitSDL3; open.
 
 	(Color wheel: 20) do: [ :each |
 		demo
@@ -28,7 +28,7 @@ SDL3Demo class >> example01ColorWheel [
 			present.
 		0.1 seconds wait ].
 
-	demo close; ensureQuitVideo
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
@@ -43,7 +43,7 @@ SDL3Demo class >> example02LogState [
 		description: 'SDL2 is already initialized'.
 
 	demo := self new.
-	demo ensureInitVideo; open.
+	demo ensureInitSDL3; open.
 
 	quit := false.
 	logs := LinkedList new.
@@ -137,7 +137,7 @@ SDL3Demo class >> example02LogState [
 
 	"Tear down"
 	demo close.
-	demo ensureQuitVideo.
+	demo ensureQuitSDL3.
 	Smalltalk snapshot: false andQuit: true
 ]
 
@@ -153,7 +153,7 @@ SDL3Demo class >> example03LogEventsUntilThirdQuit [
 		description: 'SDL2 is already initialized'.
 
 	demo := self new.
-	demo ensureInitVideo; open.
+	demo ensureInitSDL3; open.
 
 	quitCount := 0.
 	logs := LinkedList new.
@@ -184,7 +184,7 @@ SDL3Demo class >> example03LogEventsUntilThirdQuit [
 
 	"Tear down"
 	demo close.
-	demo ensureQuitVideo.
+	demo ensureQuitSDL3.
 	Smalltalk snapshot: false andQuit: true
 ]
 
@@ -200,7 +200,7 @@ SDL3Demo class >> example04HandleEvents [
 		description: 'SDL2 is already initialized'.
 
 	demo := self new.
-	demo ensureInitVideo; open.
+	demo ensureInitSDL3; open.
 
 	quit := false.
 	hue := 250.
@@ -249,7 +249,7 @@ SDL3Demo class >> example04HandleEvents [
 
 	"Tear down"
 	demo close.
-	demo ensureQuitVideo.
+	demo ensureQuitSDL3.
 	Smalltalk snapshot: false andQuit: true
 ]
 
@@ -265,7 +265,7 @@ SDL3Demo class >> example05Clipboard [
 		description: 'SDL2 is already initialized'.
 
 	demo := self new.
-	demo ensureInitVideo; open.
+	demo ensureInitSDL3; open.
 
 	quit := false.
 	pasted := OrderedCollection new.
@@ -314,7 +314,7 @@ SDL3Demo class >> example05Clipboard [
 	"Tear down"
 	pasted do: [ :each | each key destroy ].
 	demo close.
-	demo ensureQuitVideo.
+	demo ensureQuitSDL3.
 	Smalltalk snapshot: false andQuit: true
 ]
 
@@ -330,7 +330,7 @@ SDL3Demo class >> example06OpenFolderDialog [
 		description: 'SDL2 is already initialized'.
 
 	demo := self new.
-	demo ensureInitVideo; open.
+	demo ensureInitSDL3; open.
 
 	quit := false.
 	logs := LinkedList new.
@@ -370,7 +370,7 @@ SDL3Demo class >> example06OpenFolderDialog [
 
 	"Tear down"
 	demo close.
-	demo ensureQuitVideo.
+	demo ensureQuitSDL3.
 	Smalltalk snapshot: false andQuit: true
 ]
 
@@ -386,7 +386,7 @@ SDL3Demo class >> example07SystemCursors [
 		description: 'SDL2 is already initialized'.
 
 	demo := self new.
-	demo ensureInitVideo; open.
+	demo ensureInitSDL3; open.
 
 	quit := false.
 	logs := LinkedList new.
@@ -430,7 +430,7 @@ SDL3Demo class >> example07SystemCursors [
 
 	"Tear down"
 	demo close.
-	demo ensureQuitVideo.
+	demo ensureQuitSDL3.
 	Smalltalk snapshot: false andQuit: true
 ]
 
@@ -505,15 +505,12 @@ SDL3Demo >> color: aColor [
 ]
 
 { #category : 'lifecycle' }
-SDL3Demo >> ensureInitVideo [
-	"Return early if video subsystem is already initialized"
+SDL3Demo >> ensureInitSDL3 [
 
-	(lib wasInit: SDL3InitFlags video)
-		= SDL3InitFlags video value ifTrue: [ ^ self ].
-
+	"Set (optional) metadata"
 	lib
 		setAppMetadataAppname: self className
-		appversion: 'v1.2.3.4.5.6.7'
+		appversion: 'v1.2.3'
 		appidentifier: 'org.pharo.sdl3.', self className.
 
 	"Initialize the video subsystem"
@@ -521,12 +518,9 @@ SDL3Demo >> ensureInitVideo [
 ]
 
 { #category : 'lifecycle' }
-SDL3Demo >> ensureQuitVideo [
+SDL3Demo >> ensureQuitSDL3 [
 
-	(lib wasInit: SDL3InitFlags video)
-		= SDL3InitFlags video ifFalse: [ ^ self ].
-	
-	lib quitSubSystem: SDL3InitFlags video
+	lib quit
 ]
 
 { #category : 'api' }

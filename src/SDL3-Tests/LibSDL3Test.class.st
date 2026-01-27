@@ -20,6 +20,14 @@ LibSDL3Test >> setUp [
 	lib := LibSDL3 uniqueInstance
 ]
 
+{ #category : 'running' }
+LibSDL3Test >> tearDown [
+
+	lib quit.
+
+	super tearDown
+]
+
 { #category : 'tests' }
 LibSDL3Test >> test01GetVersion [
 

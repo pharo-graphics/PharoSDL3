@@ -35,7 +35,7 @@ SDL3GPURenderStateDemo >> close [
 	(mainLoopProcess isNotNil and: [ mainLoopProcess isTerminated not ])
 		ifTrue: [ mainLoopProcess terminate ].
 
-	self ensureQuitVideo.
+	self ensureQuitSDL3.
 	Smalltalk snapshot: false andQuit: true
 ]
 
@@ -110,7 +110,7 @@ SDL3GPURenderStateDemo >> initializeTextures [
 { #category : 'lifecycle' }
 SDL3GPURenderStateDemo >> open [
 
-	self ensureInitVideo.
+	self ensureInitSDL3.
 
 	window :=
 		lib
