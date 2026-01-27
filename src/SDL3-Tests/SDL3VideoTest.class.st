@@ -2,7 +2,7 @@ Class {
 	#name : 'SDL3VideoTest',
 	#superclass : 'SDL3Test',
 	#classInstVars : [
-		'shouldWaitToSee'
+		'waitDuration'
 	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
@@ -10,23 +10,23 @@ Class {
 }
 
 { #category : 'accessing' }
-SDL3VideoTest class >> shouldWaitToSee [
+SDL3VideoTest class >> waitDuration [
 
-	^ shouldWaitToSee ifNil: [ UIManager default class ~= NonInteractiveUIManager ]
+	^ waitDuration ifNil: [ 1 seconds ]
 ]
 
 { #category : 'accessing' }
-SDL3VideoTest class >> shouldWaitToSee: aBoolean [
-	"Establish whether the wait to see tests is actually enabled.
-	Useful to be run from terminal, e.g.:
-	
-	./pharo Pharo.image eval 'SDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest suite run'
-	
-	./pharo Pharo.image eval 'SDL3VideoTest shouldWaitToSee: true. LibSDL3VideoTest run: #test06ShapedWindow'
+SDL3VideoTest class >> waitDuration: aDuration [
+	"Establish how much time to wait to see on tests.
 
+	Run a specific test:
+	./pharo Pharo.image eval 'SDL3VideoTest waitDuration: 7 seconds. SDL3VideoTest run: #test06ShapedWindow'
+
+	Run whole suite:
+	./pharo Pharo.image eval 'SDL3VideoTest waitDuration: 7 seconds. SDL3VideoTest suite run'
 	 "
 
-	shouldWaitToSee := aBoolean
+	waitDuration := aDuration
 ]
 
 { #category : 'private' }
@@ -308,12 +308,12 @@ SDL3VideoTest >> test10QueryDisplays [
 
 { #category : 'private' }
 SDL3VideoTest >> waitToSee [
-	"May perform a wait to let user visually check the window"
+	"Perform a wait to consume events and let user visually check the window"
 
-	self class shouldWaitToSee ifFalse: [ ^self ].
+	| endTime |
+	endTime := DateAndTime now + (self class waitDuration).
 
-	"SDL windows need that events are consumed"
-	self pollAllEvents.
-	2 seconds wait.
-	self pollAllEvents
+	"SDL windows need that events are (regularly?) consumed."	
+	[ self pollAllEvents. 20 milliSeconds wait ]
+		doWhileTrue: [ DateAndTime now < endTime ]
 ]
