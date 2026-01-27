@@ -110,43 +110,7 @@ LibSDL3Test >> test05CPUinfo [
 ]
 
 { #category : 'tests' }
-LibSDL3Test >> test06FilesystemAPI [
-
-	self
-		assert: lib getCurrentDirectory asFileReference 
-		equals: '.' asFileReference.
-	
-	self
-		assert: (lib getUserFolder: SDL3Folder home) asFileReference
-		equals: FileLocator home asFileReference.
-	
-	self assert:
-		(FileLocator vmDirectory asPath <=
-			lib getBasePath asFileReference asPath)
-]
-
-{ #category : 'tests' }
-LibSDL3Test >> test07VideoSubsystemLifecycle [
-
-	"Video subsystem may be already initialized"
-	(lib wasInit: SDL3InitFlags video) =
-		SDL3InitFlags video value ifTrue: [ ^ self skip ].
-
-	self assert: (lib initSubSystem: SDL3InitFlags video).
-
-	self
-		assert: (lib wasInit: SDL3InitFlags video)
-		equals: SDL3InitFlags video value.
-
-	lib quitSubSystem: SDL3InitFlags video.
-
-	self
-		assert: (lib wasInit: SDL3InitFlags video)
-		equals: 0
-]
-
-{ #category : 'tests' }
-LibSDL3Test >> test08Properties [
+LibSDL3Test >> test06Properties [
 
 	| id |
 	id := lib newProperties.
@@ -186,4 +150,55 @@ LibSDL3Test >> test08Properties [
 		equals: 'none'.
 "
 	lib destroyProperties: id
+]
+
+{ #category : 'tests' }
+LibSDL3Test >> test07VideoSubsystemLifecycle [
+
+	"Video subsystem may be already initialized"
+	(lib wasInit: SDL3InitFlags video) =
+		SDL3InitFlags video value ifTrue: [ ^ self skip ].
+
+	self assert: (lib initSubSystem: SDL3InitFlags video).
+
+	self
+		assert: (lib wasInit: SDL3InitFlags video)
+		equals: SDL3InitFlags video value.
+
+	lib quitSubSystem: SDL3InitFlags video.
+
+	self
+		assert: (lib wasInit: SDL3InitFlags video)
+		equals: 0
+]
+
+{ #category : 'tests' }
+LibSDL3Test >> test08FilesystemAPI [
+
+	self
+		assert: lib getCurrentDirectory asFileReference 
+		equals: '.' asFileReference.
+	
+	self
+		assert: (lib getUserFolder: SDL3Folder home) asFileReference
+		equals: FileLocator home asFileReference.
+	
+	self assert:
+		(FileLocator vmDirectory asPath <=
+			lib getBasePath asFileReference asPath)
+]
+
+{ #category : 'tests' }
+LibSDL3Test >> test09EnumerateDirectory [
+
+	| data fileCallback |
+	data := OrderedCollection new.
+	fileCallback :=
+		FFICallback
+			signature: #(SDL3EnumerationResult (void *userdata, char *dirname, char *fname))
+			block: [ :userdata :dirname :fname |
+				data add: { dirname. fname }.
+				SDL3EnumerationResult continue ].	
+	lib assertSuccess: (lib enumerateDirectoryPath: '.' callback: fileCallback userdata: nil).
+	self assert: data size equals: '.' asFileReference entries size
 ]
