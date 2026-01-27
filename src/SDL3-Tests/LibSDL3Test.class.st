@@ -37,9 +37,10 @@ LibSDL3Test >> test01GetVersion [
 ]
 
 { #category : 'tests' }
-LibSDL3Test >> test02GetTicksAndDelay [
+LibSDL3Test >> test02Milliseconds [
 
 	| ticks1 ticks2 delta |
+	"Get the number of milliseconds that have elapsed since the SDL library initialization"
 	ticks1 := lib getTicks.
 	ticks2 := lib getTicks.
 	delta := ticks2 - ticks1.
@@ -53,18 +54,29 @@ LibSDL3Test >> test02GetTicksAndDelay [
 ]
 
 { #category : 'tests' }
-LibSDL3Test >> test03GetTicksNSAndDelayNS [
+LibSDL3Test >> test03Nanoseconds [
 
 	| ticks1 ticks2 delta |
+	"Get the number of nanoseconds since SDL library initialization"
 	ticks1 := lib getTicksNS.
 	ticks2 := lib getTicksNS.
 	delta := ticks2 - ticks1.
 	self assert: delta > 0.
 
 	ticks1 := lib getTicksNS.
-	lib delayNS: 100000.
+	"Wait at least the specified time, but possibly longer due to OS scheduling."
+	lib delayNS: 100.
 	ticks2 := lib getTicksNS.
-	self assert: ticks2 - ticks1 > delta
+	self assert: ticks2 - ticks1 > delta.
+
+	"SDL's currentTime is the number of nanoseconds since SDL library initialization."
+	ticks1 := lib currentTime.
+	"Attempt to wait as close to the requested time as possible, busy waiting if
+	necessary, but could return later due to OS scheduling."
+	lib delayPrecise: 100.
+	ticks2 := lib currentTime.
+	self assert: ticks2 - ticks1 > delta.
+
 ]
 
 { #category : 'tests' }

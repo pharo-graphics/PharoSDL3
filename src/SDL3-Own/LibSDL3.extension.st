@@ -30,6 +30,16 @@ LibSDL3 >> boundsOfDisplay: aDisplayID [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> currentTime [
+	"Answer current value of the system realtime clock in nanoseconds since Jan 1, 1970 in Universal Coordinated Time (UTC)."
+
+	| countBuffer |
+	countBuffer := FFIInt64 newBuffer.
+	self assertSuccess: (self getCurrentTime: countBuffer).
+	^ countBuffer int64AtOffset: 0
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> displayIDs [
 	"Answer an array of currently connected display ids."
 
