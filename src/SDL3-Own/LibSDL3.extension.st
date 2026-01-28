@@ -13,7 +13,9 @@ LibSDL3 >> assertSuccess: aReturnedValue [
 	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of an error, a descriptive string can be retrieved from SDL_GetError()."
 	<debuggerCompleteToSender>
 
-	(aReturnedValue = true or: [ aReturnedValue isNull not ]) ifTrue: [ ^ self ].
+	aReturnedValue = true ifTrue: [ ^ aReturnedValue ].
+	(aReturnedValue = false or: [ aReturnedValue isNull ])
+		ifFalse: [ ^ aReturnedValue ].
 
 	"Try to retrieve a descriptive error message"
 	^ SDL3Error new signal: self getError
@@ -85,6 +87,15 @@ LibSDL3 >> numberOfDisplays [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> pathInfoAt: pathString [
+
+	| pathInfoHolder |
+	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
+	self assertSuccess: (self getPathInfoPath: pathString info: pathInfoHolder).
+	^ pathInfoHolder value
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> renderDrivers [
 
 	| result |
@@ -92,6 +103,29 @@ LibSDL3 >> renderDrivers [
 	0 to: self getNumRenderDrivers - 1 do: [ :zeroBasedIndex |
 		result add: (self getRenderDriver: zeroBasedIndex) ].
 	^ result
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> timeToDateAndTime: ticks [
+	"Given an integer that represents a `SDL_Time`, answer its conversion to `DateAndTime`."
+
+	^ (self timeToDateTime: ticks localTime: false) asDateAndTime
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> timeToDateTime: ticks localTime: isLocal [
+	"Given an integer that represents a `SDL_Time`, answer its conversion to `SDL_DateTime`."
+
+	| dateAndTimeHolder |
+	dateAndTimeHolder := (FFIExternalValueHolder ofType: SDL3DateTime) new.
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			 timeToDateTimeTicks: ticks
+			 dt: dateAndTimeHolder
+			 localTime: isLocal).
+
+	^ dateAndTimeHolder value
 ]
 
 { #category : '*SDL3-Own' }
