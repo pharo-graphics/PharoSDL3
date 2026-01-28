@@ -75,3 +75,31 @@ SDL3FileTest >> test05BasePath [
 		(FileLocator vmDirectory asPath <=
 			lib getBasePath asFileReference asPath)
 ]
+
+{ #category : 'tests' }
+SDL3FileTest >> test06CreateRenameRemoveDirectory [
+	
+	| randomString directoryA directoryB |
+	randomString := UUID new asString36.
+	directoryA := FileSystem workingDirectory / ('test' , randomString, 'A').
+	directoryB := FileSystem workingDirectory / ('test' , randomString, 'B').
+	self deny: directoryA exists.
+	self deny: directoryB exists.
+
+	"Create a directory"
+	lib assertSuccess: (lib newDirectory: directoryA pathString).
+	self assert: directoryA exists.
+
+	"Rename it"
+	lib assertSuccess:
+		(lib
+			renamePathOldpath: directoryA pathString
+			newpath: directoryB pathString).
+	self deny: directoryA exists.
+	self assert: directoryB exists.
+
+	"Remove it (with new path)"
+	lib assertSuccess: (lib removePath: directoryB pathString).
+	self deny: directoryA exists.
+
+]
