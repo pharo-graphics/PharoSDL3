@@ -85,6 +85,15 @@ LibSDL3 >> numberOfDisplays [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> pathInfoAt: pathString [
+
+	| pathInfoHolder |
+	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
+	self assertSuccess: (self getPathInfoPath: pathString info: pathInfoHolder).
+	^ pathInfoHolder value
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> renderDrivers [
 
 	| result |

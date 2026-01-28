@@ -184,13 +184,11 @@ SDL3BasicTest >> test09EnumerateDirectory [
 { #category : 'tests' }
 SDL3BasicTest >> test10FileInfo [
 
-	| pathInfoHolder pathString fileReference pathInfo |
+	| pathString fileReference pathInfo |
 	pathString := Smalltalk vm vmFileName.
 	fileReference := pathString asFileReference.
 
-	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
-	lib assertSuccess: (lib getPathInfoPath: pathString info: pathInfoHolder).
-	pathInfo := pathInfoHolder value.
+	pathInfo := lib pathInfoAt: pathString.
 
 	self assert: pathInfo size equals: fileReference size.
 
