@@ -95,6 +95,29 @@ LibSDL3 >> renderDrivers [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> timeToDateAndTime: ticks [
+	"Given an integer that represents a `SDL_Time`, answer its conversion to `DateAndTime`."
+
+	^ (self timeToDateTime: ticks localTime: false) asDateAndTime
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> timeToDateTime: ticks localTime: isLocal [
+	"Given an integer that represents a `SDL_Time`, answer its conversion to `SDL_DateTime`."
+
+	| dateAndTimeHolder |
+	dateAndTimeHolder := (FFIExternalValueHolder ofType: SDL3DateTime) new.
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			 timeToDateTimeTicks: ticks
+			 dt: dateAndTimeHolder
+			 localTime: isLocal).
+
+	^ dateAndTimeHolder value
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> usableBoundsOfDisplay: aDisplayID [
 	"Answer the desktop usable rectangle of a display."
 

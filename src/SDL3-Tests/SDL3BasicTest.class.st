@@ -184,21 +184,14 @@ SDL3BasicTest >> test09EnumerateDirectory [
 { #category : 'tests' }
 SDL3BasicTest >> test10FileInfo [
 
-	| pathInfoHolder pathString dateAndTimeHolder |
-	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
-
+	| pathInfoHolder pathString |
 	pathString := Smalltalk vm vmFileName.
 
+	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
 	lib assertSuccess: (lib getPathInfoPath: pathString info: pathInfoHolder).
 
-	dateAndTimeHolder := (FFIExternalValueHolder ofType: SDL3DateTime) new.
-	
-	lib assertSuccess:
-		(lib
-			 timeToDateTimeTicks: pathInfoHolder value createTime
-			 dt: dateAndTimeHolder
-			 localTime: false).
-
 	"SDL3's path info has nanosecond precision"
-	self assert: dateAndTimeHolder value asDateAndTime - pathString asFileReference creationTime < 1 second.
+	self assert: pathInfoHolder value createDateAndTime - pathString asFileReference creationTime < 1 second.
+	self assert: pathInfoHolder value accessDateAndTime - pathString asFileReference accessTime < 1 second.
+	self assert: pathInfoHolder value modifyDateAndTime - pathString asFileReference modificationTime < 1 second
 ]
