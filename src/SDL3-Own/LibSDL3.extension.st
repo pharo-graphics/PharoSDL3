@@ -13,7 +13,9 @@ LibSDL3 >> assertSuccess: aReturnedValue [
 	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of an error, a descriptive string can be retrieved from SDL_GetError()."
 	<debuggerCompleteToSender>
 
-	(aReturnedValue = true or: [ aReturnedValue isNull not ]) ifTrue: [ ^ self ].
+	aReturnedValue = true ifTrue: [ ^ aReturnedValue ].
+	(aReturnedValue = false or: [ aReturnedValue isNull ])
+		ifFalse: [ ^ aReturnedValue ].
 
 	"Try to retrieve a descriptive error message"
 	^ SDL3Error new signal: self getError
