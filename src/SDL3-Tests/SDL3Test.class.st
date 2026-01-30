@@ -5,7 +5,7 @@ Class {
 	#name : 'SDL3Test',
 	#superclass : 'TestCase',
 	#instVars : [
-		'lib'
+		'sdl'
 	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
@@ -23,13 +23,13 @@ SDL3Test >> setUp [
 
 	super setUp.
 
-	lib := LibSDL3 uniqueInstance
+	sdl := LibSDL3 uniqueInstance
 ]
 
 { #category : 'running' }
 SDL3Test >> tearDown [
 
-	lib quit.
+	sdl quit.
 
 	super tearDown
 ]

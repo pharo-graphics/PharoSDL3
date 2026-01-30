@@ -9,9 +9,9 @@ Class {
 { #category : 'tests' }
 SDL3BasicTest >> test01GetVersion [
 
-	self assert: lib getVersion >= 3004000.
+	self assert: sdl getVersion >= 3004000.
 
-	self assert: lib getRevision isString
+	self assert: sdl getRevision isString
 ]
 
 { #category : 'tests' }
@@ -19,14 +19,14 @@ SDL3BasicTest >> test02Milliseconds [
 
 	| ticks1 ticks2 delta |
 	"Get the number of milliseconds that have elapsed since the SDL library initialization"
-	ticks1 := lib getTicks.
-	ticks2 := lib getTicks.
+	ticks1 := sdl getTicks.
+	ticks2 := sdl getTicks.
 	delta := ticks2 - ticks1.
 	self assert: delta equals: 0.
 
-	ticks1 := lib getTicks.
-	lib delay: 5.
-	ticks2 := lib getTicks.
+	ticks1 := sdl getTicks.
+	sdl delay: 5.
+	ticks2 := sdl getTicks.
 	delta := ticks2 - ticks1.
 	self assert: delta >= 5
 ]
@@ -36,23 +36,23 @@ SDL3BasicTest >> test03Nanoseconds [
 
 	| ticks1 ticks2 delta |
 	"Get the number of nanoseconds since SDL library initialization"
-	ticks1 := lib getTicksNS.
-	ticks2 := lib getTicksNS.
+	ticks1 := sdl getTicksNS.
+	ticks2 := sdl getTicksNS.
 	delta := ticks2 - ticks1.
 	self assert: delta > 0.
 
-	ticks1 := lib getTicksNS.
+	ticks1 := sdl getTicksNS.
 	"Wait at least the specified time, but possibly longer due to OS scheduling."
-	lib delayNS: 100.
-	ticks2 := lib getTicksNS.
+	sdl delayNS: 100.
+	ticks2 := sdl getTicksNS.
 	self assert: ticks2 - ticks1 > delta.
 
 	"SDL's currentTime is the number of nanoseconds since SDL library initialization."
-	ticks1 := lib currentTime.
+	ticks1 := sdl currentTime.
 	"Attempt to wait as close to the requested time as possible, busy waiting if
 	necessary, but could return later due to OS scheduling."
-	lib delayPrecise: 100.
-	ticks2 := lib currentTime.
+	sdl delayPrecise: 100.
+	ticks2 := sdl currentTime.
 	self assert: ticks2 - ticks1 > delta.
 
 ]
@@ -62,11 +62,11 @@ SDL3BasicTest >> test04PerformanceCounter [
 
 	| count1 count2 delta |
 	"Number of counts per second"
-	self assert: lib getPerformanceFrequency > 0.
+	self assert: sdl getPerformanceFrequency > 0.
 	
 	"This is the FFI bottleneck"
-	count1 := lib getPerformanceCounter.
-	count2 := lib getPerformanceCounter.
+	count1 := sdl getPerformanceCounter.
+	count2 := sdl getPerformanceCounter.
 	delta := count2 - count1.
 	self assert: delta > 0
 ]
@@ -74,15 +74,15 @@ SDL3BasicTest >> test04PerformanceCounter [
 { #category : 'tests' }
 SDL3BasicTest >> test05CPUinfo [
 
-	self assert: lib getSystemRAM > 0.
+	self assert: sdl getSystemRAM > 0.
 	
-	self assert: lib getNumLogicalCPUCores > 0.
+	self assert: sdl getNumLogicalCPUCores > 0.
 	
-	self assert: lib getCPUCacheLineSize > 0.
+	self assert: sdl getCPUCacheLineSize > 0.
 
 	#(#hasAltiVec #hasMMX #hasSSE #hasSSE2 #hasSSE3 #hasSSE41 #hasSSE42 #hasAVX #hasAVX2 #hasAVX512F #hasARMSIMD #hasNEON #hasLSX #hasLASX) do: [ :each |
 		| result |
-		result := lib perform: each.
+		result := sdl perform: each.
 		self assert: result class superclass equals: Boolean ]
 
 ]
@@ -91,22 +91,22 @@ SDL3BasicTest >> test05CPUinfo [
 SDL3BasicTest >> test06Properties [
 
 	| id |
-	id := lib newProperties.
+	id := sdl newProperties.
 
 	self assert:
-		(lib
+		(sdl
 			setStringPropertyProps: id
 			name: 'bonjour'
 			value: 'hola').
 
 	self assert:
-		(lib
+		(sdl
 			hasPropertyProps: id
 			name: 'bonjour').
 
 	self
 		assert:
-			(lib
+			(sdl
 				getStringPropertyProps: id
 				name: 'bonjour'
 				defaultValue: 'none')
@@ -114,7 +114,7 @@ SDL3BasicTest >> test06Properties [
 
 		self
 			assert:
-				(lib
+				(sdl
 					getPropertyTypeProps: id
 					name: 'bonjour')
 			equals: SDL3PropertyType string.
@@ -127,25 +127,25 @@ SDL3BasicTest >> test06Properties [
 				default_value: 'none')
 		equals: 'none'.
 "
-	lib destroyProperties: id
+	sdl destroyProperties: id
 ]
 
 { #category : 'tests' }
 SDL3BasicTest >> test07VideoSubsystemLifecycle [
 
 	"Video subsystem may be already initialized"
-	(lib wasInit: SDL3InitFlags video) =
+	(sdl wasInit: SDL3InitFlags video) =
 		SDL3InitFlags video value ifTrue: [ ^ self skip ].
 
-	self assert: (lib initSubSystem: SDL3InitFlags video).
+	self assert: (sdl initSubSystem: SDL3InitFlags video).
 
 	self
-		assert: (lib wasInit: SDL3InitFlags video)
+		assert: (sdl wasInit: SDL3InitFlags video)
 		equals: SDL3InitFlags video value.
 
-	lib quitSubSystem: SDL3InitFlags video.
+	sdl quitSubSystem: SDL3InitFlags video.
 
 	self
-		assert: (lib wasInit: SDL3InitFlags video)
+		assert: (sdl wasInit: SDL3InitFlags video)
 		equals: 0
 ]

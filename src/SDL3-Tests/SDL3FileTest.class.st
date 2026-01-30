@@ -13,7 +13,7 @@ SDL3FileTest >> test01FileInfo [
 	pathString := Smalltalk vm vmFileName.
 	fileReference := pathString asFileReference.
 
-	pathInfo := lib pathInfoAt: pathString.
+	pathInfo := sdl pathInfoAt: pathString.
 
 	self assert: pathInfo size equals: fileReference size.
 
@@ -34,7 +34,7 @@ SDL3FileTest >> test02EnumerateDirectory [
 			block: [ :userdata :dirname :fname |
 				data add: { dirname. fname }.
 				SDL3EnumerationResult continue ].	
-	lib assertSuccess: (lib enumerateDirectoryPath: '.' callback: fileCallback userdata: nil).
+	sdl assertSuccess: (sdl enumerateDirectoryPath: '.' callback: fileCallback userdata: nil).
 	self assert: data size equals: '.' asFileReference entries size
 ]
 
@@ -42,19 +42,19 @@ SDL3FileTest >> test02EnumerateDirectory [
 SDL3FileTest >> test03UserFolders [
 
 	self
-		assert: (lib getUserFolder: SDL3Folder home) asFileReference
+		assert: (sdl getUserFolder: SDL3Folder home) asFileReference
 		equals: FileLocator home asFileReference.
 
 	self
-		assert: (lib getUserFolder: SDL3Folder downloads) asFileReference
+		assert: (sdl getUserFolder: SDL3Folder downloads) asFileReference
 		equals: FileLocator downloads asFileReference.
 
 	self
-		assert: (lib getUserFolder: SDL3Folder desktop) asFileReference
+		assert: (sdl getUserFolder: SDL3Folder desktop) asFileReference
 		equals: FileLocator desktop asFileReference.
 
 	self
-		assert: (lib getUserFolder: SDL3Folder documents) asFileReference
+		assert: (sdl getUserFolder: SDL3Folder documents) asFileReference
 		equals: FileLocator documents asFileReference
 ]
 
@@ -64,7 +64,7 @@ SDL3FileTest >> test04CurrentDirectory [
 	self flag: #todo. "Memory leak in #getCurrentDirectory: https://github.com/pharo-graphics/PharoSDL3/issues/29"
 
 	self
-		assert: lib getCurrentDirectory asFileReference 
+		assert: sdl getCurrentDirectory asFileReference 
 		equals: '.' asFileReference
 ]
 
@@ -73,7 +73,7 @@ SDL3FileTest >> test05BasePath [
 	
 	self assert:
 		(FileLocator vmDirectory asPath <=
-			lib getBasePath asFileReference asPath)
+			sdl getBasePath asFileReference asPath)
 ]
 
 { #category : 'tests' }
@@ -87,19 +87,19 @@ SDL3FileTest >> test06CreateRenameRemoveDirectory [
 	self deny: directoryB exists.
 
 	"Create a directory"
-	lib assertSuccess: (lib newDirectory: directoryA pathString).
+	sdl assertSuccess: (sdl newDirectory: directoryA pathString).
 	self assert: directoryA exists.
 
 	"Rename it"
-	lib assertSuccess:
-		(lib
+	sdl assertSuccess:
+		(sdl
 			renamePathOldpath: directoryA pathString
 			newpath: directoryB pathString).
 	self deny: directoryA exists.
 	self assert: directoryB exists.
 
 	"Remove it (with new path)"
-	lib assertSuccess: (lib removePath: directoryB pathString).
+	sdl assertSuccess: (sdl removePath: directoryB pathString).
 	self deny: directoryA exists.
 
 ]

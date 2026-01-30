@@ -75,12 +75,12 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 	shaderSources do: [ :eachSources |
 		| aShader renderStateInfo aRenderState |
 		aShader := eachSources newShaderAmong: supportedShaderFormats device: device.
-		lib assertSuccess: aShader.
+		sdl assertSuccess: aShader.
 
 		renderStateInfo := SDL3GPURenderStateCreateInfo new.
 		renderStateInfo fragmentShader: aShader.
 		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.
-		lib assertSuccess: aRenderState.
+		sdl assertSuccess: aRenderState.
 
 		shaders add: aShader. "Keep a referente to destroy on close"
 		renderStates add: aRenderState "These will be switched with arrow keys" ].
@@ -98,12 +98,12 @@ SDL3GPURenderStateDemo >> initializeTextures [
 	aForm := self iconNamed: #pharoBig.
 	surface := aForm asUnownedNewSDL3Surface.
 	foregroundTexture := renderer newTextureFromSurface: surface.
-	lib assertSuccess: foregroundTexture.
+	sdl assertSuccess: foregroundTexture.
 	surface destroy.
 
 	surface := backgroundForm asUnownedNewSDL3Surface.
 	backgroundTexture := renderer newTextureFromSurface: surface.
-	lib assertSuccess: backgroundTexture.
+	sdl assertSuccess: backgroundTexture.
 	surface destroy
 ]
 
@@ -113,18 +113,18 @@ SDL3GPURenderStateDemo >> open [
 	self ensureInitSDL3.
 
 	window :=
-		lib
+		sdl
 			newWindowTitle: self className, ' - Press LEFT/RIGHT to switch current shader - Press ESC to quit'
 			w: backgroundForm width
 			h: backgroundForm height
 			flags: 0.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 
 	renderer := window newGPURenderer.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 	
 	device := renderer gpuDevice.
-	lib assertSuccess: device.
+	sdl assertSuccess: device.
 
 	self
 		initializeTextures;
@@ -217,11 +217,11 @@ SDL3GPURenderStateDemo >> updateRenderState: renderState [
 		resolutionX: backgroundTexture w;
 		resolutionY: backgroundTexture h.
 
-	lib assertSuccess:
+	sdl assertSuccess:
 		(renderState
 			 gpuRenderFragmentUniformsSlotIndex: 0
 			 data: uniformBuffer
 			 length: uniformBuffer byteSize).
 
-	lib assertSuccess: (renderer gpuRenderState: renderState)
+	sdl assertSuccess: (renderer gpuRenderState: renderState)
 ]

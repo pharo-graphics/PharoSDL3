@@ -32,13 +32,13 @@ SDL3VideoTest class >> waitDuration: aDuration [
 { #category : 'private' }
 SDL3VideoTest >> assertEmptySDLError [
 
-	self assertEmpty: lib getError
+	self assertEmpty: sdl getError
 ]
 
 { #category : 'private' }
 SDL3VideoTest >> pollAllEvents [
 
-	[ lib pollEvent: SDL3Event new ] whileTrue
+	[ sdl pollEvent: SDL3Event new ] whileTrue
 ]
 
 { #category : 'running' }
@@ -47,11 +47,11 @@ SDL3VideoTest >> setUp [
 	super setUp.
 
 	"Return early if video subsystem is already initialized"
-	(lib wasInit: SDL3InitFlags video)
+	(sdl wasInit: SDL3InitFlags video)
 		= SDL3InitFlags video value ifTrue: [ ^ self ].
 	
 	"Initialize the video subsystem"
-	self assert: (lib initSubSystem: SDL3InitFlags video)
+	self assert: (sdl initSubSystem: SDL3InitFlags video)
 ]
 
 { #category : 'tests' }
@@ -59,23 +59,23 @@ SDL3VideoTest >> test01ClipboardAPI [
 
 	"Copy&paste a non-ASCII string"
 	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
-	self assert: (lib setClipboardText: 'Hëllo').
-	self assert: lib hasClipboardText.
-	self assert: lib getClipboardText equals: 'Hëllo'.
+	self assert: (sdl setClipboardText: 'Hëllo').
+	self assert: sdl hasClipboardText.
+	self assert: sdl getClipboardText equals: 'Hëllo'.
 
 	"Clipboard supports more than text"
 	mimeTypesCountPointer := FFIInt64 newBuffer.
-	mimeTypesStringArrayPointer := lib getClipboardMimeTypes: mimeTypesCountPointer.
+	mimeTypesStringArrayPointer := sdl getClipboardMimeTypes: mimeTypesCountPointer.
 	mimeTypesStringArray :=
 		mimeTypesStringArrayPointer
 			arrayOfStringsOfSize: (mimeTypesCountPointer int64AtOffset: 0). 
-	lib free: mimeTypesStringArrayPointer.
+	sdl free: mimeTypesStringArrayPointer.
 
 	self assert: mimeTypesStringArray equals: #('text/plain;charset=utf-8').
 	
 	"Clear"
-	self assert: lib clearClipboardData.
-	self deny: lib hasClipboardText
+	self assert: sdl clearClipboardData.
+	self deny: sdl hasClipboardText
 ]
 
 { #category : 'tests' }
@@ -83,10 +83,10 @@ SDL3VideoTest >> test02CreateWindow [
 
 	| window |
 	window :=
-		lib
+		sdl
 			newWindowTitle: #test02CreateWindow
 			w: 800 h: 600 flags: 0.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 
 	self assert: window extent equals: 800 @ 600.
 
@@ -103,7 +103,7 @@ SDL3VideoTest >> test03CreateWindowAndRenderer [
 	rendererPointer := (FFIExternalValueHolder ofType: SDL3Renderer) new.
 
 	success :=
-		lib
+		sdl
 			newWindowAndRendererTitle: #test03CreateWindowAndRenderer
 			width: 800
 			height: 600
@@ -126,13 +126,13 @@ SDL3VideoTest >> test04BasicRender [
 
 	| window renderer |
 	window :=
-		lib
+		sdl
 			newWindowTitle: #test04BasicRender
 			w: 400 h: 300 flags: 0.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 
 	renderer := window newRendererFor: nil.
-	lib assertSuccess: renderer.
+	sdl assertSuccess: renderer.
 
 	"Clear background with gray color"
 	self assert: (renderer renderDrawColorFloatR: 0.5 g: 0.5 b: 0.5 a: 1.0).
@@ -161,12 +161,12 @@ SDL3VideoTest >> test05TextureFromSurfaceFromForm [
 
 	| window renderer texture shapeForm surface |
 	window :=
-		lib
+		sdl
 			newWindowTitle: #test05TextureFromSurfaceFromForm
 			w: 400 h: 800 flags: 0.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 	renderer := window newRendererFor: nil.
-	lib assertSuccess: renderer.
+	sdl assertSuccess: renderer.
 
 	"Render and present a texture created from a surface created from a Form"
 	shapeForm := self iconNamed: #pharoBig.
@@ -195,17 +195,17 @@ SDL3VideoTest >> test06ShapedWindow [
 	| success window extent shapeForm surface renderer |
 	extent := 500 @ 500.
 	window :=
-		lib
+		sdl
 			newWindowTitle: #test06ShapedWindow
 			w: extent x h: extent y
 			flags:
 				SDL3WindowFlags hidden | 
 				SDL3WindowFlags transparent | 
 				SDL3WindowFlags borderless.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 
 	renderer := window newRendererFor: nil.
-	lib assertSuccess: renderer.
+	sdl assertSuccess: renderer.
 
 
 	shapeForm := Form extent: extent depth: 32.
@@ -244,12 +244,12 @@ SDL3VideoTest >> test07Fullscreen [
 
 	| window renderer |
 	window :=
-		lib
+		sdl
 			newWindowTitle: #test07Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 	renderer := window newRendererFor: nil.
-	lib assertSuccess: renderer.
+	sdl assertSuccess: renderer.
 
 	"Render text (debugging API)"
 	renderer
@@ -270,31 +270,31 @@ SDL3VideoTest >> test08CursorAPI [
 
 	| cursorId cursor |
 	cursorId := SDL3SystemCursor crosshair.
-	cursor := lib newSystemCursor: cursorId.
-	self assert: (lib setCursor: cursor).
+	cursor := sdl newSystemCursor: cursorId.
+	self assert: (sdl setCursor: cursor).
 
-	self assert: lib getCursor getHandle equals: cursor getHandle.
+	self assert: sdl getCursor getHandle equals: cursor getHandle.
 
-	lib hideCursor.
-	self deny: lib cursorVisible.
+	sdl hideCursor.
+	self deny: sdl cursorVisible.
 
-	lib showCursor.
-	self assert: lib cursorVisible.
+	sdl showCursor.
+	self assert: sdl cursorVisible.
 
-	lib destroyCursor: cursor.
+	sdl destroyCursor: cursor.
 	
-	cursor := lib getDefaultCursor.
+	cursor := sdl getDefaultCursor.
 	self deny: cursor isNull.
-	self assert: (lib setCursor: cursor).
+	self assert: (sdl setCursor: cursor).
 	"You do not have to call SDL_DestroyCursor() on the return value, but it is safe to do so."
-	lib destroyCursor: cursor 
+	sdl destroyCursor: cursor 
 ]
 
 { #category : 'tests' }
 SDL3VideoTest >> test09RenderDrivers [
 
 	| driverNames |
-	driverNames := lib renderDrivers.
+	driverNames := sdl renderDrivers.
 
 	self denyEmpty: driverNames.
 	self assert: (#(vulkan metal direct3d) includesAnyOf: driverNames)
@@ -303,7 +303,7 @@ SDL3VideoTest >> test09RenderDrivers [
 { #category : 'tests' }
 SDL3VideoTest >> test10QueryDisplays [
 
-	self assert: lib displayIDs size equals: lib numberOfDisplays
+	self assert: sdl displayIDs size equals: sdl numberOfDisplays
 ]
 
 { #category : 'private' }

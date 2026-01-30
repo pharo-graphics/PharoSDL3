@@ -4,10 +4,10 @@ Class {
 	#instVars : [
 		'window',
 		'renderer',
-		'lib',
 		'event',
 		'map',
-		'dialogFileCallback'
+		'dialogFileCallback',
+		'sdl'
 	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
@@ -437,7 +437,7 @@ SDL3Demo class >> example07SystemCursors [
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
-	lib assertSuccess: renderer renderClear
+	sdl assertSuccess: renderer renderClear
 ]
 
 { #category : 'renderer' }
@@ -452,7 +452,7 @@ SDL3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: 
 
 	| mimeType |
 	mimeType := mimeTypes
-		detect: [ :each | lib hasClipboardData: each ]
+		detect: [ :each | sdl hasClipboardData: each ]
 		ifNone: [ ^ absentBlock value ].
 
 	^ presentBlock
@@ -462,7 +462,7 @@ SDL3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: 
 				allocate: FFIUInt64 pointerSize
 				bytesDuring: [ :dataSizePointer |
 					| dataPointer dataSize |
-					dataPointer := lib
+					dataPointer := sdl
 						getClipboardDataMimeType: mimeType
 						size: dataSizePointer.
 					dataSize := dataSizePointer signedLongLongAt: 1.
@@ -474,11 +474,11 @@ SDL3Demo >> clipboardMimeTypes [
 
 	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
 	mimeTypesCountPointer := FFIInt64 newBuffer.
-	mimeTypesStringArrayPointer := lib getClipboardMimeTypes: mimeTypesCountPointer.
+	mimeTypesStringArrayPointer := sdl getClipboardMimeTypes: mimeTypesCountPointer.
 	mimeTypesStringArray :=
 		mimeTypesStringArrayPointer
 			arrayOfStringsOfSize: (mimeTypesCountPointer signedLongLongAt: 1). 
-	lib free: mimeTypesStringArrayPointer.
+	sdl free: mimeTypesStringArrayPointer.
 
 	^ mimeTypesStringArray
 ]
@@ -486,17 +486,17 @@ SDL3Demo >> clipboardMimeTypes [
 { #category : 'lifecycle' }
 SDL3Demo >> close [
 
-	lib clearError.
+	sdl clearError.
 	[ 	renderer destroy.
-		lib assertSuccess ] ensure: [
+		sdl assertSuccess ] ensure: [
 			window destroy.
-			lib assertSuccess ]
+			sdl assertSuccess ]
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> color: aColor [
 
-	lib assertSuccess:
+	sdl assertSuccess:
 		(renderer
 			renderDrawColorFloatR: aColor red
 			g: aColor green
@@ -508,19 +508,19 @@ SDL3Demo >> color: aColor [
 SDL3Demo >> ensureInitSDL3 [
 
 	"Set (optional) metadata"
-	lib
+	sdl
 		setAppMetadataAppname: self className
 		appversion: 'v1.2.3'
 		appidentifier: 'org.pharo.sdl3.', self className.
 
 	"Initialize the video subsystem"
-	self assert: (lib initSubSystem: SDL3InitFlags video)
+	self assert: (sdl initSubSystem: SDL3InitFlags video)
 ]
 
 { #category : 'lifecycle' }
 SDL3Demo >> ensureQuitSDL3 [
 
-	lib quit
+	sdl quit
 ]
 
 { #category : 'api' }
@@ -534,7 +534,7 @@ SDL3Demo >> initialize [
 
 	super initialize.
 	
-	lib := LibSDL3 uniqueInstance.
+	sdl := LibSDL3 uniqueInstance.
 
 	event := SDL3Event new.
 	map := SDL3EventMap new
@@ -544,16 +544,16 @@ SDL3Demo >> initialize [
 SDL3Demo >> open [
 
 	window :=
-		lib
+		sdl
 			newWindowTitle: self className
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
-	lib assertSuccess: window.
+	sdl assertSuccess: window.
 
 	renderer := window newRendererFor: nil.
-	lib assertSuccess: window.
-	lib assertSuccess: window startTextInput "Enable SDL3TextEditingEvent"
+	sdl assertSuccess: window.
+	sdl assertSuccess: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
 { #category : 'enumerating' }
@@ -566,20 +566,20 @@ SDL3Demo >> pollEvents [
 { #category : 'enumerating' }
 SDL3Demo >> pollEventsDo: aUnaryBlock [
 
-	[ lib pollEvent: event ] whileTrue: [
+	[ sdl pollEvent: event ] whileTrue: [
 		aUnaryBlock value: (map conversionOf: event) ]
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> present [
 
-	lib assertSuccess: renderer renderPresent
+	sdl assertSuccess: renderer renderPresent
 ]
 
 { #category : 'renderer' }
 SDL3Demo >> renderTexture: texture at: aSDLFRect [
 
-	lib assertSuccess:
+	sdl assertSuccess:
 		(renderer
 			renderTexture: texture
 			srcrect: nil
@@ -589,7 +589,7 @@ SDL3Demo >> renderTexture: texture at: aSDLFRect [
 { #category : 'utilities' }
 SDL3Demo >> showMessageBoxTitle: title message: message [
 
-	lib
+	sdl
 		showSimpleMessageBoxFlags: SDL3MessageBoxFlags information 
 		title: title
 		message: message
@@ -610,7 +610,7 @@ SDL3Demo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
 					ifFalse: [ acceptOrCancelBlock value: filelist nullTerminatedArrayOfCStrings ].
 				dialogFileCallback := nil ].
 
-	lib
+	sdl
 		showOpenFolderDialogCallback: dialogFileCallback
 		userdata: nil
 		window: window
@@ -621,7 +621,7 @@ SDL3Demo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
 { #category : 'renderer' }
 SDL3Demo >> showText: aString x: x y: y [
 
-	lib assertSuccess:
+	sdl assertSuccess:
 		(renderer
 			renderDebugTextX: x
 			y: y
@@ -640,7 +640,7 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
-	lib assertSuccess: aSurface.
+	sdl assertSuccess: aSurface.
 	aTexture := renderer newTextureFromSurface: aSurface.
 	aSurface destroy.
 	^ aTexture
