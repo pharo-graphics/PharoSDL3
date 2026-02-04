@@ -131,21 +131,18 @@ SDL3BasicTest >> test06Properties [
 ]
 
 { #category : 'tests' }
-SDL3BasicTest >> test07VideoSubsystemLifecycle [
+SDL3BasicTest >> test07SubsystemLifecycle [
+	"Note: This test initializes and quits events subsystem independently if it was already initialized"
 
-	"Video subsystem may be already initialized"
-	(sdl wasInit: SDL3InitFlags video) =
-		SDL3InitFlags video value ifTrue: [ ^ self skip ].
-
-	self assert: (sdl initSubSystem: SDL3InitFlags video).
+	self assert: (sdl initSubSystem: SDL3InitFlags events).
 
 	self
-		assert: (sdl wasInit: SDL3InitFlags video)
-		equals: SDL3InitFlags video value.
+		assert: (sdl wasInit: SDL3InitFlags events)
+		equals: SDL3InitFlags events value.
 
-	sdl quitSubSystem: SDL3InitFlags video.
+	sdl quitSubSystem: SDL3InitFlags events.
 
 	self
-		assert: (sdl wasInit: SDL3InitFlags video)
+		assert: (sdl wasInit: SDL3InitFlags events)
 		equals: 0
 ]
