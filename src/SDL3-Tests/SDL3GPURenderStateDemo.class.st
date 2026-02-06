@@ -75,12 +75,12 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 	shaderSources do: [ :eachSources |
 		| aShader renderStateInfo aRenderState |
 		aShader := eachSources newShaderAmong: supportedShaderFormats device: gpuDevice.
-		sdl assertSuccess: aShader.
+		aShader assertSuccess.
 
 		renderStateInfo := SDL3GPURenderStateCreateInfo new.
 		renderStateInfo fragmentShader: aShader.
 		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.
-		sdl assertSuccess: aRenderState.
+		aRenderState assertSuccess.
 
 		shaders add: aShader. "Keep a referente to destroy on close"
 		renderStates add: aRenderState "These will be switched with arrow keys" ].
@@ -98,12 +98,12 @@ SDL3GPURenderStateDemo >> initializeTextures [
 	aForm := self iconNamed: #pharoBig.
 	surface := aForm asUnownedNewSDL3Surface.
 	foregroundTexture := renderer newTextureFromSurface: surface.
-	sdl assertSuccess: foregroundTexture.
+	foregroundTexture assertSuccess.
 	surface destroy.
 
 	surface := backgroundForm asUnownedNewSDL3Surface.
 	backgroundTexture := renderer newTextureFromSurface: surface.
-	sdl assertSuccess: backgroundTexture.
+	backgroundTexture assertSuccess.
 	surface destroy
 ]
 
@@ -118,13 +118,13 @@ SDL3GPURenderStateDemo >> open [
 			w: backgroundForm width
 			h: backgroundForm height
 			flags: 0.
-	sdl assertSuccess: window.
+	window assertSuccess.
 
 	renderer := window newGPURenderer.
-	sdl assertSuccess: window.
+	renderer assertSuccess.
 	
 	gpuDevice := renderer gpuDevice.
-	sdl assertSuccess: gpuDevice.
+	gpuDevice assertSuccess.
 
 	self
 		initializeTextures;

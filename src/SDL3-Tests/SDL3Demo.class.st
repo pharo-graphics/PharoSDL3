@@ -496,12 +496,7 @@ SDL3Demo >> close [
 { #category : 'renderer' }
 SDL3Demo >> color: aColor [
 
-	sdl assertSuccess:
-		(renderer
-			renderDrawColorFloatR: aColor red
-			g: aColor green
-			b: aColor blue
-			a: aColor alpha)
+	sdl assertSuccess: (renderer renderDrawColor: aColor)
 ]
 
 { #category : 'lifecycle' }
@@ -549,10 +544,11 @@ SDL3Demo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
-	sdl assertSuccess: window.
+	window assertSuccess.
 
 	renderer := window newRendererFor: nil.
-	sdl assertSuccess: window.
+	renderer assertSuccess.
+
 	sdl assertSuccess: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
@@ -640,7 +636,7 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
-	sdl assertSuccess: aSurface.
+	aSurface assertSuccess.
 	aTexture := renderer newTextureFromSurface: aSurface.
 	aSurface destroy.
 	^ aTexture

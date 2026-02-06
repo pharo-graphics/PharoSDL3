@@ -52,7 +52,7 @@ SDL3WindowTest >> test01CreateWindow [
 		sdl
 			newWindowTitle: #test01CreateWindow
 			w: 800 h: 600 flags: 0.
-	sdl assertSuccess: window.
+	window assertSuccess.
 
 	self assert: window extent equals: 800 @ 600.
 
@@ -64,9 +64,9 @@ SDL3WindowTest >> test01CreateWindow [
 { #category : 'tests' }
 SDL3WindowTest >> test02CreateWindowAndRenderer [
 
-	| windowPointer rendererPointer window renderer success |
-	windowPointer := (FFIExternalValueHolder ofType: SDL3Window) new.
-	rendererPointer := (FFIExternalValueHolder ofType: SDL3Renderer) new.
+	| windowHolder rendererHolder window renderer success |
+	windowHolder := (FFIExternalValueHolder ofType: SDL3Window) new.
+	rendererHolder := (FFIExternalValueHolder ofType: SDL3Renderer) new.
 
 	success :=
 		sdl
@@ -74,12 +74,12 @@ SDL3WindowTest >> test02CreateWindowAndRenderer [
 			width: 800
 			height: 600
 			windowFlags: 0
-			window: windowPointer
-			renderer: rendererPointer.
+			window: windowHolder
+			renderer: rendererHolder.
 	self assert: success.
 
-	window := windowPointer value.
-	renderer := rendererPointer value.
+	window := windowHolder value.
+	renderer := rendererHolder value.
 	
 	self waitToSee.
 
@@ -95,21 +95,21 @@ SDL3WindowTest >> test03BasicRender [
 		sdl
 			newWindowTitle: #test03BasicRender
 			w: 400 h: 300 flags: 0.
-	sdl assertSuccess: window.
+	window assertSuccess.
 
 	renderer := window newRendererFor: nil.
-	sdl assertSuccess: renderer.
+	renderer assertSuccess.
 
 	"Clear background with gray color"
-	self assert: (renderer renderDrawColorFloatR: 0.5 g: 0.5 b: 0.5 a: 1.0).
+	self assert: (renderer renderDrawColor: Color gray).
 	self assert: renderer renderClear.
 
 	"Render a red rectangle"
-	self assert: (renderer renderDrawColorFloatR: 0.5 g: 0.0 b: 0.0 a: 1.0).
+	self assert: (renderer renderDrawColor: Color red).
 	self assert: (renderer renderFillRect: (SDL3FRect x: 10 y: 10 width: 120 height: 30)).
 
 	"Render cyan text (debugging API)"
-	self assert: (renderer renderDrawColorFloatR: 0.0 g: 1.0 b: 1.0 a: 1.0).
+	self assert: (renderer renderDrawColor: Color cyan).
 	self assert: (renderer renderDebugTextX: 20 y: 20 str: 'Hello World').
 
 	"Present will actually render the previous operations"
@@ -130,9 +130,10 @@ SDL3WindowTest >> test04TextureFromSurfaceFromForm [
 		sdl
 			newWindowTitle: #test04TextureFromSurfaceFromForm
 			w: 400 h: 800 flags: 0.
-	sdl assertSuccess: window.
+	window assertSuccess.
+
 	renderer := window newRendererFor: nil.
-	sdl assertSuccess: renderer.
+	renderer assertSuccess.
 
 	"Render and present a texture created from a surface created from a Form"
 	shapeForm := self iconNamed: #pharoBig.
@@ -157,7 +158,7 @@ SDL3WindowTest >> test04TextureFromSurfaceFromForm [
 SDL3WindowTest >> test05ShapedWindow [
 	"It doesn't seem to work on Mac"
 
-	| success window extent shapeForm surface renderer |
+	| window extent shapeForm surface renderer |
 	extent := 500 @ 500.
 	window :=
 		sdl
@@ -167,10 +168,10 @@ SDL3WindowTest >> test05ShapedWindow [
 				SDL3WindowFlags hidden | 
 				SDL3WindowFlags transparent | 
 				SDL3WindowFlags borderless.
-	sdl assertSuccess: window.
+	window assertSuccess.
 
 	renderer := window newRendererFor: nil.
-	sdl assertSuccess: renderer.
+	renderer assertSuccess.
 
 
 	shapeForm := Form extent: extent depth: 32.
@@ -185,16 +186,13 @@ SDL3WindowTest >> test05ShapedWindow [
 
 
 	"Set cyan color"
-	success := renderer renderDrawColorFloatR: 0.0 g: 1.0 b: 1.0 a: 0.0.
-	self assert: success.
+	sdl assertSuccess: (renderer renderDrawColor: Color cyan).
 
 	"Let's clear with that color"
-	success := renderer renderClear.
-	self assert: success.
+	sdl assertSuccess: renderer renderClear.
 
 	"Present will actually apply the clear operation"
-	success := renderer renderPresent.
-	self assert: success.
+	sdl assertSuccess: renderer renderPresent.
 
 
 	self waitToSee.
@@ -218,7 +216,7 @@ SDL3WindowTest >> test06Fullscreen [
 
 	"Render text (debugging API)"
 	renderer
-		renderDrawColorFloatR: 1.0 g: 1.0 b: 1.0 a: 1.0;
+		renderDrawColor: Color white;
 		renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN'.
 
 	sdl assertSuccess: renderer renderPresent.
