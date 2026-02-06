@@ -58,6 +58,12 @@ SDL3Window >> eglSurface [
 ]
 
 { #category : '*SDL3-API' }
+SDL3Window >> fillDocumentSpace: fill [
+
+	^ self ffiLibrary setWindowFillDocumentWindow: self fill: fill
+]
+
+{ #category : '*SDL3-API' }
 SDL3Window >> flags [
 
 	^ self ffiLibrary getWindowFlags: self
