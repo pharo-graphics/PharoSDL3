@@ -7,7 +7,7 @@ SDL3GPURenderState >> destroy [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPURenderState >> gpuRenderFragmentUniformsSlotIndex: slot_index data: data length: length [
+SDL3GPURenderState >> fragmentUniformsSlotIndex: slot_index data: data length: length [
 
 	^ self ffiLibrary
 		  setGPURenderStateFragmentUniformsState: self

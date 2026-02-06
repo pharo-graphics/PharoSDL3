@@ -21,6 +21,22 @@ SDL3Surface >> blendModeBlendMode: blendMode [
 ]
 
 { #category : '*SDL3-API' }
+SDL3Surface >> blit9GridSrcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
+
+	^ self ffiLibrary
+		  blitSurface9GridSrc: self
+		  srcrect: srcrect
+		  leftWidth: left_width
+		  rightWidth: right_width
+		  topHeight: top_height
+		  bottomHeight: bottom_height
+		  scale: scale
+		  scaleMode: scaleMode
+		  dst: dst
+		  dstrect: dstrect
+]
+
+{ #category : '*SDL3-API' }
 SDL3Surface >> blitScaledSrcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 
 	^ self ffiLibrary
@@ -37,22 +53,6 @@ SDL3Surface >> blitSrcrect: srcrect dst: dst dstrect: dstrect [
 	^ self ffiLibrary
 		  blitSurfaceSrc: self
 		  srcrect: srcrect
-		  dst: dst
-		  dstrect: dstrect
-]
-
-{ #category : '*SDL3-API' }
-SDL3Surface >> blitSurface9GridSrcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
-
-	^ self ffiLibrary
-		  blitSurface9GridSrc: self
-		  srcrect: srcrect
-		  leftWidth: left_width
-		  rightWidth: right_width
-		  topHeight: top_height
-		  bottomHeight: bottom_height
-		  scale: scale
-		  scaleMode: scaleMode
 		  dst: dst
 		  dstrect: dstrect
 ]

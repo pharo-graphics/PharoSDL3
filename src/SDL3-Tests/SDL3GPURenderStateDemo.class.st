@@ -219,7 +219,7 @@ SDL3GPURenderStateDemo >> updateRenderState: renderState [
 
 	sdl assertSuccess:
 		(renderState
-			 gpuRenderFragmentUniformsSlotIndex: 0
+			 fragmentUniformsSlotIndex: 0
 			 data: uniformBuffer
 			 length: uniformBuffer byteSize).
 

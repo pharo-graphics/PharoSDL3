@@ -7,7 +7,7 @@ SDL3GPUDevice >> acquireGPUCommandBuffer [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUDevice >> claimWindowForWindow: window [
+SDL3GPUDevice >> claimWindow: window [
 
 	^ self ffiLibrary claimWindowForGPUDevice: self window: window
 ]
@@ -16,6 +16,12 @@ SDL3GPUDevice >> claimWindowForWindow: window [
 SDL3GPUDevice >> destroy [
 
 	^ self ffiLibrary destroyGPUDevice: self
+]
+
+{ #category : '*SDL3-API' }
+SDL3GPUDevice >> driver [
+
+	^ self ffiLibrary getGPUDeviceDriver: self
 ]
 
 { #category : '*SDL3-API' }
@@ -41,18 +47,6 @@ SDL3GPUDevice >> gpuBufferNameBuffer: buffer text: text [
 		  setGPUBufferNameDevice: self
 		  buffer: buffer
 		  text: text
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> gpuDriver [
-
-	^ self ffiLibrary getGPUDeviceDriver: self
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> gpuProperties [
-
-	^ self ffiLibrary getGPUDeviceProperties: self
 ]
 
 { #category : '*SDL3-API' }
@@ -160,6 +154,12 @@ SDL3GPUDevice >> newGPUTransferBufferCreateinfo: createinfo [
 	^ self ffiLibrary
 		  newGPUTransferBufferDevice: self
 		  createinfo: createinfo
+]
+
+{ #category : '*SDL3-API' }
+SDL3GPUDevice >> properties [
+
+	^ self ffiLibrary getGPUDeviceProperties: self
 ]
 
 { #category : '*SDL3-API' }
