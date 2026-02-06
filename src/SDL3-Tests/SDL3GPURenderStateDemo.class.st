@@ -5,7 +5,6 @@ Class {
 	#name : 'SDL3GPURenderStateDemo',
 	#superclass : 'SDL3Demo',
 	#instVars : [
-		'device',
 		'mainLoopProcess',
 		'backgroundTexture',
 		'foregroundTexture',
@@ -14,7 +13,8 @@ Class {
 		'renderStates',
 		'renderStateIndex',
 		'uniformBuffer',
-		'shaderSources'
+		'shaderSources',
+		'gpuDevice'
 	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
@@ -25,7 +25,7 @@ Class {
 SDL3GPURenderStateDemo >> close [
 
 	renderStates do: [ :each | each destroy ].
-	shaders do: [ :each | device releaseGPUShader: each ].
+	shaders do: [ :each | gpuDevice releaseGPUShader: each ].
 
 	foregroundTexture destroy.
 	backgroundTexture destroy.
@@ -52,7 +52,7 @@ SDL3GPURenderStateDemo >> initialize [
 SDL3GPURenderStateDemo >> initializeGPURenderStates [
 
 	| supportedShaderFormats |
-	supportedShaderFormats := device gpuShaderFormatsAsArray.
+	supportedShaderFormats := gpuDevice gpuShaderFormatsAsArray.
 
 	shaders := OrderedCollection new.
 	renderStates := OrderedCollection new.
@@ -74,7 +74,7 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 
 	shaderSources do: [ :eachSources |
 		| aShader renderStateInfo aRenderState |
-		aShader := eachSources newShaderAmong: supportedShaderFormats device: device.
+		aShader := eachSources newShaderAmong: supportedShaderFormats device: gpuDevice.
 		sdl assertSuccess: aShader.
 
 		renderStateInfo := SDL3GPURenderStateCreateInfo new.
@@ -123,8 +123,8 @@ SDL3GPURenderStateDemo >> open [
 	renderer := window newGPURenderer.
 	sdl assertSuccess: window.
 	
-	device := renderer gpuDevice.
-	sdl assertSuccess: device.
+	gpuDevice := renderer gpuDevice.
+	sdl assertSuccess: gpuDevice.
 
 	self
 		initializeTextures;
