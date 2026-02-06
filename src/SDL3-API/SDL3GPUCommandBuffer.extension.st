@@ -1,7 +1,7 @@
 Extension { #name : 'SDL3GPUCommandBuffer' }
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> acquireGPUSwapchainTextureWindow: window swapchainTexture: swapchain_texture swapchainTextureWidth: swapchain_texture_width swapchainTextureHeight: swapchain_texture_height [
+SDL3GPUCommandBuffer >> acquireGPUSwapchainTextureForWindow: window into: swapchain_texture width: swapchain_texture_width height: swapchain_texture_height [
 
 	^ self ffiLibrary
 		  acquireGPUSwapchainTextureCommandBuffer: self
@@ -119,7 +119,7 @@ SDL3GPUCommandBuffer >> submitAndAcquireFence [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> waitAndAcquireGPUSwapchainTextureWindow: window texture: swapchain_texture width: swapchain_texture_width height: swapchain_texture_height [
+SDL3GPUCommandBuffer >> waitAndAcquireGPUSwapchainTextureForWindow: window into: swapchain_texture width: swapchain_texture_width height: swapchain_texture_height [
 
 	^ self ffiLibrary
 		  waitAndAcquireGPUSwapchainTextureCommandBuffer: self
