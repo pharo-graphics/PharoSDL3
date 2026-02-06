@@ -486,11 +486,8 @@ SDL3Demo >> clipboardMimeTypes [
 { #category : 'lifecycle' }
 SDL3Demo >> close [
 
-	sdl clearError.
-	[ 	renderer destroy.
-		sdl assertSuccess ] ensure: [
-			window destroy.
-			sdl assertSuccess ]
+	renderer destroy.
+	window destroy
 ]
 
 { #category : 'renderer' }
@@ -544,10 +541,10 @@ SDL3Demo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
-	window assertSuccess.
+	window assertNotNullReturn.
 
 	renderer := window newRendererFor: nil.
-	renderer assertSuccess.
+	renderer assertNotNullReturn.
 
 	sdl assertSuccess: window startTextInput "Enable SDL3TextEditingEvent"
 ]
@@ -636,7 +633,7 @@ SDL3Demo >> unownedNewTextureFromForm: aForm [
 
 	| aSurface aTexture |
 	aSurface := aForm asUnownedNewSDL3Surface.
-	aSurface assertSuccess.
+	aSurface assertNotNullReturn.
 	aTexture := renderer newTextureFromSurface: aSurface.
 	aSurface destroy.
 	^ aTexture

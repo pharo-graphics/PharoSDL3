@@ -52,7 +52,7 @@ SDL3WindowTest >> test01CreateWindow [
 		sdl
 			newWindowTitle: #test01CreateWindow
 			w: 800 h: 600 flags: 0.
-	window assertSuccess.
+	window assertNotNullReturn.
 
 	self assert: window extent equals: 800 @ 600.
 
@@ -95,10 +95,10 @@ SDL3WindowTest >> test03BasicRender [
 		sdl
 			newWindowTitle: #test03BasicRender
 			w: 400 h: 300 flags: 0.
-	window assertSuccess.
+	window assertNotNullReturn.
 
 	renderer := window newRendererFor: nil.
-	renderer assertSuccess.
+	renderer assertNotNullReturn.
 
 	"Clear background with gray color"
 	self assert: (renderer renderDrawColor: Color gray).
@@ -130,10 +130,10 @@ SDL3WindowTest >> test04TextureFromSurfaceFromForm [
 		sdl
 			newWindowTitle: #test04TextureFromSurfaceFromForm
 			w: 400 h: 800 flags: 0.
-	window assertSuccess.
+	window assertNotNullReturn.
 
 	renderer := window newRendererFor: nil.
-	renderer assertSuccess.
+	renderer assertNotNullReturn.
 
 	"Render and present a texture created from a surface created from a Form"
 	shapeForm := self iconNamed: #pharoBig.
@@ -168,10 +168,10 @@ SDL3WindowTest >> test05ShapedWindow [
 				SDL3WindowFlags hidden | 
 				SDL3WindowFlags transparent | 
 				SDL3WindowFlags borderless.
-	window assertSuccess.
+	window assertNotNullReturn.
 
 	renderer := window newRendererFor: nil.
-	renderer assertSuccess.
+	renderer assertNotNullReturn.
 
 
 	shapeForm := Form extent: extent depth: 32.
@@ -210,9 +210,10 @@ SDL3WindowTest >> test06Fullscreen [
 		sdl
 			newWindowTitle: #test06Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
-	sdl assertSuccess: window.
+	window assertNotNullReturn.
+
 	renderer := window newRendererFor: nil.
-	sdl assertSuccess: renderer.
+	renderer assertNotNullReturn.
 
 	"Render text (debugging API)"
 	renderer

@@ -1,14 +1,6 @@
 Extension { #name : 'LibSDL3' }
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> assertSuccess [
-	"Signal an error if SDL_GetError() returns a non-empty string. In such case, the error message will describe the most recent error."
-	<debuggerCompleteToSender>
-
-	self getError ifNotEmpty: [ :aString | SDL3Error new signal: aString ]
-]
-
-{ #category : '*SDL3-Own' }
 LibSDL3 >> assertSuccess: aReturnedValue [
 	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of an error, a descriptive string can be retrieved from SDL_GetError()."
 	<debuggerCompleteToSender>
@@ -119,8 +111,8 @@ LibSDL3 >> timeToDateTime: ticks localTime: isLocal [
 	| dateAndTimeHolder |
 	dateAndTimeHolder := (FFIExternalValueHolder ofType: SDL3DateTime) new.
 
-	self ffiLibrary assertSuccess:
-		(self ffiLibrary
+	self assertSuccess:
+		(self
 			 timeToDateTimeTicks: ticks
 			 dt: dateAndTimeHolder
 			 localTime: isLocal).
