@@ -223,7 +223,7 @@ SDL3GPUDevice >> releaseGPUTransferBuffer: transfer_buffer [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseWindowFromWindow: window [
+SDL3GPUDevice >> releaseWindow: window [
 
 	^ self ffiLibrary releaseWindowFromGPUDevice: self window: window
 ]
