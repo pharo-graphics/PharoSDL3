@@ -25,6 +25,30 @@ SDL3GPUClearDemo >> close [
 	Smalltalk snapshot: false andQuit: true
 ]
 
+{ #category : 'rendering' }
+SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffer [
+
+	| colorTargetInfo renderPass |
+	colorTargetInfo := SDL3GPUColorTargetInfo new.
+	colorTargetInfo
+		texture: aSDL3GPUTexture;
+		storeOp: SDL3GPUStoreOp store;
+		loadOp: SDL3GPULoadOp clear.
+	colorTargetInfo clearColor updateFrom:
+		(Color h: (Time millisecondClockValue / 10.0) \\ 360 s: 1.0 v: 1.0).
+
+	renderPass :=
+		aSDL3GPUCommandBuffer
+			beginGPURenderPassColorTargetInfos: colorTargetInfo
+			numColorTargets: 1
+			depthStencilTargetInfo: nil.
+	renderPass assertNotNullReturn.
+
+	"HERE: use `SDL3GPURenderPass` to draw"
+
+	renderPass end
+]
+
 { #category : 'lifecycle' }
 SDL3GPUClearDemo >> open [
 
@@ -48,40 +72,25 @@ SDL3GPUClearDemo >> open [
 { #category : 'rendering' }
 SDL3GPUClearDemo >> render [
 
-	| commandBuffer swapchainTextureHolder colorTargetInfo renderPass |
+	| commandBuffer swapchainTextureHolder |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	
-	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
-	sdl assertSuccess:
-		(commandBuffer
-			acquireGPUSwapchainTextureForWindow: window
-			into: swapchainTextureHolder
-			width: nil
-			height: nil).
+
+	swapchainTextureHolder := (FFIExternalValueHolder ofType:
+		                           SDL3GPUTexture) new.
+	sdl assertSuccess: (commandBuffer
+			 waitAndAcquireGPUSwapchainTextureForWindow: window
+			 into: swapchainTextureHolder
+			 width: nil
+			 height: nil).
 
 	"A minimized window returns NULL which would mean we'll skip
 	rendering this frame."
-	swapchainTextureHolder tfPointerAddress isNull
-		ifTrue: [ ^ commandBuffer cancel ].
-	
-	colorTargetInfo := SDL3GPUColorTargetInfo new.
-	colorTargetInfo
-		texture: swapchainTextureHolder value;
-		storeOp: SDL3GPUStoreOp store;
-		loadOp: SDL3GPULoadOp clear.
-	colorTargetInfo clearColor updateFrom:
-		(Color h: (Time millisecondClockValue / 10.0) \\ 360 s: 1.0 v: 1.0).
+	swapchainTextureHolder tfPointerAddress isNull ifTrue: [
+		^ commandBuffer cancel ].
 
-	renderPass :=
-		commandBuffer
-			beginGPURenderPassColorTargetInfos: colorTargetInfo
-			numColorTargets: 1
-			depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
-
-	"todo: perform draw operations in the render pass"
-
-	renderPass end.
+	self
+		doRenderPassesOn: swapchainTextureHolder value
+		with: commandBuffer.
 
 	commandBuffer submit
 ]
