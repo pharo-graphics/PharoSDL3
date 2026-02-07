@@ -38,24 +38,6 @@ SDL3JoyHatEvent >> hat [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyHatEvent >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyHatEvent >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyHatEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyHatEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

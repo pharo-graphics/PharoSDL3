@@ -46,12 +46,6 @@ SDL3GamepadTouchpadEvent >> pressure [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadTouchpadEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadTouchpadEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

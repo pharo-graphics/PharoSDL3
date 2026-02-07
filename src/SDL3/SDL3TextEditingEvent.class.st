@@ -36,12 +36,6 @@ SDL3TextEditingEvent >> length [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingEvent >> start [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_START

@@ -42,30 +42,6 @@ SDL3JoyBallEvent >> ball [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyBallEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBallEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

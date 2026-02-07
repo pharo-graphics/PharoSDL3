@@ -24,12 +24,6 @@ SDL3CameraDeviceEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CameraDeviceEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3CameraDeviceEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

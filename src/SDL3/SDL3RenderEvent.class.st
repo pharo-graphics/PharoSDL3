@@ -24,12 +24,6 @@ SDL3RenderEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3RenderEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3RenderEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

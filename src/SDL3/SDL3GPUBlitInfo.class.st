@@ -108,42 +108,6 @@ SDL3GPUBlitInfo >> loadOp: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUBlitInfo >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GPUBlitInfo >> source [
 	"This method was automatically generated"
 	^ SDL3GPUBlitRegion fromHandle: (handle referenceStructAt: OFFSET_SOURCE length: SDL3GPUBlitRegion byteSize)

@@ -130,27 +130,3 @@ SDL3GPURasterizerState >> frontFace: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FRONT_FACE put: anObject value
 ]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPURasterizerState >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]

@@ -26,12 +26,6 @@ SDL3PinchFingerEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PinchFingerEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PinchFingerEvent >> scale [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_SCALE

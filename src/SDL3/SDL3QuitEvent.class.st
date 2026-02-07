@@ -22,12 +22,6 @@ SDL3QuitEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3QuitEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3QuitEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

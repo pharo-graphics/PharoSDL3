@@ -52,30 +52,6 @@ SDL3GPUMultisampleState >> enableMask: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUMultisampleState >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GPUMultisampleState >> sampleCount [
 	"This method was automatically generated"
 	^SDL3GPUSampleCount fromInteger: (handle unsignedLongAt: OFFSET_SAMPLE_COUNT)

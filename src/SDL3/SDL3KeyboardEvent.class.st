@@ -68,12 +68,6 @@ SDL3KeyboardEvent >> repeat [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3KeyboardEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> scancode [
 	"This method was automatically generated"
 	^SDL3Scancode fromInteger: (handle unsignedLongAt: OFFSET_SCANCODE)

@@ -24,12 +24,6 @@ SDL3GamepadDeviceEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadDeviceEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadDeviceEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

@@ -44,24 +44,6 @@ SDL3GamepadButtonEvent >> down [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadButtonEvent >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadButtonEvent >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadButtonEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadButtonEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

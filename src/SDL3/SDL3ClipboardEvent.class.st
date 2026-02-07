@@ -46,12 +46,6 @@ SDL3ClipboardEvent >> owner [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3ClipboardEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3ClipboardEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

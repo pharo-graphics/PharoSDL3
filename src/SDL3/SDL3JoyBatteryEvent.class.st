@@ -34,12 +34,6 @@ SDL3JoyBatteryEvent >> percent [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyBatteryEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyBatteryEvent >> state [
 	"This method was automatically generated"
 	^SDL3PowerState fromInteger: (handle signedLongAt: OFFSET_STATE)

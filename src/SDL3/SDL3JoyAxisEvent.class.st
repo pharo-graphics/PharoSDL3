@@ -42,36 +42,6 @@ SDL3JoyAxisEvent >> axis [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> padding4 [
-	"This method was automatically generated"
-	^handle unsignedShortAt: OFFSET_PADDING4
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3JoyAxisEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

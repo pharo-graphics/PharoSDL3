@@ -22,12 +22,6 @@ SDL3CommonEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3CommonEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3CommonEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

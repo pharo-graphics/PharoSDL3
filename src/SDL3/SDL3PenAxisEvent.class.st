@@ -48,12 +48,6 @@ SDL3PenAxisEvent >> penState [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenAxisEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenAxisEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

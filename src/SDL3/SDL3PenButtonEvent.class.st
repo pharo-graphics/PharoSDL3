@@ -54,12 +54,6 @@ SDL3PenButtonEvent >> penState [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenButtonEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenButtonEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

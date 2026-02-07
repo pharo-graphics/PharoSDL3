@@ -76,39 +76,3 @@ SDL3GPUGraphicsPipelineTargetInfo >> numColorTargets: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUM_COLOR_TARGETS put: anObject
 ]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUGraphicsPipelineTargetInfo >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
-]

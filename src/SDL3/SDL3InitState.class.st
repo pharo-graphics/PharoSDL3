@@ -22,18 +22,6 @@ SDL3InitState class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3InitState >> reserved [
-	"This method was automatically generated"
-	^ExternalData fromHandle: (handle pointerAt: OFFSET_RESERVED) type: ExternalType void asPointerType
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3InitState >> reserved: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_RESERVED put: anObject getHandle.
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3InitState >> status [
 	"This method was automatically generated"
 	^ SDL3AtomicInt fromHandle: (handle referenceStructAt: OFFSET_STATUS length: SDL3AtomicInt byteSize)

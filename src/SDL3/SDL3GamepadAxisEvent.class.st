@@ -42,36 +42,6 @@ SDL3GamepadAxisEvent >> axis [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> padding4 [
-	"This method was automatically generated"
-	^handle unsignedShortAt: OFFSET_PADDING4
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GamepadAxisEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadAxisEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

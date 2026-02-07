@@ -24,12 +24,6 @@ SDL3MouseDeviceEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseDeviceEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseDeviceEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

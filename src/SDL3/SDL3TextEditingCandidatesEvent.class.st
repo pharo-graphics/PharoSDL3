@@ -56,30 +56,6 @@ SDL3TextEditingCandidatesEvent >> numCandidates [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3TextEditingCandidatesEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextEditingCandidatesEvent >> selectedCandidate [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_SELECTED_CANDIDATE

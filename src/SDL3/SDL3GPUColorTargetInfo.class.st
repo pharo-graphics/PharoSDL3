@@ -114,30 +114,6 @@ SDL3GPUColorTargetInfo >> mipLevel: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUColorTargetInfo >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GPUColorTargetInfo >> resolveLayer [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_RESOLVE_LAYER

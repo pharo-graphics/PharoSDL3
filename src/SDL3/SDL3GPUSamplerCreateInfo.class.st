@@ -204,30 +204,6 @@ SDL3GPUSamplerCreateInfo >> mipmapMode: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUSamplerCreateInfo >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUSamplerCreateInfo >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUSamplerCreateInfo >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUSamplerCreateInfo >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GPUSamplerCreateInfo >> props [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_PROPS

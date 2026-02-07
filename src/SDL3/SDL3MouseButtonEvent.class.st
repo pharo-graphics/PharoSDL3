@@ -62,12 +62,6 @@ SDL3MouseButtonEvent >> padding [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseButtonEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseButtonEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

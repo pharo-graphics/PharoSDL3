@@ -40,12 +40,6 @@ SDL3WindowEvent >> data2 [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3WindowEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3WindowEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

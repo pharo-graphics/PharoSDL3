@@ -32,33 +32,9 @@ SDL3AudioDeviceEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3AudioDeviceEvent >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3AudioDeviceEvent >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3AudioDeviceEvent >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3AudioDeviceEvent >> recording [
 	"This method was automatically generated"
 	^handle booleanAt: OFFSET_RECORDING
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3AudioDeviceEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
 ]
 
 { #category : 'accessing - structure variables' }

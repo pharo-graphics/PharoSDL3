@@ -66,42 +66,6 @@ SDL3GPUStorageTextureReadWriteBinding >> mipLevel: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageTextureReadWriteBinding >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GPUStorageTextureReadWriteBinding >> texture [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_TEXTURE) type: ExternalType void asPointerType

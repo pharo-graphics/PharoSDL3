@@ -104,18 +104,6 @@ SDL3Surface >> refcount: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3Surface >> reserved [
-	"This method was automatically generated"
-	^ExternalData fromHandle: (handle pointerAt: OFFSET_RESERVED) type: ExternalType void asPointerType
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3Surface >> reserved: anObject [
-	"This method was automatically generated"
-	handle pointerAt: OFFSET_RESERVED put: anObject getHandle.
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3Surface >> w [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_W

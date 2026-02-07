@@ -48,39 +48,3 @@ SDL3GPUStorageBufferReadWriteBinding >> cycle: anObject [
 	"This method was automatically generated"
 	handle booleanAt: OFFSET_CYCLE put: anObject
 ]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageBufferReadWriteBinding >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageBufferReadWriteBinding >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageBufferReadWriteBinding >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageBufferReadWriteBinding >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageBufferReadWriteBinding >> padding3 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING3
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUStorageBufferReadWriteBinding >> padding3: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING3 put: anObject
-]

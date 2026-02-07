@@ -26,12 +26,6 @@ SDL3PenProximityEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenProximityEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenProximityEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

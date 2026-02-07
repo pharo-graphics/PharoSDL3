@@ -62,12 +62,6 @@ SDL3TouchFingerEvent >> pressure [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TouchFingerEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TouchFingerEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

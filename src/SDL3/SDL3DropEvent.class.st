@@ -38,12 +38,6 @@ SDL3DropEvent >> data [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3DropEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3DropEvent >> source [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_SOURCE) type: ExternalType char asPointerType

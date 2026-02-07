@@ -24,12 +24,6 @@ SDL3JoyDeviceEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3JoyDeviceEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3JoyDeviceEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

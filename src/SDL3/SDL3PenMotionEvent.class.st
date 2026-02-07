@@ -38,12 +38,6 @@ SDL3PenMotionEvent >> penState [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3PenMotionEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3PenMotionEvent >> timestamp [
 	"This method was automatically generated"
 	^handle unsignedLongLongAt: OFFSET_TIMESTAMP

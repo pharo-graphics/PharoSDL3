@@ -36,12 +36,6 @@ SDL3GamepadSensorEvent >> data [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GamepadSensorEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GamepadSensorEvent >> sensor [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_SENSOR

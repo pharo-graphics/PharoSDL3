@@ -26,12 +26,6 @@ SDL3TextInputEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3TextInputEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3TextInputEvent >> text [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_TEXT) type: ExternalType char asPointerType

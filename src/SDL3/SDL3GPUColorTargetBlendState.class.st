@@ -122,30 +122,6 @@ SDL3GPUColorTargetBlendState >> enableColorWriteMask: anObject [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> padding1 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING1
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> padding1: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING1 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> padding2 [
-	"This method was automatically generated"
-	^handle unsignedByteAt: OFFSET_PADDING2
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUColorTargetBlendState >> padding2: anObject [
-	"This method was automatically generated"
-	handle unsignedByteAt: OFFSET_PADDING2 put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3GPUColorTargetBlendState >> srcAlphaBlendfactor [
 	"This method was automatically generated"
 	^SDL3GPUBlendFactor fromInteger: (handle unsignedLongAt: OFFSET_SRC_ALPHA_BLENDFACTOR)

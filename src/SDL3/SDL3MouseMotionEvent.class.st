@@ -36,12 +36,6 @@ SDL3MouseMotionEvent class >> fieldsDesc [
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3MouseMotionEvent >> reserved [
-	"This method was automatically generated"
-	^handle unsignedLongAt: OFFSET_RESERVED
-]
-
-{ #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> state [
 	"This method was automatically generated"
 	^handle unsignedLongAt: OFFSET_STATE
