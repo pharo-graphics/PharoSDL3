@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyAxisEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3JoystickEvent',
 	#classVars : [
 		'OFFSET_AXIS',
 		'OFFSET_PADDING1',

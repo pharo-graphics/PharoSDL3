@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenTouchEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3PenEvent',
 	#classVars : [
 		'OFFSET_DOWN',
 		'OFFSET_ERASER',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GamepadButtonEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3GamepadEvent',
 	#classVars : [
 		'OFFSET_BUTTON',
 		'OFFSET_DOWN',

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3MouseDeviceEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3DeviceEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TIMESTAMP',

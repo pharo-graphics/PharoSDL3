@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenAxisEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3PenEvent',
 	#classVars : [
 		'OFFSET_AXIS',
 		'OFFSET_PEN_STATE',

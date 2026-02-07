@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GamepadTouchpadEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3GamepadEvent',
 	#classVars : [
 		'OFFSET_FINGER',
 		'OFFSET_PRESSURE',

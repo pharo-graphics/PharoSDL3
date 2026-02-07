@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyButtonEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3JoystickEvent',
 	#classVars : [
 		'OFFSET_BUTTON',
 		'OFFSET_DOWN',
