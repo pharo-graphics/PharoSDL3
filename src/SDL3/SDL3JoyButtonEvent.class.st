@@ -31,6 +31,12 @@ SDL3JoyButtonEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3JoyButtonEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyButtonEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3JoyButtonEvent >> button [
 	"This method was automatically generated"

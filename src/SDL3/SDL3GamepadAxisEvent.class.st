@@ -35,6 +35,12 @@ SDL3GamepadAxisEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3GamepadAxisEvent >> accept: aVisitor [
+
+	^ aVisitor visitGamepadAxisEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3GamepadAxisEvent >> axis [
 	"This method was automatically generated"

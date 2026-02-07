@@ -27,6 +27,12 @@ SDL3SensorEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3SensorEvent >> accept: aVisitor [
+
+	^ aVisitor visitSensorEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3SensorEvent >> data [
 	"This method was automatically generated"

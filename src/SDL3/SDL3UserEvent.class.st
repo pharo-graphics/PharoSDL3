@@ -29,6 +29,12 @@ SDL3UserEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3UserEvent >> accept: aVisitor [
+
+	^ aVisitor visitUserEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3UserEvent >> code [
 	"This method was automatically generated"

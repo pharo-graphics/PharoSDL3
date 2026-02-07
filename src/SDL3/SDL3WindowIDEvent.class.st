@@ -5,3 +5,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Own'
 }
+
+{ #category : 'visitor' }
+SDL3WindowIDEvent >> accept: aVisitor [
+
+	^ aVisitor visitWindowIDEvent: self
+]

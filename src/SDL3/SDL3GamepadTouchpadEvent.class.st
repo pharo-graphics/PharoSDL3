@@ -33,6 +33,12 @@ SDL3GamepadTouchpadEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3GamepadTouchpadEvent >> accept: aVisitor [
+
+	^ aVisitor visitGamepadTouchpadEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3GamepadTouchpadEvent >> finger [
 	"This method was automatically generated"

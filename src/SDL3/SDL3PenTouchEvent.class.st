@@ -35,6 +35,12 @@ SDL3PenTouchEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3PenTouchEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenTouchEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3PenTouchEvent >> down [
 	"This method was automatically generated"

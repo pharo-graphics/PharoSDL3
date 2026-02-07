@@ -8,3 +8,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Own'
 }
+
+{ #category : 'visitor' }
+SDL3JoystickEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoystickEvent: self
+]

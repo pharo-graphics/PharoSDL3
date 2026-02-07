@@ -37,6 +37,12 @@ SDL3KeyboardEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3KeyboardEvent >> accept: aVisitor [
+
+	^ aVisitor visitKeyboardEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> down [
 	"This method was automatically generated"

@@ -23,6 +23,12 @@ SDL3RenderEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3RenderEvent >> accept: aVisitor [
+
+	^ aVisitor visitRenderEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3RenderEvent >> timestamp [
 	"This method was automatically generated"

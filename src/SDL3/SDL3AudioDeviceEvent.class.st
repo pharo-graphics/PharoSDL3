@@ -31,6 +31,12 @@ SDL3AudioDeviceEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3AudioDeviceEvent >> accept: aVisitor [
+
+	^ aVisitor visitAudioDeviceEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3AudioDeviceEvent >> recording [
 	"This method was automatically generated"

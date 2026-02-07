@@ -37,6 +37,12 @@ SDL3TouchFingerEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3TouchFingerEvent >> accept: aVisitor [
+
+	^ aVisitor visitTouchFingerEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3TouchFingerEvent >> dx [
 	"This method was automatically generated"

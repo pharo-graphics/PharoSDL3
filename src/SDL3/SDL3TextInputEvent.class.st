@@ -25,6 +25,12 @@ SDL3TextInputEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3TextInputEvent >> accept: aVisitor [
+
+	^ aVisitor visitTextInputEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3TextInputEvent >> text [
 	"This method was automatically generated"

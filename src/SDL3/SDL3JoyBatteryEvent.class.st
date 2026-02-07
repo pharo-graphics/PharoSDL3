@@ -27,6 +27,12 @@ SDL3JoyBatteryEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3JoyBatteryEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyBatteryEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3JoyBatteryEvent >> percent [
 	"This method was automatically generated"

@@ -29,6 +29,12 @@ SDL3GamepadSensorEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3GamepadSensorEvent >> accept: aVisitor [
+
+	^ aVisitor visitGamepadSensorEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3GamepadSensorEvent >> data [
 	"This method was automatically generated"

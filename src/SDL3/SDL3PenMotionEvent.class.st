@@ -31,6 +31,12 @@ SDL3PenMotionEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3PenMotionEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenMotionEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3PenMotionEvent >> penState [
 	"This method was automatically generated"

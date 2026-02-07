@@ -35,6 +35,12 @@ SDL3PenButtonEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3PenButtonEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenButtonEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3PenButtonEvent >> button [
 	"This method was automatically generated"

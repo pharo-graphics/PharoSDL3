@@ -27,6 +27,12 @@ SDL3ClipboardEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3ClipboardEvent >> accept: aVisitor [
+
+	^ aVisitor visitClipboardEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3ClipboardEvent >> mimeTypes [
 	"This method was automatically generated"

@@ -39,6 +39,12 @@ SDL3MouseWheelEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3MouseWheelEvent >> accept: aVisitor [
+
+	^ aVisitor visitMouseWheelEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3MouseWheelEvent >> direction [
 	"This method was automatically generated"

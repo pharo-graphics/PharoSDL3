@@ -37,6 +37,12 @@ SDL3TextEditingCandidatesEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3TextEditingCandidatesEvent >> accept: aVisitor [
+
+	^ aVisitor visitTextEditingCandidatesEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3TextEditingCandidatesEvent >> candidates [
 	"This method was automatically generated"

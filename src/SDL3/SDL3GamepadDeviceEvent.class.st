@@ -23,6 +23,12 @@ SDL3GamepadDeviceEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3GamepadDeviceEvent >> accept: aVisitor [
+
+	^ aVisitor visitGamepadDeviceEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3GamepadDeviceEvent >> timestamp [
 	"This method was automatically generated"

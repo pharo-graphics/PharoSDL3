@@ -31,6 +31,12 @@ SDL3DropEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3DropEvent >> accept: aVisitor [
+
+	^ aVisitor visitDropEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3DropEvent >> data [
 	"This method was automatically generated"

@@ -21,6 +21,12 @@ SDL3QuitEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3QuitEvent >> accept: aVisitor [
+
+	^ aVisitor visitQuitEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3QuitEvent >> timestamp [
 	"This method was automatically generated"

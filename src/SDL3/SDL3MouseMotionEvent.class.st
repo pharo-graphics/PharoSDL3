@@ -35,6 +35,12 @@ SDL3MouseMotionEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3MouseMotionEvent >> accept: aVisitor [
+
+	^ aVisitor visitMouseMotionEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3MouseMotionEvent >> state [
 	"This method was automatically generated"

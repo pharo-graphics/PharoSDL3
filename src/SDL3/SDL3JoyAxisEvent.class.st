@@ -35,6 +35,12 @@ SDL3JoyAxisEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3JoyAxisEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyAxisEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3JoyAxisEvent >> axis [
 	"This method was automatically generated"

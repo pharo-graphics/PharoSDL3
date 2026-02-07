@@ -35,6 +35,12 @@ SDL3PenAxisEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3PenAxisEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenAxisEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3PenAxisEvent >> axis [
 	"This method was automatically generated"

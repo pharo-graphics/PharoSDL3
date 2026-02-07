@@ -27,6 +27,12 @@ SDL3WindowEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3WindowEvent >> accept: aVisitor [
+
+	^ aVisitor visitWindowEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3WindowEvent >> data1 [
 	"This method was automatically generated"

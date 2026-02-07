@@ -23,6 +23,12 @@ SDL3MouseDeviceEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3MouseDeviceEvent >> accept: aVisitor [
+
+	^ aVisitor visitMouseDeviceEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3MouseDeviceEvent >> timestamp [
 	"This method was automatically generated"

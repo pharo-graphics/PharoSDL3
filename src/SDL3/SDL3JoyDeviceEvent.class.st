@@ -23,6 +23,12 @@ SDL3JoyDeviceEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3JoyDeviceEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyDeviceEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3JoyDeviceEvent >> timestamp [
 	"This method was automatically generated"

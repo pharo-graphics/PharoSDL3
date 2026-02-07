@@ -31,6 +31,12 @@ SDL3JoyHatEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3JoyHatEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyHatEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3JoyHatEvent >> hat [
 	"This method was automatically generated"

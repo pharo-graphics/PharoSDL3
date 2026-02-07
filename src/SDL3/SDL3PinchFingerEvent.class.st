@@ -25,6 +25,12 @@ SDL3PinchFingerEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3PinchFingerEvent >> accept: aVisitor [
+
+	^ aVisitor visitPinchFingerEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3PinchFingerEvent >> scale [
 	"This method was automatically generated"

@@ -23,6 +23,12 @@ SDL3CameraDeviceEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3CameraDeviceEvent >> accept: aVisitor [
+
+	^ aVisitor visitCameraDeviceEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3CameraDeviceEvent >> timestamp [
 	"This method was automatically generated"

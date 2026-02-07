@@ -25,6 +25,12 @@ SDL3PenProximityEvent class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'visitor' }
+SDL3PenProximityEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenProximityEvent: self
+]
+
 { #category : 'accessing - structure variables' }
 SDL3PenProximityEvent >> timestamp [
 	"This method was automatically generated"

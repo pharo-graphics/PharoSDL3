@@ -5,3 +5,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Own'
 }
+
+{ #category : 'visitor' }
+SDL3MappedEvent >> accept: aVisitor [
+
+	^ aVisitor visitMappedEvent: self
+]
