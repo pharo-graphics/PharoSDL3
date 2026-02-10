@@ -8,3 +8,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'visitor' }
+SDL3WindowMinimizedEvent >> accept: aVisitor [
+
+	^ aVisitor visitWindowMinimizedEvent: self
+]

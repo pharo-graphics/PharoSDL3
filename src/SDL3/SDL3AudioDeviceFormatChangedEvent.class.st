@@ -8,3 +8,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'visitor' }
+SDL3AudioDeviceFormatChangedEvent >> accept: aVisitor [
+
+	^ aVisitor visitAudioDeviceFormatChangedEvent: self
+]

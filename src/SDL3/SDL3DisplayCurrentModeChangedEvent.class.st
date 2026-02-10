@@ -8,3 +8,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'visitor' }
+SDL3DisplayCurrentModeChangedEvent >> accept: aVisitor [
+
+	^ aVisitor visitDisplayCurrentModeChangedEvent: self
+]

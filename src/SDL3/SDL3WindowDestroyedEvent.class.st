@@ -8,3 +8,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'visitor' }
+SDL3WindowDestroyedEvent >> accept: aVisitor [
+
+	^ aVisitor visitWindowDestroyedEvent: self
+]

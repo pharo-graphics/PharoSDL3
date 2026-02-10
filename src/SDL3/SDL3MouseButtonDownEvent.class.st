@@ -8,3 +8,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'visitor' }
+SDL3MouseButtonDownEvent >> accept: aVisitor [
+
+	^ aVisitor visitMouseButtonDownEvent: self
+]
