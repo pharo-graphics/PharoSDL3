@@ -6,9 +6,9 @@ Class {
 		'OFFSET_TIMESTAMP',
 		'OFFSET_TYPE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }

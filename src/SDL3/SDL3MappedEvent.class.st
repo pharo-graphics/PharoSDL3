@@ -1,9 +1,9 @@
 Class {
 	#name : 'SDL3MappedEvent',
 	#superclass : 'SDL3Structure',
-	#category : 'SDL3-Own',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Own'
+	#tag : 'Events'
 }
 
 { #category : 'visitor' }

@@ -1,9 +1,9 @@
 Class {
 	#name : 'SDL3MouseEvent',
 	#superclass : 'SDL3WindowIDEvent',
-	#category : 'SDL3-Own',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Own'
+	#tag : 'Events'
 }
 
 { #category : 'visitor' }
