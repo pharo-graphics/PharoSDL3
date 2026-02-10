@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyBatteryEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3JoystickEvent',
 	#classVars : [
 		'OFFSET_PERCENT',
 		'OFFSET_RESERVED',
@@ -9,9 +9,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -25,6 +25,12 @@ SDL3JoyBatteryEvent class >> fieldsDesc [
 	SDL_PowerState state;
 	int percent
 	)
+]
+
+{ #category : 'visitor' }
+SDL3JoyBatteryEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyBatteryEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

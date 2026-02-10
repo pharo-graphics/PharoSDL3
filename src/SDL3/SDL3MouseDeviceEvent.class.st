@@ -1,15 +1,15 @@
 Class {
 	#name : 'SDL3MouseDeviceEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3DeviceEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TIMESTAMP',
 		'OFFSET_TYPE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -21,6 +21,12 @@ SDL3MouseDeviceEvent class >> fieldsDesc [
 	Uint64 timestamp;
 	SDL_MouseID which
 	)
+]
+
+{ #category : 'visitor' }
+SDL3MouseDeviceEvent >> accept: aVisitor [
+
+	^ aVisitor visitMouseDeviceEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

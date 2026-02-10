@@ -9,9 +9,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -25,6 +25,12 @@ SDL3SensorEvent class >> fieldsDesc [
 	float_6 data;
 	Uint64 sensor_timestamp
 	)
+]
+
+{ #category : 'visitor' }
+SDL3SensorEvent >> accept: aVisitor [
+
+	^ aVisitor visitSensorEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

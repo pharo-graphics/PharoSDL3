@@ -8,9 +8,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -23,6 +23,12 @@ SDL3PinchFingerEvent class >> fieldsDesc [
 	float scale;
 	SDL_WindowID windowID
 	)
+]
+
+{ #category : 'visitor' }
+SDL3PinchFingerEvent >> accept: aVisitor [
+
+	^ aVisitor visitPinchFingerEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

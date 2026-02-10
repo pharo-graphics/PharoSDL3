@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextEditingCandidatesEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3TextEvent',
 	#classVars : [
 		'OFFSET_CANDIDATES',
 		'OFFSET_HORIZONTAL',
@@ -14,9 +14,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -35,6 +35,12 @@ SDL3TextEditingCandidatesEvent class >> fieldsDesc [
 	Uint8 padding2;
 	Uint8 padding3
 	)
+]
+
+{ #category : 'visitor' }
+SDL3TextEditingCandidatesEvent >> accept: aVisitor [
+
+	^ aVisitor visitTextEditingCandidatesEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

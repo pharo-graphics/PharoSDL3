@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextEditingEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3TextEvent',
 	#classVars : [
 		'OFFSET_LENGTH',
 		'OFFSET_RESERVED',
@@ -10,9 +10,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -27,6 +27,12 @@ SDL3TextEditingEvent class >> fieldsDesc [
 	Sint32 start;
 	Sint32 length
 	)
+]
+
+{ #category : 'visitor' }
+SDL3TextEditingEvent >> accept: aVisitor [
+
+	^ aVisitor visitTextEditingEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

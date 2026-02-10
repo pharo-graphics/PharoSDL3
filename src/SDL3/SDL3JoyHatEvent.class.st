@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyHatEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3JoystickEvent',
 	#classVars : [
 		'OFFSET_HAT',
 		'OFFSET_PADDING1',
@@ -11,9 +11,9 @@ Class {
 		'OFFSET_VALUE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -29,6 +29,12 @@ SDL3JoyHatEvent class >> fieldsDesc [
 	Uint8 padding1;
 	Uint8 padding2
 	)
+]
+
+{ #category : 'visitor' }
+SDL3JoyHatEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyHatEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

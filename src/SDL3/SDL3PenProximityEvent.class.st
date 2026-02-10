@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenProximityEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3PenEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TIMESTAMP',
@@ -8,9 +8,9 @@ Class {
 		'OFFSET_WHICH',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -23,6 +23,12 @@ SDL3PenProximityEvent class >> fieldsDesc [
 	SDL_WindowID windowID;
 	SDL_PenID which
 	)
+]
+
+{ #category : 'visitor' }
+SDL3PenProximityEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenProximityEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

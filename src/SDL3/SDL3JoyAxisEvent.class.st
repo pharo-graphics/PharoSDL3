@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyAxisEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3JoystickEvent',
 	#classVars : [
 		'OFFSET_AXIS',
 		'OFFSET_PADDING1',
@@ -13,9 +13,9 @@ Class {
 		'OFFSET_VALUE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -33,6 +33,12 @@ SDL3JoyAxisEvent class >> fieldsDesc [
 	Sint16 value;
 	Uint16 padding4
 	)
+]
+
+{ #category : 'visitor' }
+SDL3JoyAxisEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyAxisEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

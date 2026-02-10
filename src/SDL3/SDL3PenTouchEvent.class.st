@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenTouchEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3PenEvent',
 	#classVars : [
 		'OFFSET_DOWN',
 		'OFFSET_ERASER',
@@ -13,9 +13,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -33,6 +33,12 @@ SDL3PenTouchEvent class >> fieldsDesc [
 	bool eraser;
 	bool down
 	)
+]
+
+{ #category : 'visitor' }
+SDL3PenTouchEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenTouchEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

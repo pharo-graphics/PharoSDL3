@@ -9,9 +9,9 @@ Class {
 		'OFFSET_TIMESTAMP',
 		'OFFSET_TYPE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -25,6 +25,12 @@ SDL3DisplayEvent class >> fieldsDesc [
 	Sint32 data1;
 	Sint32 data2
 	)
+]
+
+{ #category : 'visitor' }
+SDL3DisplayEvent >> accept: aVisitor [
+
+	^ aVisitor visitDisplayEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

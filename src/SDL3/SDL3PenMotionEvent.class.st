@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenMotionEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3PenEvent',
 	#classVars : [
 		'OFFSET_PEN_STATE',
 		'OFFSET_RESERVED',
@@ -11,9 +11,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -29,6 +29,12 @@ SDL3PenMotionEvent class >> fieldsDesc [
 	float x;
 	float y
 	)
+]
+
+{ #category : 'visitor' }
+SDL3PenMotionEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenMotionEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

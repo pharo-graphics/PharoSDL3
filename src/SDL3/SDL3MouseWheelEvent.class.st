@@ -15,9 +15,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -37,6 +37,12 @@ SDL3MouseWheelEvent class >> fieldsDesc [
 	Sint32 integer_x;
 	Sint32 integer_y
 	)
+]
+
+{ #category : 'visitor' }
+SDL3MouseWheelEvent >> accept: aVisitor [
+
+	^ aVisitor visitMouseWheelEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

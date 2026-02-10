@@ -14,9 +14,9 @@ Class {
 		'OFFSET_WHICH',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -35,6 +35,12 @@ SDL3KeyboardEvent class >> fieldsDesc [
 	bool down;
 	bool repeat
 	)
+]
+
+{ #category : 'visitor' }
+SDL3KeyboardEvent >> accept: aVisitor [
+
+	^ aVisitor visitKeyboardEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

@@ -11,9 +11,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -29,6 +29,12 @@ SDL3DropEvent class >> fieldsDesc [
 	char* source;
 	char* data
 	)
+]
+
+{ #category : 'visitor' }
+SDL3DropEvent >> accept: aVisitor [
+
+	^ aVisitor visitDropEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

@@ -7,9 +7,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -21,6 +21,12 @@ SDL3RenderEvent class >> fieldsDesc [
 	Uint64 timestamp;
 	SDL_WindowID windowID
 	)
+]
+
+{ #category : 'visitor' }
+SDL3RenderEvent >> accept: aVisitor [
+
+	^ aVisitor visitRenderEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GamepadSensorEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3GamepadEvent',
 	#classVars : [
 		'OFFSET_DATA',
 		'OFFSET_RESERVED',
@@ -10,9 +10,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -27,6 +27,12 @@ SDL3GamepadSensorEvent class >> fieldsDesc [
 	float_3 data;
 	Uint64 sensor_timestamp
 	)
+]
+
+{ #category : 'visitor' }
+SDL3GamepadSensorEvent >> accept: aVisitor [
+
+	^ aVisitor visitGamepadSensorEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

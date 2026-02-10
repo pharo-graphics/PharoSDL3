@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextInputEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3TextEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TEXT',
@@ -8,9 +8,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -23,6 +23,12 @@ SDL3TextInputEvent class >> fieldsDesc [
 	SDL_WindowID windowID;
 	char* text
 	)
+]
+
+{ #category : 'visitor' }
+SDL3TextInputEvent >> accept: aVisitor [
+
+	^ aVisitor visitTextInputEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

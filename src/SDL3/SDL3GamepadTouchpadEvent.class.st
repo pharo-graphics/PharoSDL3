@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GamepadTouchpadEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3GamepadEvent',
 	#classVars : [
 		'OFFSET_FINGER',
 		'OFFSET_PRESSURE',
@@ -12,9 +12,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -31,6 +31,12 @@ SDL3GamepadTouchpadEvent class >> fieldsDesc [
 	float y;
 	float pressure
 	)
+]
+
+{ #category : 'visitor' }
+SDL3GamepadTouchpadEvent >> accept: aVisitor [
+
+	^ aVisitor visitGamepadTouchpadEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

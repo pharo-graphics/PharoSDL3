@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GamepadButtonEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3GamepadEvent',
 	#classVars : [
 		'OFFSET_BUTTON',
 		'OFFSET_DOWN',
@@ -11,9 +11,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -29,6 +29,12 @@ SDL3GamepadButtonEvent class >> fieldsDesc [
 	Uint8 padding1;
 	Uint8 padding2
 	)
+]
+
+{ #category : 'visitor' }
+SDL3GamepadButtonEvent >> accept: aVisitor [
+
+	^ aVisitor visitGamepadButtonEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

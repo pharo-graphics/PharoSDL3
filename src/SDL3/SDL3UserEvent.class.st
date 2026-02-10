@@ -10,9 +10,9 @@ Class {
 		'OFFSET_TYPE',
 		'OFFSET_WINDOWID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -27,6 +27,12 @@ SDL3UserEvent class >> fieldsDesc [
 	void* data1;
 	void* data2
 	)
+]
+
+{ #category : 'visitor' }
+SDL3UserEvent >> accept: aVisitor [
+
+	^ aVisitor visitUserEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

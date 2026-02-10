@@ -9,9 +9,9 @@ Class {
 		'OFFSET_TIMESTAMP',
 		'OFFSET_TYPE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -25,6 +25,12 @@ SDL3ClipboardEvent class >> fieldsDesc [
 	Sint32 num_mime_types;
 	char** mime_types
 	)
+]
+
+{ #category : 'visitor' }
+SDL3ClipboardEvent >> accept: aVisitor [
+
+	^ aVisitor visitClipboardEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

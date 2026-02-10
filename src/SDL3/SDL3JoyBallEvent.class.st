@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3JoyBallEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3JoystickEvent',
 	#classVars : [
 		'OFFSET_BALL',
 		'OFFSET_PADDING1',
@@ -13,9 +13,9 @@ Class {
 		'OFFSET_XREL',
 		'OFFSET_YREL'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -33,6 +33,12 @@ SDL3JoyBallEvent class >> fieldsDesc [
 	Sint16 xrel;
 	Sint16 yrel
 	)
+]
+
+{ #category : 'visitor' }
+SDL3JoyBallEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyBallEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

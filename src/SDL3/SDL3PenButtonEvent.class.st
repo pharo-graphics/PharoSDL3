@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenButtonEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3PenEvent',
 	#classVars : [
 		'OFFSET_BUTTON',
 		'OFFSET_DOWN',
@@ -13,9 +13,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -33,6 +33,12 @@ SDL3PenButtonEvent class >> fieldsDesc [
 	Uint8 button;
 	bool down
 	)
+]
+
+{ #category : 'visitor' }
+SDL3PenButtonEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenButtonEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

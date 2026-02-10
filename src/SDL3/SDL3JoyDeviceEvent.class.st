@@ -1,15 +1,15 @@
 Class {
 	#name : 'SDL3JoyDeviceEvent',
-	#superclass : 'SDL3MappedEvent',
+	#superclass : 'SDL3DeviceEvent',
 	#classVars : [
 		'OFFSET_RESERVED',
 		'OFFSET_TIMESTAMP',
 		'OFFSET_TYPE',
 		'OFFSET_WHICH'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -21,6 +21,12 @@ SDL3JoyDeviceEvent class >> fieldsDesc [
 	Uint64 timestamp;
 	SDL_JoystickID which
 	)
+]
+
+{ #category : 'visitor' }
+SDL3JoyDeviceEvent >> accept: aVisitor [
+
+	^ aVisitor visitJoyDeviceEvent: self
 ]
 
 { #category : 'accessing - structure variables' }

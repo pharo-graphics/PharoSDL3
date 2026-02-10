@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3PenAxisEvent',
-	#superclass : 'SDL3WindowIDEvent',
+	#superclass : 'SDL3PenEvent',
 	#classVars : [
 		'OFFSET_AXIS',
 		'OFFSET_PEN_STATE',
@@ -13,9 +13,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Events',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Events'
 }
 
 { #category : 'field definition' }
@@ -33,6 +33,12 @@ SDL3PenAxisEvent class >> fieldsDesc [
 	SDL_PenAxis axis;
 	float value
 	)
+]
+
+{ #category : 'visitor' }
+SDL3PenAxisEvent >> accept: aVisitor [
+
+	^ aVisitor visitPenAxisEvent: self
 ]
 
 { #category : 'accessing - structure variables' }
