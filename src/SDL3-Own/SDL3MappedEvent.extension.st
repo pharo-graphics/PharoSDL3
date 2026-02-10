@@ -19,10 +19,8 @@ SDL3MappedEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
-		nextPutAll: ' type: ';
-		nextPutAll: self typeName
-"		nextPutAll: ' time: ';
-		print: self timestamp"
+		nextPutAll: ' time: ';
+		print: self timestamp
 ]
 
 { #category : '*SDL3-Own' }
