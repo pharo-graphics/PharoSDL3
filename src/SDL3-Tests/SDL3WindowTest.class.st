@@ -20,10 +20,10 @@ SDL3WindowTest class >> waitDuration: aDuration [
 	"Establish how much time to wait to see on tests.
 
 	Run a specific test:
-	./pharo Pharo.image eval 'SDL3VideoTest waitDuration: 7 seconds. SDL3VideoTest run: #test06ShapedWindow'
+	./pharo Pharo.image eval 'SDL3WindowTest waitDuration: 7 seconds. SDL3WindowTest run: #test05ShapedWindow'
 
 	Run whole suite:
-	./pharo Pharo.image eval 'SDL3VideoTest waitDuration: 7 seconds. SDL3VideoTest suite run'
+	./pharo Pharo.image eval 'SDL3WindowTest waitDuration: 7 seconds. SDL3WindowTest suite run'
 	 "
 
 	waitDuration := aDuration
