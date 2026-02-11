@@ -229,6 +229,44 @@ SDL3WindowTest >> test06Fullscreen [
 	window destroy
 ]
 
+{ #category : 'tests' }
+SDL3WindowTest >> test07TrayIcons [
+	"Note: even if this test creates a window, the API of tray icons doesn't require a window."
+
+	| window iconSurface tray trayMenu |
+	self timeLimit: self class waitDuration * 4.
+	
+	window := sdl newWindowTitle: #test07TrayIcons w: 800 h: 600 flags: 0.
+	window assertNotNullReturn.
+
+"	iconExtent := 32 asPoint.
+	iconForm := Form extent: iconExtent depth: 32.
+	iconForm getCanvas
+		fillColor: Color transparent;
+		fillOval: (0@0 corner: iconExtent) color: Color blue."
+	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
+
+	tray := sdl newTrayIcon: iconSurface tooltip: #test07TrayIcons.
+	iconSurface destroy.
+
+	trayMenu := tray newMenu.
+	trayMenu insertTrayEntryAtPos: -1 label: 'First' flags: SDL3TrayEntryFlags button.
+
+	self waitToSee.
+
+	iconSurface := (self iconNamed: #add) asUnownedNewSDL3Surface.
+	tray icon: iconSurface.
+	iconSurface destroy.
+
+	self waitToSee.
+
+	tray destroy.
+
+	self waitToSee.
+
+	window destroy
+]
+
 { #category : 'private' }
 SDL3WindowTest >> waitToSee [
 	"Perform a wait to consume events and let user visually check the window"
