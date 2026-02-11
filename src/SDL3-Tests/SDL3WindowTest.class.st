@@ -233,37 +233,29 @@ SDL3WindowTest >> test06Fullscreen [
 SDL3WindowTest >> test07TrayIcons [
 	"Note: even if this test creates a window, the API of tray icons doesn't require a window."
 
-	| window iconSurface tray trayMenu |
-	self timeLimit: self class waitDuration * 4.
-	
-	window := sdl newWindowTitle: #test07TrayIcons w: 800 h: 600 flags: 0.
+	| window iconSurface tray trayMenu clicks aSDL3TrayEntry |
+	window := sdl newWindowTitle: #test07TrayIcons w: 300 h: 200 flags: 0.
 	window assertNotNullReturn.
 
-"	iconExtent := 32 asPoint.
-	iconForm := Form extent: iconExtent depth: 32.
-	iconForm getCanvas
-		fillColor: Color transparent;
-		fillOval: (0@0 corner: iconExtent) color: Color blue."
 	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
 
 	tray := sdl newTrayIcon: iconSurface tooltip: #test07TrayIcons.
 	iconSurface destroy.
 
+	clicks := OrderedCollection new.
+
 	trayMenu := tray newMenu.
-	trayMenu insertTrayEntryAtPos: -1 label: 'First' flags: SDL3TrayEntryFlags button.
-
-	self waitToSee.
-
-	iconSurface := (self iconNamed: #add) asUnownedNewSDL3Surface.
-	tray icon: iconSurface.
-	iconSurface destroy.
+	aSDL3TrayEntry := trayMenu insertTrayEntryAtPos: -1 label: 'First' flags: SDL3TrayEntryFlags button.
+	aSDL3TrayEntry
+		callback: (FFICallback
+			signature: #(void (void *userdata, SDL3TrayEntry *entry))
+			block: [ :userdata :entry |
+				clicks add: userdata -> entry ])
+		 userdata: nil.
 
 	self waitToSee.
 
 	tray destroy.
-
-	self waitToSee.
-
 	window destroy
 ]
 
