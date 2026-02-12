@@ -434,6 +434,90 @@ SDL3Demo class >> example07SystemCursors [
 	Smalltalk snapshot: false andQuit: true
 ]
 
+{ #category : 'examples' }
+SDL3Demo class >> example08TrayMenu [
+	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
+	Example:
+		./pharo Pharo.image eval --no-quit 'SDL3Demo example08TrayMenu' "
+
+	| demo quit logs sdl tray callback strings |
+	self
+		assert: (SDL2 wasInit: 16384) = 0 "SDL_INIT_EVENTS"
+		description: 'SDL2 is already initialized'.
+
+	demo := self new.
+	demo ensureInitSDL3; open.
+	sdl := LibSDL3 uniqueInstance.
+
+	quit := false.
+	logs := LinkedList new.
+	logs add: 'Click on this window to enable/disable the system tray (with Pharo icon).'.
+
+	strings := #('One' 'Two' 'Three' 'Four' 'Five').
+	callback :=
+		FFICallback
+			signature: #(void (void *userdata, SDL3TrayEntry *entryHandle)) "SDL3TrayEntry"
+			block: [ :userdata :entryHandle |
+				| entry |
+				entry := SDL3TrayEntry fromHandle: entryHandle.
+				logs add: 'Clicked on ', entry label.
+				entry remove ].
+
+	"main loop"
+	[ quit ] whileFalse: [
+
+		"Process all pending events"
+		demo pollEventsDo: [ :evt |
+			evt type = SDL3EventType quit
+				ifTrue: [ quit := true ].
+			evt type = SDL3EventType windowCloseRequested
+				ifTrue: [ quit := true ].
+			evt type = SDL3EventType mouseButtonDown
+				ifTrue: [
+					tray
+						ifNil: [
+							| iconSurface menu entry |
+							iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
+							tray := sdl newTrayIcon: iconSurface tooltip: 'PharoSDL3'.
+
+							menu := tray newMenu.
+							strings do: [ :each |
+								entry :=
+									menu
+										insertTrayEntryAtPos: -1
+										label: each
+										flags: SDL3TrayEntryFlags button.
+								entry assertNotNullReturn.
+								entry
+									callback: callback
+									userdata: nil.
+								iconSurface destroy ].
+							 ]
+						ifNotNil: [
+							"tray destroy.
+							tray := nil" ] ]
+			].
+		
+		"Render frame"
+		demo clearColor: Color blue muchDarker.
+		[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
+		logs withIndexDo: [ :each :index |
+			demo
+				showText: each
+				x: 10 y: 10 * index
+				color: Color white ].
+		demo present.
+
+		"Do a little wait before next frame"
+		15 milliSeconds wait ].
+
+	"Tear down"
+	tray ifNotNil: [ tray destroy ].
+	demo close.
+	demo ensureQuitSDL3.
+	Smalltalk snapshot: false andQuit: true
+]
+
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
