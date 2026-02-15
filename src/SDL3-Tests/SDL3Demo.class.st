@@ -451,17 +451,57 @@ SDL3Demo class >> example08TrayMenu [
 
 	quit := false.
 	logs := LinkedList new.
-	logs add: 'Click on this window to enable/disable the system tray (with Pharo icon).'.
 
-	strings := #('One' 'Two' 'Three' 'Four' 'Five').
-	callback :=
-		FFICallback
-			signature: #(void (void *userdata, SDL3TrayEntry *entryHandle)) "SDL3TrayEntry"
-			block: [ :userdata :entryHandle |
-				| entry |
-				entry := SDL3TrayEntry fromHandle: entryHandle.
-				logs add: 'Clicked on ', entry label.
-				entry remove ].
+	[	| iconSurface menu submenu |
+		strings := #('One' 'Two' 'Three' 'Four' 'Five').
+		callback :=
+			FFICallback
+				signature: #(void (void *userdata, SDL3TrayEntry *entryHandle))
+				block: [ :userdata :entryHandle |
+					| entry |
+					entry := SDL3TrayEntry fromHandle: entryHandle.
+					logs add: 'Click on ', entry label surroundedBySingleQuotes ].
+
+		iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
+		tray := sdl newTrayIcon: iconSurface tooltip: 'PharoSDL3'.
+		iconSurface destroy.
+
+		menu := tray newMenu.
+
+		"Add submenu with buttons"
+		submenu :=
+			(menu
+				insertEntryAt: -1
+					label: 'Buttons'
+					flags: SDL3TrayEntryFlags submenu)
+				assertNotNullReturn;
+				newSubmenu.
+		strings do: [ :each |
+			(submenu
+				insertEntryAt: -1
+					label: 'Button ', each
+					flags: SDL3TrayEntryFlags button)
+				assertNotNullReturn;
+				callback: callback userdata: nil ].
+
+		"Add submenu with checkboxes"
+		submenu :=
+			(menu
+				insertEntryAt: -1
+					label: 'Checkboxes'
+					flags: SDL3TrayEntryFlags submenu)
+				assertNotNullReturn;
+				newSubmenu.
+		strings do: [ :each |
+			(submenu
+				insertEntryAt: -1
+					label: 'Checkbox ', each
+					flags: SDL3TrayEntryFlags checkbox)
+				assertNotNullReturn;
+				callback: callback userdata: nil ].
+
+		logs add: 'Click on this window to enable/disable the system tray (with Pharo icon).'.
+		] value.
 
 	"main loop"
 	[ quit ] whileFalse: [
@@ -471,32 +511,7 @@ SDL3Demo class >> example08TrayMenu [
 			evt type = SDL3EventType quit
 				ifTrue: [ quit := true ].
 			evt type = SDL3EventType windowCloseRequested
-				ifTrue: [ quit := true ].
-			evt type = SDL3EventType mouseButtonDown
-				ifTrue: [
-					tray
-						ifNil: [
-							| iconSurface menu entry |
-							iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
-							tray := sdl newTrayIcon: iconSurface tooltip: 'PharoSDL3'.
-
-							menu := tray newMenu.
-							strings do: [ :each |
-								entry :=
-									menu
-										insertTrayEntryAtPos: -1
-										label: each
-										flags: SDL3TrayEntryFlags button.
-								entry assertNotNullReturn.
-								entry
-									callback: callback
-									userdata: nil.
-								iconSurface destroy ].
-							 ]
-						ifNotNil: [
-							"tray destroy.
-							tray := nil" ] ]
-			].
+				ifTrue: [ quit := true ] ].
 		
 		"Render frame"
 		demo clearColor: Color blue muchDarker.

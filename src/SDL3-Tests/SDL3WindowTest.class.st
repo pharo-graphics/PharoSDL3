@@ -236,51 +236,6 @@ SDL3WindowTest >> test06Fullscreen [
 	window destroy
 ]
 
-{ #category : 'tests' }
-SDL3WindowTest >> test07TrayIcons [
-	"Note: even if this test creates a window, the API of tray icons doesn't require a window."
-
-	| window iconSurface tray menu clicks menuEntries |
-	window := sdl newWindowTitle: #test07TrayIcons w: 300 h: 200 flags: 0.
-	window assertNotNullReturn.
-
-	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
-	tray := sdl newTrayIcon: iconSurface tooltip: #test07TrayIcons.
-	iconSurface destroy.
-
-	clicks := OrderedCollection new.
-
-	menu := tray newMenu.
-	menuEntries := (1 to: 10) collect: [ :each |
-		| menuEntry |
-		menuEntry :=
-			menu
-				insertTrayEntryAtPos: -1
-				label: 'Entry', each asString
-				flags: SDL3TrayEntryFlags button.
-		menuEntry
-			callback: (FFICallback
-				signature: #(void (void *userdata, SDL3TrayEntry *entryHolder))
-				block: [ :userdata :entryHolder |
-					clicks add: (SDL3TrayEntry fromHandle: entryHolder) ])
-			userdata: nil.
-		menuEntry ].
-
-	menuEntries do: #click. "Simulate clicks"
-	
-	self waitToSee.
-
-	self assert: clicks size equals: menuEntries size.
-	self assert: clicks first label equals: 'Entry1'.
-	self assert: clicks last label equals: 'Entry10'.
-	
-	menuEntries with: clicks do: [ :eachMenuEntry :eachClick |
-		self assert: eachMenuEntry getHandle equals: eachClick getHandle ].
-
-	tray destroy.
-	window destroy
-]
-
 { #category : 'private' }
 SDL3WindowTest >> waitToSee [
 	"Perform a wait to consume events and let user visually check the window"

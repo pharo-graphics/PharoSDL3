@@ -1,13 +1,13 @@
 Extension { #name : 'SDL3TrayMenu' }
 
 { #category : '*SDL3-API' }
-SDL3TrayMenu >> getTrayEntriesIntoCount: count [
+SDL3TrayMenu >> getEntriesIntoCount: count [
 
 	^ self ffiLibrary getTrayEntriesMenu: self count: count
 ]
 
 { #category : '*SDL3-API' }
-SDL3TrayMenu >> insertTrayEntryAtPos: pos label: label flags: flags [
+SDL3TrayMenu >> insertEntryAt: pos label: label flags: flags [
 
 	^ self ffiLibrary
 		  insertTrayEntryAtMenu: self

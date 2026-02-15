@@ -52,7 +52,7 @@ SDL3TrayEntry >> label: label [
 ]
 
 { #category : '*SDL3-API' }
-SDL3TrayEntry >> newTraySubmenu [
+SDL3TrayEntry >> newSubmenu [
 
 	^ self ffiLibrary newTraySubmenu: self
 ]
@@ -70,7 +70,7 @@ SDL3TrayEntry >> remove [
 ]
 
 { #category : '*SDL3-API' }
-SDL3TrayEntry >> traySubmenu [
+SDL3TrayEntry >> submenu [
 
 	^ self ffiLibrary getTraySubmenu: self
 ]
