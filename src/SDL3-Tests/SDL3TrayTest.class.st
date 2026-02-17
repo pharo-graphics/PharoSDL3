@@ -37,7 +37,9 @@ SDL3TrayTest >> test01EmptyMenu [
 	| menu |
 	menu := tray newMenu.
 
-	self assert: menu entries isEmpty
+	self assert: menu entries isEmpty.
+	
+	self assert: menu parentTray getHandle equals: tray getHandle
 ]
 
 { #category : 'tests' }
@@ -46,6 +48,7 @@ SDL3TrayTest >> test02InsertButton [
 	| menu |
 	menu := tray newMenu.
 
+	"Insert a button at position 0 (the only available position to insert)"
 	(menu
 		insertEntryAt: 0
 		label: 'First entry'
@@ -123,4 +126,56 @@ SDL3TrayTest >> test08ClickCallbacks [
 		
 	menuEntries with: clicks do: [ :eachMenuEntry :eachClick |
 		self assert: eachMenuEntry getHandle equals: eachClick getHandle ]
+]
+
+{ #category : 'tests' }
+SDL3TrayTest >> test09Checkbox [
+
+	| menu entry |
+	menu := tray newMenu.
+
+	entry :=
+		menu
+			insertEntryAt: -1
+			label: 'Checkbox'
+			flags: SDL3TrayEntryFlags checkbox.
+	entry assertNotNullReturn.
+
+	self deny: entry checked.
+
+	entry click.
+
+	self assert: entry checked
+]
+
+{ #category : 'tests' }
+SDL3TrayTest >> test10Submenu [
+
+	| menu submenuA submenuB |
+	menu := tray newMenu.
+
+	submenuA :=
+		(menu
+			insertEntryAt: -1
+			label: 'Submenu A'
+			flags: SDL3TrayEntryFlags submenu)
+			assertNotNullReturn;
+			newSubmenu.
+
+	self assert: submenuA entries isEmpty.
+	self assert: menu entries size equals: 1.
+	self assert: submenuA parentEntry equals: menu entries first.
+	self assert: submenuA parentTray isNull.
+
+	submenuB :=
+		(submenuA
+			insertEntryAt: -1
+			label: 'Submenu B'
+			flags: SDL3TrayEntryFlags submenu)
+			assertNotNullReturn;
+			newSubmenu.
+
+	self assert: submenuA entries size equals: 1.
+	self assert: submenuB parentEntry equals: submenuA entries first.
+	self assert: submenuB parentTray isNull
 ]
