@@ -440,7 +440,7 @@ SDL3Demo class >> example08TrayMenu [
 	Example:
 		./pharo Pharo.image eval --no-quit 'SDL3Demo example08TrayMenu' "
 
-	| demo quit logs sdl tray callback strings |
+	| demo quit logs sdl tray logEntryLabelCallback strings |
 	self
 		assert: (SDL2 wasInit: 16384) = 0 "SDL_INIT_EVENTS"
 		description: 'SDL2 is already initialized'.
@@ -452,9 +452,10 @@ SDL3Demo class >> example08TrayMenu [
 	quit := false.
 	logs := LinkedList new.
 
+	"TO DO: Extract to a demo class! the set up is in the following block closure:"
 	[	| iconSurface menu submenu |
 		strings := #('One' 'Two' 'Three' 'Four' 'Five').
-		callback :=
+		logEntryLabelCallback :=
 			FFICallback
 				signature: #(void (void *userdata, SDL3TrayEntry *entryHandle))
 				block: [ :userdata :entryHandle |
@@ -468,6 +469,20 @@ SDL3Demo class >> example08TrayMenu [
 
 		menu := tray newMenu.
 
+		"Basic: Add a button that is disabled and doesn't have a callback"
+		(menu
+			insertEntryAt: -1
+				label: 'Disabled button'
+				flags: SDL3TrayEntryFlags button | SDL3TrayEntryFlags disabled)
+			assertNotNullReturn.
+
+		"Add separator"
+		(menu
+			insertEntryAt: -1
+				label: nil
+				flags: SDL3TrayEntryFlags button)
+			assertNotNullReturn.
+				
 		"Add submenu with buttons"
 		submenu :=
 			(menu
@@ -482,7 +497,7 @@ SDL3Demo class >> example08TrayMenu [
 					label: 'Button ', each
 					flags: SDL3TrayEntryFlags button)
 				assertNotNullReturn;
-				callback: callback userdata: nil ].
+				callback: logEntryLabelCallback userdata: nil ].
 
 		"Add submenu with checkboxes"
 		submenu :=
@@ -498,10 +513,11 @@ SDL3Demo class >> example08TrayMenu [
 					label: 'Checkbox ', each
 					flags: SDL3TrayEntryFlags checkbox)
 				assertNotNullReturn;
-				callback: callback userdata: nil ].
+				callback: logEntryLabelCallback userdata: nil ].
 
-		logs add: 'Click on this window to enable/disable the system tray (with Pharo icon).'.
+		logs add: 'Click on the system tray menu with Pharo icon.'.
 		] value.
+
 
 	"main loop"
 	[ quit ] whileFalse: [
