@@ -39,7 +39,7 @@ SDL3TrayTest >> test01EmptyMenu [
 
 	self assert: menu entries isEmpty.
 	
-	self assert: menu parentTray getHandle equals: tray getHandle
+	self assert: menu parentTray equals: tray
 ]
 
 { #category : 'tests' }
@@ -125,7 +125,7 @@ SDL3TrayTest >> test08ClickCallbacks [
 
 		
 	menuEntries with: clicks do: [ :eachMenuEntry :eachClick |
-		self assert: eachMenuEntry getHandle equals: eachClick getHandle ]
+		self assert: eachMenuEntry equals: eachClick ]
 ]
 
 { #category : 'tests' }
