@@ -47,7 +47,7 @@ SDL3VideoTest >> test02CursorAPI [
 	cursor := sdl newSystemCursor: cursorId.
 	self assert: (sdl setCursor: cursor).
 
-	self assert: sdl getCursor getHandle equals: cursor getHandle.
+	self assert: sdl getCursor equals: cursor.
 
 	sdl hideCursor.
 	self deny: sdl cursorVisible.

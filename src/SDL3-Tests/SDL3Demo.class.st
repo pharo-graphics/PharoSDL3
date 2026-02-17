@@ -434,6 +434,121 @@ SDL3Demo class >> example07SystemCursors [
 	Smalltalk snapshot: false andQuit: true
 ]
 
+{ #category : 'examples' }
+SDL3Demo class >> example08TrayMenu [
+	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
+	Example:
+		./pharo Pharo.image eval --no-quit 'SDL3Demo example08TrayMenu' "
+
+	| demo quit logs sdl tray logEntryLabelCallback strings |
+	self
+		assert: (SDL2 wasInit: 16384) = 0 "SDL_INIT_EVENTS"
+		description: 'SDL2 is already initialized'.
+
+	demo := self new.
+	demo ensureInitSDL3; open.
+	sdl := LibSDL3 uniqueInstance.
+
+	quit := false.
+	logs := LinkedList new.
+
+	"TO DO: Extract to a demo class! the set up is in the following block closure:"
+	[	| iconSurface menu submenu |
+		strings := #('One' 'Two' 'Three' 'Four' 'Five').
+		logEntryLabelCallback :=
+			FFICallback
+				signature: #(void (void *userdata, SDL3TrayEntry *entryHandle))
+				block: [ :userdata :entryHandle |
+					| entry |
+					entry := SDL3TrayEntry fromHandle: entryHandle.
+					logs add: 'Click on ', entry label surroundedBySingleQuotes ].
+
+		iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
+		tray := sdl newTrayIcon: iconSurface tooltip: 'PharoSDL3'.
+		iconSurface destroy.
+
+		menu := tray newMenu.
+
+		"Basic: Add a button that is disabled and doesn't have a callback"
+		(menu
+			insertEntryAt: -1
+				label: 'Disabled button'
+				flags: SDL3TrayEntryFlags button | SDL3TrayEntryFlags disabled)
+			assertNotNullReturn.
+
+		"Add separator"
+		(menu
+			insertEntryAt: -1
+				label: nil
+				flags: SDL3TrayEntryFlags button)
+			assertNotNullReturn.
+				
+		"Add submenu with buttons"
+		submenu :=
+			(menu
+				insertEntryAt: -1
+					label: 'Buttons'
+					flags: SDL3TrayEntryFlags submenu)
+				assertNotNullReturn;
+				newSubmenu.
+		strings do: [ :each |
+			(submenu
+				insertEntryAt: -1
+					label: 'Button ', each
+					flags: SDL3TrayEntryFlags button)
+				assertNotNullReturn;
+				callback: logEntryLabelCallback userdata: nil ].
+
+		"Add submenu with checkboxes"
+		submenu :=
+			(menu
+				insertEntryAt: -1
+					label: 'Checkboxes'
+					flags: SDL3TrayEntryFlags submenu)
+				assertNotNullReturn;
+				newSubmenu.
+		strings do: [ :each |
+			(submenu
+				insertEntryAt: -1
+					label: 'Checkbox ', each
+					flags: SDL3TrayEntryFlags checkbox)
+				assertNotNullReturn;
+				callback: logEntryLabelCallback userdata: nil ].
+
+		logs add: 'Click on the system tray menu with Pharo icon.'.
+		] value.
+
+
+	"main loop"
+	[ quit ] whileFalse: [
+
+		"Process all pending events"
+		demo pollEventsDo: [ :evt |
+			evt type = SDL3EventType quit
+				ifTrue: [ quit := true ].
+			evt type = SDL3EventType windowCloseRequested
+				ifTrue: [ quit := true ] ].
+		
+		"Render frame"
+		demo clearColor: Color blue muchDarker.
+		[ logs size > 50 ] whileTrue: [ logs removeFirst ]. "cap"
+		logs withIndexDo: [ :each :index |
+			demo
+				showText: each
+				x: 10 y: 10 * index
+				color: Color white ].
+		demo present.
+
+		"Do a little wait before next frame"
+		15 milliSeconds wait ].
+
+	"Tear down"
+	tray ifNotNil: [ tray destroy ].
+	demo close.
+	demo ensureQuitSDL3.
+	Smalltalk snapshot: false andQuit: true
+]
+
 { #category : 'renderer' }
 SDL3Demo >> clear [
 

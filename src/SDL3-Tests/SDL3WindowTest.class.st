@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : 'accessing' }
+SDL3WindowTest class >> defaultTimeLimit [
+	"Answe rthe default time limit, which includes the #waitDuration."
+
+	^ super defaultTimeLimit + self waitDuration
+]
+
+{ #category : 'accessing' }
 SDL3WindowTest class >> waitDuration [
 
 	^ waitDuration ifNil: [ 1 seconds ]
