@@ -7,7 +7,8 @@ Class {
 		'event',
 		'map',
 		'dialogFileCallback',
-		'sdl'
+		'sdl',
+		'initialExtent'
 	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
@@ -15,7 +16,7 @@ Class {
 }
 
 { #category : 'examples' }
-SDL3Demo class >> example01ColorWheel [
+SDL3Demo class >> example00ColorWheel [
 
 	| demo |
 	demo := self new.
@@ -29,6 +30,90 @@ SDL3Demo class >> example01ColorWheel [
 		0.1 seconds wait ].
 
 	demo close; ensureQuitSDL3
+]
+
+{ #category : 'examples' }
+SDL3Demo class >> example01MultipleWindows [
+	"
+	./pharo Pharo.image eval --no-quit 'SDL3Demo example01MultipleWindows'
+	"
+
+	| defaultSecondsToWait demos extent consumeEventsBlock |
+	defaultSecondsToWait := 0.5.
+	extent := 200 @ 300.
+
+	consumeEventsBlock := [ :demo :duration |
+		| endTime |
+		endTime := DateAndTime now + duration seconds wait.
+		[ demo pollEventsDo: [ :_ | ]. 25 milliSeconds wait ]
+			doWhileTrue: [ DateAndTime now < endTime ] ].
+
+	demos := (1 to: 4) collect: [ :i | self new ].
+	demos first ensureInitSDL3.
+
+	Stdio stdout << 'open'; lf.
+	demos do: [ :demo | demo initialExtent: extent//2; open ].
+
+	Stdio stdout << 'title'; lf.
+	demos withIndexDo: [ :demo :index | demo window title: index asString ].
+
+	Stdio stdout << 'resize'; lf.
+	demos do: [ :demo |
+		demo window resizable: true; extent: extent; sync.
+		demo clearColor: Color yellow; present.
+		consumeEventsBlock value: demo value: defaultSecondsToWait ].
+
+	Stdio stdout << 'position'; lf.
+	demos withIndexDo: [ :demo :index |
+		demo window position: (Point x: extent x * index y: extent y) ].
+
+	Stdio stdout << 'flash'; lf.
+	demos do: [ :demo |
+		demo window flashWithOperation: SDL3FlashOperation untilFocused ].
+
+	Stdio stdout << 'raise'; lf.
+	demos with: (Color wheel: demos size) do: [ :demo :color |
+		demo window raise.
+		demo clearColor: color; present.
+		consumeEventsBlock value: demo value: defaultSecondsToWait ].
+
+	Stdio stdout << 'hide & show'; lf.
+	demos with: (Color wheel: demos size) do: [ :demo :color |
+		demo window hide.
+		consumeEventsBlock value: demo value: defaultSecondsToWait.
+		demo window show.
+		demo clearColor: color; present. "Need to paint again"
+		consumeEventsBlock value: demo value: defaultSecondsToWait ].
+
+	Stdio stdout << 'maximize & restore'; lf.
+	demos with: (Color wheel: demos size) do: [ :demo :color |
+		demo window maximize; sync.
+		demo clearColor: color; present.
+		consumeEventsBlock value: demo value: defaultSecondsToWait.
+		demo window restore; sync.
+		demo clearColor: color; present.
+		consumeEventsBlock value: demo value: defaultSecondsToWait ].
+
+	Stdio stdout << 'fullscreen true/false'; lf.
+	demos with: (Color wheel: demos size) do: [ :demo :color |
+		demo window fullscreen: true; sync.
+		demo clearColor: color; present.
+		consumeEventsBlock value: demo value: defaultSecondsToWait.
+		demo window fullscreen: false; sync.
+		demo clearColor: color; present.
+		consumeEventsBlock value: demo value: defaultSecondsToWait ].
+
+	Stdio stdout << 'minimize & restore'; lf.
+	demos do: [ :demo |
+		demo window minimize; sync.
+		consumeEventsBlock value: demo value: defaultSecondsToWait.
+		demo window restore; sync.
+		consumeEventsBlock value: demo value: defaultSecondsToWait ].
+
+	Stdio stdout << 'close'; lf.
+	demos do: [ :demo | demo close ].
+	
+	demos first ensureQuitSDL3
 ]
 
 { #category : 'examples' }
@@ -630,10 +715,16 @@ SDL3Demo >> ensureQuitSDL3 [
 	sdl quit
 ]
 
-{ #category : 'api' }
+{ #category : 'accessing' }
 SDL3Demo >> initialExtent [
 
-	^ 1280 @ 720 "720p"
+	^ initialExtent
+]
+
+{ #category : 'accessing' }
+SDL3Demo >> initialExtent: anObject [
+
+	initialExtent := anObject
 ]
 
 { #category : 'initialization' }
@@ -644,7 +735,9 @@ SDL3Demo >> initialize [
 	sdl := LibSDL3 uniqueInstance.
 
 	event := SDL3Event new.
-	map := SDL3EventMap new
+	map := SDL3EventMap new.
+	
+	initialExtent := 1280 @ 720 "720p"
 ]
 
 { #category : 'lifecycle' }
@@ -653,8 +746,8 @@ SDL3Demo >> open [
 	window :=
 		sdl
 			newWindowTitle: self className
-			w: self initialExtent x
-			h: self initialExtent y
+			w: initialExtent x
+			h: initialExtent y
 			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
 	window assertNotNullReturn.
 
