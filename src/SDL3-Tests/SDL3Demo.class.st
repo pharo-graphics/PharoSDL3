@@ -634,6 +634,39 @@ SDL3Demo class >> example08TrayMenu [
 	Smalltalk snapshot: false andQuit: true
 ]
 
+{ #category : 'examples' }
+SDL3Demo class >> example09Progress [
+	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
+	Example:
+		./pharo Pharo.image eval --no-quit 'SDL3Demo example09Progress' "
+
+	| demo numberOfSteps |
+	self
+		assert: (SDL2 wasInit: 16384) = 0 "SDL_INIT_EVENTS"
+		description: 'SDL2 is already initialized'.
+
+	demo := self new.
+
+	demo
+		ensureInitSDL3;
+		initialExtent: 400 @ 200;
+		open.
+
+	demo window progressState: SDL3ProgressState normal.
+	numberOfSteps := 10.
+	1 to: numberOfSteps do: [ :index |
+		demo window
+			title: 'Progress: ', index asString, '/', numberOfSteps asString;
+			progressValue: (index / numberOfSteps).
+		0.5 seconds wait ].
+	demo window
+		title: 'Progress: Error';
+		progressState: SDL3ProgressState error.
+	1.0 seconds wait.
+
+	demo close; ensureQuitSDL3
+]
+
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
