@@ -17,6 +17,9 @@ Class {
 
 { #category : 'examples' }
 SDL3Demo class >> example00ColorWheel [
+	"
+	./pharo Pharo.image eval 'SDL3Demo example00ColorWheel'
+	"
 
 	| demo |
 	demo := self new.
@@ -35,7 +38,7 @@ SDL3Demo class >> example00ColorWheel [
 { #category : 'examples' }
 SDL3Demo class >> example01MultipleWindows [
 	"
-	./pharo Pharo.image eval --no-quit 'SDL3Demo example01MultipleWindows'
+	./pharo Pharo.image eval 'SDL3Demo example01MultipleWindows'
 	"
 
 	| defaultSecondsToWait demos extent consumeEventsBlock |
@@ -112,7 +115,6 @@ SDL3Demo class >> example01MultipleWindows [
 
 	Stdio stdout << 'close'; lf.
 	demos do: [ :demo | demo close ].
-	
 	demos first ensureQuitSDL3
 ]
 
@@ -120,7 +122,7 @@ SDL3Demo class >> example01MultipleWindows [
 SDL3Demo class >> example02LogState [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example02LogState' "
+		./pharo Pharo.image eval 'SDL3Demo example02LogState' "
 
 	| demo logs quit |
 	self
@@ -155,16 +157,16 @@ SDL3Demo class >> example02LogState [
 		logs add: #numberOfDisplays -> lib numberOfDisplays.
 		lib displayIDs do: [ :eachId |
 			logs add: ''.
-			logs add: 'DisplayID:' -> eachId.
-			logs add: 'Name:' -> (lib getDisplayName: eachId).
-			logs add: 'Desktop display mode:' -> (lib getDesktopDisplayMode: eachId).
-			logs add: 'Current display mode:' -> (lib getCurrentDisplayMode: eachId).
-			logs add: 'All display modes:' -> (lib fullscreenDisplayModesOf: eachId).
-			logs add: 'Scale:' -> (lib getDisplayContentScale: eachId).
-			logs add: 'Orientation (current):' -> (lib getCurrentDisplayOrientation: eachId).
-			logs add: 'Orientation (natural):' -> (lib getNaturalDisplayOrientation: eachId).
-			logs add: 'Bounds:' -> (lib boundsOfDisplay: eachId).
-			logs add: 'Bounds (usable):' -> (lib usableBoundsOfDisplay: eachId) ].
+			logs add: 'DisplayID' -> eachId.
+			logs add: 'Name' -> (lib getDisplayName: eachId).
+			logs add: 'Desktop display mode' -> (lib getDesktopDisplayMode: eachId).
+			logs add: 'Current display mode' -> (lib getCurrentDisplayMode: eachId).
+			logs add: 'All display modes' -> (lib fullscreenDisplayModesOf: eachId).
+			logs add: 'Scale' -> (lib getDisplayContentScale: eachId).
+			logs add: 'Orientation (current)' -> (lib getCurrentDisplayOrientation: eachId).
+			logs add: 'Orientation (natural)' -> (lib getNaturalDisplayOrientation: eachId).
+			logs add: 'Bounds' -> (lib boundsOfDisplay: eachId).
+			logs add: 'Bounds (usable)' -> (lib usableBoundsOfDisplay: eachId) ].
 
 		logs add: ''.
 		logs add: #WINDOW.
@@ -221,16 +223,14 @@ SDL3Demo class >> example02LogState [
 		15 milliSeconds wait ].
 
 	"Tear down"
-	demo close.
-	demo ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example03LogEventsUntilThirdQuit [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example03LogEventsUntilThirdQuit' "
+		./pharo Pharo.image eval 'SDL3Demo example03LogEventsUntilThirdQuit' "
 
 	| demo logs quitCount |
 	self
@@ -268,16 +268,14 @@ SDL3Demo class >> example03LogEventsUntilThirdQuit [
 		15 milliSeconds wait ].
 
 	"Tear down"
-	demo close.
-	demo ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example04HandleEvents [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example04HandleEvents' "
+		./pharo Pharo.image eval 'SDL3Demo example04HandleEvents' "
 
 	| demo quit hue bright backgroundColor |
 	self
@@ -333,16 +331,14 @@ SDL3Demo class >> example04HandleEvents [
 		15 milliSeconds wait ].
 
 	"Tear down"
-	demo close.
-	demo ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example05Clipboard [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example05Clipboard' "
+		./pharo Pharo.image eval 'SDL3Demo example05Clipboard' "
 
 	| demo quit pasted |
 	self
@@ -398,16 +394,14 @@ SDL3Demo class >> example05Clipboard [
 
 	"Tear down"
 	pasted do: [ :each | each key destroy ].
-	demo close.
-	demo ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example06OpenFolderDialog [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example06OpenFolderDialog' "
+		./pharo Pharo.image eval 'SDL3Demo example06OpenFolderDialog' "
 
 	| demo logs quit |
 	self
@@ -454,16 +448,14 @@ SDL3Demo class >> example06OpenFolderDialog [
 		15 milliSeconds wait ].
 
 	"Tear down"
-	demo close.
-	demo ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example07SystemCursors [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example07SystemCursors' "
+		./pharo Pharo.image eval 'SDL3Demo example07SystemCursors' "
 
 	| demo quit logs cursorGenerator |
 	self
@@ -514,16 +506,14 @@ SDL3Demo class >> example07SystemCursors [
 		15 milliSeconds wait ].
 
 	"Tear down"
-	demo close.
-	demo ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example08TrayMenu [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example08TrayMenu' "
+		./pharo Pharo.image eval 'SDL3Demo example08TrayMenu' "
 
 	| demo quit logs sdl tray logEntryLabelCallback strings |
 	self
@@ -629,16 +619,14 @@ SDL3Demo class >> example08TrayMenu [
 
 	"Tear down"
 	tray ifNotNil: [ tray destroy ].
-	demo close.
-	demo ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	demo close; ensureQuitSDL3
 ]
 
 { #category : 'examples' }
 SDL3Demo class >> example09Progress [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval --no-quit 'SDL3Demo example09Progress' "
+		./pharo Pharo.image eval 'SDL3Demo example09Progress' "
 
 	| demo numberOfSteps |
 	self
@@ -664,6 +652,7 @@ SDL3Demo class >> example09Progress [
 		progressState: SDL3ProgressState error.
 	1.0 seconds wait.
 
+	"Tear down"
 	demo close; ensureQuitSDL3
 ]
 
