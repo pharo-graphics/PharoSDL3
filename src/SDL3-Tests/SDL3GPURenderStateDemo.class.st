@@ -35,8 +35,7 @@ SDL3GPURenderStateDemo >> close [
 	(mainLoopProcess isNotNil and: [ mainLoopProcess isTerminated not ])
 		ifTrue: [ mainLoopProcess terminate ].
 
-	self ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	self ensureQuitSDL3
 ]
 
 { #category : 'initialization' }
@@ -107,6 +106,38 @@ SDL3GPURenderStateDemo >> initializeTextures [
 	surface destroy
 ]
 
+{ #category : 'running' }
+SDL3GPURenderStateDemo >> iterateUntilQuit [
+
+	| quit |
+	quit := false.
+
+	"main loop"
+	[ quit ] whileFalse: [
+
+		"Process all pending events"
+		self pollEventsDo: [ :evt |
+			evt type = SDL3EventType quit ifTrue: [ quit := true ].
+
+			evt type = SDL3EventType keyDown ifTrue: [
+				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ].
+				evt key = SDL3Keycode right asInteger ifTrue: [
+					renderStateIndex := renderStateIndex + 1.
+					renderStateIndex > renderStates size ifTrue: [
+						renderStateIndex := 1 ] ].
+				evt key = SDL3Keycode left asInteger ifTrue: [
+					renderStateIndex := renderStateIndex - 1.
+					renderStateIndex < 1 ifTrue: [
+						renderStateIndex := renderStates size ] ]
+				]
+			].
+
+		self render.
+		
+		"Do a little wait before next frame"
+		16.6 milliSeconds wait ]
+]
+
 { #category : 'lifecycle' }
 SDL3GPURenderStateDemo >> open [
 
@@ -171,40 +202,8 @@ SDL3GPURenderStateDemo >> run [
 	./pharo Pharo.image eval --no-quit 'SDL3GPURenderStateDemo new run' "
 
 	self open.
-	self runUntilQuit.
+	self iterateUntilQuit.
 	self close
-]
-
-{ #category : 'running' }
-SDL3GPURenderStateDemo >> runUntilQuit [
-
-	| quit |
-	quit := false.
-
-	"main loop"
-	[ quit ] whileFalse: [
-
-		"Process all pending events"
-		self pollEventsDo: [ :evt |
-			evt type = SDL3EventType quit ifTrue: [ quit := true ].
-
-			evt type = SDL3EventType keyDown ifTrue: [
-				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ].
-				evt key = SDL3Keycode right asInteger ifTrue: [
-					renderStateIndex := renderStateIndex + 1.
-					renderStateIndex > renderStates size ifTrue: [
-						renderStateIndex := 1 ] ].
-				evt key = SDL3Keycode left asInteger ifTrue: [
-					renderStateIndex := renderStateIndex - 1.
-					renderStateIndex < 1 ifTrue: [
-						renderStateIndex := renderStates size ] ]
-				]
-			].
-
-		self render.
-		
-		"Do a little wait before next frame"
-		16.6 milliSeconds wait ]
 ]
 
 { #category : 'initialization' }

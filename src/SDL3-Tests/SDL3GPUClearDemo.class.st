@@ -21,8 +21,7 @@ SDL3GPUClearDemo >> close [
 	(mainLoopProcess isNotNil and: [ mainLoopProcess isTerminated not ])
 		ifTrue: [ mainLoopProcess terminate ].
 
-	self ensureQuitSDL3.
-	Smalltalk snapshot: false andQuit: true
+	self ensureQuitSDL3
 ]
 
 { #category : 'rendering' }
@@ -47,6 +46,23 @@ SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffe
 	"HERE: use `SDL3GPURenderPass` to draw"
 
 	renderPass end
+]
+
+{ #category : 'running' }
+SDL3GPUClearDemo >> iterateUntilQuit [
+
+	| quit |
+	quit := false.
+
+	[ quit ] whileFalse: [
+		self pollEventsDo: [ :evt |
+			evt type = SDL3EventType quit ifTrue: [ quit := true ].
+			evt type = SDL3EventType keyDown ifTrue: [
+				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ] ] ].
+
+		self render.
+
+		16.6 milliSeconds wait ]
 ]
 
 { #category : 'lifecycle' }
@@ -102,22 +118,6 @@ SDL3GPUClearDemo >> run [
 	"
 
 	self open.
-	self runUntilQuit.
+	self iterateUntilQuit.
 	self close
-]
-
-{ #category : 'running' }
-SDL3GPUClearDemo >> runUntilQuit [
-	| quit |
-	quit := false.
-
-	[ quit ] whileFalse: [
-		self pollEventsDo: [ :evt |
-			evt type = SDL3EventType quit ifTrue: [ quit := true ].
-			evt type = SDL3EventType keyDown ifTrue: [
-				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ] ] ].
-
-		self render.
-
-		16.6 milliSeconds wait ]
 ]
