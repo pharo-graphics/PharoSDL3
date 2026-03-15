@@ -1,5 +1,5 @@
 "
-I am a FFI structure that represents the `SDL_EVENT_CAMERA_DEVICE_APPROVED` SDL3 event. The accessing protocol is defined by my superclass.
+I represent the `SDL_EVENT_CAMERA_DEVICE_APPROVED` SDL3 event type. My FFI structure fields and their corresponding accessing protocol are defined on my superclass.
 "
 Class {
 	#name : 'SDL3CameraDeviceApprovedEvent',
@@ -8,6 +8,12 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'accessing' }
+SDL3CameraDeviceApprovedEvent class >> eventType [
+
+	^ SDL3EventType cameraDeviceApproved
+]
 
 { #category : 'visitor' }
 SDL3CameraDeviceApprovedEvent >> accept: aVisitor [

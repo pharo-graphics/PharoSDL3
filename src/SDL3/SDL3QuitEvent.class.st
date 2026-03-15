@@ -11,6 +11,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3QuitEvent class >> eventType [
+
+	^ SDL3EventType quit
+]
+
 { #category : 'field definition' }
 SDL3QuitEvent class >> fieldsDesc [
 

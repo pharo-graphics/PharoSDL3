@@ -1,12 +1,6 @@
 Extension { #name : 'SDL3TextEditingEvent' }
 
 { #category : '*SDL3-Own' }
-SDL3TextEditingEvent class >> eventTypeSelectors [
-
-	^ #(#textEditing)
-]
-
-{ #category : '*SDL3-Own' }
 SDL3TextEditingEvent >> printOn: aStream [
 
 	super printOn: aStream.

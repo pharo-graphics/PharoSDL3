@@ -15,6 +15,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3TextEditingEvent class >> eventType [
+
+	^ SDL3EventType textEditing
+]
+
 { #category : 'field definition' }
 SDL3TextEditingEvent class >> fieldsDesc [
 

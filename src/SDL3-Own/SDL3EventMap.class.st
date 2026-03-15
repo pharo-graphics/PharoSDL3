@@ -27,8 +27,8 @@ SDL3EventMap >> initialize [
 	eventClassByTypeNumber := Dictionary new.
 
 	SDL3MappedEvent allSubclassesDo: [ :eachEventClass |
-		eachEventClass eventTypes do: [ :eachEventType |
-			eventClassByTypeNumber at: eachEventType value put: eachEventClass ] ]
+		eachEventClass eventType ifNotNil: [ :eventType |
+			eventClassByTypeNumber at: eventType value put: eachEventClass ] ]
 ]
 
 { #category : 'accessing' }

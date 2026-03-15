@@ -16,6 +16,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3PenMotionEvent class >> eventType [
+
+	^ SDL3EventType penMotion
+]
+
 { #category : 'field definition' }
 SDL3PenMotionEvent class >> fieldsDesc [
 

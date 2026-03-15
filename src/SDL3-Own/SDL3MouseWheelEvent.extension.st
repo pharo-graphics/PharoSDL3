@@ -1,12 +1,6 @@
 Extension { #name : 'SDL3MouseWheelEvent' }
 
 { #category : '*SDL3-Own' }
-SDL3MouseWheelEvent class >> eventTypeSelectors [
-
-	^ #(#mouseWheel)
-]
-
-{ #category : '*SDL3-Own' }
 SDL3MouseWheelEvent >> printOn: aStream [
 
 	super printOn: aStream.

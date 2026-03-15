@@ -1,5 +1,5 @@
 "
-I am a FFI structure that represents the `SDL_EVENT_DISPLAY_REMOVED` SDL3 event. The accessing protocol is defined by my superclass.
+I represent the `SDL_EVENT_DISPLAY_REMOVED` SDL3 event type. My FFI structure fields and their corresponding accessing protocol are defined on my superclass.
 "
 Class {
 	#name : 'SDL3DisplayRemovedEvent',
@@ -8,6 +8,12 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'accessing' }
+SDL3DisplayRemovedEvent class >> eventType [
+
+	^ SDL3EventType displayRemoved
+]
 
 { #category : 'visitor' }
 SDL3DisplayRemovedEvent >> accept: aVisitor [

@@ -1,5 +1,5 @@
 "
-I am a FFI structure that represents the `SDL_EVENT_WINDOW_CLOSE_REQUESTED` SDL3 event. The accessing protocol is defined by my superclass.
+I represent the `SDL_EVENT_WINDOW_CLOSE_REQUESTED` SDL3 event type. My FFI structure fields and their corresponding accessing protocol are defined on my superclass.
 "
 Class {
 	#name : 'SDL3WindowCloseRequestedEvent',
@@ -8,6 +8,12 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'accessing' }
+SDL3WindowCloseRequestedEvent class >> eventType [
+
+	^ SDL3EventType windowCloseRequested
+]
 
 { #category : 'visitor' }
 SDL3WindowCloseRequestedEvent >> accept: aVisitor [
