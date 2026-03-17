@@ -45,18 +45,18 @@ SDL3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix [
 
 	| newName |
 	newName := aName withoutPrefix: prefix.
-	newName := String streamContents: [ :stringStream |
-		($_ split: newName) do: [ :each |
-			stringStream << each asLowercase asCamelCase ] ].
+	newName :=
+		String streamContents: [ :stringStream |
+			($_ split: newName) do: [ :each |
+				stringStream << each asLowercase asCamelCase ] ].
 	newName := newName uncapitalized.
 
-	newName isValidSelector ifFalse: [
-		newName :=
-			self
-				enumDeclToCamelCaseAt: aName
-				prefix: prefix
-				givenInvalidName: newName ].
-	
+	(OCScanner isSelector: newName) ifFalse: [
+		newName := self
+			enumDeclToCamelCaseAt: aName
+			prefix: prefix
+			givenInvalidName: newName ].
+
 	^ newName
 ]
 
