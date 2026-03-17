@@ -45,8 +45,9 @@ Class {
 		'SDL_INIT_SENSOR',
 		'SDL_INIT_VIDEO'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Constants',
+	#package : 'SDL3',
+	#tag : 'Constants'
 }
 
 { #category : 'accessing enum' }

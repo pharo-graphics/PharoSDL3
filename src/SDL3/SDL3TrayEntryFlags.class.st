@@ -34,8 +34,9 @@ Class {
 		'SDL_TRAYENTRY_DISABLED',
 		'SDL_TRAYENTRY_SUBMENU'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Constants',
+	#package : 'SDL3',
+	#tag : 'Constants'
 }
 
 { #category : 'accessing enum' }
