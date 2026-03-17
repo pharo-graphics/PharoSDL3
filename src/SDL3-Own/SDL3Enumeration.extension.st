@@ -45,18 +45,18 @@ SDL3Enumeration class >> enumDeclToCamelCaseAt: aName prefix: prefix [
 
 	| newName |
 	newName := aName withoutPrefix: prefix.
-	newName := String streamContents: [ :stringStream |
-		($_ split: newName) do: [ :each |
-			stringStream << each asLowercase asCamelCase ] ].
+	newName :=
+		String streamContents: [ :stringStream |
+			($_ split: newName) do: [ :each |
+				stringStream << each asLowercase asCamelCase ] ].
 	newName := newName uncapitalized.
 
-	newName isValidSelector ifFalse: [
-		newName :=
-			self
-				enumDeclToCamelCaseAt: aName
-				prefix: prefix
-				givenInvalidName: newName ].
-	
+	(OCScanner isSelector: newName) ifFalse: [
+		newName := self
+			enumDeclToCamelCaseAt: aName
+			prefix: prefix
+			givenInvalidName: newName ].
+
 	^ newName
 ]
 
@@ -84,15 +84,4 @@ SDL3Enumeration class >> enumDeclToCamelCaseDictionary [
 			put: (self enumDeclToCamelCaseAt: aName prefix: prefix) ].
 
 	^ result
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Enumeration class >> initialize [
-	"We take the responsibility of initializing the whole hierarchy.
-	Why? To avoid duplication of initialize on each subclass.
-	However, we have to only initialize subclasses that define #enumDecl on classSide."
-
-	self allSubclassesDo: [ :each |
-		(each classSide includesSelector: #enumDecl) ifTrue: [
-			each initializeEnumeration ] ]
 ]
