@@ -85,14 +85,3 @@ SDL3Enumeration class >> enumDeclToCamelCaseDictionary [
 
 	^ result
 ]
-
-{ #category : '*SDL3-Own' }
-SDL3Enumeration class >> initialize [
-	"We take the responsibility of initializing the whole hierarchy.
-	Why? To avoid duplication of initialize on each subclass.
-	However, we have to only initialize subclasses that define #enumDecl on classSide."
-
-	self allSubclassesDo: [ :each |
-		(each classSide includesSelector: #enumDecl) ifTrue: [
-			each initializeEnumeration ] ]
-]
