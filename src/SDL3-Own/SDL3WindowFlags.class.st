@@ -76,9 +76,8 @@ Class {
 		'SDL_WINDOW_UTILITY',
 		'SDL_WINDOW_VULKAN'
 	],
-	#category : 'SDL3-Constants',
-	#package : 'SDL3',
-	#tag : 'Constants'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
 
 { #category : 'accessing enum' }

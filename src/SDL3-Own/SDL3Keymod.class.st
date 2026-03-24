@@ -56,9 +56,8 @@ Class {
 		'SDL_KMOD_SCROLL',
 		'SDL_KMOD_SHIFT'
 	],
-	#category : 'SDL3-Constants',
-	#package : 'SDL3',
-	#tag : 'Constants'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
 
 { #category : 'accessing enum' }

@@ -37,9 +37,8 @@ Class {
 		'SDL_GPU_SHADERFORMAT_PRIVATE',
 		'SDL_GPU_SHADERFORMAT_SPIRV'
 	],
-	#category : 'SDL3-Constants',
-	#package : 'SDL3',
-	#tag : 'Constants'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
 
 { #category : 'accessing enum' }
