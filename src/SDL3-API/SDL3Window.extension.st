@@ -281,6 +281,12 @@ SDL3Window >> maximumSizeMaxW: max_w maxH: max_h [
 ]
 
 { #category : '*SDL3-API' }
+SDL3Window >> metalCreateView [
+
+	^ self ffiLibrary metalCreateView: self
+]
+
+{ #category : '*SDL3-API' }
 SDL3Window >> minimize [
 
 	^ self ffiLibrary minimizeWindow: self
@@ -439,6 +445,16 @@ SDL3Window >> resizable: resizable [
 SDL3Window >> restore [
 
 	^ self ffiLibrary restoreWindow: self
+]
+
+{ #category : '*SDL3-API' }
+SDL3Window >> setiOSAnimationCallbackInterval: interval callback: callback callbackParam: callbackParam [
+
+	^ self ffiLibrary
+		  setiOSAnimationCallbackWindow: self
+		  interval: interval
+		  callback: callback
+		  callbackParam: callbackParam
 ]
 
 { #category : '*SDL3-API' }

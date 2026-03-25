@@ -1,5 +1,5 @@
 Class {
-	#name : 'SDL3Renderer',
+	#name : 'SDL3Process',
 	#superclass : 'SDL3BaseObject',
 	#category : 'SDL3-Base',
 	#package : 'SDL3',

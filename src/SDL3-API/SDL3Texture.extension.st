@@ -158,15 +158,15 @@ SDL3Texture >> unlock [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Texture >> updateNVRect: rect Yplane: Yplane Ypitch: Ypitch UVplane: UVplane UVpitch: UVpitch [
+SDL3Texture >> updateNVRect: rect yplane: Yplane ypitch: Ypitch uVplane: UVplane uVpitch: UVpitch [
 
 	^ self ffiLibrary
 		  updateNVTexture: self
 		  rect: rect
-		  Yplane: Yplane
-		  Ypitch: Ypitch
-		  UVplane: UVplane
-		  UVpitch: UVpitch
+		  yplane: Yplane
+		  ypitch: Ypitch
+		  uVplane: UVplane
+		  uVpitch: UVpitch
 ]
 
 { #category : '*SDL3-API' }
@@ -180,15 +180,15 @@ SDL3Texture >> updateRect: rect pixels: pixels pitch: pitch [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Texture >> updateYUVRect: rect Yplane: Yplane Ypitch: Ypitch Uplane: Uplane Upitch: Upitch Vplane: Vplane Vpitch: Vpitch [
+SDL3Texture >> updateYUVRect: rect yplane: Yplane ypitch: Ypitch uplane: Uplane upitch: Upitch vplane: Vplane vpitch: Vpitch [
 
 	^ self ffiLibrary
 		  updateYUVTexture: self
 		  rect: rect
-		  Yplane: Yplane
-		  Ypitch: Ypitch
-		  Uplane: Uplane
-		  Upitch: Upitch
-		  Vplane: Vplane
-		  Vpitch: Vpitch
+		  yplane: Yplane
+		  ypitch: Ypitch
+		  uplane: Uplane
+		  upitch: Upitch
+		  vplane: Vplane
+		  vpitch: Vpitch
 ]

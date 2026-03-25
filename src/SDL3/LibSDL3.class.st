@@ -2,6 +2,7 @@ Class {
 	#name : 'LibSDL3',
 	#superclass : 'FFILibrary',
 	#pools : [
+		'SDL3Constants',
 		'SDL3Typedef'
 	],
 	#category : 'SDL3-Library',
@@ -9,7 +10,7 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> abs: x [
 	"/**
 	 * Compute the absolute value of `x`.
@@ -25,7 +26,7 @@ LibSDL3 >> abs: x [
 	^ self ffiCall: #(int SDL_abs(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> acos: x [
 	"/**
 	 * Compute the arc cosine of `x`.
@@ -59,7 +60,7 @@ LibSDL3 >> acos: x [
 	^ self ffiCall: #(double SDL_acos(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> acosf: x [
 	"/**
 	 * Compute the arc cosine of `x`.
@@ -93,7 +94,7 @@ LibSDL3 >> acosf: x [
 	^ self ffiCall: #(float SDL_acosf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> acquireCameraFrameCamera: camera timestampNS: timestampNS [
 	"/**
 	 * Acquire a frame.
@@ -140,7 +141,7 @@ LibSDL3 >> acquireCameraFrameCamera: camera timestampNS: timestampNS [
 	^ self ffiCall: #(SDL_Surface* SDL_AcquireCameraFrame(SDL_Camera* camera, Uint64* timestampNS))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> acquireGPUCommandBuffer: device [
 	"/**
 	 * Acquire a command buffer.
@@ -170,7 +171,7 @@ LibSDL3 >> acquireGPUCommandBuffer: device [
 	^ self ffiCall: #(SDL_GPUCommandBuffer* SDL_AcquireGPUCommandBuffer(SDL_GPUDevice* device))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> acquireGPUSwapchainTextureCommandBuffer: command_buffer window: window swapchainTexture: swapchain_texture swapchainTextureWidth: swapchain_texture_width swapchainTextureHeight: swapchain_texture_height [
 	"/**
 	 * Acquire a texture to use in presentation.
@@ -224,7 +225,7 @@ LibSDL3 >> acquireGPUSwapchainTextureCommandBuffer: command_buffer window: windo
 	^ self ffiCall: #(bool SDL_AcquireGPUSwapchainTexture(SDL_GPUCommandBuffer* command_buffer, SDL_Window* window, SDL_GPUTexture* swapchain_texture, Uint32* swapchain_texture_width, Uint32* swapchain_texture_height))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> addAtomicIntA: a v: v [
 	"/**
 	 * Add to an atomic variable.
@@ -249,7 +250,7 @@ LibSDL3 >> addAtomicIntA: a v: v [
 	^ self ffiCall: #(int SDL_AddAtomicInt(SDL_AtomicInt* a, int v))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> addAtomicU32A: a v: v [
 	"/**
 	 * Add to an atomic variable.
@@ -271,7 +272,7 @@ LibSDL3 >> addAtomicU32A: a v: v [
 	^ self ffiCall: #(Uint32 SDL_AddAtomicU32(SDL_AtomicU32* a, int v))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> addEventWatchFilter: filter userdata: userdata [
 	"/**
 	 * Add a callback to be triggered when an event is added to the event queue.
@@ -307,7 +308,161 @@ LibSDL3 >> addEventWatchFilter: filter userdata: userdata [
 	^ self ffiCall: #(bool SDL_AddEventWatch(SDL_EventFilter filter, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> addGamepadMapping: mapping [
+	"/**
+	 * Add support for gamepads that SDL is unaware of or change the binding of an
+	 * existing gamepad.
+	 *
+	 * The mapping string has the format ""GUID,name,mapping"", where GUID is the
+	 * string value from SDL_GUIDToString(), name is the human readable string for
+	 * the device and mappings are gamepad mappings to joystick ones. Under
+	 * Windows there is a reserved GUID of ""xinput"" that covers all XInput
+	 * devices. The mapping format for joystick is:
+	 *
+	 * - `bX`: a joystick button, index X
+	 * - `hX.Y`: hat X with value Y
+	 * - `aX`: axis X of the joystick
+	 *
+	 * Buttons can be used as a gamepad axes and vice versa.
+	 *
+	 * If a device with this GUID is already plugged in, SDL will generate an
+	 * SDL_EVENT_GAMEPAD_ADDED event.
+	 *
+	 * This string shows an example of a valid mapping for a gamepad:
+	 *
+	 * ```c
+	 * ""341a3608000000000000504944564944,Afterglow PS3 Controller,a:b1,b:b2,y:b3,x:b0,start:b9,guide:b12,back:b8,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftshoulder:b4,rightshoulder:b5,leftstick:b10,rightstick:b11,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7""
+	 * ```
+	 *
+	 * \param mapping the mapping string.
+	 * \returns 1 if a new mapping is added, 0 if an existing mapping is updated,
+	 *          -1 on failure; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddGamepadMappingsFromFile
+	 * \sa SDL_AddGamepadMappingsFromIO
+	 * \sa SDL_GetGamepadMapping
+	 * \sa SDL_GetGamepadMappingForGUID
+	 * \sa SDL_HINT_GAMECONTROLLERCONFIG
+	 * \sa SDL_HINT_GAMECONTROLLERCONFIG_FILE
+	 * \sa SDL_EVENT_GAMEPAD_ADDED
+	 */"
+
+	^ self ffiCall: #(int SDL_AddGamepadMapping(const char* mapping))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> addGamepadMappingsFromFile: file [
+	"/**
+	 * Load a set of gamepad mappings from a file.
+	 *
+	 * You can call this function several times, if needed, to load different
+	 * database files.
+	 *
+	 * If a new mapping is loaded for an already known gamepad GUID, the later
+	 * version will overwrite the one currently loaded.
+	 *
+	 * Any new mappings for already plugged in controllers will generate
+	 * SDL_EVENT_GAMEPAD_ADDED events.
+	 *
+	 * Mappings not belonging to the current platform or with no platform field
+	 * specified will be ignored (i.e. mappings for Linux will be ignored in
+	 * Windows, etc).
+	 *
+	 * \param file the mappings file to load.
+	 * \returns the number of mappings added or -1 on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddGamepadMapping
+	 * \sa SDL_AddGamepadMappingsFromIO
+	 * \sa SDL_GetGamepadMapping
+	 * \sa SDL_GetGamepadMappingForGUID
+	 * \sa SDL_HINT_GAMECONTROLLERCONFIG
+	 * \sa SDL_HINT_GAMECONTROLLERCONFIG_FILE
+	 * \sa SDL_EVENT_GAMEPAD_ADDED
+	 */"
+
+	^ self ffiCall: #(int SDL_AddGamepadMappingsFromFile(const char* file))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> addGamepadMappingsFromIOSrc: src closeio: closeio [
+	"/**
+	 * Load a set of gamepad mappings from an SDL_IOStream.
+	 *
+	 * You can call this function several times, if needed, to load different
+	 * database files.
+	 *
+	 * If a new mapping is loaded for an already known gamepad GUID, the later
+	 * version will overwrite the one currently loaded.
+	 *
+	 * Any new mappings for already plugged in controllers will generate
+	 * SDL_EVENT_GAMEPAD_ADDED events.
+	 *
+	 * Mappings not belonging to the current platform or with no platform field
+	 * specified will be ignored (i.e. mappings for Linux will be ignored in
+	 * Windows, etc).
+	 *
+	 * This function will load the text database entirely in memory before
+	 * processing it, so take this into consideration if you are in a memory
+	 * constrained environment.
+	 *
+	 * \param src the data stream for the mappings to be added.
+	 * \param closeio if true, calls SDL_CloseIO() on `src` before returning, even
+	 *                in the case of an error.
+	 * \returns the number of mappings added or -1 on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddGamepadMapping
+	 * \sa SDL_AddGamepadMappingsFromFile
+	 * \sa SDL_GetGamepadMapping
+	 * \sa SDL_GetGamepadMappingForGUID
+	 * \sa SDL_HINT_GAMECONTROLLERCONFIG
+	 * \sa SDL_HINT_GAMECONTROLLERCONFIG_FILE
+	 * \sa SDL_EVENT_GAMEPAD_ADDED
+	 */"
+
+	^ self ffiCall: #(int SDL_AddGamepadMappingsFromIO(SDL_IOStream* src, #bool closeio))
+]
+
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> addHintCallbackName: name callback: callback userdata: userdata [
+	"/**
+	 * Add a function to watch a particular hint.
+	 *
+	 * The callback function is called _during_ this function, to provide it an
+	 * initial value, and again each time the hint's value changes.
+	 *
+	 * \param name the hint to watch.
+	 * \param callback An SDL_HintCallback function that will be called when the
+	 *                 hint value changes.
+	 * \param userdata a pointer to pass to the callback function.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_RemoveHintCallback
+	 */"
+
+	^ self ffiCall: #(bool SDL_AddHintCallback(const char* name, SDL_HintCallback callback, void* userdata))
+]
+
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> addSurfaceAlternateImageSurface: surface image: image [
 	"/**
 	 * Add an alternate version of a surface.
@@ -339,7 +494,7 @@ LibSDL3 >> addSurfaceAlternateImageSurface: surface image: image [
 	^ self ffiCall: #(bool SDL_AddSurfaceAlternateImage(SDL_Surface* surface, SDL_Surface* image))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> addTimerInterval: interval callback: callback userdata: userdata [
 	"/**
 	 * Call a callback function at a future time.
@@ -379,7 +534,7 @@ LibSDL3 >> addTimerInterval: interval callback: callback userdata: userdata [
 	^ self ffiCall: #(SDL_TimerID SDL_AddTimer(Uint32 interval, SDL_TimerCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> addTimerNSInterval: interval callback: callback userdata: userdata [
 	"/**
 	 * Call a callback function at a future time.
@@ -419,7 +574,7 @@ LibSDL3 >> addTimerNSInterval: interval callback: callback userdata: userdata [
 	^ self ffiCall: #(SDL_TimerID SDL_AddTimerNS(Uint64 interval, SDL_NSTimerCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> addVulkanRenderSemaphoresRenderer: renderer waitStageMask: wait_stage_mask waitSemaphore: wait_semaphore signalSemaphore: signal_semaphore [
 	"/**
 	 * Add a set of synchronization semaphores for the current frame.
@@ -453,7 +608,7 @@ LibSDL3 >> addVulkanRenderSemaphoresRenderer: renderer waitStageMask: wait_stage
 	^ self ffiCall: #(bool SDL_AddVulkanRenderSemaphores(SDL_Renderer* renderer, Uint32 wait_stage_mask, Sint64 wait_semaphore, Sint64 signal_semaphore))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> alignedAllocAlignment: alignment size: size [
 	"/**
 	 * Allocate memory aligned to a specific alignment.
@@ -481,7 +636,7 @@ LibSDL3 >> alignedAllocAlignment: alignment size: size [
 	^ self ffiCall: #(void* SDL_aligned_alloc(size_t alignment, size_t size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> alignedFree: mem [
 	"/**
 	 * Free memory allocated by SDL_aligned_alloc().
@@ -503,7 +658,7 @@ LibSDL3 >> alignedFree: mem [
 	self ffiCall: #(void SDL_aligned_free(void* mem))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> asin: x [
 	"/**
 	 * Compute the arc sine of `x`.
@@ -537,7 +692,7 @@ LibSDL3 >> asin: x [
 	^ self ffiCall: #(double SDL_asin(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> asinf: x [
 	"/**
 	 * Compute the arc sine of `x`.
@@ -571,7 +726,7 @@ LibSDL3 >> asinf: x [
 	^ self ffiCall: #(float SDL_asinf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> asyncIOFromFile: file mode: mode [
 	"/**
 	 * Use this function to create a new SDL_AsyncIO object for reading from
@@ -614,7 +769,7 @@ LibSDL3 >> asyncIOFromFile: file mode: mode [
 	^ self ffiCall: #(SDL_AsyncIO* SDL_AsyncIOFromFile(const char* file, const char* mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> atan2Y: y x: x [
 	"/**
 	 * Compute the arc tangent of `y / x`, using the signs of x and y to adjust
@@ -654,7 +809,7 @@ LibSDL3 >> atan2Y: y x: x [
 	^ self ffiCall: #(double SDL_atan2(double y, double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> atan2fY: y x: x [
 	"/**
 	 * Compute the arc tangent of `y / x`, using the signs of x and y to adjust
@@ -694,7 +849,7 @@ LibSDL3 >> atan2fY: y x: x [
 	^ self ffiCall: #(float SDL_atan2f(float y, float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> atan: x [
 	"/**
 	 * Compute the arc tangent of `x`.
@@ -730,7 +885,7 @@ LibSDL3 >> atan: x [
 	^ self ffiCall: #(double SDL_atan(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> atanf: x [
 	"/**
 	 * Compute the arc tangent of `x`.
@@ -766,7 +921,7 @@ LibSDL3 >> atanf: x [
 	^ self ffiCall: #(float SDL_atanf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> atof: str [
 	"/**
 	 * Parse a `double` from a string.
@@ -792,7 +947,7 @@ LibSDL3 >> atof: str [
 	^ self ffiCall: #(double SDL_atof(const char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> atoi: str [
 	"/**
 	 * Parse an `int` from a string.
@@ -819,7 +974,7 @@ LibSDL3 >> atoi: str [
 	^ self ffiCall: #(int SDL_atoi(const char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> attachVirtualJoystick: desc [
 	"/**
 	 * Attach a new virtual joystick.
@@ -856,7 +1011,7 @@ LibSDL3 >> attachVirtualJoystick: desc [
 	^ self ffiCall: #(SDL_JoystickID SDL_AttachVirtualJoystick(SDL_VirtualJoystickDesc* desc))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> audioDevicePaused: devid [
 	"/**
 	 * Use this function to query if an audio device is paused.
@@ -882,7 +1037,7 @@ LibSDL3 >> audioDevicePaused: devid [
 	^ self ffiCall: #(bool SDL_AudioDevicePaused(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> audioStreamDevicePaused: stream [
 	"/**
 	 * Use this function to query if an audio device associated with a stream is
@@ -905,7 +1060,7 @@ LibSDL3 >> audioStreamDevicePaused: stream [
 	^ self ffiCall: #(bool SDL_AudioStreamDevicePaused(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> beginGPUComputePassCommandBuffer: command_buffer storageTextureBindings: storage_texture_bindings numStorageTextureBindings: num_storage_texture_bindings storageBufferBindings: storage_buffer_bindings numStorageBufferBindings: num_storage_buffer_bindings [
 	"/**
 	 * Begins a compute pass on a command buffer.
@@ -948,7 +1103,7 @@ LibSDL3 >> beginGPUComputePassCommandBuffer: command_buffer storageTextureBindin
 	^ self ffiCall: #(SDL_GPUComputePass* SDL_BeginGPUComputePass(SDL_GPUCommandBuffer* command_buffer, SDL_GPUStorageTextureReadWriteBinding* storage_texture_bindings, Uint32 num_storage_texture_bindings, SDL_GPUStorageBufferReadWriteBinding* storage_buffer_bindings, Uint32 num_storage_buffer_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> beginGPUCopyPass: command_buffer [
 	"/**
 	 * Begins a copy pass on a command buffer.
@@ -968,7 +1123,7 @@ LibSDL3 >> beginGPUCopyPass: command_buffer [
 	^ self ffiCall: #(SDL_GPUCopyPass* SDL_BeginGPUCopyPass(SDL_GPUCommandBuffer* command_buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> beginGPURenderPassCommandBuffer: command_buffer colorTargetInfos: color_target_infos numColorTargets: num_color_targets depthStencilTargetInfo: depth_stencil_target_info [
 	"/**
 	 * Begins a render pass on a command buffer.
@@ -1007,7 +1162,7 @@ LibSDL3 >> beginGPURenderPassCommandBuffer: command_buffer colorTargetInfos: col
 	^ self ffiCall: #(SDL_GPURenderPass* SDL_BeginGPURenderPass(SDL_GPUCommandBuffer* command_buffer, SDL_GPUColorTargetInfo* color_target_infos, Uint32 num_color_targets, SDL_GPUDepthStencilTargetInfo* depth_stencil_target_info))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> bindAudioStreamDevid: devid stream: stream [
 	"/**
 	 * Bind a single audio stream to an audio device.
@@ -1032,7 +1187,7 @@ LibSDL3 >> bindAudioStreamDevid: devid stream: stream [
 	^ self ffiCall: #(bool SDL_BindAudioStream(SDL_AudioDeviceID devid, SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> bindAudioStreamsDevid: devid streams: streams numStreams: num_streams [
 	"/**
 	 * Bind a list of audio streams to an audio device.
@@ -1076,7 +1231,7 @@ LibSDL3 >> bindAudioStreamsDevid: devid streams: streams numStreams: num_streams
 	^ self ffiCall: #(bool SDL_BindAudioStreams(SDL_AudioDeviceID devid, SDL_AudioStream* streams, int num_streams))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUComputePipelineComputePass: compute_pass computePipeline: compute_pipeline [
 	"/**
 	 * Binds a compute pipeline on a command buffer for use in compute dispatch.
@@ -1090,7 +1245,7 @@ LibSDL3 >> bindGPUComputePipelineComputePass: compute_pass computePipeline: comp
 	self ffiCall: #(void SDL_BindGPUComputePipeline(SDL_GPUComputePass* compute_pass, SDL_GPUComputePipeline* compute_pipeline))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUComputeSamplersComputePass: compute_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
 	"/**
 	 * Binds texture-sampler pairs for use on the compute shader.
@@ -1115,7 +1270,7 @@ LibSDL3 >> bindGPUComputeSamplersComputePass: compute_pass firstSlot: first_slot
 	self ffiCall: #(void SDL_BindGPUComputeSamplers(SDL_GPUComputePass* compute_pass, Uint32 first_slot, SDL_GPUTextureSamplerBinding* texture_sampler_bindings, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUComputeStorageBuffersComputePass: compute_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
 	"/**
 	 * Binds storage buffers as readonly for use on the compute pipeline.
@@ -1139,7 +1294,7 @@ LibSDL3 >> bindGPUComputeStorageBuffersComputePass: compute_pass firstSlot: firs
 	self ffiCall: #(void SDL_BindGPUComputeStorageBuffers(SDL_GPUComputePass* compute_pass, Uint32 first_slot, SDL_GPUBuffer* storage_buffers, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUComputeStorageTexturesComputePass: compute_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
 	"/**
 	 * Binds storage textures as readonly for use on the compute pipeline.
@@ -1163,7 +1318,7 @@ LibSDL3 >> bindGPUComputeStorageTexturesComputePass: compute_pass firstSlot: fir
 	self ffiCall: #(void SDL_BindGPUComputeStorageTextures(SDL_GPUComputePass* compute_pass, Uint32 first_slot, SDL_GPUTexture* storage_textures, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUFragmentSamplersRenderPass: render_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
 	"/**
 	 * Binds texture-sampler pairs for use on the fragment shader.
@@ -1188,7 +1343,7 @@ LibSDL3 >> bindGPUFragmentSamplersRenderPass: render_pass firstSlot: first_slot 
 	self ffiCall: #(void SDL_BindGPUFragmentSamplers(SDL_GPURenderPass* render_pass, Uint32 first_slot, SDL_GPUTextureSamplerBinding* texture_sampler_bindings, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUFragmentStorageBuffersRenderPass: render_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
 	"/**
 	 * Binds storage buffers for use on the fragment shader.
@@ -1212,7 +1367,7 @@ LibSDL3 >> bindGPUFragmentStorageBuffersRenderPass: render_pass firstSlot: first
 	self ffiCall: #(void SDL_BindGPUFragmentStorageBuffers(SDL_GPURenderPass* render_pass, Uint32 first_slot, SDL_GPUBuffer* storage_buffers, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUFragmentStorageTexturesRenderPass: render_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
 	"/**
 	 * Binds storage textures for use on the fragment shader.
@@ -1236,7 +1391,7 @@ LibSDL3 >> bindGPUFragmentStorageTexturesRenderPass: render_pass firstSlot: firs
 	self ffiCall: #(void SDL_BindGPUFragmentStorageTextures(SDL_GPURenderPass* render_pass, Uint32 first_slot, SDL_GPUTexture* storage_textures, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUGraphicsPipelineRenderPass: render_pass graphicsPipeline: graphics_pipeline [
 	"/**
 	 * Binds a graphics pipeline on a render pass to be used in rendering.
@@ -1252,7 +1407,7 @@ LibSDL3 >> bindGPUGraphicsPipelineRenderPass: render_pass graphicsPipeline: grap
 	self ffiCall: #(void SDL_BindGPUGraphicsPipeline(SDL_GPURenderPass* render_pass, SDL_GPUGraphicsPipeline* graphics_pipeline))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUIndexBufferRenderPass: render_pass binding: binding indexElementSize: index_element_size [
 	"/**
 	 * Binds an index buffer on a command buffer for use with subsequent draw
@@ -1269,7 +1424,7 @@ LibSDL3 >> bindGPUIndexBufferRenderPass: render_pass binding: binding indexEleme
 	self ffiCall: #(void SDL_BindGPUIndexBuffer(SDL_GPURenderPass* render_pass, SDL_GPUBufferBinding* binding, SDL_GPUIndexElementSize index_element_size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUVertexBuffersRenderPass: render_pass firstSlot: first_slot bindings: bindings numBindings: num_bindings [
 	"/**
 	 * Binds vertex buffers on a command buffer for use with subsequent draw
@@ -1287,7 +1442,7 @@ LibSDL3 >> bindGPUVertexBuffersRenderPass: render_pass firstSlot: first_slot bin
 	self ffiCall: #(void SDL_BindGPUVertexBuffers(SDL_GPURenderPass* render_pass, Uint32 first_slot, SDL_GPUBufferBinding* bindings, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUVertexSamplersRenderPass: render_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
 	"/**
 	 * Binds texture-sampler pairs for use on the vertex shader.
@@ -1312,7 +1467,7 @@ LibSDL3 >> bindGPUVertexSamplersRenderPass: render_pass firstSlot: first_slot te
 	self ffiCall: #(void SDL_BindGPUVertexSamplers(SDL_GPURenderPass* render_pass, Uint32 first_slot, SDL_GPUTextureSamplerBinding* texture_sampler_bindings, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUVertexStorageBuffersRenderPass: render_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
 	"/**
 	 * Binds storage buffers for use on the vertex shader.
@@ -1336,7 +1491,7 @@ LibSDL3 >> bindGPUVertexStorageBuffersRenderPass: render_pass firstSlot: first_s
 	self ffiCall: #(void SDL_BindGPUVertexStorageBuffers(SDL_GPURenderPass* render_pass, Uint32 first_slot, SDL_GPUBuffer* storage_buffers, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> bindGPUVertexStorageTexturesRenderPass: render_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
 	"/**
 	 * Binds storage textures for use on the vertex shader.
@@ -1360,7 +1515,7 @@ LibSDL3 >> bindGPUVertexStorageTexturesRenderPass: render_pass firstSlot: first_
 	self ffiCall: #(void SDL_BindGPUVertexStorageTextures(SDL_GPURenderPass* render_pass, Uint32 first_slot, SDL_GPUTexture* storage_textures, Uint32 num_bindings))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> blitGPUTextureCommandBuffer: command_buffer info: info [
 	"/**
 	 * Blits from a source texture region to a destination texture region.
@@ -1376,7 +1531,7 @@ LibSDL3 >> blitGPUTextureCommandBuffer: command_buffer info: info [
 	self ffiCall: #(void SDL_BlitGPUTexture(SDL_GPUCommandBuffer* command_buffer, SDL_GPUBlitInfo* info))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> blitSurface9GridSrc: src srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
 	"/**
 	 * Perform a scaled blit using the 9-grid algorithm to a destination surface,
@@ -1416,7 +1571,7 @@ LibSDL3 >> blitSurface9GridSrc: src srcrect: srcrect leftWidth: left_width right
 	^ self ffiCall: #(bool SDL_BlitSurface9Grid(SDL_Surface* src, SDL_Rect* srcrect, int left_width, int right_width, int top_height, int bottom_height, float scale, SDL_ScaleMode scaleMode, SDL_Surface* dst, SDL_Rect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> blitSurfaceScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 	"/**
 	 * Perform a scaled blit to a destination surface, which may be of a different
@@ -1444,7 +1599,7 @@ LibSDL3 >> blitSurfaceScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect 
 	^ self ffiCall: #(bool SDL_BlitSurfaceScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect, SDL_ScaleMode scaleMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> blitSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	"/**
 	 * Performs a fast blit from the source surface to the destination surface
@@ -1521,7 +1676,7 @@ LibSDL3 >> blitSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	^ self ffiCall: #(bool SDL_BlitSurface(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> blitSurfaceTiledSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	"/**
 	 * Perform a tiled blit to a destination surface, which may be of a different
@@ -1550,7 +1705,7 @@ LibSDL3 >> blitSurfaceTiledSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	^ self ffiCall: #(bool SDL_BlitSurfaceTiled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> blitSurfaceTiledWithScaleSrc: src srcrect: srcrect scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
 	"/**
 	 * Perform a scaled and tiled blit to a destination surface, which may be of a
@@ -1583,7 +1738,7 @@ LibSDL3 >> blitSurfaceTiledWithScaleSrc: src srcrect: srcrect scale: scale scale
 	^ self ffiCall: #(bool SDL_BlitSurfaceTiledWithScale(SDL_Surface* src, SDL_Rect* srcrect, float scale, SDL_ScaleMode scaleMode, SDL_Surface* dst, SDL_Rect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> blitSurfaceUncheckedScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 	"/**
 	 * Perform low-level surface scaled blitting only.
@@ -1612,7 +1767,7 @@ LibSDL3 >> blitSurfaceUncheckedScaledSrc: src srcrect: srcrect dst: dst dstrect:
 	^ self ffiCall: #(bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect, SDL_ScaleMode scaleMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> blitSurfaceUncheckedSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	"/**
 	 * Perform low-level surface blitting only.
@@ -1640,7 +1795,7 @@ LibSDL3 >> blitSurfaceUncheckedSrc: src srcrect: srcrect dst: dst dstrect: dstre
 	^ self ffiCall: #(bool SDL_BlitSurfaceUnchecked(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> broadcastCondition: cond [
 	"/**
 	 * Restart all threads that are waiting on the condition variable.
@@ -1659,7 +1814,7 @@ LibSDL3 >> broadcastCondition: cond [
 	self ffiCall: #(void SDL_BroadcastCondition(SDL_Condition* cond))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> bsearchKey: key base: base nmemb: nmemb size: size compare: compare [
 	"/**
 	 * Perform a binary search on a previously sorted array.
@@ -1713,7 +1868,7 @@ LibSDL3 >> bsearchKey: key base: base nmemb: nmemb size: size compare: compare [
 	^ self ffiCall: #(void* SDL_bsearch(const void* key, const void* base, size_t nmemb, size_t size, SDL_CompareCallback compare))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> bsearchRKey: key base: base nmemb: nmemb size: size compare: compare userdata: userdata [
 	"/**
 	 * Perform a binary search on a previously sorted array, passing a userdata
@@ -1775,7 +1930,7 @@ LibSDL3 >> bsearchRKey: key base: base nmemb: nmemb size: size compare: compare 
 	^ self ffiCall: #(void* SDL_bsearch_r(const void* key, const void* base, size_t nmemb, size_t size, SDL_CompareCallback_r compare, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> calculateGPUTextureFormatSizeFormat: format width: width height: height depthOrLayerCount: depth_or_layer_count [
 	"/**
 	 * Calculate the size in bytes of a texture format with dimensions.
@@ -1792,7 +1947,7 @@ LibSDL3 >> calculateGPUTextureFormatSizeFormat: format width: width height: heig
 	^ self ffiCall: #(Uint32 SDL_CalculateGPUTextureFormatSize(SDL_GPUTextureFormat format, Uint32 width, Uint32 height, Uint32 depth_or_layer_count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> callocNmemb: nmemb size: size [
 	"/**
 	 * Allocate a zero-initialized array.
@@ -1821,7 +1976,7 @@ LibSDL3 >> callocNmemb: nmemb size: size [
 	^ self ffiCall: #(void* SDL_calloc(size_t nmemb, size_t size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> cancelGPUCommandBuffer: command_buffer [
 	"/**
 	 * Cancels a command buffer.
@@ -1849,7 +2004,7 @@ LibSDL3 >> cancelGPUCommandBuffer: command_buffer [
 	^ self ffiCall: #(bool SDL_CancelGPUCommandBuffer(SDL_GPUCommandBuffer* command_buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> captureMouse: enabled [
 	"/**
 	 * Capture the mouse and to track input outside an SDL window.
@@ -1901,7 +2056,7 @@ LibSDL3 >> captureMouse: enabled [
 	^ self ffiCall: #(bool SDL_CaptureMouse(#bool enabled))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> ceil: x [
 	"/**
 	 * Compute the ceiling of `x`.
@@ -1933,7 +2088,7 @@ LibSDL3 >> ceil: x [
 	^ self ffiCall: #(double SDL_ceil(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> ceilf: x [
 	"/**
 	 * Compute the ceiling of `x`.
@@ -1965,7 +2120,7 @@ LibSDL3 >> ceilf: x [
 	^ self ffiCall: #(float SDL_ceilf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> claimWindowForGPUDevice: device window: window [
 	"/**
 	 * Claims a window, creating a swapchain structure for it.
@@ -1998,7 +2153,7 @@ LibSDL3 >> claimWindowForGPUDevice: device window: window [
 	^ self ffiCall: #(bool SDL_ClaimWindowForGPUDevice(SDL_GPUDevice* device, SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> cleanupTLS [
 	"/**
 	 * Cleanup all TLS data for this thread.
@@ -2015,7 +2170,7 @@ LibSDL3 >> cleanupTLS [
 	self ffiCall: #(void SDL_CleanupTLS())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> clearAudioStream: stream [
 	"/**
 	 * Clear any pending data in the stream.
@@ -2040,7 +2195,7 @@ LibSDL3 >> clearAudioStream: stream [
 	^ self ffiCall: #(bool SDL_ClearAudioStream(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> clearClipboardData [
 	"/**
 	 * Clear the clipboard data.
@@ -2058,7 +2213,7 @@ LibSDL3 >> clearClipboardData [
 	^ self ffiCall: #(bool SDL_ClearClipboardData())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> clearComposition: window [
 	"/**
 	 * Dismiss the composition window/IME without disabling the subsystem.
@@ -2078,7 +2233,7 @@ LibSDL3 >> clearComposition: window [
 	^ self ffiCall: #(bool SDL_ClearComposition(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_error' }
 LibSDL3 >> clearError [
 	"/**
 	 * Clear any previous error message for this thread.
@@ -2096,7 +2251,7 @@ LibSDL3 >> clearError [
 	^ self ffiCall: #(bool SDL_ClearError())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> clearPropertyProps: props name: name [
 	"/**
 	 * Clear a property from a group of properties.
@@ -2114,7 +2269,7 @@ LibSDL3 >> clearPropertyProps: props name: name [
 	^ self ffiCall: #(bool SDL_ClearProperty(SDL_PropertiesID props, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> clearSurface: surface r: r g: g b: b a: a [
 	"/**
 	 * Clear a surface with a specific color, with floating point precision.
@@ -2141,7 +2296,7 @@ LibSDL3 >> clearSurface: surface r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_ClearSurface(SDL_Surface* surface, float r, float g, float b, float a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> clickTrayEntry: entry [
 	"/**
 	 * Simulate a click on a tray entry.
@@ -2157,7 +2312,7 @@ LibSDL3 >> clickTrayEntry: entry [
 	self ffiCall: #(void SDL_ClickTrayEntry(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> closeAsyncIO: asyncio flush: flush queue: queue userdata: userdata [
 	"/**
 	 * Close and free any allocated resources for an async I/O object.
@@ -2210,7 +2365,7 @@ LibSDL3 >> closeAsyncIO: asyncio flush: flush queue: queue userdata: userdata [
 	^ self ffiCall: #(bool SDL_CloseAsyncIO(SDL_AsyncIO* asyncio, #bool flush, SDL_AsyncIOQueue* queue, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> closeAudioDevice: devid [
 	"/**
 	 * Close a previously-opened audio device.
@@ -2235,7 +2390,7 @@ LibSDL3 >> closeAudioDevice: devid [
 	self ffiCall: #(void SDL_CloseAudioDevice(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> closeCamera: camera [
 	"/**
 	 * Use this function to shut down camera processing and close the camera
@@ -2254,7 +2409,40 @@ LibSDL3 >> closeCamera: camera [
 	self ffiCall: #(void SDL_CloseCamera(SDL_Camera* camera))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> closeGamepad: gamepad [
+	"/**
+	 * Close a gamepad previously opened with SDL_OpenGamepad().
+	 *
+	 * \param gamepad a gamepad identifier previously returned by
+	 *                SDL_OpenGamepad().
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_OpenGamepad
+	 */"
+
+	self ffiCall: #(void SDL_CloseGamepad(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> closeHaptic: haptic [
+	"/**
+	 * Close a haptic device previously opened with SDL_OpenHaptic().
+	 *
+	 * \param haptic the SDL_Haptic device to close.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_OpenHaptic
+	 */"
+
+	self ffiCall: #(void SDL_CloseHaptic(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> closeIO: context [
 	"/**
 	 * Close and free an allocated SDL_IOStream structure.
@@ -2290,7 +2478,7 @@ LibSDL3 >> closeIO: context [
 	^ self ffiCall: #(bool SDL_CloseIO(SDL_IOStream* context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> closeJoystick: joystick [
 	"/**
 	 * Close a joystick previously opened with SDL_OpenJoystick().
@@ -2307,7 +2495,7 @@ LibSDL3 >> closeJoystick: joystick [
 	self ffiCall: #(void SDL_CloseJoystick(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> closeSensor: sensor [
 	"/**
 	 * Close a sensor previously opened with SDL_OpenSensor().
@@ -2320,7 +2508,29 @@ LibSDL3 >> closeSensor: sensor [
 	self ffiCall: #(void SDL_CloseSensor(SDL_Sensor* sensor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> closeStorage: storage [
+	"/**
+	 * Closes and frees a storage container.
+	 *
+	 * \param storage a storage container to close.
+	 * \returns true if the container was freed with no errors, false otherwise;
+	 *          call SDL_GetError() for more information. Even if the function
+	 *          returns an error, the container data will be freed; the error is
+	 *          only for informational purposes.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_OpenFileStorage
+	 * \sa SDL_OpenStorage
+	 * \sa SDL_OpenTitleStorage
+	 * \sa SDL_OpenUserStorage
+	 */"
+
+	^ self ffiCall: #(bool SDL_CloseStorage(SDL_Storage* storage))
+]
+
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> compareAndSwapAtomicIntA: a oldval: oldval newval: newval [
 	"/**
 	 * Set an atomic variable to a new value if it is currently an old value.
@@ -2344,7 +2554,7 @@ LibSDL3 >> compareAndSwapAtomicIntA: a oldval: oldval newval: newval [
 	^ self ffiCall: #(bool SDL_CompareAndSwapAtomicInt(SDL_AtomicInt* a, int oldval, int newval))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> compareAndSwapAtomicPointerA: a oldval: oldval newval: newval [
 	"/**
 	 * Set a pointer to a new value if it is currently an old value.
@@ -2369,7 +2579,7 @@ LibSDL3 >> compareAndSwapAtomicPointerA: a oldval: oldval newval: newval [
 	^ self ffiCall: #(bool SDL_CompareAndSwapAtomicPointer(void** a, void* oldval, void* newval))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> compareAndSwapAtomicU32A: a oldval: oldval newval: newval [
 	"/**
 	 * Set an atomic variable to a new value if it is currently an old value.
@@ -2393,7 +2603,7 @@ LibSDL3 >> compareAndSwapAtomicU32A: a oldval: oldval newval: newval [
 	^ self ffiCall: #(bool SDL_CompareAndSwapAtomicU32(SDL_AtomicU32* a, Uint32 oldval, Uint32 newval))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_blendmode' }
 LibSDL3 >> composeCustomBlendModeSrcColorFactor: srcColorFactor dstColorFactor: dstColorFactor colorOperation: colorOperation srcAlphaFactor: srcAlphaFactor dstAlphaFactor: dstAlphaFactor alphaOperation: alphaOperation [
 	"/**
 	 * Compose a custom blend mode for renderers.
@@ -2486,7 +2696,7 @@ LibSDL3 >> composeCustomBlendModeSrcColorFactor: srcColorFactor dstColorFactor: 
 	^ self ffiCall: #(SDL_BlendMode SDL_ComposeCustomBlendMode(SDL_BlendFactor srcColorFactor, SDL_BlendFactor dstColorFactor, SDL_BlendOperation colorOperation, SDL_BlendFactor srcAlphaFactor, SDL_BlendFactor dstAlphaFactor, SDL_BlendOperation alphaOperation))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> convertAudioSamplesSrcSpec: src_spec srcData: src_data srcLen: src_len dstSpec: dst_spec dstData: dst_data dstLen: dst_len [
 	"/**
 	 * Convert some audio data of one format to another format.
@@ -2520,7 +2730,7 @@ LibSDL3 >> convertAudioSamplesSrcSpec: src_spec srcData: src_data srcLen: src_le
 	^ self ffiCall: #(bool SDL_ConvertAudioSamples(SDL_AudioSpec* src_spec, const Uint8* src_data, int src_len, SDL_AudioSpec* dst_spec, Uint8** dst_data, int* dst_len))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> convertEventToRenderCoordinatesRenderer: renderer event: event [
 	"/**
 	 * Convert the coordinates in an event to render coordinates.
@@ -2560,7 +2770,7 @@ LibSDL3 >> convertEventToRenderCoordinatesRenderer: renderer event: event [
 	^ self ffiCall: #(bool SDL_ConvertEventToRenderCoordinates(SDL_Renderer* renderer, SDL_Event* event))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> convertPixelsAndColorspaceWidth: width height: height srcFormat: src_format srcColorspace: src_colorspace srcProperties: src_properties src: src srcPitch: src_pitch dstFormat: dst_format dstColorspace: dst_colorspace dstProperties: dst_properties dst: dst dstPitch: dst_pitch [
 	"/**
 	 * Copy a block of pixels of one format and colorspace to another format and
@@ -2597,7 +2807,7 @@ LibSDL3 >> convertPixelsAndColorspaceWidth: width height: height srcFormat: src_
 	^ self ffiCall: #(bool SDL_ConvertPixelsAndColorspace(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void* src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void* dst, int dst_pitch))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> convertPixelsWidth: width height: height srcFormat: src_format src: src srcPitch: src_pitch dstFormat: dst_format dst: dst dstPitch: dst_pitch [
 	"/**
 	 * Copy a block of pixels of one format to another format.
@@ -2625,7 +2835,7 @@ LibSDL3 >> convertPixelsWidth: width height: height srcFormat: src_format src: s
 	^ self ffiCall: #(bool SDL_ConvertPixels(int width, int height, SDL_PixelFormat src_format, const void* src, int src_pitch, SDL_PixelFormat dst_format, void* dst, int dst_pitch))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> convertSurface: surface format: format [
 	"/**
 	 * Copy an existing surface to a new surface of the specified format.
@@ -2658,7 +2868,7 @@ LibSDL3 >> convertSurface: surface format: format [
 	^ self ffiCall: #(SDL_Surface* SDL_ConvertSurface(SDL_Surface* surface, SDL_PixelFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> convertSurfaceAndColorspaceSurface: surface format: format palette: palette colorspace: colorspace props: props [
 	"/**
 	 * Copy an existing surface to a new surface of the specified format and
@@ -2691,7 +2901,7 @@ LibSDL3 >> convertSurfaceAndColorspaceSurface: surface format: format palette: p
 	^ self ffiCall: #(SDL_Surface* SDL_ConvertSurfaceAndColorspace(SDL_Surface* surface, SDL_PixelFormat format, SDL_Palette* palette, SDL_Colorspace colorspace, SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> copyFileOldpath: oldpath newpath: newpath [
 	"/**
 	 * Copy a file.
@@ -2739,7 +2949,7 @@ LibSDL3 >> copyFileOldpath: oldpath newpath: newpath [
 	^ self ffiCall: #(bool SDL_CopyFile(const char* oldpath, const char* newpath))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> copyGPUBufferToBufferCopyPass: copy_pass source: source destination: destination size: size cycle: cycle [
 	"/**
 	 * Performs a buffer-to-buffer copy.
@@ -2760,7 +2970,7 @@ LibSDL3 >> copyGPUBufferToBufferCopyPass: copy_pass source: source destination: 
 	self ffiCall: #(void SDL_CopyGPUBufferToBuffer(SDL_GPUCopyPass* copy_pass, SDL_GPUBufferLocation* source, SDL_GPUBufferLocation* destination, Uint32 size, #bool cycle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> copyGPUTextureToTextureCopyPass: copy_pass source: source destination: destination w: w h: h d: d cycle: cycle [
 	"/**
 	 * Performs a texture-to-texture copy.
@@ -2787,7 +2997,7 @@ LibSDL3 >> copyGPUTextureToTextureCopyPass: copy_pass source: source destination
 	self ffiCall: #(void SDL_CopyGPUTextureToTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureLocation* source, SDL_GPUTextureLocation* destination, Uint32 w, Uint32 h, Uint32 d, #bool cycle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> copyPropertiesSrc: src dst: dst [
 	"/**
 	 * Copy a group of properties.
@@ -2812,7 +3022,26 @@ LibSDL3 >> copyPropertiesSrc: src dst: dst [
 	^ self ffiCall: #(bool SDL_CopyProperties(SDL_PropertiesID src, SDL_PropertiesID dst))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> copyStorageFileStorage: storage oldpath: oldpath newpath: newpath [
+	"/**
+	 * Copy a file in a writable storage container.
+	 *
+	 * \param storage a storage container.
+	 * \param oldpath the old path.
+	 * \param newpath the new path.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_CopyStorageFile(SDL_Storage* storage, const char* oldpath, const char* newpath))
+]
+
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> copysignX: x y: y [
 	"/**
 	 * Copy the sign of one floating-point value to another.
@@ -2842,7 +3071,7 @@ LibSDL3 >> copysignX: x y: y [
 	^ self ffiCall: #(double SDL_copysign(double x, double y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> copysignfX: x y: y [
 	"/**
 	 * Copy the sign of one floating-point value to another.
@@ -2872,7 +3101,7 @@ LibSDL3 >> copysignfX: x y: y [
 	^ self ffiCall: #(float SDL_copysignf(float x, float y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> cos: x [
 	"/**
 	 * Compute the cosine of `x`.
@@ -2904,7 +3133,7 @@ LibSDL3 >> cos: x [
 	^ self ffiCall: #(double SDL_cos(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> cosf: x [
 	"/**
 	 * Compute the cosine of `x`.
@@ -2936,7 +3165,7 @@ LibSDL3 >> cosf: x [
 	^ self ffiCall: #(float SDL_cosf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> crc16Crc: crc data: data len: len [
 	"/**
 	 * Calculate a CRC-16 value.
@@ -2961,7 +3190,7 @@ LibSDL3 >> crc16Crc: crc data: data len: len [
 	^ self ffiCall: #(Uint16 SDL_crc16(Uint16 crc, const void* data, size_t len))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> crc32Crc: crc data: data len: len [
 	"/**
 	 * Calculate a CRC-32 value.
@@ -2986,7 +3215,7 @@ LibSDL3 >> crc32Crc: crc data: data len: len [
 	^ self ffiCall: #(Uint32 SDL_crc32(Uint32 crc, const void* data, size_t len))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> cursorVisible [
 	"/**
 	 * Return whether the cursor is currently being shown.
@@ -3005,7 +3234,7 @@ LibSDL3 >> cursorVisible [
 	^ self ffiCall: #(bool SDL_CursorVisible())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> dateTimeToTimeDt: dt ticks: ticks [
 	"/**
 	 * Converts a calendar time to an SDL_Time in nanoseconds since the epoch.
@@ -3024,7 +3253,7 @@ LibSDL3 >> dateTimeToTimeDt: dt ticks: ticks [
 	^ self ffiCall: #(bool SDL_DateTimeToTime(SDL_DateTime* dt, SDL_Time* ticks))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> delay: ms [
 	"/**
 	 * Wait a specified number of milliseconds before returning.
@@ -3046,7 +3275,7 @@ LibSDL3 >> delay: ms [
 	self ffiCall: #(void SDL_Delay(Uint32 ms))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> delayNS: ns [
 	"/**
 	 * Wait a specified number of nanoseconds before returning.
@@ -3068,7 +3297,7 @@ LibSDL3 >> delayNS: ns [
 	self ffiCall: #(void SDL_DelayNS(Uint64 ns))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> delayPrecise: ns [
 	"/**
 	 * Wait a specified number of nanoseconds before returning.
@@ -3090,7 +3319,39 @@ LibSDL3 >> delayPrecise: ns [
 	self ffiCall: #(void SDL_DelayPrecise(Uint64 ns))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> desclspec: arg1 [
+	"/**
+	 * Allocate uninitialized memory.
+	 *
+	 * The allocated memory returned by this function must be freed with
+	 * SDL_free().
+	 *
+	 * If `size` is 0, it will be set to 1.
+	 *
+	 * If the allocation is successful, the returned pointer is guaranteed to be
+	 * aligned to either the *fundamental alignment* (`alignof(max_align_t)` in
+	 * C11 and later) or `2 * sizeof(void *)`, whichever is smaller. Use
+	 * SDL_aligned_alloc() if you need to allocate memory aligned to an alignment
+	 * greater than this guarantee.
+	 *
+	 * \param size the size to allocate.
+	 * \returns a pointer to the allocated memory, or NULL if allocation failed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_free
+	 * \sa SDL_calloc
+	 * \sa SDL_realloc
+	 * \sa SDL_aligned_alloc
+	 */"
+
+	^ self ffiCall: #(int __desclspec(int arg1))
+]
+
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> destroyAsyncIOQueue: queue [
 	"/**
 	 * Destroy a previously-created async I/O task queue.
@@ -3124,7 +3385,7 @@ LibSDL3 >> destroyAsyncIOQueue: queue [
 	self ffiCall: #(void SDL_DestroyAsyncIOQueue(SDL_AsyncIOQueue* queue))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> destroyAudioStream: stream [
 	"/**
 	 * Free an audio stream.
@@ -3149,7 +3410,7 @@ LibSDL3 >> destroyAudioStream: stream [
 	self ffiCall: #(void SDL_DestroyAudioStream(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> destroyCondition: cond [
 	"/**
 	 * Destroy a condition variable.
@@ -3164,7 +3425,7 @@ LibSDL3 >> destroyCondition: cond [
 	self ffiCall: #(void SDL_DestroyCondition(SDL_Condition* cond))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> destroyCursor: cursor [
 	"/**
 	 * Free a previously-created cursor.
@@ -3187,7 +3448,7 @@ LibSDL3 >> destroyCursor: cursor [
 	self ffiCall: #(void SDL_DestroyCursor(SDL_Cursor* cursor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> destroyEnvironment: env [
 	"/**
 	 * Destroy a set of environment variables.
@@ -3205,7 +3466,7 @@ LibSDL3 >> destroyEnvironment: env [
 	self ffiCall: #(void SDL_DestroyEnvironment(SDL_Environment* env))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> destroyGPUDevice: device [
 	"/**
 	 * Destroys a GPU context previously returned by SDL_CreateGPUDevice.
@@ -3220,7 +3481,7 @@ LibSDL3 >> destroyGPUDevice: device [
 	self ffiCall: #(void SDL_DestroyGPUDevice(SDL_GPUDevice* device))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> destroyGPURenderState: state [
 	"/**
 	 * Destroy custom GPU render state.
@@ -3238,7 +3499,26 @@ LibSDL3 >> destroyGPURenderState: state [
 	self ffiCall: #(void SDL_DestroyGPURenderState(SDL_GPURenderState* state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> destroyHapticEffectHaptic: haptic effect: effect [
+	"/**
+	 * Destroy a haptic effect on the device.
+	 *
+	 * This will stop the effect if it's running. Effects are automatically
+	 * destroyed when the device is closed.
+	 *
+	 * \param haptic the SDL_Haptic device to destroy the effect on.
+	 * \param effect the ID of the haptic effect to destroy.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateHapticEffect
+	 */"
+
+	self ffiCall: #(void SDL_DestroyHapticEffect(SDL_Haptic* haptic, SDL_HapticEffectID effect))
+]
+
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> destroyMutex: mutex [
 	"/**
 	 * Destroy a mutex created with SDL_CreateMutex().
@@ -3259,7 +3539,7 @@ LibSDL3 >> destroyMutex: mutex [
 	self ffiCall: #(void SDL_DestroyMutex(SDL_Mutex* mutex))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> destroyPalette: palette [
 	"/**
 	 * Free a palette created with SDL_CreatePalette().
@@ -3277,7 +3557,30 @@ LibSDL3 >> destroyPalette: palette [
 	self ffiCall: #(void SDL_DestroyPalette(SDL_Palette* palette))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_process' }
+LibSDL3 >> destroyProcess: process [
+	"/**
+	 * Destroy a previously created process object.
+	 *
+	 * Note that this does not stop the process, just destroys the SDL object used
+	 * to track it. If you want to stop the process you should use
+	 * SDL_KillProcess().
+	 *
+	 * \param process The process object to destroy.
+	 *
+	 * \threadsafety This function is not thread safe.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_KillProcess
+	 */"
+
+	self ffiCall: #(void SDL_DestroyProcess(SDL_Process* process))
+]
+
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> destroyProperties: props [
 	"/**
 	 * Destroy a group of properties.
@@ -3299,7 +3602,7 @@ LibSDL3 >> destroyProperties: props [
 	self ffiCall: #(void SDL_DestroyProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> destroyRWLock: rwlock [
 	"/**
 	 * Destroy a read/write lock created with SDL_CreateRWLock().
@@ -3320,7 +3623,7 @@ LibSDL3 >> destroyRWLock: rwlock [
 	self ffiCall: #(void SDL_DestroyRWLock(SDL_RWLock* rwlock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> destroyRenderer: renderer [
 	"/**
 	 * Destroy the rendering context for a window and free all associated
@@ -3340,7 +3643,7 @@ LibSDL3 >> destroyRenderer: renderer [
 	self ffiCall: #(void SDL_DestroyRenderer(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> destroySemaphore: sem [
 	"/**
 	 * Destroy a semaphore.
@@ -3358,7 +3661,7 @@ LibSDL3 >> destroySemaphore: sem [
 	self ffiCall: #(void SDL_DestroySemaphore(SDL_Semaphore* sem))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> destroySurface: surface [
 	"/**
 	 * Free a surface.
@@ -3378,7 +3681,7 @@ LibSDL3 >> destroySurface: surface [
 	self ffiCall: #(void SDL_DestroySurface(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> destroyTexture: texture [
 	"/**
 	 * Destroy the specified texture.
@@ -3399,7 +3702,7 @@ LibSDL3 >> destroyTexture: texture [
 	self ffiCall: #(void SDL_DestroyTexture(SDL_Texture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> destroyTray: tray [
 	"/**
 	 * Destroys a tray object.
@@ -3419,7 +3722,7 @@ LibSDL3 >> destroyTray: tray [
 	self ffiCall: #(void SDL_DestroyTray(SDL_Tray* tray))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> destroyWindow: window [
 	"/**
 	 * Destroy a window.
@@ -3445,7 +3748,7 @@ LibSDL3 >> destroyWindow: window [
 	self ffiCall: #(void SDL_DestroyWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> destroyWindowSurface: window [
 	"/**
 	 * Destroy the surface associated with the window.
@@ -3465,7 +3768,7 @@ LibSDL3 >> destroyWindowSurface: window [
 	^ self ffiCall: #(bool SDL_DestroyWindowSurface(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> detachThread: thread [
 	"/**
 	 * Let a thread clean up on exit without intervention.
@@ -3505,7 +3808,7 @@ LibSDL3 >> detachThread: thread [
 	self ffiCall: #(void SDL_DetachThread(SDL_Thread* thread))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> detachVirtualJoystick: instance_id [
 	"/**
 	 * Detach a virtual joystick.
@@ -3525,7 +3828,7 @@ LibSDL3 >> detachVirtualJoystick: instance_id [
 	^ self ffiCall: #(bool SDL_DetachVirtualJoystick(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> disableScreenSaver [
 	"/**
 	 * Prevent the screen from being blanked by a screen saver.
@@ -3550,7 +3853,7 @@ LibSDL3 >> disableScreenSaver [
 	^ self ffiCall: #(bool SDL_DisableScreenSaver())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> dispatchGPUComputeComputePass: compute_pass groupcountX: groupcount_x groupcountY: groupcount_y groupcountZ: groupcount_z [
 	"/**
 	 * Dispatches compute work.
@@ -3576,7 +3879,7 @@ LibSDL3 >> dispatchGPUComputeComputePass: compute_pass groupcountX: groupcount_x
 	self ffiCall: #(void SDL_DispatchGPUCompute(SDL_GPUComputePass* compute_pass, Uint32 groupcount_x, Uint32 groupcount_y, Uint32 groupcount_z))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> dispatchGPUComputeIndirectComputePass: compute_pass buffer: buffer offset: offset [
 	"/**
 	 * Dispatches compute work with parameters set from a buffer.
@@ -3600,7 +3903,7 @@ LibSDL3 >> dispatchGPUComputeIndirectComputePass: compute_pass buffer: buffer of
 	self ffiCall: #(void SDL_DispatchGPUComputeIndirect(SDL_GPUComputePass* compute_pass, SDL_GPUBuffer* buffer, Uint32 offset))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> downloadFromGPUBufferCopyPass: copy_pass source: source destination: destination [
 	"/**
 	 * Copies data from a buffer to a transfer buffer on the GPU timeline.
@@ -3618,7 +3921,7 @@ LibSDL3 >> downloadFromGPUBufferCopyPass: copy_pass source: source destination: 
 	self ffiCall: #(void SDL_DownloadFromGPUBuffer(SDL_GPUCopyPass* copy_pass, SDL_GPUBufferRegion* source, SDL_GPUTransferBufferLocation* destination))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> downloadFromGPUTextureCopyPass: copy_pass source: source destination: destination [
 	"/**
 	 * Copies data from a texture to a transfer buffer on the GPU timeline.
@@ -3637,7 +3940,7 @@ LibSDL3 >> downloadFromGPUTextureCopyPass: copy_pass source: source destination:
 	self ffiCall: #(void SDL_DownloadFromGPUTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureRegion* source, SDL_GPUTextureTransferInfo* destination))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> drawGPUIndexedPrimitivesIndirectRenderPass: render_pass buffer: buffer offset: offset drawCount: draw_count [
 	"/**
 	 * Draws data using bound graphics state with an index buffer enabled and with
@@ -3659,7 +3962,7 @@ LibSDL3 >> drawGPUIndexedPrimitivesIndirectRenderPass: render_pass buffer: buffe
 	self ffiCall: #(void SDL_DrawGPUIndexedPrimitivesIndirect(SDL_GPURenderPass* render_pass, SDL_GPUBuffer* buffer, Uint32 offset, Uint32 draw_count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> drawGPUIndexedPrimitivesRenderPass: render_pass numIndices: num_indices numInstances: num_instances firstIndex: first_index vertexOffset: vertex_offset firstInstance: first_instance [
 	"/**
 	 * Draws data using bound graphics state with an index buffer and instancing
@@ -3688,7 +3991,7 @@ LibSDL3 >> drawGPUIndexedPrimitivesRenderPass: render_pass numIndices: num_indic
 	self ffiCall: #(void SDL_DrawGPUIndexedPrimitives(SDL_GPURenderPass* render_pass, Uint32 num_indices, Uint32 num_instances, Uint32 first_index, Sint32 vertex_offset, Uint32 first_instance))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> drawGPUPrimitivesIndirectRenderPass: render_pass buffer: buffer offset: offset drawCount: draw_count [
 	"/**
 	 * Draws data using bound graphics state and with draw parameters set from a
@@ -3710,7 +4013,7 @@ LibSDL3 >> drawGPUPrimitivesIndirectRenderPass: render_pass buffer: buffer offse
 	self ffiCall: #(void SDL_DrawGPUPrimitivesIndirect(SDL_GPURenderPass* render_pass, SDL_GPUBuffer* buffer, Uint32 offset, Uint32 draw_count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> drawGPUPrimitivesRenderPass: render_pass numVertices: num_vertices numInstances: num_instances firstVertex: first_vertex firstInstance: first_instance [
 	"/**
 	 * Draws data using bound graphics state.
@@ -3736,7 +4039,7 @@ LibSDL3 >> drawGPUPrimitivesRenderPass: render_pass numVertices: num_vertices nu
 	self ffiCall: #(void SDL_DrawGPUPrimitives(SDL_GPURenderPass* render_pass, Uint32 num_vertices, Uint32 num_instances, Uint32 first_vertex, Uint32 first_instance))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> duplicateSurface: surface [
 	"/**
 	 * Creates a new surface identical to the existing surface.
@@ -3761,7 +4064,7 @@ LibSDL3 >> duplicateSurface: surface [
 	^ self ffiCall: #(SDL_Surface* SDL_DuplicateSurface(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> eglGetCurrentConfig [
 	"/**
 	 * Get the currently active EGL config.
@@ -3777,7 +4080,7 @@ LibSDL3 >> eglGetCurrentConfig [
 	^ self ffiCall: #(SDL_EGLConfig SDL_EGL_GetCurrentConfig())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> eglGetCurrentDisplay [
 	"/**
 	 * Get the currently active EGL display.
@@ -3793,7 +4096,7 @@ LibSDL3 >> eglGetCurrentDisplay [
 	^ self ffiCall: #(SDL_EGLDisplay SDL_EGL_GetCurrentDisplay())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> eglGetProcAddress: proc [
 	"/**
 	 * Get an EGL library function by name.
@@ -3816,7 +4119,7 @@ LibSDL3 >> eglGetProcAddress: proc [
 	^ self ffiCall: #(SDL_FunctionPointer SDL_EGL_GetProcAddress(const char* proc))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> eglGetWindowSurface: window [
 	"/**
 	 * Get the EGL surface associated with the window.
@@ -3833,7 +4136,7 @@ LibSDL3 >> eglGetWindowSurface: window [
 	^ self ffiCall: #(SDL_EGLSurface SDL_EGL_GetWindowSurface(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> eglSetAttributeCallbacksPlatformAttribCallback: platformAttribCallback surfaceAttribCallback: surfaceAttribCallback contextAttribCallback: contextAttribCallback userdata: userdata [
 	"/**
 	 * Sets the callbacks for defining custom EGLAttrib arrays for EGL
@@ -3859,7 +4162,7 @@ LibSDL3 >> eglSetAttributeCallbacksPlatformAttribCallback: platformAttribCallbac
 	self ffiCall: #(void SDL_EGL_SetAttributeCallbacks(SDL_EGLAttribArrayCallback platformAttribCallback, SDL_EGLIntArrayCallback surfaceAttribCallback, SDL_EGLIntArrayCallback contextAttribCallback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> enableScreenSaver [
 	"/**
 	 * Allow the screen to be blanked by a screen saver.
@@ -3878,7 +4181,7 @@ LibSDL3 >> enableScreenSaver [
 	^ self ffiCall: #(bool SDL_EnableScreenSaver())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> endGPUComputePass: compute_pass [
 	"/**
 	 * Ends the current compute pass.
@@ -3894,7 +4197,7 @@ LibSDL3 >> endGPUComputePass: compute_pass [
 	self ffiCall: #(void SDL_EndGPUComputePass(SDL_GPUComputePass* compute_pass))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> endGPUCopyPass: copy_pass [
 	"/**
 	 * Ends the current copy pass.
@@ -3907,7 +4210,7 @@ LibSDL3 >> endGPUCopyPass: copy_pass [
 	self ffiCall: #(void SDL_EndGPUCopyPass(SDL_GPUCopyPass* copy_pass))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> endGPURenderPass: render_pass [
 	"/**
 	 * Ends the given render pass.
@@ -3923,7 +4226,7 @@ LibSDL3 >> endGPURenderPass: render_pass [
 	self ffiCall: #(void SDL_EndGPURenderPass(SDL_GPURenderPass* render_pass))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> enumerateDirectoryPath: path callback: callback userdata: userdata [
 	"/**
 	 * Enumerate a directory through a callback function.
@@ -3952,7 +4255,7 @@ LibSDL3 >> enumerateDirectoryPath: path callback: callback userdata: userdata [
 	^ self ffiCall: #(bool SDL_EnumerateDirectory(const char* path, SDL_EnumerateDirectoryCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> enumeratePropertiesProps: props callback: callback userdata: userdata [
 	"/**
 	 * Enumerate the properties contained in a group of properties.
@@ -3974,7 +4277,40 @@ LibSDL3 >> enumeratePropertiesProps: props callback: callback userdata: userdata
 	^ self ffiCall: #(bool SDL_EnumerateProperties(SDL_PropertiesID props, SDL_EnumeratePropertiesCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> enumerateStorageDirectoryStorage: storage path: path callback: callback userdata: userdata [
+	"/**
+	 * Enumerate a directory in a storage container through a callback function.
+	 *
+	 * This function provides every directory entry through an app-provided
+	 * callback, called once for each directory entry, until all results have been
+	 * provided or the callback returns either SDL_ENUM_SUCCESS or
+	 * SDL_ENUM_FAILURE.
+	 *
+	 * This will return false if there was a system problem in general, or if a
+	 * callback returns SDL_ENUM_FAILURE. A successful return means a callback
+	 * returned SDL_ENUM_SUCCESS to halt enumeration, or all directory entries
+	 * were enumerated.
+	 *
+	 * If `path` is NULL, this is treated as a request to enumerate the root of
+	 * the storage container's tree. An empty string also works for this.
+	 *
+	 * \param storage a storage container.
+	 * \param path the path of the directory to enumerate, or NULL for the root.
+	 * \param callback a function that is called for each entry in the directory.
+	 * \param userdata a pointer that is passed to `callback`.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_EnumerateStorageDirectory(SDL_Storage* storage, const char* path, SDL_EnumerateDirectoryCallback callback, void* userdata))
+]
+
+{ #category : 'public - SDL_events' }
 LibSDL3 >> eventEnabled: type [
 	"/**
 	 * Query the state of processing events by type.
@@ -3992,7 +4328,7 @@ LibSDL3 >> eventEnabled: type [
 	^ self ffiCall: #(bool SDL_EventEnabled(Uint32 type))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> exp: x [
 	"/**
 	 * Compute the exponential of `x`.
@@ -4028,7 +4364,7 @@ LibSDL3 >> exp: x [
 	^ self ffiCall: #(double SDL_exp(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> expf: x [
 	"/**
 	 * Compute the exponential of `x`.
@@ -4064,7 +4400,7 @@ LibSDL3 >> expf: x [
 	^ self ffiCall: #(float SDL_expf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> fabs: x [
 	"/**
 	 * Compute the absolute value of `x`
@@ -4089,7 +4425,7 @@ LibSDL3 >> fabs: x [
 	^ self ffiCall: #(double SDL_fabs(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> fabsf: x [
 	"/**
 	 * Compute the absolute value of `x`
@@ -4114,7 +4450,19 @@ LibSDL3 >> fabsf: x [
 	^ self ffiCall: #(float SDL_fabsf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
+LibSDL3 >> failToCompileIfXIsFalse: arg1 [
+	"/* Check the size of SDL_IOStreamInterface
+	 *
+	 * If this assert fails, either the compiler is padding to an unexpected size,
+	 * or the interface has been updated and this should be updated to match and
+	 * the code using this interface should be updated to handle the old version.
+	 */"
+
+	^ self ffiCall: #(int FailToCompileIf_x_IsFalse(int arg1))
+]
+
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> fillSurfaceRectDst: dst rect: rect color: color [
 	"/**
 	 * Perform a fast fill of a rectangle with a specific color.
@@ -4146,7 +4494,7 @@ LibSDL3 >> fillSurfaceRectDst: dst rect: rect color: color [
 	^ self ffiCall: #(bool SDL_FillSurfaceRect(SDL_Surface* dst, SDL_Rect* rect, Uint32 color))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> fillSurfaceRectsDst: dst rects: rects count: count color: color [
 	"/**
 	 * Perform a fast fill of a set of rectangles with a specific color.
@@ -4178,7 +4526,7 @@ LibSDL3 >> fillSurfaceRectsDst: dst rects: rects count: count color: color [
 	^ self ffiCall: #(bool SDL_FillSurfaceRects(SDL_Surface* dst, SDL_Rect* rects, int count, Uint32 color))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> filterEventsFilter: filter userdata: userdata [
 	"/**
 	 * Run a specific filter function on the current event queue, removing any
@@ -4202,7 +4550,7 @@ LibSDL3 >> filterEventsFilter: filter userdata: userdata [
 	self ffiCall: #(void SDL_FilterEvents(SDL_EventFilter filter, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> flashWindow: window operation: operation [
 	"/**
 	 * Request a window to demand attention from the user.
@@ -4220,7 +4568,7 @@ LibSDL3 >> flashWindow: window operation: operation [
 	^ self ffiCall: #(bool SDL_FlashWindow(SDL_Window* window, SDL_FlashOperation operation))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> flipSurface: surface flip: flip [
 	"/**
 	 * Flip a surface vertically or horizontally.
@@ -4239,7 +4587,7 @@ LibSDL3 >> flipSurface: surface flip: flip [
 	^ self ffiCall: #(bool SDL_FlipSurface(SDL_Surface* surface, SDL_FlipMode flip))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> floor: x [
 	"/**
 	 * Compute the floor of `x`.
@@ -4271,7 +4619,7 @@ LibSDL3 >> floor: x [
 	^ self ffiCall: #(double SDL_floor(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> floorf: x [
 	"/**
 	 * Compute the floor of `x`.
@@ -4303,7 +4651,7 @@ LibSDL3 >> floorf: x [
 	^ self ffiCall: #(float SDL_floorf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> flushAudioStream: stream [
 	"/**
 	 * Tell the stream that you're done sending data, and anything being buffered
@@ -4327,7 +4675,7 @@ LibSDL3 >> flushAudioStream: stream [
 	^ self ffiCall: #(bool SDL_FlushAudioStream(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> flushEvent: type [
 	"/**
 	 * Clear events of a specific type from the event queue.
@@ -4359,7 +4707,7 @@ LibSDL3 >> flushEvent: type [
 	self ffiCall: #(void SDL_FlushEvent(Uint32 type))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> flushEventsMinType: minType maxType: maxType [
 	"/**
 	 * Clear events of a range of types from the event queue.
@@ -4390,7 +4738,7 @@ LibSDL3 >> flushEventsMinType: minType maxType: maxType [
 	self ffiCall: #(void SDL_FlushEvents(Uint32 minType, Uint32 maxType))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> flushIO: context [
 	"/**
 	 * Flush any buffered data in the stream.
@@ -4414,7 +4762,7 @@ LibSDL3 >> flushIO: context [
 	^ self ffiCall: #(bool SDL_FlushIO(SDL_IOStream* context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> flushRenderer: renderer [
 	"/**
 	 * Force the rendering context to flush any pending commands and state.
@@ -4451,7 +4799,7 @@ LibSDL3 >> flushRenderer: renderer [
 	^ self ffiCall: #(bool SDL_FlushRenderer(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> fmodX: x y: y [
 	"/**
 	 * Return the floating-point remainder of `x / y`
@@ -4485,7 +4833,7 @@ LibSDL3 >> fmodX: x y: y [
 	^ self ffiCall: #(double SDL_fmod(double x, double y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> fmodfX: x y: y [
 	"/**
 	 * Return the floating-point remainder of `x / y`
@@ -4519,7 +4867,7 @@ LibSDL3 >> fmodfX: x y: y [
 	^ self ffiCall: #(float SDL_fmodf(float x, float y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> free: mem [
 	"/**
 	 * Free allocated memory.
@@ -4543,7 +4891,130 @@ LibSDL3 >> free: mem [
 	self ffiCall: #(void SDL_free(void* mem))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> gamepadConnected: gamepad [
+	"/**
+	 * Check if a gamepad has been opened and is currently connected.
+	 *
+	 * \param gamepad a gamepad identifier previously returned by
+	 *                SDL_OpenGamepad().
+	 * \returns true if the gamepad has been opened and is currently connected, or
+	 *          false if not.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_GamepadConnected(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> gamepadEventsEnabled [
+	"/**
+	 * Query the state of gamepad event processing.
+	 *
+	 * If gamepad events are disabled, you must call SDL_UpdateGamepads() yourself
+	 * and check the state of the gamepad when you want gamepad information.
+	 *
+	 * \returns true if gamepad events are being processed, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetGamepadEventsEnabled
+	 */"
+
+	^ self ffiCall: #(bool SDL_GamepadEventsEnabled())
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> gamepadHasAxisGamepad: gamepad axis: axis [
+	"/**
+	 * Query whether a gamepad has a given axis.
+	 *
+	 * This merely reports whether the gamepad's mapping defined this axis, as
+	 * that is all the information SDL has about the physical device.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param axis an axis enum value (an SDL_GamepadAxis value).
+	 * \returns true if the gamepad has this axis, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GamepadHasButton
+	 * \sa SDL_GetGamepadAxis
+	 */"
+
+	^ self ffiCall: #(bool SDL_GamepadHasAxis(SDL_Gamepad* gamepad, SDL_GamepadAxis axis))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> gamepadHasButtonGamepad: gamepad button: button [
+	"/**
+	 * Query whether a gamepad has a given button.
+	 *
+	 * This merely reports whether the gamepad's mapping defined this button, as
+	 * that is all the information SDL has about the physical device.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param button a button enum value (an SDL_GamepadButton value).
+	 * \returns true if the gamepad has this button, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GamepadHasAxis
+	 */"
+
+	^ self ffiCall: #(bool SDL_GamepadHasButton(SDL_Gamepad* gamepad, SDL_GamepadButton button))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> gamepadHasSensorGamepad: gamepad type: type [
+	"/**
+	 * Return whether a gamepad has a particular sensor.
+	 *
+	 * \param gamepad the gamepad to query.
+	 * \param type the type of sensor to query.
+	 * \returns true if the sensor exists, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadSensorData
+	 * \sa SDL_GetGamepadSensorDataRate
+	 * \sa SDL_SetGamepadSensorEnabled
+	 */"
+
+	^ self ffiCall: #(bool SDL_GamepadHasSensor(SDL_Gamepad* gamepad, SDL_SensorType type))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> gamepadSensorEnabledGamepad: gamepad type: type [
+	"/**
+	 * Query whether sensor data reporting is enabled for a gamepad.
+	 *
+	 * \param gamepad the gamepad to query.
+	 * \param type the type of sensor to query.
+	 * \returns true if the sensor is enabled, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetGamepadSensorEnabled
+	 */"
+
+	^ self ffiCall: #(bool SDL_GamepadSensorEnabled(SDL_Gamepad* gamepad, SDL_SensorType type))
+]
+
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> generateMipmapsForGPUTextureCommandBuffer: command_buffer texture: texture [
 	"/**
 	 * Generates mipmaps for the given texture.
@@ -4559,7 +5030,7 @@ LibSDL3 >> generateMipmapsForGPUTextureCommandBuffer: command_buffer texture: te
 	self ffiCall: #(void SDL_GenerateMipmapsForGPUTexture(SDL_GPUCommandBuffer* command_buffer, SDL_GPUTexture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_init' }
 LibSDL3 >> getAppMetadataProperty: name [
 	"/**
 	 * Get metadata about your app.
@@ -4586,74 +5057,7 @@ LibSDL3 >> getAppMetadataProperty: name [
 	^ self ffiCall: #(const char* SDL_GetAppMetadataProperty(const char* name))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getAssertionHandler: puserdata [
-	"/**
-	 * Get the current assertion handler.
-	 *
-	 * This returns the function pointer that is called when an assertion is
-	 * triggered. This is either the value last passed to
-	 * SDL_SetAssertionHandler(), or if no application-specified function is set,
-	 * is equivalent to calling SDL_GetDefaultAssertionHandler().
-	 *
-	 * The parameter `puserdata` is a pointer to a void*, which will store the
-	 * ""userdata"" pointer that was passed to SDL_SetAssertionHandler(). This value
-	 * will always be NULL for the default handler. If you don't care about this
-	 * data, it is safe to pass a NULL pointer to this function to ignore it.
-	 *
-	 * \param puserdata pointer which is filled with the ""userdata"" pointer that
-	 *                  was passed to SDL_SetAssertionHandler().
-	 * \returns the SDL_AssertionHandler that is called when an assert triggers.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_SetAssertionHandler
-	 */"
-
-	^ self ffiCall: #(SDL_AssertionHandler SDL_GetAssertionHandler(void** puserdata))
-]
-
-{ #category : 'public' }
-LibSDL3 >> getAssertionReport [
-	"/**
-	 * Get a list of all assertion failures.
-	 *
-	 * This function gets all assertions triggered since the last call to
-	 * SDL_ResetAssertionReport(), or the start of the program.
-	 *
-	 * The proper way to examine this data looks something like this:
-	 *
-	 * ```c
-	 * const SDL_AssertData *item = SDL_GetAssertionReport();
-	 * while (item) {
-	 *    printf(""'%s', %s (%s:%d), triggered %u times, always ignore: %s.\\n"",
-	 *           item->condition, item->function, item->filename,
-	 *           item->linenum, item->trigger_count,
-	 *           item->always_ignore ? ""yes"" : ""no"");
-	 *    item = item->next;
-	 * }
-	 * ```
-	 *
-	 * \returns a list of all failed assertions or NULL if the list is empty. This
-	 *          memory should not be modified or freed by the application. This
-	 *          pointer remains valid until the next call to SDL_Quit() or
-	 *          SDL_ResetAssertionReport().
-	 *
-	 * \threadsafety This function is not thread safe. Other threads calling
-	 *               SDL_ResetAssertionReport() simultaneously, may render the
-	 *               returned pointer invalid.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_ResetAssertionReport
-	 */"
-
-	^ self ffiCall: #(SDL_AssertData* SDL_GetAssertionReport())
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> getAsyncIOResultQueue: queue outcome: outcome [
 	"/**
 	 * Query an async I/O task queue for completed tasks.
@@ -4683,7 +5087,7 @@ LibSDL3 >> getAsyncIOResultQueue: queue outcome: outcome [
 	^ self ffiCall: #(bool SDL_GetAsyncIOResult(SDL_AsyncIOQueue* queue, SDL_AsyncIOOutcome* outcome))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> getAsyncIOSize: asyncio [
 	"/**
 	 * Use this function to get the size of the data stream in an SDL_AsyncIO.
@@ -4704,7 +5108,7 @@ LibSDL3 >> getAsyncIOSize: asyncio [
 	^ self ffiCall: #(Sint64 SDL_GetAsyncIOSize(SDL_AsyncIO* asyncio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> getAtomicInt: a [
 	"/**
 	 * Get the value of an atomic variable.
@@ -4725,7 +5129,7 @@ LibSDL3 >> getAtomicInt: a [
 	^ self ffiCall: #(int SDL_GetAtomicInt(SDL_AtomicInt* a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> getAtomicPointer: a [
 	"/**
 	 * Get the value of a pointer atomically.
@@ -4747,7 +5151,7 @@ LibSDL3 >> getAtomicPointer: a [
 	^ self ffiCall: #(void* SDL_GetAtomicPointer(void** a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> getAtomicU32: a [
 	"/**
 	 * Get the value of an atomic variable.
@@ -4768,7 +5172,7 @@ LibSDL3 >> getAtomicU32: a [
 	^ self ffiCall: #(Uint32 SDL_GetAtomicU32(SDL_AtomicU32* a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioDeviceChannelMapDevid: devid count: count [
 	"/**
 	 * Get the current channel map of an audio device.
@@ -4795,7 +5199,7 @@ LibSDL3 >> getAudioDeviceChannelMapDevid: devid count: count [
 	^ self ffiCall: #(int* SDL_GetAudioDeviceChannelMap(SDL_AudioDeviceID devid, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioDeviceFormatDevid: devid spec: spec sampleFrames: sample_frames [
 	"/**
 	 * Get the current audio format of a specific audio device.
@@ -4834,7 +5238,7 @@ LibSDL3 >> getAudioDeviceFormatDevid: devid spec: spec sampleFrames: sample_fram
 	^ self ffiCall: #(bool SDL_GetAudioDeviceFormat(SDL_AudioDeviceID devid, SDL_AudioSpec* spec, int* sample_frames))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioDeviceGain: devid [
 	"/**
 	 * Get the gain of an audio device.
@@ -4861,7 +5265,7 @@ LibSDL3 >> getAudioDeviceGain: devid [
 	^ self ffiCall: #(float SDL_GetAudioDeviceGain(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioDeviceName: devid [
 	"/**
 	 * Get the human-readable name of a specific audio device.
@@ -4890,7 +5294,7 @@ LibSDL3 >> getAudioDeviceName: devid [
 	^ self ffiCall: #(const char* SDL_GetAudioDeviceName(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioDriver: index [
 	"/**
 	 * Use this function to get the name of a built in audio driver.
@@ -4918,7 +5322,7 @@ LibSDL3 >> getAudioDriver: index [
 	^ self ffiCall: #(const char* SDL_GetAudioDriver(int index))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioFormatName: format [
 	"/**
 	 * Get the human readable name of an audio format.
@@ -4935,7 +5339,7 @@ LibSDL3 >> getAudioFormatName: format [
 	^ self ffiCall: #(const char* SDL_GetAudioFormatName(SDL_AudioFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioPlaybackDevices: count [
 	"/**
 	 * Get a list of currently-connected audio playback devices.
@@ -4968,7 +5372,7 @@ LibSDL3 >> getAudioPlaybackDevices: count [
 	^ self ffiCall: #(SDL_AudioDeviceID* SDL_GetAudioPlaybackDevices(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioRecordingDevices: count [
 	"/**
 	 * Get a list of currently-connected audio recording devices.
@@ -5001,7 +5405,7 @@ LibSDL3 >> getAudioRecordingDevices: count [
 	^ self ffiCall: #(SDL_AudioDeviceID* SDL_GetAudioRecordingDevices(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamAvailable: stream [
 	"/**
 	 * Get the number of converted/resampled bytes available.
@@ -5031,7 +5435,7 @@ LibSDL3 >> getAudioStreamAvailable: stream [
 	^ self ffiCall: #(int SDL_GetAudioStreamAvailable(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamDataStream: stream buf: buf len: len [
 	"/**
 	 * Get converted/resampled data from the stream.
@@ -5065,7 +5469,7 @@ LibSDL3 >> getAudioStreamDataStream: stream buf: buf len: len [
 	^ self ffiCall: #(int SDL_GetAudioStreamData(SDL_AudioStream* stream, void* buf, int len))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamDevice: stream [
 	"/**
 	 * Query an audio stream for its currently-bound device.
@@ -5090,7 +5494,7 @@ LibSDL3 >> getAudioStreamDevice: stream [
 	^ self ffiCall: #(SDL_AudioDeviceID SDL_GetAudioStreamDevice(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spec [
 	"/**
 	 * Query the current format of an audio stream.
@@ -5112,7 +5516,7 @@ LibSDL3 >> getAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spe
 	^ self ffiCall: #(bool SDL_GetAudioStreamFormat(SDL_AudioStream* stream, SDL_AudioSpec* src_spec, SDL_AudioSpec* dst_spec))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamFrequencyRatio: stream [
 	"/**
 	 * Get the frequency ratio of an audio stream.
@@ -5132,7 +5536,7 @@ LibSDL3 >> getAudioStreamFrequencyRatio: stream [
 	^ self ffiCall: #(float SDL_GetAudioStreamFrequencyRatio(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamGain: stream [
 	"/**
 	 * Get the gain of an audio stream.
@@ -5157,7 +5561,7 @@ LibSDL3 >> getAudioStreamGain: stream [
 	^ self ffiCall: #(float SDL_GetAudioStreamGain(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamInputChannelMapStream: stream count: count [
 	"/**
 	 * Get the current input channel map of an audio stream.
@@ -5185,7 +5589,7 @@ LibSDL3 >> getAudioStreamInputChannelMapStream: stream count: count [
 	^ self ffiCall: #(int* SDL_GetAudioStreamInputChannelMap(SDL_AudioStream* stream, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamOutputChannelMapStream: stream count: count [
 	"/**
 	 * Get the current output channel map of an audio stream.
@@ -5213,7 +5617,7 @@ LibSDL3 >> getAudioStreamOutputChannelMapStream: stream count: count [
 	^ self ffiCall: #(int* SDL_GetAudioStreamOutputChannelMap(SDL_AudioStream* stream, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamProperties: stream [
 	"/**
 	 * Get the properties associated with an audio stream.
@@ -5241,7 +5645,7 @@ LibSDL3 >> getAudioStreamProperties: stream [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetAudioStreamProperties(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getAudioStreamQueued: stream [
 	"/**
 	 * Get the number of bytes currently queued.
@@ -5283,7 +5687,7 @@ LibSDL3 >> getAudioStreamQueued: stream [
 	^ self ffiCall: #(int SDL_GetAudioStreamQueued(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> getBasePath [
 	"/**
 	 * Get the directory where the application was run from.
@@ -5333,7 +5737,7 @@ LibSDL3 >> getBasePath [
 	^ self ffiCall: #(const char* SDL_GetBasePath())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> getBooleanPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a boolean property from a group of properties.
@@ -5359,7 +5763,7 @@ LibSDL3 >> getBooleanPropertyProps: props name: name defaultValue: default_value
 	^ self ffiCall: #(bool SDL_GetBooleanProperty(SDL_PropertiesID props, const char* name, #bool default_value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> getCPUCacheLineSize [
 	"/**
 	 * Determine the L1 cache line size of the CPU.
@@ -5377,7 +5781,7 @@ LibSDL3 >> getCPUCacheLineSize [
 	^ self ffiCall: #(int SDL_GetCPUCacheLineSize())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraDriver: index [
 	"/**
 	 * Use this function to get the name of a built in camera driver.
@@ -5405,7 +5809,7 @@ LibSDL3 >> getCameraDriver: index [
 	^ self ffiCall: #(const char* SDL_GetCameraDriver(int index))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraFormatCamera: camera spec: spec [
 	"/**
 	 * Get the spec that a camera is using when generating images.
@@ -5435,7 +5839,7 @@ LibSDL3 >> getCameraFormatCamera: camera spec: spec [
 	^ self ffiCall: #(bool SDL_GetCameraFormat(SDL_Camera* camera, SDL_CameraSpec* spec))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraID: camera [
 	"/**
 	 * Get the instance ID of an opened camera.
@@ -5454,7 +5858,7 @@ LibSDL3 >> getCameraID: camera [
 	^ self ffiCall: #(SDL_CameraID SDL_GetCameraID(SDL_Camera* camera))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraName: instance_id [
 	"/**
 	 * Get the human-readable device name for a camera.
@@ -5473,7 +5877,7 @@ LibSDL3 >> getCameraName: instance_id [
 	^ self ffiCall: #(const char* SDL_GetCameraName(SDL_CameraID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraPermissionState: camera [
 	"/**
 	 * Query if camera access has been approved by the user.
@@ -5512,7 +5916,7 @@ LibSDL3 >> getCameraPermissionState: camera [
 	^ self ffiCall: #(SDL_CameraPermissionState SDL_GetCameraPermissionState(SDL_Camera* camera))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraPosition: instance_id [
 	"/**
 	 * Get the position of the camera in relation to the system.
@@ -5535,7 +5939,7 @@ LibSDL3 >> getCameraPosition: instance_id [
 	^ self ffiCall: #(SDL_CameraPosition SDL_GetCameraPosition(SDL_CameraID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraProperties: camera [
 	"/**
 	 * Get the properties associated with an opened camera.
@@ -5552,7 +5956,7 @@ LibSDL3 >> getCameraProperties: camera [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetCameraProperties(SDL_Camera* camera))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameraSupportedFormatsInstanceId: instance_id count: count [
 	"/**
 	 * Get the list of native formats/sizes a camera supports.
@@ -5595,7 +5999,7 @@ LibSDL3 >> getCameraSupportedFormatsInstanceId: instance_id count: count [
 	^ self ffiCall: #(SDL_CameraSpec** SDL_GetCameraSupportedFormats(SDL_CameraID instance_id, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCameras: count [
 	"/**
 	 * Get a list of currently connected camera devices.
@@ -5616,7 +6020,7 @@ LibSDL3 >> getCameras: count [
 	^ self ffiCall: #(SDL_CameraID* SDL_GetCameras(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> getClipboardDataMimeType: mime_type size: size [
 	"/**
 	 * Get the data from the clipboard for a given mime type.
@@ -5641,7 +6045,7 @@ LibSDL3 >> getClipboardDataMimeType: mime_type size: size [
 	^ self ffiCall: #(void* SDL_GetClipboardData(const char* mime_type, size_t* size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> getClipboardMimeTypes: num_mime_types [
 	"/**
 	 * Retrieve the list of mime types available in the clipboard.
@@ -5662,7 +6066,7 @@ LibSDL3 >> getClipboardMimeTypes: num_mime_types [
 	^ self ffiCall: #(char** SDL_GetClipboardMimeTypes(size_t* num_mime_types))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> getClipboardText [
 	"/**
 	 * Get UTF-8 text from the clipboard.
@@ -5682,10 +6086,10 @@ LibSDL3 >> getClipboardText [
 	 * \sa SDL_SetClipboardText
 	 */"
 
-	^ self ffiCall: #(char* SDL_GetClipboardText())
+	^ self ffiCall: #(void* SDL_GetClipboardText())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refreshRate: refresh_rate includeHighDensityModes: include_high_density_modes closest: closest [
 	"/**
 	 * Get the closest match to the requested display mode.
@@ -5720,7 +6124,7 @@ LibSDL3 >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refresh
 	^ self ffiCall: #(bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, #bool include_high_density_modes, SDL_DisplayMode* closest))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getCurrentAudioDriver [
 	"/**
 	 * Get the name of the current audio driver.
@@ -5740,7 +6144,7 @@ LibSDL3 >> getCurrentAudioDriver [
 	^ self ffiCall: #(const char* SDL_GetCurrentAudioDriver())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getCurrentCameraDriver [
 	"/**
 	 * Get the name of the current camera driver.
@@ -5760,7 +6164,7 @@ LibSDL3 >> getCurrentCameraDriver [
 	^ self ffiCall: #(const char* SDL_GetCurrentCameraDriver())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> getCurrentDirectory [
 	"/**
 	 * Get what the system believes is the ""current working directory.""
@@ -5784,10 +6188,10 @@ LibSDL3 >> getCurrentDirectory [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_GetCurrentDirectory())
+	^ self ffiCall: #(void* SDL_GetCurrentDirectory())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getCurrentDisplayMode: displayID [
 	"/**
 	 * Get information about the current display mode.
@@ -5812,7 +6216,7 @@ LibSDL3 >> getCurrentDisplayMode: displayID [
 	^ self ffiCall: #(SDL_DisplayMode* SDL_GetCurrentDisplayMode(SDL_DisplayID displayID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getCurrentDisplayOrientation: displayID [
 	"/**
 	 * Get the orientation of a display.
@@ -5831,7 +6235,7 @@ LibSDL3 >> getCurrentDisplayOrientation: displayID [
 	^ self ffiCall: #(SDL_DisplayOrientation SDL_GetCurrentDisplayOrientation(SDL_DisplayID displayID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getCurrentRenderOutputSizeRenderer: renderer w: w h: h [
 	"/**
 	 * Get the current output size in pixels of a rendering context.
@@ -5858,7 +6262,7 @@ LibSDL3 >> getCurrentRenderOutputSizeRenderer: renderer w: w h: h [
 	^ self ffiCall: #(bool SDL_GetCurrentRenderOutputSize(SDL_Renderer* renderer, int* w, int* h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> getCurrentThreadID [
 	"/**
 	 * Get the thread identifier for the current thread.
@@ -5880,7 +6284,7 @@ LibSDL3 >> getCurrentThreadID [
 	^ self ffiCall: #(SDL_ThreadID SDL_GetCurrentThreadID())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> getCurrentTime: ticks [
 	"/**
 	 * Gets the current value of the system realtime clock in nanoseconds since
@@ -5896,7 +6300,7 @@ LibSDL3 >> getCurrentTime: ticks [
 	^ self ffiCall: #(bool SDL_GetCurrentTime(SDL_Time* ticks))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getCurrentVideoDriver [
 	"/**
 	 * Get the name of the currently initialized video driver.
@@ -5919,7 +6323,7 @@ LibSDL3 >> getCurrentVideoDriver [
 	^ self ffiCall: #(const char* SDL_GetCurrentVideoDriver())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getCursor [
 	"/**
 	 * Get the active cursor.
@@ -5939,7 +6343,28 @@ LibSDL3 >> getCursor [
 	^ self ffiCall: #(SDL_Cursor* SDL_GetCursor())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
+LibSDL3 >> getDXGIOutputInfoDisplayID: displayID adapterIndex: adapterIndex outputIndex: outputIndex [
+	"/**
+	 * Get the DXGI Adapter and Output indices for the specified display.
+	 *
+	 * The DXGI Adapter and Output indices can be passed to `EnumAdapters` and
+	 * `EnumOutputs` respectively to get the objects required to create a DX10 or
+	 * DX11 device and swap chain.
+	 *
+	 * \param displayID the instance of the display to query.
+	 * \param adapterIndex a pointer to be filled in with the adapter index.
+	 * \param outputIndex a pointer to be filled in with the output index.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int* adapterIndex, int* outputIndex))
+]
+
+{ #category : 'public - SDL_time' }
 LibSDL3 >> getDateTimeLocalePreferencesDateFormat: dateFormat timeFormat: timeFormat [
 	"/**
 	 * Gets the current preferred date and time format for the system locale.
@@ -5962,7 +6387,7 @@ LibSDL3 >> getDateTimeLocalePreferencesDateFormat: dateFormat timeFormat: timeFo
 	^ self ffiCall: #(bool SDL_GetDateTimeLocalePreferences(SDL_DateFormat dateFormat, SDL_TimeFormat timeFormat))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> getDayOfWeekYear: year month: month day: day [
 	"/**
 	 * Get the day of week for a calendar date.
@@ -5979,7 +6404,7 @@ LibSDL3 >> getDayOfWeekYear: year month: month day: day [
 	^ self ffiCall: #(int SDL_GetDayOfWeek(int year, int month, int day))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> getDayOfYear: year month: month day: day [
 	"/**
 	 * Get the day of year for a calendar date.
@@ -5996,7 +6421,7 @@ LibSDL3 >> getDayOfYear: year month: month day: day [
 	^ self ffiCall: #(int SDL_GetDayOfYear(int year, int month, int day))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> getDaysInMonthYear: year month: month [
 	"/**
 	 * Get the number of days in a month for a given year.
@@ -6012,30 +6437,7 @@ LibSDL3 >> getDaysInMonthYear: year month: month [
 	^ self ffiCall: #(int SDL_GetDaysInMonth(int year, int month))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getDefaultAssertionHandler [
-	"/**
-	 * Get the default assertion handler.
-	 *
-	 * This returns the function pointer that is called by default when an
-	 * assertion is triggered. This is an internal function provided by SDL, that
-	 * is used for assertions when SDL_SetAssertionHandler() hasn't been used to
-	 * provide a different function.
-	 *
-	 * \returns the default SDL_AssertionHandler that is called when an assert
-	 *          triggers.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_GetAssertionHandler
-	 */"
-
-	^ self ffiCall: #(SDL_AssertionHandler SDL_GetDefaultAssertionHandler())
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getDefaultCursor [
 	"/**
 	 * Get the default cursor.
@@ -6054,7 +6456,25 @@ LibSDL3 >> getDefaultCursor [
 	^ self ffiCall: #(SDL_Cursor* SDL_GetDefaultCursor())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_log' }
+LibSDL3 >> getDefaultLogOutputFunction [
+	"/**
+	 * Get the default log output function.
+	 *
+	 * \returns the default log output callback.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetLogOutputFunction
+	 * \sa SDL_GetLogOutputFunction
+	 */"
+
+	^ self ffiCall: #(SDL_LogOutputFunction SDL_GetDefaultLogOutputFunction())
+]
+
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 	"/**
 	 * Get default texture scale mode of the given renderer.
@@ -6076,7 +6496,7 @@ LibSDL3 >> getDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 	^ self ffiCall: #(bool SDL_GetDefaultTextureScaleMode(SDL_Renderer* renderer, SDL_ScaleMode scale_mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDesktopDisplayMode: displayID [
 	"/**
 	 * Get information about the desktop's display mode.
@@ -6101,7 +6521,25 @@ LibSDL3 >> getDesktopDisplayMode: displayID [
 	^ self ffiCall: #(SDL_DisplayMode* SDL_GetDesktopDisplayMode(SDL_DisplayID displayID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
+LibSDL3 >> getDirect3D9AdapterIndex: displayID [
+	"/**
+	 * Get the D3D9 adapter index that matches the specified display.
+	 *
+	 * The returned adapter index can be passed to `IDirect3D9::CreateDevice` and
+	 * controls on which monitor a full screen application will appear.
+	 *
+	 * \param displayID the instance of the display to query.
+	 * \returns the D3D9 adapter index on success or -1 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID))
+]
+
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayBoundsDisplayID: displayID rect: rect [
 	"/**
 	 * Get the desktop area represented by a display.
@@ -6125,7 +6563,7 @@ LibSDL3 >> getDisplayBoundsDisplayID: displayID rect: rect [
 	^ self ffiCall: #(bool SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayContentScale: displayID [
 	"/**
 	 * Get the content scale of a display.
@@ -6156,7 +6594,7 @@ LibSDL3 >> getDisplayContentScale: displayID [
 	^ self ffiCall: #(float SDL_GetDisplayContentScale(SDL_DisplayID displayID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayForPoint: point [
 	"/**
 	 * Get the display containing a point.
@@ -6176,7 +6614,7 @@ LibSDL3 >> getDisplayForPoint: point [
 	^ self ffiCall: #(SDL_DisplayID SDL_GetDisplayForPoint(SDL_Point* point))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayForRect: rect [
 	"/**
 	 * Get the display primarily containing a rect.
@@ -6197,7 +6635,7 @@ LibSDL3 >> getDisplayForRect: rect [
 	^ self ffiCall: #(SDL_DisplayID SDL_GetDisplayForRect(SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayForWindow: window [
 	"/**
 	 * Get the display associated with a window.
@@ -6218,7 +6656,7 @@ LibSDL3 >> getDisplayForWindow: window [
 	^ self ffiCall: #(SDL_DisplayID SDL_GetDisplayForWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayName: displayID [
 	"/**
 	 * Get the name of a display in UTF-8 encoding.
@@ -6237,7 +6675,7 @@ LibSDL3 >> getDisplayName: displayID [
 	^ self ffiCall: #(const char* SDL_GetDisplayName(SDL_DisplayID displayID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayProperties: displayID [
 	"/**
 	 * Get the properties associated with a display.
@@ -6279,7 +6717,7 @@ LibSDL3 >> getDisplayProperties: displayID [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetDisplayProperties(SDL_DisplayID displayID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplayUsableBoundsDisplayID: displayID rect: rect [
 	"/**
 	 * Get the usable desktop area represented by a display, in screen
@@ -6309,7 +6747,7 @@ LibSDL3 >> getDisplayUsableBoundsDisplayID: displayID rect: rect [
 	^ self ffiCall: #(bool SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getDisplays: count [
 	"/**
 	 * Get a list of currently connected displays.
@@ -6328,7 +6766,7 @@ LibSDL3 >> getDisplays: count [
 	^ self ffiCall: #(SDL_DisplayID* SDL_GetDisplays(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getEnvironment [
 	"/**
 	 * Get the process environment.
@@ -6355,7 +6793,7 @@ LibSDL3 >> getEnvironment [
 	^ self ffiCall: #(SDL_Environment* SDL_GetEnvironment())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getEnvironmentVariableEnv: env name: name [
 	"/**
 	 * Get the value of a variable in the environment.
@@ -6379,7 +6817,7 @@ LibSDL3 >> getEnvironmentVariableEnv: env name: name [
 	^ self ffiCall: #(const char* SDL_GetEnvironmentVariable(SDL_Environment* env, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getEnvironmentVariables: env [
 	"/**
 	 * Get all variables in the environment.
@@ -6404,7 +6842,7 @@ LibSDL3 >> getEnvironmentVariables: env [
 	^ self ffiCall: #(char** SDL_GetEnvironmentVariables(SDL_Environment* env))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_error' }
 LibSDL3 >> getError [
 	"/**
 	 * Retrieve a message about the last error that occurred on the current
@@ -6445,7 +6883,7 @@ LibSDL3 >> getError [
 	^ self ffiCall: #(const char* SDL_GetError())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> getEventDescriptionEvent: event buf: buf buflen: buflen [
 	"/**
 	 * Generate an English description of an event.
@@ -6481,7 +6919,7 @@ LibSDL3 >> getEventDescriptionEvent: event buf: buf buflen: buflen [
 	^ self ffiCall: #(int SDL_GetEventDescription(SDL_Event* event, char* buf, int buflen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> getEventFilter: filter userdata: userdata [
 	"/**
 	 * Query the current event filter.
@@ -6504,7 +6942,7 @@ LibSDL3 >> getEventFilter: filter userdata: userdata [
 	^ self ffiCall: #(bool SDL_GetEventFilter(SDL_EventFilter* filter, void** userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> getFloatPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a floating point property from a group of properties.
@@ -6530,7 +6968,7 @@ LibSDL3 >> getFloatPropertyProps: props name: name defaultValue: default_value [
 	^ self ffiCall: #(float SDL_GetFloatProperty(SDL_PropertiesID props, const char* name, float default_value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getFullscreenDisplayModesDisplayID: displayID count: count [
 	"/**
 	 * Get a list of fullscreen display modes available on a display.
@@ -6562,7 +7000,7 @@ LibSDL3 >> getFullscreenDisplayModesDisplayID: displayID count: count [
 	^ self ffiCall: #(SDL_DisplayMode** SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getGPUDeviceDriver: device [
 	"/**
 	 * Returns the name of the backend used to create this GPU context.
@@ -6576,7 +7014,7 @@ LibSDL3 >> getGPUDeviceDriver: device [
 	^ self ffiCall: #(const char* SDL_GetGPUDeviceDriver(SDL_GPUDevice* device))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getGPUDeviceProperties: device [
 	"/**
 	 * Get the properties associated with a GPU device.
@@ -6684,7 +7122,7 @@ LibSDL3 >> getGPUDeviceProperties: device [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetGPUDeviceProperties(SDL_GPUDevice* device))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getGPUDriver: index [
 	"/**
 	 * Get the name of a built in GPU driver.
@@ -6707,7 +7145,7 @@ LibSDL3 >> getGPUDriver: index [
 	^ self ffiCall: #(const char* SDL_GetGPUDriver(int index))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getGPURendererDevice: renderer [
 	"/**
 	 * Return the GPU device used by a renderer.
@@ -6724,7 +7162,7 @@ LibSDL3 >> getGPURendererDevice: renderer [
 	^ self ffiCall: #(SDL_GPUDevice* SDL_GetGPURendererDevice(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getGPUShaderFormats: device [
 	"/**
 	 * Returns the supported shader formats for this GPU context.
@@ -6739,7 +7177,7 @@ LibSDL3 >> getGPUShaderFormats: device [
 	^ self ffiCall: #(SDL_GPUShaderFormat SDL_GetGPUShaderFormats(SDL_GPUDevice* device))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getGPUSwapchainTextureFormatDevice: device window: window [
 	"/**
 	 * Obtains the texture format of the swapchain for the given window.
@@ -6756,7 +7194,7 @@ LibSDL3 >> getGPUSwapchainTextureFormatDevice: device window: window [
 	^ self ffiCall: #(SDL_GPUTextureFormat SDL_GetGPUSwapchainTextureFormat(SDL_GPUDevice* device, SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getGPUTextureFormatFromPixelFormat: format [
 	"/**
 	 * Get the GPU texture format corresponding to an SDL pixel format.
@@ -6772,7 +7210,1000 @@ LibSDL3 >> getGPUTextureFormatFromPixelFormat: format [
 	^ self ffiCall: #(SDL_GPUTextureFormat SDL_GetGPUTextureFormatFromPixelFormat(SDL_PixelFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadAppleSFSymbolsNameForAxisGamepad: gamepad axis: axis [
+	"/**
+	 * Return the sfSymbolsName for a given axis on a gamepad on Apple platforms.
+	 *
+	 * \param gamepad the gamepad to query.
+	 * \param axis an axis on the gamepad.
+	 * \returns the sfSymbolsName or NULL if the name can't be found.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadAppleSFSymbolsNameForButton
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadAppleSFSymbolsNameForAxis(SDL_Gamepad* gamepad, SDL_GamepadAxis axis))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadAppleSFSymbolsNameForButtonGamepad: gamepad button: button [
+	"/**
+	 * Return the sfSymbolsName for a given button on a gamepad on Apple
+	 * platforms.
+	 *
+	 * \param gamepad the gamepad to query.
+	 * \param button a button on the gamepad.
+	 * \returns the sfSymbolsName or NULL if the name can't be found.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadAppleSFSymbolsNameForAxis
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadAppleSFSymbolsNameForButton(SDL_Gamepad* gamepad, SDL_GamepadButton button))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadAxisFromString: str [
+	"/**
+	 * Convert a string into SDL_GamepadAxis enum.
+	 *
+	 * This function is called internally to translate SDL_Gamepad mapping strings
+	 * for the underlying joystick device into the consistent SDL_Gamepad mapping.
+	 * You do not normally need to call this function unless you are parsing
+	 * SDL_Gamepad mappings in your own code.
+	 *
+	 * Note specially that ""righttrigger"" and ""lefttrigger"" map to
+	 * `SDL_GAMEPAD_AXIS_RIGHT_TRIGGER` and `SDL_GAMEPAD_AXIS_LEFT_TRIGGER`,
+	 * respectively.
+	 *
+	 * \param str string representing a SDL_Gamepad axis.
+	 * \returns the SDL_GamepadAxis enum corresponding to the input string, or
+	 *          `SDL_GAMEPAD_AXIS_INVALID` if no match was found.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadStringForAxis
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadAxis SDL_GetGamepadAxisFromString(const char* str))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadAxisGamepad: gamepad axis: axis [
+	"/**
+	 * Get the current state of an axis control on a gamepad.
+	 *
+	 * The axis indices start at index 0.
+	 *
+	 * For thumbsticks, the state is a value ranging from -32768 (up/left) to
+	 * 32767 (down/right).
+	 *
+	 * Triggers range from 0 when released to 32767 when fully pressed, and never
+	 * return a negative value. Note that this differs from the value reported by
+	 * the lower-level SDL_GetJoystickAxis(), which normally uses the full range.
+	 *
+	 * Note that for invalid gamepads or axes, this will return 0. Zero is also a
+	 * valid value in normal operation; usually it means a centered axis.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param axis an axis index (one of the SDL_GamepadAxis values).
+	 * \returns axis state.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GamepadHasAxis
+	 * \sa SDL_GetGamepadButton
+	 */"
+
+	^ self ffiCall: #(Sint16 SDL_GetGamepadAxis(SDL_Gamepad* gamepad, SDL_GamepadAxis axis))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadBindingsGamepad: gamepad count: count [
+	"/**
+	 * Get the SDL joystick layer bindings for a gamepad.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param count a pointer filled in with the number of bindings returned.
+	 * \returns a NULL terminated array of pointers to bindings or NULL on
+	 *          failure; call SDL_GetError() for more information. This is a
+	 *          single allocation that should be freed with SDL_free() when it is
+	 *          no longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadBinding** SDL_GetGamepadBindings(SDL_Gamepad* gamepad, int* count))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadButtonFromString: str [
+	"/**
+	 * Convert a string into an SDL_GamepadButton enum.
+	 *
+	 * This function is called internally to translate SDL_Gamepad mapping strings
+	 * for the underlying joystick device into the consistent SDL_Gamepad mapping.
+	 * You do not normally need to call this function unless you are parsing
+	 * SDL_Gamepad mappings in your own code.
+	 *
+	 * \param str string representing a SDL_Gamepad button.
+	 * \returns the SDL_GamepadButton enum corresponding to the input string, or
+	 *          `SDL_GAMEPAD_BUTTON_INVALID` if no match was found.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadStringForButton
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadButton SDL_GetGamepadButtonFromString(const char* str))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadButtonGamepad: gamepad button: button [
+	"/**
+	 * Get the current state of a button on a gamepad.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param button a button index (one of the SDL_GamepadButton values).
+	 * \returns true if the button is pressed, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GamepadHasButton
+	 * \sa SDL_GetGamepadAxis
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetGamepadButton(SDL_Gamepad* gamepad, SDL_GamepadButton button))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadButtonLabelForType: type button: button [
+	"/**
+	 * Get the label of a button on a gamepad.
+	 *
+	 * \param type the type of gamepad to check.
+	 * \param button a button index (one of the SDL_GamepadButton values).
+	 * \returns the SDL_GamepadButtonLabel enum corresponding to the button label.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadButtonLabel
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadButtonLabel SDL_GetGamepadButtonLabelForType(SDL_GamepadType type, SDL_GamepadButton button))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadButtonLabelGamepad: gamepad button: button [
+	"/**
+	 * Get the label of a button on a gamepad.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param button a button index (one of the SDL_GamepadButton values).
+	 * \returns the SDL_GamepadButtonLabel enum corresponding to the button label.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadButtonLabelForType
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadButtonLabel SDL_GetGamepadButtonLabel(SDL_Gamepad* gamepad, SDL_GamepadButton button))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadConnectionState: gamepad [
+	"/**
+	 * Get the connection state of a gamepad.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the connection state on success or
+	 *          `SDL_JOYSTICK_CONNECTION_INVALID` on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_JoystickConnectionState SDL_GetGamepadConnectionState(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadFirmwareVersion: gamepad [
+	"/**
+	 * Get the firmware version of an opened gamepad, if available.
+	 *
+	 * If the firmware version isn't available this function returns 0.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the gamepad firmware version, or zero if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(Uint16 SDL_GetGamepadFirmwareVersion(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadFromID: instance_id [
+	"/**
+	 * Get the SDL_Gamepad associated with a joystick instance ID, if it has been
+	 * opened.
+	 *
+	 * \param instance_id the joystick instance ID of the gamepad.
+	 * \returns an SDL_Gamepad on success or NULL on failure or if it hasn't been
+	 *          opened yet; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_Gamepad* SDL_GetGamepadFromID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadFromPlayerIndex: player_index [
+	"/**
+	 * Get the SDL_Gamepad associated with a player index.
+	 *
+	 * \param player_index the player index, which different from the instance ID.
+	 * \returns the SDL_Gamepad associated with a player index.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadPlayerIndex
+	 * \sa SDL_SetGamepadPlayerIndex
+	 */"
+
+	^ self ffiCall: #(SDL_Gamepad* SDL_GetGamepadFromPlayerIndex(int player_index))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadGUIDForID: instance_id [
+	"/**
+	 * Get the implementation-dependent GUID of a gamepad.
+	 *
+	 * This can be called before any gamepads are opened.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the GUID of the selected gamepad. If called on an invalid index,
+	 *          this function returns a zero GUID.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GUIDToString
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(SDL_GUID SDL_GetGamepadGUIDForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadID: gamepad [
+	"/**
+	 * Get the instance ID of an opened gamepad.
+	 *
+	 * \param gamepad a gamepad identifier previously returned by
+	 *                SDL_OpenGamepad().
+	 * \returns the instance ID of the specified gamepad on success or 0 on
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_JoystickID SDL_GetGamepadID(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadJoystick: gamepad [
+	"/**
+	 * Get the underlying joystick from a gamepad.
+	 *
+	 * This function will give you a SDL_Joystick object, which allows you to use
+	 * the SDL_Joystick functions with a SDL_Gamepad object. This would be useful
+	 * for getting a joystick's position at any given time, even if it hasn't
+	 * moved (moving it would produce an event, which would have the axis' value).
+	 *
+	 * The pointer returned is owned by the SDL_Gamepad. You should not call
+	 * SDL_CloseJoystick() on it, for example, since doing so will likely cause
+	 * SDL to crash.
+	 *
+	 * \param gamepad the gamepad object that you want to get a joystick from.
+	 * \returns an SDL_Joystick object, or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_Joystick* SDL_GetGamepadJoystick(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadMapping: gamepad [
+	"/**
+	 * Get the current mapping of a gamepad.
+	 *
+	 * Details about mappings are discussed with SDL_AddGamepadMapping().
+	 *
+	 * \param gamepad the gamepad you want to get the current mapping for.
+	 * \returns a string that has the gamepad's mapping or NULL if no mapping is
+	 *          available; call SDL_GetError() for more information. This should
+	 *          be freed with SDL_free() when it is no longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddGamepadMapping
+	 * \sa SDL_GetGamepadMappingForID
+	 * \sa SDL_GetGamepadMappingForGUID
+	 * \sa SDL_SetGamepadMapping
+	 */"
+
+	^ self ffiCall: #(void* SDL_GetGamepadMapping(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadMappingForGUID: guid [
+	"/**
+	 * Get the gamepad mapping string for a given GUID.
+	 *
+	 * \param guid a structure containing the GUID for which a mapping is desired.
+	 * \returns a mapping string or NULL on failure; call SDL_GetError() for more
+	 *          information. This should be freed with SDL_free() when it is no
+	 *          longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetJoystickGUIDForID
+	 * \sa SDL_GetJoystickGUID
+	 */"
+
+	^ self ffiCall: #(void* SDL_GetGamepadMappingForGUID(SDL_GUID guid))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadMappingForID: instance_id [
+	"/**
+	 * Get the mapping of a gamepad.
+	 *
+	 * This can be called before any gamepads are opened.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the mapping string. Returns NULL if no mapping is available. This
+	 *          should be freed with SDL_free() when it is no longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepads
+	 * \sa SDL_GetGamepadMapping
+	 */"
+
+	^ self ffiCall: #(void* SDL_GetGamepadMappingForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadMappings: count [
+	"/**
+	 * Get the current gamepad mappings.
+	 *
+	 * \param count a pointer filled in with the number of mappings returned, can
+	 *              be NULL.
+	 * \returns an array of the mapping strings, NULL-terminated, or NULL on
+	 *          failure; call SDL_GetError() for more information. This is a
+	 *          single allocation that should be freed with SDL_free() when it is
+	 *          no longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(char** SDL_GetGamepadMappings(int* count))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadName: gamepad [
+	"/**
+	 * Get the implementation-dependent name for an opened gamepad.
+	 *
+	 * \param gamepad a gamepad identifier previously returned by
+	 *                SDL_OpenGamepad().
+	 * \returns the implementation dependent name for the gamepad, or NULL if
+	 *          there is no name or the identifier passed is invalid.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadNameForID
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadName(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadNameForID: instance_id [
+	"/**
+	 * Get the implementation dependent name of a gamepad.
+	 *
+	 * This can be called before any gamepads are opened.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the name of the selected gamepad. If no name can be found, this
+	 *          function returns NULL; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadName
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadNameForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadPath: gamepad [
+	"/**
+	 * Get the implementation-dependent path for an opened gamepad.
+	 *
+	 * \param gamepad a gamepad identifier previously returned by
+	 *                SDL_OpenGamepad().
+	 * \returns the implementation dependent path for the gamepad, or NULL if
+	 *          there is no path or the identifier passed is invalid.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadPathForID
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadPath(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadPathForID: instance_id [
+	"/**
+	 * Get the implementation dependent path of a gamepad.
+	 *
+	 * This can be called before any gamepads are opened.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the path of the selected gamepad. If no path can be found, this
+	 *          function returns NULL; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadPath
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadPathForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadPlayerIndex: gamepad [
+	"/**
+	 * Get the player index of an opened gamepad.
+	 *
+	 * For XInput gamepads this returns the XInput user index.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the player index for gamepad, or -1 if it's not available.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetGamepadPlayerIndex
+	 */"
+
+	^ self ffiCall: #(int SDL_GetGamepadPlayerIndex(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadPlayerIndexForID: instance_id [
+	"/**
+	 * Get the player index of a gamepad.
+	 *
+	 * This can be called before any gamepads are opened.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the player index of a gamepad, or -1 if it's not available.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadPlayerIndex
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(int SDL_GetGamepadPlayerIndexForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadPowerInfoGamepad: gamepad percent: percent [
+	"/**
+	 * Get the battery state of a gamepad.
+	 *
+	 * You should never take a battery status as absolute truth. Batteries
+	 * (especially failing batteries) are delicate hardware, and the values
+	 * reported here are best estimates based on what that hardware reports. It's
+	 * not uncommon for older batteries to lose stored power much faster than it
+	 * reports, or completely drain when reporting it has 20 percent left, etc.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \param percent a pointer filled in with the percentage of battery life
+	 *                left, between 0 and 100, or NULL to ignore. This will be
+	 *                filled in with -1 we can't determine a value or there is no
+	 *                battery.
+	 * \returns the current battery state.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_PowerState SDL_GetGamepadPowerInfo(SDL_Gamepad* gamepad, int* percent))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadProduct: gamepad [
+	"/**
+	 * Get the USB product ID of an opened gamepad, if available.
+	 *
+	 * If the product ID isn't available this function returns 0.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the USB product ID, or zero if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadProductForID
+	 */"
+
+	^ self ffiCall: #(Uint16 SDL_GetGamepadProduct(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadProductForID: instance_id [
+	"/**
+	 * Get the USB product ID of a gamepad, if available.
+	 *
+	 * This can be called before any gamepads are opened. If the product ID isn't
+	 * available this function returns 0.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the USB product ID of the selected gamepad. If called on an
+	 *          invalid index, this function returns zero.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadProduct
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(Uint16 SDL_GetGamepadProductForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadProductVersion: gamepad [
+	"/**
+	 * Get the product version of an opened gamepad, if available.
+	 *
+	 * If the product version isn't available this function returns 0.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the USB product version, or zero if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadProductVersionForID
+	 */"
+
+	^ self ffiCall: #(Uint16 SDL_GetGamepadProductVersion(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadProductVersionForID: instance_id [
+	"/**
+	 * Get the product version of a gamepad, if available.
+	 *
+	 * This can be called before any gamepads are opened. If the product version
+	 * isn't available this function returns 0.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the product version of the selected gamepad. If called on an
+	 *          invalid index, this function returns zero.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadProductVersion
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(Uint16 SDL_GetGamepadProductVersionForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadProperties: gamepad [
+	"/**
+	 * Get the properties associated with an opened gamepad.
+	 *
+	 * These properties are shared with the underlying joystick object.
+	 *
+	 * The following read-only properties are provided by SDL:
+	 *
+	 * - `SDL_PROP_GAMEPAD_CAP_MONO_LED_BOOLEAN`: true if this gamepad has an LED
+	 *   that has adjustable brightness
+	 * - `SDL_PROP_GAMEPAD_CAP_RGB_LED_BOOLEAN`: true if this gamepad has an LED
+	 *   that has adjustable color
+	 * - `SDL_PROP_GAMEPAD_CAP_PLAYER_LED_BOOLEAN`: true if this gamepad has a
+	 *   player LED
+	 * - `SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN`: true if this gamepad has
+	 *   left/right rumble
+	 * - `SDL_PROP_GAMEPAD_CAP_TRIGGER_RUMBLE_BOOLEAN`: true if this gamepad has
+	 *   simple trigger rumble
+	 *
+	 * \param gamepad a gamepad identifier previously returned by
+	 *                SDL_OpenGamepad().
+	 * \returns a valid property ID on success or 0 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_PropertiesID SDL_GetGamepadProperties(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadSensorDataGamepad: gamepad type: type data: data numValues: num_values [
+	"/**
+	 * Get the current state of a gamepad sensor.
+	 *
+	 * The number of values and interpretation of the data is sensor dependent.
+	 * See the remarks in SDL_SensorType for details for each type of sensor.
+	 *
+	 * \param gamepad the gamepad to query.
+	 * \param type the type of sensor to query.
+	 * \param data a pointer filled with the current sensor state.
+	 * \param num_values the number of values to write to data.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetGamepadSensorData(SDL_Gamepad* gamepad, SDL_SensorType type, float* data, int num_values))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadSensorDataRateGamepad: gamepad type: type [
+	"/**
+	 * Get the data rate (number of events per second) of a gamepad sensor.
+	 *
+	 * \param gamepad the gamepad to query.
+	 * \param type the type of sensor to query.
+	 * \returns the data rate, or 0.0f if the data rate is not available.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(float SDL_GetGamepadSensorDataRate(SDL_Gamepad* gamepad, SDL_SensorType type))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadSerial: gamepad [
+	"/**
+	 * Get the serial number of an opened gamepad, if available.
+	 *
+	 * Returns the serial number of the gamepad, or NULL if it is not available.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the serial number, or NULL if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadSerial(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadSteamHandle: gamepad [
+	"/**
+	 * Get the Steam Input handle of an opened gamepad, if available.
+	 *
+	 * Returns an InputHandle_t for the gamepad that can be used with Steam Input
+	 * API: https://partner.steamgames.com/doc/api/ISteamInput
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the gamepad handle, or 0 if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(Uint64 SDL_GetGamepadSteamHandle(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadStringForAxis: axis [
+	"/**
+	 * Convert from an SDL_GamepadAxis enum to a string.
+	 *
+	 * \param axis an enum value for a given SDL_GamepadAxis.
+	 * \returns a string for the given axis, or NULL if an invalid axis is
+	 *          specified. The string returned is of the format used by
+	 *          SDL_Gamepad mapping strings.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadAxisFromString
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadStringForAxis(SDL_GamepadAxis axis))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadStringForButton: button [
+	"/**
+	 * Convert from an SDL_GamepadButton enum to a string.
+	 *
+	 * \param button an enum value for a given SDL_GamepadButton.
+	 * \returns a string for the given button, or NULL if an invalid button is
+	 *          specified. The string returned is of the format used by
+	 *          SDL_Gamepad mapping strings.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadButtonFromString
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadStringForButton(SDL_GamepadButton button))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadStringForType: type [
+	"/**
+	 * Convert from an SDL_GamepadType enum to a string.
+	 *
+	 * \param type an enum value for a given SDL_GamepadType.
+	 * \returns a string for the given type, or NULL if an invalid type is
+	 *          specified. The string returned is of the format used by
+	 *          SDL_Gamepad mapping strings.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadTypeFromString
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetGamepadStringForType(SDL_GamepadType type))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadTouchpadFingerGamepad: gamepad touchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
+	"/**
+	 * Get the current state of a finger on a touchpad on a gamepad.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param touchpad a touchpad.
+	 * \param finger a finger.
+	 * \param down a pointer filled with true if the finger is down, false
+	 *             otherwise, may be NULL.
+	 * \param x a pointer filled with the x position, normalized 0 to 1, with the
+	 *          origin in the upper left, may be NULL.
+	 * \param y a pointer filled with the y position, normalized 0 to 1, with the
+	 *          origin in the upper left, may be NULL.
+	 * \param pressure a pointer filled with pressure value, may be NULL.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetNumGamepadTouchpadFingers
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetGamepadTouchpadFinger(SDL_Gamepad* gamepad, int touchpad, int finger, #bool* down, float* x, float* y, float* pressure))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadType: gamepad [
+	"/**
+	 * Get the type of an opened gamepad.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the gamepad type, or SDL_GAMEPAD_TYPE_UNKNOWN if it's not
+	 *          available.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadTypeForID
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadType SDL_GetGamepadType(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadTypeForID: instance_id [
+	"/**
+	 * Get the type of a gamepad.
+	 *
+	 * This can be called before any gamepads are opened.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the gamepad type.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadType
+	 * \sa SDL_GetGamepads
+	 * \sa SDL_GetRealGamepadTypeForID
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadType SDL_GetGamepadTypeForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadTypeFromString: str [
+	"/**
+	 * Convert a string into SDL_GamepadType enum.
+	 *
+	 * This function is called internally to translate SDL_Gamepad mapping strings
+	 * for the underlying joystick device into the consistent SDL_Gamepad mapping.
+	 * You do not normally need to call this function unless you are parsing
+	 * SDL_Gamepad mappings in your own code.
+	 *
+	 * \param str string representing a SDL_GamepadType type.
+	 * \returns the SDL_GamepadType enum corresponding to the input string, or
+	 *          `SDL_GAMEPAD_TYPE_UNKNOWN` if no match was found.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadStringForType
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadType SDL_GetGamepadTypeFromString(const char* str))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadVendor: gamepad [
+	"/**
+	 * Get the USB vendor ID of an opened gamepad, if available.
+	 *
+	 * If the vendor ID isn't available this function returns 0.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the USB vendor ID, or zero if unavailable.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadVendorForID
+	 */"
+
+	^ self ffiCall: #(Uint16 SDL_GetGamepadVendor(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepadVendorForID: instance_id [
+	"/**
+	 * Get the USB vendor ID of a gamepad, if available.
+	 *
+	 * This can be called before any gamepads are opened. If the vendor ID isn't
+	 * available this function returns 0.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the USB vendor ID of the selected gamepad. If called on an invalid
+	 *          index, this function returns zero.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadVendor
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(Uint16 SDL_GetGamepadVendorForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getGamepads: count [
+	"/**
+	 * Get a list of currently connected gamepads.
+	 *
+	 * \param count a pointer filled in with the number of gamepads returned, may
+	 *              be NULL.
+	 * \returns a 0 terminated array of joystick instance IDs or NULL on failure;
+	 *          call SDL_GetError() for more information. This should be freed
+	 *          with SDL_free() when it is no longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_HasGamepad
+	 * \sa SDL_OpenGamepad
+	 */"
+
+	^ self ffiCall: #(SDL_JoystickID* SDL_GetGamepads(int* count))
+]
+
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getGlobalMouseStateX: x y: y [
 	"/**
 	 * Query the platform for the asynchronous mouse button state and the
@@ -6813,7 +8244,7 @@ LibSDL3 >> getGlobalMouseStateX: x y: y [
 	^ self ffiCall: #(SDL_MouseButtonFlags SDL_GetGlobalMouseState(float* x, float* y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> getGlobalProperties [
 	"/**
 	 * Get the global SDL properties.
@@ -6827,7 +8258,7 @@ LibSDL3 >> getGlobalProperties [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetGlobalProperties())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getGrabbedWindow [
 	"/**
 	 * Get the window that currently has an input grab enabled.
@@ -6845,7 +8276,173 @@ LibSDL3 >> getGrabbedWindow [
 	^ self ffiCall: #(SDL_Window* SDL_GetGrabbedWindow())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getHapticEffectStatusHaptic: haptic effect: effect [
+	"/**
+	 * Get the status of the current effect on the specified haptic device.
+	 *
+	 * Device must support the SDL_HAPTIC_STATUS feature.
+	 *
+	 * \param haptic the SDL_Haptic device to query for the effect status on.
+	 * \param effect the ID of the haptic effect to query its status.
+	 * \returns true if it is playing, false if it isn't playing or haptic status
+	 *          isn't supported.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHapticFeatures
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetHapticEffectStatus(SDL_Haptic* haptic, SDL_HapticEffectID effect))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getHapticFeatures: haptic [
+	"/**
+	 * Get the haptic device's supported features in bitwise manner.
+	 *
+	 * \param haptic the SDL_Haptic device to query.
+	 * \returns a list of supported haptic features in bitwise manner (OR'd), or 0
+	 *          on failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_HapticEffectSupported
+	 * \sa SDL_GetMaxHapticEffects
+	 */"
+
+	^ self ffiCall: #(Uint32 SDL_GetHapticFeatures(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getHapticFromID: instance_id [
+	"/**
+	 * Get the SDL_Haptic associated with an instance ID, if it has been opened.
+	 *
+	 * \param instance_id the instance ID to get the SDL_Haptic for.
+	 * \returns an SDL_Haptic on success or NULL on failure or if it hasn't been
+	 *          opened yet; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_Haptic* SDL_GetHapticFromID(SDL_HapticID instance_id))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getHapticID: haptic [
+	"/**
+	 * Get the instance ID of an opened haptic device.
+	 *
+	 * \param haptic the SDL_Haptic device to query.
+	 * \returns the instance ID of the specified haptic device on success or 0 on
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_HapticID SDL_GetHapticID(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getHapticName: haptic [
+	"/**
+	 * Get the implementation dependent name of a haptic device.
+	 *
+	 * \param haptic the SDL_Haptic obtained from SDL_OpenJoystick().
+	 * \returns the name of the selected haptic device. If no name can be found,
+	 *          this function returns NULL; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHapticNameForID
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetHapticName(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getHapticNameForID: instance_id [
+	"/**
+	 * Get the implementation dependent name of a haptic device.
+	 *
+	 * This can be called before any haptic devices are opened.
+	 *
+	 * \param instance_id the haptic device instance ID.
+	 * \returns the name of the selected haptic device. If no name can be found,
+	 *          this function returns NULL; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHapticName
+	 * \sa SDL_OpenHaptic
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetHapticNameForID(SDL_HapticID instance_id))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getHaptics: count [
+	"/**
+	 * Get a list of currently connected haptic devices.
+	 *
+	 * \param count a pointer filled in with the number of haptic devices
+	 *              returned, may be NULL.
+	 * \returns a 0 terminated array of haptic device instance IDs or NULL on
+	 *          failure; call SDL_GetError() for more information. This should be
+	 *          freed with SDL_free() when it is no longer needed.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_OpenHaptic
+	 */"
+
+	^ self ffiCall: #(SDL_HapticID* SDL_GetHaptics(int* count))
+]
+
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> getHint: name [
+	"/**
+	 * Get the value of a hint.
+	 *
+	 * \param name the hint to query.
+	 * \returns the string value of a hint or NULL if the hint isn't set.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetHint
+	 * \sa SDL_SetHintWithPriority
+	 */"
+
+	^ self ffiCall: #(const char* SDL_GetHint(const char* name))
+]
+
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> getHintBooleanName: name defaultValue: default_value [
+	"/**
+	 * Get the boolean value of a hint variable.
+	 *
+	 * \param name the name of the hint to get the boolean value from.
+	 * \param default_value the value to return if the hint does not exist.
+	 * \returns the boolean value of a hint or the provided default value if the
+	 *          hint does not exist.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHint
+	 * \sa SDL_SetHint
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetHintBoolean(const char* name, #bool default_value))
+]
+
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> getIOProperties: context [
 	"/**
 	 * Get the properties associated with an SDL_IOStream.
@@ -6862,7 +8459,7 @@ LibSDL3 >> getIOProperties: context [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetIOProperties(SDL_IOStream* context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> getIOSize: context [
 	"/**
 	 * Use this function to get the size of the data stream in an SDL_IOStream.
@@ -6880,7 +8477,7 @@ LibSDL3 >> getIOSize: context [
 	^ self ffiCall: #(Sint64 SDL_GetIOSize(SDL_IOStream* context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> getIOStatus: context [
 	"/**
 	 * Query the stream status of an SDL_IOStream.
@@ -6904,7 +8501,7 @@ LibSDL3 >> getIOStatus: context [
 	^ self ffiCall: #(SDL_IOStatus SDL_GetIOStatus(SDL_IOStream* context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickAxisInitialStateJoystick: joystick axis: axis state: state [
 	"/**
 	 * Get the initial state of an axis control on a joystick.
@@ -6926,7 +8523,7 @@ LibSDL3 >> getJoystickAxisInitialStateJoystick: joystick axis: axis state: state
 	^ self ffiCall: #(bool SDL_GetJoystickAxisInitialState(SDL_Joystick* joystick, int axis, Sint16* state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickAxisJoystick: joystick axis: axis [
 	"/**
 	 * Get the current state of an axis control on a joystick.
@@ -6956,7 +8553,7 @@ LibSDL3 >> getJoystickAxisJoystick: joystick axis: axis [
 	^ self ffiCall: #(Sint16 SDL_GetJoystickAxis(SDL_Joystick* joystick, int axis))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickBallJoystick: joystick ball: ball dx: dx dy: dy [
 	"/**
 	 * Get the ball axis change since the last poll.
@@ -6983,7 +8580,7 @@ LibSDL3 >> getJoystickBallJoystick: joystick ball: ball dx: dx dy: dy [
 	^ self ffiCall: #(bool SDL_GetJoystickBall(SDL_Joystick* joystick, int ball, int* dx, int* dy))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickButtonJoystick: joystick button: button [
 	"/**
 	 * Get the current state of a button on a joystick.
@@ -7003,7 +8600,7 @@ LibSDL3 >> getJoystickButtonJoystick: joystick button: button [
 	^ self ffiCall: #(bool SDL_GetJoystickButton(SDL_Joystick* joystick, int button))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickConnectionState: joystick [
 	"/**
 	 * Get the connection state of a joystick.
@@ -7021,7 +8618,7 @@ LibSDL3 >> getJoystickConnectionState: joystick [
 	^ self ffiCall: #(SDL_JoystickConnectionState SDL_GetJoystickConnectionState(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickFirmwareVersion: joystick [
 	"/**
 	 * Get the firmware version of an opened joystick, if available.
@@ -7040,7 +8637,7 @@ LibSDL3 >> getJoystickFirmwareVersion: joystick [
 	^ self ffiCall: #(Uint16 SDL_GetJoystickFirmwareVersion(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickFromID: instance_id [
 	"/**
 	 * Get the SDL_Joystick associated with an instance ID, if it has been opened.
@@ -7057,7 +8654,7 @@ LibSDL3 >> getJoystickFromID: instance_id [
 	^ self ffiCall: #(SDL_Joystick* SDL_GetJoystickFromID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickFromPlayerIndex: player_index [
 	"/**
 	 * Get the SDL_Joystick associated with a player index.
@@ -7077,7 +8674,7 @@ LibSDL3 >> getJoystickFromPlayerIndex: player_index [
 	^ self ffiCall: #(SDL_Joystick* SDL_GetJoystickFromPlayerIndex(int player_index))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickGUID: joystick [
 	"/**
 	 * Get the implementation-dependent GUID for the joystick.
@@ -7100,7 +8697,7 @@ LibSDL3 >> getJoystickGUID: joystick [
 	^ self ffiCall: #(SDL_GUID SDL_GetJoystickGUID(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickGUIDForID: instance_id [
 	"/**
 	 * Get the implementation-dependent GUID of a joystick.
@@ -7122,7 +8719,7 @@ LibSDL3 >> getJoystickGUIDForID: instance_id [
 	^ self ffiCall: #(SDL_GUID SDL_GetJoystickGUIDForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickGUIDInfoGuid: guid vendor: vendor product: product version: version crc16: crc16 [
 	"/**
 	 * Get the device information encoded in a SDL_GUID structure.
@@ -7147,7 +8744,7 @@ LibSDL3 >> getJoystickGUIDInfoGuid: guid vendor: vendor product: product version
 	self ffiCall: #(void SDL_GetJoystickGUIDInfo(SDL_GUID guid, Uint16* vendor, Uint16* product, Uint16* version, Uint16* crc16))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickHatJoystick: joystick hat: hat [
 	"/**
 	 * Get the current state of a POV hat on a joystick.
@@ -7168,7 +8765,7 @@ LibSDL3 >> getJoystickHatJoystick: joystick hat: hat [
 	^ self ffiCall: #(Uint8 SDL_GetJoystickHat(SDL_Joystick* joystick, int hat))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickID: joystick [
 	"/**
 	 * Get the instance ID of an opened joystick.
@@ -7185,7 +8782,7 @@ LibSDL3 >> getJoystickID: joystick [
 	^ self ffiCall: #(SDL_JoystickID SDL_GetJoystickID(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickName: joystick [
 	"/**
 	 * Get the implementation dependent name of a joystick.
@@ -7204,7 +8801,7 @@ LibSDL3 >> getJoystickName: joystick [
 	^ self ffiCall: #(const char* SDL_GetJoystickName(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickNameForID: instance_id [
 	"/**
 	 * Get the implementation dependent name of a joystick.
@@ -7226,7 +8823,7 @@ LibSDL3 >> getJoystickNameForID: instance_id [
 	^ self ffiCall: #(const char* SDL_GetJoystickNameForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickPath: joystick [
 	"/**
 	 * Get the implementation dependent path of a joystick.
@@ -7245,7 +8842,7 @@ LibSDL3 >> getJoystickPath: joystick [
 	^ self ffiCall: #(const char* SDL_GetJoystickPath(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickPathForID: instance_id [
 	"/**
 	 * Get the implementation dependent path of a joystick.
@@ -7267,7 +8864,7 @@ LibSDL3 >> getJoystickPathForID: instance_id [
 	^ self ffiCall: #(const char* SDL_GetJoystickPathForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickPlayerIndex: joystick [
 	"/**
 	 * Get the player index of an opened joystick.
@@ -7288,7 +8885,7 @@ LibSDL3 >> getJoystickPlayerIndex: joystick [
 	^ self ffiCall: #(int SDL_GetJoystickPlayerIndex(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickPlayerIndexForID: instance_id [
 	"/**
 	 * Get the player index of a joystick.
@@ -7309,7 +8906,7 @@ LibSDL3 >> getJoystickPlayerIndexForID: instance_id [
 	^ self ffiCall: #(int SDL_GetJoystickPlayerIndexForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickPowerInfoJoystick: joystick percent: percent [
 	"/**
 	 * Get the battery state of a joystick.
@@ -7336,7 +8933,7 @@ LibSDL3 >> getJoystickPowerInfoJoystick: joystick percent: percent [
 	^ self ffiCall: #(SDL_PowerState SDL_GetJoystickPowerInfo(SDL_Joystick* joystick, int* percent))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickProduct: joystick [
 	"/**
 	 * Get the USB product ID of an opened joystick, if available.
@@ -7356,7 +8953,7 @@ LibSDL3 >> getJoystickProduct: joystick [
 	^ self ffiCall: #(Uint16 SDL_GetJoystickProduct(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickProductForID: instance_id [
 	"/**
 	 * Get the USB product ID of a joystick, if available.
@@ -7379,7 +8976,7 @@ LibSDL3 >> getJoystickProductForID: instance_id [
 	^ self ffiCall: #(Uint16 SDL_GetJoystickProductForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickProductVersion: joystick [
 	"/**
 	 * Get the product version of an opened joystick, if available.
@@ -7399,7 +8996,7 @@ LibSDL3 >> getJoystickProductVersion: joystick [
 	^ self ffiCall: #(Uint16 SDL_GetJoystickProductVersion(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickProductVersionForID: instance_id [
 	"/**
 	 * Get the product version of a joystick, if available.
@@ -7422,7 +9019,7 @@ LibSDL3 >> getJoystickProductVersionForID: instance_id [
 	^ self ffiCall: #(Uint16 SDL_GetJoystickProductVersionForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickProperties: joystick [
 	"/**
 	 * Get the properties associated with a joystick.
@@ -7452,7 +9049,7 @@ LibSDL3 >> getJoystickProperties: joystick [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetJoystickProperties(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickSerial: joystick [
 	"/**
 	 * Get the serial number of an opened joystick, if available.
@@ -7471,7 +9068,7 @@ LibSDL3 >> getJoystickSerial: joystick [
 	^ self ffiCall: #(const char* SDL_GetJoystickSerial(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickType: joystick [
 	"/**
 	 * Get the type of an opened joystick.
@@ -7489,7 +9086,7 @@ LibSDL3 >> getJoystickType: joystick [
 	^ self ffiCall: #(SDL_JoystickType SDL_GetJoystickType(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickTypeForID: instance_id [
 	"/**
 	 * Get the type of a joystick, if available.
@@ -7512,7 +9109,7 @@ LibSDL3 >> getJoystickTypeForID: instance_id [
 	^ self ffiCall: #(SDL_JoystickType SDL_GetJoystickTypeForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickVendor: joystick [
 	"/**
 	 * Get the USB vendor ID of an opened joystick, if available.
@@ -7532,7 +9129,7 @@ LibSDL3 >> getJoystickVendor: joystick [
 	^ self ffiCall: #(Uint16 SDL_GetJoystickVendor(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoystickVendorForID: instance_id [
 	"/**
 	 * Get the USB vendor ID of a joystick, if available.
@@ -7555,7 +9152,7 @@ LibSDL3 >> getJoystickVendorForID: instance_id [
 	^ self ffiCall: #(Uint16 SDL_GetJoystickVendorForID(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getJoysticks: count [
 	"/**
 	 * Get a list of currently connected joysticks.
@@ -7577,7 +9174,7 @@ LibSDL3 >> getJoysticks: count [
 	^ self ffiCall: #(SDL_JoystickID* SDL_GetJoysticks(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getKeyFromName: name [
 	"/**
 	 * Get a key code from a human-readable name.
@@ -7598,7 +9195,7 @@ LibSDL3 >> getKeyFromName: name [
 	^ self ffiCall: #(SDL_Keycode SDL_GetKeyFromName(const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getKeyFromScancode: scancode modstate: modstate keyEvent: key_event [
 	"/**
 	 * Get the key code corresponding to the given scancode according to the
@@ -7626,7 +9223,7 @@ LibSDL3 >> getKeyFromScancode: scancode modstate: modstate keyEvent: key_event [
 	^ self ffiCall: #(SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode, SDL_Keymod modstate, #bool key_event))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getKeyName: key [
 	"/**
 	 * Get a human-readable name for a key.
@@ -7650,7 +9247,7 @@ LibSDL3 >> getKeyName: key [
 	^ self ffiCall: #(const char* SDL_GetKeyName(SDL_Keycode key))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getKeyboardFocus [
 	"/**
 	 * Query the window which currently has keyboard focus.
@@ -7665,7 +9262,7 @@ LibSDL3 >> getKeyboardFocus [
 	^ self ffiCall: #(SDL_Window* SDL_GetKeyboardFocus())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getKeyboardNameForID: instance_id [
 	"/**
 	 * Get the name of a keyboard.
@@ -7686,7 +9283,7 @@ LibSDL3 >> getKeyboardNameForID: instance_id [
 	^ self ffiCall: #(const char* SDL_GetKeyboardNameForID(SDL_KeyboardID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getKeyboardState: numkeys [
 	"/**
 	 * Get a snapshot of the current state of the keyboard.
@@ -7720,10 +9317,10 @@ LibSDL3 >> getKeyboardState: numkeys [
 	 * \sa SDL_ResetKeyboard
 	 */"
 
-	^ self ffiCall: #(bool* SDL_GetKeyboardState(int* numkeys))
+	^ self ffiCall: #(UNKNOWN_const #bool* SDL_GetKeyboardState(int* numkeys))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getKeyboards: count [
 	"/**
 	 * Get a list of currently connected keyboards.
@@ -7750,8 +9347,47 @@ LibSDL3 >> getKeyboards: count [
 	^ self ffiCall: #(SDL_KeyboardID* SDL_GetKeyboards(int* count))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getMasksForPixelFormat: format bpp: bpp Rmask: Rmask Gmask: Gmask Bmask: Bmask Amask: Amask [
+{ #category : 'public - SDL_log' }
+LibSDL3 >> getLogOutputFunctionCallback: callback userdata: userdata [
+	"/**
+	 * Get the current log output function.
+	 *
+	 * \param callback an SDL_LogOutputFunction filled in with the current log
+	 *                 callback.
+	 * \param userdata a pointer filled in with the pointer that is passed to
+	 *                 `callback`.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetDefaultLogOutputFunction
+	 * \sa SDL_SetLogOutputFunction
+	 */"
+
+	self ffiCall: #(void SDL_GetLogOutputFunction(SDL_LogOutputFunction* callback, void** userdata))
+]
+
+{ #category : 'public - SDL_log' }
+LibSDL3 >> getLogPriority: category [
+	"/**
+	 * Get the priority of a particular log category.
+	 *
+	 * \param category the category to query.
+	 * \returns the SDL_LogPriority for the requested category.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetLogPriority
+	 */"
+
+	^ self ffiCall: #(SDL_LogPriority SDL_GetLogPriority(int category))
+]
+
+{ #category : 'public - SDL_pixels' }
+LibSDL3 >> getMasksForPixelFormat: format bpp: bpp rmask: Rmask gmask: Gmask bmask: Bmask amask: Amask [
 	"/**
 	 * Convert one of the enumerated pixel formats to a bpp value and RGBA masks.
 	 *
@@ -7774,7 +9410,49 @@ LibSDL3 >> getMasksForPixelFormat: format bpp: bpp Rmask: Rmask Gmask: Gmask Bma
 	^ self ffiCall: #(bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, int* bpp, Uint32* Rmask, Uint32* Gmask, Uint32* Bmask, Uint32* Amask))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getMaxHapticEffects: haptic [
+	"/**
+	 * Get the number of effects a haptic device can store.
+	 *
+	 * On some platforms this isn't fully supported, and therefore is an
+	 * approximation. Always check to see if your created effect was actually
+	 * created and do not rely solely on SDL_GetMaxHapticEffects().
+	 *
+	 * \param haptic the SDL_Haptic device to query.
+	 * \returns the number of effects the haptic device can store or a negative
+	 *          error code on failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetMaxHapticEffectsPlaying
+	 * \sa SDL_GetHapticFeatures
+	 */"
+
+	^ self ffiCall: #(int SDL_GetMaxHapticEffects(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getMaxHapticEffectsPlaying: haptic [
+	"/**
+	 * Get the number of effects a haptic device can play at the same time.
+	 *
+	 * This is not supported on all platforms, but will always return a value.
+	 *
+	 * \param haptic the SDL_Haptic device to query maximum playing effects.
+	 * \returns the number of effects the haptic device can play at the same time
+	 *          or -1 on failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetMaxHapticEffects
+	 * \sa SDL_GetHapticFeatures
+	 */"
+
+	^ self ffiCall: #(int SDL_GetMaxHapticEffectsPlaying(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
 	"/**
 	 * Get the current set of SDL memory functions.
@@ -7797,7 +9475,7 @@ LibSDL3 >> getMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func rea
 	self ffiCall: #(void SDL_GetMemoryFunctions(SDL_malloc_func* malloc_func, SDL_calloc_func* calloc_func, SDL_realloc_func* realloc_func, SDL_free_func* free_func))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getMice: count [
 	"/**
 	 * Get a list of currently connected mice.
@@ -7824,7 +9502,7 @@ LibSDL3 >> getMice: count [
 	^ self ffiCall: #(SDL_MouseID* SDL_GetMice(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getModState [
 	"/**
 	 * Get the current key modifier state for the keyboard.
@@ -7842,7 +9520,7 @@ LibSDL3 >> getModState [
 	^ self ffiCall: #(SDL_Keymod SDL_GetModState())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getMouseFocus [
 	"/**
 	 * Get the window which currently has mouse focus.
@@ -7857,7 +9535,7 @@ LibSDL3 >> getMouseFocus [
 	^ self ffiCall: #(SDL_Window* SDL_GetMouseFocus())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getMouseNameForID: instance_id [
 	"/**
 	 * Get the name of a mouse.
@@ -7878,7 +9556,7 @@ LibSDL3 >> getMouseNameForID: instance_id [
 	^ self ffiCall: #(const char* SDL_GetMouseNameForID(SDL_MouseID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getMouseStateX: x y: y [
 	"/**
 	 * Query SDL's cache for the synchronous mouse button state and the
@@ -7915,7 +9593,7 @@ LibSDL3 >> getMouseStateX: x y: y [
 	^ self ffiCall: #(SDL_MouseButtonFlags SDL_GetMouseState(float* x, float* y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getNaturalDisplayOrientation: displayID [
 	"/**
 	 * Get the orientation of a display when it is unrotated.
@@ -7934,7 +9612,7 @@ LibSDL3 >> getNaturalDisplayOrientation: displayID [
 	^ self ffiCall: #(SDL_DisplayOrientation SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getNumAllocations [
 	"/**
 	 * Get the number of outstanding (unfreed) allocations.
@@ -7950,7 +9628,7 @@ LibSDL3 >> getNumAllocations [
 	^ self ffiCall: #(int SDL_GetNumAllocations())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getNumAudioDrivers [
 	"/**
 	 * Use this function to get the number of built-in audio drivers.
@@ -7977,7 +9655,7 @@ LibSDL3 >> getNumAudioDrivers [
 	^ self ffiCall: #(int SDL_GetNumAudioDrivers())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> getNumCameraDrivers [
 	"/**
 	 * Use this function to get the number of built-in camera drivers.
@@ -8004,7 +9682,7 @@ LibSDL3 >> getNumCameraDrivers [
 	^ self ffiCall: #(int SDL_GetNumCameraDrivers())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getNumGPUDrivers [
 	"/**
 	 * Get the number of GPU drivers compiled into SDL.
@@ -8019,7 +9697,64 @@ LibSDL3 >> getNumGPUDrivers [
 	^ self ffiCall: #(int SDL_GetNumGPUDrivers())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getNumGamepadTouchpadFingersGamepad: gamepad touchpad: touchpad [
+	"/**
+	 * Get the number of supported simultaneous fingers on a touchpad on a game
+	 * gamepad.
+	 *
+	 * \param gamepad a gamepad.
+	 * \param touchpad a touchpad.
+	 * \returns number of supported simultaneous fingers.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadTouchpadFinger
+	 * \sa SDL_GetNumGamepadTouchpads
+	 */"
+
+	^ self ffiCall: #(int SDL_GetNumGamepadTouchpadFingers(SDL_Gamepad* gamepad, int touchpad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getNumGamepadTouchpads: gamepad [
+	"/**
+	 * Get the number of touchpads on a gamepad.
+	 *
+	 * \param gamepad a gamepad.
+	 * \returns number of touchpads.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetNumGamepadTouchpadFingers
+	 */"
+
+	^ self ffiCall: #(int SDL_GetNumGamepadTouchpads(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> getNumHapticAxes: haptic [
+	"/**
+	 * Get the number of haptic axes the device has.
+	 *
+	 * The number of haptic axes might be useful if working with the
+	 * SDL_HapticDirection effect.
+	 *
+	 * \param haptic the SDL_Haptic device to query.
+	 * \returns the number of axes on success or -1 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_GetNumHapticAxes(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getNumJoystickAxes: joystick [
 	"/**
 	 * Get the number of general axis controls on a joystick.
@@ -8045,7 +9780,7 @@ LibSDL3 >> getNumJoystickAxes: joystick [
 	^ self ffiCall: #(int SDL_GetNumJoystickAxes(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getNumJoystickBalls: joystick [
 	"/**
 	 * Get the number of trackballs on a joystick.
@@ -8072,7 +9807,7 @@ LibSDL3 >> getNumJoystickBalls: joystick [
 	^ self ffiCall: #(int SDL_GetNumJoystickBalls(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getNumJoystickButtons: joystick [
 	"/**
 	 * Get the number of buttons on a joystick.
@@ -8094,7 +9829,7 @@ LibSDL3 >> getNumJoystickButtons: joystick [
 	^ self ffiCall: #(int SDL_GetNumJoystickButtons(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> getNumJoystickHats: joystick [
 	"/**
 	 * Get the number of POV hats on a joystick.
@@ -8116,7 +9851,7 @@ LibSDL3 >> getNumJoystickHats: joystick [
 	^ self ffiCall: #(int SDL_GetNumJoystickHats(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> getNumLogicalCPUCores [
 	"/**
 	 * Get the number of logical CPU cores available.
@@ -8133,7 +9868,7 @@ LibSDL3 >> getNumLogicalCPUCores [
 	^ self ffiCall: #(int SDL_GetNumLogicalCPUCores())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getNumRenderDrivers [
 	"/**
 	 * Get the number of 2D rendering drivers available for the current display.
@@ -8157,7 +9892,7 @@ LibSDL3 >> getNumRenderDrivers [
 	^ self ffiCall: #(int SDL_GetNumRenderDrivers())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getNumVideoDrivers [
 	"/**
 	 * Get the number of video drivers compiled into SDL.
@@ -8174,7 +9909,7 @@ LibSDL3 >> getNumVideoDrivers [
 	^ self ffiCall: #(int SDL_GetNumVideoDrivers())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> getNumberPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a number property from a group of properties.
@@ -8200,7 +9935,7 @@ LibSDL3 >> getNumberPropertyProps: props name: name defaultValue: default_value 
 	^ self ffiCall: #(Sint64 SDL_GetNumberProperty(SDL_PropertiesID props, const char* name, Sint64 default_value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getOriginalMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
 	"/**
 	 * Get the original set of SDL memory functions.
@@ -8223,7 +9958,7 @@ LibSDL3 >> getOriginalMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_
 	self ffiCall: #(void SDL_GetOriginalMemoryFunctions(SDL_malloc_func* malloc_func, SDL_calloc_func* calloc_func, SDL_realloc_func* realloc_func, SDL_free_func* free_func))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> getPathInfoPath: path info: info [
 	"/**
 	 * Get information about a filesystem path.
@@ -8242,7 +9977,7 @@ LibSDL3 >> getPathInfoPath: path info: info [
 	^ self ffiCall: #(bool SDL_GetPathInfo(const char* path, SDL_PathInfo* info))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pen' }
 LibSDL3 >> getPenDeviceType: instance_id [
 	"/**
 	 * Get the device type of the given pen.
@@ -8262,7 +9997,7 @@ LibSDL3 >> getPenDeviceType: instance_id [
 	^ self ffiCall: #(SDL_PenDeviceType SDL_GetPenDeviceType(SDL_PenID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> getPerformanceCounter [
 	"/**
 	 * Get the current value of the high resolution counter.
@@ -8285,7 +10020,7 @@ LibSDL3 >> getPerformanceCounter [
 	^ self ffiCall: #(Uint64 SDL_GetPerformanceCounter())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> getPerformanceFrequency [
 	"/**
 	 * Get the count per second of the high resolution counter.
@@ -8302,7 +10037,7 @@ LibSDL3 >> getPerformanceFrequency [
 	^ self ffiCall: #(Uint64 SDL_GetPerformanceFrequency())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> getPixelFormatDetails: format [
 	"/**
 	 * Create an SDL_PixelFormatDetails structure corresponding to a pixel format.
@@ -8323,8 +10058,8 @@ LibSDL3 >> getPixelFormatDetails: format [
 	^ self ffiCall: #(SDL_PixelFormatDetails* SDL_GetPixelFormatDetails(SDL_PixelFormat format))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getPixelFormatForMasksBpp: bpp Rmask: Rmask Gmask: Gmask Bmask: Bmask Amask: Amask [
+{ #category : 'public - SDL_pixels' }
+LibSDL3 >> getPixelFormatForMasksBpp: bpp rmask: Rmask gmask: Gmask bmask: Bmask amask: Amask [
 	"/**
 	 * Convert a bpp value and RGBA masks to an enumerated pixel format.
 	 *
@@ -8349,7 +10084,7 @@ LibSDL3 >> getPixelFormatForMasksBpp: bpp Rmask: Rmask Gmask: Gmask Bmask: Bmask
 	^ self ffiCall: #(SDL_PixelFormat SDL_GetPixelFormatForMasks(int bpp, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> getPixelFormatFromGPUTextureFormat: format [
 	"/**
 	 * Get the SDL pixel format corresponding to a GPU texture format.
@@ -8364,7 +10099,7 @@ LibSDL3 >> getPixelFormatFromGPUTextureFormat: format [
 	^ self ffiCall: #(SDL_PixelFormat SDL_GetPixelFormatFromGPUTextureFormat(SDL_GPUTextureFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> getPixelFormatName: format [
 	"/**
 	 * Get the human readable name of a pixel format.
@@ -8381,7 +10116,7 @@ LibSDL3 >> getPixelFormatName: format [
 	^ self ffiCall: #(const char* SDL_GetPixelFormatName(SDL_PixelFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_platform' }
 LibSDL3 >> getPlatform [
 	"/**
 	 * Get the name of the platform.
@@ -8403,7 +10138,7 @@ LibSDL3 >> getPlatform [
 	^ self ffiCall: #(const char* SDL_GetPlatform())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> getPointerPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a pointer property from a group of properties.
@@ -8440,7 +10175,7 @@ LibSDL3 >> getPointerPropertyProps: props name: name defaultValue: default_value
 	^ self ffiCall: #(void* SDL_GetPointerProperty(SDL_PropertiesID props, const char* name, void* default_value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_power' }
 LibSDL3 >> getPowerInfoSeconds: seconds percent: percent [
 	"/**
 	 * Get the current power supply details.
@@ -8478,7 +10213,7 @@ LibSDL3 >> getPowerInfoSeconds: seconds percent: percent [
 	^ self ffiCall: #(SDL_PowerState SDL_GetPowerInfo(int* seconds, int* percent))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> getPrefPathOrg: org app: app [
 	"/**
 	 * Get the user-and-app-specific path where files can be written.
@@ -8542,10 +10277,10 @@ LibSDL3 >> getPrefPathOrg: org app: app [
 	 * \sa SDL_GetBasePath
 	 */"
 
-	^ self ffiCall: #(char* SDL_GetPrefPath(const char* org, const char* app))
+	^ self ffiCall: #(void* SDL_GetPrefPath(const char* org, const char* app))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_locale' }
 LibSDL3 >> getPreferredLocales: count [
 	"/**
 	 * Report the user's preferred locale.
@@ -8592,7 +10327,7 @@ LibSDL3 >> getPreferredLocales: count [
 	^ self ffiCall: #(SDL_Locale** SDL_GetPreferredLocales(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getPrimaryDisplay [
 	"/**
 	 * Return the primary display.
@@ -8610,7 +10345,7 @@ LibSDL3 >> getPrimaryDisplay [
 	^ self ffiCall: #(SDL_DisplayID SDL_GetPrimaryDisplay())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> getPrimarySelectionText [
 	"/**
 	 * Get UTF-8 text from the primary selection.
@@ -8630,10 +10365,103 @@ LibSDL3 >> getPrimarySelectionText [
 	 * \sa SDL_SetPrimarySelectionText
 	 */"
 
-	^ self ffiCall: #(char* SDL_GetPrimarySelectionText())
+	^ self ffiCall: #(void* SDL_GetPrimarySelectionText())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_process' }
+LibSDL3 >> getProcessInput: process [
+	"/**
+	 * Get the SDL_IOStream associated with process standard input.
+	 *
+	 * The process must have been created with SDL_CreateProcess() and pipe_stdio
+	 * set to true, or with SDL_CreateProcessWithProperties() and
+	 * `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` set to `SDL_PROCESS_STDIO_APP`.
+	 *
+	 * Writing to this stream can return less data than expected if the process
+	 * hasn't read its input. It may be blocked waiting for its output to be read,
+	 * if so you may need to call SDL_GetProcessOutput() and read the output in
+	 * parallel with writing input.
+	 *
+	 * \param process The process to get the input stream for.
+	 * \returns the input stream or NULL on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_GetProcessOutput
+	 */"
+
+	^ self ffiCall: #(SDL_IOStream* SDL_GetProcessInput(SDL_Process* process))
+]
+
+{ #category : 'public - SDL_process' }
+LibSDL3 >> getProcessOutput: process [
+	"/**
+	 * Get the SDL_IOStream associated with process standard output.
+	 *
+	 * The process must have been created with SDL_CreateProcess() and pipe_stdio
+	 * set to true, or with SDL_CreateProcessWithProperties() and
+	 * `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` set to `SDL_PROCESS_STDIO_APP`.
+	 *
+	 * Reading from this stream can return 0 with SDL_GetIOStatus() returning
+	 * SDL_IO_STATUS_NOT_READY if no output is available yet.
+	 *
+	 * \param process The process to get the output stream for.
+	 * \returns the output stream or NULL on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_GetProcessInput
+	 */"
+
+	^ self ffiCall: #(SDL_IOStream* SDL_GetProcessOutput(SDL_Process* process))
+]
+
+{ #category : 'public - SDL_process' }
+LibSDL3 >> getProcessProperties: process [
+	"/**
+	 * Get the properties associated with a process.
+	 *
+	 * The following read-only properties are provided by SDL:
+	 *
+	 * - `SDL_PROP_PROCESS_PID_NUMBER`: the process ID of the process.
+	 * - `SDL_PROP_PROCESS_STDIN_POINTER`: an SDL_IOStream that can be used to
+	 *   write input to the process, if it was created with
+	 *   `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` set to `SDL_PROCESS_STDIO_APP`.
+	 * - `SDL_PROP_PROCESS_STDOUT_POINTER`: a non-blocking SDL_IOStream that can
+	 *   be used to read output from the process, if it was created with
+	 *   `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` set to `SDL_PROCESS_STDIO_APP`.
+	 * - `SDL_PROP_PROCESS_STDERR_POINTER`: a non-blocking SDL_IOStream that can
+	 *   be used to read error output from the process, if it was created with
+	 *   `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER` set to `SDL_PROCESS_STDIO_APP`.
+	 * - `SDL_PROP_PROCESS_BACKGROUND_BOOLEAN`: true if the process is running in
+	 *   the background.
+	 *
+	 * \param process the process to query.
+	 * \returns a valid property ID on success or 0 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_CreateProcessWithProperties
+	 */"
+
+	^ self ffiCall: #(SDL_PropertiesID SDL_GetProcessProperties(SDL_Process* process))
+]
+
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> getPropertyTypeProps: props name: name [
 	"/**
 	 * Get the type of a property in a group of properties.
@@ -8653,7 +10481,7 @@ LibSDL3 >> getPropertyTypeProps: props name: name [
 	^ self ffiCall: #(SDL_PropertyType SDL_GetPropertyType(SDL_PropertiesID props, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> getRGBAPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b a: a [
 	"/**
 	 * Get RGBA values from a pixel in the specified format.
@@ -8689,7 +10517,7 @@ LibSDL3 >> getRGBAPixelvalue: pixelvalue format: format palette: palette r: r g:
 	self ffiCall: #(void SDL_GetRGBA(Uint32 pixelvalue, SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8* r, Uint8* g, Uint8* b, Uint8* a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> getRGBPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b [
 	"/**
 	 * Get RGB values from a pixel in the specified format.
@@ -8721,8 +10549,49 @@ LibSDL3 >> getRGBPixelvalue: pixelvalue format: format palette: palette r: r g: 
 	self ffiCall: #(void SDL_GetRGB(Uint32 pixelvalue, SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8* r, Uint8* g, Uint8* b))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getRectAndLineIntersectionFloatRect: rect X1: X1 Y1: Y1 X2: X2 Y2: Y2 [
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getRealGamepadType: gamepad [
+	"/**
+	 * Get the type of an opened gamepad, ignoring any mapping override.
+	 *
+	 * \param gamepad the gamepad object to query.
+	 * \returns the gamepad type, or SDL_GAMEPAD_TYPE_UNKNOWN if it's not
+	 *          available.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetRealGamepadTypeForID
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadType SDL_GetRealGamepadType(SDL_Gamepad* gamepad))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> getRealGamepadTypeForID: instance_id [
+	"/**
+	 * Get the type of a gamepad, ignoring any mapping override.
+	 *
+	 * This can be called before any gamepads are opened.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns the gamepad type.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadTypeForID
+	 * \sa SDL_GetGamepads
+	 * \sa SDL_GetRealGamepadType
+	 */"
+
+	^ self ffiCall: #(SDL_GamepadType SDL_GetRealGamepadTypeForID(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> getRectAndLineIntersectionFloatRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2 [
 	"/**
 	 * Calculate the intersection of a rectangle and line segment with float
 	 * precision.
@@ -8746,8 +10615,8 @@ LibSDL3 >> getRectAndLineIntersectionFloatRect: rect X1: X1 Y1: Y1 X2: X2 Y2: Y2
 	^ self ffiCall: #(bool SDL_GetRectAndLineIntersectionFloat(SDL_FRect* rect, float* X1, float* Y1, float* X2, float* Y2))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getRectAndLineIntersectionRect: rect X1: X1 Y1: Y1 X2: X2 Y2: Y2 [
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> getRectAndLineIntersectionRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2 [
 	"/**
 	 * Calculate the intersection of a rectangle and line segment.
 	 *
@@ -8770,7 +10639,7 @@ LibSDL3 >> getRectAndLineIntersectionRect: rect X1: X1 Y1: Y1 X2: X2 Y2: Y2 [
 	^ self ffiCall: #(bool SDL_GetRectAndLineIntersection(SDL_Rect* rect, int* X1, int* Y1, int* X2, int* Y2))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> getRectEnclosingPoints: points count: count clip: clip result: result [
 	"/**
 	 * Calculate a minimal rectangle enclosing a set of points.
@@ -8793,7 +10662,7 @@ LibSDL3 >> getRectEnclosingPoints: points count: count clip: clip result: result
 	^ self ffiCall: #(bool SDL_GetRectEnclosingPoints(SDL_Point* points, int count, SDL_Rect* clip, SDL_Rect* result))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> getRectEnclosingPointsFloatPoints: points count: count clip: clip result: result [
 	"/**
 	 * Calculate a minimal rectangle enclosing a set of points with float
@@ -8817,8 +10686,8 @@ LibSDL3 >> getRectEnclosingPointsFloatPoints: points count: count clip: clip res
 	^ self ffiCall: #(bool SDL_GetRectEnclosingPointsFloat(SDL_FPoint* points, int count, SDL_FRect* clip, SDL_FRect* result))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getRectIntersectionA: A B: B result: result [
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> getRectIntersectionA: A b: B result: result [
 	"/**
 	 * Calculate the intersection of two rectangles.
 	 *
@@ -8838,8 +10707,8 @@ LibSDL3 >> getRectIntersectionA: A B: B result: result [
 	^ self ffiCall: #(bool SDL_GetRectIntersection(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getRectIntersectionFloatA: A B: B result: result [
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> getRectIntersectionFloatA: A b: B result: result [
 	"/**
 	 * Calculate the intersection of two rectangles with float precision.
 	 *
@@ -8859,8 +10728,8 @@ LibSDL3 >> getRectIntersectionFloatA: A B: B result: result [
 	^ self ffiCall: #(bool SDL_GetRectIntersectionFloat(SDL_FRect* A, SDL_FRect* B, SDL_FRect* result))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getRectUnionA: A B: B result: result [
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> getRectUnionA: A b: B result: result [
 	"/**
 	 * Calculate the union of two rectangles.
 	 *
@@ -8877,8 +10746,8 @@ LibSDL3 >> getRectUnionA: A B: B result: result [
 	^ self ffiCall: #(bool SDL_GetRectUnion(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> getRectUnionFloatA: A B: B result: result [
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> getRectUnionFloatA: A b: B result: result [
 	"/**
 	 * Calculate the union of two rectangles with float precision.
 	 *
@@ -8895,7 +10764,7 @@ LibSDL3 >> getRectUnionFloatA: A B: B result: result [
 	^ self ffiCall: #(bool SDL_GetRectUnionFloat(SDL_FRect* A, SDL_FRect* B, SDL_FRect* result))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getRelativeMouseStateX: x y: y [
 	"/**
 	 * Query SDL's cache for the synchronous mouse button state and accumulated
@@ -8934,7 +10803,7 @@ LibSDL3 >> getRelativeMouseStateX: x y: y [
 	^ self ffiCall: #(SDL_MouseButtonFlags SDL_GetRelativeMouseState(float* x, float* y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderClipRectRenderer: renderer rect: rect [
 	"/**
 	 * Get the clip rectangle for the current target.
@@ -8959,7 +10828,7 @@ LibSDL3 >> getRenderClipRectRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_GetRenderClipRect(SDL_Renderer* renderer, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderColorScaleRenderer: renderer scale: scale [
 	"/**
 	 * Get the color scale used for render operations.
@@ -8979,7 +10848,7 @@ LibSDL3 >> getRenderColorScaleRenderer: renderer scale: scale [
 	^ self ffiCall: #(bool SDL_GetRenderColorScale(SDL_Renderer* renderer, float* scale))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 	"/**
 	 * Get the blend mode used for drawing operations.
@@ -8999,7 +10868,7 @@ LibSDL3 >> getRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 	^ self ffiCall: #(bool SDL_GetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode* blendMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Get the color used for drawing operations (Rect, Line and Clear).
@@ -9027,7 +10896,7 @@ LibSDL3 >> getRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_GetRenderDrawColorFloat(SDL_Renderer* renderer, float* r, float* g, float* b, float* a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Get the color used for drawing operations (Rect, Line and Clear).
@@ -9055,7 +10924,7 @@ LibSDL3 >> getRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_GetRenderDrawColor(SDL_Renderer* renderer, Uint8* r, Uint8* g, Uint8* b, Uint8* a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderDriver: index [
 	"/**
 	 * Use this function to get the name of a built in 2D rendering driver.
@@ -9083,7 +10952,7 @@ LibSDL3 >> getRenderDriver: index [
 	^ self ffiCall: #(const char* SDL_GetRenderDriver(int index))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderLogicalPresentationRectRenderer: renderer rect: rect [
 	"/**
 	 * Get the final presentation rectangle for rendering.
@@ -9112,7 +10981,7 @@ LibSDL3 >> getRenderLogicalPresentationRectRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_GetRenderLogicalPresentationRect(SDL_Renderer* renderer, SDL_FRect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	"/**
 	 * Get device independent resolution and presentation mode for rendering.
@@ -9141,7 +11010,7 @@ LibSDL3 >> getRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	^ self ffiCall: #(bool SDL_GetRenderLogicalPresentation(SDL_Renderer* renderer, int* w, int* h, SDL_RendererLogicalPresentation mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderMetalCommandEncoder: renderer [
 	"/**
 	 * Get the Metal command encoder for the current frame.
@@ -9168,7 +11037,7 @@ LibSDL3 >> getRenderMetalCommandEncoder: renderer [
 	^ self ffiCall: #(void* SDL_GetRenderMetalCommandEncoder(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderMetalLayer: renderer [
 	"/**
 	 * Get the CAMetalLayer associated with the given Metal renderer.
@@ -9190,7 +11059,7 @@ LibSDL3 >> getRenderMetalLayer: renderer [
 	^ self ffiCall: #(void* SDL_GetRenderMetalLayer(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderOutputSizeRenderer: renderer w: w h: h [
 	"/**
 	 * Get the output size in pixels of a rendering context.
@@ -9217,7 +11086,7 @@ LibSDL3 >> getRenderOutputSizeRenderer: renderer w: w h: h [
 	^ self ffiCall: #(bool SDL_GetRenderOutputSize(SDL_Renderer* renderer, int* w, int* h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderSafeAreaRenderer: renderer rect: rect [
 	"/**
 	 * Get the safe area for rendering within the current viewport.
@@ -9243,7 +11112,7 @@ LibSDL3 >> getRenderSafeAreaRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_GetRenderSafeArea(SDL_Renderer* renderer, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 	"/**
 	 * Get the drawing scale for the current target.
@@ -9267,7 +11136,7 @@ LibSDL3 >> getRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 	^ self ffiCall: #(bool SDL_GetRenderScale(SDL_Renderer* renderer, float* scaleX, float* scaleY))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderTarget: renderer [
 	"/**
 	 * Get the current render target.
@@ -9288,7 +11157,7 @@ LibSDL3 >> getRenderTarget: renderer [
 	^ self ffiCall: #(SDL_Texture* SDL_GetRenderTarget(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
 	"/**
 	 * Get the texture addressing mode used in SDL_RenderGeometry().
@@ -9311,7 +11180,7 @@ LibSDL3 >> getRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_
 	^ self ffiCall: #(bool SDL_GetRenderTextureAddressMode(SDL_Renderer* renderer, SDL_TextureAddressMode u_mode, SDL_TextureAddressMode v_mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderVSyncRenderer: renderer vsync: vsync [
 	"/**
 	 * Get VSync of the given renderer.
@@ -9332,7 +11201,7 @@ LibSDL3 >> getRenderVSyncRenderer: renderer vsync: vsync [
 	^ self ffiCall: #(bool SDL_GetRenderVSync(SDL_Renderer* renderer, int* vsync))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderViewportRenderer: renderer rect: rect [
 	"/**
 	 * Get the drawing area for the current target.
@@ -9356,7 +11225,7 @@ LibSDL3 >> getRenderViewportRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_GetRenderViewport(SDL_Renderer* renderer, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderWindow: renderer [
 	"/**
 	 * Get the window associated with a renderer.
@@ -9373,7 +11242,7 @@ LibSDL3 >> getRenderWindow: renderer [
 	^ self ffiCall: #(SDL_Window* SDL_GetRenderWindow(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRenderer: window [
 	"/**
 	 * Get the renderer associated with a window.
@@ -9390,7 +11259,7 @@ LibSDL3 >> getRenderer: window [
 	^ self ffiCall: #(SDL_Renderer* SDL_GetRenderer(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRendererFromTexture: texture [
 	"/**
 	 * Get the renderer that created an SDL_Texture.
@@ -9407,7 +11276,7 @@ LibSDL3 >> getRendererFromTexture: texture [
 	^ self ffiCall: #(SDL_Renderer* SDL_GetRendererFromTexture(SDL_Texture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRendererName: renderer [
 	"/**
 	 * Get the name of a renderer.
@@ -9427,7 +11296,7 @@ LibSDL3 >> getRendererName: renderer [
 	^ self ffiCall: #(const char* SDL_GetRendererName(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getRendererProperties: renderer [
 	"/**
 	 * Get the properties associated with a renderer.
@@ -9519,7 +11388,7 @@ LibSDL3 >> getRendererProperties: renderer [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetRendererProperties(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_version' }
 LibSDL3 >> getRevision [
 	"/**
 	 * Get the code revision of the SDL library that is linked against your
@@ -9550,7 +11419,7 @@ LibSDL3 >> getRevision [
 	^ self ffiCall: #(const char* SDL_GetRevision())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> getSIMDAlignment [
 	"/**
 	 * Report the alignment this system needs for SIMD allocations.
@@ -9578,7 +11447,7 @@ LibSDL3 >> getSIMDAlignment [
 	^ self ffiCall: #(size_t SDL_GetSIMDAlignment())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> getSandbox [
 	"/**
 	 * Get the application sandbox environment, if any.
@@ -9592,7 +11461,7 @@ LibSDL3 >> getSandbox [
 	^ self ffiCall: #(SDL_Sandbox SDL_GetSandbox())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getScancodeFromKey: key modstate: modstate [
 	"/**
 	 * Get the scancode corresponding to the given key code according to the
@@ -9617,7 +11486,7 @@ LibSDL3 >> getScancodeFromKey: key modstate: modstate [
 	^ self ffiCall: #(SDL_Scancode SDL_GetScancodeFromKey(SDL_Keycode key, SDL_Keymod* modstate))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getScancodeFromName: name [
 	"/**
 	 * Get a scancode from a human-readable name.
@@ -9638,7 +11507,7 @@ LibSDL3 >> getScancodeFromName: name [
 	^ self ffiCall: #(SDL_Scancode SDL_GetScancodeFromName(const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getScancodeName: scancode [
 	"/**
 	 * Get a human-readable name for a scancode.
@@ -9668,7 +11537,7 @@ LibSDL3 >> getScancodeName: scancode [
 	^ self ffiCall: #(const char* SDL_GetScancodeName(SDL_Scancode scancode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> getSemaphoreValue: sem [
 	"/**
 	 * Get the current value of a semaphore.
@@ -9682,7 +11551,7 @@ LibSDL3 >> getSemaphoreValue: sem [
 	^ self ffiCall: #(Uint32 SDL_GetSemaphoreValue(SDL_Semaphore* sem))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorDataSensor: sensor data: data numValues: num_values [
 	"/**
 	 * Get the current state of an opened sensor.
@@ -9701,7 +11570,7 @@ LibSDL3 >> getSensorDataSensor: sensor data: data numValues: num_values [
 	^ self ffiCall: #(bool SDL_GetSensorData(SDL_Sensor* sensor, float* data, int num_values))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorFromID: instance_id [
 	"/**
 	 * Return the SDL_Sensor associated with an instance ID.
@@ -9716,7 +11585,7 @@ LibSDL3 >> getSensorFromID: instance_id [
 	^ self ffiCall: #(SDL_Sensor* SDL_GetSensorFromID(SDL_SensorID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorID: sensor [
 	"/**
 	 * Get the instance ID of a sensor.
@@ -9731,7 +11600,7 @@ LibSDL3 >> getSensorID: sensor [
 	^ self ffiCall: #(SDL_SensorID SDL_GetSensorID(SDL_Sensor* sensor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorName: sensor [
 	"/**
 	 * Get the implementation dependent name of a sensor.
@@ -9746,7 +11615,7 @@ LibSDL3 >> getSensorName: sensor [
 	^ self ffiCall: #(const char* SDL_GetSensorName(SDL_Sensor* sensor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorNameForID: instance_id [
 	"/**
 	 * Get the implementation dependent name of a sensor.
@@ -9762,7 +11631,7 @@ LibSDL3 >> getSensorNameForID: instance_id [
 	^ self ffiCall: #(const char* SDL_GetSensorNameForID(SDL_SensorID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorNonPortableType: sensor [
 	"/**
 	 * Get the platform dependent type of a sensor.
@@ -9776,7 +11645,7 @@ LibSDL3 >> getSensorNonPortableType: sensor [
 	^ self ffiCall: #(int SDL_GetSensorNonPortableType(SDL_Sensor* sensor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorNonPortableTypeForID: instance_id [
 	"/**
 	 * Get the platform dependent type of a sensor.
@@ -9793,7 +11662,7 @@ LibSDL3 >> getSensorNonPortableTypeForID: instance_id [
 	^ self ffiCall: #(int SDL_GetSensorNonPortableTypeForID(SDL_SensorID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorProperties: sensor [
 	"/**
 	 * Get the properties associated with a sensor.
@@ -9808,7 +11677,7 @@ LibSDL3 >> getSensorProperties: sensor [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetSensorProperties(SDL_Sensor* sensor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorType: sensor [
 	"/**
 	 * Get the type of a sensor.
@@ -9823,7 +11692,7 @@ LibSDL3 >> getSensorType: sensor [
 	^ self ffiCall: #(SDL_SensorType SDL_GetSensorType(SDL_Sensor* sensor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensorTypeForID: instance_id [
 	"/**
 	 * Get the type of a sensor.
@@ -9840,7 +11709,7 @@ LibSDL3 >> getSensorTypeForID: instance_id [
 	^ self ffiCall: #(SDL_SensorType SDL_GetSensorTypeForID(SDL_SensorID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> getSensors: count [
 	"/**
 	 * Get a list of currently connected sensors.
@@ -9857,7 +11726,7 @@ LibSDL3 >> getSensors: count [
 	^ self ffiCall: #(SDL_SensorID* SDL_GetSensors(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> getSilenceValueForFormat: format [
 	"/**
 	 * Get the appropriate memset value for silencing an audio format.
@@ -9877,7 +11746,64 @@ LibSDL3 >> getSilenceValueForFormat: format [
 	^ self ffiCall: #(int SDL_GetSilenceValueForFormat(SDL_AudioFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> getStorageFileSizeStorage: storage path: path length: length [
+	"/**
+	 * Query the size of a file within a storage container.
+	 *
+	 * \param storage a storage container to query.
+	 * \param path the relative path of the file to query.
+	 * \param length a pointer to be filled with the file's length.
+	 * \returns true if the file could be queried or false on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_ReadStorageFile
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetStorageFileSize(SDL_Storage* storage, const char* path, Uint64* length))
+]
+
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> getStoragePathInfoStorage: storage path: path info: info [
+	"/**
+	 * Get information about a filesystem path in a storage container.
+	 *
+	 * \param storage a storage container.
+	 * \param path the path to query.
+	 * \param info a pointer filled in with information about the path, or NULL to
+	 *             check for the existence of a file.
+	 * \returns true on success or false if the file doesn't exist, or another
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_GetStoragePathInfo(SDL_Storage* storage, const char* path, SDL_PathInfo* info))
+]
+
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> getStorageSpaceRemaining: storage [
+	"/**
+	 * Queries the remaining space in a storage container.
+	 *
+	 * \param storage a storage container to query.
+	 * \returns the amount of remaining space, in bytes.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 * \sa SDL_WriteStorageFile
+	 */"
+
+	^ self ffiCall: #(Uint64 SDL_GetStorageSpaceRemaining(SDL_Storage* storage))
+]
+
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> getStringPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a string property from a group of properties.
@@ -9905,7 +11831,7 @@ LibSDL3 >> getStringPropertyProps: props name: name defaultValue: default_value 
 	^ self ffiCall: #(const char* SDL_GetStringProperty(SDL_PropertiesID props, const char* name, const char* default_value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceAlphaModSurface: surface alpha: alpha [
 	"/**
 	 * Get the additional alpha value used in blit operations.
@@ -9926,7 +11852,7 @@ LibSDL3 >> getSurfaceAlphaModSurface: surface alpha: alpha [
 	^ self ffiCall: #(bool SDL_GetSurfaceAlphaMod(SDL_Surface* surface, Uint8* alpha))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceBlendModeSurface: surface blendMode: blendMode [
 	"/**
 	 * Get the blend mode used for blit operations.
@@ -9946,7 +11872,7 @@ LibSDL3 >> getSurfaceBlendModeSurface: surface blendMode: blendMode [
 	^ self ffiCall: #(bool SDL_GetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode* blendMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceClipRectSurface: surface rect: rect [
 	"/**
 	 * Get the clipping rectangle for a surface.
@@ -9972,7 +11898,7 @@ LibSDL3 >> getSurfaceClipRectSurface: surface rect: rect [
 	^ self ffiCall: #(bool SDL_GetSurfaceClipRect(SDL_Surface* surface, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceColorKeySurface: surface key: key [
 	"/**
 	 * Get the color key (transparent pixel) for a surface.
@@ -9998,7 +11924,7 @@ LibSDL3 >> getSurfaceColorKeySurface: surface key: key [
 	^ self ffiCall: #(bool SDL_GetSurfaceColorKey(SDL_Surface* surface, Uint32* key))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceColorModSurface: surface r: r g: g b: b [
 	"/**
 	 * Get the additional color value multiplied into blit operations.
@@ -10022,7 +11948,7 @@ LibSDL3 >> getSurfaceColorModSurface: surface r: r g: g b: b [
 	^ self ffiCall: #(bool SDL_GetSurfaceColorMod(SDL_Surface* surface, Uint8* r, Uint8* g, Uint8* b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceColorspace: surface [
 	"/**
 	 * Get the colorspace used by a surface.
@@ -10046,7 +11972,7 @@ LibSDL3 >> getSurfaceColorspace: surface [
 	^ self ffiCall: #(SDL_Colorspace SDL_GetSurfaceColorspace(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceImagesSurface: surface count: count [
 	"/**
 	 * Get an array including all versions of a surface.
@@ -10078,7 +12004,7 @@ LibSDL3 >> getSurfaceImagesSurface: surface count: count [
 	^ self ffiCall: #(SDL_Surface** SDL_GetSurfaceImages(SDL_Surface* surface, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfacePalette: surface [
 	"/**
 	 * Get the palette used by a surface.
@@ -10097,7 +12023,7 @@ LibSDL3 >> getSurfacePalette: surface [
 	^ self ffiCall: #(SDL_Palette* SDL_GetSurfacePalette(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> getSurfaceProperties: surface [
 	"/**
 	 * Get the properties associated with a surface.
@@ -10141,7 +12067,7 @@ LibSDL3 >> getSurfaceProperties: surface [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetSurfaceProperties(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> getSystemPageSize [
 	"/**
 	 * Report the size of a page of memory.
@@ -10166,7 +12092,7 @@ LibSDL3 >> getSystemPageSize [
 	^ self ffiCall: #(int SDL_GetSystemPageSize())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> getSystemRAM [
 	"/**
 	 * Get the amount of RAM configured in the system.
@@ -10181,7 +12107,7 @@ LibSDL3 >> getSystemRAM [
 	^ self ffiCall: #(int SDL_GetSystemRAM())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getSystemTheme [
 	"/**
 	 * Get the current system theme.
@@ -10196,7 +12122,7 @@ LibSDL3 >> getSystemTheme [
 	^ self ffiCall: #(SDL_SystemTheme SDL_GetSystemTheme())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> getTLS: id [
 	"/**
 	 * Get the current thread's value associated with a thread local storage ID.
@@ -10215,7 +12141,7 @@ LibSDL3 >> getTLS: id [
 	^ self ffiCall: #(void* SDL_GetTLS(SDL_TLSID* id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> getTextInputAreaWindow: window rect: rect cursor: cursor [
 	"/**
 	 * Get the area used to type Unicode text input.
@@ -10240,7 +12166,7 @@ LibSDL3 >> getTextInputAreaWindow: window rect: rect cursor: cursor [
 	^ self ffiCall: #(bool SDL_GetTextInputArea(SDL_Window* window, SDL_Rect* rect, int* cursor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureAlphaModFloatTexture: texture alpha: alpha [
 	"/**
 	 * Get the additional alpha value multiplied into render copy operations.
@@ -10262,7 +12188,7 @@ LibSDL3 >> getTextureAlphaModFloatTexture: texture alpha: alpha [
 	^ self ffiCall: #(bool SDL_GetTextureAlphaModFloat(SDL_Texture* texture, float* alpha))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureAlphaModTexture: texture alpha: alpha [
 	"/**
 	 * Get the additional alpha value multiplied into render copy operations.
@@ -10284,7 +12210,7 @@ LibSDL3 >> getTextureAlphaModTexture: texture alpha: alpha [
 	^ self ffiCall: #(bool SDL_GetTextureAlphaMod(SDL_Texture* texture, Uint8* alpha))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureBlendModeTexture: texture blendMode: blendMode [
 	"/**
 	 * Get the blend mode used for texture copy operations.
@@ -10304,7 +12230,7 @@ LibSDL3 >> getTextureBlendModeTexture: texture blendMode: blendMode [
 	^ self ffiCall: #(bool SDL_GetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode* blendMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureColorModFloatTexture: texture r: r g: g b: b [
 	"/**
 	 * Get the additional color value multiplied into render copy operations.
@@ -10328,7 +12254,7 @@ LibSDL3 >> getTextureColorModFloatTexture: texture r: r g: g b: b [
 	^ self ffiCall: #(bool SDL_GetTextureColorModFloat(SDL_Texture* texture, float* r, float* g, float* b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureColorModTexture: texture r: r g: g b: b [
 	"/**
 	 * Get the additional color value multiplied into render copy operations.
@@ -10352,7 +12278,7 @@ LibSDL3 >> getTextureColorModTexture: texture r: r g: g b: b [
 	^ self ffiCall: #(bool SDL_GetTextureColorMod(SDL_Texture* texture, Uint8* r, Uint8* g, Uint8* b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTexturePalette: texture [
 	"/**
 	 * Get the palette used by a texture.
@@ -10371,7 +12297,7 @@ LibSDL3 >> getTexturePalette: texture [
 	^ self ffiCall: #(SDL_Palette* SDL_GetTexturePalette(SDL_Texture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureProperties: texture [
 	"/**
 	 * Get the properties associated with a texture.
@@ -10474,7 +12400,7 @@ LibSDL3 >> getTextureProperties: texture [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetTextureProperties(SDL_Texture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureScaleModeTexture: texture scaleMode: scaleMode [
 	"/**
 	 * Get the scale mode used for texture scale operations.
@@ -10494,7 +12420,7 @@ LibSDL3 >> getTextureScaleModeTexture: texture scaleMode: scaleMode [
 	^ self ffiCall: #(bool SDL_GetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode scaleMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> getTextureSizeTexture: texture w: w h: h [
 	"/**
 	 * Get the size of a texture, as floating point values.
@@ -10515,7 +12441,7 @@ LibSDL3 >> getTextureSizeTexture: texture w: w h: h [
 	^ self ffiCall: #(bool SDL_GetTextureSize(SDL_Texture* texture, float* w, float* h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> getThreadID: thread [
 	"/**
 	 * Get the thread identifier for the specified thread.
@@ -10536,7 +12462,7 @@ LibSDL3 >> getThreadID: thread [
 	^ self ffiCall: #(SDL_ThreadID SDL_GetThreadID(SDL_Thread* thread))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> getThreadName: thread [
 	"/**
 	 * Get the thread name as it was specified in SDL_CreateThread().
@@ -10551,7 +12477,7 @@ LibSDL3 >> getThreadName: thread [
 	^ self ffiCall: #(const char* SDL_GetThreadName(SDL_Thread* thread))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> getThreadState: thread [
 	"/**
 	 * Get the current state of a thread.
@@ -10568,7 +12494,7 @@ LibSDL3 >> getThreadState: thread [
 	^ self ffiCall: #(SDL_ThreadState SDL_GetThreadState(SDL_Thread* thread))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> getTicks [
 	"/**
 	 * Get the number of milliseconds that have elapsed since the SDL library
@@ -10588,7 +12514,7 @@ LibSDL3 >> getTicks [
 	^ self ffiCall: #(Uint64 SDL_GetTicks())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> getTicksNS [
 	"/**
 	 * Get the number of nanoseconds since SDL library initialization.
@@ -10604,7 +12530,7 @@ LibSDL3 >> getTicksNS [
 	^ self ffiCall: #(Uint64 SDL_GetTicksNS())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_touch' }
 LibSDL3 >> getTouchDeviceName: touchID [
 	"/**
 	 * Get the touch device name as reported from the driver.
@@ -10619,7 +12545,7 @@ LibSDL3 >> getTouchDeviceName: touchID [
 	^ self ffiCall: #(const char* SDL_GetTouchDeviceName(SDL_TouchID touchID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_touch' }
 LibSDL3 >> getTouchDeviceType: touchID [
 	"/**
 	 * Get the type of the given touch device.
@@ -10633,7 +12559,7 @@ LibSDL3 >> getTouchDeviceType: touchID [
 	^ self ffiCall: #(SDL_TouchDeviceType SDL_GetTouchDeviceType(SDL_TouchID touchID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_touch' }
 LibSDL3 >> getTouchDevices: count [
 	"/**
 	 * Get a list of registered touch devices.
@@ -10654,7 +12580,7 @@ LibSDL3 >> getTouchDevices: count [
 	^ self ffiCall: #(SDL_TouchID* SDL_GetTouchDevices(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_touch' }
 LibSDL3 >> getTouchFingersTouchID: touchID count: count [
 	"/**
 	 * Get a list of active fingers for a given touch device.
@@ -10673,7 +12599,7 @@ LibSDL3 >> getTouchFingersTouchID: touchID count: count [
 	^ self ffiCall: #(SDL_Finger** SDL_GetTouchFingers(SDL_TouchID touchID, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayEntriesMenu: menu count: count [
 	"/**
 	 * Returns a list of entries in the menu, in order.
@@ -10697,7 +12623,7 @@ LibSDL3 >> getTrayEntriesMenu: menu count: count [
 	^ self ffiCall: #(SDL_TrayEntry* SDL_GetTrayEntries(SDL_TrayMenu* menu, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayEntryChecked: entry [
 	"/**
 	 * Gets whether or not an entry is checked.
@@ -10720,7 +12646,7 @@ LibSDL3 >> getTrayEntryChecked: entry [
 	^ self ffiCall: #(bool SDL_GetTrayEntryChecked(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayEntryEnabled: entry [
 	"/**
 	 * Gets whether or not an entry is enabled.
@@ -10741,7 +12667,7 @@ LibSDL3 >> getTrayEntryEnabled: entry [
 	^ self ffiCall: #(bool SDL_GetTrayEntryEnabled(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayEntryLabel: entry [
 	"/**
 	 * Gets the label of an entry.
@@ -10764,7 +12690,7 @@ LibSDL3 >> getTrayEntryLabel: entry [
 	^ self ffiCall: #(const char* SDL_GetTrayEntryLabel(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayEntryParent: entry [
 	"/**
 	 * Gets the menu containing a certain tray entry.
@@ -10783,7 +12709,7 @@ LibSDL3 >> getTrayEntryParent: entry [
 	^ self ffiCall: #(SDL_TrayMenu* SDL_GetTrayEntryParent(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayMenu: tray [
 	"/**
 	 * Gets a previously created tray menu.
@@ -10811,7 +12737,7 @@ LibSDL3 >> getTrayMenu: tray [
 	^ self ffiCall: #(SDL_TrayMenu* SDL_GetTrayMenu(SDL_Tray* tray))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayMenuParentEntry: menu [
 	"/**
 	 * Gets the entry for which the menu is a submenu, if the current menu is a
@@ -10835,7 +12761,7 @@ LibSDL3 >> getTrayMenuParentEntry: menu [
 	^ self ffiCall: #(SDL_TrayEntry* SDL_GetTrayMenuParentEntry(SDL_TrayMenu* menu))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTrayMenuParentTray: menu [
 	"/**
 	 * Gets the tray for which this menu is the first-level menu, if the current
@@ -10859,7 +12785,7 @@ LibSDL3 >> getTrayMenuParentTray: menu [
 	^ self ffiCall: #(SDL_Tray* SDL_GetTrayMenuParentTray(SDL_TrayMenu* menu))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> getTraySubmenu: entry [
 	"/**
 	 * Gets a previously created tray entry submenu.
@@ -10887,7 +12813,7 @@ LibSDL3 >> getTraySubmenu: entry [
 	^ self ffiCall: #(SDL_TrayMenu* SDL_GetTraySubmenu(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> getUserFolder: folder [
 	"/**
 	 * Finds the most suitable user folder for a specific purpose.
@@ -10918,7 +12844,7 @@ LibSDL3 >> getUserFolder: folder [
 	^ self ffiCall: #(const char* SDL_GetUserFolder(SDL_Folder folder))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_version' }
 LibSDL3 >> getVersion [
 	"/**
 	 * Get the version of SDL that is linked against your program.
@@ -10940,7 +12866,7 @@ LibSDL3 >> getVersion [
 	^ self ffiCall: #(int SDL_GetVersion())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getVideoDriver: index [
 	"/**
 	 * Get the name of a built in video driver.
@@ -10966,7 +12892,7 @@ LibSDL3 >> getVideoDriver: index [
 	^ self ffiCall: #(const char* SDL_GetVideoDriver(int index))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: max_aspect [
 	"/**
 	 * Get the aspect ratio of a window's client area.
@@ -10989,7 +12915,7 @@ LibSDL3 >> getWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: m
 	^ self ffiCall: #(bool SDL_GetWindowAspectRatio(SDL_Window* window, float* min_aspect, float* max_aspect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowBordersSizeWindow: window top: top left: left bottom: bottom right: right [
 	"/**
 	 * Get the size of a window's borders (decorations) around the client area.
@@ -11030,7 +12956,7 @@ LibSDL3 >> getWindowBordersSizeWindow: window top: top left: left bottom: bottom
 	^ self ffiCall: #(bool SDL_GetWindowBordersSize(SDL_Window* window, int* top, int* left, int* bottom, int* right))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowDisplayScale: window [
 	"/**
 	 * Get the content display scale relative to a window's pixel size.
@@ -11058,7 +12984,7 @@ LibSDL3 >> getWindowDisplayScale: window [
 	^ self ffiCall: #(float SDL_GetWindowDisplayScale(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowFlags: window [
 	"/**
 	 * Get the window flags.
@@ -11083,7 +13009,7 @@ LibSDL3 >> getWindowFlags: window [
 	^ self ffiCall: #(SDL_WindowFlags SDL_GetWindowFlags(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> getWindowFromEvent: event [
 	"/**
 	 * Get window associated with an event.
@@ -11103,7 +13029,7 @@ LibSDL3 >> getWindowFromEvent: event [
 	^ self ffiCall: #(SDL_Window* SDL_GetWindowFromEvent(SDL_Event* event))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowFromID: id [
 	"/**
 	 * Get a window from a stored ID.
@@ -11125,7 +13051,7 @@ LibSDL3 >> getWindowFromID: id [
 	^ self ffiCall: #(SDL_Window* SDL_GetWindowFromID(SDL_WindowID id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowFullscreenMode: window [
 	"/**
 	 * Query the display mode to use when a window is visible at fullscreen.
@@ -11145,7 +13071,7 @@ LibSDL3 >> getWindowFullscreenMode: window [
 	^ self ffiCall: #(SDL_DisplayMode* SDL_GetWindowFullscreenMode(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowICCProfileWindow: window size: size [
 	"/**
 	 * Get the raw ICC profile data for the screen the window is currently on.
@@ -11164,7 +13090,7 @@ LibSDL3 >> getWindowICCProfileWindow: window size: size [
 	^ self ffiCall: #(void* SDL_GetWindowICCProfile(SDL_Window* window, size_t* size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowID: window [
 	"/**
 	 * Get the numeric ID of a window.
@@ -11186,7 +13112,7 @@ LibSDL3 >> getWindowID: window [
 	^ self ffiCall: #(SDL_WindowID SDL_GetWindowID(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowKeyboardGrab: window [
 	"/**
 	 * Get a window's keyboard grab mode.
@@ -11204,7 +13130,7 @@ LibSDL3 >> getWindowKeyboardGrab: window [
 	^ self ffiCall: #(bool SDL_GetWindowKeyboardGrab(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowMaximumSizeWindow: window w: w h: h [
 	"/**
 	 * Get the maximum size of a window's client area.
@@ -11228,7 +13154,7 @@ LibSDL3 >> getWindowMaximumSizeWindow: window w: w h: h [
 	^ self ffiCall: #(bool SDL_GetWindowMaximumSize(SDL_Window* window, int* w, int* h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowMinimumSizeWindow: window w: w h: h [
 	"/**
 	 * Get the minimum size of a window's client area.
@@ -11252,7 +13178,7 @@ LibSDL3 >> getWindowMinimumSizeWindow: window w: w h: h [
 	^ self ffiCall: #(bool SDL_GetWindowMinimumSize(SDL_Window* window, int* w, int* h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowMouseGrab: window [
 	"/**
 	 * Get a window's mouse grab mode.
@@ -11273,7 +13199,7 @@ LibSDL3 >> getWindowMouseGrab: window [
 	^ self ffiCall: #(bool SDL_GetWindowMouseGrab(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowMouseRect: window [
 	"/**
 	 * Get the mouse confinement rectangle of a window.
@@ -11294,7 +13220,7 @@ LibSDL3 >> getWindowMouseRect: window [
 	^ self ffiCall: #(SDL_Rect* SDL_GetWindowMouseRect(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowOpacity: window [
 	"/**
 	 * Get the opacity of a window.
@@ -11316,7 +13242,7 @@ LibSDL3 >> getWindowOpacity: window [
 	^ self ffiCall: #(float SDL_GetWindowOpacity(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowParent: window [
 	"/**
 	 * Get parent of a window.
@@ -11335,7 +13261,7 @@ LibSDL3 >> getWindowParent: window [
 	^ self ffiCall: #(SDL_Window* SDL_GetWindowParent(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowPixelDensity: window [
 	"/**
 	 * Get the pixel density of a window.
@@ -11358,7 +13284,7 @@ LibSDL3 >> getWindowPixelDensity: window [
 	^ self ffiCall: #(float SDL_GetWindowPixelDensity(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowPixelFormat: window [
 	"/**
 	 * Get the pixel format associated with the window.
@@ -11376,7 +13302,7 @@ LibSDL3 >> getWindowPixelFormat: window [
 	^ self ffiCall: #(SDL_PixelFormat SDL_GetWindowPixelFormat(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowPositionWindow: window x: x y: y [
 	"/**
 	 * Get the position of a window.
@@ -11405,7 +13331,7 @@ LibSDL3 >> getWindowPositionWindow: window x: x y: y [
 	^ self ffiCall: #(bool SDL_GetWindowPosition(SDL_Window* window, int* x, int* y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowProgressState: window [
 	"/**
 	 * Get the state of the progress bar for the given window’s taskbar icon.
@@ -11422,7 +13348,7 @@ LibSDL3 >> getWindowProgressState: window [
 	^ self ffiCall: #(SDL_ProgressState SDL_GetWindowProgressState(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowProgressValue: window [
 	"/**
 	 * Get the value of the progress bar for the given window’s taskbar icon.
@@ -11439,7 +13365,7 @@ LibSDL3 >> getWindowProgressValue: window [
 	^ self ffiCall: #(float SDL_GetWindowProgressValue(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowProperties: window [
 	"/**
 	 * Get the properties associated with a window.
@@ -11572,7 +13498,7 @@ LibSDL3 >> getWindowProperties: window [
 	^ self ffiCall: #(SDL_PropertiesID SDL_GetWindowProperties(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> getWindowRelativeMouseMode: window [
 	"/**
 	 * Query whether relative mouse mode is enabled for a window.
@@ -11590,7 +13516,7 @@ LibSDL3 >> getWindowRelativeMouseMode: window [
 	^ self ffiCall: #(bool SDL_GetWindowRelativeMouseMode(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowSafeAreaWindow: window rect: rect [
 	"/**
 	 * Get the safe area for this window.
@@ -11616,7 +13542,7 @@ LibSDL3 >> getWindowSafeAreaWindow: window rect: rect [
 	^ self ffiCall: #(bool SDL_GetWindowSafeArea(SDL_Window* window, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowSizeInPixelsWindow: window w: w h: h [
 	"/**
 	 * Get the size of a window's client area, in pixels.
@@ -11640,7 +13566,7 @@ LibSDL3 >> getWindowSizeInPixelsWindow: window w: w h: h [
 	^ self ffiCall: #(bool SDL_GetWindowSizeInPixels(SDL_Window* window, int* w, int* h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowSizeWindow: window w: w h: h [
 	"/**
 	 * Get the size of a window's client area.
@@ -11668,7 +13594,7 @@ LibSDL3 >> getWindowSizeWindow: window w: w h: h [
 	^ self ffiCall: #(bool SDL_GetWindowSize(SDL_Window* window, int* w, int* h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowSurface: window [
 	"/**
 	 * Get the SDL surface associated with the window.
@@ -11701,7 +13627,7 @@ LibSDL3 >> getWindowSurface: window [
 	^ self ffiCall: #(SDL_Surface* SDL_GetWindowSurface(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowSurfaceVSyncWindow: window vsync: vsync [
 	"/**
 	 * Get VSync for the window surface.
@@ -11722,7 +13648,7 @@ LibSDL3 >> getWindowSurfaceVSyncWindow: window vsync: vsync [
 	^ self ffiCall: #(bool SDL_GetWindowSurfaceVSync(SDL_Window* window, int* vsync))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindowTitle: window [
 	"/**
 	 * Get the title of a window.
@@ -11741,7 +13667,7 @@ LibSDL3 >> getWindowTitle: window [
 	^ self ffiCall: #(const char* SDL_GetWindowTitle(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> getWindows: count [
 	"/**
 	 * Get a list of valid windows.
@@ -11761,7 +13687,7 @@ LibSDL3 >> getWindows: count [
 	^ self ffiCall: #(SDL_Window* SDL_GetWindows(int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getenv: name [
 	"/**
 	 * Get the value of a variable in the environment.
@@ -11780,7 +13706,7 @@ LibSDL3 >> getenv: name [
 	^ self ffiCall: #(const char* SDL_getenv(const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> getenvUnsafe: name [
 	"/**
 	 * Get the value of a variable in the environment.
@@ -11803,7 +13729,7 @@ LibSDL3 >> getenvUnsafe: name [
 	^ self ffiCall: #(const char* SDL_getenv_unsafe(const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glCreateContext: window [
 	"/**
 	 * Create an OpenGL context for an OpenGL window, and make it current.
@@ -11837,7 +13763,7 @@ LibSDL3 >> glCreateContext: window [
 	^ self ffiCall: #(SDL_GLContext SDL_GL_CreateContext(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glDestroyContext: context [
 	"/**
 	 * Delete an OpenGL context.
@@ -11856,7 +13782,7 @@ LibSDL3 >> glDestroyContext: context [
 	^ self ffiCall: #(bool SDL_GL_DestroyContext(SDL_GLContext context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glExtensionSupported: extension [
 	"/**
 	 * Check if an OpenGL extension is supported for the current context.
@@ -11883,7 +13809,7 @@ LibSDL3 >> glExtensionSupported: extension [
 	^ self ffiCall: #(bool SDL_GL_ExtensionSupported(const char* extension))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glGetAttributeAttr: attr value: value [
 	"/**
 	 * Get the actual value for an attribute from the current context.
@@ -11905,7 +13831,7 @@ LibSDL3 >> glGetAttributeAttr: attr value: value [
 	^ self ffiCall: #(bool SDL_GL_GetAttribute(SDL_GLAttr attr, int* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glGetCurrentContext [
 	"/**
 	 * Get the currently active OpenGL context.
@@ -11923,7 +13849,7 @@ LibSDL3 >> glGetCurrentContext [
 	^ self ffiCall: #(SDL_GLContext SDL_GL_GetCurrentContext())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glGetCurrentWindow [
 	"/**
 	 * Get the currently active OpenGL window.
@@ -11939,7 +13865,7 @@ LibSDL3 >> glGetCurrentWindow [
 	^ self ffiCall: #(SDL_Window* SDL_GL_GetCurrentWindow())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glGetProcAddress: proc [
 	"/**
 	 * Get an OpenGL function by name.
@@ -11998,7 +13924,7 @@ LibSDL3 >> glGetProcAddress: proc [
 	^ self ffiCall: #(SDL_FunctionPointer SDL_GL_GetProcAddress(const char* proc))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glGetSwapInterval: interval [
 	"/**
 	 * Get the swap interval for the current OpenGL context.
@@ -12023,7 +13949,7 @@ LibSDL3 >> glGetSwapInterval: interval [
 	^ self ffiCall: #(bool SDL_GL_GetSwapInterval(int* interval))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glLoadLibrary: path [
 	"/**
 	 * Dynamically load an OpenGL library.
@@ -12051,7 +13977,7 @@ LibSDL3 >> glLoadLibrary: path [
 	^ self ffiCall: #(bool SDL_GL_LoadLibrary(const char* path))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glMakeCurrentWindow: window context: context [
 	"/**
 	 * Set up an OpenGL context for rendering into an OpenGL window.
@@ -12073,7 +13999,7 @@ LibSDL3 >> glMakeCurrentWindow: window context: context [
 	^ self ffiCall: #(bool SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glResetAttributes [
 	"/**
 	 * Reset all previously set OpenGL context attributes to their default values.
@@ -12089,7 +14015,7 @@ LibSDL3 >> glResetAttributes [
 	self ffiCall: #(void SDL_GL_ResetAttributes())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glSetAttributeAttr: attr value: value [
 	"/**
 	 * Set an OpenGL window attribute before window creation.
@@ -12116,7 +14042,7 @@ LibSDL3 >> glSetAttributeAttr: attr value: value [
 	^ self ffiCall: #(bool SDL_GL_SetAttribute(SDL_GLAttr attr, int value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glSetSwapInterval: interval [
 	"/**
 	 * Set the swap interval for the current OpenGL context.
@@ -12151,7 +14077,7 @@ LibSDL3 >> glSetSwapInterval: interval [
 	^ self ffiCall: #(bool SDL_GL_SetSwapInterval(int interval))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glSwapWindow: window [
 	"/**
 	 * Update a window with OpenGL rendering.
@@ -12175,7 +14101,7 @@ LibSDL3 >> glSwapWindow: window [
 	^ self ffiCall: #(bool SDL_GL_SwapWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> glUnloadLibrary [
 	"/**
 	 * Unload the OpenGL library previously loaded by SDL_GL_LoadLibrary().
@@ -12190,7 +14116,7 @@ LibSDL3 >> glUnloadLibrary [
 	self ffiCall: #(void SDL_GL_UnloadLibrary())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> globDirectoryPath: path pattern: pattern flags: flags count: count [
 	"/**
 	 * Enumerate a directory tree, filtered by pattern, and return a list.
@@ -12227,7 +14153,51 @@ LibSDL3 >> globDirectoryPath: path pattern: pattern flags: flags count: count [
 	^ self ffiCall: #(char** SDL_GlobDirectory(const char* path, const char* pattern, SDL_GlobFlags flags, int* count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> globStorageDirectoryStorage: storage path: path pattern: pattern flags: flags count: count [
+	"/**
+	 * Enumerate a directory tree, filtered by pattern, and return a list.
+	 *
+	 * Files are filtered out if they don't match the string in `pattern`, which
+	 * may contain wildcard characters `*` (match everything) and `?` (match one
+	 * character). If pattern is NULL, no filtering is done and all results are
+	 * returned. Subdirectories are permitted, and are specified with a path
+	 * separator of '/'. Wildcard characters `*` and `?` never match a path
+	 * separator.
+	 *
+	 * `flags` may be set to SDL_GLOB_CASEINSENSITIVE to make the pattern matching
+	 * case-insensitive.
+	 *
+	 * The returned array is always NULL-terminated, for your iterating
+	 * convenience, but if `count` is non-NULL, on return it will contain the
+	 * number of items in the array, not counting the NULL terminator.
+	 *
+	 * If `path` is NULL, this is treated as a request to enumerate the root of
+	 * the storage container's tree. An empty string also works for this.
+	 *
+	 * \param storage a storage container.
+	 * \param path the path of the directory to enumerate, or NULL for the root.
+	 * \param pattern the pattern that files in the directory must match. Can be
+	 *                NULL.
+	 * \param flags `SDL_GLOB_*` bitflags that affect this search.
+	 * \param count on return, will be set to the number of items in the returned
+	 *              array. Can be NULL.
+	 * \returns an array of strings on success or NULL on failure; call
+	 *          SDL_GetError() for more information. The caller should pass the
+	 *          returned pointer to SDL_free when done with it. This is a single
+	 *          allocation that should be freed with SDL_free() when it is no
+	 *          longer needed.
+	 *
+	 * \threadsafety It is safe to call this function from any thread, assuming
+	 *               the `storage` object is thread-safe.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(char** SDL_GlobStorageDirectory(SDL_Storage* storage, const char* path, const char* pattern, SDL_GlobFlags flags, int* count))
+]
+
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> gpuSupportsProperties: props [
 	"/**
 	 * Checks for GPU runtime support.
@@ -12243,7 +14213,7 @@ LibSDL3 >> gpuSupportsProperties: props [
 	^ self ffiCall: #(bool SDL_GPUSupportsProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> gpuSupportsShaderFormatsFormatFlags: format_flags name: name [
 	"/**
 	 * Checks for GPU runtime support.
@@ -12262,7 +14232,7 @@ LibSDL3 >> gpuSupportsShaderFormatsFormatFlags: format_flags name: name [
 	^ self ffiCall: #(bool SDL_GPUSupportsShaderFormats(SDL_GPUShaderFormat format_flags, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> gpuTextureFormatTexelBlockSize: format [
 	"/**
 	 * Obtains the texel block size for a texture format.
@@ -12278,7 +14248,7 @@ LibSDL3 >> gpuTextureFormatTexelBlockSize: format [
 	^ self ffiCall: #(Uint32 SDL_GPUTextureFormatTexelBlockSize(SDL_GPUTextureFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> gpuTextureSupportsFormatDevice: device format: format type: type usage: usage [
 	"/**
 	 * Determines whether a texture format is supported for a given type and
@@ -12296,7 +14266,7 @@ LibSDL3 >> gpuTextureSupportsFormatDevice: device format: format type: type usag
 	^ self ffiCall: #(bool SDL_GPUTextureSupportsFormat(SDL_GPUDevice* device, SDL_GPUTextureFormat format, SDL_GPUTextureType type, SDL_GPUTextureUsageFlags usage))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> gpuTextureSupportsSampleCountDevice: device format: format sampleCount: sample_count [
 	"/**
 	 * Determines if a sample count for a texture format is supported.
@@ -12312,7 +14282,7 @@ LibSDL3 >> gpuTextureSupportsSampleCountDevice: device format: format sampleCoun
 	^ self ffiCall: #(bool SDL_GPUTextureSupportsSampleCount(SDL_GPUDevice* device, SDL_GPUTextureFormat format, SDL_GPUSampleCount sample_count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_guid' }
 LibSDL3 >> guidToStringGuid: guid pszGUID: pszGUID cbGUID: cbGUID [
 	"/**
 	 * Get an ASCII string representation for a given SDL_GUID.
@@ -12331,7 +14301,41 @@ LibSDL3 >> guidToStringGuid: guid pszGUID: pszGUID cbGUID: cbGUID [
 	self ffiCall: #(void SDL_GUIDToString(SDL_GUID guid, char* pszGUID, int cbGUID))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> hapticEffectSupportedHaptic: haptic effect: effect [
+	"/**
+	 * Check to see if an effect is supported by a haptic device.
+	 *
+	 * \param haptic the SDL_Haptic device to query.
+	 * \param effect the desired effect to query.
+	 * \returns true if the effect is supported or false if it isn't.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateHapticEffect
+	 * \sa SDL_GetHapticFeatures
+	 */"
+
+	^ self ffiCall: #(bool SDL_HapticEffectSupported(SDL_Haptic* haptic, SDL_HapticEffect* effect))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> hapticRumbleSupported: haptic [
+	"/**
+	 * Check whether rumble is supported on a haptic device.
+	 *
+	 * \param haptic haptic device to check for rumble support.
+	 * \returns true if the effect is supported or false if it isn't.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_InitHapticRumble
+	 */"
+
+	^ self ffiCall: #(bool SDL_HapticRumbleSupported(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasARMSIMD [
 	"/**
 	 * Determine whether the CPU has ARM SIMD (ARMv6) features.
@@ -12352,7 +14356,7 @@ LibSDL3 >> hasARMSIMD [
 	^ self ffiCall: #(bool SDL_HasARMSIMD())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasAVX [
 	"/**
 	 * Determine whether the CPU has AVX features.
@@ -12372,7 +14376,7 @@ LibSDL3 >> hasAVX [
 	^ self ffiCall: #(bool SDL_HasAVX())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasAVX2 [
 	"/**
 	 * Determine whether the CPU has AVX2 features.
@@ -12392,7 +14396,7 @@ LibSDL3 >> hasAVX2 [
 	^ self ffiCall: #(bool SDL_HasAVX2())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasAVX512F [
 	"/**
 	 * Determine whether the CPU has AVX-512F (foundation) features.
@@ -12412,7 +14416,7 @@ LibSDL3 >> hasAVX512F [
 	^ self ffiCall: #(bool SDL_HasAVX512F())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasAltiVec [
 	"/**
 	 * Determine whether the CPU has AltiVec features.
@@ -12430,7 +14434,7 @@ LibSDL3 >> hasAltiVec [
 	^ self ffiCall: #(bool SDL_HasAltiVec())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> hasClipboardData: mime_type [
 	"/**
 	 * Query whether there is data in the clipboard for the provided mime type.
@@ -12450,7 +14454,7 @@ LibSDL3 >> hasClipboardData: mime_type [
 	^ self ffiCall: #(bool SDL_HasClipboardData(const char* mime_type))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> hasClipboardText [
 	"/**
 	 * Query whether the clipboard exists and contains a non-empty text string.
@@ -12468,7 +14472,7 @@ LibSDL3 >> hasClipboardText [
 	^ self ffiCall: #(bool SDL_HasClipboardText())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> hasEvent: type [
 	"/**
 	 * Check for the existence of a certain event type in the event queue.
@@ -12490,7 +14494,7 @@ LibSDL3 >> hasEvent: type [
 	^ self ffiCall: #(bool SDL_HasEvent(Uint32 type))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> hasEventsMinType: minType maxType: maxType [
 	"/**
 	 * Check for the existence of certain event types in the event queue.
@@ -12514,7 +14518,48 @@ LibSDL3 >> hasEventsMinType: minType maxType: maxType [
 	^ self ffiCall: #(bool SDL_HasEvents(Uint32 minType, Uint32 maxType))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_bits' }
+LibSDL3 >> hasExactlyOneBitSet32: x [
+	"/**
+	 * Determine if a unsigned 32-bit value has exactly one bit set.
+	 *
+	 * If there are no bits set (`x` is zero), or more than one bit set, this
+	 * returns false. If any one bit is exclusively set, this returns true.
+	 *
+	 * Note that this is a forced-inline function in a header, and not a public
+	 * API function available in the SDL library (which is to say, the code is
+	 * embedded in the calling program and the linker and dynamic loader will not
+	 * be able to find this function inside SDL itself).
+	 *
+	 * \param x the 32-bit value to examine.
+	 * \returns true if exactly one bit is set in `x`, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_HasExactlyOneBitSet32(Uint32 x))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> hasGamepad [
+	"/**
+	 * Return whether a gamepad is currently connected.
+	 *
+	 * \returns true if a gamepad is connected, false otherwise.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepads
+	 */"
+
+	^ self ffiCall: #(bool SDL_HasGamepad())
+]
+
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> hasJoystick [
 	"/**
 	 * Return whether a joystick is currently connected.
@@ -12531,7 +14576,7 @@ LibSDL3 >> hasJoystick [
 	^ self ffiCall: #(bool SDL_HasJoystick())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> hasKeyboard [
 	"/**
 	 * Return whether a keyboard is currently connected.
@@ -12548,7 +14593,7 @@ LibSDL3 >> hasKeyboard [
 	^ self ffiCall: #(bool SDL_HasKeyboard())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasLASX [
 	"/**
 	 * Determine whether the CPU has LASX (LOONGARCH SIMD) features.
@@ -12566,7 +14611,7 @@ LibSDL3 >> hasLASX [
 	^ self ffiCall: #(bool SDL_HasLASX())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasLSX [
 	"/**
 	 * Determine whether the CPU has LSX (LOONGARCH SIMD) features.
@@ -12584,7 +14629,7 @@ LibSDL3 >> hasLSX [
 	^ self ffiCall: #(bool SDL_HasLSX())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasMMX [
 	"/**
 	 * Determine whether the CPU has MMX features.
@@ -12601,7 +14646,7 @@ LibSDL3 >> hasMMX [
 	^ self ffiCall: #(bool SDL_HasMMX())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> hasMouse [
 	"/**
 	 * Return whether a mouse is currently connected.
@@ -12618,7 +14663,7 @@ LibSDL3 >> hasMouse [
 	^ self ffiCall: #(bool SDL_HasMouse())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasNEON [
 	"/**
 	 * Determine whether the CPU has NEON (ARM SIMD) features.
@@ -12635,7 +14680,7 @@ LibSDL3 >> hasNEON [
 	^ self ffiCall: #(bool SDL_HasNEON())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> hasPrimarySelectionText [
 	"/**
 	 * Query whether the primary selection exists and contains a non-empty text
@@ -12654,7 +14699,7 @@ LibSDL3 >> hasPrimarySelectionText [
 	^ self ffiCall: #(bool SDL_HasPrimarySelectionText())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> hasPropertyProps: props name: name [
 	"/**
 	 * Return whether a property exists in a group of properties.
@@ -12673,8 +14718,8 @@ LibSDL3 >> hasPropertyProps: props name: name [
 	^ self ffiCall: #(bool SDL_HasProperty(SDL_PropertiesID props, const char* name))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> hasRectIntersectionA: A B: B [
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> hasRectIntersectionA: A b: B [
 	"/**
 	 * Determine whether two rectangles intersect.
 	 *
@@ -12694,8 +14739,8 @@ LibSDL3 >> hasRectIntersectionA: A B: B [
 	^ self ffiCall: #(bool SDL_HasRectIntersection(SDL_Rect* A, SDL_Rect* B))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> hasRectIntersectionFloatA: A B: B [
+{ #category : 'public - SDL_rect' }
+LibSDL3 >> hasRectIntersectionFloatA: A b: B [
 	"/**
 	 * Determine whether two rectangles intersect with float precision.
 	 *
@@ -12713,7 +14758,7 @@ LibSDL3 >> hasRectIntersectionFloatA: A B: B [
 	^ self ffiCall: #(bool SDL_HasRectIntersectionFloat(SDL_FRect* A, SDL_FRect* B))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasSSE [
 	"/**
 	 * Determine whether the CPU has SSE features.
@@ -12735,7 +14780,7 @@ LibSDL3 >> hasSSE [
 	^ self ffiCall: #(bool SDL_HasSSE())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasSSE2 [
 	"/**
 	 * Determine whether the CPU has SSE2 features.
@@ -12757,7 +14802,7 @@ LibSDL3 >> hasSSE2 [
 	^ self ffiCall: #(bool SDL_HasSSE2())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasSSE3 [
 	"/**
 	 * Determine whether the CPU has SSE3 features.
@@ -12779,7 +14824,7 @@ LibSDL3 >> hasSSE3 [
 	^ self ffiCall: #(bool SDL_HasSSE3())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasSSE41 [
 	"/**
 	 * Determine whether the CPU has SSE4.1 features.
@@ -12801,7 +14846,7 @@ LibSDL3 >> hasSSE41 [
 	^ self ffiCall: #(bool SDL_HasSSE41())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_cpuinfo' }
 LibSDL3 >> hasSSE42 [
 	"/**
 	 * Determine whether the CPU has SSE4.2 features.
@@ -12823,7 +14868,7 @@ LibSDL3 >> hasSSE42 [
 	^ self ffiCall: #(bool SDL_HasSSE42())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> hasScreenKeyboardSupport [
 	"/**
 	 * Check whether the platform has screen keyboard support.
@@ -12842,7 +14887,503 @@ LibSDL3 >> hasScreenKeyboardSupport [
 	^ self ffiCall: #(bool SDL_HasScreenKeyboardSupport())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidBleScan: active [
+	"/**
+	 * Start or stop a BLE scan on iOS and tvOS to pair Steam Controllers.
+	 *
+	 * \param active true to start the scan, false to stop the scan.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_hid_ble_scan(#bool active))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidClose: dev [
+	"/**
+	 * Close a HID device.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_close(SDL_hid_device* dev))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidDeviceChangeCount [
+	"/**
+	 * Check to see if devices may have been added or removed.
+	 *
+	 * Enumerating the HID devices is an expensive operation, so you can call this
+	 * to see if there have been any system device changes since the last call to
+	 * this function. A change in the counter returned doesn't necessarily mean
+	 * that anything has changed, but you can call SDL_hid_enumerate() to get an
+	 * updated device list.
+	 *
+	 * Calling this function for the first time may cause a thread or other system
+	 * resource to be allocated to track device change notifications.
+	 *
+	 * \returns a change counter that is incremented with each potential device
+	 *          change, or 0 if device change detection isn't available.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_hid_enumerate
+	 */"
+
+	^ self ffiCall: #(Uint32 SDL_hid_device_change_count())
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidEnumerateVendorId: vendor_id productId: product_id [
+	"/**
+	 * Enumerate the HID Devices.
+	 *
+	 * This function returns a linked list of all the HID devices attached to the
+	 * system which match vendor_id and product_id. If `vendor_id` is set to 0
+	 * then any vendor matches. If `product_id` is set to 0 then any product
+	 * matches. If `vendor_id` and `product_id` are both set to 0, then all HID
+	 * devices will be returned.
+	 *
+	 * By default SDL will only enumerate controllers, to reduce risk of hanging
+	 * or crashing on bad drivers, but SDL_HINT_HIDAPI_ENUMERATE_ONLY_CONTROLLERS
+	 * can be set to ""0"" to enumerate all HID devices.
+	 *
+	 * \param vendor_id the Vendor ID (VID) of the types of device to open, or 0
+	 *                  to match any vendor.
+	 * \param product_id the Product ID (PID) of the types of device to open, or 0
+	 *                   to match any product.
+	 * \returns a pointer to a linked list of type SDL_hid_device_info, containing
+	 *          information about the HID devices attached to the system, or NULL
+	 *          in the case of failure. Free this linked list by calling
+	 *          SDL_hid_free_enumeration().
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_hid_device_change_count
+	 */"
+
+	^ self ffiCall: #(SDL_hid_device_info* SDL_hid_enumerate(ushort vendor_id, ushort product_id))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidExit [
+	"/**
+	 * Finalize the HIDAPI library.
+	 *
+	 * This function frees all of the static data associated with HIDAPI. It
+	 * should be called at the end of execution to avoid memory leaks.
+	 *
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_hid_init
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_exit())
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidFreeEnumeration: devs [
+	"/**
+	 * Free an enumeration linked list.
+	 *
+	 * This function frees a linked list created by SDL_hid_enumerate().
+	 *
+	 * \param devs pointer to a list of struct_device returned from
+	 *             SDL_hid_enumerate().
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_hid_free_enumeration(SDL_hid_device_info* devs))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetDeviceInfo: dev [
+	"/**
+	 * Get the device info from a HID device.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \returns a pointer to the SDL_hid_device_info for this hid_device or NULL
+	 *          on failure; call SDL_GetError() for more information. This struct
+	 *          is valid until the device is closed with SDL_hid_close().
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_hid_device_info* SDL_hid_get_device_info(SDL_hid_device* dev))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetFeatureReportDev: dev data: data length: length [
+	"/**
+	 * Get a feature report from a HID device.
+	 *
+	 * Set the first byte of `data` to the Report ID of the report to be read.
+	 * Make sure to allow space for this extra byte in `data`. Upon return, the
+	 * first byte will still contain the Report ID, and the report data will start
+	 * in data[1].
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param data a buffer to put the read data into, including the Report ID.
+	 *             Set the first byte of `data` to the Report ID of the report to
+	 *             be read, or set it to zero if your device does not use numbered
+	 *             reports.
+	 * \param length the number of bytes to read, including an extra byte for the
+	 *               report ID. The buffer can be longer than the actual report.
+	 * \returns the number of bytes read plus one for the report ID (which is
+	 *          still in the first byte), or -1 on on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_get_feature_report(SDL_hid_device* dev, uchar* data, size_t length))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetIndexedStringDev: dev stringIndex: string_index string: string maxlen: maxlen [
+	"/**
+	 * Get a string from a HID device, based on its string index.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param string_index the index of the string to get.
+	 * \param string a wide string buffer to put the data into.
+	 * \param maxlen the length of the buffer in multiples of wchar_t.
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_get_indexed_string(SDL_hid_device* dev, int string_index, wchar_t* string, size_t maxlen))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetInputReportDev: dev data: data length: length [
+	"/**
+	 * Get an input report from a HID device.
+	 *
+	 * Set the first byte of `data` to the Report ID of the report to be read.
+	 * Make sure to allow space for this extra byte in `data`. Upon return, the
+	 * first byte will still contain the Report ID, and the report data will start
+	 * in data[1].
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param data a buffer to put the read data into, including the Report ID.
+	 *             Set the first byte of `data` to the Report ID of the report to
+	 *             be read, or set it to zero if your device does not use numbered
+	 *             reports.
+	 * \param length the number of bytes to read, including an extra byte for the
+	 *               report ID. The buffer can be longer than the actual report.
+	 * \returns the number of bytes read plus one for the report ID (which is
+	 *          still in the first byte), or -1 on on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_get_input_report(SDL_hid_device* dev, uchar* data, size_t length))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetManufacturerStringDev: dev string: string maxlen: maxlen [
+	"/**
+	 * Get The Manufacturer String from a HID device.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param string a wide string buffer to put the data into.
+	 * \param maxlen the length of the buffer in multiples of wchar_t.
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_get_manufacturer_string(SDL_hid_device* dev, wchar_t* string, size_t maxlen))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetProductStringDev: dev string: string maxlen: maxlen [
+	"/**
+	 * Get The Product String from a HID device.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param string a wide string buffer to put the data into.
+	 * \param maxlen the length of the buffer in multiples of wchar_t.
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_get_product_string(SDL_hid_device* dev, wchar_t* string, size_t maxlen))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetProperties: dev [
+	"/**
+	 * Get the properties associated with an SDL_hid_device.
+	 *
+	 * The following read-only properties are provided by SDL:
+	 *
+	 * - `SDL_PROP_HIDAPI_LIBUSB_DEVICE_HANDLE_POINTER`: the libusb_device_handle
+	 *   associated with the device, if it was opened using libusb.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \returns a valid property ID on success or 0 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 */"
+
+	^ self ffiCall: #(SDL_PropertiesID SDL_hid_get_properties(SDL_hid_device* dev))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetReportDescriptorDev: dev buf: buf bufSize: buf_size [
+	"/**
+	 * Get a report descriptor from a HID device.
+	 *
+	 * User has to provide a preallocated buffer where descriptor will be copied
+	 * to. The recommended size for a preallocated buffer is 4096 bytes.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param buf the buffer to copy descriptor into.
+	 * \param buf_size the size of the buffer in bytes.
+	 * \returns the number of bytes actually copied or -1 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_get_report_descriptor(SDL_hid_device* dev, uchar* buf, size_t buf_size))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidGetSerialNumberStringDev: dev string: string maxlen: maxlen [
+	"/**
+	 * Get The Serial Number String from a HID device.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param string a wide string buffer to put the data into.
+	 * \param maxlen the length of the buffer in multiples of wchar_t.
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_get_serial_number_string(SDL_hid_device* dev, wchar_t* string, size_t maxlen))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidInit [
+	"/**
+	 * Initialize the HIDAPI library.
+	 *
+	 * This function initializes the HIDAPI library. Calling it is not strictly
+	 * necessary, as it will be called automatically by SDL_hid_enumerate() and
+	 * any of the SDL_hid_open_*() functions if it is needed. This function should
+	 * be called at the beginning of execution however, if there is a chance of
+	 * HIDAPI handles being opened by different threads simultaneously.
+	 *
+	 * Each call to this function should have a matching call to SDL_hid_exit()
+	 *
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_hid_exit
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_init())
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidOpenPath: path [
+	"/**
+	 * Open a HID device by its path name.
+	 *
+	 * The path name be determined by calling SDL_hid_enumerate(), or a
+	 * platform-specific path name can be used (eg: /dev/hidraw0 on Linux).
+	 *
+	 * \param path the path name of the device to open.
+	 * \returns a pointer to a SDL_hid_device object on success or NULL on
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_hid_device* SDL_hid_open_path(const char* path))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidOpenVendorId: vendor_id productId: product_id serialNumber: serial_number [
+	"/**
+	 * Open a HID device using a Vendor ID (VID), Product ID (PID) and optionally
+	 * a serial number.
+	 *
+	 * If `serial_number` is NULL, the first device with the specified VID and PID
+	 * is opened.
+	 *
+	 * \param vendor_id the Vendor ID (VID) of the device to open.
+	 * \param product_id the Product ID (PID) of the device to open.
+	 * \param serial_number the Serial Number of the device to open (Optionally
+	 *                      NULL).
+	 * \returns a pointer to a SDL_hid_device object on success or NULL on
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(SDL_hid_device* SDL_hid_open(ushort vendor_id, ushort product_id, const wchar_t* serial_number))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidReadDev: dev data: data length: length [
+	"/**
+	 * Read an Input report from a HID device.
+	 *
+	 * Input reports are returned to the host through the INTERRUPT IN endpoint.
+	 * The first byte will contain the Report number if the device uses numbered
+	 * reports.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param data a buffer to put the read data into.
+	 * \param length the number of bytes to read. For devices with multiple
+	 *               reports, make sure to read an extra byte for the report
+	 *               number.
+	 * \returns the actual number of bytes read and -1 on failure; call
+	 *          SDL_GetError() for more information. If no packet was available to
+	 *          be read and the handle is in non-blocking mode, this function
+	 *          returns 0.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_read(SDL_hid_device* dev, uchar* data, size_t length))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidReadTimeoutDev: dev data: data length: length milliseconds: milliseconds [
+	"/**
+	 * Read an Input report from a HID device with timeout.
+	 *
+	 * Input reports are returned to the host through the INTERRUPT IN endpoint.
+	 * The first byte will contain the Report number if the device uses numbered
+	 * reports.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param data a buffer to put the read data into.
+	 * \param length the number of bytes to read. For devices with multiple
+	 *               reports, make sure to read an extra byte for the report
+	 *               number.
+	 * \param milliseconds timeout in milliseconds or -1 for blocking wait.
+	 * \returns the actual number of bytes read and -1 on on failure; call
+	 *          SDL_GetError() for more information. If no packet was available to
+	 *          be read within the timeout period, this function returns 0.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_read_timeout(SDL_hid_device* dev, uchar* data, size_t length, int milliseconds))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidSendFeatureReportDev: dev data: data length: length [
+	"/**
+	 * Send a Feature report to the device.
+	 *
+	 * Feature reports are sent over the Control endpoint as a Set_Report
+	 * transfer. The first byte of `data` must contain the Report ID. For devices
+	 * which only support a single report, this must be set to 0x0. The remaining
+	 * bytes contain the report data. Since the Report ID is mandatory, calls to
+	 * SDL_hid_send_feature_report() will always contain one more byte than the
+	 * report contains. For example, if a hid report is 16 bytes long, 17 bytes
+	 * must be passed to SDL_hid_send_feature_report(): the Report ID (or 0x0, for
+	 * devices which do not use numbered reports), followed by the report data (16
+	 * bytes). In this example, the length passed in would be 17.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param data the data to send, including the report number as the first
+	 *             byte.
+	 * \param length the length in bytes of the data to send, including the report
+	 *               number.
+	 * \returns the actual number of bytes written and -1 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_send_feature_report(SDL_hid_device* dev, const uchar* data, size_t length))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidSetNonblockingDev: dev nonblock: nonblock [
+	"/**
+	 * Set the device handle to be non-blocking.
+	 *
+	 * In non-blocking mode calls to SDL_hid_read() will return immediately with a
+	 * value of 0 if there is no data to be read. In blocking mode, SDL_hid_read()
+	 * will wait (block) until there is data to read before returning.
+	 *
+	 * Nonblocking can be turned on and off at any time.
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param nonblock enable or not the nonblocking reads - 1 to enable
+	 *                 nonblocking - 0 to disable nonblocking.
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_set_nonblocking(SDL_hid_device* dev, int nonblock))
+]
+
+{ #category : 'public - SDL_hidapi' }
+LibSDL3 >> hidWriteDev: dev data: data length: length [
+	"/**
+	 * Write an Output report to a HID device.
+	 *
+	 * The first byte of `data` must contain the Report ID. For devices which only
+	 * support a single report, this must be set to 0x0. The remaining bytes
+	 * contain the report data. Since the Report ID is mandatory, calls to
+	 * SDL_hid_write() will always contain one more byte than the report contains.
+	 * For example, if a hid report is 16 bytes long, 17 bytes must be passed to
+	 * SDL_hid_write(), the Report ID (or 0x0, for devices with a single report),
+	 * followed by the report data (16 bytes). In this example, the length passed
+	 * in would be 17.
+	 *
+	 * SDL_hid_write() will send the data on the first OUT endpoint, if one
+	 * exists. If it does not, it will send the data through the Control Endpoint
+	 * (Endpoint 0).
+	 *
+	 * \param dev a device handle returned from SDL_hid_open().
+	 * \param data the data to send, including the report number as the first
+	 *             byte.
+	 * \param length the length in bytes of the data to send.
+	 * \returns the actual number of bytes written and -1 on on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_hid_write(SDL_hid_device* dev, const uchar* data, size_t length))
+]
+
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> hideCursor [
 	"/**
 	 * Hide the cursor.
@@ -12861,7 +15402,7 @@ LibSDL3 >> hideCursor [
 	^ self ffiCall: #(bool SDL_HideCursor())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> hideWindow: window [
 	"/**
 	 * Hide a window.
@@ -12881,8 +15422,275 @@ LibSDL3 >> hideWindow: window [
 	^ self ffiCall: #(bool SDL_HideWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> iOFromConstMem: mem size: size [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> iconvCd: cd inbuf: inbuf inbytesleft: inbytesleft outbuf: outbuf outbytesleft: outbytesleft [
+	"/**
+	 * This function converts text between encodings, reading from and writing to
+	 * a buffer.
+	 *
+	 * It returns the number of successful conversions on success. On error,
+	 * SDL_ICONV_E2BIG is returned when the output buffer is too small, or
+	 * SDL_ICONV_EILSEQ is returned when an invalid input sequence is encountered,
+	 * or SDL_ICONV_EINVAL is returned when an incomplete input sequence is
+	 * encountered.
+	 *
+	 * On exit:
+	 *
+	 * - inbuf will point to the beginning of the next multibyte sequence. On
+	 *   error, this is the location of the problematic input sequence. On
+	 *   success, this is the end of the input sequence.
+	 * - inbytesleft will be set to the number of bytes left to convert, which
+	 *   will be 0 on success.
+	 * - outbuf will point to the location where to store the next output byte.
+	 * - outbytesleft will be set to the number of bytes left in the output
+	 *   buffer.
+	 *
+	 * \param cd The character set conversion context, created in
+	 *           SDL_iconv_open().
+	 * \param inbuf Address of variable that points to the first character of the
+	 *              input sequence.
+	 * \param inbytesleft The number of bytes in the input buffer.
+	 * \param outbuf Address of variable that points to the output buffer.
+	 * \param outbytesleft The number of bytes in the output buffer.
+	 * \returns the number of conversions on success, or a negative error code.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_iconv_open
+	 * \sa SDL_iconv_close
+	 * \sa SDL_iconv_string
+	 */"
+
+	^ self ffiCall: #(size_t SDL_iconv(SDL_iconv_t cd, const char** inbuf, size_t* inbytesleft, char** outbuf, size_t* outbytesleft))
+]
+
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> iconvClose: cd [
+	"/**
+	 * This function frees a context used for character set conversion.
+	 *
+	 * \param cd The character set conversion handle.
+	 * \returns 0 on success, or -1 on failure.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_iconv
+	 * \sa SDL_iconv_open
+	 * \sa SDL_iconv_string
+	 */"
+
+	^ self ffiCall: #(int SDL_iconv_close(SDL_iconv_t cd))
+]
+
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> iconvOpenTocode: tocode fromcode: fromcode [
+	"/**
+	 * This function allocates a context for the specified character set
+	 * conversion.
+	 *
+	 * \param tocode The target character encoding, must not be NULL.
+	 * \param fromcode The source character encoding, must not be NULL.
+	 * \returns a handle that must be freed with SDL_iconv_close, or
+	 *          SDL_ICONV_ERROR on failure.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_iconv
+	 * \sa SDL_iconv_close
+	 * \sa SDL_iconv_string
+	 */"
+
+	^ self ffiCall: #(SDL_iconv_t SDL_iconv_open(const char* tocode, const char* fromcode))
+]
+
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> iconvStringTocode: tocode fromcode: fromcode inbuf: inbuf inbytesleft: inbytesleft [
+	"/**
+	 * Helper function to convert a string's encoding in one call.
+	 *
+	 * This function converts a buffer or string between encodings in one pass.
+	 *
+	 * The string does not need to be NULL-terminated; this function operates on
+	 * the number of bytes specified in `inbytesleft` whether there is a NULL
+	 * character anywhere in the buffer.
+	 *
+	 * The returned string is owned by the caller, and should be passed to
+	 * SDL_free when no longer needed.
+	 *
+	 * \param tocode the character encoding of the output string. Examples are
+	 *               ""UTF-8"", ""UCS-4"", etc.
+	 * \param fromcode the character encoding of data in `inbuf`.
+	 * \param inbuf the string to convert to a different encoding.
+	 * \param inbytesleft the size of the input string _in bytes_.
+	 * \returns a new string, converted to the new encoding, or NULL on error.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_iconv_open
+	 * \sa SDL_iconv_close
+	 * \sa SDL_iconv
+	 */"
+
+	^ self ffiCall: #(void* SDL_iconv_string(const char* tocode, const char* fromcode, const char* inbuf, size_t inbytesleft))
+]
+
+{ #category : 'public - SDL_init' }
+LibSDL3 >> init: flags [
+	"/**
+	 * Initialize the SDL library.
+	 *
+	 * SDL_Init() simply forwards to calling SDL_InitSubSystem(). Therefore, the
+	 * two may be used interchangeably. Though for readability of your code
+	 * SDL_InitSubSystem() might be preferred.
+	 *
+	 * The file I/O (for example: SDL_IOFromFile) and threading (SDL_CreateThread)
+	 * subsystems are initialized by default. Message boxes
+	 * (SDL_ShowSimpleMessageBox) also attempt to work without initializing the
+	 * video subsystem, in hopes of being useful in showing an error dialog when
+	 * SDL_Init fails. You must specifically initialize other subsystems if you
+	 * use them in your application.
+	 *
+	 * Logging (such as SDL_Log) works without initialization, too.
+	 *
+	 * `flags` may be any of the following OR'd together:
+	 *
+	 * - `SDL_INIT_AUDIO`: audio subsystem; automatically initializes the events
+	 *   subsystem
+	 * - `SDL_INIT_VIDEO`: video subsystem; automatically initializes the events
+	 *   subsystem, should be initialized on the main thread.
+	 * - `SDL_INIT_JOYSTICK`: joystick subsystem; automatically initializes the
+	 *   events subsystem
+	 * - `SDL_INIT_HAPTIC`: haptic (force feedback) subsystem
+	 * - `SDL_INIT_GAMEPAD`: gamepad subsystem; automatically initializes the
+	 *   joystick subsystem
+	 * - `SDL_INIT_EVENTS`: events subsystem
+	 * - `SDL_INIT_SENSOR`: sensor subsystem; automatically initializes the events
+	 *   subsystem
+	 * - `SDL_INIT_CAMERA`: camera subsystem; automatically initializes the events
+	 *   subsystem
+	 *
+	 * Subsystem initialization is ref-counted, you must call SDL_QuitSubSystem()
+	 * for each SDL_InitSubSystem() to correctly shutdown a subsystem manually (or
+	 * call SDL_Quit() to force shutdown). If a subsystem is already loaded then
+	 * this call will increase the ref-count and return.
+	 *
+	 * Consider reporting some basic metadata about your application before
+	 * calling SDL_Init, using either SDL_SetAppMetadata() or
+	 * SDL_SetAppMetadataProperty().
+	 *
+	 * \param flags subsystem initialization flags.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetAppMetadata
+	 * \sa SDL_SetAppMetadataProperty
+	 * \sa SDL_InitSubSystem
+	 * \sa SDL_Quit
+	 * \sa SDL_SetMainReady
+	 * \sa SDL_WasInit
+	 */"
+
+	^ self ffiCall: #(bool SDL_Init(SDL_InitFlags flags))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> initHapticRumble: haptic [
+	"/**
+	 * Initialize a haptic device for simple rumble playback.
+	 *
+	 * \param haptic the haptic device to initialize for simple rumble playback.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_PlayHapticRumble
+	 * \sa SDL_StopHapticRumble
+	 * \sa SDL_HapticRumbleSupported
+	 */"
+
+	^ self ffiCall: #(bool SDL_InitHapticRumble(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_init' }
+LibSDL3 >> initSubSystem: flags [
+	"/**
+	 * Compatibility function to initialize the SDL library.
+	 *
+	 * This function and SDL_Init() are interchangeable.
+	 *
+	 * \param flags any of the flags used by SDL_Init(); see SDL_Init for details.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_Init
+	 * \sa SDL_Quit
+	 * \sa SDL_QuitSubSystem
+	 */"
+
+	^ self ffiCall: #(bool SDL_InitSubSystem(SDL_InitFlags flags))
+]
+
+{ #category : 'public - SDL_gpu' }
+LibSDL3 >> insertGPUDebugLabelCommandBuffer: command_buffer text: text [
+	"/**
+	 * Inserts an arbitrary string label into the command buffer callstream.
+	 *
+	 * Useful for debugging.
+	 *
+	 * On Direct3D 12, using SDL_InsertGPUDebugLabel requires
+	 * WinPixEventRuntime.dll to be in your PATH or in the same directory as your
+	 * executable. See
+	 * [here](https://devblogs.microsoft.com/pix/winpixeventruntime/)
+	 * for instructions on how to obtain it.
+	 *
+	 * \param command_buffer a command buffer.
+	 * \param text a UTF-8 string constant to insert as the label.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_InsertGPUDebugLabel(SDL_GPUCommandBuffer* command_buffer, const char* text))
+]
+
+{ #category : 'public - SDL_tray' }
+LibSDL3 >> insertTrayEntryAtMenu: menu pos: pos label: label flags: flags [
+	"/**
+	 * Insert a tray entry at a given position.
+	 *
+	 * If label is NULL, the entry will be a separator. Many functions won't work
+	 * for an entry that is a separator.
+	 *
+	 * An entry does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param menu the menu to append the entry to.
+	 * \param pos the desired position for the new entry. Entries at or following
+	 *            this place will be moved. If pos is -1, the entry is appended.
+	 * \param label the text to be displayed on the entry, in UTF-8 encoding, or
+	 *              NULL for a separator.
+	 * \param flags a combination of flags, some of which are mandatory.
+	 * \returns the newly created entry, or NULL if pos is out of bounds.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_TrayEntryFlags
+	 * \sa SDL_GetTrayEntries
+	 * \sa SDL_RemoveTrayEntry
+	 * \sa SDL_GetTrayEntryParent
+	 */"
+
+	^ self ffiCall: #(SDL_TrayEntry* SDL_InsertTrayEntryAt(SDL_TrayMenu* menu, int pos, const char* label, SDL_TrayEntryFlags flags))
+]
+
+{ #category : 'public - SDL_iostream' }
+LibSDL3 >> ioFromConstMem: mem size: size [
 	"/**
 	 * Use this function to prepare a read-only memory buffer for use with
 	 * SDL_IOStream.
@@ -12932,8 +15740,8 @@ LibSDL3 >> iOFromConstMem: mem size: size [
 	^ self ffiCall: #(SDL_IOStream* SDL_IOFromConstMem(const void* mem, size_t size))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> iOFromDynamicMem [
+{ #category : 'public - SDL_iostream' }
+LibSDL3 >> ioFromDynamicMem [
 	"/**
 	 * Use this function to create an SDL_IOStream that is backed by dynamically
 	 * allocated memory.
@@ -12966,8 +15774,8 @@ LibSDL3 >> iOFromDynamicMem [
 	^ self ffiCall: #(SDL_IOStream* SDL_IOFromDynamicMem())
 ]
 
-{ #category : 'public' }
-LibSDL3 >> iOFromFile: file mode: mode [
+{ #category : 'public - SDL_iostream' }
+LibSDL3 >> ioFromFile: file mode: mode [
 	"/**
 	 * Use this function to create a new SDL_IOStream structure for reading from
 	 * and/or writing to a named file.
@@ -13058,8 +15866,8 @@ LibSDL3 >> iOFromFile: file mode: mode [
 	^ self ffiCall: #(SDL_IOStream* SDL_IOFromFile(const char* file, const char* mode))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> iOFromMem: mem size: size [
+{ #category : 'public - SDL_iostream' }
+LibSDL3 >> ioFromMem: mem size: size [
 	"/**
 	 * Use this function to prepare a read-write memory buffer for use with
 	 * SDL_IOStream.
@@ -13109,255 +15917,7 @@ LibSDL3 >> iOFromMem: mem size: size [
 	^ self ffiCall: #(SDL_IOStream* SDL_IOFromMem(void* mem, size_t size))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> iconvCd: cd inbuf: inbuf inbytesleft: inbytesleft outbuf: outbuf outbytesleft: outbytesleft [
-	"/**
-	 * This function converts text between encodings, reading from and writing to
-	 * a buffer.
-	 *
-	 * It returns the number of successful conversions on success. On error,
-	 * SDL_ICONV_E2BIG is returned when the output buffer is too small, or
-	 * SDL_ICONV_EILSEQ is returned when an invalid input sequence is encountered,
-	 * or SDL_ICONV_EINVAL is returned when an incomplete input sequence is
-	 * encountered.
-	 *
-	 * On exit:
-	 *
-	 * - inbuf will point to the beginning of the next multibyte sequence. On
-	 *   error, this is the location of the problematic input sequence. On
-	 *   success, this is the end of the input sequence.
-	 * - inbytesleft will be set to the number of bytes left to convert, which
-	 *   will be 0 on success.
-	 * - outbuf will point to the location where to store the next output byte.
-	 * - outbytesleft will be set to the number of bytes left in the output
-	 *   buffer.
-	 *
-	 * \param cd The character set conversion context, created in
-	 *           SDL_iconv_open().
-	 * \param inbuf Address of variable that points to the first character of the
-	 *              input sequence.
-	 * \param inbytesleft The number of bytes in the input buffer.
-	 * \param outbuf Address of variable that points to the output buffer.
-	 * \param outbytesleft The number of bytes in the output buffer.
-	 * \returns the number of conversions on success, or a negative error code.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_iconv_open
-	 * \sa SDL_iconv_close
-	 * \sa SDL_iconv_string
-	 */"
-
-	^ self ffiCall: #(size_t SDL_iconv(SDL_iconv_t cd, const char** inbuf, size_t* inbytesleft, char** outbuf, size_t* outbytesleft))
-]
-
-{ #category : 'public' }
-LibSDL3 >> iconvClose: cd [
-	"/**
-	 * This function frees a context used for character set conversion.
-	 *
-	 * \param cd The character set conversion handle.
-	 * \returns 0 on success, or -1 on failure.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_iconv
-	 * \sa SDL_iconv_open
-	 * \sa SDL_iconv_string
-	 */"
-
-	^ self ffiCall: #(int SDL_iconv_close(SDL_iconv_t cd))
-]
-
-{ #category : 'public' }
-LibSDL3 >> iconvOpenTocode: tocode fromcode: fromcode [
-	"/**
-	 * This function allocates a context for the specified character set
-	 * conversion.
-	 *
-	 * \param tocode The target character encoding, must not be NULL.
-	 * \param fromcode The source character encoding, must not be NULL.
-	 * \returns a handle that must be freed with SDL_iconv_close, or
-	 *          SDL_ICONV_ERROR on failure.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_iconv
-	 * \sa SDL_iconv_close
-	 * \sa SDL_iconv_string
-	 */"
-
-	^ self ffiCall: #(SDL_iconv_t SDL_iconv_open(const char* tocode, const char* fromcode))
-]
-
-{ #category : 'public' }
-LibSDL3 >> iconvStringTocode: tocode fromcode: fromcode inbuf: inbuf inbytesleft: inbytesleft [
-	"/**
-	 * Helper function to convert a string's encoding in one call.
-	 *
-	 * This function converts a buffer or string between encodings in one pass.
-	 *
-	 * The string does not need to be NULL-terminated; this function operates on
-	 * the number of bytes specified in `inbytesleft` whether there is a NULL
-	 * character anywhere in the buffer.
-	 *
-	 * The returned string is owned by the caller, and should be passed to
-	 * SDL_free when no longer needed.
-	 *
-	 * \param tocode the character encoding of the output string. Examples are
-	 *               ""UTF-8"", ""UCS-4"", etc.
-	 * \param fromcode the character encoding of data in `inbuf`.
-	 * \param inbuf the string to convert to a different encoding.
-	 * \param inbytesleft the size of the input string _in bytes_.
-	 * \returns a new string, converted to the new encoding, or NULL on error.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_iconv_open
-	 * \sa SDL_iconv_close
-	 * \sa SDL_iconv
-	 */"
-
-	^ self ffiCall: #(char* SDL_iconv_string(const char* tocode, const char* fromcode, const char* inbuf, size_t inbytesleft))
-]
-
-{ #category : 'public' }
-LibSDL3 >> init: flags [
-	"/**
-	 * Initialize the SDL library.
-	 *
-	 * SDL_Init() simply forwards to calling SDL_InitSubSystem(). Therefore, the
-	 * two may be used interchangeably. Though for readability of your code
-	 * SDL_InitSubSystem() might be preferred.
-	 *
-	 * The file I/O (for example: SDL_IOFromFile) and threading (SDL_CreateThread)
-	 * subsystems are initialized by default. Message boxes
-	 * (SDL_ShowSimpleMessageBox) also attempt to work without initializing the
-	 * video subsystem, in hopes of being useful in showing an error dialog when
-	 * SDL_Init fails. You must specifically initialize other subsystems if you
-	 * use them in your application.
-	 *
-	 * Logging (such as SDL_Log) works without initialization, too.
-	 *
-	 * `flags` may be any of the following OR'd together:
-	 *
-	 * - `SDL_INIT_AUDIO`: audio subsystem; automatically initializes the events
-	 *   subsystem
-	 * - `SDL_INIT_VIDEO`: video subsystem; automatically initializes the events
-	 *   subsystem, should be initialized on the main thread.
-	 * - `SDL_INIT_JOYSTICK`: joystick subsystem; automatically initializes the
-	 *   events subsystem
-	 * - `SDL_INIT_HAPTIC`: haptic (force feedback) subsystem
-	 * - `SDL_INIT_GAMEPAD`: gamepad subsystem; automatically initializes the
-	 *   joystick subsystem
-	 * - `SDL_INIT_EVENTS`: events subsystem
-	 * - `SDL_INIT_SENSOR`: sensor subsystem; automatically initializes the events
-	 *   subsystem
-	 * - `SDL_INIT_CAMERA`: camera subsystem; automatically initializes the events
-	 *   subsystem
-	 *
-	 * Subsystem initialization is ref-counted, you must call SDL_QuitSubSystem()
-	 * for each SDL_InitSubSystem() to correctly shutdown a subsystem manually (or
-	 * call SDL_Quit() to force shutdown). If a subsystem is already loaded then
-	 * this call will increase the ref-count and return.
-	 *
-	 * Consider reporting some basic metadata about your application before
-	 * calling SDL_Init, using either SDL_SetAppMetadata() or
-	 * SDL_SetAppMetadataProperty().
-	 *
-	 * \param flags subsystem initialization flags.
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_SetAppMetadata
-	 * \sa SDL_SetAppMetadataProperty
-	 * \sa SDL_InitSubSystem
-	 * \sa SDL_Quit
-	 * \sa SDL_SetMainReady
-	 * \sa SDL_WasInit
-	 */"
-
-	^ self ffiCall: #(bool SDL_Init(SDL_InitFlags flags))
-]
-
-{ #category : 'public' }
-LibSDL3 >> initSubSystem: flags [
-	"/**
-	 * Compatibility function to initialize the SDL library.
-	 *
-	 * This function and SDL_Init() are interchangeable.
-	 *
-	 * \param flags any of the flags used by SDL_Init(); see SDL_Init for details.
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_Init
-	 * \sa SDL_Quit
-	 * \sa SDL_QuitSubSystem
-	 */"
-
-	^ self ffiCall: #(bool SDL_InitSubSystem(SDL_InitFlags flags))
-]
-
-{ #category : 'public' }
-LibSDL3 >> insertGPUDebugLabelCommandBuffer: command_buffer text: text [
-	"/**
-	 * Inserts an arbitrary string label into the command buffer callstream.
-	 *
-	 * Useful for debugging.
-	 *
-	 * On Direct3D 12, using SDL_InsertGPUDebugLabel requires
-	 * WinPixEventRuntime.dll to be in your PATH or in the same directory as your
-	 * executable. See
-	 * [here](https://devblogs.microsoft.com/pix/winpixeventruntime/)
-	 * for instructions on how to obtain it.
-	 *
-	 * \param command_buffer a command buffer.
-	 * \param text a UTF-8 string constant to insert as the label.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	self ffiCall: #(void SDL_InsertGPUDebugLabel(SDL_GPUCommandBuffer* command_buffer, const char* text))
-]
-
-{ #category : 'public' }
-LibSDL3 >> insertTrayEntryAtMenu: menu pos: pos label: label flags: flags [
-	"/**
-	 * Insert a tray entry at a given position.
-	 *
-	 * If label is NULL, the entry will be a separator. Many functions won't work
-	 * for an entry that is a separator.
-	 *
-	 * An entry does not need to be destroyed; it will be destroyed with the tray.
-	 *
-	 * \param menu the menu to append the entry to.
-	 * \param pos the desired position for the new entry. Entries at or following
-	 *            this place will be moved. If pos is -1, the entry is appended.
-	 * \param label the text to be displayed on the entry, in UTF-8 encoding, or
-	 *              NULL for a separator.
-	 * \param flags a combination of flags, some of which are mandatory.
-	 * \returns the newly created entry, or NULL if pos is out of bounds.
-	 *
-	 * \threadsafety This function should be called on the thread that created the
-	 *               tray.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_TrayEntryFlags
-	 * \sa SDL_GetTrayEntries
-	 * \sa SDL_RemoveTrayEntry
-	 * \sa SDL_GetTrayEntryParent
-	 */"
-
-	^ self ffiCall: #(SDL_TrayEntry* SDL_InsertTrayEntryAt(SDL_TrayMenu* menu, int pos, const char* label, SDL_TrayEntryFlags flags))
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> isAudioDevicePhysical: devid [
 	"/**
 	 * Determine if an audio device is physical (instead of logical).
@@ -13386,7 +15946,7 @@ LibSDL3 >> isAudioDevicePhysical: devid [
 	^ self ffiCall: #(bool SDL_IsAudioDevicePhysical(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> isAudioDevicePlayback: devid [
 	"/**
 	 * Determine if an audio device is a playback device (instead of recording).
@@ -13404,7 +15964,43 @@ LibSDL3 >> isAudioDevicePlayback: devid [
 	^ self ffiCall: #(bool SDL_IsAudioDevicePlayback(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> isGamepad: instance_id [
+	"/**
+	 * Check if the given joystick is supported by the gamepad interface.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns true if the given joystick is supported by the gamepad interface,
+	 *          false if it isn't or it's an invalid index.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetJoysticks
+	 * \sa SDL_OpenGamepad
+	 */"
+
+	^ self ffiCall: #(bool SDL_IsGamepad(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> isJoystickHaptic: joystick [
+	"/**
+	 * Query if a joystick has haptic features.
+	 *
+	 * \param joystick the SDL_Joystick to test for haptic capabilities.
+	 * \returns true if the joystick is haptic or false if it isn't.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_OpenHapticFromJoystick
+	 */"
+
+	^ self ffiCall: #(bool SDL_IsJoystickHaptic(SDL_Joystick* joystick))
+]
+
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> isJoystickVirtual: instance_id [
 	"/**
 	 * Query whether or not a joystick is virtual.
@@ -13420,7 +16016,7 @@ LibSDL3 >> isJoystickVirtual: instance_id [
 	^ self ffiCall: #(bool SDL_IsJoystickVirtual(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_init' }
 LibSDL3 >> isMainThread [
 	"/**
 	 * Return whether this is the main thread.
@@ -13444,7 +16040,22 @@ LibSDL3 >> isMainThread [
 	^ self ffiCall: #(bool SDL_IsMainThread())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> isMouseHaptic [
+	"/**
+	 * Query whether or not the current mouse has haptic capabilities.
+	 *
+	 * \returns true if the mouse is haptic or false if it isn't.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_OpenHapticFromMouse
+	 */"
+
+	^ self ffiCall: #(bool SDL_IsMouseHaptic())
+]
+
+{ #category : 'public - SDL_system' }
 LibSDL3 >> isTV [
 	"/**
 	 * Query if the current device is a TV.
@@ -13459,7 +16070,7 @@ LibSDL3 >> isTV [
 	^ self ffiCall: #(bool SDL_IsTV())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> isTablet [
 	"/**
 	 * Query if the current device is a tablet.
@@ -13474,7 +16085,7 @@ LibSDL3 >> isTablet [
 	^ self ffiCall: #(bool SDL_IsTablet())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isalnum: x [
 	"/**
 	 * Query if a character is alphabetic (a letter) or a number.
@@ -13493,7 +16104,7 @@ LibSDL3 >> isalnum: x [
 	^ self ffiCall: #(int SDL_isalnum(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isalpha: x [
 	"/**
 	 * Query if a character is alphabetic (a letter).
@@ -13512,7 +16123,7 @@ LibSDL3 >> isalpha: x [
 	^ self ffiCall: #(int SDL_isalpha(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isblank: x [
 	"/**
 	 * Report if a character is blank (a space or tab).
@@ -13531,7 +16142,7 @@ LibSDL3 >> isblank: x [
 	^ self ffiCall: #(int SDL_isblank(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> iscntrl: x [
 	"/**
 	 * Report if a character is a control character.
@@ -13550,7 +16161,7 @@ LibSDL3 >> iscntrl: x [
 	^ self ffiCall: #(int SDL_iscntrl(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isdigit: x [
 	"/**
 	 * Report if a character is a numeric digit.
@@ -13569,7 +16180,7 @@ LibSDL3 >> isdigit: x [
 	^ self ffiCall: #(int SDL_isdigit(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isgraph: x [
 	"/**
 	 * Report if a character is any ""printable"" except space.
@@ -13594,7 +16205,7 @@ LibSDL3 >> isgraph: x [
 	^ self ffiCall: #(int SDL_isgraph(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isinf: x [
 	"/**
 	 * Return whether the value is infinity.
@@ -13612,7 +16223,7 @@ LibSDL3 >> isinf: x [
 	^ self ffiCall: #(int SDL_isinf(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isinff: x [
 	"/**
 	 * Return whether the value is infinity.
@@ -13630,7 +16241,7 @@ LibSDL3 >> isinff: x [
 	^ self ffiCall: #(int SDL_isinff(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> islower: x [
 	"/**
 	 * Report if a character is lower case.
@@ -13649,7 +16260,7 @@ LibSDL3 >> islower: x [
 	^ self ffiCall: #(int SDL_islower(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isnan: x [
 	"/**
 	 * Return whether the value is NaN.
@@ -13667,7 +16278,7 @@ LibSDL3 >> isnan: x [
 	^ self ffiCall: #(int SDL_isnan(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isnanf: x [
 	"/**
 	 * Return whether the value is NaN.
@@ -13685,7 +16296,7 @@ LibSDL3 >> isnanf: x [
 	^ self ffiCall: #(int SDL_isnanf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isprint: x [
 	"/**
 	 * Report if a character is ""printable"".
@@ -13708,7 +16319,7 @@ LibSDL3 >> isprint: x [
 	^ self ffiCall: #(int SDL_isprint(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> ispunct: x [
 	"/**
 	 * Report if a character is a punctuation mark.
@@ -13730,7 +16341,7 @@ LibSDL3 >> ispunct: x [
 	^ self ffiCall: #(int SDL_ispunct(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isspace: x [
 	"/**
 	 * Report if a character is whitespace.
@@ -13756,7 +16367,7 @@ LibSDL3 >> isspace: x [
 	^ self ffiCall: #(int SDL_isspace(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isupper: x [
 	"/**
 	 * Report if a character is upper case.
@@ -13775,7 +16386,7 @@ LibSDL3 >> isupper: x [
 	^ self ffiCall: #(int SDL_isupper(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> isxdigit: x [
 	"/**
 	 * Report if a character is a hexadecimal digit.
@@ -13794,7 +16405,7 @@ LibSDL3 >> isxdigit: x [
 	^ self ffiCall: #(int SDL_isxdigit(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> itoaValue: value str: str radix: radix [
 	"/**
 	 * Convert an integer into a string.
@@ -13823,10 +16434,10 @@ LibSDL3 >> itoaValue: value str: str radix: radix [
 	 * \sa SDL_lltoa
 	 */"
 
-	^ self ffiCall: #(char* SDL_itoa(int value, char* str, int radix))
+	^ self ffiCall: #(void* SDL_itoa(int value, char* str, int radix))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> joystickConnected: joystick [
 	"/**
 	 * Get the status of a specified joystick.
@@ -13843,7 +16454,7 @@ LibSDL3 >> joystickConnected: joystick [
 	^ self ffiCall: #(bool SDL_JoystickConnected(SDL_Joystick* joystick))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> joystickEventsEnabled [
 	"/**
 	 * Query the state of joystick event processing.
@@ -13864,39 +16475,34 @@ LibSDL3 >> joystickEventsEnabled [
 	^ self ffiCall: #(bool SDL_JoystickEventsEnabled())
 ]
 
-{ #category : 'public' }
-LibSDL3 >> lltoaValue: value str: str radix: radix [
+{ #category : 'public - SDL_process' }
+LibSDL3 >> killProcess: process force: force [
 	"/**
-	 * Convert a long long integer into a string.
+	 * Stop a process.
 	 *
-	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
-	 * to 36.
+	 * \param process The process to stop.
+	 * \param force true to terminate the process immediately, false to try to
+	 *              stop the process gracefully. In general you should try to stop
+	 *              the process gracefully first as terminating a process may
+	 *              leave it with half-written data or in some other unstable
+	 *              state.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
 	 *
-	 * Note that this function will overflow a buffer if `str` is not large enough
-	 * to hold the output! It may be safer to use SDL_snprintf to clamp output, or
-	 * SDL_asprintf to allocate a buffer. Otherwise, it doesn't hurt to allocate
-	 * much more space than you expect to use (and don't forget possible negative
-	 * signs, null terminator bytes, etc).
-	 *
-	 * \param value the long long integer to convert.
-	 * \param str the buffer to write the string into.
-	 * \param radix the radix to use for string generation.
-	 * \returns `str`.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
+	 * \threadsafety This function is not thread safe.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
-	 * \sa SDL_ulltoa
-	 * \sa SDL_itoa
-	 * \sa SDL_ltoa
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_WaitProcess
+	 * \sa SDL_DestroyProcess
 	 */"
 
-	^ self ffiCall: #(char* SDL_lltoa(long value, char* str, int radix))
+	^ self ffiCall: #(bool SDL_KillProcess(SDL_Process* process, #bool force))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> loadBMP: file [
 	"/**
 	 * Load a BMP image from a file.
@@ -13920,7 +16526,7 @@ LibSDL3 >> loadBMP: file [
 	^ self ffiCall: #(SDL_Surface* SDL_LoadBMP(const char* file))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> loadBMPIOSrc: src closeio: closeio [
 	"/**
 	 * Load a BMP image from a seekable SDL data stream.
@@ -13946,7 +16552,7 @@ LibSDL3 >> loadBMPIOSrc: src closeio: closeio [
 	^ self ffiCall: #(SDL_Surface* SDL_LoadBMP_IO(SDL_IOStream* src, #bool closeio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> loadFile: file datasize: datasize [
 	"/**
 	 * Load all the data from a file path.
@@ -13973,7 +16579,7 @@ LibSDL3 >> loadFile: file datasize: datasize [
 	^ self ffiCall: #(void* SDL_LoadFile(const char* file, size_t* datasize))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> loadFileAsyncFile: file queue: queue userdata: userdata [
 	"/**
 	 * Load all the data from a file path, asynchronously.
@@ -14009,7 +16615,7 @@ LibSDL3 >> loadFileAsyncFile: file queue: queue userdata: userdata [
 	^ self ffiCall: #(bool SDL_LoadFileAsync(const char* file, SDL_AsyncIOQueue* queue, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> loadFileIOSrc: src datasize: datasize closeio: closeio [
 	"/**
 	 * Load all the data from an SDL data stream.
@@ -14039,7 +16645,7 @@ LibSDL3 >> loadFileIOSrc: src datasize: datasize closeio: closeio [
 	^ self ffiCall: #(void* SDL_LoadFile_IO(SDL_IOStream* src, size_t* datasize, #bool closeio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_loadso' }
 LibSDL3 >> loadFunctionHandle: handle name: name [
 	"/**
 	 * Look up the address of the named function in a shared object.
@@ -14071,7 +16677,7 @@ LibSDL3 >> loadFunctionHandle: handle name: name [
 	^ self ffiCall: #(SDL_FunctionPointer SDL_LoadFunction(SDL_SharedObject* handle, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_loadso' }
 LibSDL3 >> loadObject: sofile [
 	"/**
 	 * Dynamically load a shared object.
@@ -14091,7 +16697,7 @@ LibSDL3 >> loadObject: sofile [
 	^ self ffiCall: #(SDL_SharedObject* SDL_LoadObject(const char* sofile))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> loadPNG: file [
 	"/**
 	 * Load a PNG image from a file.
@@ -14119,7 +16725,7 @@ LibSDL3 >> loadPNG: file [
 	^ self ffiCall: #(SDL_Surface* SDL_LoadPNG(const char* file))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
 	"/**
 	 * Load a PNG image from a seekable SDL data stream.
@@ -14149,7 +16755,7 @@ LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
 	^ self ffiCall: #(SDL_Surface* SDL_LoadPNG_IO(SDL_IOStream* src, #bool closeio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> loadSurface: file [
 	"/**
 	 * Load a BMP or PNG image from a file.
@@ -14172,7 +16778,7 @@ LibSDL3 >> loadSurface: file [
 	^ self ffiCall: #(SDL_Surface* SDL_LoadSurface(const char* file))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> loadSurfaceIOSrc: src closeio: closeio [
 	"/**
 	 * Load a BMP or PNG image from a seekable SDL data stream.
@@ -14197,7 +16803,7 @@ LibSDL3 >> loadSurfaceIOSrc: src closeio: closeio [
 	^ self ffiCall: #(SDL_Surface* SDL_LoadSurface_IO(SDL_IOStream* src, #bool closeio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> loadWAVIOSrc: src closeio: closeio spec: spec audioBuf: audio_buf audioLen: audio_len [
 	"/**
 	 * Load the audio data of a WAVE file into memory.
@@ -14281,7 +16887,7 @@ LibSDL3 >> loadWAVIOSrc: src closeio: closeio spec: spec audioBuf: audio_buf aud
 	^ self ffiCall: #(bool SDL_LoadWAV_IO(SDL_IOStream* src, #bool closeio, SDL_AudioSpec* spec, Uint8** audio_buf, Uint32* audio_len))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> loadWAVPath: path spec: spec audioBuf: audio_buf audioLen: audio_len [
 	"/**
 	 * Loads a WAV from a file path.
@@ -14321,7 +16927,7 @@ LibSDL3 >> loadWAVPath: path spec: spec audioBuf: audio_buf audioLen: audio_len 
 	^ self ffiCall: #(bool SDL_LoadWAV(const char* path, SDL_AudioSpec* spec, Uint8** audio_buf, Uint32* audio_len))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> lockAudioStream: stream [
 	"/**
 	 * Lock an audio stream for serialized access.
@@ -14353,7 +16959,7 @@ LibSDL3 >> lockAudioStream: stream [
 	^ self ffiCall: #(bool SDL_LockAudioStream(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> lockJoysticks [
 	"/**
 	 * Locking for atomic access to the joystick API.
@@ -14370,7 +16976,7 @@ LibSDL3 >> lockJoysticks [
 	self ffiCall: #(void SDL_LockJoysticks())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> lockMutex: mutex [
 	"/**
 	 * Lock the mutex.
@@ -14398,7 +17004,7 @@ LibSDL3 >> lockMutex: mutex [
 	self ffiCall: #(void SDL_LockMutex(SDL_Mutex* mutex))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> lockProperties: props [
 	"/**
 	 * Lock a group of properties.
@@ -14426,7 +17032,7 @@ LibSDL3 >> lockProperties: props [
 	^ self ffiCall: #(bool SDL_LockProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> lockRWLockForReading: rwlock [
 	"/**
 	 * Lock the read/write lock for _read only_ operations.
@@ -14467,7 +17073,7 @@ LibSDL3 >> lockRWLockForReading: rwlock [
 	self ffiCall: #(void SDL_LockRWLockForReading(SDL_RWLock* rwlock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> lockRWLockForWriting: rwlock [
 	"/**
 	 * Lock the read/write lock for _write_ operations.
@@ -14502,7 +17108,7 @@ LibSDL3 >> lockRWLockForWriting: rwlock [
 	self ffiCall: #(void SDL_LockRWLockForWriting(SDL_RWLock* rwlock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> lockSpinlock: lock [
 	"/**
 	 * Lock a spin lock by setting it to a non-zero value.
@@ -14523,7 +17129,7 @@ LibSDL3 >> lockSpinlock: lock [
 	self ffiCall: #(void SDL_LockSpinlock(SDL_SpinLock* lock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> lockSurface: surface [
 	"/**
 	 * Set up a surface for directly accessing the pixels.
@@ -14555,7 +17161,7 @@ LibSDL3 >> lockSurface: surface [
 	^ self ffiCall: #(bool SDL_LockSurface(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> lockTexture: texture rect: rect pixels: pixels pitch: pitch [
 	"/**
 	 * Lock a portion of the texture for **write-only** pixel access.
@@ -14591,7 +17197,7 @@ LibSDL3 >> lockTexture: texture rect: rect pixels: pixels pitch: pitch [
 	^ self ffiCall: #(bool SDL_LockTexture(SDL_Texture* texture, SDL_Rect* rect, void** pixels, int* pitch))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> lockTextureToSurfaceTexture: texture rect: rect surface: surface [
 	"/**
 	 * Lock a portion of the texture for **write-only** pixel access, and expose
@@ -14631,7 +17237,7 @@ LibSDL3 >> lockTextureToSurfaceTexture: texture rect: rect surface: surface [
 	^ self ffiCall: #(bool SDL_LockTextureToSurface(SDL_Texture* texture, SDL_Rect* rect, SDL_Surface** surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> log10: x [
 	"/**
 	 * Compute the base-10 logarithm of `x`.
@@ -14665,7 +17271,7 @@ LibSDL3 >> log10: x [
 	^ self ffiCall: #(double SDL_log10(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> log10f: x [
 	"/**
 	 * Compute the base-10 logarithm of `x`.
@@ -14699,7 +17305,7 @@ LibSDL3 >> log10f: x [
 	^ self ffiCall: #(float SDL_log10f(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> log: x [
 	"/**
 	 * Compute the natural logarithm of `x`.
@@ -14733,7 +17339,7 @@ LibSDL3 >> log: x [
 	^ self ffiCall: #(double SDL_log(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> logf: x [
 	"/**
 	 * Compute the natural logarithm of `x`.
@@ -14766,7 +17372,7 @@ LibSDL3 >> logf: x [
 	^ self ffiCall: #(float SDL_logf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> lround: x [
 	"/**
 	 * Round `x` to the nearest integer representable as a long
@@ -14799,7 +17405,7 @@ LibSDL3 >> lround: x [
 	^ self ffiCall: #(long SDL_lround(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> lroundf: x [
 	"/**
 	 * Round `x` to the nearest integer representable as a long
@@ -14832,7 +17438,7 @@ LibSDL3 >> lroundf: x [
 	^ self ffiCall: #(long SDL_lroundf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> ltoaValue: value str: str radix: radix [
 	"/**
 	 * Convert a long integer into a string.
@@ -14861,7 +17467,7 @@ LibSDL3 >> ltoaValue: value str: str radix: radix [
 	 * \sa SDL_lltoa
 	 */"
 
-	^ self ffiCall: #(char* SDL_ltoa(long value, char* str, int radix))
+	^ self ffiCall: #(void* SDL_ltoa(long value, char* str, int radix))
 ]
 
 { #category : 'accessing - platform' }
@@ -14871,7 +17477,7 @@ LibSDL3 >> macLibraryName [
 		findAnyLibrary: #('libSDL3.dylib' 'libSDL3.0.dylib')
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> malloc: size [
 	"/**
 	 * Allocate uninitialized memory.
@@ -14903,7 +17509,7 @@ LibSDL3 >> malloc: size [
 	^ self ffiCall: #(void* SDL_malloc(size_t size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> mapGPUTransferBufferDevice: device transferBuffer: transfer_buffer cycle: cycle [
 	"/**
 	 * Maps a transfer buffer into application address space.
@@ -14924,7 +17530,7 @@ LibSDL3 >> mapGPUTransferBufferDevice: device transferBuffer: transfer_buffer cy
 	^ self ffiCall: #(void* SDL_MapGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBuffer* transfer_buffer, #bool cycle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> mapRGBAFormat: format palette: palette r: r g: g b: b a: a [
 	"/**
 	 * Map an RGBA quadruple to a pixel value for a given pixel format.
@@ -14967,7 +17573,7 @@ LibSDL3 >> mapRGBAFormat: format palette: palette r: r g: g b: b a: a [
 	^ self ffiCall: #(Uint32 SDL_MapRGBA(SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8 r, Uint8 g, Uint8 b, Uint8 a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> mapRGBFormat: format palette: palette r: r g: g b: b [
 	"/**
 	 * Map an RGB triple to an opaque pixel value for a given pixel format.
@@ -15009,7 +17615,7 @@ LibSDL3 >> mapRGBFormat: format palette: palette r: r g: g b: b [
 	^ self ffiCall: #(Uint32 SDL_MapRGB(SDL_PixelFormatDetails* format, SDL_Palette* palette, Uint8 r, Uint8 g, Uint8 b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> mapSurfaceRGBASurface: surface r: r g: g b: b a: a [
 	"/**
 	 * Map an RGBA quadruple to a pixel value for a surface.
@@ -15047,7 +17653,7 @@ LibSDL3 >> mapSurfaceRGBASurface: surface r: r g: g b: b a: a [
 	^ self ffiCall: #(Uint32 SDL_MapSurfaceRGBA(SDL_Surface* surface, Uint8 r, Uint8 g, Uint8 b, Uint8 a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> mapSurfaceRGBSurface: surface r: r g: g b: b [
 	"/**
 	 * Map an RGB triple to an opaque pixel value for a surface.
@@ -15084,7 +17690,7 @@ LibSDL3 >> mapSurfaceRGBSurface: surface r: r g: g b: b [
 	^ self ffiCall: #(Uint32 SDL_MapSurfaceRGB(SDL_Surface* surface, Uint8 r, Uint8 g, Uint8 b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> maximizeWindow: window [
 	"/**
 	 * Request that the window be made as large as possible.
@@ -15122,7 +17728,7 @@ LibSDL3 >> maximizeWindow: window [
 	^ self ffiCall: #(bool SDL_MaximizeWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> memcmpS1: s1 s2: s2 len: len [
 	"/**
 	 * Compare two buffers of memory.
@@ -15142,8 +17748,8 @@ LibSDL3 >> memcmpS1: s1 s2: s2 len: len [
 	^ self ffiCall: #(int SDL_memcmp(const void* s1, const void* s2, size_t len))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> memcpyDst: dst src: src len: len [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> memcpy: _Out_bytecap_ [
 	"/**
 	 * Copy non-overlapping memory.
 	 *
@@ -15163,11 +17769,11 @@ LibSDL3 >> memcpyDst: dst src: src len: len [
 	 * \sa SDL_memmove
 	 */"
 
-	^ self ffiCall: #(void* SDL_memcpy(void* dst, const void* src, size_t len))
+	^ self ffiCall: #(void* SDL_memcpy(int _Out_bytecap_))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> memmoveDst: dst src: src len: len [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> memmove: _Out_bytecap_ [
 	"/**
 	 * Copy memory ranges that might overlap.
 	 *
@@ -15186,10 +17792,10 @@ LibSDL3 >> memmoveDst: dst src: src len: len [
 	 * \sa SDL_memcpy
 	 */"
 
-	^ self ffiCall: #(void* SDL_memmove(void* dst, const void* src, size_t len))
+	^ self ffiCall: #(void* SDL_memmove(int _Out_bytecap_))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> memoryBarrierAcquireFunction [
 	"/**
 	 * Insert a memory acquire barrier (function version).
@@ -15213,7 +17819,7 @@ LibSDL3 >> memoryBarrierAcquireFunction [
 	self ffiCall: #(void SDL_MemoryBarrierAcquireFunction())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> memoryBarrierReleaseFunction [
 	"/**
 	 * Insert a memory release barrier (function version).
@@ -15237,7 +17843,7 @@ LibSDL3 >> memoryBarrierReleaseFunction [
 	self ffiCall: #(void SDL_MemoryBarrierReleaseFunction())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> memset4Dst: dst val: val dwords: dwords [
 	"/**
 	 * Initialize all 32-bit words of buffer of memory to a specific value.
@@ -15261,8 +17867,8 @@ LibSDL3 >> memset4Dst: dst val: val dwords: dwords [
 	^ self ffiCall: #(void* SDL_memset4(void* dst, Uint32 val, size_t dwords))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> memsetDst: dst c: c len: len [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> memset: _Out_bytecap_ [
 	"/**
 	 * Initialize all bytes of buffer of memory to a specific value.
 	 *
@@ -15282,10 +17888,66 @@ LibSDL3 >> memsetDst: dst c: c len: len [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(void* SDL_memset(void* dst, int c, size_t len))
+	^ self ffiCall: #(void* SDL_memset(int _Out_bytecap_))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_metal' }
+LibSDL3 >> metalCreateView: window [
+	"/**
+	 * Create a CAMetalLayer-backed NSView/UIView and attach it to the specified
+	 * window.
+	 *
+	 * On macOS, this does *not* associate a MTLDevice with the CAMetalLayer on
+	 * its own. It is up to user code to do that.
+	 *
+	 * The returned handle can be casted directly to a NSView or UIView. To access
+	 * the backing CAMetalLayer, call SDL_Metal_GetLayer().
+	 *
+	 * \param window the window.
+	 * \returns handle NSView or UIView.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_Metal_DestroyView
+	 * \sa SDL_Metal_GetLayer
+	 */"
+
+	^ self ffiCall: #(SDL_MetalView SDL_Metal_CreateView(SDL_Window* window))
+]
+
+{ #category : 'public - SDL_metal' }
+LibSDL3 >> metalDestroyView: view [
+	"/**
+	 * Destroy an existing SDL_MetalView object.
+	 *
+	 * This should be called before SDL_DestroyWindow, if SDL_Metal_CreateView was
+	 * called after SDL_CreateWindow.
+	 *
+	 * \param view the SDL_MetalView object.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_Metal_CreateView
+	 */"
+
+	self ffiCall: #(void SDL_Metal_DestroyView(SDL_MetalView view))
+]
+
+{ #category : 'public - SDL_metal' }
+LibSDL3 >> metalGetLayer: view [
+	"/**
+	 * Get a pointer to the backing CAMetalLayer for the given view.
+	 *
+	 * \param view the SDL_MetalView object.
+	 * \returns a pointer.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(void* SDL_Metal_GetLayer(SDL_MetalView view))
+]
+
+{ #category : 'public - SDL_video' }
 LibSDL3 >> minimizeWindow: window [
 	"/**
 	 * Request that the window be minimized to an iconic representation.
@@ -15318,7 +17980,7 @@ LibSDL3 >> minimizeWindow: window [
 	^ self ffiCall: #(bool SDL_MinimizeWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> mixAudioDst: dst src: src format: format len: len volume: volume [
 	"/**
 	 * Mix audio data in a specified format.
@@ -15358,7 +18020,7 @@ LibSDL3 >> mixAudioDst: dst src: src format: format len: len volume: volume [
 	^ self ffiCall: #(bool SDL_MixAudio(Uint8* dst, const Uint8* src, SDL_AudioFormat format, Uint32 len, float volume))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> modfX: x y: y [
 	"/**
 	 * Split `x` into integer and fractional parts
@@ -15382,7 +18044,7 @@ LibSDL3 >> modfX: x y: y [
 	^ self ffiCall: #(double SDL_modf(double x, double* y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> modffX: x y: y [
 	"/**
 	 * Split `x` into integer and fractional parts
@@ -15406,7 +18068,31 @@ LibSDL3 >> modffX: x y: y [
 	^ self ffiCall: #(float SDL_modff(float x, float* y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_bits' }
+LibSDL3 >> mostSignificantBitIndex32: x [
+	"/**
+	 * Get the index of the most significant (set) bit in a 32-bit number.
+	 *
+	 * Result is undefined when called with 0. This operation can also be stated
+	 * as ""count leading zeroes"" and ""log base 2"".
+	 *
+	 * Note that this is a forced-inline function in a header, and not a public
+	 * API function available in the SDL library (which is to say, the code is
+	 * embedded in the calling program and the linker and dynamic loader will not
+	 * be able to find this function inside SDL itself).
+	 *
+	 * \param x the 32-bit value to examine.
+	 * \returns the index of the most significant bit, or -1 if the value is 0.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_MostSignificantBitIndex32(Uint32 x))
+]
+
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> murmur332Data: data len: len seed: seed [
 	"/**
 	 * Calculate a 32-bit MurmurHash3 value for a block of data.
@@ -15436,7 +18122,7 @@ LibSDL3 >> murmur332Data: data len: len seed: seed [
 	^ self ffiCall: #(Uint32 SDL_murmur3_32(const void* data, size_t len, Uint32 seed))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> newAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x hotY: hot_y [
 	"/**
 	 * Create an animated color cursor.
@@ -15488,7 +18174,7 @@ LibSDL3 >> newAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x h
 	^ self ffiCall: #(SDL_Cursor* SDL_CreateAnimatedCursor(SDL_CursorFrameInfo* frames, int frame_count, int hot_x, int hot_y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> newAsyncIOQueue [
 	"/**
 	 * Create a task queue for tracking multiple I/O operations.
@@ -15511,7 +18197,7 @@ LibSDL3 >> newAsyncIOQueue [
 	^ self ffiCall: #(SDL_AsyncIOQueue* SDL_CreateAsyncIOQueue())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> newAudioStreamSrcSpec: src_spec dstSpec: dst_spec [
 	"/**
 	 * Create a new audio stream.
@@ -15537,7 +18223,7 @@ LibSDL3 >> newAudioStreamSrcSpec: src_spec dstSpec: dst_spec [
 	^ self ffiCall: #(SDL_AudioStream* SDL_CreateAudioStream(SDL_AudioSpec* src_spec, SDL_AudioSpec* dst_spec))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
 	"/**
 	 * Create a color cursor.
@@ -15575,7 +18261,7 @@ LibSDL3 >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
 	^ self ffiCall: #(SDL_Cursor* SDL_CreateColorCursor(SDL_Surface* surface, int hot_x, int hot_y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> newCondition [
 	"/**
 	 * Create a condition variable.
@@ -15595,7 +18281,7 @@ LibSDL3 >> newCondition [
 	^ self ffiCall: #(SDL_Condition* SDL_CreateCondition())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> newCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
 	"/**
 	 * Create a cursor using the specified bitmap data and mask (in MSB format).
@@ -15646,7 +18332,7 @@ LibSDL3 >> newCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
 	^ self ffiCall: #(SDL_Cursor* SDL_CreateCursor(const Uint8* data, const Uint8* mask, int w, int h, int hot_x, int hot_y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> newDirectory: path [
 	"/**
 	 * Create a directory, and any missing parent directories.
@@ -15668,7 +18354,7 @@ LibSDL3 >> newDirectory: path [
 	^ self ffiCall: #(bool SDL_CreateDirectory(const char* path))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> newEnvironment: populated [
 	"/**
 	 * Create a set of environment variables
@@ -15694,7 +18380,7 @@ LibSDL3 >> newEnvironment: populated [
 	^ self ffiCall: #(SDL_Environment* SDL_CreateEnvironment(#bool populated))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUBufferDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a buffer object to be used in graphics or compute workflows.
@@ -15744,7 +18430,7 @@ LibSDL3 >> newGPUBufferDevice: device createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPUBuffer* SDL_CreateGPUBuffer(SDL_GPUDevice* device, SDL_GPUBufferCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUComputePipelineDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a pipeline object to be used in a compute workflow.
@@ -15795,7 +18481,7 @@ LibSDL3 >> newGPUComputePipelineDevice: device createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPUComputePipeline* SDL_CreateGPUComputePipeline(SDL_GPUDevice* device, SDL_GPUComputePipelineCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: name [
 	"/**
 	 * Creates a GPU context.
@@ -15827,7 +18513,7 @@ LibSDL3 >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: nam
 	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDevice(SDL_GPUShaderFormat format_flags, #bool debug_mode, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUDeviceWithProperties: props [
 	"/**
 	 * Creates a GPU context.
@@ -15921,7 +18607,7 @@ LibSDL3 >> newGPUDeviceWithProperties: props [
 	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDeviceWithProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUGraphicsPipelineDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a pipeline object to be used in a graphics workflow.
@@ -15948,7 +18634,7 @@ LibSDL3 >> newGPUGraphicsPipelineDevice: device createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPUGraphicsPipeline* SDL_CreateGPUGraphicsPipeline(SDL_GPUDevice* device, SDL_GPUGraphicsPipelineCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newGPURenderStateRenderer: renderer createinfo: createinfo [
 	"/**
 	 * Create custom GPU render state.
@@ -15971,7 +18657,7 @@ LibSDL3 >> newGPURenderStateRenderer: renderer createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPURenderState* SDL_CreateGPURenderState(SDL_Renderer* renderer, SDL_GPURenderStateCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newGPURendererDevice: device window: window [
 	"/**
 	 * Create a 2D GPU rendering context.
@@ -16009,7 +18695,7 @@ LibSDL3 >> newGPURendererDevice: device window: window [
 	^ self ffiCall: #(SDL_Renderer* SDL_CreateGPURenderer(SDL_GPUDevice* device, SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUSamplerDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a sampler object to be used when binding textures in a graphics
@@ -16036,7 +18722,7 @@ LibSDL3 >> newGPUSamplerDevice: device createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPUSampler* SDL_CreateGPUSampler(SDL_GPUDevice* device, SDL_GPUSamplerCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUShaderDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a shader to be used when creating a graphics pipeline.
@@ -16115,7 +18801,7 @@ LibSDL3 >> newGPUShaderDevice: device createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPUShader* SDL_CreateGPUShader(SDL_GPUDevice* device, SDL_GPUShaderCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUTextureDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a texture object to be used in graphics or compute workflows.
@@ -16179,7 +18865,7 @@ LibSDL3 >> newGPUTextureDevice: device createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPUTexture* SDL_CreateGPUTexture(SDL_GPUDevice* device, SDL_GPUTextureCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> newGPUTransferBufferDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a transfer buffer to be used when uploading to or downloading from
@@ -16212,7 +18898,28 @@ LibSDL3 >> newGPUTransferBufferDevice: device createinfo: createinfo [
 	^ self ffiCall: #(SDL_GPUTransferBuffer* SDL_CreateGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBufferCreateInfo* createinfo))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> newHapticEffectHaptic: haptic effect: effect [
+	"/**
+	 * Create a new haptic effect on a specified device.
+	 *
+	 * \param haptic an SDL_Haptic device to create the effect on.
+	 * \param effect an SDL_HapticEffect structure containing the properties of
+	 *               the effect to create.
+	 * \returns the ID of the effect on success or -1 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyHapticEffect
+	 * \sa SDL_RunHapticEffect
+	 * \sa SDL_UpdateHapticEffect
+	 */"
+
+	^ self ffiCall: #(SDL_HapticEffectID SDL_CreateHapticEffect(SDL_Haptic* haptic, SDL_HapticEffect* effect))
+]
+
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> newMutex [
 	"/**
 	 * Create a new mutex.
@@ -16238,7 +18945,7 @@ LibSDL3 >> newMutex [
 	^ self ffiCall: #(SDL_Mutex* SDL_CreateMutex())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> newPalette: ncolors [
 	"/**
 	 * Create a palette structure with the specified number of color entries.
@@ -16262,7 +18969,7 @@ LibSDL3 >> newPalette: ncolors [
 	^ self ffiCall: #(SDL_Palette* SDL_CreatePalette(int ncolors))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w h: h flags: flags [
 	"/**
 	 * Create a child popup window of the specified parent window.
@@ -16342,7 +19049,128 @@ LibSDL3 >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w
 	^ self ffiCall: #(SDL_Window* SDL_CreatePopupWindow(SDL_Window* parent, int offset_x, int offset_y, int w, int h, SDL_WindowFlags flags))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_process' }
+LibSDL3 >> newProcessArgs: args pipeStdio: pipe_stdio [
+	"/**
+	 * Create a new process.
+	 *
+	 * The path to the executable is supplied in args[0]. args[1..N] are
+	 * additional arguments passed on the command line of the new process, and the
+	 * argument list should be terminated with a NULL, e.g.:
+	 *
+	 * ```c
+	 * const char *args[] = { ""myprogram"", ""argument"", NULL };
+	 * ```
+	 *
+	 * Setting pipe_stdio to true is equivalent to setting
+	 * `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` and
+	 * `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` to `SDL_PROCESS_STDIO_APP`, and
+	 * will allow the use of SDL_ReadProcess() or SDL_GetProcessInput() and
+	 * SDL_GetProcessOutput().
+	 *
+	 * See SDL_CreateProcessWithProperties() for more details.
+	 *
+	 * \param args the path and arguments for the new process.
+	 * \param pipe_stdio true to create pipes to the process's standard input and
+	 *                   from the process's standard output, false for the process
+	 *                   to have no input and inherit the application's standard
+	 *                   output.
+	 * \returns the newly created and running process, or NULL if the process
+	 *          couldn't be created.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_GetProcessProperties
+	 * \sa SDL_ReadProcess
+	 * \sa SDL_GetProcessInput
+	 * \sa SDL_GetProcessOutput
+	 * \sa SDL_KillProcess
+	 * \sa SDL_WaitProcess
+	 * \sa SDL_DestroyProcess
+	 */"
+
+	^ self ffiCall: #(SDL_Process* SDL_CreateProcess(const char* args, #bool pipe_stdio))
+]
+
+{ #category : 'public - SDL_process' }
+LibSDL3 >> newProcessWithProperties: props [
+	"/**
+	 * Create a new process with the specified properties.
+	 *
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_PROCESS_CREATE_ARGS_POINTER`: an array of strings containing
+	 *   the program to run, any arguments, and a NULL pointer, e.g. const char
+	 *   *args[] = { ""myprogram"", ""argument"", NULL }. This is a required property.
+	 * - `SDL_PROP_PROCESS_CREATE_ENVIRONMENT_POINTER`: an SDL_Environment
+	 *   pointer. If this property is set, it will be the entire environment for
+	 *   the process, otherwise the current environment is used.
+	 * - `SDL_PROP_PROCESS_CREATE_WORKING_DIRECTORY_STRING`: a UTF-8 encoded
+	 *   string representing the working directory for the process, defaults to
+	 *   the current working directory.
+	 * - `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER`: an SDL_ProcessIO value describing
+	 *   where standard input for the process comes from, defaults to
+	 *   `SDL_PROCESS_STDIO_NULL`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDIN_POINTER`: an SDL_IOStream pointer used for
+	 *   standard input when `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` is set to
+	 *   `SDL_PROCESS_STDIO_REDIRECT`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER`: an SDL_ProcessIO value
+	 *   describing where standard output for the process goes to, defaults to
+	 *   `SDL_PROCESS_STDIO_INHERITED`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDOUT_POINTER`: an SDL_IOStream pointer used
+	 *   for standard output when `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` is set
+	 *   to `SDL_PROCESS_STDIO_REDIRECT`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER`: an SDL_ProcessIO value
+	 *   describing where standard error for the process goes to, defaults to
+	 *   `SDL_PROCESS_STDIO_INHERITED`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDERR_POINTER`: an SDL_IOStream pointer used
+	 *   for standard error when `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER` is set to
+	 *   `SDL_PROCESS_STDIO_REDIRECT`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDERR_TO_STDOUT_BOOLEAN`: true if the error
+	 *   output of the process should be redirected into the standard output of
+	 *   the process. This property has no effect if
+	 *   `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER` is set.
+	 * - `SDL_PROP_PROCESS_CREATE_BACKGROUND_BOOLEAN`: true if the process should
+	 *   run in the background. In this case the default input and output is
+	 *   `SDL_PROCESS_STDIO_NULL` and the exitcode of the process is not
+	 *   available, and will always be 0.
+	 * - `SDL_PROP_PROCESS_CREATE_CMDLINE_STRING`: a string containing the program
+	 *   to run and any parameters. This string is passed directly to
+	 *   `CreateProcess` on Windows, and does nothing on other platforms. This
+	 *   property is only important if you want to start programs that does
+	 *   non-standard command-line processing, and in most cases using
+	 *   `SDL_PROP_PROCESS_CREATE_ARGS_POINTER` is sufficient.
+	 *
+	 * On POSIX platforms, wait() and waitpid(-1, ...) should not be called, and
+	 * SIGCHLD should not be ignored or handled because those would prevent SDL
+	 * from properly tracking the lifetime of the underlying process. You should
+	 * use SDL_WaitProcess() instead.
+	 *
+	 * \param props the properties to use.
+	 * \returns the newly created and running process, or NULL if the process
+	 *          couldn't be created.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_GetProcessProperties
+	 * \sa SDL_ReadProcess
+	 * \sa SDL_GetProcessInput
+	 * \sa SDL_GetProcessOutput
+	 * \sa SDL_KillProcess
+	 * \sa SDL_WaitProcess
+	 * \sa SDL_DestroyProcess
+	 */"
+
+	^ self ffiCall: #(SDL_Process* SDL_CreateProcessWithProperties(SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> newProperties [
 	"/**
 	 * Create a group of properties.
@@ -16362,7 +19190,7 @@ LibSDL3 >> newProperties [
 	^ self ffiCall: #(SDL_PropertiesID SDL_CreateProperties())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> newRWLock [
 	"/**
 	 * Create a new read/write lock.
@@ -16408,7 +19236,7 @@ LibSDL3 >> newRWLock [
 	^ self ffiCall: #(SDL_RWLock* SDL_CreateRWLock())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newRendererWindow: window name: name [
 	"/**
 	 * Create a 2D rendering context for a window.
@@ -16447,7 +19275,7 @@ LibSDL3 >> newRendererWindow: window name: name [
 	^ self ffiCall: #(SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newRendererWithProperties: props [
 	"/**
 	 * Create a 2D rendering context for a window, with the specified properties.
@@ -16515,7 +19343,7 @@ LibSDL3 >> newRendererWithProperties: props [
 	^ self ffiCall: #(SDL_Renderer* SDL_CreateRendererWithProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> newSemaphore: initial_value [
 	"/**
 	 * Create a semaphore.
@@ -16543,7 +19371,7 @@ LibSDL3 >> newSemaphore: initial_value [
 	^ self ffiCall: #(SDL_Semaphore* SDL_CreateSemaphore(Uint32 initial_value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newSoftwareRenderer: surface [
 	"/**
 	 * Create a 2D software rendering context for a surface.
@@ -16568,7 +19396,25 @@ LibSDL3 >> newSoftwareRenderer: surface [
 	^ self ffiCall: #(SDL_Renderer* SDL_CreateSoftwareRenderer(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> newStorageDirectoryStorage: storage path: path [
+	"/**
+	 * Create a directory in a writable storage container.
+	 *
+	 * \param storage a storage container.
+	 * \param path the path of the directory to create.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_CreateStorageDirectory(SDL_Storage* storage, const char* path))
+]
+
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> newSurfaceFromWidth: width height: height format: format pixels: pixels pitch: pitch [
 	"/**
 	 * Allocate a new surface with a specific pixel format and existing pixel
@@ -16602,7 +19448,7 @@ LibSDL3 >> newSurfaceFromWidth: width height: height format: format pixels: pixe
 	^ self ffiCall: #(SDL_Surface* SDL_CreateSurfaceFrom(int width, int height, SDL_PixelFormat format, void* pixels, int pitch))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> newSurfacePalette: surface [
 	"/**
 	 * Create a palette and associate it with a surface.
@@ -16637,7 +19483,7 @@ LibSDL3 >> newSurfacePalette: surface [
 	^ self ffiCall: #(SDL_Palette* SDL_CreateSurfacePalette(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> newSurfaceWidth: width height: height format: format [
 	"/**
 	 * Allocate a new surface with a specific pixel format.
@@ -16661,7 +19507,7 @@ LibSDL3 >> newSurfaceWidth: width height: height format: format [
 	^ self ffiCall: #(SDL_Surface* SDL_CreateSurface(int width, int height, SDL_PixelFormat format))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> newSystemCursor: id [
 	"/**
 	 * Create a system cursor.
@@ -16680,7 +19526,7 @@ LibSDL3 >> newSystemCursor: id [
 	^ self ffiCall: #(SDL_Cursor* SDL_CreateSystemCursor(SDL_SystemCursor id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newTextureFromSurfaceRenderer: renderer surface: surface [
 	"/**
 	 * Create a texture from an existing surface.
@@ -16712,7 +19558,7 @@ LibSDL3 >> newTextureFromSurfaceRenderer: renderer surface: surface [
 	^ self ffiCall: #(SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newTextureRenderer: renderer format: format access: access w: w h: h [
 	"/**
 	 * Create a texture for a rendering context.
@@ -16741,7 +19587,7 @@ LibSDL3 >> newTextureRenderer: renderer format: format access: access w: w h: h 
 	^ self ffiCall: #(SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, SDL_PixelFormat format, SDL_TextureAccess access, int w, int h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newTextureWithPropertiesRenderer: renderer props: props [
 	"/**
 	 * Create a texture for a rendering context with the specified properties.
@@ -16875,45 +19721,114 @@ LibSDL3 >> newTextureWithPropertiesRenderer: renderer props: props [
 	^ self ffiCall: #(SDL_Texture* SDL_CreateTextureWithProperties(SDL_Renderer* renderer, SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> newThreadRuntimeFn: fn name: name data: data pfnBeginThread: pfnBeginThread pfnEndThread: pfnEndThread [
+{ #category : 'public - SDL_thread' }
+LibSDL3 >> newThreadFn: fn name: name data: data [
 	"/**
-	 * The actual entry point for SDL_CreateThread.
+	 * Create a new thread with a default stack size.
 	 *
-	 * \param fn the SDL_ThreadFunction function to call in the new thread
-	 * \param name the name of the thread
-	 * \param data a pointer that is passed to `fn`
-	 * \param pfnBeginThread the C runtime's _beginthreadex (or whatnot). Can be NULL.
-	 * \param pfnEndThread the C runtime's _endthreadex (or whatnot). Can be NULL.
+	 * This is a convenience function, equivalent to calling
+	 * SDL_CreateThreadWithProperties with the following properties set:
+	 *
+	 * - `SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER`: `fn`
+	 * - `SDL_PROP_THREAD_CREATE_NAME_STRING`: `name`
+	 * - `SDL_PROP_THREAD_CREATE_USERDATA_POINTER`: `data`
+	 *
+	 * Note that this ""function"" is actually a macro that calls an internal
+	 * function with two extra parameters not listed here; they are hidden through
+	 * preprocessor macros and are needed to support various C runtimes at the
+	 * point of the function call. Language bindings that aren't using the C
+	 * headers will need to deal with this.
+	 *
+	 * Usually, apps should just call this function the same way on every platform
+	 * and let the macros hide the details.
+	 *
+	 * \param fn the SDL_ThreadFunction function to call in the new thread.
+	 * \param name the name of the thread.
+	 * \param data a pointer that is passed to `fn`.
 	 * \returns an opaque pointer to the new thread object on success, NULL if the
 	 *          new thread could not be created; call SDL_GetError() for more
 	 *          information.
 	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateThreadWithProperties
+	 * \sa SDL_WaitThread
 	 */"
 
-	^ self ffiCall: #(SDL_Thread* SDL_CreateThreadRuntime(SDL_ThreadFunction fn, const char* name, void* data, SDL_FunctionPointer pfnBeginThread, SDL_FunctionPointer pfnEndThread))
+	^ self ffiCall: #(SDL_Thread* SDL_CreateThread(SDL_ThreadFunction fn, const char* name, void* data))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> newThreadWithPropertiesRuntimeProps: props pfnBeginThread: pfnBeginThread pfnEndThread: pfnEndThread [
+{ #category : 'public - SDL_thread' }
+LibSDL3 >> newThreadWithProperties: props [
 	"/**
-	 * The actual entry point for SDL_CreateThreadWithProperties.
+	 * Create a new thread with with the specified properties.
 	 *
-	 * \param props the properties to use
-	 * \param pfnBeginThread the C runtime's _beginthreadex (or whatnot). Can be NULL.
-	 * \param pfnEndThread the C runtime's _endthreadex (or whatnot). Can be NULL.
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER`: an SDL_ThreadFunction
+	 *   value that will be called at the start of the new thread's life.
+	 *   Required.
+	 * - `SDL_PROP_THREAD_CREATE_NAME_STRING`: the name of the new thread, which
+	 *   might be available to debuggers. Optional, defaults to NULL.
+	 * - `SDL_PROP_THREAD_CREATE_USERDATA_POINTER`: an arbitrary app-defined
+	 *   pointer, which is passed to the entry function on the new thread, as its
+	 *   only parameter. Optional, defaults to NULL.
+	 * - `SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER`: the size, in bytes, of the new
+	 *   thread's stack. Optional, defaults to 0 (system-defined default).
+	 *
+	 * SDL makes an attempt to report `SDL_PROP_THREAD_CREATE_NAME_STRING` to the
+	 * system, so that debuggers can display it. Not all platforms support this.
+	 *
+	 * Thread naming is a little complicated: Most systems have very small limits
+	 * for the string length (Haiku has 32 bytes, Linux currently has 16, Visual
+	 * C++ 6.0 has _nine_!), and possibly other arbitrary rules. You'll have to
+	 * see what happens with your system's debugger. The name should be UTF-8 (but
+	 * using the naming limits of C identifiers is a better bet). There are no
+	 * requirements for thread naming conventions, so long as the string is
+	 * null-terminated UTF-8, but these guidelines are helpful in choosing a name:
+	 *
+	 * https://stackoverflow.com/questions/149932/naming-conventions-for-threads
+	 *
+	 * If a system imposes requirements, SDL will try to munge the string for it
+	 * (truncate, etc), but the original string contents will be available from
+	 * SDL_GetThreadName().
+	 *
+	 * The size (in bytes) of the new stack can be specified with
+	 * `SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER`. Zero means ""use the system
+	 * default"" which might be wildly different between platforms. x86 Linux
+	 * generally defaults to eight megabytes, an embedded device might be a few
+	 * kilobytes instead. You generally need to specify a stack that is a multiple
+	 * of the system's page size (in many cases, this is 4 kilobytes, but check
+	 * your system documentation).
+	 *
+	 * Note that this ""function"" is actually a macro that calls an internal
+	 * function with two extra parameters not listed here; they are hidden through
+	 * preprocessor macros and are needed to support various C runtimes at the
+	 * point of the function call. Language bindings that aren't using the C
+	 * headers will need to deal with this.
+	 *
+	 * The actual symbol in SDL is `SDL_CreateThreadWithPropertiesRuntime`, so
+	 * there is no symbol clash, but trying to load an SDL shared library and look
+	 * for ""SDL_CreateThreadWithProperties"" will fail.
+	 *
+	 * Usually, apps should just call this function the same way on every platform
+	 * and let the macros hide the details.
+	 *
+	 * \param props the properties to use.
 	 * \returns an opaque pointer to the new thread object on success, NULL if the
 	 *          new thread could not be created; call SDL_GetError() for more
 	 *          information.
 	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateThread
+	 * \sa SDL_WaitThread
 	 */"
 
-	^ self ffiCall: #(SDL_Thread* SDL_CreateThreadWithPropertiesRuntime(SDL_PropertiesID props, SDL_FunctionPointer pfnBeginThread, SDL_FunctionPointer pfnEndThread))
+	^ self ffiCall: #(SDL_Thread* SDL_CreateThreadWithProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> newTrayIcon: icon tooltip: tooltip [
 	"/**
 	 * Create an icon to be placed in the operating system's tray, or equivalent.
@@ -16941,7 +19856,7 @@ LibSDL3 >> newTrayIcon: icon tooltip: tooltip [
 	^ self ffiCall: #(SDL_Tray* SDL_CreateTray(SDL_Surface* icon, const char* tooltip))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> newTrayMenu: tray [
 	"/**
 	 * Create a menu for a system tray.
@@ -16969,7 +19884,7 @@ LibSDL3 >> newTrayMenu: tray [
 	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTrayMenu(SDL_Tray* tray))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> newTraySubmenu: entry [
 	"/**
 	 * Create a submenu for a system tray entry.
@@ -16997,7 +19912,7 @@ LibSDL3 >> newTraySubmenu: entry [
 	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTraySubmenu(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> newWindowAndRendererTitle: title width: width height: height windowFlags: window_flags window: window renderer: renderer [
 	"/**
 	 * Create a window and default renderer.
@@ -17023,7 +19938,7 @@ LibSDL3 >> newWindowAndRendererTitle: title width: width height: height windowFl
 	^ self ffiCall: #(bool SDL_CreateWindowAndRenderer(const char* title, int width, int height, SDL_WindowFlags window_flags, SDL_Window* window, SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> newWindowTitle: title w: w h: h flags: flags [
 	"/**
 	 * Create a window with the specified dimensions and flags.
@@ -17116,7 +20031,7 @@ LibSDL3 >> newWindowTitle: title w: w h: h flags: flags [
 	^ self ffiCall: #(SDL_Window* SDL_CreateWindow(const char* title, int w, int h, SDL_WindowFlags flags))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> newWindowWithProperties: props [
 	"/**
 	 * Create a window with the specified properties.
@@ -17269,7 +20184,28 @@ LibSDL3 >> newWindowWithProperties: props [
 	^ self ffiCall: #(SDL_Window* SDL_CreateWindowWithProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
+LibSDL3 >> onApplicationDidChangeStatusBarOrientation [
+	"/**
+	 * Let iOS apps with external event handling report
+	 * onApplicationDidChangeStatusBarOrientation.
+	 *
+	 * This functions allows iOS apps that have their own event handling to hook
+	 * into SDL to generate SDL events. This maps directly to an iOS-specific
+	 * event, but since it doesn't do anything iOS-specific internally, it is
+	 * available on all platforms, in case it might be useful for some specific
+	 * paradigm. Most apps do not need to use this directly; SDL's internal event
+	 * code will handle all this for windows created by SDL_CreateWindow!
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_OnApplicationDidChangeStatusBarOrientation())
+]
+
+{ #category : 'public - SDL_system' }
 LibSDL3 >> onApplicationDidEnterBackground [
 	"/**
 	 * Let iOS apps with external event handling report
@@ -17290,7 +20226,7 @@ LibSDL3 >> onApplicationDidEnterBackground [
 	self ffiCall: #(void SDL_OnApplicationDidEnterBackground())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> onApplicationDidEnterForeground [
 	"/**
 	 * Let iOS apps with external event handling report
@@ -17311,7 +20247,7 @@ LibSDL3 >> onApplicationDidEnterForeground [
 	self ffiCall: #(void SDL_OnApplicationDidEnterForeground())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> onApplicationDidReceiveMemoryWarning [
 	"/**
 	 * Let iOS apps with external event handling report
@@ -17332,7 +20268,7 @@ LibSDL3 >> onApplicationDidReceiveMemoryWarning [
 	self ffiCall: #(void SDL_OnApplicationDidReceiveMemoryWarning())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> onApplicationWillEnterBackground [
 	"/**
 	 * Let iOS apps with external event handling report
@@ -17353,7 +20289,7 @@ LibSDL3 >> onApplicationWillEnterBackground [
 	self ffiCall: #(void SDL_OnApplicationWillEnterBackground())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> onApplicationWillEnterForeground [
 	"/**
 	 * Let iOS apps with external event handling report
@@ -17374,7 +20310,7 @@ LibSDL3 >> onApplicationWillEnterForeground [
 	self ffiCall: #(void SDL_OnApplicationWillEnterForeground())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> onApplicationWillTerminate [
 	"/**
 	 * Let iOS apps with external event handling report
@@ -17395,7 +20331,7 @@ LibSDL3 >> onApplicationWillTerminate [
 	self ffiCall: #(void SDL_OnApplicationWillTerminate())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> openAudioDeviceDevid: devid spec: spec [
 	"/**
 	 * Open a specific audio device.
@@ -17475,7 +20411,7 @@ LibSDL3 >> openAudioDeviceDevid: devid spec: spec [
 	^ self ffiCall: #(SDL_AudioDeviceID SDL_OpenAudioDevice(SDL_AudioDeviceID devid, SDL_AudioSpec* spec))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> openAudioDeviceStreamDevid: devid spec: spec callback: callback userdata: userdata [
 	"/**
 	 * Convenience function for straightforward audio init for the common case.
@@ -17541,7 +20477,7 @@ LibSDL3 >> openAudioDeviceStreamDevid: devid spec: spec callback: callback userd
 	^ self ffiCall: #(SDL_AudioStream* SDL_OpenAudioDeviceStream(SDL_AudioDeviceID devid, SDL_AudioSpec* spec, SDL_AudioStreamCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> openCameraInstanceId: instance_id spec: spec [
 	"/**
 	 * Open a video recording device (a ""camera"").
@@ -17592,7 +20528,127 @@ LibSDL3 >> openCameraInstanceId: instance_id spec: spec [
 	^ self ffiCall: #(SDL_Camera* SDL_OpenCamera(SDL_CameraID instance_id, SDL_CameraSpec* spec))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> openFileStorage: path [
+	"/**
+	 * Opens up a container for local filesystem storage.
+	 *
+	 * This is provided for development and tools. Portable applications should
+	 * use SDL_OpenTitleStorage() for access to game data and
+	 * SDL_OpenUserStorage() for access to user data.
+	 *
+	 * \param path the base path prepended to all storage paths, or NULL for no
+	 *             base path.
+	 * \returns a filesystem storage container on success or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseStorage
+	 * \sa SDL_GetStorageFileSize
+	 * \sa SDL_GetStorageSpaceRemaining
+	 * \sa SDL_OpenTitleStorage
+	 * \sa SDL_OpenUserStorage
+	 * \sa SDL_ReadStorageFile
+	 * \sa SDL_WriteStorageFile
+	 */"
+
+	^ self ffiCall: #(SDL_Storage* SDL_OpenFileStorage(const char* path))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> openGamepad: instance_id [
+	"/**
+	 * Open a gamepad for use.
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \returns a gamepad identifier or NULL if an error occurred; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseGamepad
+	 * \sa SDL_IsGamepad
+	 */"
+
+	^ self ffiCall: #(SDL_Gamepad* SDL_OpenGamepad(SDL_JoystickID instance_id))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> openHaptic: instance_id [
+	"/**
+	 * Open a haptic device for use.
+	 *
+	 * The index passed as an argument refers to the N'th haptic device on this
+	 * system.
+	 *
+	 * When opening a haptic device, its gain will be set to maximum and
+	 * autocenter will be disabled. To modify these values use SDL_SetHapticGain()
+	 * and SDL_SetHapticAutocenter().
+	 *
+	 * \param instance_id the haptic device instance ID.
+	 * \returns the device identifier or NULL on failure; call SDL_GetError() for
+	 *          more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseHaptic
+	 * \sa SDL_GetHaptics
+	 * \sa SDL_OpenHapticFromJoystick
+	 * \sa SDL_OpenHapticFromMouse
+	 * \sa SDL_SetHapticAutocenter
+	 * \sa SDL_SetHapticGain
+	 */"
+
+	^ self ffiCall: #(SDL_Haptic* SDL_OpenHaptic(SDL_HapticID instance_id))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> openHapticFromJoystick: joystick [
+	"/**
+	 * Open a haptic device for use from a joystick device.
+	 *
+	 * You must still close the haptic device separately. It will not be closed
+	 * with the joystick.
+	 *
+	 * When opened from a joystick you should first close the haptic device before
+	 * closing the joystick device. If not, on some implementations the haptic
+	 * device will also get unallocated and you'll be unable to use force feedback
+	 * on that device.
+	 *
+	 * \param joystick the SDL_Joystick to create a haptic device from.
+	 * \returns a valid haptic device identifier on success or NULL on failure;
+	 *          call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseHaptic
+	 * \sa SDL_IsJoystickHaptic
+	 */"
+
+	^ self ffiCall: #(SDL_Haptic* SDL_OpenHapticFromJoystick(SDL_Joystick* joystick))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> openHapticFromMouse [
+	"/**
+	 * Try to open a haptic device from the current mouse.
+	 *
+	 * \returns the haptic device identifier or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseHaptic
+	 * \sa SDL_IsMouseHaptic
+	 */"
+
+	^ self ffiCall: #(SDL_Haptic* SDL_OpenHapticFromMouse())
+]
+
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> openIOIface: iface userdata: userdata [
 	"/**
 	 * Create a custom SDL_IOStream.
@@ -17625,7 +20681,7 @@ LibSDL3 >> openIOIface: iface userdata: userdata [
 	^ self ffiCall: #(SDL_IOStream* SDL_OpenIO(SDL_IOStreamInterface* iface, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> openJoystick: instance_id [
 	"/**
 	 * Open a joystick for use.
@@ -17647,7 +20703,7 @@ LibSDL3 >> openJoystick: instance_id [
 	^ self ffiCall: #(SDL_Joystick* SDL_OpenJoystick(SDL_JoystickID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> openSensor: instance_id [
 	"/**
 	 * Open a sensor for use.
@@ -17662,7 +20718,65 @@ LibSDL3 >> openSensor: instance_id [
 	^ self ffiCall: #(SDL_Sensor* SDL_OpenSensor(SDL_SensorID instance_id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> openStorageIface: iface userdata: userdata [
+	"/**
+	 * Opens up a container using a client-provided storage interface.
+	 *
+	 * Applications do not need to use this function unless they are providing
+	 * their own SDL_Storage implementation. If you just need an SDL_Storage, you
+	 * should use the built-in implementations in SDL, like SDL_OpenTitleStorage()
+	 * or SDL_OpenUserStorage().
+	 *
+	 * This function makes a copy of `iface` and the caller does not need to keep
+	 * it around after this call.
+	 *
+	 * \param iface the interface that implements this storage, initialized using
+	 *              SDL_INIT_INTERFACE().
+	 * \param userdata the pointer that will be passed to the interface functions.
+	 * \returns a storage container on success or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseStorage
+	 * \sa SDL_GetStorageFileSize
+	 * \sa SDL_GetStorageSpaceRemaining
+	 * \sa SDL_INIT_INTERFACE
+	 * \sa SDL_ReadStorageFile
+	 * \sa SDL_StorageReady
+	 * \sa SDL_WriteStorageFile
+	 */"
+
+	^ self ffiCall: #(SDL_Storage* SDL_OpenStorage(SDL_StorageInterface* iface, void* userdata))
+]
+
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> openTitleStorageOverride: override props: props [
+	"/**
+	 * Opens up a read-only container for the application's filesystem.
+	 *
+	 * By default, SDL_OpenTitleStorage uses the generic storage implementation.
+	 * When the path override is not provided, the generic implementation will use
+	 * the output of SDL_GetBasePath as the base path.
+	 *
+	 * \param override a path to override the backend's default title root.
+	 * \param props a property list that may contain backend-specific information.
+	 * \returns a title storage container on success or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseStorage
+	 * \sa SDL_GetStorageFileSize
+	 * \sa SDL_OpenUserStorage
+	 * \sa SDL_ReadStorageFile
+	 */"
+
+	^ self ffiCall: #(SDL_Storage* SDL_OpenTitleStorage(const char* override, SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_misc' }
 LibSDL3 >> openURL: url [
 	"/**
 	 * Open a URL/URI in the browser or other appropriate external application.
@@ -17697,7 +20811,37 @@ LibSDL3 >> openURL: url [
 	^ self ffiCall: #(bool SDL_OpenURL(const char* url))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> openUserStorageOrg: org app: app props: props [
+	"/**
+	 * Opens up a container for a user's unique read/write filesystem.
+	 *
+	 * While title storage can generally be kept open throughout runtime, user
+	 * storage should only be opened when the client is ready to read/write files.
+	 * This allows the backend to properly batch file operations and flush them
+	 * when the container has been closed; ensuring safe and optimal save I/O.
+	 *
+	 * \param org the name of your organization.
+	 * \param app the name of your application.
+	 * \param props a property list that may contain backend-specific information.
+	 * \returns a user storage container on success or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CloseStorage
+	 * \sa SDL_GetStorageFileSize
+	 * \sa SDL_GetStorageSpaceRemaining
+	 * \sa SDL_OpenTitleStorage
+	 * \sa SDL_ReadStorageFile
+	 * \sa SDL_StorageReady
+	 * \sa SDL_WriteStorageFile
+	 */"
+
+	^ self ffiCall: #(SDL_Storage* SDL_OpenUserStorage(const char* org, const char* app, SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_error' }
 LibSDL3 >> outOfMemory [
 	"/**
 	 * Set an error indicating that memory allocation failed.
@@ -17714,7 +20858,7 @@ LibSDL3 >> outOfMemory [
 	^ self ffiCall: #(bool SDL_OutOfMemory())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> pauseAudioDevice: devid [
 	"/**
 	 * Use this function to pause audio playback on a specified device.
@@ -17749,7 +20893,7 @@ LibSDL3 >> pauseAudioDevice: devid [
 	^ self ffiCall: #(bool SDL_PauseAudioDevice(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> pauseAudioStreamDevice: stream [
 	"/**
 	 * Use this function to pause audio playback on the audio device associated
@@ -17777,7 +20921,30 @@ LibSDL3 >> pauseAudioStreamDevice: stream [
 	^ self ffiCall: #(bool SDL_PauseAudioStreamDevice(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> pauseHaptic: haptic [
+	"/**
+	 * Pause a haptic device.
+	 *
+	 * Device must support the `SDL_HAPTIC_PAUSE` feature. Call SDL_ResumeHaptic()
+	 * to resume playback.
+	 *
+	 * Do not modify the effects nor add new ones while the device is paused. That
+	 * can cause all sorts of weird errors.
+	 *
+	 * \param haptic the SDL_Haptic device to pause.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_ResumeHaptic
+	 */"
+
+	^ self ffiCall: #(bool SDL_PauseHaptic(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_events' }
 LibSDL3 >> peepEvents: events numevents: numevents action: action minType: minType maxType: maxType [
 	"/**
 	 * Check the event queue for messages and optionally return them.
@@ -17825,7 +20992,27 @@ LibSDL3 >> peepEvents: events numevents: numevents action: action minType: minTy
 	^ self ffiCall: #(int SDL_PeepEvents(SDL_Event* events, int numevents, SDL_EventAction action, Uint32 minType, Uint32 maxType))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> playHapticRumbleHaptic: haptic strength: strength length: length [
+	"/**
+	 * Run a simple rumble effect on a haptic device.
+	 *
+	 * \param haptic the haptic device to play the rumble effect on.
+	 * \param strength strength of the rumble to play as a 0-1 float value.
+	 * \param length length of the rumble to play in milliseconds.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_InitHapticRumble
+	 * \sa SDL_StopHapticRumble
+	 */"
+
+	^ self ffiCall: #(bool SDL_PlayHapticRumble(SDL_Haptic* haptic, float strength, Uint32 length))
+]
+
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> pointInRectFloatP: p r: r [
 	"/**
 	 * Determine whether a point resides inside a floating point rectangle.
@@ -17849,10 +21036,10 @@ LibSDL3 >> pointInRectFloatP: p r: r [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_PointInRectFloat(SDL_FPoint* p, SDL_FRect* r))
+	^ self ffiCall: #(int SDL_PointInRectFloat(SDL_FPoint* p, SDL_FRect* r))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> pointInRectP: p r: r [
 	"/**
 	 * Determine whether a point resides inside a rectangle.
@@ -17876,10 +21063,10 @@ LibSDL3 >> pointInRectP: p r: r [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_PointInRect(SDL_Point* p, SDL_Rect* r))
+	^ self ffiCall: #(int SDL_PointInRect(SDL_Point* p, SDL_Rect* r))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> pollEvent: event [
 	"/**
 	 * Poll for currently pending events.
@@ -17936,7 +21123,7 @@ LibSDL3 >> pollEvent: event [
 	^ self ffiCall: #(bool SDL_PollEvent(SDL_Event* event))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> popGPUDebugGroup: command_buffer [
 	"/**
 	 * Ends the most-recently pushed debug group.
@@ -17956,7 +21143,7 @@ LibSDL3 >> popGPUDebugGroup: command_buffer [
 	self ffiCall: #(void SDL_PopGPUDebugGroup(SDL_GPUCommandBuffer* command_buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> powX: x y: y [
 	"/**
 	 * Raise `x` to the power `y`
@@ -17992,7 +21179,7 @@ LibSDL3 >> powX: x y: y [
 	^ self ffiCall: #(double SDL_pow(double x, double y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> powfX: x y: y [
 	"/**
 	 * Raise `x` to the power `y`
@@ -18028,7 +21215,7 @@ LibSDL3 >> powfX: x y: y [
 	^ self ffiCall: #(float SDL_powf(float x, float y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> premultiplyAlphaWidth: width height: height srcFormat: src_format src: src srcPitch: src_pitch dstFormat: dst_format dst: dst dstPitch: dst_pitch linear: linear [
 	"/**
 	 * Premultiply the alpha on a block of pixels.
@@ -18058,7 +21245,7 @@ LibSDL3 >> premultiplyAlphaWidth: width height: height srcFormat: src_format src
 	^ self ffiCall: #(bool SDL_PremultiplyAlpha(int width, int height, SDL_PixelFormat src_format, const void* src, int src_pitch, SDL_PixelFormat dst_format, void* dst, int dst_pitch, #bool linear))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> premultiplySurfaceAlphaSurface: surface linear: linear [
 	"/**
 	 * Premultiply the alpha in a surface.
@@ -18080,7 +21267,7 @@ LibSDL3 >> premultiplySurfaceAlphaSurface: surface linear: linear [
 	^ self ffiCall: #(bool SDL_PremultiplySurfaceAlpha(SDL_Surface* surface, #bool linear))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> pumpEvents [
 	"/**
 	 * Pump the event loop, gathering events from the input devices.
@@ -18106,7 +21293,7 @@ LibSDL3 >> pumpEvents [
 	self ffiCall: #(void SDL_PumpEvents())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> pushEvent: event [
 	"/**
 	 * Add an event to the event queue.
@@ -18144,7 +21331,7 @@ LibSDL3 >> pushEvent: event [
 	^ self ffiCall: #(bool SDL_PushEvent(SDL_Event* event))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> pushGPUComputeUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
 	"/**
 	 * Pushes data to a uniform slot on the command buffer.
@@ -18166,7 +21353,7 @@ LibSDL3 >> pushGPUComputeUniformDataCommandBuffer: command_buffer slotIndex: slo
 	self ffiCall: #(void SDL_PushGPUComputeUniformData(SDL_GPUCommandBuffer* command_buffer, Uint32 slot_index, const void* data, Uint32 length))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> pushGPUDebugGroupCommandBuffer: command_buffer name: name [
 	"/**
 	 * Begins a debug group with an arbitrary name.
@@ -18198,7 +21385,7 @@ LibSDL3 >> pushGPUDebugGroupCommandBuffer: command_buffer name: name [
 	self ffiCall: #(void SDL_PushGPUDebugGroup(SDL_GPUCommandBuffer* command_buffer, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> pushGPUFragmentUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
 	"/**
 	 * Pushes data to a fragment uniform slot on the command buffer.
@@ -18220,7 +21407,7 @@ LibSDL3 >> pushGPUFragmentUniformDataCommandBuffer: command_buffer slotIndex: sl
 	self ffiCall: #(void SDL_PushGPUFragmentUniformData(SDL_GPUCommandBuffer* command_buffer, Uint32 slot_index, const void* data, Uint32 length))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
 	"/**
 	 * Pushes data to a vertex uniform slot on the command buffer.
@@ -18245,7 +21432,7 @@ LibSDL3 >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot
 	self ffiCall: #(void SDL_PushGPUVertexUniformData(SDL_GPUCommandBuffer* command_buffer, Uint32 slot_index, const void* data, Uint32 length))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> putAudioStreamDataNoCopyStream: stream buf: buf len: len callback: callback userdata: userdata [
 	"/**
 	 * Add external data to an audio stream without copying it.
@@ -18296,7 +21483,7 @@ LibSDL3 >> putAudioStreamDataNoCopyStream: stream buf: buf len: len callback: ca
 	^ self ffiCall: #(bool SDL_PutAudioStreamDataNoCopy(SDL_AudioStream* stream, const void* buf, int len, SDL_AudioStreamDataCompleteCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> putAudioStreamDataStream: stream buf: buf len: len [
 	"/**
 	 * Add data to the stream.
@@ -18330,7 +21517,7 @@ LibSDL3 >> putAudioStreamDataStream: stream buf: buf len: len [
 	^ self ffiCall: #(bool SDL_PutAudioStreamData(SDL_AudioStream* stream, const void* buf, int len))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> putAudioStreamPlanarDataStream: stream channelBuffers: channel_buffers numChannels: num_channels numSamples: num_samples [
 	"/**
 	 * Add data to the stream with each channel in a separate array.
@@ -18387,7 +21574,7 @@ LibSDL3 >> putAudioStreamPlanarDataStream: stream channelBuffers: channel_buffer
 	^ self ffiCall: #(bool SDL_PutAudioStreamPlanarData(SDL_AudioStream* stream, const void* channel_buffers, int num_channels, int num_samples))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> qsortBase: base nmemb: nmemb size: size compare: compare [
 	"/**
 	 * Sort an array.
@@ -18437,7 +21624,7 @@ LibSDL3 >> qsortBase: base nmemb: nmemb size: size compare: compare [
 	self ffiCall: #(void SDL_qsort(void* base, size_t nmemb, size_t size, SDL_CompareCallback compare))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> qsortRBase: base nmemb: nmemb size: size compare: compare userdata: userdata [
 	"/**
 	 * Sort an array, passing a userdata pointer to the compare function.
@@ -18494,7 +21681,7 @@ LibSDL3 >> qsortRBase: base nmemb: nmemb size: size compare: compare userdata: u
 	self ffiCall: #(void SDL_qsort_r(void* base, size_t nmemb, size_t size, SDL_CompareCallback_r compare, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> queryGPUFenceDevice: device fence: fence [
 	"/**
 	 * Checks the status of a fence.
@@ -18511,7 +21698,7 @@ LibSDL3 >> queryGPUFenceDevice: device fence: fence [
 	^ self ffiCall: #(bool SDL_QueryGPUFence(SDL_GPUDevice* device, SDL_GPUFence* fence))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_init' }
 LibSDL3 >> quit [
 	"/**
 	 * Clean up all initialized subsystems.
@@ -18533,7 +21720,7 @@ LibSDL3 >> quit [
 	self ffiCall: #(void SDL_Quit())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_init' }
 LibSDL3 >> quitSubSystem: flags [
 	"/**
 	 * Shut down specific SDL subsystems.
@@ -18552,7 +21739,7 @@ LibSDL3 >> quitSubSystem: flags [
 	self ffiCall: #(void SDL_QuitSubSystem(SDL_InitFlags flags))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> raiseWindow: window [
 	"/**
 	 * Request that a window be raised above other windows and gain the input
@@ -18576,7 +21763,7 @@ LibSDL3 >> raiseWindow: window [
 	^ self ffiCall: #(bool SDL_RaiseWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> rand: n [
 	"/**
 	 * Generate a pseudo-random number less than n for positive n
@@ -18614,7 +21801,7 @@ LibSDL3 >> rand: n [
 	^ self ffiCall: #(Sint32 SDL_rand(Sint32 n))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> randBits [
 	"/**
 	 * Generate 32 pseudo-random bits.
@@ -18641,7 +21828,7 @@ LibSDL3 >> randBits [
 	^ self ffiCall: #(Uint32 SDL_rand_bits())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> randBitsR: state [
 	"/**
 	 * Generate 32 pseudo-random bits.
@@ -18670,7 +21857,7 @@ LibSDL3 >> randBitsR: state [
 	^ self ffiCall: #(Uint32 SDL_rand_bits_r(Uint64* state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> randRState: state n: n [
 	"/**
 	 * Generate a pseudo-random number less than n for positive n
@@ -18709,7 +21896,7 @@ LibSDL3 >> randRState: state n: n [
 	^ self ffiCall: #(Sint32 SDL_rand_r(Uint64* state, Sint32 n))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> randf [
 	"/**
 	 * Generate a uniform pseudo-random floating point number less than 1.0
@@ -18736,7 +21923,7 @@ LibSDL3 >> randf [
 	^ self ffiCall: #(float SDL_randf())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> randfR: state [
 	"/**
 	 * Generate a uniform pseudo-random floating point number less than 1.0
@@ -18767,7 +21954,7 @@ LibSDL3 >> randfR: state [
 	^ self ffiCall: #(float SDL_randf_r(Uint64* state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> readAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
 	"/**
 	 * Start an async read.
@@ -18809,7 +21996,7 @@ LibSDL3 >> readAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue 
 	^ self ffiCall: #(bool SDL_ReadAsyncIO(SDL_AsyncIO* asyncio, void* ptr, Uint64 offset, Uint64 size, SDL_AsyncIOQueue* queue, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readIOContext: context ptr: ptr size: size [
 	"/**
 	 * Read from a data source.
@@ -18843,7 +22030,42 @@ LibSDL3 >> readIOContext: context ptr: ptr size: size [
 	^ self ffiCall: #(size_t SDL_ReadIO(SDL_IOStream* context, void* ptr, size_t size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_process' }
+LibSDL3 >> readProcess: process datasize: datasize exitcode: exitcode [
+	"/**
+	 * Read all the output from a process.
+	 *
+	 * If a process was created with I/O enabled, you can use this function to
+	 * read the output. This function blocks until the process is complete,
+	 * capturing all output, and providing the process exit code.
+	 *
+	 * The data is allocated with a zero byte at the end (null terminated) for
+	 * convenience. This extra byte is not included in the value reported via
+	 * `datasize`.
+	 *
+	 * The data should be freed with SDL_free().
+	 *
+	 * \param process The process to read.
+	 * \param datasize a pointer filled in with the number of bytes read, may be
+	 *                 NULL.
+	 * \param exitcode a pointer filled in with the process exit code if the
+	 *                 process has exited, may be NULL.
+	 * \returns the data or NULL on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function is not thread safe.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_DestroyProcess
+	 */"
+
+	^ self ffiCall: #(void* SDL_ReadProcess(SDL_Process* process, size_t* datasize, int* exitcode))
+]
+
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readS16BESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of big-endian data from an SDL_IOStream
@@ -18870,7 +22092,7 @@ LibSDL3 >> readS16BESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadS16BE(SDL_IOStream* src, Sint16* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readS16LESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of little-endian data from an
@@ -18897,7 +22119,7 @@ LibSDL3 >> readS16LESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadS16LE(SDL_IOStream* src, Sint16* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readS32BESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of big-endian data from an SDL_IOStream
@@ -18924,7 +22146,7 @@ LibSDL3 >> readS32BESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadS32BE(SDL_IOStream* src, Sint32* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readS32LESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of little-endian data from an
@@ -18951,7 +22173,7 @@ LibSDL3 >> readS32LESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadS32LE(SDL_IOStream* src, Sint32* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readS64BESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of big-endian data from an SDL_IOStream
@@ -18978,7 +22200,7 @@ LibSDL3 >> readS64BESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadS64BE(SDL_IOStream* src, Sint64* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readS64LESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of little-endian data from an
@@ -19005,7 +22227,7 @@ LibSDL3 >> readS64LESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadS64LE(SDL_IOStream* src, Sint64* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readS8Src: src value: value [
 	"/**
 	 * Use this function to read a signed byte from an SDL_IOStream.
@@ -19028,7 +22250,34 @@ LibSDL3 >> readS8Src: src value: value [
 	^ self ffiCall: #(bool SDL_ReadS8(SDL_IOStream* src, Sint8* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> readStorageFileStorage: storage path: path destination: destination length: length [
+	"/**
+	 * Synchronously read a file from a storage container into a client-provided
+	 * buffer.
+	 *
+	 * The value of `length` must match the length of the file exactly; call
+	 * SDL_GetStorageFileSize() to get this value. This behavior may be relaxed in
+	 * a future release.
+	 *
+	 * \param storage a storage container to read from.
+	 * \param path the relative path of the file to read.
+	 * \param destination a client-provided buffer to read the file into.
+	 * \param length the length of the destination buffer.
+	 * \returns true if the file was read or false on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetStorageFileSize
+	 * \sa SDL_StorageReady
+	 * \sa SDL_WriteStorageFile
+	 */"
+
+	^ self ffiCall: #(bool SDL_ReadStorageFile(SDL_Storage* storage, const char* path, void* destination, Uint64 length))
+]
+
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> readSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Retrieves a single pixel from a surface.
@@ -19059,7 +22308,7 @@ LibSDL3 >> readSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_ReadSurfacePixelFloat(SDL_Surface* surface, int x, int y, float* r, float* g, float* b, float* a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> readSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Retrieves a single pixel from a surface.
@@ -19093,7 +22342,7 @@ LibSDL3 >> readSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_ReadSurfacePixel(SDL_Surface* surface, int x, int y, Uint8* r, Uint8* g, Uint8* b, Uint8* a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readU16BESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of big-endian data from an SDL_IOStream
@@ -19120,7 +22369,7 @@ LibSDL3 >> readU16BESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadU16BE(SDL_IOStream* src, Uint16* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readU16LESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of little-endian data from an
@@ -19147,7 +22396,7 @@ LibSDL3 >> readU16LESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadU16LE(SDL_IOStream* src, Uint16* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readU32BESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of big-endian data from an SDL_IOStream
@@ -19174,7 +22423,7 @@ LibSDL3 >> readU32BESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadU32BE(SDL_IOStream* src, Uint32* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readU32LESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of little-endian data from an
@@ -19201,7 +22450,7 @@ LibSDL3 >> readU32LESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadU32LE(SDL_IOStream* src, Uint32* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readU64BESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of big-endian data from an SDL_IOStream
@@ -19228,7 +22477,7 @@ LibSDL3 >> readU64BESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadU64BE(SDL_IOStream* src, Uint64* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readU64LESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of little-endian data from an
@@ -19255,7 +22504,7 @@ LibSDL3 >> readU64LESrc: src value: value [
 	^ self ffiCall: #(bool SDL_ReadU64LE(SDL_IOStream* src, Uint64* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> readU8Src: src value: value [
 	"/**
 	 * Use this function to read a byte from an SDL_IOStream.
@@ -19278,7 +22527,7 @@ LibSDL3 >> readU8Src: src value: value [
 	^ self ffiCall: #(bool SDL_ReadU8(SDL_IOStream* src, Uint8* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> reallocMem: mem size: size [
 	"/**
 	 * Change the size of allocated memory.
@@ -19322,7 +22571,7 @@ LibSDL3 >> reallocMem: mem size: size [
 	^ self ffiCall: #(void* SDL_realloc(void* mem, size_t size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> rectEmpty: r [
 	"/**
 	 * Determine whether a rectangle has no area.
@@ -19343,10 +22592,10 @@ LibSDL3 >> rectEmpty: r [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_RectEmpty(SDL_Rect* r))
+	^ self ffiCall: #(int SDL_RectEmpty(SDL_Rect* r))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> rectEmptyFloat: r [
 	"/**
 	 * Determine whether a floating point rectangle takes no space.
@@ -19367,10 +22616,10 @@ LibSDL3 >> rectEmptyFloat: r [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_RectEmptyFloat(SDL_FRect* r))
+	^ self ffiCall: #(int SDL_RectEmptyFloat(SDL_FRect* r))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> rectToFRect: rect frect: frect [
 	"/**
 	 * Convert an SDL_Rect to SDL_FRect
@@ -19384,10 +22633,10 @@ LibSDL3 >> rectToFRect: rect frect: frect [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	self ffiCall: #(void SDL_RectToFRect(SDL_Rect* rect, SDL_FRect* frect))
+	^ self ffiCall: #(int SDL_RectToFRect(SDL_Rect* rect, SDL_FRect* frect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> rectsEqualA: a b: b [
 	"/**
 	 * Determine whether two rectangles are equal.
@@ -19409,10 +22658,10 @@ LibSDL3 >> rectsEqualA: a b: b [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_RectsEqual(SDL_Rect* a, SDL_Rect* b))
+	^ self ffiCall: #(int SDL_RectsEqual(SDL_Rect* a, SDL_Rect* b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> rectsEqualEpsilonA: a b: b epsilon: epsilon [
 	"/**
 	 * Determine whether two floating point rectangles are equal, within some
@@ -19440,10 +22689,10 @@ LibSDL3 >> rectsEqualEpsilonA: a b: b epsilon: epsilon [
 	 * \sa SDL_RectsEqualFloat
 	 */"
 
-	^ self ffiCall: #(bool SDL_RectsEqualEpsilon(SDL_FRect* a, SDL_FRect* b, float epsilon))
+	^ self ffiCall: #(int SDL_RectsEqualEpsilon(SDL_FRect* a, SDL_FRect* b, float epsilon))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_rect' }
 LibSDL3 >> rectsEqualFloatA: a b: b [
 	"/**
 	 * Determine whether two floating point rectangles are equal, within a default
@@ -19471,10 +22720,10 @@ LibSDL3 >> rectsEqualFloatA: a b: b [
 	 * \sa SDL_RectsEqualEpsilon
 	 */"
 
-	^ self ffiCall: #(bool SDL_RectsEqualFloat(SDL_FRect* a, SDL_FRect* b))
+	^ self ffiCall: #(int SDL_RectsEqualFloat(SDL_FRect* a, SDL_FRect* b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> registerEvents: numevents [
 	"/**
 	 * Allocate a set of user-defined events, and return the beginning event
@@ -19494,7 +22743,7 @@ LibSDL3 >> registerEvents: numevents [
 	^ self ffiCall: #(Uint32 SDL_RegisterEvents(int numevents))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_camera' }
 LibSDL3 >> releaseCameraFrameCamera: camera frame: frame [
 	"/**
 	 * Release a frame of video acquired from a camera.
@@ -19526,7 +22775,7 @@ LibSDL3 >> releaseCameraFrameCamera: camera frame: frame [
 	self ffiCall: #(void SDL_ReleaseCameraFrame(SDL_Camera* camera, SDL_Surface* frame))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUBufferDevice: device buffer: buffer [
 	"/**
 	 * Frees the given buffer as soon as it is safe to do so.
@@ -19542,7 +22791,7 @@ LibSDL3 >> releaseGPUBufferDevice: device buffer: buffer [
 	self ffiCall: #(void SDL_ReleaseGPUBuffer(SDL_GPUDevice* device, SDL_GPUBuffer* buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUComputePipelineDevice: device computePipeline: compute_pipeline [
 	"/**
 	 * Frees the given compute pipeline as soon as it is safe to do so.
@@ -19558,7 +22807,7 @@ LibSDL3 >> releaseGPUComputePipelineDevice: device computePipeline: compute_pipe
 	self ffiCall: #(void SDL_ReleaseGPUComputePipeline(SDL_GPUDevice* device, SDL_GPUComputePipeline* compute_pipeline))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUFenceDevice: device fence: fence [
 	"/**
 	 * Releases a fence obtained from SDL_SubmitGPUCommandBufferAndAcquireFence.
@@ -19576,7 +22825,7 @@ LibSDL3 >> releaseGPUFenceDevice: device fence: fence [
 	self ffiCall: #(void SDL_ReleaseGPUFence(SDL_GPUDevice* device, SDL_GPUFence* fence))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUGraphicsPipelineDevice: device graphicsPipeline: graphics_pipeline [
 	"/**
 	 * Frees the given graphics pipeline as soon as it is safe to do so.
@@ -19592,7 +22841,7 @@ LibSDL3 >> releaseGPUGraphicsPipelineDevice: device graphicsPipeline: graphics_p
 	self ffiCall: #(void SDL_ReleaseGPUGraphicsPipeline(SDL_GPUDevice* device, SDL_GPUGraphicsPipeline* graphics_pipeline))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUSamplerDevice: device sampler: sampler [
 	"/**
 	 * Frees the given sampler as soon as it is safe to do so.
@@ -19608,7 +22857,7 @@ LibSDL3 >> releaseGPUSamplerDevice: device sampler: sampler [
 	self ffiCall: #(void SDL_ReleaseGPUSampler(SDL_GPUDevice* device, SDL_GPUSampler* sampler))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUShaderDevice: device shader: shader [
 	"/**
 	 * Frees the given shader as soon as it is safe to do so.
@@ -19624,7 +22873,7 @@ LibSDL3 >> releaseGPUShaderDevice: device shader: shader [
 	self ffiCall: #(void SDL_ReleaseGPUShader(SDL_GPUDevice* device, SDL_GPUShader* shader))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUTextureDevice: device texture: texture [
 	"/**
 	 * Frees the given texture as soon as it is safe to do so.
@@ -19640,7 +22889,7 @@ LibSDL3 >> releaseGPUTextureDevice: device texture: texture [
 	self ffiCall: #(void SDL_ReleaseGPUTexture(SDL_GPUDevice* device, SDL_GPUTexture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseGPUTransferBufferDevice: device transferBuffer: transfer_buffer [
 	"/**
 	 * Frees the given transfer buffer as soon as it is safe to do so.
@@ -19656,7 +22905,7 @@ LibSDL3 >> releaseGPUTransferBufferDevice: device transferBuffer: transfer_buffe
 	self ffiCall: #(void SDL_ReleaseGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBuffer* transfer_buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> releaseWindowFromGPUDevice: device window: window [
 	"/**
 	 * Unclaims a window, destroying its swapchain structure.
@@ -19672,7 +22921,25 @@ LibSDL3 >> releaseWindowFromGPUDevice: device window: window [
 	self ffiCall: #(void SDL_ReleaseWindowFromGPUDevice(SDL_GPUDevice* device, SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> reloadGamepadMappings [
+	"/**
+	 * Reinitialize the SDL mapping database to its initial state.
+	 *
+	 * This will generate gamepad events as needed if device mappings change.
+	 *
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_ReloadGamepadMappings())
+]
+
+{ #category : 'public - SDL_events' }
 LibSDL3 >> removeEventWatchFilter: filter userdata: userdata [
 	"/**
 	 * Remove an event watch callback added with SDL_AddEventWatch().
@@ -19693,7 +22960,27 @@ LibSDL3 >> removeEventWatchFilter: filter userdata: userdata [
 	self ffiCall: #(void SDL_RemoveEventWatch(SDL_EventFilter filter, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> removeHintCallbackName: name callback: callback userdata: userdata [
+	"/**
+	 * Remove a function watching a particular hint.
+	 *
+	 * \param name the hint being watched.
+	 * \param callback an SDL_HintCallback function that will be called when the
+	 *                 hint value changes.
+	 * \param userdata a pointer being passed to the callback function.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddHintCallback
+	 */"
+
+	self ffiCall: #(void SDL_RemoveHintCallback(const char* name, SDL_HintCallback callback, void* userdata))
+]
+
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> removePath: path [
 	"/**
 	 * Remove a file or an empty directory.
@@ -19713,7 +23000,25 @@ LibSDL3 >> removePath: path [
 	^ self ffiCall: #(bool SDL_RemovePath(const char* path))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> removeStoragePathStorage: storage path: path [
+	"/**
+	 * Remove a file or an empty directory in a writable storage container.
+	 *
+	 * \param storage a storage container.
+	 * \param path the path of the directory to enumerate.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_RemoveStoragePath(SDL_Storage* storage, const char* path))
+]
+
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> removeSurfaceAlternateImages: surface [
 	"/**
 	 * Remove all alternate versions of a surface.
@@ -19736,7 +23041,7 @@ LibSDL3 >> removeSurfaceAlternateImages: surface [
 	self ffiCall: #(void SDL_RemoveSurfaceAlternateImages(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_timer' }
 LibSDL3 >> removeTimer: id [
 	"/**
 	 * Remove a timer created with SDL_AddTimer().
@@ -19755,7 +23060,7 @@ LibSDL3 >> removeTimer: id [
 	^ self ffiCall: #(bool SDL_RemoveTimer(SDL_TimerID id))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> removeTrayEntry: entry [
 	"/**
 	 * Removes a tray entry.
@@ -19774,7 +23079,7 @@ LibSDL3 >> removeTrayEntry: entry [
 	self ffiCall: #(void SDL_RemoveTrayEntry(SDL_TrayEntry* entry))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_filesystem' }
 LibSDL3 >> renamePathOldpath: oldpath newpath: newpath [
 	"/**
 	 * Rename a file or directory.
@@ -19803,7 +23108,26 @@ LibSDL3 >> renamePathOldpath: oldpath newpath: newpath [
 	^ self ffiCall: #(bool SDL_RenamePath(const char* oldpath, const char* newpath))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> renameStoragePathStorage: storage oldpath: oldpath newpath: newpath [
+	"/**
+	 * Rename a file or directory in a writable storage container.
+	 *
+	 * \param storage a storage container.
+	 * \param oldpath the old path.
+	 * \param newpath the new path.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_RenameStoragePath(SDL_Storage* storage, const char* oldpath, const char* newpath))
+]
+
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderClear: renderer [
 	"/**
 	 * Clear the current rendering target with the drawing color.
@@ -19827,7 +23151,7 @@ LibSDL3 >> renderClear: renderer [
 	^ self ffiCall: #(bool SDL_RenderClear(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderClipEnabled: renderer [
 	"/**
 	 * Get whether clipping is enabled on the given render target.
@@ -19850,7 +23174,7 @@ LibSDL3 >> renderClipEnabled: renderer [
 	^ self ffiCall: #(bool SDL_RenderClipEnabled(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderCoordinatesFromWindowRenderer: renderer windowX: window_x windowY: window_y x: x y: y [
 	"/**
 	 * Get a point in render coordinates when given a point in window coordinates.
@@ -19881,7 +23205,7 @@ LibSDL3 >> renderCoordinatesFromWindowRenderer: renderer windowX: window_x windo
 	^ self ffiCall: #(bool SDL_RenderCoordinatesFromWindow(SDL_Renderer* renderer, float window_x, float window_y, float* x, float* y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderCoordinatesToWindowRenderer: renderer x: x y: y windowX: window_x windowY: window_y [
 	"/**
 	 * Get a point in window coordinates when given a point in render coordinates.
@@ -19915,7 +23239,7 @@ LibSDL3 >> renderCoordinatesToWindowRenderer: renderer x: x y: y windowX: window
 	^ self ffiCall: #(bool SDL_RenderCoordinatesToWindow(SDL_Renderer* renderer, float x, float y, float* window_x, float* window_y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderDebugTextRenderer: renderer x: x y: y str: str [
 	"/**
 	 * Draw debug text to an SDL_Renderer.
@@ -19960,7 +23284,7 @@ LibSDL3 >> renderDebugTextRenderer: renderer x: x y: y str: str [
 	^ self ffiCall: #(bool SDL_RenderDebugText(SDL_Renderer* renderer, float x, float y, const char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderFillRectRenderer: renderer rect: rect [
 	"/**
 	 * Fill a rectangle on the current rendering target with the drawing color at
@@ -19982,7 +23306,7 @@ LibSDL3 >> renderFillRectRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_RenderFillRect(SDL_Renderer* renderer, SDL_FRect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderFillRectsRenderer: renderer rects: rects count: count [
 	"/**
 	 * Fill some number of rectangles on the current rendering target with the
@@ -20004,7 +23328,7 @@ LibSDL3 >> renderFillRectsRenderer: renderer rects: rects count: count [
 	^ self ffiCall: #(bool SDL_RenderFillRects(SDL_Renderer* renderer, SDL_FRect* rects, int count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderGeometryRawRenderer: renderer texture: texture xy: xy xyStride: xy_stride color: color colorStride: color_stride uv: uv uvStride: uv_stride numVertices: num_vertices indices: indices numIndices: num_indices sizeIndices: size_indices [
 	"/**
 	 * Render a list of triangles, optionally using a texture and indices into the
@@ -20038,7 +23362,7 @@ LibSDL3 >> renderGeometryRawRenderer: renderer texture: texture xy: xy xyStride:
 	^ self ffiCall: #(bool SDL_RenderGeometryRaw(SDL_Renderer* renderer, SDL_Texture* texture, const float* xy, int xy_stride, SDL_FColor* color, int color_stride, const float* uv, int uv_stride, int num_vertices, const void* indices, int num_indices, int size_indices))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderGeometryRenderer: renderer texture: texture vertices: vertices numVertices: num_vertices indices: indices numIndices: num_indices [
 	"/**
 	 * Render a list of triangles, optionally using a texture and indices into the
@@ -20067,7 +23391,7 @@ LibSDL3 >> renderGeometryRenderer: renderer texture: texture vertices: vertices 
 	^ self ffiCall: #(bool SDL_RenderGeometry(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Vertex* vertices, int num_vertices, const int* indices, int num_indices))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderLineRenderer: renderer x1: x1 y1: y1 x2: x2 y2: y2 [
 	"/**
 	 * Draw a line on the current rendering target at subpixel precision.
@@ -20090,7 +23414,7 @@ LibSDL3 >> renderLineRenderer: renderer x1: x1 y1: y1 x2: x2 y2: y2 [
 	^ self ffiCall: #(bool SDL_RenderLine(SDL_Renderer* renderer, float x1, float y1, float x2, float y2))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderLinesRenderer: renderer points: points count: count [
 	"/**
 	 * Draw a series of connected lines on the current rendering target at
@@ -20112,7 +23436,7 @@ LibSDL3 >> renderLinesRenderer: renderer points: points count: count [
 	^ self ffiCall: #(bool SDL_RenderLines(SDL_Renderer* renderer, SDL_FPoint* points, int count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderPointRenderer: renderer x: x y: y [
 	"/**
 	 * Draw a point on the current rendering target at subpixel precision.
@@ -20133,7 +23457,7 @@ LibSDL3 >> renderPointRenderer: renderer x: x y: y [
 	^ self ffiCall: #(bool SDL_RenderPoint(SDL_Renderer* renderer, float x, float y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderPointsRenderer: renderer points: points count: count [
 	"/**
 	 * Draw multiple points on the current rendering target at subpixel precision.
@@ -20154,7 +23478,7 @@ LibSDL3 >> renderPointsRenderer: renderer points: points count: count [
 	^ self ffiCall: #(bool SDL_RenderPoints(SDL_Renderer* renderer, SDL_FPoint* points, int count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderPresent: renderer [
 	"/**
 	 * Update the screen with any rendering performed since the previous call.
@@ -20207,7 +23531,7 @@ LibSDL3 >> renderPresent: renderer [
 	^ self ffiCall: #(bool SDL_RenderPresent(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderReadPixelsRenderer: renderer rect: rect [
 	"/**
 	 * Read pixels from the current rendering target.
@@ -20238,7 +23562,7 @@ LibSDL3 >> renderReadPixelsRenderer: renderer rect: rect [
 	^ self ffiCall: #(SDL_Surface* SDL_RenderReadPixels(SDL_Renderer* renderer, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderRectRenderer: renderer rect: rect [
 	"/**
 	 * Draw a rectangle on the current rendering target at subpixel precision.
@@ -20259,7 +23583,7 @@ LibSDL3 >> renderRectRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_RenderRect(SDL_Renderer* renderer, SDL_FRect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderRectsRenderer: renderer rects: rects count: count [
 	"/**
 	 * Draw some number of rectangles on the current rendering target at subpixel
@@ -20281,7 +23605,7 @@ LibSDL3 >> renderRectsRenderer: renderer rects: rects count: count [
 	^ self ffiCall: #(bool SDL_RenderRects(SDL_Renderer* renderer, SDL_FRect* rects, int count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderTexture9GridRenderer: renderer texture: texture srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale dstrect: dstrect [
 	"/**
 	 * Perform a scaled copy using the 9-grid algorithm to the current rendering
@@ -20320,7 +23644,7 @@ LibSDL3 >> renderTexture9GridRenderer: renderer texture: texture srcrect: srcrec
 	^ self ffiCall: #(bool SDL_RenderTexture9Grid(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, float left_width, float right_width, float top_height, float bottom_height, float scale, SDL_FRect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderTexture9GridTiledRenderer: renderer texture: texture srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale dstrect: dstrect tileScale: tileScale [
 	"/**
 	 * Perform a scaled copy using the 9-grid algorithm to the current rendering
@@ -20362,7 +23686,7 @@ LibSDL3 >> renderTexture9GridTiledRenderer: renderer texture: texture srcrect: s
 	^ self ffiCall: #(bool SDL_RenderTexture9GridTiled(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, float left_width, float right_width, float top_height, float bottom_height, float scale, SDL_FRect* dstrect, float tileScale))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderTextureAffineRenderer: renderer texture: texture srcrect: srcrect origin: origin right: right down: down [
 	"/**
 	 * Copy a portion of the source texture to the current rendering target, with
@@ -20394,7 +23718,7 @@ LibSDL3 >> renderTextureAffineRenderer: renderer texture: texture srcrect: srcre
 	^ self ffiCall: #(bool SDL_RenderTextureAffine(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, SDL_FPoint* origin, SDL_FPoint* right, SDL_FPoint* down))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderTextureRenderer: renderer texture: texture srcrect: srcrect dstrect: dstrect [
 	"/**
 	 * Copy a portion of the texture to the current rendering target at subpixel
@@ -20420,7 +23744,7 @@ LibSDL3 >> renderTextureRenderer: renderer texture: texture srcrect: srcrect dst
 	^ self ffiCall: #(bool SDL_RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, SDL_FRect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderTextureRotatedRenderer: renderer texture: texture srcrect: srcrect dstrect: dstrect angle: angle center: center flip: flip [
 	"/**
 	 * Copy a portion of the source texture to the current rendering target, with
@@ -20452,7 +23776,7 @@ LibSDL3 >> renderTextureRotatedRenderer: renderer texture: texture srcrect: srcr
 	^ self ffiCall: #(bool SDL_RenderTextureRotated(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, SDL_FRect* dstrect, double angle, SDL_FPoint* center, SDL_FlipMode flip))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderTextureTiledRenderer: renderer texture: texture srcrect: srcrect scale: scale dstrect: dstrect [
 	"/**
 	 * Tile a portion of the texture to the current rendering target at subpixel
@@ -20483,7 +23807,7 @@ LibSDL3 >> renderTextureTiledRenderer: renderer texture: texture srcrect: srcrec
 	^ self ffiCall: #(bool SDL_RenderTextureTiled(SDL_Renderer* renderer, SDL_Texture* texture, SDL_FRect* srcrect, float scale, SDL_FRect* dstrect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> renderViewportSet: renderer [
 	"/**
 	 * Return whether an explicit rectangle was set as the viewport.
@@ -20509,50 +23833,50 @@ LibSDL3 >> renderViewportSet: renderer [
 	^ self ffiCall: #(bool SDL_RenderViewportSet(SDL_Renderer* renderer))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> reportAssertionData: data func: func file: file line: line [
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> resetHint: name [
 	"/**
-	 * Never call this directly.
+	 * Reset a hint to the default value.
 	 *
-	 * Use the SDL_assert macros instead.
+	 * This will reset a hint to the value of the environment variable, or NULL if
+	 * the environment isn't set. Callbacks will be called normally with this
+	 * change.
 	 *
-	 * \param data assert data structure.
-	 * \param func function name.
-	 * \param file file name.
-	 * \param line line number.
-	 * \returns assert state.
+	 * \param name the hint to set.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
 	 *
 	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetHint
+	 * \sa SDL_ResetHints
 	 */"
 
-	^ self ffiCall: #(SDL_AssertState SDL_ReportAssertion(SDL_AssertData* data, const char* func, const char* file, int line))
+	^ self ffiCall: #(bool SDL_ResetHint(const char* name))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> resetAssertionReport [
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> resetHints [
 	"/**
-	 * Clear the list of all assertion failures.
+	 * Reset all hints to the default values.
 	 *
-	 * This function will clear the list of all assertions triggered up to that
-	 * point. Immediately following this call, SDL_GetAssertionReport will return
-	 * no items. In addition, any previously-triggered assertions will be reset to
-	 * a trigger_count of zero, and their always_ignore state will be false.
+	 * This will reset all hints to the value of the associated environment
+	 * variable, or NULL if the environment isn't set. Callbacks will be called
+	 * normally with this change.
 	 *
-	 * \threadsafety This function is not thread safe. Other threads triggering an
-	 *               assertion, or simultaneously calling this function may cause
-	 *               memory leaks or crashes.
+	 * \threadsafety It is safe to call this function from any thread.
 	 *
 	 * \since This function is available since SDL 3.2.0.
 	 *
-	 * \sa SDL_GetAssertionReport
+	 * \sa SDL_ResetHint
 	 */"
 
-	self ffiCall: #(void SDL_ResetAssertionReport())
+	self ffiCall: #(void SDL_ResetHints())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> resetKeyboard [
 	"/**
 	 * Clear the state of the keyboard.
@@ -20569,7 +23893,25 @@ LibSDL3 >> resetKeyboard [
 	self ffiCall: #(void SDL_ResetKeyboard())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_log' }
+LibSDL3 >> resetLogPriorities [
+	"/**
+	 * Reset all priorities to default.
+	 *
+	 * This is called by SDL_Quit().
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetLogPriorities
+	 * \sa SDL_SetLogPriority
+	 */"
+
+	self ffiCall: #(void SDL_ResetLogPriorities())
+]
+
+{ #category : 'public - SDL_video' }
 LibSDL3 >> restoreWindow: window [
 	"/**
 	 * Request that the size and position of a minimized or maximized window be
@@ -20603,7 +23945,7 @@ LibSDL3 >> restoreWindow: window [
 	^ self ffiCall: #(bool SDL_RestoreWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> resumeAudioDevice: devid [
 	"/**
 	 * Use this function to unpause audio playback on a specified device.
@@ -20635,7 +23977,7 @@ LibSDL3 >> resumeAudioDevice: devid [
 	^ self ffiCall: #(bool SDL_ResumeAudioDevice(SDL_AudioDeviceID devid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> resumeAudioStreamDevice: stream [
 	"/**
 	 * Use this function to unpause audio playback on the audio device associated
@@ -20662,7 +24004,26 @@ LibSDL3 >> resumeAudioStreamDevice: stream [
 	^ self ffiCall: #(bool SDL_ResumeAudioStreamDevice(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> resumeHaptic: haptic [
+	"/**
+	 * Resume a haptic device.
+	 *
+	 * Call to unpause after SDL_PauseHaptic().
+	 *
+	 * \param haptic the SDL_Haptic device to unpause.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_PauseHaptic
+	 */"
+
+	^ self ffiCall: #(bool SDL_ResumeHaptic(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> rotateSurface: surface angle: angle [
 	"/**
 	 * Return a copy of a surface rotated clockwise a number of degrees.
@@ -20695,7 +24056,7 @@ LibSDL3 >> rotateSurface: surface angle: angle [
 	^ self ffiCall: #(SDL_Surface* SDL_RotateSurface(SDL_Surface* surface, float angle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> round: x [
 	"/**
 	 * Round `x` to the nearest integer.
@@ -20728,7 +24089,7 @@ LibSDL3 >> round: x [
 	^ self ffiCall: #(double SDL_round(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> roundf: x [
 	"/**
 	 * Round `x` to the nearest integer.
@@ -20761,7 +24122,69 @@ LibSDL3 >> roundf: x [
 	^ self ffiCall: #(float SDL_roundf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> rumbleGamepad: gamepad lowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
+	"/**
+	 * Start a rumble effect on a gamepad.
+	 *
+	 * Each call to this function cancels any previous rumble effect, and calling
+	 * it with 0 intensity stops any rumbling.
+	 *
+	 * This function requires you to process SDL events or call
+	 * SDL_UpdateJoysticks() to update rumble state.
+	 *
+	 * \param gamepad the gamepad to vibrate.
+	 * \param low_frequency_rumble the intensity of the low frequency (left)
+	 *                             rumble motor, from 0 to 0xFFFF.
+	 * \param high_frequency_rumble the intensity of the high frequency (right)
+	 *                              rumble motor, from 0 to 0xFFFF.
+	 * \param duration_ms the duration of the rumble effect, in milliseconds.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_RumbleGamepad(SDL_Gamepad* gamepad, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble, Uint32 duration_ms))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> rumbleGamepadTriggersGamepad: gamepad leftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
+	"/**
+	 * Start a rumble effect in the gamepad's triggers.
+	 *
+	 * Each call to this function cancels any previous trigger rumble effect, and
+	 * calling it with 0 intensity stops any rumbling.
+	 *
+	 * Note that this is rumbling of the _triggers_ and not the gamepad as a
+	 * whole. This is currently only supported on Xbox One gamepads. If you want
+	 * the (more common) whole-gamepad rumble, use SDL_RumbleGamepad() instead.
+	 *
+	 * This function requires you to process SDL events or call
+	 * SDL_UpdateJoysticks() to update rumble state.
+	 *
+	 * \param gamepad the gamepad to vibrate.
+	 * \param left_rumble the intensity of the left trigger rumble motor, from 0
+	 *                    to 0xFFFF.
+	 * \param right_rumble the intensity of the right trigger rumble motor, from 0
+	 *                     to 0xFFFF.
+	 * \param duration_ms the duration of the rumble effect, in milliseconds.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_RumbleGamepad
+	 */"
+
+	^ self ffiCall: #(bool SDL_RumbleGamepadTriggers(SDL_Gamepad* gamepad, Uint16 left_rumble, Uint16 right_rumble, Uint32 duration_ms))
+]
+
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> rumbleJoystick: joystick lowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
 	"/**
 	 * Start a rumble effect.
@@ -20788,7 +24211,7 @@ LibSDL3 >> rumbleJoystick: joystick lowFrequencyRumble: low_frequency_rumble hig
 	^ self ffiCall: #(bool SDL_RumbleJoystick(SDL_Joystick* joystick, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble, Uint32 duration_ms))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> rumbleJoystickTriggersJoystick: joystick leftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
 	"/**
 	 * Start a rumble effect in the joystick's triggers.
@@ -20823,7 +24246,35 @@ LibSDL3 >> rumbleJoystickTriggersJoystick: joystick leftRumble: left_rumble righ
 	^ self ffiCall: #(bool SDL_RumbleJoystickTriggers(SDL_Joystick* joystick, Uint16 left_rumble, Uint16 right_rumble, Uint32 duration_ms))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> runHapticEffectHaptic: haptic effect: effect iterations: iterations [
+	"/**
+	 * Run the haptic effect on its associated haptic device.
+	 *
+	 * To repeat the effect over and over indefinitely, set `iterations` to
+	 * `SDL_HAPTIC_INFINITY`. (Repeats the envelope - attack and fade.) To make
+	 * one instance of the effect last indefinitely (so the effect does not fade),
+	 * set the effect's `length` in its structure/union to `SDL_HAPTIC_INFINITY`
+	 * instead.
+	 *
+	 * \param haptic the SDL_Haptic device to run the effect on.
+	 * \param effect the ID of the haptic effect to run.
+	 * \param iterations the number of iterations to run the effect; use
+	 *                   `SDL_HAPTIC_INFINITY` to repeat forever.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHapticEffectStatus
+	 * \sa SDL_StopHapticEffect
+	 * \sa SDL_StopHapticEffects
+	 */"
+
+	^ self ffiCall: #(bool SDL_RunHapticEffect(SDL_Haptic* haptic, SDL_HapticEffectID effect, Uint32 iterations))
+]
+
+{ #category : 'public - SDL_init' }
 LibSDL3 >> runOnMainThreadCallback: callback userdata: userdata waitComplete: wait_complete [
 	"/**
 	 * Call a function on the main thread during event processing.
@@ -20861,7 +24312,7 @@ LibSDL3 >> runner [
 		yourself
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> saveBMPIOSurface: surface dst: dst closeio: closeio [
 	"/**
 	 * Save a surface to a seekable SDL data stream in BMP format.
@@ -20891,7 +24342,7 @@ LibSDL3 >> saveBMPIOSurface: surface dst: dst closeio: closeio [
 	^ self ffiCall: #(bool SDL_SaveBMP_IO(SDL_Surface* surface, SDL_IOStream* dst, #bool closeio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> saveBMPSurface: surface file: file [
 	"/**
 	 * Save a surface to a file in BMP format.
@@ -20919,7 +24370,7 @@ LibSDL3 >> saveBMPSurface: surface file: file [
 	^ self ffiCall: #(bool SDL_SaveBMP(SDL_Surface* surface, const char* file))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> saveFile: file data: data datasize: datasize [
 	"/**
 	 * Save all the data into a file path.
@@ -20942,7 +24393,7 @@ LibSDL3 >> saveFile: file data: data datasize: datasize [
 	^ self ffiCall: #(bool SDL_SaveFile(const char* file, const void* data, size_t datasize))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
 	"/**
 	 * Save all the data into an SDL data stream.
@@ -20967,7 +24418,7 @@ LibSDL3 >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
 	^ self ffiCall: #(bool SDL_SaveFile_IO(SDL_IOStream* src, const void* data, size_t datasize, #bool closeio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> savePNGIOSurface: surface dst: dst closeio: closeio [
 	"/**
 	 * Save a surface to a seekable SDL data stream in PNG format.
@@ -20991,7 +24442,7 @@ LibSDL3 >> savePNGIOSurface: surface dst: dst closeio: closeio [
 	^ self ffiCall: #(bool SDL_SavePNG_IO(SDL_Surface* surface, SDL_IOStream* dst, #bool closeio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> savePNGSurface: surface file: file [
 	"/**
 	 * Save a surface to a file in PNG format.
@@ -21013,7 +24464,7 @@ LibSDL3 >> savePNGSurface: surface file: file [
 	^ self ffiCall: #(bool SDL_SavePNG(SDL_Surface* surface, const char* file))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> scalbnX: x n: n [
 	"/**
 	 * Scale `x` by an integer power of two.
@@ -21042,7 +24493,7 @@ LibSDL3 >> scalbnX: x n: n [
 	^ self ffiCall: #(double SDL_scalbn(double x, int n))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> scalbnfX: x n: n [
 	"/**
 	 * Scale `x` by an integer power of two.
@@ -21071,7 +24522,7 @@ LibSDL3 >> scalbnfX: x n: n [
 	^ self ffiCall: #(float SDL_scalbnf(float x, int n))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> scaleSurface: surface width: width height: height scaleMode: scaleMode [
 	"/**
 	 * Creates a new surface identical to the existing surface, scaled to the
@@ -21097,7 +24548,7 @@ LibSDL3 >> scaleSurface: surface width: width height: height scaleMode: scaleMod
 	^ self ffiCall: #(SDL_Surface* SDL_ScaleSurface(SDL_Surface* surface, int width, int height, SDL_ScaleMode scaleMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> screenKeyboardShown: window [
 	"/**
 	 * Check whether the screen keyboard is shown for given window.
@@ -21115,7 +24566,7 @@ LibSDL3 >> screenKeyboardShown: window [
 	^ self ffiCall: #(bool SDL_ScreenKeyboardShown(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> screenSaverEnabled [
 	"/**
 	 * Check whether the screensaver is currently enabled.
@@ -21137,7 +24588,7 @@ LibSDL3 >> screenSaverEnabled [
 	^ self ffiCall: #(bool SDL_ScreenSaverEnabled())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> seekIOContext: context offset: offset whence: whence [
 	"/**
 	 * Seek within an SDL_IOStream data stream.
@@ -21170,7 +24621,26 @@ LibSDL3 >> seekIOContext: context offset: offset whence: whence [
 	^ self ffiCall: #(Sint64 SDL_SeekIO(SDL_IOStream* context, Sint64 offset, SDL_IOWhence whence))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> sendGamepadEffectGamepad: gamepad data: data size: size [
+	"/**
+	 * Send a gamepad specific effect packet.
+	 *
+	 * \param gamepad the gamepad to affect.
+	 * \param data the data to send to the gamepad.
+	 * \param size the size of the data to send to the gamepad.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SendGamepadEffect(SDL_Gamepad* gamepad, const void* data, int size))
+]
+
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> sendJoystickEffectJoystick: joystick data: data size: size [
 	"/**
 	 * Send a joystick specific effect packet.
@@ -21189,7 +24659,7 @@ LibSDL3 >> sendJoystickEffectJoystick: joystick data: data size: size [
 	^ self ffiCall: #(bool SDL_SendJoystickEffect(SDL_Joystick* joystick, const void* data, int size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> sendJoystickVirtualSensorDataJoystick: joystick type: type sensorTimestamp: sensor_timestamp data: data numValues: num_values [
 	"/**
 	 * Send a sensor update for an opened virtual joystick.
@@ -21223,7 +24693,7 @@ LibSDL3 >> sendJoystickVirtualSensorDataJoystick: joystick type: type sensorTime
 	^ self ffiCall: #(bool SDL_SendJoystickVirtualSensorData(SDL_Joystick* joystick, SDL_SensorType type, Uint64 sensor_timestamp, const float* data, int num_values))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_init' }
 LibSDL3 >> setAppMetadataAppname: appname appversion: appversion appidentifier: appidentifier [
 	"/**
 	 * Specify basic metadata about your app.
@@ -21265,7 +24735,7 @@ LibSDL3 >> setAppMetadataAppname: appname appversion: appversion appidentifier: 
 	^ self ffiCall: #(bool SDL_SetAppMetadata(const char* appname, const char* appversion, const char* appidentifier))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_init' }
 LibSDL3 >> setAppMetadataPropertyName: name value: value [
 	"/**
 	 * Specify metadata about your app through a set of properties.
@@ -21332,36 +24802,7 @@ LibSDL3 >> setAppMetadataPropertyName: name value: value [
 	^ self ffiCall: #(bool SDL_SetAppMetadataProperty(const char* name, const char* value))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> setAssertionHandler: handler userdata: userdata [
-	"/**
-	 * Set an application-defined assertion handler.
-	 *
-	 * This function allows an application to show its own assertion UI and/or
-	 * force the response to an assertion failure. If the application doesn't
-	 * provide this, SDL will try to do the right thing, popping up a
-	 * system-specific GUI dialog, and probably minimizing any fullscreen windows.
-	 *
-	 * This callback may fire from any thread, but it runs wrapped in a mutex, so
-	 * it will only fire from one thread at a time.
-	 *
-	 * This callback is NOT reset to SDL's internal handler upon SDL_Quit()!
-	 *
-	 * \param handler the SDL_AssertionHandler function to call when an assertion
-	 *                fails or NULL for the default handler.
-	 * \param userdata a pointer that is passed to `handler`.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_GetAssertionHandler
-	 */"
-
-	self ffiCall: #(void SDL_SetAssertionHandler(SDL_AssertionHandler handler, void* userdata))
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> setAtomicIntA: a v: v [
 	"/**
 	 * Set an atomic variable to a value.
@@ -21385,7 +24826,7 @@ LibSDL3 >> setAtomicIntA: a v: v [
 	^ self ffiCall: #(int SDL_SetAtomicInt(SDL_AtomicInt* a, int v))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> setAtomicPointerA: a v: v [
 	"/**
 	 * Set a pointer to a value atomically.
@@ -21408,7 +24849,7 @@ LibSDL3 >> setAtomicPointerA: a v: v [
 	^ self ffiCall: #(void* SDL_SetAtomicPointer(void** a, void* v))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> setAtomicU32A: a v: v [
 	"/**
 	 * Set an atomic variable to a value.
@@ -21432,7 +24873,7 @@ LibSDL3 >> setAtomicU32A: a v: v [
 	^ self ffiCall: #(Uint32 SDL_SetAtomicU32(SDL_AtomicU32* a, Uint32 v))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioDeviceGainDevid: devid gain: gain [
 	"/**
 	 * Change the gain of an audio device.
@@ -21471,7 +24912,7 @@ LibSDL3 >> setAudioDeviceGainDevid: devid gain: gain [
 	^ self ffiCall: #(bool SDL_SetAudioDeviceGain(SDL_AudioDeviceID devid, float gain))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioPostmixCallbackDevid: devid callback: callback userdata: userdata [
 	"/**
 	 * Set a callback that fires when data is about to be fed to an audio device.
@@ -21529,7 +24970,7 @@ LibSDL3 >> setAudioPostmixCallbackDevid: devid callback: callback userdata: user
 	^ self ffiCall: #(bool SDL_SetAudioPostmixCallback(SDL_AudioDeviceID devid, SDL_AudioPostmixCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spec [
 	"/**
 	 * Change the input and output formats of an audio stream.
@@ -21570,7 +25011,7 @@ LibSDL3 >> setAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spe
 	^ self ffiCall: #(bool SDL_SetAudioStreamFormat(SDL_AudioStream* stream, SDL_AudioSpec* src_spec, SDL_AudioSpec* dst_spec))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioStreamFrequencyRatioStream: stream ratio: ratio [
 	"/**
 	 * Change the frequency ratio of an audio stream.
@@ -21602,7 +25043,7 @@ LibSDL3 >> setAudioStreamFrequencyRatioStream: stream ratio: ratio [
 	^ self ffiCall: #(bool SDL_SetAudioStreamFrequencyRatio(SDL_AudioStream* stream, float ratio))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioStreamGainStream: stream gain: gain [
 	"/**
 	 * Change the gain of an audio stream.
@@ -21631,7 +25072,7 @@ LibSDL3 >> setAudioStreamGainStream: stream gain: gain [
 	^ self ffiCall: #(bool SDL_SetAudioStreamGain(SDL_AudioStream* stream, float gain))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioStreamGetCallbackStream: stream callback: callback userdata: userdata [
 	"/**
 	 * Set a callback that runs when data is requested from an audio stream.
@@ -21681,7 +25122,7 @@ LibSDL3 >> setAudioStreamGetCallbackStream: stream callback: callback userdata: 
 	^ self ffiCall: #(bool SDL_SetAudioStreamGetCallback(SDL_AudioStream* stream, SDL_AudioStreamCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioStreamInputChannelMapStream: stream chmap: chmap count: count [
 	"/**
 	 * Set the current input channel map of an audio stream.
@@ -21745,7 +25186,7 @@ LibSDL3 >> setAudioStreamInputChannelMapStream: stream chmap: chmap count: count
 	^ self ffiCall: #(bool SDL_SetAudioStreamInputChannelMap(SDL_AudioStream* stream, const int* chmap, int count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioStreamOutputChannelMapStream: stream chmap: chmap count: count [
 	"/**
 	 * Set the current output channel map of an audio stream.
@@ -21807,7 +25248,7 @@ LibSDL3 >> setAudioStreamOutputChannelMapStream: stream chmap: chmap count: coun
 	^ self ffiCall: #(bool SDL_SetAudioStreamOutputChannelMap(SDL_AudioStream* stream, const int* chmap, int count))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> setAudioStreamPutCallbackStream: stream callback: callback userdata: userdata [
 	"/**
 	 * Set a callback that runs when data is added to an audio stream.
@@ -21860,7 +25301,7 @@ LibSDL3 >> setAudioStreamPutCallbackStream: stream callback: callback userdata: 
 	^ self ffiCall: #(bool SDL_SetAudioStreamPutCallback(SDL_AudioStream* stream, SDL_AudioStreamCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> setBooleanPropertyProps: props name: name value: value [
 	"/**
 	 * Set a boolean property in a group of properties.
@@ -21881,7 +25322,7 @@ LibSDL3 >> setBooleanPropertyProps: props name: name value: value [
 	^ self ffiCall: #(bool SDL_SetBooleanProperty(SDL_PropertiesID props, const char* name, #bool value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdata mimeTypes: mime_types numMimeTypes: num_mime_types [
 	"/**
 	 * Offer clipboard data to the OS.
@@ -21918,7 +25359,7 @@ LibSDL3 >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdat
 	^ self ffiCall: #(bool SDL_SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup, void* userdata, const char** mime_types, size_t num_mime_types))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> setClipboardText: text [
 	"/**
 	 * Put UTF-8 text into the clipboard.
@@ -21938,7 +25379,7 @@ LibSDL3 >> setClipboardText: text [
 	^ self ffiCall: #(bool SDL_SetClipboardText(const char* text))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> setCurrentThreadPriority: priority [
 	"/**
 	 * Set the priority for the current thread.
@@ -21957,7 +25398,7 @@ LibSDL3 >> setCurrentThreadPriority: priority [
 	^ self ffiCall: #(bool SDL_SetCurrentThreadPriority(SDL_ThreadPriority priority))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> setCursor: cursor [
 	"/**
 	 * Set the active cursor.
@@ -21981,7 +25422,7 @@ LibSDL3 >> setCursor: cursor [
 	^ self ffiCall: #(bool SDL_SetCursor(SDL_Cursor* cursor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 	"/**
 	 * Set default scale mode for new textures for given renderer.
@@ -22003,7 +25444,7 @@ LibSDL3 >> setDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 	^ self ffiCall: #(bool SDL_SetDefaultTextureScaleMode(SDL_Renderer* renderer, SDL_ScaleMode scale_mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> setEnvironmentVariableEnv: env name: name value: value overwrite: overwrite [
 	"/**
 	 * Set the value of a variable in the environment.
@@ -22031,7 +25472,7 @@ LibSDL3 >> setEnvironmentVariableEnv: env name: name value: value overwrite: ove
 	^ self ffiCall: #(bool SDL_SetEnvironmentVariable(SDL_Environment* env, const char* name, const char* value, #bool overwrite))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> setEventEnabledType: type enabled: enabled [
 	"/**
 	 * Set the state of processing events by type.
@@ -22049,7 +25490,7 @@ LibSDL3 >> setEventEnabledType: type enabled: enabled [
 	self ffiCall: #(void SDL_SetEventEnabled(Uint32 type, #bool enabled))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> setEventFilter: filter userdata: userdata [
 	"/**
 	 * Set up a filter to process all events before they are added to the internal
@@ -22097,7 +25538,7 @@ LibSDL3 >> setEventFilter: filter userdata: userdata [
 	self ffiCall: #(void SDL_SetEventFilter(SDL_EventFilter filter, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> setFloatPropertyProps: props name: name value: value [
 	"/**
 	 * Set a floating point property in a group of properties.
@@ -22118,7 +25559,7 @@ LibSDL3 >> setFloatPropertyProps: props name: name value: value [
 	^ self ffiCall: #(bool SDL_SetFloatProperty(SDL_PropertiesID props, const char* name, float value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUAllowedFramesInFlightDevice: device allowedFramesInFlight: allowed_frames_in_flight [
 	"/**
 	 * Configures the maximum allowed number of frames in flight.
@@ -22149,7 +25590,7 @@ LibSDL3 >> setGPUAllowedFramesInFlightDevice: device allowedFramesInFlight: allo
 	^ self ffiCall: #(bool SDL_SetGPUAllowedFramesInFlight(SDL_GPUDevice* device, Uint32 allowed_frames_in_flight))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUBlendConstantsRenderPass: render_pass blendConstants: blend_constants [
 	"/**
 	 * Sets the current blend constants on a command buffer.
@@ -22166,7 +25607,7 @@ LibSDL3 >> setGPUBlendConstantsRenderPass: render_pass blendConstants: blend_con
 	self ffiCall: #(void SDL_SetGPUBlendConstants(SDL_GPURenderPass* render_pass, SDL_FColor blend_constants))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUBufferNameDevice: device buffer: buffer text: text [
 	"/**
 	 * Sets an arbitrary string constant to label a buffer.
@@ -22189,7 +25630,7 @@ LibSDL3 >> setGPUBufferNameDevice: device buffer: buffer text: text [
 	self ffiCall: #(void SDL_SetGPUBufferName(SDL_GPUDevice* device, SDL_GPUBuffer* buffer, const char* text))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setGPURenderStateFragmentUniformsState: state slotIndex: slot_index data: data length: length [
 	"/**
 	 * Set fragment shader uniform variables in a custom GPU render state.
@@ -22213,7 +25654,7 @@ LibSDL3 >> setGPURenderStateFragmentUniformsState: state slotIndex: slot_index d
 	^ self ffiCall: #(bool SDL_SetGPURenderStateFragmentUniforms(SDL_GPURenderState* state, Uint32 slot_index, const void* data, Uint32 length))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setGPURenderStateRenderer: renderer state: state [
 	"/**
 	 * Set custom GPU render state.
@@ -22235,7 +25676,7 @@ LibSDL3 >> setGPURenderStateRenderer: renderer state: state [
 	^ self ffiCall: #(bool SDL_SetGPURenderState(SDL_Renderer* renderer, SDL_GPURenderState* state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUScissorRenderPass: render_pass scissor: scissor [
 	"/**
 	 * Sets the current scissor state on a command buffer.
@@ -22249,7 +25690,7 @@ LibSDL3 >> setGPUScissorRenderPass: render_pass scissor: scissor [
 	self ffiCall: #(void SDL_SetGPUScissor(SDL_GPURenderPass* render_pass, SDL_Rect* scissor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUStencilReferenceRenderPass: render_pass reference: reference [
 	"/**
 	 * Sets the current stencil reference value on a command buffer.
@@ -22263,7 +25704,7 @@ LibSDL3 >> setGPUStencilReferenceRenderPass: render_pass reference: reference [
 	self ffiCall: #(void SDL_SetGPUStencilReference(SDL_GPURenderPass* render_pass, Uint8 reference))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUSwapchainParametersDevice: device window: window swapchainComposition: swapchain_composition presentMode: present_mode [
 	"/**
 	 * Changes the swapchain parameters for the given claimed window.
@@ -22292,7 +25733,7 @@ LibSDL3 >> setGPUSwapchainParametersDevice: device window: window swapchainCompo
 	^ self ffiCall: #(bool SDL_SetGPUSwapchainParameters(SDL_GPUDevice* device, SDL_Window* window, SDL_GPUSwapchainComposition swapchain_composition, SDL_GPUPresentMode present_mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUTextureNameDevice: device texture: texture text: text [
 	"/**
 	 * Sets an arbitrary string constant to label a texture.
@@ -22316,7 +25757,7 @@ LibSDL3 >> setGPUTextureNameDevice: device texture: texture text: text [
 	self ffiCall: #(void SDL_SetGPUTextureName(SDL_GPUDevice* device, SDL_GPUTexture* texture, const char* text))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> setGPUViewportRenderPass: render_pass viewport: viewport [
 	"/**
 	 * Sets the current viewport state on a command buffer.
@@ -22330,7 +25771,223 @@ LibSDL3 >> setGPUViewportRenderPass: render_pass viewport: viewport [
 	self ffiCall: #(void SDL_SetGPUViewport(SDL_GPURenderPass* render_pass, SDL_GPUViewport* viewport))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> setGamepadEventsEnabled: enabled [
+	"/**
+	 * Set the state of gamepad event processing.
+	 *
+	 * If gamepad events are disabled, you must call SDL_UpdateGamepads() yourself
+	 * and check the state of the gamepad when you want gamepad information.
+	 *
+	 * \param enabled whether to process gamepad events or not.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GamepadEventsEnabled
+	 * \sa SDL_UpdateGamepads
+	 */"
+
+	self ffiCall: #(void SDL_SetGamepadEventsEnabled(#bool enabled))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> setGamepadLEDGamepad: gamepad red: red green: green blue: blue [
+	"/**
+	 * Update a gamepad's LED color.
+	 *
+	 * An example of a joystick LED is the light on the back of a PlayStation 4's
+	 * DualShock 4 controller.
+	 *
+	 * For gamepads with a single color LED, the maximum of the RGB values will be
+	 * used as the LED brightness.
+	 *
+	 * \param gamepad the gamepad to update.
+	 * \param red the intensity of the red LED.
+	 * \param green the intensity of the green LED.
+	 * \param blue the intensity of the blue LED.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetGamepadLED(SDL_Gamepad* gamepad, Uint8 red, Uint8 green, Uint8 blue))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> setGamepadMappingInstanceId: instance_id mapping: mapping [
+	"/**
+	 * Set the current mapping of a joystick or gamepad.
+	 *
+	 * Details about mappings are discussed with SDL_AddGamepadMapping().
+	 *
+	 * \param instance_id the joystick instance ID.
+	 * \param mapping the mapping to use for this device, or NULL to clear the
+	 *                mapping.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddGamepadMapping
+	 * \sa SDL_GetGamepadMapping
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetGamepadMapping(SDL_JoystickID instance_id, const char* mapping))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> setGamepadPlayerIndexGamepad: gamepad playerIndex: player_index [
+	"/**
+	 * Set the player index of an opened gamepad.
+	 *
+	 * \param gamepad the gamepad object to adjust.
+	 * \param player_index player index to assign to this gamepad, or -1 to clear
+	 *                     the player index and turn off player LEDs.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGamepadPlayerIndex
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetGamepadPlayerIndex(SDL_Gamepad* gamepad, int player_index))
+]
+
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> setGamepadSensorEnabledGamepad: gamepad type: type enabled: enabled [
+	"/**
+	 * Set whether data reporting for a gamepad sensor is enabled.
+	 *
+	 * \param gamepad the gamepad to update.
+	 * \param type the type of sensor to enable/disable.
+	 * \param enabled whether data reporting should be enabled.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GamepadHasSensor
+	 * \sa SDL_GamepadSensorEnabled
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetGamepadSensorEnabled(SDL_Gamepad* gamepad, SDL_SensorType type, #bool enabled))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> setHapticAutocenterHaptic: haptic autocenter: autocenter [
+	"/**
+	 * Set the global autocenter of the device.
+	 *
+	 * Autocenter should be between 0 and 100. Setting it to 0 will disable
+	 * autocentering.
+	 *
+	 * Device must support the SDL_HAPTIC_AUTOCENTER feature.
+	 *
+	 * \param haptic the SDL_Haptic device to set autocentering on.
+	 * \param autocenter value to set autocenter to (0-100).
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHapticFeatures
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetHapticAutocenter(SDL_Haptic* haptic, int autocenter))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> setHapticGainHaptic: haptic gain: gain [
+	"/**
+	 * Set the global gain of the specified haptic device.
+	 *
+	 * Device must support the SDL_HAPTIC_GAIN feature.
+	 *
+	 * The user may specify the maximum gain by setting the environment variable
+	 * `SDL_HAPTIC_GAIN_MAX` which should be between 0 and 100. All calls to
+	 * SDL_SetHapticGain() will scale linearly using `SDL_HAPTIC_GAIN_MAX` as the
+	 * maximum.
+	 *
+	 * \param haptic the SDL_Haptic device to set the gain on.
+	 * \param gain value to set the gain to, should be between 0 and 100 (0 -
+	 *             100).
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHapticFeatures
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetHapticGain(SDL_Haptic* haptic, int gain))
+]
+
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> setHintName: name value: value [
+	"/**
+	 * Set a hint with normal priority.
+	 *
+	 * Hints will not be set if there is an existing override hint or environment
+	 * variable that takes precedence. You can use SDL_SetHintWithPriority() to
+	 * set the hint with override priority instead.
+	 *
+	 * \param name the hint to set.
+	 * \param value the value of the hint variable.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHint
+	 * \sa SDL_ResetHint
+	 * \sa SDL_SetHintWithPriority
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetHint(const char* name, const char* value))
+]
+
+{ #category : 'public - SDL_hints' }
+LibSDL3 >> setHintWithPriorityName: name value: value priority: priority [
+	"/**
+	 * Set a hint with a specific priority.
+	 *
+	 * The priority controls the behavior when setting a hint that already has a
+	 * value. Hints will replace existing hints of their priority and lower.
+	 * Environment variables are considered to have override priority.
+	 *
+	 * \param name the hint to set.
+	 * \param value the value of the hint variable.
+	 * \param priority the SDL_HintPriority level for the hint.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetHint
+	 * \sa SDL_ResetHint
+	 * \sa SDL_SetHint
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetHintWithPriority(const char* name, const char* value, SDL_HintPriority priority))
+]
+
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> setInitializedState: state initialized: initialized [
 	"/**
 	 * Finish an initialization state transition.
@@ -22353,7 +26010,7 @@ LibSDL3 >> setInitializedState: state initialized: initialized [
 	self ffiCall: #(void SDL_SetInitialized(SDL_InitState* state, #bool initialized))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickEventsEnabled: enabled [
 	"/**
 	 * Set the state of joystick event processing.
@@ -22375,7 +26032,7 @@ LibSDL3 >> setJoystickEventsEnabled: enabled [
 	self ffiCall: #(void SDL_SetJoystickEventsEnabled(#bool enabled))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickLEDJoystick: joystick red: red green: green blue: blue [
 	"/**
 	 * Update a joystick's LED color.
@@ -22401,7 +26058,7 @@ LibSDL3 >> setJoystickLEDJoystick: joystick red: red green: green blue: blue [
 	^ self ffiCall: #(bool SDL_SetJoystickLED(SDL_Joystick* joystick, Uint8 red, Uint8 green, Uint8 blue))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickPlayerIndexJoystick: joystick playerIndex: player_index [
 	"/**
 	 * Set the player index of an opened joystick.
@@ -22422,7 +26079,7 @@ LibSDL3 >> setJoystickPlayerIndexJoystick: joystick playerIndex: player_index [
 	^ self ffiCall: #(bool SDL_SetJoystickPlayerIndex(SDL_Joystick* joystick, int player_index))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickVirtualAxisJoystick: joystick axis: axis value: value [
 	"/**
 	 * Set the state of an axis on an opened virtual joystick.
@@ -22457,7 +26114,7 @@ LibSDL3 >> setJoystickVirtualAxisJoystick: joystick axis: axis value: value [
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualAxis(SDL_Joystick* joystick, int axis, Sint16 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickVirtualBallJoystick: joystick ball: ball xrel: xrel yrel: yrel [
 	"/**
 	 * Generate ball motion on an opened virtual joystick.
@@ -22489,7 +26146,7 @@ LibSDL3 >> setJoystickVirtualBallJoystick: joystick ball: ball xrel: xrel yrel: 
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualBall(SDL_Joystick* joystick, int ball, Sint16 xrel, Sint16 yrel))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickVirtualButtonJoystick: joystick button: button down: down [
 	"/**
 	 * Set the state of a button on an opened virtual joystick.
@@ -22520,7 +26177,7 @@ LibSDL3 >> setJoystickVirtualButtonJoystick: joystick button: button down: down 
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualButton(SDL_Joystick* joystick, int button, #bool down))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickVirtualHatJoystick: joystick hat: hat value: value [
 	"/**
 	 * Set the state of a hat on an opened virtual joystick.
@@ -22551,7 +26208,7 @@ LibSDL3 >> setJoystickVirtualHatJoystick: joystick hat: hat value: value [
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualHat(SDL_Joystick* joystick, int hat, Uint8 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> setJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
 	"/**
 	 * Set touchpad finger state on an opened virtual joystick.
@@ -22589,7 +26246,7 @@ LibSDL3 >> setJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad finge
 	^ self ffiCall: #(bool SDL_SetJoystickVirtualTouchpad(SDL_Joystick* joystick, int touchpad, int finger, #bool down, float x, float y, float pressure))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> setLinuxThreadPriorityAndPolicyThreadID: threadID sdlPriority: sdlPriority schedPolicy: schedPolicy [
 	"/**
 	 * Sets the priority (not nice level) and scheduling policy for a thread.
@@ -22609,7 +26266,7 @@ LibSDL3 >> setLinuxThreadPriorityAndPolicyThreadID: threadID sdlPriority: sdlPri
 	^ self ffiCall: #(bool SDL_SetLinuxThreadPriorityAndPolicy(Sint64 threadID, int sdlPriority, int schedPolicy))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
 LibSDL3 >> setLinuxThreadPriorityThreadID: threadID priority: priority [
 	"/**
 	 * Sets the UNIX nice value for a thread.
@@ -22627,7 +26284,93 @@ LibSDL3 >> setLinuxThreadPriorityThreadID: threadID priority: priority [
 	^ self ffiCall: #(bool SDL_SetLinuxThreadPriority(Sint64 threadID, int priority))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_log' }
+LibSDL3 >> setLogOutputFunctionCallback: callback userdata: userdata [
+	"/**
+	 * Replace the default log output function with one of your own.
+	 *
+	 * \param callback an SDL_LogOutputFunction to call instead of the default.
+	 * \param userdata a pointer that is passed to `callback`.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetDefaultLogOutputFunction
+	 * \sa SDL_GetLogOutputFunction
+	 */"
+
+	self ffiCall: #(void SDL_SetLogOutputFunction(SDL_LogOutputFunction callback, void* userdata))
+]
+
+{ #category : 'public - SDL_log' }
+LibSDL3 >> setLogPriorities: priority [
+	"/**
+	 * Set the priority of all log categories.
+	 *
+	 * \param priority the SDL_LogPriority to assign.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_ResetLogPriorities
+	 * \sa SDL_SetLogPriority
+	 */"
+
+	self ffiCall: #(void SDL_SetLogPriorities(SDL_LogPriority priority))
+]
+
+{ #category : 'public - SDL_log' }
+LibSDL3 >> setLogPriorityCategory: category priority: priority [
+	"/**
+	 * Set the priority of a particular log category.
+	 *
+	 * \param category the category to assign a priority to.
+	 * \param priority the SDL_LogPriority to assign.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetLogPriority
+	 * \sa SDL_ResetLogPriorities
+	 * \sa SDL_SetLogPriorities
+	 */"
+
+	self ffiCall: #(void SDL_SetLogPriority(int category, SDL_LogPriority priority))
+]
+
+{ #category : 'public - SDL_log' }
+LibSDL3 >> setLogPriorityPrefixPriority: priority prefix: prefix [
+	"/**
+	 * Set the text prepended to log messages of a given priority.
+	 *
+	 * By default SDL_LOG_PRIORITY_INFO and below have no prefix, and
+	 * SDL_LOG_PRIORITY_WARN and higher have a prefix showing their priority, e.g.
+	 * ""WARNING: "".
+	 *
+	 * This function makes a copy of its string argument, **prefix**, so it is not
+	 * necessary to keep the value of **prefix** alive after the call returns.
+	 *
+	 * \param priority the SDL_LogPriority to modify.
+	 * \param prefix the prefix to use for that log priority, or NULL to use no
+	 *               prefix.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetLogPriorities
+	 * \sa SDL_SetLogPriority
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetLogPriorityPrefix(SDL_LogPriority priority, const char* prefix))
+]
+
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> setMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
 	"/**
 	 * Replace SDL's memory allocation functions with a custom set.
@@ -22659,7 +26402,7 @@ LibSDL3 >> setMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func rea
 	^ self ffiCall: #(bool SDL_SetMemoryFunctions(SDL_malloc_func malloc_func, SDL_calloc_func calloc_func, SDL_realloc_func realloc_func, SDL_free_func free_func))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> setModState: modstate [
 	"/**
 	 * Set the current key modifier state for the keyboard.
@@ -22684,7 +26427,7 @@ LibSDL3 >> setModState: modstate [
 	self ffiCall: #(void SDL_SetModState(SDL_Keymod modstate))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> setNumberPropertyProps: props name: name value: value [
 	"/**
 	 * Set an integer property in a group of properties.
@@ -22705,7 +26448,7 @@ LibSDL3 >> setNumberPropertyProps: props name: name value: value [
 	^ self ffiCall: #(bool SDL_SetNumberProperty(SDL_PropertiesID props, const char* name, Sint64 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_pixels' }
 LibSDL3 >> setPaletteColorsPalette: palette colors: colors firstcolor: firstcolor ncolors: ncolors [
 	"/**
 	 * Set a range of colors in a palette.
@@ -22726,7 +26469,7 @@ LibSDL3 >> setPaletteColorsPalette: palette colors: colors firstcolor: firstcolo
 	^ self ffiCall: #(bool SDL_SetPaletteColors(SDL_Palette* palette, SDL_Color* colors, int firstcolor, int ncolors))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> setPointerPropertyProps: props name: name value: value [
 	"/**
 	 * Set a pointer property in a group of properties.
@@ -22753,7 +26496,7 @@ LibSDL3 >> setPointerPropertyProps: props name: name value: value [
 	^ self ffiCall: #(bool SDL_SetPointerProperty(SDL_PropertiesID props, const char* name, void* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> setPointerPropertyWithCleanupProps: props name: name value: value cleanup: cleanup userdata: userdata [
 	"/**
 	 * Set a pointer property in a group of properties with a cleanup function
@@ -22788,7 +26531,7 @@ LibSDL3 >> setPointerPropertyWithCleanupProps: props name: name value: value cle
 	^ self ffiCall: #(bool SDL_SetPointerPropertyWithCleanup(SDL_PropertiesID props, const char* name, void* value, SDL_CleanupPropertyCallback cleanup, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_clipboard' }
 LibSDL3 >> setPrimarySelectionText: text [
 	"/**
 	 * Put UTF-8 text into the primary selection.
@@ -22808,7 +26551,7 @@ LibSDL3 >> setPrimarySelectionText: text [
 	^ self ffiCall: #(bool SDL_SetPrimarySelectionText(const char* text))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> setRelativeMouseTransformCallback: callback userdata: userdata [
 	"/**
 	 * Set a user-defined function by which to transform relative mouse inputs.
@@ -22830,7 +26573,7 @@ LibSDL3 >> setRelativeMouseTransformCallback: callback userdata: userdata [
 	^ self ffiCall: #(bool SDL_SetRelativeMouseTransform(SDL_MouseMotionTransformCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderClipRectRenderer: renderer rect: rect [
 	"/**
 	 * Set the clip rectangle for rendering on the specified target.
@@ -22855,7 +26598,7 @@ LibSDL3 >> setRenderClipRectRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_SetRenderClipRect(SDL_Renderer* renderer, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderColorScaleRenderer: renderer scale: scale [
 	"/**
 	 * Set the color scale used for render operations.
@@ -22883,7 +26626,7 @@ LibSDL3 >> setRenderColorScaleRenderer: renderer scale: scale [
 	^ self ffiCall: #(bool SDL_SetRenderColorScale(SDL_Renderer* renderer, float scale))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 	"/**
 	 * Set the blend mode used for drawing operations (Fill and Line).
@@ -22905,7 +26648,7 @@ LibSDL3 >> setRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 	^ self ffiCall: #(bool SDL_SetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode blendMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Set the color used for drawing operations (Rect, Line and Clear).
@@ -22934,7 +26677,7 @@ LibSDL3 >> setRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_SetRenderDrawColorFloat(SDL_Renderer* renderer, float r, float g, float b, float a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Set the color used for drawing operations.
@@ -22963,7 +26706,7 @@ LibSDL3 >> setRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_SetRenderDrawColor(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	"/**
 	 * Set a device-independent resolution and presentation mode for rendering.
@@ -23014,7 +26757,7 @@ LibSDL3 >> setRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	^ self ffiCall: #(bool SDL_SetRenderLogicalPresentation(SDL_Renderer* renderer, int w, int h, SDL_RendererLogicalPresentation mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 	"/**
 	 * Set the drawing scale for rendering on the current target.
@@ -23046,7 +26789,7 @@ LibSDL3 >> setRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 	^ self ffiCall: #(bool SDL_SetRenderScale(SDL_Renderer* renderer, float scaleX, float scaleY))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderTargetRenderer: renderer texture: texture [
 	"/**
 	 * Set a texture as the current rendering target.
@@ -23077,7 +26820,7 @@ LibSDL3 >> setRenderTargetRenderer: renderer texture: texture [
 	^ self ffiCall: #(bool SDL_SetRenderTarget(SDL_Renderer* renderer, SDL_Texture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
 	"/**
 	 * Set the texture addressing mode used in SDL_RenderGeometry().
@@ -23100,7 +26843,7 @@ LibSDL3 >> setRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_
 	^ self ffiCall: #(bool SDL_SetRenderTextureAddressMode(SDL_Renderer* renderer, SDL_TextureAddressMode u_mode, SDL_TextureAddressMode v_mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderVSyncRenderer: renderer vsync: vsync [
 	"/**
 	 * Toggle VSync of the given renderer.
@@ -23129,7 +26872,7 @@ LibSDL3 >> setRenderVSyncRenderer: renderer vsync: vsync [
 	^ self ffiCall: #(bool SDL_SetRenderVSync(SDL_Renderer* renderer, int vsync))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setRenderViewportRenderer: renderer rect: rect [
 	"/**
 	 * Set the drawing area for rendering on the current target.
@@ -23160,7 +26903,7 @@ LibSDL3 >> setRenderViewportRenderer: renderer rect: rect [
 	^ self ffiCall: #(bool SDL_SetRenderViewport(SDL_Renderer* renderer, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> setScancodeNameScancode: scancode name: name [
 	"/**
 	 * Set a human-readable name for a scancode.
@@ -23182,7 +26925,7 @@ LibSDL3 >> setScancodeNameScancode: scancode name: name [
 	^ self ffiCall: #(bool SDL_SetScancodeName(SDL_Scancode scancode, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> setStringPropertyProps: props name: name value: value [
 	"/**
 	 * Set a string property in a group of properties.
@@ -23206,7 +26949,7 @@ LibSDL3 >> setStringPropertyProps: props name: name value: value [
 	^ self ffiCall: #(bool SDL_SetStringProperty(SDL_PropertiesID props, const char* name, const char* value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfaceAlphaModSurface: surface alpha: alpha [
 	"/**
 	 * Set an additional alpha value used in blit operations.
@@ -23233,7 +26976,7 @@ LibSDL3 >> setSurfaceAlphaModSurface: surface alpha: alpha [
 	^ self ffiCall: #(bool SDL_SetSurfaceAlphaMod(SDL_Surface* surface, Uint8 alpha))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfaceBlendModeSurface: surface blendMode: blendMode [
 	"/**
 	 * Set the blend mode used for blit operations.
@@ -23258,7 +27001,7 @@ LibSDL3 >> setSurfaceBlendModeSurface: surface blendMode: blendMode [
 	^ self ffiCall: #(bool SDL_SetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode blendMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfaceClipRectSurface: surface rect: rect [
 	"/**
 	 * Set the clipping rectangle for a surface.
@@ -23286,7 +27029,7 @@ LibSDL3 >> setSurfaceClipRectSurface: surface rect: rect [
 	^ self ffiCall: #(bool SDL_SetSurfaceClipRect(SDL_Surface* surface, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfaceColorKeySurface: surface enabled: enabled key: key [
 	"/**
 	 * Set the color key (transparent pixel) in a surface.
@@ -23317,7 +27060,7 @@ LibSDL3 >> setSurfaceColorKeySurface: surface enabled: enabled key: key [
 	^ self ffiCall: #(bool SDL_SetSurfaceColorKey(SDL_Surface* surface, #bool enabled, Uint32 key))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfaceColorModSurface: surface r: r g: g b: b [
 	"/**
 	 * Set an additional color value multiplied into blit operations.
@@ -23347,7 +27090,7 @@ LibSDL3 >> setSurfaceColorModSurface: surface r: r g: g b: b [
 	^ self ffiCall: #(bool SDL_SetSurfaceColorMod(SDL_Surface* surface, Uint8 r, Uint8 g, Uint8 b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfaceColorspaceSurface: surface colorspace: colorspace [
 	"/**
 	 * Set the colorspace used by a surface.
@@ -23372,7 +27115,7 @@ LibSDL3 >> setSurfaceColorspaceSurface: surface colorspace: colorspace [
 	^ self ffiCall: #(bool SDL_SetSurfaceColorspace(SDL_Surface* surface, SDL_Colorspace colorspace))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfacePaletteSurface: surface palette: palette [
 	"/**
 	 * Set the palette used by a surface.
@@ -23399,7 +27142,7 @@ LibSDL3 >> setSurfacePaletteSurface: surface palette: palette [
 	^ self ffiCall: #(bool SDL_SetSurfacePalette(SDL_Surface* surface, SDL_Palette* palette))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> setSurfaceRLESurface: surface enabled: enabled [
 	"/**
 	 * Set the RLE acceleration hint for a surface.
@@ -23425,7 +27168,7 @@ LibSDL3 >> setSurfaceRLESurface: surface enabled: enabled [
 	^ self ffiCall: #(bool SDL_SetSurfaceRLE(SDL_Surface* surface, #bool enabled))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> setTLSId: id value: value destructor: destructor [
 	"/**
 	 * Set the current thread's value associated with a thread local storage ID.
@@ -23457,7 +27200,7 @@ LibSDL3 >> setTLSId: id value: value destructor: destructor [
 	^ self ffiCall: #(bool SDL_SetTLS(SDL_TLSID* id, const void* value, SDL_TLSDestructorCallback destructor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> setTextInputAreaWindow: window rect: rect cursor: cursor [
 	"/**
 	 * Set the area used to type Unicode text input.
@@ -23484,7 +27227,7 @@ LibSDL3 >> setTextInputAreaWindow: window rect: rect cursor: cursor [
 	^ self ffiCall: #(bool SDL_SetTextInputArea(SDL_Window* window, SDL_Rect* rect, int cursor))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setTextureAlphaModFloatTexture: texture alpha: alpha [
 	"/**
 	 * Set an additional alpha value multiplied into render copy operations.
@@ -23514,7 +27257,7 @@ LibSDL3 >> setTextureAlphaModFloatTexture: texture alpha: alpha [
 	^ self ffiCall: #(bool SDL_SetTextureAlphaModFloat(SDL_Texture* texture, float alpha))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setTextureAlphaModTexture: texture alpha: alpha [
 	"/**
 	 * Set an additional alpha value multiplied into render copy operations.
@@ -23544,7 +27287,7 @@ LibSDL3 >> setTextureAlphaModTexture: texture alpha: alpha [
 	^ self ffiCall: #(bool SDL_SetTextureAlphaMod(SDL_Texture* texture, Uint8 alpha))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setTextureBlendModeTexture: texture blendMode: blendMode [
 	"/**
 	 * Set the blend mode for a texture, used by SDL_RenderTexture().
@@ -23567,7 +27310,7 @@ LibSDL3 >> setTextureBlendModeTexture: texture blendMode: blendMode [
 	^ self ffiCall: #(bool SDL_SetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode blendMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setTextureColorModFloatTexture: texture r: r g: g b: b [
 	"/**
 	 * Set an additional color value multiplied into render copy operations.
@@ -23600,7 +27343,7 @@ LibSDL3 >> setTextureColorModFloatTexture: texture r: r g: g b: b [
 	^ self ffiCall: #(bool SDL_SetTextureColorModFloat(SDL_Texture* texture, float r, float g, float b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setTextureColorModTexture: texture r: r g: g b: b [
 	"/**
 	 * Set an additional color value multiplied into render copy operations.
@@ -23633,7 +27376,7 @@ LibSDL3 >> setTextureColorModTexture: texture r: r g: g b: b [
 	^ self ffiCall: #(bool SDL_SetTextureColorMod(SDL_Texture* texture, Uint8 r, Uint8 g, Uint8 b))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setTexturePaletteTexture: texture palette: palette [
 	"/**
 	 * Set the palette used by a texture.
@@ -23659,7 +27402,7 @@ LibSDL3 >> setTexturePaletteTexture: texture palette: palette [
 	^ self ffiCall: #(bool SDL_SetTexturePalette(SDL_Texture* texture, SDL_Palette* palette))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> setTextureScaleModeTexture: texture scaleMode: scaleMode [
 	"/**
 	 * Set the scale mode used for texture scale operations.
@@ -23683,7 +27426,7 @@ LibSDL3 >> setTextureScaleModeTexture: texture scaleMode: scaleMode [
 	^ self ffiCall: #(bool SDL_SetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode scaleMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> setTrayEntryCallbackEntry: entry callback: callback userdata: userdata [
 	"/**
 	 * Sets a callback to be invoked when the entry is selected.
@@ -23705,7 +27448,7 @@ LibSDL3 >> setTrayEntryCallbackEntry: entry callback: callback userdata: userdat
 	self ffiCall: #(void SDL_SetTrayEntryCallback(SDL_TrayEntry* entry, SDL_TrayCallback callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> setTrayEntryCheckedEntry: entry checked: checked [
 	"/**
 	 * Sets whether or not an entry is checked.
@@ -23728,7 +27471,7 @@ LibSDL3 >> setTrayEntryCheckedEntry: entry checked: checked [
 	self ffiCall: #(void SDL_SetTrayEntryChecked(SDL_TrayEntry* entry, #bool checked))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> setTrayEntryEnabledEntry: entry enabled: enabled [
 	"/**
 	 * Sets whether or not an entry is enabled.
@@ -23749,7 +27492,7 @@ LibSDL3 >> setTrayEntryEnabledEntry: entry enabled: enabled [
 	self ffiCall: #(void SDL_SetTrayEntryEnabled(SDL_TrayEntry* entry, #bool enabled))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> setTrayEntryLabelEntry: entry label: label [
 	"/**
 	 * Sets the label of an entry.
@@ -23775,7 +27518,7 @@ LibSDL3 >> setTrayEntryLabelEntry: entry label: label [
 	self ffiCall: #(void SDL_SetTrayEntryLabel(SDL_TrayEntry* entry, const char* label))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> setTrayIconTray: tray icon: icon [
 	"/**
 	 * Updates the system tray icon's icon.
@@ -23794,7 +27537,7 @@ LibSDL3 >> setTrayIconTray: tray icon: icon [
 	self ffiCall: #(void SDL_SetTrayIcon(SDL_Tray* tray, SDL_Surface* icon))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> setTrayTooltipTray: tray tooltip: tooltip [
 	"/**
 	 * Updates the system tray icon's tooltip.
@@ -23813,7 +27556,7 @@ LibSDL3 >> setTrayTooltipTray: tray tooltip: tooltip [
 	self ffiCall: #(void SDL_SetTrayTooltip(SDL_Tray* tray, const char* tooltip))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowAlwaysOnTopWindow: window onTop: on_top [
 	"/**
 	 * Set the window to always be above the others.
@@ -23836,7 +27579,7 @@ LibSDL3 >> setWindowAlwaysOnTopWindow: window onTop: on_top [
 	^ self ffiCall: #(bool SDL_SetWindowAlwaysOnTop(SDL_Window* window, #bool on_top))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: max_aspect [
 	"/**
 	 * Request that the aspect ratio of a window's client area be set.
@@ -23881,7 +27624,7 @@ LibSDL3 >> setWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: m
 	^ self ffiCall: #(bool SDL_SetWindowAspectRatio(SDL_Window* window, float min_aspect, float max_aspect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowBorderedWindow: window bordered: bordered [
 	"/**
 	 * Set the border state of a window.
@@ -23907,7 +27650,7 @@ LibSDL3 >> setWindowBorderedWindow: window bordered: bordered [
 	^ self ffiCall: #(bool SDL_SetWindowBordered(SDL_Window* window, #bool bordered))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowFillDocumentWindow: window fill: fill [
 	"/**
 	 * Set the window to fill the current document space (Emscripten only).
@@ -23942,7 +27685,7 @@ LibSDL3 >> setWindowFillDocumentWindow: window fill: fill [
 	^ self ffiCall: #(bool SDL_SetWindowFillDocument(SDL_Window* window, #bool fill))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowFocusableWindow: window focusable: focusable [
 	"/**
 	 * Set whether the window may have input focus.
@@ -23960,7 +27703,7 @@ LibSDL3 >> setWindowFocusableWindow: window focusable: focusable [
 	^ self ffiCall: #(bool SDL_SetWindowFocusable(SDL_Window* window, #bool focusable))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowFullscreenModeWindow: window mode: mode [
 	"/**
 	 * Set the display mode to use when a window is visible and fullscreen.
@@ -23999,7 +27742,7 @@ LibSDL3 >> setWindowFullscreenModeWindow: window mode: mode [
 	^ self ffiCall: #(bool SDL_SetWindowFullscreenMode(SDL_Window* window, SDL_DisplayMode* mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowFullscreenWindow: window fullscreen: fullscreen [
 	"/**
 	 * Request that the window's fullscreen state be changed.
@@ -24035,7 +27778,7 @@ LibSDL3 >> setWindowFullscreenWindow: window fullscreen: fullscreen [
 	^ self ffiCall: #(bool SDL_SetWindowFullscreen(SDL_Window* window, #bool fullscreen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowHitTestWindow: window callback: callback callbackData: callback_data [
 	"/**
 	 * Provide a callback that decides if a window region has special properties.
@@ -24083,7 +27826,7 @@ LibSDL3 >> setWindowHitTestWindow: window callback: callback callbackData: callb
 	^ self ffiCall: #(bool SDL_SetWindowHitTest(SDL_Window* window, SDL_HitTest callback, void* callback_data))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowIconWindow: window icon: icon [
 	"/**
 	 * Set the icon for a window.
@@ -24114,7 +27857,7 @@ LibSDL3 >> setWindowIconWindow: window icon: icon [
 	^ self ffiCall: #(bool SDL_SetWindowIcon(SDL_Window* window, SDL_Surface* icon))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowKeyboardGrabWindow: window grabbed: grabbed [
 	"/**
 	 * Set a window's keyboard grab mode.
@@ -24151,7 +27894,7 @@ LibSDL3 >> setWindowKeyboardGrabWindow: window grabbed: grabbed [
 	^ self ffiCall: #(bool SDL_SetWindowKeyboardGrab(SDL_Window* window, #bool grabbed))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowMaximumSizeWindow: window maxW: max_w maxH: max_h [
 	"/**
 	 * Set the maximum size of a window's client area.
@@ -24173,7 +27916,7 @@ LibSDL3 >> setWindowMaximumSizeWindow: window maxW: max_w maxH: max_h [
 	^ self ffiCall: #(bool SDL_SetWindowMaximumSize(SDL_Window* window, int max_w, int max_h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowMinimumSizeWindow: window minW: min_w minH: min_h [
 	"/**
 	 * Set the minimum size of a window's client area.
@@ -24195,7 +27938,7 @@ LibSDL3 >> setWindowMinimumSizeWindow: window minW: min_w minH: min_h [
 	^ self ffiCall: #(bool SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowModalWindow: window modal: modal [
 	"/**
 	 * Toggle the state of the window as modal.
@@ -24219,7 +27962,7 @@ LibSDL3 >> setWindowModalWindow: window modal: modal [
 	^ self ffiCall: #(bool SDL_SetWindowModal(SDL_Window* window, #bool modal))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowMouseGrabWindow: window grabbed: grabbed [
 	"/**
 	 * Set a window's mouse grab mode.
@@ -24243,7 +27986,7 @@ LibSDL3 >> setWindowMouseGrabWindow: window grabbed: grabbed [
 	^ self ffiCall: #(bool SDL_SetWindowMouseGrab(SDL_Window* window, #bool grabbed))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowMouseRectWindow: window rect: rect [
 	"/**
 	 * Confines the cursor to the specified area of a window.
@@ -24269,7 +28012,7 @@ LibSDL3 >> setWindowMouseRectWindow: window rect: rect [
 	^ self ffiCall: #(bool SDL_SetWindowMouseRect(SDL_Window* window, SDL_Rect* rect))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowOpacityWindow: window opacity: opacity [
 	"/**
 	 * Set the opacity for a window.
@@ -24294,7 +28037,7 @@ LibSDL3 >> setWindowOpacityWindow: window opacity: opacity [
 	^ self ffiCall: #(bool SDL_SetWindowOpacity(SDL_Window* window, float opacity))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowParentWindow: window parent: parent [
 	"/**
 	 * Set the window as a child of a parent window.
@@ -24332,7 +28075,7 @@ LibSDL3 >> setWindowParentWindow: window parent: parent [
 	^ self ffiCall: #(bool SDL_SetWindowParent(SDL_Window* window, SDL_Window* parent))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowPositionWindow: window x: x y: y [
 	"/**
 	 * Request that the window's position be set.
@@ -24377,7 +28120,7 @@ LibSDL3 >> setWindowPositionWindow: window x: x y: y [
 	^ self ffiCall: #(bool SDL_SetWindowPosition(SDL_Window* window, int x, int y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowProgressStateWindow: window state: state [
 	"/**
 	 * Sets the state of the progress bar for the given window’s taskbar icon.
@@ -24396,7 +28139,7 @@ LibSDL3 >> setWindowProgressStateWindow: window state: state [
 	^ self ffiCall: #(bool SDL_SetWindowProgressState(SDL_Window* window, SDL_ProgressState state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowProgressValueWindow: window value: value [
 	"/**
 	 * Sets the value of the progress bar for the given window’s taskbar icon.
@@ -24415,7 +28158,7 @@ LibSDL3 >> setWindowProgressValueWindow: window value: value [
 	^ self ffiCall: #(bool SDL_SetWindowProgressValue(SDL_Window* window, float value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> setWindowRelativeMouseModeWindow: window enabled: enabled [
 	"/**
 	 * Set relative mouse mode for a window.
@@ -24447,7 +28190,7 @@ LibSDL3 >> setWindowRelativeMouseModeWindow: window enabled: enabled [
 	^ self ffiCall: #(bool SDL_SetWindowRelativeMouseMode(SDL_Window* window, #bool enabled))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowResizableWindow: window resizable: resizable [
 	"/**
 	 * Set the user-resizable state of a window.
@@ -24473,7 +28216,7 @@ LibSDL3 >> setWindowResizableWindow: window resizable: resizable [
 	^ self ffiCall: #(bool SDL_SetWindowResizable(SDL_Window* window, #bool resizable))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowShapeWindow: window shape: shape [
 	"/**
 	 * Set the shape of a transparent window.
@@ -24505,7 +28248,7 @@ LibSDL3 >> setWindowShapeWindow: window shape: shape [
 	^ self ffiCall: #(bool SDL_SetWindowShape(SDL_Window* window, SDL_Surface* shape))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowSizeWindow: window w: w h: h [
 	"/**
 	 * Request that the size of a window's client area be set.
@@ -24546,7 +28289,7 @@ LibSDL3 >> setWindowSizeWindow: window w: w h: h [
 	^ self ffiCall: #(bool SDL_SetWindowSize(SDL_Window* window, int w, int h))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowSurfaceVSyncWindow: window vsync: vsync [
 	"/**
 	 * Toggle VSync for the window surface.
@@ -24576,7 +28319,7 @@ LibSDL3 >> setWindowSurfaceVSyncWindow: window vsync: vsync [
 	^ self ffiCall: #(bool SDL_SetWindowSurfaceVSync(SDL_Window* window, int vsync))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> setWindowTitleWindow: window title: title [
 	"/**
 	 * Set the title of a window.
@@ -24598,7 +28341,27 @@ LibSDL3 >> setWindowTitleWindow: window title: title [
 	^ self ffiCall: #(bool SDL_SetWindowTitle(SDL_Window* window, const char* title))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
+LibSDL3 >> setWindowsMessageHookCallback: callback userdata: userdata [
+	"/**
+	 * Set a callback for every Windows message, run before TranslateMessage().
+	 *
+	 * The callback may modify the message, and should return true if the message
+	 * should continue to be processed, or false to prevent further processing.
+	 *
+	 * \param callback the SDL_WindowsMessageHook function to call.
+	 * \param userdata a pointer to pass to every iteration of `callback`.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_WindowsMessageHook
+	 * \sa SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP
+	 */"
+
+	self ffiCall: #(void SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void* userdata))
+]
+
+{ #category : 'public - SDL_system' }
 LibSDL3 >> setX11EventHookCallback: callback userdata: userdata [
 	"/**
 	 * Set a callback for every X11 event.
@@ -24615,7 +28378,7 @@ LibSDL3 >> setX11EventHookCallback: callback userdata: userdata [
 	self ffiCall: #(void SDL_SetX11EventHook(SDL_X11EventHook callback, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> setenvUnsafeName: name value: value overwrite: overwrite [
 	"/**
 	 * Set the value of a variable in the environment.
@@ -24637,7 +28400,67 @@ LibSDL3 >> setenvUnsafeName: name value: value overwrite: overwrite [
 	^ self ffiCall: #(int SDL_setenv_unsafe(const char* name, const char* value, int overwrite))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_system' }
+LibSDL3 >> setiOSAnimationCallbackWindow: window interval: interval callback: callback callbackParam: callbackParam [
+	"/**
+	 * Use this function to set the animation callback on Apple iOS.
+	 *
+	 * The function prototype for `callback` is:
+	 *
+	 * ```c
+	 * void callback(void *callbackParam);
+	 * ```
+	 *
+	 * Where its parameter, `callbackParam`, is what was passed as `callbackParam`
+	 * to SDL_SetiOSAnimationCallback().
+	 *
+	 * This function is only available on Apple iOS.
+	 *
+	 * For more information see:
+	 *
+	 * https://wiki.libsdl.org/SDL3/README-ios
+	 *
+	 * Note that if you use the ""main callbacks"" instead of a standard C `main`
+	 * function, you don't have to use this API, as SDL will manage this for you.
+	 *
+	 * Details on main callbacks are here:
+	 *
+	 * https://wiki.libsdl.org/SDL3/README-main-functions
+	 *
+	 * \param window the window for which the animation callback should be set.
+	 * \param interval the number of frames after which **callback** will be
+	 *                 called.
+	 * \param callback the function to call for every frame.
+	 * \param callbackParam a pointer that is passed to `callback`.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetiOSEventPump
+	 */"
+
+	^ self ffiCall: #(bool SDL_SetiOSAnimationCallback(SDL_Window* window, int interval, SDL_iOSAnimationCallback callback, void* callbackParam))
+]
+
+{ #category : 'public - SDL_system' }
+LibSDL3 >> setiOSEventPump: enabled [
+	"/**
+	 * Use this function to enable or disable the SDL event pump on Apple iOS.
+	 *
+	 * This function is only available on Apple iOS.
+	 *
+	 * \param enabled true to enable the event pump, false to disable it.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetiOSAnimationCallback
+	 */"
+
+	self ffiCall: #(void SDL_SetiOSEventPump(#bool enabled))
+]
+
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> shouldInit: state [
 	"/**
 	 * Return whether initialization should be done.
@@ -24664,7 +28487,7 @@ LibSDL3 >> shouldInit: state [
 	^ self ffiCall: #(bool SDL_ShouldInit(SDL_InitState* state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> shouldQuit: state [
 	"/**
 	 * Return whether cleanup should be done.
@@ -24689,7 +28512,7 @@ LibSDL3 >> shouldQuit: state [
 	^ self ffiCall: #(bool SDL_ShouldQuit(SDL_InitState* state))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> showCursor [
 	"/**
 	 * Show the cursor.
@@ -24708,7 +28531,7 @@ LibSDL3 >> showCursor [
 	^ self ffiCall: #(bool SDL_ShowCursor())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_dialog' }
 LibSDL3 >> showFileDialogWithPropertiesType: type callback: callback userdata: userdata props: props [
 	"/**
 	 * Create and launch a file dialog with the specified properties.
@@ -24761,7 +28584,7 @@ LibSDL3 >> showFileDialogWithPropertiesType: type callback: callback userdata: u
 	self ffiCall: #(void SDL_ShowFileDialogWithProperties(SDL_FileDialogType type, SDL_DialogFileCallback callback, void* userdata, SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_messagebox' }
 LibSDL3 >> showMessageBoxMessageboxdata: messageboxdata buttonid: buttonid [
 	"/**
 	 * Create a modal message box.
@@ -24801,7 +28624,7 @@ LibSDL3 >> showMessageBoxMessageboxdata: messageboxdata buttonid: buttonid [
 	^ self ffiCall: #(bool SDL_ShowMessageBox(SDL_MessageBoxData* messageboxdata, int* buttonid))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_dialog' }
 LibSDL3 >> showOpenFileDialogCallback: callback userdata: userdata window: window filters: filters nfilters: nfilters defaultLocation: default_location allowMany: allow_many [
 	"/**
 	 * Displays a dialog that lets the user select a file on their filesystem.
@@ -24858,7 +28681,7 @@ LibSDL3 >> showOpenFileDialogCallback: callback userdata: userdata window: windo
 	self ffiCall: #(void SDL_ShowOpenFileDialog(SDL_DialogFileCallback callback, void* userdata, SDL_Window* window, SDL_DialogFileFilter* filters, int nfilters, const char* default_location, #bool allow_many))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_dialog' }
 LibSDL3 >> showOpenFolderDialogCallback: callback userdata: userdata window: window defaultLocation: default_location allowMany: allow_many [
 	"/**
 	 * Displays a dialog that lets the user select a folder on their filesystem.
@@ -24907,7 +28730,7 @@ LibSDL3 >> showOpenFolderDialogCallback: callback userdata: userdata window: win
 	self ffiCall: #(void SDL_ShowOpenFolderDialog(SDL_DialogFileCallback callback, void* userdata, SDL_Window* window, const char* default_location, #bool allow_many))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_dialog' }
 LibSDL3 >> showSaveFileDialogCallback: callback userdata: userdata window: window filters: filters nfilters: nfilters defaultLocation: default_location [
 	"/**
 	 * Displays a dialog that lets the user choose a new or existing file on their
@@ -24960,7 +28783,7 @@ LibSDL3 >> showSaveFileDialogCallback: callback userdata: userdata window: windo
 	self ffiCall: #(void SDL_ShowSaveFileDialog(SDL_DialogFileCallback callback, void* userdata, SDL_Window* window, SDL_DialogFileFilter* filters, int nfilters, const char* default_location))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_messagebox' }
 LibSDL3 >> showSimpleMessageBoxFlags: flags title: title message: message window: window [
 	"/**
 	 * Display a simple modal message box.
@@ -25006,7 +28829,7 @@ LibSDL3 >> showSimpleMessageBoxFlags: flags title: title message: message window
 	^ self ffiCall: #(bool SDL_ShowSimpleMessageBox(SDL_MessageBoxFlags flags, const char* title, const char* message, SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> showWindow: window [
 	"/**
 	 * Show a window.
@@ -25026,7 +28849,7 @@ LibSDL3 >> showWindow: window [
 	^ self ffiCall: #(bool SDL_ShowWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> showWindowSystemMenuWindow: window x: x y: y [
 	"/**
 	 * Display the system-level window menu.
@@ -25055,7 +28878,7 @@ LibSDL3 >> showWindowSystemMenuWindow: window x: x y: y [
 	^ self ffiCall: #(bool SDL_ShowWindowSystemMenu(SDL_Window* window, int x, int y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> signalAsyncIOQueue: queue [
 	"/**
 	 * Wake up any threads that are blocking in SDL_WaitAsyncIOResult().
@@ -25083,7 +28906,7 @@ LibSDL3 >> signalAsyncIOQueue: queue [
 	self ffiCall: #(void SDL_SignalAsyncIOQueue(SDL_AsyncIOQueue* queue))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> signalCondition: cond [
 	"/**
 	 * Restart one of the threads that are waiting on the condition variable.
@@ -25102,7 +28925,7 @@ LibSDL3 >> signalCondition: cond [
 	self ffiCall: #(void SDL_SignalCondition(SDL_Condition* cond))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> signalSemaphore: sem [
 	"/**
 	 * Atomically increment a semaphore's value and wake waiting threads.
@@ -25119,7 +28942,7 @@ LibSDL3 >> signalSemaphore: sem [
 	self ffiCall: #(void SDL_SignalSemaphore(SDL_Semaphore* sem))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sin: x [
 	"/**
 	 * Compute the sine of `x`.
@@ -25151,7 +28974,7 @@ LibSDL3 >> sin: x [
 	^ self ffiCall: #(double SDL_sin(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sinf: x [
 	"/**
 	 * Compute the sine of `x`.
@@ -25183,7 +29006,7 @@ LibSDL3 >> sinf: x [
 	^ self ffiCall: #(float SDL_sinf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sizeAddCheckOverflowA: a b: b ret: ret [
 	"/**
 	 * Add two integers, checking for overflow.
@@ -25203,16 +29026,10 @@ LibSDL3 >> sizeAddCheckOverflowA: a b: b ret: ret [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_size_add_check_overflow(size_t a, size_t b, size_t* ret))
+	^ self ffiCall: #(int SDL_size_add_check_overflow(size_t a, size_t b, size_t* ret))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> sizeAddCheckOverflowBuiltinA: a b: b ret: ret [
-
-	^ self ffiCall: #(bool SDL_size_add_check_overflow_builtin(size_t a, size_t b, size_t* ret))
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sizeMulCheckOverflowA: a b: b ret: ret [
 	"/**
 	 * Multiply two integers, checking for overflow.
@@ -25232,16 +29049,47 @@ LibSDL3 >> sizeMulCheckOverflowA: a b: b ret: ret [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(bool SDL_size_mul_check_overflow(size_t a, size_t b, size_t* ret))
+	^ self ffiCall: #(int SDL_size_mul_check_overflow(size_t a, size_t b, size_t* ret))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> sizeMulCheckOverflowBuiltinA: a b: b ret: ret [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> snprintf: _Out_z_cap_ [
+	"/**
+	 * This works exactly like snprintf() but doesn't require access to a C
+	 * runtime.
+	 *
+	 * Format a string of up to `maxlen`-1 bytes, converting each '%' item with
+	 * values provided through variable arguments.
+	 *
+	 * While some C runtimes differ on how to deal with too-large strings, this
+	 * function null-terminates the output, by treating the null-terminator as
+	 * part of the `maxlen` count. Note that if `maxlen` is zero, however, no
+	 * bytes will be written at all.
+	 *
+	 * This function returns the number of _bytes_ (not _characters_) that should
+	 * be written, excluding the null-terminator character. If this returns a
+	 * number >= `maxlen`, it means the output string was truncated. A negative
+	 * return value means an error occurred.
+	 *
+	 * Referencing the output string's pointer with a format item is undefined
+	 * behavior.
+	 *
+	 * \param text the buffer to write the string into. Must not be NULL.
+	 * \param maxlen the maximum bytes to write, including the null-terminator.
+	 * \param fmt a printf-style format string. Must not be NULL.
+	 * \param ... a list of values to be used with the format string.
+	 * \returns the number of bytes that should be written, not counting the
+	 *          null-terminator char, or a negative value on error.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
 
-	^ self ffiCall: #(bool SDL_size_mul_check_overflow_builtin(size_t a, size_t b, size_t* ret))
+	^ self ffiCall: #(int SDL_snprintf(int _Out_z_cap_))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sqrt: x [
 	"/**
 	 * Compute the square root of `x`.
@@ -25271,7 +29119,7 @@ LibSDL3 >> sqrt: x [
 	^ self ffiCall: #(double SDL_sqrt(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sqrtf: x [
 	"/**
 	 * Compute the square root of `x`.
@@ -25301,7 +29149,7 @@ LibSDL3 >> sqrtf: x [
 	^ self ffiCall: #(float SDL_sqrtf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> srand: seed [
 	"/**
 	 * Seeds the pseudo-random number generator.
@@ -25325,7 +29173,7 @@ LibSDL3 >> srand: seed [
 	self ffiCall: #(void SDL_srand(Uint64 seed))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> startTextInput: window [
 	"/**
 	 * Start accepting Unicode text input events in a window.
@@ -25357,7 +29205,7 @@ LibSDL3 >> startTextInput: window [
 	^ self ffiCall: #(bool SDL_StartTextInput(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> startTextInputWithPropertiesWindow: window props: props [
 	"/**
 	 * Start accepting Unicode text input events in a window, with properties
@@ -25413,7 +29261,7 @@ LibSDL3 >> startTextInputWithPropertiesWindow: window props: props [
 	^ self ffiCall: #(bool SDL_StartTextInputWithProperties(SDL_Window* window, SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> stepBackUTF8Start: start pstr: pstr [
 	"/**
 	 * Decode a UTF-8 string in reverse, one Unicode codepoint at a time.
@@ -25448,7 +29296,7 @@ LibSDL3 >> stepBackUTF8Start: start pstr: pstr [
 	^ self ffiCall: #(Uint32 SDL_StepBackUTF8(const char* start, const char** pstr))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> stepUTF8Pstr: pstr pslen: pslen [
 	"/**
 	 * Decode a UTF-8 string, one Unicode codepoint at a time.
@@ -25497,7 +29345,61 @@ LibSDL3 >> stepUTF8Pstr: pstr pslen: pslen [
 	^ self ffiCall: #(Uint32 SDL_StepUTF8(const char** pstr, size_t* pslen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> stopHapticEffectHaptic: haptic effect: effect [
+	"/**
+	 * Stop the haptic effect on its associated haptic device.
+	 *
+	 * \param haptic the SDL_Haptic device to stop the effect on.
+	 * \param effect the ID of the haptic effect to stop.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_RunHapticEffect
+	 * \sa SDL_StopHapticEffects
+	 */"
+
+	^ self ffiCall: #(bool SDL_StopHapticEffect(SDL_Haptic* haptic, SDL_HapticEffectID effect))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> stopHapticEffects: haptic [
+	"/**
+	 * Stop all the currently playing effects on a haptic device.
+	 *
+	 * \param haptic the SDL_Haptic device to stop.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_RunHapticEffect
+	 * \sa SDL_StopHapticEffects
+	 */"
+
+	^ self ffiCall: #(bool SDL_StopHapticEffects(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> stopHapticRumble: haptic [
+	"/**
+	 * Stop the simple rumble on a haptic device.
+	 *
+	 * \param haptic the haptic device to stop the rumble effect on.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_PlayHapticRumble
+	 */"
+
+	^ self ffiCall: #(bool SDL_StopHapticRumble(SDL_Haptic* haptic))
+]
+
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> stopTextInput: window [
 	"/**
 	 * Stop receiving any text input events in a window.
@@ -25519,7 +29421,26 @@ LibSDL3 >> stopTextInput: window [
 	^ self ffiCall: #(bool SDL_StopTextInput(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> storageReady: storage [
+	"/**
+	 * Checks if the storage container is ready to use.
+	 *
+	 * This function should be called in regular intervals until it returns true -
+	 * however, it is not recommended to spinwait on this call, as the backend may
+	 * depend on a synchronous message loop. You might instead poll this in your
+	 * game's main loop while processing events and drawing a loading screen.
+	 *
+	 * \param storage a storage container to query.
+	 * \returns true if the container is ready, false otherwise.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_StorageReady(SDL_Storage* storage))
+]
+
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strcasecmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated UTF-8 strings, case-insensitively.
@@ -25551,7 +29472,7 @@ LibSDL3 >> strcasecmpStr1: str1 str2: str2 [
 	^ self ffiCall: #(int SDL_strcasecmp(const char* str1, const char* str2))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strcasestrHaystack: haystack needle: needle [
 	"/**
 	 * Search a UTF-8 string for the first instance of a specific substring,
@@ -25580,10 +29501,10 @@ LibSDL3 >> strcasestrHaystack: haystack needle: needle [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strcasestr(const char* haystack, const char* needle))
+	^ self ffiCall: #(void* SDL_strcasestr(const char* haystack, const char* needle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strchrStr: str c: c [
 	"/**
 	 * Search a string for the first instance of a specific byte.
@@ -25604,10 +29525,10 @@ LibSDL3 >> strchrStr: str c: c [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strchr(const char* str, int c))
+	^ self ffiCall: #(void* SDL_strchr(const char* str, int c))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strcmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated UTF-8 strings.
@@ -25631,7 +29552,7 @@ LibSDL3 >> strcmpStr1: str1 str2: str2 [
 	^ self ffiCall: #(int SDL_strcmp(const char* str1, const char* str2))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strdup: str [
 	"/**
 	 * Allocate a copy of a string.
@@ -25650,10 +29571,10 @@ LibSDL3 >> strdup: str [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strdup(const char* str))
+	^ self ffiCall: #(void* SDL_strdup(const char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> stretchSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 	"/**
 	 * Perform a stretched pixel copy from one surface to another.
@@ -25680,7 +29601,7 @@ LibSDL3 >> stretchSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect sca
 	^ self ffiCall: #(bool SDL_StretchSurface(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect, SDL_ScaleMode scaleMode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_guid' }
 LibSDL3 >> stringToGUID: pchGUID [
 	"/**
 	 * Convert a GUID string into a SDL_GUID structure.
@@ -25702,8 +29623,8 @@ LibSDL3 >> stringToGUID: pchGUID [
 	^ self ffiCall: #(SDL_GUID SDL_StringToGUID(const char* pchGUID))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> strlcatDst: dst src: src maxlen: maxlen [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> strlcat: _Inout_z_cap_ [
 	"/**
 	 * Concatenate strings.
 	 *
@@ -25731,11 +29652,11 @@ LibSDL3 >> strlcatDst: dst src: src maxlen: maxlen [
 	 * \sa SDL_strlcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_strlcat(char* dst, const char* src, size_t maxlen))
+	^ self ffiCall: #(size_t SDL_strlcat(int _Inout_z_cap_))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> strlcpyDst: dst src: src maxlen: maxlen [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> strlcpy: _Out_z_cap_ [
 	"/**
 	 * Copy a string.
 	 *
@@ -25764,10 +29685,10 @@ LibSDL3 >> strlcpyDst: dst src: src maxlen: maxlen [
 	 * \sa SDL_utf8strlcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_strlcpy(char* dst, const char* src, size_t maxlen))
+	^ self ffiCall: #(size_t SDL_strlcpy(int _Out_z_cap_))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strlen: str [
 	"/**
 	 * This works exactly like strlen() but doesn't require access to a C runtime.
@@ -25791,7 +29712,7 @@ LibSDL3 >> strlen: str [
 	^ self ffiCall: #(size_t SDL_strlen(const char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strlwr: str [
 	"/**
 	 * Convert a string to lowercase.
@@ -25813,10 +29734,10 @@ LibSDL3 >> strlwr: str [
 	 * \sa SDL_strupr
 	 */"
 
-	^ self ffiCall: #(char* SDL_strlwr(char* str))
+	^ self ffiCall: #(void* SDL_strlwr(char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two UTF-8 strings, case-insensitively, up to a number of bytes.
@@ -25859,7 +29780,7 @@ LibSDL3 >> strncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 	^ self ffiCall: #(int SDL_strncasecmp(const char* str1, const char* str2, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strncmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two UTF-8 strings up to a number of bytes.
@@ -25893,7 +29814,7 @@ LibSDL3 >> strncmpStr1: str1 str2: str2 maxlen: maxlen [
 	^ self ffiCall: #(int SDL_strncmp(const char* str1, const char* str2, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strndupStr: str maxlen: maxlen [
 	"/**
 	 * Allocate a copy of a string, up to n characters.
@@ -25919,10 +29840,10 @@ LibSDL3 >> strndupStr: str maxlen: maxlen [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strndup(const char* str, size_t maxlen))
+	^ self ffiCall: #(void* SDL_strndup(const char* str, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strnlenStr: str maxlen: maxlen [
 	"/**
 	 * This works exactly like strnlen() but doesn't require access to a C
@@ -25950,7 +29871,7 @@ LibSDL3 >> strnlenStr: str maxlen: maxlen [
 	^ self ffiCall: #(size_t SDL_strnlen(const char* str, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strnstrHaystack: haystack needle: needle maxlen: maxlen [
 	"/**
 	 * Search a string, up to n bytes, for the first instance of a specific
@@ -25974,10 +29895,10 @@ LibSDL3 >> strnstrHaystack: haystack needle: needle maxlen: maxlen [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strnstr(const char* haystack, const char* needle, size_t maxlen))
+	^ self ffiCall: #(void* SDL_strnstr(const char* haystack, const char* needle, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strpbrkStr: str breakset: breakset [
 	"/**
 	 * Searches a string for the first occurrence of any character contained in a
@@ -25996,10 +29917,10 @@ LibSDL3 >> strpbrkStr: str breakset: breakset [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strpbrk(const char* str, const char* breakset))
+	^ self ffiCall: #(void* SDL_strpbrk(const char* str, const char* breakset))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strrchrStr: str c: c [
 	"/**
 	 * Search a string for the last instance of a specific byte.
@@ -26019,10 +29940,10 @@ LibSDL3 >> strrchrStr: str c: c [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strrchr(const char* str, int c))
+	^ self ffiCall: #(void* SDL_strrchr(const char* str, int c))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strrev: str [
 	"/**
 	 * Reverse a string's contents.
@@ -26044,10 +29965,10 @@ LibSDL3 >> strrev: str [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strrev(char* str))
+	^ self ffiCall: #(void* SDL_strrev(char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strstrHaystack: haystack needle: needle [
 	"/**
 	 * Search a string for the first instance of a specific substring.
@@ -26068,10 +29989,10 @@ LibSDL3 >> strstrHaystack: haystack needle: needle [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strstr(const char* haystack, const char* needle))
+	^ self ffiCall: #(void* SDL_strstr(const char* haystack, const char* needle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strtodStr: str endp: endp [
 	"/**
 	 * Parse a `double` from a string.
@@ -26104,7 +30025,7 @@ LibSDL3 >> strtodStr: str endp: endp [
 	^ self ffiCall: #(double SDL_strtod(const char* str, char** endp))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strtokRStr: str delim: delim saveptr: saveptr [
 	"/**
 	 * This works exactly like strtok_r() but doesn't require access to a C
@@ -26134,10 +30055,10 @@ LibSDL3 >> strtokRStr: str delim: delim saveptr: saveptr [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_strtok_r(char* str, const char* delim, char** saveptr))
+	^ self ffiCall: #(void* SDL_strtok_r(char* str, const char* delim, char** saveptr))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strtolStr: str endp: endp base: base [
 	"/**
 	 * Parse a `long` from a string.
@@ -26175,44 +30096,7 @@ LibSDL3 >> strtolStr: str endp: endp base: base [
 	^ self ffiCall: #(long SDL_strtol(const char* str, char** endp, int base))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> strtollStr: str endp: endp base: base [
-	"/**
-	 * Parse a `long long` from a string.
-	 *
-	 * If `str` starts with whitespace, then those whitespace characters are
-	 * skipped before attempting to parse the number.
-	 *
-	 * If the parsed number does not fit inside a `long long`, the result is
-	 * clamped to the minimum and maximum representable `long long` values.
-	 *
-	 * \param str The null-terminated string to read. Must not be NULL.
-	 * \param endp If not NULL, the address of the first invalid character (i.e.
-	 *             the next character after the parsed number) will be written to
-	 *             this pointer.
-	 * \param base The base of the integer to read. Supported values are 0 and 2
-	 *             to 36 inclusive. If 0, the base will be inferred from the
-	 *             number's prefix (0x for hexadecimal, 0 for octal, decimal
-	 *             otherwise).
-	 * \returns the parsed `long long`, or 0 if no number could be parsed.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_atoi
-	 * \sa SDL_atof
-	 * \sa SDL_strtol
-	 * \sa SDL_strtoul
-	 * \sa SDL_strtoull
-	 * \sa SDL_strtod
-	 * \sa SDL_lltoa
-	 */"
-
-	^ self ffiCall: #(long SDL_strtoll(const char* str, char** endp, int base))
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strtoulStr: str endp: endp base: base [
 	"/**
 	 * Parse an `unsigned long` from a string.
@@ -26249,45 +30133,7 @@ LibSDL3 >> strtoulStr: str endp: endp base: base [
 	^ self ffiCall: #(ulong SDL_strtoul(const char* str, char** endp, int base))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> strtoullStr: str endp: endp base: base [
-	"/**
-	 * Parse an `unsigned long long` from a string.
-	 *
-	 * If `str` starts with whitespace, then those whitespace characters are
-	 * skipped before attempting to parse the number.
-	 *
-	 * If the parsed number does not fit inside an `unsigned long long`, the
-	 * result is clamped to the maximum representable `unsigned long long` value.
-	 *
-	 * \param str The null-terminated string to read. Must not be NULL.
-	 * \param endp If not NULL, the address of the first invalid character (i.e.
-	 *             the next character after the parsed number) will be written to
-	 *             this pointer.
-	 * \param base The base of the integer to read. Supported values are 0 and 2
-	 *             to 36 inclusive. If 0, the base will be inferred from the
-	 *             number's prefix (0x for hexadecimal, 0 for octal, decimal
-	 *             otherwise).
-	 * \returns the parsed `unsigned long long`, or 0 if no number could be
-	 *          parsed.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_atoi
-	 * \sa SDL_atof
-	 * \sa SDL_strtol
-	 * \sa SDL_strtoll
-	 * \sa SDL_strtoul
-	 * \sa SDL_strtod
-	 * \sa SDL_ulltoa
-	 */"
-
-	^ self ffiCall: #(ulong SDL_strtoull(const char* str, char** endp, int base))
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> strupr: str [
 	"/**
 	 * Convert a string to uppercase.
@@ -26309,10 +30155,10 @@ LibSDL3 >> strupr: str [
 	 * \sa SDL_strlwr
 	 */"
 
-	^ self ffiCall: #(char* SDL_strupr(char* str))
+	^ self ffiCall: #(void* SDL_strupr(char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> submitGPUCommandBuffer: command_buffer [
 	"/**
 	 * Submits a command buffer so its commands can be processed on the GPU.
@@ -26339,7 +30185,7 @@ LibSDL3 >> submitGPUCommandBuffer: command_buffer [
 	^ self ffiCall: #(bool SDL_SubmitGPUCommandBuffer(SDL_GPUCommandBuffer* command_buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> submitGPUCommandBufferAndAcquireFence: command_buffer [
 	"/**
 	 * Submits a command buffer so its commands can be processed on the GPU, and
@@ -26369,7 +30215,7 @@ LibSDL3 >> submitGPUCommandBufferAndAcquireFence: command_buffer [
 	^ self ffiCall: #(SDL_GPUFence* SDL_SubmitGPUCommandBufferAndAcquireFence(SDL_GPUCommandBuffer* command_buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> surfaceHasAlternateImages: surface [
 	"/**
 	 * Return whether a surface has alternate versions available.
@@ -26389,7 +30235,7 @@ LibSDL3 >> surfaceHasAlternateImages: surface [
 	^ self ffiCall: #(bool SDL_SurfaceHasAlternateImages(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> surfaceHasColorKey: surface [
 	"/**
 	 * Returns whether the surface has a color key.
@@ -26410,7 +30256,7 @@ LibSDL3 >> surfaceHasColorKey: surface [
 	^ self ffiCall: #(bool SDL_SurfaceHasColorKey(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> surfaceHasRLE: surface [
 	"/**
 	 * Returns whether the surface is RLE enabled.
@@ -26430,7 +30276,7 @@ LibSDL3 >> surfaceHasRLE: surface [
 	^ self ffiCall: #(bool SDL_SurfaceHasRLE(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_endian' }
 LibSDL3 >> swapFloat: x [
 	"/**
 	 * Byte-swap a floating point number.
@@ -26452,10 +30298,48 @@ LibSDL3 >> swapFloat: x [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(float SDL_SwapFloat(float x))
+	^ self ffiCall: #(int SDL_SwapFloat(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> swprintf: _Out_z_cap_ [
+	"/**
+	 * This works exactly like swprintf() but doesn't require access to a C
+	 * runtime.
+	 *
+	 * Format a wide string of up to `maxlen`-1 wchar_t values, converting each
+	 * '%' item with values provided through variable arguments.
+	 *
+	 * While some C runtimes differ on how to deal with too-large strings, this
+	 * function null-terminates the output, by treating the null-terminator as
+	 * part of the `maxlen` count. Note that if `maxlen` is zero, however, no wide
+	 * characters will be written at all.
+	 *
+	 * This function returns the number of _wide characters_ (not _codepoints_)
+	 * that should be written, excluding the null-terminator character. If this
+	 * returns a number >= `maxlen`, it means the output string was truncated. A
+	 * negative return value means an error occurred.
+	 *
+	 * Referencing the output string's pointer with a format item is undefined
+	 * behavior.
+	 *
+	 * \param text the buffer to write the wide string into. Must not be NULL.
+	 * \param maxlen the maximum wchar_t values to write, including the
+	 *               null-terminator.
+	 * \param fmt a printf-style format string. Must not be NULL.
+	 * \param ... a list of values to be used with the format string.
+	 * \returns the number of wide characters that should be written, not counting
+	 *          the null-terminator char, or a negative value on error.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_swprintf(int _Out_z_cap_))
+]
+
+{ #category : 'public - SDL_video' }
 LibSDL3 >> syncWindow: window [
 	"/**
 	 * Block until any pending window state is finalized.
@@ -26490,7 +30374,7 @@ LibSDL3 >> syncWindow: window [
 	^ self ffiCall: #(bool SDL_SyncWindow(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> tan: x [
 	"/**
 	 * Compute the tangent of `x`.
@@ -26524,7 +30408,7 @@ LibSDL3 >> tan: x [
 	^ self ffiCall: #(double SDL_tan(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> tanf: x [
 	"/**
 	 * Compute the tangent of `x`.
@@ -26558,7 +30442,7 @@ LibSDL3 >> tanf: x [
 	^ self ffiCall: #(float SDL_tanf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> tellIO: context [
 	"/**
 	 * Determine the current read/write offset in an SDL_IOStream data stream.
@@ -26582,7 +30466,7 @@ LibSDL3 >> tellIO: context [
 	^ self ffiCall: #(Sint64 SDL_TellIO(SDL_IOStream* context))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_keyboard' }
 LibSDL3 >> textInputActive: window [
 	"/**
 	 * Check whether or not Unicode text input events are enabled for a window.
@@ -26600,7 +30484,7 @@ LibSDL3 >> textInputActive: window [
 	^ self ffiCall: #(bool SDL_TextInputActive(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> timeFromWindowsDwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDateTime [
 	"/**
 	 * Converts a Windows FILETIME (100-nanosecond intervals since January 1,
@@ -26619,7 +30503,7 @@ LibSDL3 >> timeFromWindowsDwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDat
 	^ self ffiCall: #(SDL_Time SDL_TimeFromWindows(Uint32 dwLowDateTime, Uint32 dwHighDateTime))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> timeToDateTimeTicks: ticks dt: dt localTime: localTime [
 	"/**
 	 * Converts an SDL_Time in nanoseconds since the epoch to a calendar time in
@@ -26639,7 +30523,7 @@ LibSDL3 >> timeToDateTimeTicks: ticks dt: dt localTime: localTime [
 	^ self ffiCall: #(bool SDL_TimeToDateTime(SDL_Time ticks, SDL_DateTime* dt, #bool localTime))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_time' }
 LibSDL3 >> timeToWindowsTicks: ticks dwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDateTime [
 	"/**
 	 * Converts an SDL time into a Windows FILETIME (100-nanosecond intervals
@@ -26659,7 +30543,7 @@ LibSDL3 >> timeToWindowsTicks: ticks dwLowDateTime: dwLowDateTime dwHighDateTime
 	self ffiCall: #(void SDL_TimeToWindows(SDL_Time ticks, Uint32* dwLowDateTime, Uint32* dwHighDateTime))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> tolower: x [
 	"/**
 	 * Convert low-ASCII English letters to lowercase.
@@ -26681,7 +30565,7 @@ LibSDL3 >> tolower: x [
 	^ self ffiCall: #(int SDL_tolower(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> toupper: x [
 	"/**
 	 * Convert low-ASCII English letters to uppercase.
@@ -26703,7 +30587,7 @@ LibSDL3 >> toupper: x [
 	^ self ffiCall: #(int SDL_toupper(int x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> trunc: x [
 	"/**
 	 * Truncate `x` to an integer.
@@ -26736,7 +30620,7 @@ LibSDL3 >> trunc: x [
 	^ self ffiCall: #(double SDL_trunc(double x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> truncf: x [
 	"/**
 	 * Truncate `x` to an integer.
@@ -26769,7 +30653,7 @@ LibSDL3 >> truncf: x [
 	^ self ffiCall: #(float SDL_truncf(float x))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> tryLockMutex: mutex [
 	"/**
 	 * Try to lock a mutex without blocking.
@@ -26794,7 +30678,7 @@ LibSDL3 >> tryLockMutex: mutex [
 	^ self ffiCall: #(bool SDL_TryLockMutex(SDL_Mutex* mutex))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> tryLockRWLockForReading: rwlock [
 	"/**
 	 * Try to lock a read/write lock _for reading_ without blocking.
@@ -26823,7 +30707,7 @@ LibSDL3 >> tryLockRWLockForReading: rwlock [
 	^ self ffiCall: #(bool SDL_TryLockRWLockForReading(SDL_RWLock* rwlock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> tryLockRWLockForWriting: rwlock [
 	"/**
 	 * Try to lock a read/write lock _for writing_ without blocking.
@@ -26857,7 +30741,7 @@ LibSDL3 >> tryLockRWLockForWriting: rwlock [
 	^ self ffiCall: #(bool SDL_TryLockRWLockForWriting(SDL_RWLock* rwlock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> tryLockSpinlock: lock [
 	"/**
 	 * Try to lock a spin lock by setting it to a non-zero value.
@@ -26879,7 +30763,7 @@ LibSDL3 >> tryLockSpinlock: lock [
 	^ self ffiCall: #(bool SDL_TryLockSpinlock(SDL_SpinLock* lock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> tryWaitSemaphore: sem [
 	"/**
 	 * See if a semaphore has a positive value and decrement it if it does.
@@ -26902,8 +30786,8 @@ LibSDL3 >> tryWaitSemaphore: sem [
 	^ self ffiCall: #(bool SDL_TryWaitSemaphore(SDL_Semaphore* sem))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> uCS4ToUTF8Codepoint: codepoint dst: dst [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> ucs4ToUTF8Codepoint: codepoint dst: dst [
 	"/**
 	 * Convert a single Unicode codepoint to UTF-8.
 	 *
@@ -26932,10 +30816,10 @@ LibSDL3 >> uCS4ToUTF8Codepoint: codepoint dst: dst [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(char* SDL_UCS4ToUTF8(Uint32 codepoint, char* dst))
+	^ self ffiCall: #(void* SDL_UCS4ToUTF8(Uint32 codepoint, char* dst))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> uitoaValue: value str: str radix: radix [
 	"/**
 	 * Convert an unsigned integer into a string.
@@ -26964,42 +30848,10 @@ LibSDL3 >> uitoaValue: value str: str radix: radix [
 	 * \sa SDL_ulltoa
 	 */"
 
-	^ self ffiCall: #(char* SDL_uitoa(uint value, char* str, int radix))
+	^ self ffiCall: #(void* SDL_uitoa(uint value, char* str, int radix))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> ulltoaValue: value str: str radix: radix [
-	"/**
-	 * Convert an unsigned long long integer into a string.
-	 *
-	 * This requires a radix to specified for string format. Specifying 10
-	 * produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
-	 * to 36.
-	 *
-	 * Note that this function will overflow a buffer if `str` is not large enough
-	 * to hold the output! It may be safer to use SDL_snprintf to clamp output, or
-	 * SDL_asprintf to allocate a buffer. Otherwise, it doesn't hurt to allocate
-	 * much more space than you expect to use (and don't forget null terminator
-	 * bytes, etc).
-	 *
-	 * \param value the unsigned long long integer to convert.
-	 * \param str the buffer to write the string into.
-	 * \param radix the radix to use for string generation.
-	 * \returns `str`.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_lltoa
-	 * \sa SDL_uitoa
-	 * \sa SDL_ultoa
-	 */"
-
-	^ self ffiCall: #(char* SDL_ulltoa(ulong value, char* str, int radix))
-]
-
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> ultoaValue: value str: str radix: radix [
 	"/**
 	 * Convert an unsigned long integer into a string.
@@ -27028,10 +30880,10 @@ LibSDL3 >> ultoaValue: value str: str radix: radix [
 	 * \sa SDL_ulltoa
 	 */"
 
-	^ self ffiCall: #(char* SDL_ultoa(ulong value, char* str, int radix))
+	^ self ffiCall: #(void* SDL_ultoa(ulong value, char* str, int radix))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> unbindAudioStream: stream [
 	"/**
 	 * Unbind a single audio stream from its audio device.
@@ -27051,7 +30903,7 @@ LibSDL3 >> unbindAudioStream: stream [
 	self ffiCall: #(void SDL_UnbindAudioStream(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> unbindAudioStreams: streams numStreams: num_streams [
 	"/**
 	 * Unbind a list of audio streams from their audio devices.
@@ -27083,7 +30935,7 @@ LibSDL3 >> unix64LibraryName [
 		findAnyLibrary: #('libSDL3.so' 'libSDL3.so.0.4.0')
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_loadso' }
 LibSDL3 >> unloadObject: handle [
 	"/**
 	 * Unload a shared object from memory.
@@ -27103,7 +30955,7 @@ LibSDL3 >> unloadObject: handle [
 	self ffiCall: #(void SDL_UnloadObject(SDL_SharedObject* handle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_audio' }
 LibSDL3 >> unlockAudioStream: stream [
 	"/**
 	 * Unlock an audio stream for serialized access.
@@ -27125,7 +30977,7 @@ LibSDL3 >> unlockAudioStream: stream [
 	^ self ffiCall: #(bool SDL_UnlockAudioStream(SDL_AudioStream* stream))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> unlockJoysticks [
 	"/**
 	 * Unlocking for atomic access to the joystick API.
@@ -27139,7 +30991,7 @@ LibSDL3 >> unlockJoysticks [
 	self ffiCall: #(void SDL_UnlockJoysticks())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> unlockMutex: mutex [
 	"/**
 	 * Unlock the mutex.
@@ -27162,7 +31014,7 @@ LibSDL3 >> unlockMutex: mutex [
 	self ffiCall: #(void SDL_UnlockMutex(SDL_Mutex* mutex))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_properties' }
 LibSDL3 >> unlockProperties: props [
 	"/**
 	 * Unlock a group of properties.
@@ -27179,7 +31031,7 @@ LibSDL3 >> unlockProperties: props [
 	self ffiCall: #(void SDL_UnlockProperties(SDL_PropertiesID props))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> unlockRWLock: rwlock [
 	"/**
 	 * Unlock the read/write lock.
@@ -27208,7 +31060,7 @@ LibSDL3 >> unlockRWLock: rwlock [
 	self ffiCall: #(void SDL_UnlockRWLock(SDL_RWLock* rwlock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_atomic' }
 LibSDL3 >> unlockSpinlock: lock [
 	"/**
 	 * Unlock a spin lock by setting it to 0.
@@ -27231,7 +31083,7 @@ LibSDL3 >> unlockSpinlock: lock [
 	self ffiCall: #(void SDL_UnlockSpinlock(SDL_SpinLock* lock))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> unlockSurface: surface [
 	"/**
 	 * Release a surface after directly accessing the pixels.
@@ -27250,7 +31102,7 @@ LibSDL3 >> unlockSurface: surface [
 	self ffiCall: #(void SDL_UnlockSurface(SDL_Surface* surface))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> unlockTexture: texture [
 	"/**
 	 * Unlock a texture, uploading the changes to video memory, if needed.
@@ -27275,7 +31127,7 @@ LibSDL3 >> unlockTexture: texture [
 	self ffiCall: #(void SDL_UnlockTexture(SDL_Texture* texture))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> unmapGPUTransferBufferDevice: device transferBuffer: transfer_buffer [
 	"/**
 	 * Unmaps a previously mapped transfer buffer.
@@ -27289,7 +31141,7 @@ LibSDL3 >> unmapGPUTransferBufferDevice: device transferBuffer: transfer_buffer 
 	self ffiCall: #(void SDL_UnmapGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBuffer* transfer_buffer))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> unsetEnvironmentVariableEnv: env name: name [
 	"/**
 	 * Clear a variable from the environment.
@@ -27314,7 +31166,7 @@ LibSDL3 >> unsetEnvironmentVariableEnv: env name: name [
 	^ self ffiCall: #(bool SDL_UnsetEnvironmentVariable(SDL_Environment* env, const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> unsetenvUnsafe: name [
 	"/**
 	 * Clear a variable from the environment.
@@ -27333,7 +31185,50 @@ LibSDL3 >> unsetenvUnsafe: name [
 	^ self ffiCall: #(int SDL_unsetenv_unsafe(const char* name))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gamepad' }
+LibSDL3 >> updateGamepads [
+	"/**
+	 * Manually pump gamepad updates if not using the loop.
+	 *
+	 * This function is called automatically by the event loop if events are
+	 * enabled. Under such circumstances, it will not be necessary to call this
+	 * function.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	self ffiCall: #(void SDL_UpdateGamepads())
+]
+
+{ #category : 'public - SDL_haptic' }
+LibSDL3 >> updateHapticEffectHaptic: haptic effect: effect data: data [
+	"/**
+	 * Update the properties of an effect.
+	 *
+	 * Can be used dynamically, although behavior when dynamically changing
+	 * direction may be strange. Specifically the effect may re-upload itself and
+	 * start playing from the start. You also cannot change the type either when
+	 * running SDL_UpdateHapticEffect().
+	 *
+	 * \param haptic the SDL_Haptic device that has the effect.
+	 * \param effect the identifier of the effect to update.
+	 * \param data an SDL_HapticEffect structure containing the new effect
+	 *             properties to use.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateHapticEffect
+	 * \sa SDL_RunHapticEffect
+	 */"
+
+	^ self ffiCall: #(bool SDL_UpdateHapticEffect(SDL_Haptic* haptic, SDL_HapticEffectID effect, SDL_HapticEffect* data))
+]
+
+{ #category : 'public - SDL_joystick' }
 LibSDL3 >> updateJoysticks [
 	"/**
 	 * Update the current state of the open joysticks.
@@ -27349,8 +31244,8 @@ LibSDL3 >> updateJoysticks [
 	self ffiCall: #(void SDL_UpdateJoysticks())
 ]
 
-{ #category : 'public' }
-LibSDL3 >> updateNVTexture: texture rect: rect Yplane: Yplane Ypitch: Ypitch UVplane: UVplane UVpitch: UVpitch [
+{ #category : 'public - SDL_render' }
+LibSDL3 >> updateNVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch uVplane: UVplane uVpitch: UVpitch [
 	"/**
 	 * Update a rectangle within a planar NV12 or NV21 texture with new pixels.
 	 *
@@ -27381,7 +31276,7 @@ LibSDL3 >> updateNVTexture: texture rect: rect Yplane: Yplane Ypitch: Ypitch UVp
 	^ self ffiCall: #(bool SDL_UpdateNVTexture(SDL_Texture* texture, SDL_Rect* rect, const Uint8* Yplane, int Ypitch, const Uint8* UVplane, int UVpitch))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_sensor' }
 LibSDL3 >> updateSensors [
 	"/**
 	 * Update the current state of the open sensors.
@@ -27398,7 +31293,7 @@ LibSDL3 >> updateSensors [
 	self ffiCall: #(void SDL_UpdateSensors())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_render' }
 LibSDL3 >> updateTexture: texture rect: rect pixels: pixels pitch: pitch [
 	"/**
 	 * Update the given texture rectangle with new pixel data.
@@ -27436,7 +31331,7 @@ LibSDL3 >> updateTexture: texture rect: rect pixels: pixels pitch: pitch [
 	^ self ffiCall: #(bool SDL_UpdateTexture(SDL_Texture* texture, SDL_Rect* rect, const void* pixels, int pitch))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_tray' }
 LibSDL3 >> updateTrays [
 	"/**
 	 * Update the trays.
@@ -27452,7 +31347,7 @@ LibSDL3 >> updateTrays [
 	self ffiCall: #(void SDL_UpdateTrays())
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> updateWindowSurface: window [
 	"/**
 	 * Copy the window surface to the screen.
@@ -27477,7 +31372,7 @@ LibSDL3 >> updateWindowSurface: window [
 	^ self ffiCall: #(bool SDL_UpdateWindowSurface(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> updateWindowSurfaceRectsWindow: window rects: rects numrects: numrects [
 	"/**
 	 * Copy areas of the window surface to the screen.
@@ -27510,8 +31405,8 @@ LibSDL3 >> updateWindowSurfaceRectsWindow: window rects: rects numrects: numrect
 	^ self ffiCall: #(bool SDL_UpdateWindowSurfaceRects(SDL_Window* window, SDL_Rect* rects, int numrects))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> updateYUVTexture: texture rect: rect Yplane: Yplane Ypitch: Ypitch Uplane: Uplane Upitch: Upitch Vplane: Vplane Vpitch: Vpitch [
+{ #category : 'public - SDL_render' }
+LibSDL3 >> updateYUVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch uplane: Uplane upitch: Upitch vplane: Vplane vpitch: Vpitch [
 	"/**
 	 * Update a rectangle within a planar YV12 or IYUV texture with new pixel
 	 * data.
@@ -27546,7 +31441,7 @@ LibSDL3 >> updateYUVTexture: texture rect: rect Yplane: Yplane Ypitch: Ypitch Up
 	^ self ffiCall: #(bool SDL_UpdateYUVTexture(SDL_Texture* texture, SDL_Rect* rect, const Uint8* Yplane, int Ypitch, const Uint8* Uplane, int Upitch, const Uint8* Vplane, int Vpitch))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> uploadToGPUBufferCopyPass: copy_pass source: source destination: destination cycle: cycle [
 	"/**
 	 * Uploads data from a transfer buffer to a buffer.
@@ -27566,7 +31461,7 @@ LibSDL3 >> uploadToGPUBufferCopyPass: copy_pass source: source destination: dest
 	self ffiCall: #(void SDL_UploadToGPUBuffer(SDL_GPUCopyPass* copy_pass, SDL_GPUTransferBufferLocation* source, SDL_GPUBufferRegion* destination, #bool cycle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> uploadToGPUTextureCopyPass: copy_pass source: source destination: destination cycle: cycle [
 	"/**
 	 * Uploads data from a transfer buffer to a texture.
@@ -27589,8 +31484,8 @@ LibSDL3 >> uploadToGPUTextureCopyPass: copy_pass source: source destination: des
 	self ffiCall: #(void SDL_UploadToGPUTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureTransferInfo* source, SDL_GPUTextureRegion* destination, #bool cycle))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> utf8strlcpyDst: dst src: src dstBytes: dst_bytes [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> utf8strlcpy: _Out_z_cap_ [
 	"/**
 	 * Copy an UTF-8 string.
 	 *
@@ -27618,10 +31513,10 @@ LibSDL3 >> utf8strlcpyDst: dst src: src dstBytes: dst_bytes [
 	 * \sa SDL_strlcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_utf8strlcpy(char* dst, const char* src, size_t dst_bytes))
+	^ self ffiCall: #(size_t SDL_utf8strlcpy(int _Out_z_cap_))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> utf8strlen: str [
 	"/**
 	 * Count the number of codepoints in a UTF-8 string.
@@ -27653,7 +31548,7 @@ LibSDL3 >> utf8strlen: str [
 	^ self ffiCall: #(size_t SDL_utf8strlen(const char* str))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> utf8strnlenStr: str bytes: bytes [
 	"/**
 	 * Count the number of codepoints in a UTF-8 string, up to n bytes.
@@ -27690,7 +31585,56 @@ LibSDL3 >> utf8strnlenStr: str bytes: bytes [
 	^ self ffiCall: #(size_t SDL_utf8strnlen(const char* str, size_t bytes))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> vsnprintf: _Out_z_cap_ [
+	"/**
+	 * This works exactly like vsnprintf() but doesn't require access to a C
+	 * runtime.
+	 *
+	 * Functions identically to SDL_snprintf(), except it takes a `va_list`
+	 * instead of using `...` variable arguments.
+	 *
+	 * \param text the buffer to write the string into. Must not be NULL.
+	 * \param maxlen the maximum bytes to write, including the null-terminator.
+	 * \param fmt a printf-style format string. Must not be NULL.
+	 * \param ap a `va_list` values to be used with the format string.
+	 * \returns the number of bytes that should be written, not counting the
+	 *          null-terminator char, or a negative value on error.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_vsnprintf(int _Out_z_cap_))
+]
+
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> vswprintf: _Out_z_cap_ [
+	"/**
+	 * This works exactly like vswprintf() but doesn't require access to a C
+	 * runtime.
+	 *
+	 * Functions identically to SDL_swprintf(), except it takes a `va_list`
+	 * instead of using `...` variable arguments.
+	 *
+	 * \param text the buffer to write the string into. Must not be NULL.
+	 * \param maxlen the maximum wide characters to write, including the
+	 *               null-terminator.
+	 * \param fmt a printf-style format wide string. Must not be NULL.
+	 * \param ap a `va_list` values to be used with the format string.
+	 * \returns the number of wide characters that should be written, not counting
+	 *          the null-terminator char, or a negative value on error.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(int SDL_vswprintf(int _Out_z_cap_))
+]
+
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> waitAndAcquireGPUSwapchainTextureCommandBuffer: command_buffer window: window swapchainTexture: swapchain_texture swapchainTextureWidth: swapchain_texture_width swapchainTextureHeight: swapchain_texture_height [
 	"/**
 	 * Blocks the thread until a swapchain texture is available to be acquired,
@@ -27738,7 +31682,7 @@ LibSDL3 >> waitAndAcquireGPUSwapchainTextureCommandBuffer: command_buffer window
 	^ self ffiCall: #(bool SDL_WaitAndAcquireGPUSwapchainTexture(SDL_GPUCommandBuffer* command_buffer, SDL_Window* window, SDL_GPUTexture* swapchain_texture, Uint32* swapchain_texture_width, Uint32* swapchain_texture_height))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> waitAsyncIOResultQueue: queue outcome: outcome timeoutMS: timeoutMS [
 	"/**
 	 * Block until an async I/O task queue has a completed task.
@@ -27786,7 +31730,7 @@ LibSDL3 >> waitAsyncIOResultQueue: queue outcome: outcome timeoutMS: timeoutMS [
 	^ self ffiCall: #(bool SDL_WaitAsyncIOResult(SDL_AsyncIOQueue* queue, SDL_AsyncIOOutcome* outcome, Sint32 timeoutMS))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> waitConditionCond: cond mutex: mutex [
 	"/**
 	 * Wait until a condition variable is signaled.
@@ -27818,7 +31762,7 @@ LibSDL3 >> waitConditionCond: cond mutex: mutex [
 	self ffiCall: #(void SDL_WaitCondition(SDL_Condition* cond, SDL_Mutex* mutex))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> waitConditionTimeoutCond: cond mutex: mutex timeoutMS: timeoutMS [
 	"/**
 	 * Wait until a condition variable is signaled or a certain time has passed.
@@ -27852,7 +31796,7 @@ LibSDL3 >> waitConditionTimeoutCond: cond mutex: mutex timeoutMS: timeoutMS [
 	^ self ffiCall: #(bool SDL_WaitConditionTimeout(SDL_Condition* cond, SDL_Mutex* mutex, Sint32 timeoutMS))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> waitEvent: event [
 	"/**
 	 * Wait indefinitely for the next available event.
@@ -27880,7 +31824,7 @@ LibSDL3 >> waitEvent: event [
 	^ self ffiCall: #(bool SDL_WaitEvent(SDL_Event* event))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_events' }
 LibSDL3 >> waitEventTimeoutEvent: event timeoutMS: timeoutMS [
 	"/**
 	 * Wait until the specified timeout (in milliseconds) for the next available
@@ -27914,7 +31858,7 @@ LibSDL3 >> waitEventTimeoutEvent: event timeoutMS: timeoutMS [
 	^ self ffiCall: #(bool SDL_WaitEventTimeout(SDL_Event* event, Sint32 timeoutMS))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> waitForGPUFencesDevice: device waitAll: wait_all fences: fences numFences: num_fences [
 	"/**
 	 * Blocks the thread until the given fences are signaled.
@@ -27936,7 +31880,7 @@ LibSDL3 >> waitForGPUFencesDevice: device waitAll: wait_all fences: fences numFe
 	^ self ffiCall: #(bool SDL_WaitForGPUFences(SDL_GPUDevice* device, #bool wait_all, SDL_GPUFence* fences, Uint32 num_fences))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> waitForGPUIdle: device [
 	"/**
 	 * Blocks the thread until the GPU is completely idle.
@@ -27953,7 +31897,7 @@ LibSDL3 >> waitForGPUIdle: device [
 	^ self ffiCall: #(bool SDL_WaitForGPUIdle(SDL_GPUDevice* device))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> waitForGPUSwapchainDevice: device window: window [
 	"/**
 	 * Blocks the thread until a swapchain texture is available to be acquired.
@@ -27976,7 +31920,44 @@ LibSDL3 >> waitForGPUSwapchainDevice: device window: window [
 	^ self ffiCall: #(bool SDL_WaitForGPUSwapchain(SDL_GPUDevice* device, SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_process' }
+LibSDL3 >> waitProcess: process block: block exitcode: exitcode [
+	"/**
+	 * Wait for a process to finish.
+	 *
+	 * This can be called multiple times to get the status of a process.
+	 *
+	 * The exit code will be the exit code of the process if it terminates
+	 * normally, a negative signal if it terminated due to a signal, or -255
+	 * otherwise. It will not be changed if the process is still running.
+	 *
+	 * If you create a process with standard output piped to the application
+	 * (`pipe_stdio` being true) then you should read all of the process output
+	 * before calling SDL_WaitProcess(). If you don't do this the process might be
+	 * blocked indefinitely waiting for output to be read and SDL_WaitProcess()
+	 * will never return true;
+	 *
+	 * \param process The process to wait for.
+	 * \param block If true, block until the process finishes; otherwise, report
+	 *              on the process' status.
+	 * \param exitcode a pointer filled in with the process exit code if the
+	 *                 process has exited, may be NULL.
+	 * \returns true if the process exited, false otherwise.
+	 *
+	 * \threadsafety This function is not thread safe.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_KillProcess
+	 * \sa SDL_DestroyProcess
+	 */"
+
+	^ self ffiCall: #(bool SDL_WaitProcess(SDL_Process* process, #bool block, int* exitcode))
+]
+
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> waitSemaphore: sem [
 	"/**
 	 * Wait until a semaphore has a positive value and then decrements it.
@@ -28000,7 +31981,7 @@ LibSDL3 >> waitSemaphore: sem [
 	self ffiCall: #(void SDL_WaitSemaphore(SDL_Semaphore* sem))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mutex' }
 LibSDL3 >> waitSemaphoreTimeoutSem: sem timeoutMS: timeoutMS [
 	"/**
 	 * Wait until a semaphore has a positive value and then decrements it.
@@ -28024,7 +32005,7 @@ LibSDL3 >> waitSemaphoreTimeoutSem: sem timeoutMS: timeoutMS [
 	^ self ffiCall: #(bool SDL_WaitSemaphoreTimeout(SDL_Semaphore* sem, Sint32 timeoutMS))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_thread' }
 LibSDL3 >> waitThread: thread status: status [
 	"/**
 	 * Wait for a thread to finish.
@@ -28063,7 +32044,7 @@ LibSDL3 >> waitThread: thread status: status [
 	self ffiCall: #(void SDL_WaitThread(SDL_Thread* thread, int* status))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> warpMouseGlobalX: x y: y [
 	"/**
 	 * Move the mouse to the given position in global screen space.
@@ -28091,7 +32072,7 @@ LibSDL3 >> warpMouseGlobalX: x y: y [
 	^ self ffiCall: #(bool SDL_WarpMouseGlobal(float x, float y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_mouse' }
 LibSDL3 >> warpMouseInWindow: window x: x y: y [
 	"/**
 	 * Move the mouse cursor to the given position within the window.
@@ -28118,7 +32099,7 @@ LibSDL3 >> warpMouseInWindow: window x: x y: y [
 	self ffiCall: #(void SDL_WarpMouseInWindow(SDL_Window* window, float x, float y))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_init' }
 LibSDL3 >> wasInit: flags [
 	"/**
 	 * Get a mask of the specified subsystems which are currently initialized.
@@ -28136,7 +32117,7 @@ LibSDL3 >> wasInit: flags [
 	^ self ffiCall: #(SDL_InitFlags SDL_WasInit(SDL_InitFlags flags))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcscasecmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated wide strings, case-insensitively.
@@ -28170,7 +32151,7 @@ LibSDL3 >> wcscasecmpStr1: str1 str2: str2 [
 	^ self ffiCall: #(int SDL_wcscasecmp(const wchar_t* str1, const wchar_t* str2))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcscmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated wide strings.
@@ -28193,7 +32174,7 @@ LibSDL3 >> wcscmpStr1: str1 str2: str2 [
 	^ self ffiCall: #(int SDL_wcscmp(const wchar_t* str1, const wchar_t* str2))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcsdup: wstr [
 	"/**
 	 * Allocate a copy of a wide string.
@@ -28215,8 +32196,8 @@ LibSDL3 >> wcsdup: wstr [
 	^ self ffiCall: #(int* SDL_wcsdup(const wchar_t* wstr))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> wcslcatDst: dst src: src maxlen: maxlen [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> wcslcat: _Inout_z_cap_ [
 	"/**
 	 * Concatenate wide strings.
 	 *
@@ -28245,11 +32226,11 @@ LibSDL3 >> wcslcatDst: dst src: src maxlen: maxlen [
 	 * \sa SDL_wcslcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_wcslcat(wchar_t* dst, const wchar_t* src, size_t maxlen))
+	^ self ffiCall: #(size_t SDL_wcslcat(int _Inout_z_cap_))
 ]
 
-{ #category : 'public' }
-LibSDL3 >> wcslcpyDst: dst src: src maxlen: maxlen [
+{ #category : 'public - SDL_stdinc' }
+LibSDL3 >> wcslcpy: _Out_z_cap_ [
 	"/**
 	 * Copy a wide string.
 	 *
@@ -28276,10 +32257,10 @@ LibSDL3 >> wcslcpyDst: dst src: src maxlen: maxlen [
 	 * \sa SDL_wcslcat
 	 */"
 
-	^ self ffiCall: #(size_t SDL_wcslcpy(wchar_t* dst, const wchar_t* src, size_t maxlen))
+	^ self ffiCall: #(size_t SDL_wcslcpy(int _Out_z_cap_))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcslen: wstr [
 	"/**
 	 * This works exactly like wcslen() but doesn't require access to a C runtime.
@@ -28310,7 +32291,7 @@ LibSDL3 >> wcslen: wstr [
 	^ self ffiCall: #(size_t SDL_wcslen(const wchar_t* wstr))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcsncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two wide strings, case-insensitively, up to a number of wchar_t.
@@ -28356,7 +32337,7 @@ LibSDL3 >> wcsncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 	^ self ffiCall: #(int SDL_wcsncasecmp(const wchar_t* str1, const wchar_t* str2, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcsncmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two wide strings up to a number of wchar_t values.
@@ -28391,7 +32372,7 @@ LibSDL3 >> wcsncmpStr1: str1 str2: str2 maxlen: maxlen [
 	^ self ffiCall: #(int SDL_wcsncmp(const wchar_t* str1, const wchar_t* str2, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcsnlenWstr: wstr maxlen: maxlen [
 	"/**
 	 * This works exactly like wcsnlen() but doesn't require access to a C
@@ -28426,7 +32407,7 @@ LibSDL3 >> wcsnlenWstr: wstr maxlen: maxlen [
 	^ self ffiCall: #(size_t SDL_wcsnlen(const wchar_t* wstr, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcsnstrHaystack: haystack needle: needle maxlen: maxlen [
 	"/**
 	 * Search a wide string, up to n wide chars, for the first instance of a
@@ -28455,7 +32436,7 @@ LibSDL3 >> wcsnstrHaystack: haystack needle: needle maxlen: maxlen [
 	^ self ffiCall: #(int* SDL_wcsnstr(const wchar_t* haystack, const wchar_t* needle, size_t maxlen))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcsstrHaystack: haystack needle: needle [
 	"/**
 	 * Search a wide string for the first instance of a specific substring.
@@ -28479,7 +32460,7 @@ LibSDL3 >> wcsstrHaystack: haystack needle: needle [
 	^ self ffiCall: #(int* SDL_wcsstr(const wchar_t* haystack, const wchar_t* needle))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> wcstolStr: str endp: endp base: base [
 	"/**
 	 * Parse a `long` from a wide string.
@@ -28517,7 +32498,7 @@ LibSDL3 >> win32LibraryName [
 		findAnyLibrary: #('SDL3.dll')
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_video' }
 LibSDL3 >> windowHasSurface: window [
 	"/**
 	 * Return whether the window has a surface associated with it.
@@ -28536,7 +32517,7 @@ LibSDL3 >> windowHasSurface: window [
 	^ self ffiCall: #(bool SDL_WindowHasSurface(SDL_Window* window))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> windowSupportsGPUPresentModeDevice: device window: window presentMode: present_mode [
 	"/**
 	 * Determines whether a presentation mode is supported by the window.
@@ -28556,7 +32537,7 @@ LibSDL3 >> windowSupportsGPUPresentModeDevice: device window: window presentMode
 	^ self ffiCall: #(bool SDL_WindowSupportsGPUPresentMode(SDL_GPUDevice* device, SDL_Window* window, SDL_GPUPresentMode present_mode))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_gpu' }
 LibSDL3 >> windowSupportsGPUSwapchainCompositionDevice: device window: window swapchainComposition: swapchain_composition [
 	"/**
 	 * Determines whether a swapchain composition is supported by the window.
@@ -28576,7 +32557,7 @@ LibSDL3 >> windowSupportsGPUSwapchainCompositionDevice: device window: window sw
 	^ self ffiCall: #(bool SDL_WindowSupportsGPUSwapchainComposition(SDL_GPUDevice* device, SDL_Window* window, SDL_GPUSwapchainComposition swapchain_composition))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_asyncio' }
 LibSDL3 >> writeAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
 	"/**
 	 * Start an async write.
@@ -28617,7 +32598,7 @@ LibSDL3 >> writeAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue
 	^ self ffiCall: #(bool SDL_WriteAsyncIO(SDL_AsyncIO* asyncio, void* ptr, Uint64 offset, Uint64 size, SDL_AsyncIOQueue* queue, void* userdata))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeIOContext: context ptr: ptr size: size [
 	"/**
 	 * Write to an SDL_IOStream data stream.
@@ -28657,7 +32638,7 @@ LibSDL3 >> writeIOContext: context ptr: ptr size: size [
 	^ self ffiCall: #(size_t SDL_WriteIO(SDL_IOStream* context, const void* ptr, size_t size))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeS16BEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -28679,7 +32660,7 @@ LibSDL3 >> writeS16BEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteS16BE(SDL_IOStream* dst, Sint16 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeS16LEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -28702,7 +32683,7 @@ LibSDL3 >> writeS16LEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteS16LE(SDL_IOStream* dst, Sint16 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeS32BEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -28724,7 +32705,7 @@ LibSDL3 >> writeS32BEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteS32BE(SDL_IOStream* dst, Sint32 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeS32LEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -28747,7 +32728,7 @@ LibSDL3 >> writeS32LEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteS32LE(SDL_IOStream* dst, Sint32 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeS64BEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -28769,7 +32750,7 @@ LibSDL3 >> writeS64BEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteS64BE(SDL_IOStream* dst, Sint64 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeS64LEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -28792,7 +32773,7 @@ LibSDL3 >> writeS64LEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteS64LE(SDL_IOStream* dst, Sint64 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeS8Dst: dst value: value [
 	"/**
 	 * Use this function to write a signed byte to an SDL_IOStream.
@@ -28810,7 +32791,29 @@ LibSDL3 >> writeS8Dst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteS8(SDL_IOStream* dst, Sint8 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_storage' }
+LibSDL3 >> writeStorageFileStorage: storage path: path source: source length: length [
+	"/**
+	 * Synchronously write a file from client memory into a storage container.
+	 *
+	 * \param storage a storage container to write to.
+	 * \param path the relative path of the file to write.
+	 * \param source a client-provided buffer to write from.
+	 * \param length the length of the source buffer.
+	 * \returns true if the file was written or false on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetStorageSpaceRemaining
+	 * \sa SDL_ReadStorageFile
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_WriteStorageFile(SDL_Storage* storage, const char* path, const void* source, Uint64 length))
+]
+
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> writeSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Writes a single pixel to a surface.
@@ -28837,7 +32840,7 @@ LibSDL3 >> writeSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a 
 	^ self ffiCall: #(bool SDL_WriteSurfacePixelFloat(SDL_Surface* surface, int x, int y, float r, float g, float b, float a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_surface' }
 LibSDL3 >> writeSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Writes a single pixel to a surface.
@@ -28867,7 +32870,7 @@ LibSDL3 >> writeSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	^ self ffiCall: #(bool SDL_WriteSurfacePixel(SDL_Surface* surface, int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeU16BEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -28889,7 +32892,7 @@ LibSDL3 >> writeU16BEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteU16BE(SDL_IOStream* dst, Uint16 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeU16LEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -28912,7 +32915,7 @@ LibSDL3 >> writeU16LEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteU16LE(SDL_IOStream* dst, Uint16 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeU32BEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -28934,7 +32937,7 @@ LibSDL3 >> writeU32BEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteU32BE(SDL_IOStream* dst, Uint32 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeU32LEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -28957,7 +32960,7 @@ LibSDL3 >> writeU32LEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteU32LE(SDL_IOStream* dst, Uint32 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeU64BEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -28979,7 +32982,7 @@ LibSDL3 >> writeU64BEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteU64BE(SDL_IOStream* dst, Uint64 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeU64LEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -29002,7 +33005,7 @@ LibSDL3 >> writeU64LEDst: dst value: value [
 	^ self ffiCall: #(bool SDL_WriteU64LE(SDL_IOStream* dst, Uint64 value))
 ]
 
-{ #category : 'public' }
+{ #category : 'public - SDL_iostream' }
 LibSDL3 >> writeU8Dst: dst value: value [
 	"/**
 	 * Use this function to write a byte to an SDL_IOStream.

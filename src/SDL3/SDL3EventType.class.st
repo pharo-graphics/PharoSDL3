@@ -266,17 +266,9 @@ SDL3EventType class >> dropText [
 
 { #category : 'enum declaration' }
 SDL3EventType class >> enumDecl [
-	"Manually removed from generated code all *_FIRST and *_LAST, because they override real names.
-	
-	Steps to reproduce:
-	1. Delete all generated slots from class definition, and generated accessor methods.
-	2. Do: self initializeEnumeration; rebuildEnumAccessors
-	
-	A change in SDL_events.h might require a manual update in this method, and add the corresponding camelCased accessing enum protocol.
-	See: https://github.com/pharo-graphics/PharoSDL3/pull/12
-	"
 
 	^ #(
+	SDL_EVENT_FIRST 0
 	SDL_EVENT_QUIT 256
 	SDL_EVENT_TERMINATING 257
 	SDL_EVENT_LOW_MEMORY 258
@@ -294,6 +286,8 @@ SDL3EventType class >> enumDecl [
 	SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED 342
 	SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED 343
 	SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED 344
+	SDL_EVENT_DISPLAY_FIRST 337
+	SDL_EVENT_DISPLAY_LAST 344
 	SDL_EVENT_WINDOW_SHOWN 514
 	SDL_EVENT_WINDOW_HIDDEN 515
 	SDL_EVENT_WINDOW_EXPOSED 516
@@ -319,6 +313,8 @@ SDL3EventType class >> enumDecl [
 	SDL_EVENT_WINDOW_LEAVE_FULLSCREEN 536
 	SDL_EVENT_WINDOW_DESTROYED 537
 	SDL_EVENT_WINDOW_HDR_STATE_CHANGED 538
+	SDL_EVENT_WINDOW_FIRST 514
+	SDL_EVENT_WINDOW_LAST 538
 	SDL_EVENT_KEY_DOWN 768
 	SDL_EVENT_KEY_UP 769
 	SDL_EVENT_TEXT_EDITING 770
@@ -394,6 +390,7 @@ SDL3EventType class >> enumDecl [
 	SDL_EVENT_PRIVATE3 16387
 	SDL_EVENT_POLL_SENTINEL 32512
 	SDL_EVENT_USER 32768
+	SDL_EVENT_LAST 65535
 	SDL_EVENT_ENUM_PADDING 2147483647 )
 ]
 
