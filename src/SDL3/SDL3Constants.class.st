@@ -2,7 +2,6 @@ Class {
 	#name : 'SDL3Constants',
 	#superclass : 'SharedPool',
 	#pools : [
-		'AnObsoleteSDL3DELETEConstants',
 		'SDL3ButtonConstants',
 		'SDL3EndianConstants',
 		'SDL3HapticConstants',
