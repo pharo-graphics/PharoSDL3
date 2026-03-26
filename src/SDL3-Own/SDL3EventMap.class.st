@@ -14,17 +14,6 @@ Class {
 }
 
 { #category : 'accessing' }
-SDL3EventMap >> conversionOf: aSDL3Event [
-	"Convert a `SDL3Event` as the corresponding `SDL3MappedEvent`."
-
-	| eventClass |
-	eventClass := self eventClassFor: aSDL3Event type.
-
-	"Inspired on FFIUnion's generated accessors (e.g. S3SDL_Event>>#display)"
-	^ eventClass fromHandle: (aSDL3Event getHandle referenceStructAt: 1 length: eventClass byteSize)
-]
-
-{ #category : 'accessing' }
 SDL3EventMap >> eventClassFor: typeNumber [
 
 	^ eventClassByTypeNumber at: typeNumber ifAbsent: [ SDL3CommonEvent ]
@@ -40,4 +29,18 @@ SDL3EventMap >> initialize [
 	SDL3MappedEvent allSubclassesDo: [ :eachEventClass |
 		eachEventClass eventTypes do: [ :eachEventType |
 			eventClassByTypeNumber at: eachEventType value put: eachEventClass ] ]
+]
+
+{ #category : 'accessing' }
+SDL3EventMap >> value: aSDL3Event [
+	"Answer a `SDL3MappedEvent` that corresponds to a `SDL3Event`."
+
+	| eventClass |
+	eventClass := self eventClassFor: aSDL3Event type.
+
+	"Inspired on FFIUnion's generated accessors (e.g. SDL3Event>>#display)"
+	^ eventClass fromHandle:
+		(aSDL3Event getHandle
+			referenceStructAt: 1
+			length: eventClass byteSize)
 ]

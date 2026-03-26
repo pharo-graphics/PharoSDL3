@@ -790,7 +790,7 @@ SDL3Demo >> pollEvents [
 SDL3Demo >> pollEventsDo: aUnaryBlock [
 
 	[ sdl pollEvent: event ] whileTrue: [
-		aUnaryBlock value: (map conversionOf: event) ]
+		aUnaryBlock value: (map value: event) ]
 ]
 
 { #category : 'renderer' }
