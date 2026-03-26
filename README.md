@@ -1,50 +1,86 @@
-# Pharo bindings for SDL3
+# PharoSDL3
 
-[Simple DirectMedia Layer (SDL)](https://github.com/libsdl-org/SDL) is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware. It is used by video playback software, emulators, and popular games including Valve's award winning catalog and many Humble Bundle games.
+Pharo Smalltalk bindings for [SDL3 (Simple DirectMedia Layer)](https://github.com/libsdl-org/SDL).
 
+SDL3 is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware. It is used by video playback software, emulators, and games.
 
-## Install
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Download a Pharo 12/13/14 and evaluate:
+## Installation
+
+### 1. Load the Pharo project
+
+In a Pharo 12, 13, or 14 image, evaluate the following Metacello script:
 
 ```smalltalk
 Metacello new
-        baseline: 'SDL3';
-        repository: 'github://tinchodias/PharoSDL3:master/src';
-        load
+    baseline: 'SDL3';
+    repository: 'github://tinchodias/PharoSDL3:dev/src';
+    load
 ```
-An alternative way to download a Pharo image and load this project is running the following commands in a bash terminal:
+
+Alternatively, from your terminal:
 ```bash
-$ curl https://get.pharo.org/130+vm | bash
-$ ./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:master/src BaselineOfSDL3
+curl https://get.pharo.org/130+vm | bash
+./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:dev/src BaselineOfSDL3
 ```
 
-### Get the library
+### 2. Install the SDL3 library
 
-Follow the [install instructions](https://github.com/libsdl-org/SDL/blob/main/INSTALL.md) and make the lib findable by the Pharo's FFI finder. 
-* On Linux, you can download the sources and then build and install using CMake.
-* On Mac, you can use [homebrew](https://formulae.brew.sh/formula/sdl3) to install it on the system.
-* On Windows, you can [download it](https://github.com/libsdl-org/SDL/releases) and place it together with the Pharo image.
+Ensure the SDL3 library is available on your system so Pharo's FFI can find it.
+- **macOS:** `brew install sdl3`
+- **Linux:** Build from [source](https://github.com/libsdl-org/SDL/blob/main/INSTALL.md) or use your package manager.
+- **Windows:** Download the DLL from [SDL releases](https://github.com/libsdl-org/SDL/releases) and place it in the same folder as your Pharo image.
 
 
-## Execution
+## Demos & Tests
 
-We count with tests that do FFI calls and assert on the resulting code, but "demos" complement testing with human interaction. Some features require visually checking that rendering is correctly done, as well as interacting via mouse and keyboard to check events are correctly handled.
+The project includes automated tests as well as interactive demos. These demos complement automated testing by allowing for human verification of visual rendering and event handling.
 
-Both **Tests and demos** need to run in **headless mode** Pharo due to conflicts with SDL2, otherwise. Run instructions often assume you downloaded Pharo via zeroconf scripts, but you can adapt them.
+Available demos:
+- **Basic Windows:** `SDL3Demo example01MultipleWindows`
+- **Events & Input:** `SDL3Demo example04HandleEvents`
+- **System Tray:** `SDL3Demo example08TrayMenu`
+- **GPU Rendering:** `SDL3GPURenderStateDemo run` ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
 
-**Tests** are located in the `'SDL3-Tests'` package, so they can be executed from terminal: `./pharo Pharo.image test 'SDL3-Tests'`. Follow instructions in class-side of [SDL3WindowTest](src/SDL3-Tests/SDL3WindowTest.class.st) to enable a wait before closing each video test so you have some seconds to see what happens.
+**Important:** Pharo's UI and SDL2 (used by the Pharo VM) may conflict with SDL3's event loop in some environments. It is recommended to run SDL3 applications in **headless mode** or ensure proper event handling.
 
-**Demos** can be found in:
-- Class-side of [`SDL3Demo`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3Demo.class.st) (several demos)
-- [`SDL3GPURenderStateDemo>>run`](https://github.com/pharo-graphics/PharoSDL3/blob/master/src/SDL3-Tests/SDL3GPURenderStateDemo.class.st) ([video](https://www.youtube.com/watch?v=94hMw9pPvBQ)).
+To run tests from the terminal:
+```bash
+./pharo Pharo.image test 'SDL3-Tests'
+```
 
-## More information
+## Mapping SDL3 Functions to Pharo Methods
 
-* **Is this code generated?** Yes, it was initially generated with [CIG](https://github.com/estebanlm/pharo-cig) and post-processed manually. Check [this wiki page](../../wiki) for our post-processing and other details.
-* **What's the selector for each function?** **(OUTDATED)** [This table](https://github.com/pharo-graphics/PharoSDL3/wiki/Table-of-C-Function-and-Pharo-Selector) shows the Pharo selector for each SDL3 function in this project.
+The bindings follow a consistent naming convention to map C functions to Pharo methods.
 
+### 1. Low-level API (LibSDL3)
+The `LibSDL3` class provides direct access to the C API.
+- **Prefix Removal:** The `SDL_` prefix is removed.
+- **CamelCase:** The first letter of the function name is lowercased.
+- **Keywords:** Function parameters are converted into Pharo keywords.
+
+**Examples:**
+- `SDL_Init(flags)` maps to `LibSDL3 >> init: flags`
+- `SDL_CreateWindow(title, w, h, flags)` maps to `LibSDL3 >> newWindowTitle:w:h:flags:`
+
+### 2. High-level API (Convenience Methods)
+Object-oriented classes like `SDL3Window` and `SDL3Renderer` provide more idiomatic Smalltalk methods.
+
+- **Accessors:** Getter and setter functions are converted to Smalltalk-style accessors by omitting the `Get` and `Set` prefixes.
+  - `SDL_GetWindowFlags(window)` maps to `SDL3Window >> flags`
+  - `SDL_SetWindowBordered(window, bordered)` maps to `SDL3Window >> bordered: bordered`
+- **Output Parameters (Into):** When a function returns values via pointers (output parameters), the Pharo method typically uses the `Into` keyword in the selector.
+  - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW:w h:h`
+  - `SDL_GetRenderClipRect(renderer, &rect)` maps to `SDL3Renderer >> getRenderClipRectInto: rect`
+
+You can explore all available functions in the `LibSDL3` class or by browsing the object classes.
+
+## More Information
+
+* **Is this code generated?** Yes, it was initially generated with [CIG](https://github.com/estebanlm/pharo-cig) and post-processed manually. 
+* **Wiki:** Check the [project wiki](../../wiki) for post-processing details and technical documentation.
 
 ## License
 
-This code is licensed under the [MIT license](./LICENSE).
+This project is licensed under the [MIT license](./LICENSE).
