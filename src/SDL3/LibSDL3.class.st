@@ -3,7 +3,7 @@ Class {
 	#superclass : 'FFILibrary',
 	#pools : [
 		'SDL3Typedef',
-		'SDL3Constants'
+		'SDL3ZConstants'
 	],
 	#category : 'SDL3-Library',
 	#package : 'SDL3',
