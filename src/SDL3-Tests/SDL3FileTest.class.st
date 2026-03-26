@@ -61,10 +61,13 @@ SDL3FileTest >> test03UserFolders [
 { #category : 'tests' }
 SDL3FileTest >> test04CurrentDirectory [
 
-	self flag: #todo. "Memory leak in #getCurrentDirectory: https://github.com/pharo-graphics/PharoSDL3/issues/29"
+	| address string |
+	address := sdl getCurrentDirectory.
+	string := address utf8StringFromCString.
+	sdl free: address.
 
 	self
-		assert: sdl getCurrentDirectory asFileReference 
+		assert: string asFileReference 
 		equals: '.' asFileReference
 ]
 
