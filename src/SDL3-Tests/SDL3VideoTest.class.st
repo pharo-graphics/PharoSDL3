@@ -19,10 +19,14 @@ SDL3VideoTest >> setUp [
 SDL3VideoTest >> test01ClipboardAPI [
 
 	"Copy&paste a non-ASCII string"
-	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
+	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray address string |
 	self assert: (sdl setClipboardText: 'Hëllo').
 	self assert: sdl hasClipboardText.
-	self assert: sdl getClipboardText equals: 'Hëllo'.
+	
+	address := sdl getClipboardText.
+	string := address utf8StringFromCString.
+	sdl free: address.
+	self assert: string equals: 'Hëllo'.
 
 	"Clipboard supports more than text"
 	mimeTypesCountPointer := FFIInt64 newBuffer.
