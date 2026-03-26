@@ -2,8 +2,8 @@ Class {
 	#name : 'LibSDL3',
 	#superclass : 'FFILibrary',
 	#pools : [
-		'SDL3Constants',
-		'SDL3Typedef'
+		'SDL3Typedef',
+		'SDL3Constants'
 	],
 	#category : 'SDL3-Library',
 	#package : 'SDL3',
