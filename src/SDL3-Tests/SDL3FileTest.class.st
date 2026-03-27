@@ -61,22 +61,15 @@ SDL3FileTest >> test03UserFolders [
 { #category : 'tests' }
 SDL3FileTest >> test04CurrentDirectory [
 
-	| address string |
-	address := sdl getCurrentDirectory.
-	string := address utf8StringFromCString.
-	sdl free: address.
-
 	self
-		assert: string asFileReference 
-		equals: '.' asFileReference
+		assert: (sdl stringFromExternalAddress: sdl getCurrentDirectory) asPath
+		equals: OSPlatform current currentWorkingDirectoryPath asPath
 ]
 
 { #category : 'tests' }
 SDL3FileTest >> test05BasePath [
-	
-	self assert:
-		(FileLocator vmDirectory asPath <=
-			sdl getBasePath asFileReference asPath)
+
+	self assert: FileLocator vmDirectory asPath <= sdl getBasePath asPath
 ]
 
 { #category : 'tests' }

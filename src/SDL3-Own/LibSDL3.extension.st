@@ -106,6 +106,18 @@ LibSDL3 >> renderDrivers [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> stringFromExternalAddress: anExternalAddress [
+	"Answer a String from the received address (NULL-terminated) and free the memory.
+	Utility method that to ease calling some SDL functions whose comment indicates 
+	that caller is responsible of freeing the memory via SDL_free()."
+
+	| string |
+	string := anExternalAddress utf8StringFromCString.
+	self free: anExternalAddress.
+	^ string
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> timeToDateAndTime: ticks [
 	"Given an integer that represents a `SDL_Time`, answer its conversion to `DateAndTime`."
 
