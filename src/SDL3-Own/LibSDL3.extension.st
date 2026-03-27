@@ -27,20 +27,20 @@ LibSDL3 >> boundsOfDisplay: aDisplayID [
 LibSDL3 >> currentTime [
 	"Answer current value of the system realtime clock in nanoseconds since Jan 1, 1970 in Universal Coordinated Time (UTC)."
 
-	| countBuffer |
-	countBuffer := FFIInt64 newBuffer.
-	self assertSuccess: (self getCurrentTime: countBuffer).
-	^ countBuffer int64AtOffset: 0
+	| valueHolder |
+	valueHolder := FFIInt64 newValueHolder.
+	self assertSuccess: (self getCurrentTime: valueHolder).
+	^ valueHolder value
 ]
 
 { #category : '*SDL3-Own' }
 LibSDL3 >> displayIDs [
 	"Answer an array of currently connected display ids."
 
-	| countBuffer first count array |
-	countBuffer := FFIInt32 newBuffer.
-	first := self getDisplays: countBuffer.
-	count := countBuffer int32AtOffset: 0.
+	| countValueHolder first count array |
+	countValueHolder := FFIInt32 newValueHolder.
+	first := self getDisplays: countValueHolder.
+	count := countValueHolder value.
 	array := first readArrayOf: SDL_DisplayID size: count.
 	self free: first.
 	^ array
@@ -50,12 +50,20 @@ LibSDL3 >> displayIDs [
 LibSDL3 >> fullscreenDisplayModesOf: aDisplayID [
 	"Answer an array of fullscreen display modes available on a display."
 
-	| countBuffer first count array |
-	countBuffer := FFIInt32 newBuffer.
-	first := self getFullscreenDisplayModesDisplayID: aDisplayID count: countBuffer.
-	count := countBuffer int32AtOffset: 0.
-	array := first readStructArrayFromPointers: SDL3DisplayMode size: count.
+	| countValueHolder first count array |
+	countValueHolder := FFIInt32 newValueHolder.
+
+	first := self
+		getFullscreenDisplayModesDisplayID: aDisplayID
+		count: countValueHolder.
+	count := countValueHolder value.
+
+	array := first
+		readStructArrayFromPointers: SDL3DisplayMode
+		size: count.
+
 	self free: first.
+
 	^ array
 ]
 
@@ -72,10 +80,10 @@ LibSDL3 >> gpuDrivers [
 { #category : '*SDL3-Own' }
 LibSDL3 >> numberOfDisplays [
 
-	| buffer |
-	buffer := FFIInt32 newBuffer.
-	self getDisplays: buffer.
-	^ buffer int32AtOffset: 0
+	| valueHolder |
+	valueHolder := FFIInt32 newValueHolder.
+	self getDisplays: valueHolder.
+	^ valueHolder value
 ]
 
 { #category : '*SDL3-Own' }

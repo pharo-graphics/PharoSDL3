@@ -4,10 +4,10 @@ Extension { #name : 'SDL3TrayMenu' }
 SDL3TrayMenu >> entries [
 	"Answer an array of entries in the menu, in order."
 
-	| countBuffer first count array |
-	countBuffer := FFIInt32 newBuffer.
-	first := (self getEntriesIntoCount: countBuffer) getHandle.
-	count := countBuffer int32AtOffset: 0.
+	| valueHolder first count array |
+	valueHolder := FFIInt32 newValueHolder.
+	first := (self getEntriesIntoCount: valueHolder) getHandle.
+	count := valueHolder value.
 	array := first readStructArrayFromPointers: SDL3TrayEntry size: count.
 	"Note: We do not free the returned array because we aren't the owners"
 	^ array

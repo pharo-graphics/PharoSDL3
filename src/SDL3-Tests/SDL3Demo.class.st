@@ -694,13 +694,12 @@ SDL3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: 
 { #category : 'utilities' }
 SDL3Demo >> clipboardMimeTypes [
 
-	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
-	mimeTypesCountPointer := FFIInt64 newBuffer.
-	mimeTypesStringArrayPointer := sdl getClipboardMimeTypes: mimeTypesCountPointer.
+	| countValueHolder mimeTypesStringArrayAddress mimeTypesStringArray |
+	countValueHolder := FFIInt64 newValueHolder.
+	mimeTypesStringArrayAddress := sdl getClipboardMimeTypes: countValueHolder.
 	mimeTypesStringArray :=
-		mimeTypesStringArrayPointer
-			arrayOfStringsOfSize: (mimeTypesCountPointer signedLongLongAt: 1). 
-	sdl free: mimeTypesStringArrayPointer.
+		mimeTypesStringArrayAddress arrayOfStringsOfSize: countValueHolder value. 
+	sdl free: mimeTypesStringArrayAddress.
 
 	^ mimeTypesStringArray
 ]
