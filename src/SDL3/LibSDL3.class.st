@@ -9317,7 +9317,7 @@ LibSDL3 >> getKeyboardState: numkeys [
 	 * \sa SDL_ResetKeyboard
 	 */"
 
-	^ self ffiCall: #(UNKNOWN_const #bool* SDL_GetKeyboardState(int* numkeys))
+	^ self ffiCall: #(const bool* SDL_GetKeyboardState(int* numkeys))
 ]
 
 { #category : 'public - SDL_keyboard' }
