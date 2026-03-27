@@ -24,6 +24,13 @@ LibSDL3 >> boundsOfDisplay: aDisplayID [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> currentDirectory [
+	"Answer a path String with the current working directory"
+
+	^ self utf8StringFromExternalAddress: self getCurrentDirectory
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> currentTime [
 	"Answer current value of the system realtime clock in nanoseconds since Jan 1, 1970 in Universal Coordinated Time (UTC)."
 
@@ -106,18 +113,6 @@ LibSDL3 >> renderDrivers [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> stringFromExternalAddress: anExternalAddress [
-	"Answer a String from the received address (NULL-terminated) and free the memory.
-	Utility method that to ease calling some SDL functions whose comment indicates 
-	that caller is responsible of freeing the memory via SDL_free()."
-
-	| string |
-	string := anExternalAddress utf8StringFromCString.
-	self free: anExternalAddress.
-	^ string
-]
-
-{ #category : '*SDL3-Own' }
 LibSDL3 >> timeToDateAndTime: ticks [
 	"Given an integer that represents a `SDL_Time`, answer its conversion to `DateAndTime`."
 
@@ -148,6 +143,18 @@ LibSDL3 >> usableBoundsOfDisplay: aDisplayID [
 	sdlRect := SDL3Rect new.
 	self getDisplayUsableBoundsDisplayID: aDisplayID rect: sdlRect.
 	^ sdlRect asRectangle
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> utf8StringFromExternalAddress: anExternalAddress [
+	"Answer a String from the received address (NULL-terminated) and free the memory.
+	Utility method that to ease calling some SDL functions whose comment indicates 
+	that caller is responsible of freeing the memory via SDL_free()."
+
+	| string |
+	string := anExternalAddress utf8StringFromCString.
+	self free: anExternalAddress.
+	^ string
 ]
 
 { #category : '*SDL3-Own' }

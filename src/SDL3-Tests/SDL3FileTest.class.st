@@ -62,7 +62,7 @@ SDL3FileTest >> test03UserFolders [
 SDL3FileTest >> test04CurrentDirectory [
 
 	self
-		assert: (sdl stringFromExternalAddress: sdl getCurrentDirectory) asPath
+		assert: sdl currentDirectory asPath
 		equals: OSPlatform current currentWorkingDirectoryPath asPath
 ]
 
