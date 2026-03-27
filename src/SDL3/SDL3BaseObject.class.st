@@ -5,7 +5,7 @@ Class {
 	#classTraits : 'LibTSDL3 classTrait',
 	#pools : [
 		'SDL3Typedef',
-		'SDL3Constants'
+		'SDL3ZConstants'
 	],
 	#category : 'SDL3-Base',
 	#package : 'SDL3',

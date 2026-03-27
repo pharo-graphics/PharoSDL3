@@ -1,5 +1,5 @@
 Class {
-	#name : 'SDL3Constants',
+	#name : 'SDL3ZConstants',
 	#superclass : 'SharedPool',
 	#pools : [
 		'SDL3ButtonConstants',
