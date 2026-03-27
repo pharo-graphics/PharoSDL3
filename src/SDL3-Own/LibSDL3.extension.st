@@ -89,7 +89,7 @@ LibSDL3 >> numberOfDisplays [
 
 	| valueHolder |
 	valueHolder := FFIInt32 newValueHolder.
-	self getDisplays: valueHolder.
+	self free: (self getDisplays: valueHolder).
 	^ valueHolder value
 ]
 
