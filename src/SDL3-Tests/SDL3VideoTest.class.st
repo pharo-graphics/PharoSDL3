@@ -17,9 +17,9 @@ SDL3VideoTest >> setUp [
 
 { #category : 'tests' }
 SDL3VideoTest >> test01ClipboardAPI [
-
 	"Copy&paste a non-ASCII string"
-	| countValueHolder mimeTypesStringArrayAddress mimeTypesStringArray address string |
+
+	| address string |
 	self assert: (sdl setClipboardText: 'Hëllo').
 	self assert: sdl hasClipboardText.
 	
@@ -29,13 +29,12 @@ SDL3VideoTest >> test01ClipboardAPI [
 	self assert: string equals: 'Hëllo'.
 
 	"Clipboard supports more than text"
-	countValueHolder := FFIInt64 newValueHolder.
-	mimeTypesStringArrayAddress := sdl getClipboardMimeTypes: countValueHolder.
-	mimeTypesStringArray :=
-		mimeTypesStringArrayAddress arrayOfStringsOfSize: countValueHolder value. 
-	sdl free: mimeTypesStringArrayAddress.
+	self assert: sdl clipboardMimeTypes equals: #('text/plain;charset=utf-8').
 
-	self assert: mimeTypesStringArray equals: #('text/plain;charset=utf-8').
+	"Only for X11 and Wayland. 
+	See: https://wiki.libsdl.org/SDL3/CategoryClipboard#primary-selection"
+	self assert: (sdl hasPrimarySelectionText isKindOf: Boolean).
+	self assert: sdl primarySelectionText isString.
 	
 	"Clear"
 	self assert: sdl clearClipboardData.

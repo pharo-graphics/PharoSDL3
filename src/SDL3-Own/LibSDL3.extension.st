@@ -80,6 +80,17 @@ LibSDL3 >> boundsOfDisplay: aDisplayID [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> clipboardMimeTypes [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getClipboardMimeTypes: countValueHolder.
+	array := address arrayOfStringsOfSize: countValueHolder value. 
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> currentDirectory [
 	"Answer a path String with the current working directory"
 
@@ -156,6 +167,13 @@ LibSDL3 >> pathInfoAt: pathString [
 	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
 	self assertSuccess: (self getPathInfoPath: pathString info: pathInfoHolder).
 	^ pathInfoHolder value
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> primarySelectionText [
+	"The X11 and Wayland video targets have a concept of the ""primary selection"" in addition to the usual clipboard. This is generally highlighted (but not explicitly copied) text from various apps. SDL offers APIs for this through SDL_GetPrimarySelectionText() and SDL_SetPrimarySelectionText(). SDL offers these APIs on platforms without this concept, too, but only so far that it will keep a copy of a string that the app sets for later retrieval; the operating system will not ever attempt to change the string externally if it doesn't support a primary selection."
+
+	^ self utf8StringFromExternalAddress: self getPrimarySelectionText
 ]
 
 { #category : '*SDL3-Own' }

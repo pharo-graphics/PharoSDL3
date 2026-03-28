@@ -694,14 +694,7 @@ SDL3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: 
 { #category : 'utilities' }
 SDL3Demo >> clipboardMimeTypes [
 
-	| countValueHolder mimeTypesStringArrayAddress mimeTypesStringArray |
-	countValueHolder := FFIInt64 newValueHolder.
-	mimeTypesStringArrayAddress := sdl getClipboardMimeTypes: countValueHolder.
-	mimeTypesStringArray :=
-		mimeTypesStringArrayAddress arrayOfStringsOfSize: countValueHolder value. 
-	sdl free: mimeTypesStringArrayAddress.
-
-	^ mimeTypesStringArray
+	^ sdl clipboardMimeTypes
 ]
 
 { #category : 'lifecycle' }
