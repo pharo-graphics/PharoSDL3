@@ -236,6 +236,22 @@ SDL3WindowTest >> test06Fullscreen [
 	window destroy
 ]
 
+{ #category : 'tests' }
+SDL3WindowTest >> test07AllWindows [
+
+	| windows |
+	windows := (1 to: 5) collect: [ :index |
+		sdl
+			newWindowTitle: index asString
+			w: 300 h: 300 flags: 0 ].
+
+	"The query seems to return last window first"
+	self assert: sdl allWindows equals: windows reversed.
+
+	"Tear down"
+	windows do: #destroy
+]
+
 { #category : 'private' }
 SDL3WindowTest >> waitToSee [
 	"Perform a wait to consume events and let user visually check the window"

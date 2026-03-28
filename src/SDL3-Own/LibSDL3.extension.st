@@ -1,6 +1,19 @@
 Extension { #name : 'LibSDL3' }
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allWindows [
+	"Answer an array of valid windows"
+
+	| countValueHolder first count array |
+	countValueHolder := FFIInt32 newValueHolder.
+	first := self getWindows: countValueHolder.
+	count := countValueHolder value.
+	array := first getHandle readArrayOf: SDL_Window size: count.
+	self free: first getHandle.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> assertSuccess: aReturnedValue [
 	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of an error, a descriptive string can be retrieved from SDL_GetError()."
 	<debuggerCompleteToSender>
