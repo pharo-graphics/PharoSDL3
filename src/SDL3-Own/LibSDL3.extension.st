@@ -4,12 +4,13 @@ Extension { #name : 'LibSDL3' }
 LibSDL3 >> allWindows [
 	"Answer an array of valid windows"
 
-	| countValueHolder first count array |
+	| countValueHolder address array |
 	countValueHolder := FFIInt32 newValueHolder.
-	first := self getWindows: countValueHolder.
-	count := countValueHolder value.
-	array := first getHandle readArrayOf: SDL_Window size: count.
-	self free: first getHandle.
+	address := (self getWindows: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_Window
+		size: countValueHolder value.
+	self free: address.
 	^ array
 ]
 
