@@ -1,8 +1,22 @@
 Extension { #name : 'LibSDL3' }
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allCameraIDs [
+	"Answer the id array of all connected cameras"
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self getCameras: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_CameraID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allKeyboardIDs [
-	"Answer the KeyboardID array of all connected keyboards"
+	"Answer the id array of all connected keyboards"
 
 	| countValueHolder address array |
 	countValueHolder := FFIInt32 newValueHolder.
