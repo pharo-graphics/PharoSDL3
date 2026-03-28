@@ -11,7 +11,9 @@ BaselineOfSDL3 >> baseline: spec [
 
 	spec
 		for: #common
-		do: [ 
+		do: [
+			spec baseline: 'UnifiedFFIFull' with: [ spec repository: 'github://tinchodias/UnifiedFFI:PackFloatToArity' ].
+
 			spec
 				postLoadDoIt: #postLoad;
 				package: 'SDL3';
