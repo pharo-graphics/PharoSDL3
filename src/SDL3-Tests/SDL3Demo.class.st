@@ -146,7 +146,7 @@ SDL3Demo class >> example02LogState [
 
 		"Log some SDL state values"
 		logs add: #SYSTEM.
-		#(#allCameraIDs #allKeyboardIDs #getBasePath #currentDirectory #getCurrentVideoDriver
+		#(#allCameraIDs #allKeyboardIDs #allMouseIDs #getBasePath #currentDirectory #getCurrentVideoDriver
 		#getRevision #getSystemPageSize #getSystemTheme
 		#gpuDrivers #renderDrivers #videoDrivers) do: [ :each |
 			logs add: each -> (lib perform: each) ].

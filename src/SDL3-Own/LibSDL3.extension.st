@@ -29,6 +29,20 @@ LibSDL3 >> allKeyboardIDs [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allMouseIDs [
+	"Answer an array of connected mouses"
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self getMice: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_MouseID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allWindows [
 	"Answer an array of valid windows"
 
