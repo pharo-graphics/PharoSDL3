@@ -1,6 +1,20 @@
 Extension { #name : 'LibSDL3' }
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allKeyboardIDs [
+	"Answer the KeyboardID array of all connected keyboards"
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self getKeyboards: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_KeyboardID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allWindows [
 	"Answer an array of valid windows"
 
