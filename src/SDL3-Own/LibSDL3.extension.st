@@ -1,6 +1,34 @@
 Extension { #name : 'LibSDL3' }
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allAudioPlaybackDeviceIDs [
+	"Answer an array of currently-connected audio playback device IDs."
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getAudioPlaybackDevices: countValueHolder.
+	array := address
+		readArrayOf: SDL_AudioDeviceID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> allAudioRecordingDeviceIDs [
+	"Answer an array of currently-connected audio recording device IDs."
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getAudioRecordingDevices: countValueHolder.
+	array := address
+		readArrayOf: SDL_AudioDeviceID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allCameraIDs [
 	"Answer the id array of all connected cameras"
 
