@@ -63,7 +63,7 @@ SDL3AudioDemo >> open [
 
 	window := sdl
 		newWindowTitle: 'SDL3 Audio Recording Demo'
-		w: 320
+		w: 480
 		h: 240
 		flags: 0.
 	window assertNotNullReturn.
@@ -117,21 +117,33 @@ SDL3AudioDemo >> render [
 
 	(recordingStream isDevicePaused
 		ifFalse: [
-			self clearColor: Color red.
-			self showText: 'RECORDING' x: 20 y: 40 color: Color white.
-			self showText: 'Buffer Size: ', playbackStream available asString, ' bytes' x: 20 y: 80 color: Color white ]
+			self
+				color: Color red;
+				clear;
+				color: Color white;
+				showText: 'RECORDING' x: 20 y: 40;
+				showText: 'Available bytes: ', playbackStream available asString x: 20 y: 80 color: Color white ]
 		ifTrue: [
 			playbackStream available > 0
 				ifTrue: [
-					self clearColor: Color green.
-					self showText: 'PLAYING' x: 20 y: 40 color: Color black.
-					self showText: 'Buffer Size: ', playbackStream available asString, ' bytes' x: 20 y: 80 color: Color black ]
+					self
+						color: Color green;
+						clear;
+						color: Color black;
+						showText: 'PLAYING' x: 20 y: 40;
+						showText: 'Available bytes: ', playbackStream available asString x: 20 y: 80 color: Color black ]
 				ifFalse: [
-					self clearColor: Color blue.
-					self showText: 'IDLE' x: 20 y: 40 color: Color white.
-					self showText: 'Press SPACE to RECORD' x: 20 y: 80 color: Color white.
-					self showText: 'Release SPACE to PLAY' x: 20 y: 100 color: Color white.
+					self
+						color: Color blue;
+						clear;
+						color: Color white;
+						showText: 'IDLE' x: 20 y: 40;
+						showText: 'Press SPACE to RECORD' x: 20 y: 80;
+						showText: 'Release SPACE to PLAY' x: 20 y: 100.
 				] ]).
+
+	self showText: 'Recording device: ', recordingStream device name x: 20 y: 140.
+	self showText: 'Playback device:  ', playbackStream device name x: 20 y: 160.
 
 	self present
 ]
