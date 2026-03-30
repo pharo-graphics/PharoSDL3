@@ -78,31 +78,27 @@ SDL3AudioDemo >> open [
 
 { #category : 'playback' }
 SDL3AudioDemo >> openPlaybackStream [
+	"Open a stream at the the default playback device, with it's default format."
 
-	| spec |
-	spec := SDL3AudioSpec new.
-	spec format: SDL3AudioFormat s16le.
-	spec channels: 2.
-	spec freq: 44100.
-	
 	playbackStream := sdl
 		openAudioDeviceStreamDevid: SDL3AudioDevice defaultPlaybackAudioDeviceID
-		spec: spec callback: ExternalAddress null userdata: ExternalAddress null.
+		spec: ExternalAddress null
+		callback: ExternalAddress null
+		userdata: ExternalAddress null.
+
 	playbackStream assertNotNullReturn
 ]
 
 { #category : 'initialization' }
 SDL3AudioDemo >> openRecordingStream [
+	"Open a stream at the the default recording device. Use the same format as the playback device"
 
-	| spec |
-	spec := SDL3AudioSpec new.
-	spec format: SDL3AudioFormat s16le.
-	spec channels: 2.
-	spec freq: 44100.
-	
 	recordingStream := sdl
 		openAudioDeviceStreamDevid: SDL3AudioDevice defaultRecordingAudioDeviceID
-		spec: spec callback: ExternalAddress null userdata: ExternalAddress null.
+		spec: playbackStream outputFormatSpec
+		callback: ExternalAddress null
+		userdata: ExternalAddress null.
+
 	recordingStream assertNotNullReturn
 ]
 
