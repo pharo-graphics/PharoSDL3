@@ -24,10 +24,22 @@ SDL3AudioDevice class >> defaultPlayback [
 	^ DefaultPlaybackAudioDeviceID
 ]
 
+{ #category : 'class initialization' }
+SDL3AudioDevice class >> defaultPlaybackAudioDeviceID [
+
+	^ 16rFFFFFFFF
+]
+
 { #category : 'as yet unclassified' }
 SDL3AudioDevice class >> defaultRecording [
 
 	^ DefaultRecordingAudioDeviceID
+]
+
+{ #category : 'class initialization' }
+SDL3AudioDevice class >> defaultRecordingAudioDeviceID [
+
+	^ 16rFFFFFFFE
 ]
 
 { #category : 'accessing' }
@@ -54,7 +66,7 @@ SDL3AudioDevice class >> initialize [
 	 */
 	#define SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK ((SDL_AudioDeviceID) 0xFFFFFFFFu)"
 
-	DefaultPlaybackAudioDeviceID := self id: 16rFFFFFFFF.
+	DefaultPlaybackAudioDeviceID := self id: self defaultPlaybackAudioDeviceID.
 
 	"/**
 	 * A value used to request a default recording audio device.
@@ -67,13 +79,7 @@ SDL3AudioDevice class >> initialize [
 	 */
 	#define SDL_AUDIO_DEVICE_DEFAULT_RECORDING ((SDL_AudioDeviceID) 0xFFFFFFFEu)
 	"
-	DefaultRecordingAudioDeviceID := self id: 16rFFFFFFFE
-]
-
-{ #category : 'accessing - generated' }
-SDL3AudioDevice >> audioDevicePaused [
-
-	^ self ffiLibrary audioDevicePaused: id
+	DefaultRecordingAudioDeviceID := self id: self defaultRecordingAudioDeviceID
 ]
 
 { #category : 'accessing - generated' }
@@ -135,6 +141,12 @@ SDL3AudioDevice >> initializeWithID: anInteger [
 
 	self initialize.
 	id := anInteger
+]
+
+{ #category : 'accessing - generated' }
+SDL3AudioDevice >> isPaused [
+
+	^ self ffiLibrary audioDevicePaused: id
 ]
 
 { #category : 'accessing - generated' }

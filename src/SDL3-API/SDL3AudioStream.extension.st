@@ -1,12 +1,6 @@
 Extension { #name : 'SDL3AudioStream' }
 
 { #category : '*SDL3-API' }
-SDL3AudioStream >> audioDevicePaused [
-
-	^ self ffiLibrary audioStreamDevicePaused: self
-]
-
-{ #category : '*SDL3-API' }
 SDL3AudioStream >> available [
 
 	^ self ffiLibrary getAudioStreamAvailable: self
@@ -100,6 +94,12 @@ SDL3AudioStream >> getOutputChannelMapIntoCount: count [
 SDL3AudioStream >> inputChannelMapChmap: chmap count: count [
 
 	^ self ffiLibrary setAudioStreamInputChannelMapStream: self chmap: chmap count: count
+]
+
+{ #category : '*SDL3-API' }
+SDL3AudioStream >> isDevicePaused [
+
+	^ self ffiLibrary audioStreamDevicePaused: self
 ]
 
 { #category : '*SDL3-API' }
