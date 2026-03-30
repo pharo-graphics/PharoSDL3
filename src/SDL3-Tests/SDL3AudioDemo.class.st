@@ -35,7 +35,8 @@ SDL3AudioDemo >> iterateUntilQuit [
 	[ quit ] whileFalse: [
 		self pollEventsDo: [ :evt |
 			evt type = SDL3EventType quit ifTrue: [ quit := true ].
-			evt type = SDL3EventType keyDown ifTrue: [ 
+			evt type = SDL3EventType keyDown ifTrue: [
+				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ].
 				(evt key = SDL3Keycode space asInteger and: [ evt isRepeat not ]) ifTrue: [
 					playbackStream
 						pauseDevice;
@@ -47,7 +48,7 @@ SDL3AudioDemo >> iterateUntilQuit [
 						pauseDevice;
 						flush.
 					playbackStream resumeDevice ] ]
-		].
+			].
 
 		self putAllAvailableRecording.
 		self render.
@@ -118,17 +119,23 @@ SDL3AudioDemo >> putAllAvailableRecording [
 { #category : 'lifecycle' }
 SDL3AudioDemo >> render [
 
-	self clearColor:
-		(recordingStream isDevicePaused
-			ifFalse: [ Color red ]
-			ifTrue: [
-				playbackStream available > 0
-					ifTrue: [ Color green ]
-					ifFalse: [ Color blue ] ]).
-
-	self showText: 'Buffer Size: ', playbackStream available asString, ' bytes' x: 20 y: 20 color: Color white.
-	self showText: 'Press SPACE to record' x: 20 y: 40 color: Color white.
-	self showText: 'Release SPACE to play' x: 20 y: 60 color: Color white.
+	(recordingStream isDevicePaused
+		ifFalse: [
+			self clearColor: Color red.
+			self showText: 'RECORDING' x: 20 y: 40 color: Color white.
+			self showText: 'Buffer Size: ', playbackStream available asString, ' bytes' x: 20 y: 80 color: Color white ]
+		ifTrue: [
+			playbackStream available > 0
+				ifTrue: [
+					self clearColor: Color green.
+					self showText: 'PLAYING' x: 20 y: 40 color: Color black.
+					self showText: 'Buffer Size: ', playbackStream available asString, ' bytes' x: 20 y: 80 color: Color black ]
+				ifFalse: [
+					self clearColor: Color blue.
+					self showText: 'IDLE' x: 20 y: 40 color: Color white.
+					self showText: 'Press SPACE to RECORD' x: 20 y: 80 color: Color white.
+					self showText: 'Release SPACE to PLAY' x: 20 y: 100 color: Color white.
+				] ]).
 
 	self present
 ]
