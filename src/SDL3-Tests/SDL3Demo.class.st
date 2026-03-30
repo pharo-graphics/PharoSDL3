@@ -146,7 +146,7 @@ SDL3Demo class >> example02LogState [
 
 		"Log some SDL state values"
 		logs add: #SYSTEM.
-		#(#allAudioPlaybackDeviceIDs #allAudioRecordingDeviceIDs #allCameraIDs #allKeyboardIDs #allMouseIDs #getBasePath #currentDirectory #getCurrentVideoDriver
+		#(#allCameraIDs #allKeyboardIDs #allMouseIDs #getBasePath #currentDirectory #getCurrentVideoDriver
 		#getRevision #getSystemPageSize #getSystemTheme
 		#gpuDrivers #renderDrivers #videoDrivers) do: [ :each |
 			logs add: each -> (sdl perform: each) ].
@@ -173,6 +173,12 @@ SDL3Demo class >> example02LogState [
 		#(displayScale extent isKeyboardGrabbed isMouseGrabbed pixelDensity
 		pixelFormat title) do: [ :each |
 			logs add: each -> (demo window perform: each) ].
+
+		logs add: ''.
+		logs add: #AUDIO.
+		#(#allAudioPlaybackDeviceNames #allAudioRecordingDeviceNames
+		#getCurrentAudioDriver #allAudioDrivers) do: [ :each |
+			logs add: each -> (sdl perform: each) ].
 
 		logs add: ''.
 		logs add: #getMouseStateX:y:.
@@ -720,7 +726,7 @@ SDL3Demo >> ensureInitSDL3 [
 		appidentifier: 'org.pharo.sdl3.', self className.
 
 	"Initialize the video subsystem"
-	self assert: (sdl initSubSystem: SDL3InitFlags video)
+	self assert: (sdl initSubSystem: SDL3InitFlags video | SDL3InitFlags audio)
 ]
 
 { #category : 'lifecycle' }
