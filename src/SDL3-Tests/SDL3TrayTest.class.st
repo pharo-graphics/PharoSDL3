@@ -25,8 +25,8 @@ SDL3TrayTest >> setUp [
 { #category : 'running' }
 SDL3TrayTest >> tearDown [
 
-	iconSurface destroy.
-	tray destroy.
+	iconSurface ifNotNil: #destroy.
+	tray ifNotNil: #destroy.
 	
 	super tearDown
 ]
