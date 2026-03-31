@@ -633,7 +633,9 @@ SDL3Demo class >> run08TrayMenu [
 
 { #category : 'examples' }
 SDL3Demo class >> run09WindowProgress [
-	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
+	"Some platforms can indicate progress in the window task bar.
+
+	SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
 		./pharo Pharo.image eval 'SDL3Demo run09WindowProgress'
 	"
@@ -650,17 +652,20 @@ SDL3Demo class >> run09WindowProgress [
 		initialExtent: 400 @ 200;
 		open.
 
+	demo consumeEventsDuring: 0.2 seconds.
+
 	demo window progressState: SDL3ProgressState normal.
 	numberOfSteps := 10.
 	1 to: numberOfSteps do: [ :index |
 		demo window
 			title: 'Progress: ', index asString, '/', numberOfSteps asString;
 			progressValue: (index / numberOfSteps).
-		0.5 seconds wait ].
+		demo consumeEventsDuring: 0.5 seconds ].
+
 	demo window
 		title: 'Progress: Error';
 		progressState: SDL3ProgressState error.
-	1.0 seconds wait.
+	demo consumeEventsDuring: 1.0 seconds.
 
 	"Tear down"
 	demo close; ensureQuitSDL3
@@ -718,6 +723,15 @@ SDL3Demo >> close [
 SDL3Demo >> color: aColor [
 
 	sdl assertSuccess: (renderer renderDrawColor: aColor)
+]
+
+{ #category : 'events' }
+SDL3Demo >> consumeEventsDuring: aDuration [
+
+	| end |
+	end := DateAndTime now + aDuration.
+	[ sdl pollEvent: SDL3Event new ]
+		doWhileTrue: [ DateAndTime now < end ]
 ]
 
 { #category : 'lifecycle' }
@@ -782,14 +796,14 @@ SDL3Demo >> open [
 	sdl assertSuccess: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'events' }
 SDL3Demo >> pollEvents [
 
 	^ Array new: 10 streamContents: [ :stream |
 		self pollEventsDo: [ :evt | stream nextPut: evt copy ]]
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'events' }
 SDL3Demo >> pollEventsDo: aUnaryBlock [
 
 	[ sdl pollEvent: event ] whileTrue: [
