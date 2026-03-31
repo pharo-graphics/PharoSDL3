@@ -15,8 +15,9 @@ SDL3TrayTest >> setUp [
 
 	super setUp.
 
-	"Ensure video subsystem is initialized"
-	self assert: (sdl initSubSystem: SDL3InitFlags video).
+	self
+		assert: (sdl initSubSystem: SDL3InitFlags video)
+		description: 'Initialize video subsystem'.
 	
 	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
 	tray := sdl newTrayIcon: iconSurface tooltip: 'Test tooltip'
@@ -25,8 +26,8 @@ SDL3TrayTest >> setUp [
 { #category : 'running' }
 SDL3TrayTest >> tearDown [
 
-	iconSurface destroy.
-	tray destroy.
+	iconSurface ifNotNil: #destroy.
+	tray ifNotNil: #destroy.
 	
 	super tearDown
 ]

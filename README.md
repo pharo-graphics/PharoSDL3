@@ -10,7 +10,7 @@ SDL3 is a cross-platform development library designed to provide low-level acces
 
 ### 1. Load the Pharo project
 
-In a Pharo 12, 13, or 14 image, evaluate the following Metacello script:
+In a Pharo 14 image, evaluate the following Metacello script:
 
 ```smalltalk
 Metacello new
@@ -21,7 +21,7 @@ Metacello new
 
 Alternatively, from your terminal:
 ```bash
-curl https://get.pharo.org/130+vm | bash
+curl https://get.pharo.org/140+vm | bash
 ./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:dev/src BaselineOfSDL3
 ```
 
