@@ -13,36 +13,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3TrayEntryConstants class >> SDL_TRAYENTRY_BUTTON [
-
-	^ SDL_TRAYENTRY_BUTTON
-]
-
-{ #category : 'accessing - constants' }
-SDL3TrayEntryConstants class >> SDL_TRAYENTRY_CHECKBOX [
-
-	^ SDL_TRAYENTRY_CHECKBOX
-]
-
-{ #category : 'accessing - constants' }
-SDL3TrayEntryConstants class >> SDL_TRAYENTRY_CHECKED [
-
-	^ SDL_TRAYENTRY_CHECKED
-]
-
-{ #category : 'accessing - constants' }
-SDL3TrayEntryConstants class >> SDL_TRAYENTRY_DISABLED [
-
-	^ SDL_TRAYENTRY_DISABLED
-]
-
-{ #category : 'accessing - constants' }
-SDL3TrayEntryConstants class >> SDL_TRAYENTRY_SUBMENU [
-
-	^ SDL_TRAYENTRY_SUBMENU
-]
-
 { #category : 'class initialization' }
 SDL3TrayEntryConstants class >> initialize [
 

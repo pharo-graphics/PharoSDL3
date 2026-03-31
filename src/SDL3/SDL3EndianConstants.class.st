@@ -10,18 +10,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3EndianConstants class >> SDL_BIG_ENDIAN [
-
-	^ SDL_BIG_ENDIAN
-]
-
-{ #category : 'accessing - constants' }
-SDL3EndianConstants class >> SDL_LIL_ENDIAN [
-
-	^ SDL_LIL_ENDIAN
-]
-
 { #category : 'class initialization' }
 SDL3EndianConstants class >> initialize [
 

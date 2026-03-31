@@ -16,54 +16,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_AUDIO [
-
-	^ SDL_INIT_AUDIO
-]
-
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_CAMERA [
-
-	^ SDL_INIT_CAMERA
-]
-
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_EVENTS [
-
-	^ SDL_INIT_EVENTS
-]
-
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_GAMEPAD [
-
-	^ SDL_INIT_GAMEPAD
-]
-
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_HAPTIC [
-
-	^ SDL_INIT_HAPTIC
-]
-
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_JOYSTICK [
-
-	^ SDL_INIT_JOYSTICK
-]
-
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_SENSOR [
-
-	^ SDL_INIT_SENSOR
-]
-
-{ #category : 'accessing - constants' }
-SDL3InitConstants class >> SDL_INIT_VIDEO [
-
-	^ SDL_INIT_VIDEO
-]
-
 { #category : 'class initialization' }
 SDL3InitConstants class >> initialize [
 

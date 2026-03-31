@@ -11,24 +11,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3WindowConstants class >> SDL_WINDOWPOS_CENTERED_MASK [
-
-	^ SDL_WINDOWPOS_CENTERED_MASK
-]
-
-{ #category : 'accessing - constants' }
-SDL3WindowConstants class >> SDL_WINDOWPOS_UNDEFINED_MASK [
-
-	^ SDL_WINDOWPOS_UNDEFINED_MASK
-]
-
-{ #category : 'accessing - constants' }
-SDL3WindowConstants class >> SDL_WINDOW_SURFACE_VSYNC_DISABLED [
-
-	^ SDL_WINDOW_SURFACE_VSYNC_DISABLED
-]
-
 { #category : 'class initialization' }
 SDL3WindowConstants class >> initialize [
 

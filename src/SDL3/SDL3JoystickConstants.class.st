@@ -14,42 +14,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3JoystickConstants class >> SDL_HAT_CENTERED [
-
-	^ SDL_HAT_CENTERED
-]
-
-{ #category : 'accessing - constants' }
-SDL3JoystickConstants class >> SDL_HAT_DOWN [
-
-	^ SDL_HAT_DOWN
-]
-
-{ #category : 'accessing - constants' }
-SDL3JoystickConstants class >> SDL_HAT_LEFT [
-
-	^ SDL_HAT_LEFT
-]
-
-{ #category : 'accessing - constants' }
-SDL3JoystickConstants class >> SDL_HAT_RIGHT [
-
-	^ SDL_HAT_RIGHT
-]
-
-{ #category : 'accessing - constants' }
-SDL3JoystickConstants class >> SDL_HAT_UP [
-
-	^ SDL_HAT_UP
-]
-
-{ #category : 'accessing - constants' }
-SDL3JoystickConstants class >> SDL_JOYSTICK_AXIS_MAX [
-
-	^ SDL_JOYSTICK_AXIS_MAX
-]
-
 { #category : 'class initialization' }
 SDL3JoystickConstants class >> initialize [
 

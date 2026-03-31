@@ -13,36 +13,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3ButtonConstants class >> SDL_BUTTON_LEFT [
-
-	^ SDL_BUTTON_LEFT
-]
-
-{ #category : 'accessing - constants' }
-SDL3ButtonConstants class >> SDL_BUTTON_MIDDLE [
-
-	^ SDL_BUTTON_MIDDLE
-]
-
-{ #category : 'accessing - constants' }
-SDL3ButtonConstants class >> SDL_BUTTON_RIGHT [
-
-	^ SDL_BUTTON_RIGHT
-]
-
-{ #category : 'accessing - constants' }
-SDL3ButtonConstants class >> SDL_BUTTON_X1 [
-
-	^ SDL_BUTTON_X1
-]
-
-{ #category : 'accessing - constants' }
-SDL3ButtonConstants class >> SDL_BUTTON_X2 [
-
-	^ SDL_BUTTON_X2
-]
-
 { #category : 'class initialization' }
 SDL3ButtonConstants class >> initialize [
 

@@ -13,36 +13,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3HapticConstants class >> SDL_HAPTIC_CARTESIAN [
-
-	^ SDL_HAPTIC_CARTESIAN
-]
-
-{ #category : 'accessing - constants' }
-SDL3HapticConstants class >> SDL_HAPTIC_INFINITY [
-
-	^ SDL_HAPTIC_INFINITY
-]
-
-{ #category : 'accessing - constants' }
-SDL3HapticConstants class >> SDL_HAPTIC_POLAR [
-
-	^ SDL_HAPTIC_POLAR
-]
-
-{ #category : 'accessing - constants' }
-SDL3HapticConstants class >> SDL_HAPTIC_SPHERICAL [
-
-	^ SDL_HAPTIC_SPHERICAL
-]
-
-{ #category : 'accessing - constants' }
-SDL3HapticConstants class >> SDL_HAPTIC_STEERING_AXIS [
-
-	^ SDL_HAPTIC_STEERING_AXIS
-]
-
 { #category : 'class initialization' }
 SDL3HapticConstants class >> initialize [
 

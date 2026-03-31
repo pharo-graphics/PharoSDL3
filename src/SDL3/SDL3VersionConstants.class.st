@@ -11,24 +11,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3VersionConstants class >> SDL_MAJOR_VERSION [
-
-	^ SDL_MAJOR_VERSION
-]
-
-{ #category : 'accessing - constants' }
-SDL3VersionConstants class >> SDL_MICRO_VERSION [
-
-	^ SDL_MICRO_VERSION
-]
-
-{ #category : 'accessing - constants' }
-SDL3VersionConstants class >> SDL_MINOR_VERSION [
-
-	^ SDL_MINOR_VERSION
-]
-
 { #category : 'class initialization' }
 SDL3VersionConstants class >> initialize [
 

@@ -15,48 +15,6 @@ Class {
 	#tag : 'Library'
 }
 
-{ #category : 'accessing - constants' }
-SDL3MessageBoxConstants class >> SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT [
-
-	^ SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT
-]
-
-{ #category : 'accessing - constants' }
-SDL3MessageBoxConstants class >> SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT [
-
-	^ SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT
-]
-
-{ #category : 'accessing - constants' }
-SDL3MessageBoxConstants class >> SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT [
-
-	^ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT
-]
-
-{ #category : 'accessing - constants' }
-SDL3MessageBoxConstants class >> SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT [
-
-	^ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT
-]
-
-{ #category : 'accessing - constants' }
-SDL3MessageBoxConstants class >> SDL_MESSAGEBOX_ERROR [
-
-	^ SDL_MESSAGEBOX_ERROR
-]
-
-{ #category : 'accessing - constants' }
-SDL3MessageBoxConstants class >> SDL_MESSAGEBOX_INFORMATION [
-
-	^ SDL_MESSAGEBOX_INFORMATION
-]
-
-{ #category : 'accessing - constants' }
-SDL3MessageBoxConstants class >> SDL_MESSAGEBOX_WARNING [
-
-	^ SDL_MESSAGEBOX_WARNING
-]
-
 { #category : 'class initialization' }
 SDL3MessageBoxConstants class >> initialize [
 
