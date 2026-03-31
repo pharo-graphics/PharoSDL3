@@ -725,8 +725,9 @@ SDL3Demo >> ensureInitSDL3 [
 		appversion: 'v1.2.3'
 		appidentifier: 'org.pharo.sdl3.', self className.
 
-	"Initialize the video subsystem"
-	self assert: (sdl initSubSystem: SDL3InitFlags video | SDL3InitFlags audio)
+	self
+		assert: (sdl initSubSystem: SDL3InitFlags video | SDL3InitFlags audio)
+		description: 'Initialize video and audio subsystems'
 ]
 
 { #category : 'lifecycle' }

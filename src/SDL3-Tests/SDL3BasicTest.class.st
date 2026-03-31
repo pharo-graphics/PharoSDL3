@@ -134,7 +134,9 @@ SDL3BasicTest >> test06Properties [
 SDL3BasicTest >> test07SubsystemLifecycle [
 	"Note: This test initializes and quits events subsystem independently if it was already initialized"
 
-	self assert: (sdl initSubSystem: SDL3InitFlags events).
+	self
+		assert: (sdl initSubSystem: SDL3InitFlags events)
+		description: 'Initialize event subsystem'.
 
 	self
 		assert: (sdl wasInit: SDL3InitFlags events)

@@ -47,8 +47,9 @@ SDL3WindowTest >> setUp [
 
 	super setUp.
 
-	"Ensure video subsystem is initialized"
-	self assert: (sdl initSubSystem: SDL3InitFlags video)
+	self
+		assert: (sdl initSubSystem: SDL3InitFlags video)
+		description: 'Initialize video subsystem'
 ]
 
 { #category : 'tests' }
