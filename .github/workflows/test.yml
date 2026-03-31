@@ -22,6 +22,7 @@ jobs:
         id: sdl
         with:
           version: 3-latest
+          install-linux-dependencies: true
       - uses: actions/checkout@v4
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
