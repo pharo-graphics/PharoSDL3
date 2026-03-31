@@ -8,6 +8,12 @@ Class {
 		'mainLoopProcess',
 		'gpuDevice'
 	],
+	#pools : [
+		'SDL3EventType',
+		'SDL3GPULoadOp',
+		'SDL3GPUStoreOp',
+		'SDL3Keycode'
+	],
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
 	#tag : 'Shaders'
@@ -28,11 +34,11 @@ SDL3GPUClearDemo >> close [
 SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffer [
 
 	| colorTargetInfo renderPass |
-	colorTargetInfo := SDL3GPUColorTargetInfo new.
+	colorTargetInfo := SDL_GPUColorTargetInfo new.
 	colorTargetInfo
 		texture: aSDL3GPUTexture;
-		storeOp: SDL3GPUStoreOp store;
-		loadOp: SDL3GPULoadOp clear.
+		storeOp: SDL_GPU_STOREOP_STORE;
+		loadOp: SDL_GPU_LOADOP_CLEAR.
 	colorTargetInfo clearColor updateFrom:
 		(Color h: (Time millisecondClockValue / 10.0) \\ 360 s: 1.0 v: 1.0).
 
@@ -56,9 +62,10 @@ SDL3GPUClearDemo >> iterateUntilQuit [
 
 	[ quit ] whileFalse: [
 		self pollEventsDo: [ :evt |
-			evt type = SDL3EventType quit ifTrue: [ quit := true ].
-			evt type = SDL3EventType keyDown ifTrue: [
-				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ] ] ].
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
+
+			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
+				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ] ] ].
 
 		self render.
 
@@ -91,8 +98,9 @@ SDL3GPUClearDemo >> render [
 	| commandBuffer swapchainTextureHolder |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 
-	swapchainTextureHolder := (FFIExternalValueHolder ofType:
-		                           SDL3GPUTexture) new.
+	swapchainTextureHolder :=
+		(FFIExternalValueHolder ofType: SDL_GPUTexture) new.
+
 	sdl assertSuccess: (commandBuffer
 			 waitAndAcquireGPUSwapchainTextureForWindow: window
 			 into: swapchainTextureHolder
@@ -114,7 +122,7 @@ SDL3GPUClearDemo >> render [
 { #category : 'running' }
 SDL3GPUClearDemo >> run [
 	"Run headless with:
-	./pharo Pharo.image eval --no-quit 'SDL3GPUClearDemo new run'.
+	./pharo Pharo.image eval 'SDL3GPUClearDemo new run'
 	"
 
 	self open.
