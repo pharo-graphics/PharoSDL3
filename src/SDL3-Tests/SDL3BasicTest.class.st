@@ -1,6 +1,9 @@
 Class {
 	#name : 'SDL3BasicTest',
 	#superclass : 'SDL3Test',
+	#pools : [
+		'SDL3ZConstants'
+	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
 	#tag : 'Library'
@@ -147,4 +150,25 @@ SDL3BasicTest >> test07SubsystemLifecycle [
 	self
 		assert: (sdl wasInit: SDL3InitFlags events)
 		equals: 0
+]
+
+{ #category : 'tests' }
+SDL3BasicTest >> test08Hints [
+
+	self
+		assert: (sdl getHint: SDL_HINT_NO_SIGNAL_HANDLERS)
+		equals: ''. "Default"
+
+	sdl assertSuccess: (sdl setHintName: SDL_HINT_NO_SIGNAL_HANDLERS value: '1').
+
+	self
+		assert: (sdl getHint: SDL_HINT_NO_SIGNAL_HANDLERS)
+		equals: '1'.
+
+	sdl resetHints.
+
+	self
+		assert: (sdl getHint: SDL_HINT_NO_SIGNAL_HANDLERS)
+		equals: ''. "Default"
+
 ]
