@@ -1,5 +1,5 @@
 "
-I am a FFI structure that represents the `SDL_EVENT_PEN_BUTTON_DOWN` SDL3 event. The accessing protocol is defined by my superclass.
+I represent the `SDL_EVENT_PEN_BUTTON_DOWN` SDL3 event type. My FFI structure fields and their corresponding accessing protocol are defined on my superclass.
 "
 Class {
 	#name : 'SDL3PenButtonDownEvent',
@@ -8,6 +8,12 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'accessing' }
+SDL3PenButtonDownEvent class >> eventType [
+
+	^ SDL3EventType penButtonDown
+]
 
 { #category : 'visitor' }
 SDL3PenButtonDownEvent >> accept: aVisitor [

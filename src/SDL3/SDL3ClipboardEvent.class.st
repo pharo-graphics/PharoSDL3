@@ -14,6 +14,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3ClipboardEvent class >> eventType [
+
+	^ SDL3EventType clipboardUpdate
+]
+
 { #category : 'field definition' }
 SDL3ClipboardEvent class >> fieldsDesc [
 

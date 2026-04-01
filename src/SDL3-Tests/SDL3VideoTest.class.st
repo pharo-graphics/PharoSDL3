@@ -11,28 +11,31 @@ SDL3VideoTest >> setUp [
 
 	super setUp.
 
-	"Ensure video subsystem is initialized"
-	self assert: (sdl initSubSystem: SDL3InitFlags video)
+	self
+		assert: (sdl initSubSystem: SDL3InitFlags video)
+		description: 'Initialize video subsystem'
 ]
 
 { #category : 'tests' }
 SDL3VideoTest >> test01ClipboardAPI [
-
 	"Copy&paste a non-ASCII string"
-	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
+
+	| address string |
 	self assert: (sdl setClipboardText: 'Hëllo').
 	self assert: sdl hasClipboardText.
-	self assert: sdl getClipboardText equals: 'Hëllo'.
+	
+	address := sdl getClipboardText.
+	string := address utf8StringFromCString.
+	sdl free: address.
+	self assert: string equals: 'Hëllo'.
 
 	"Clipboard supports more than text"
-	mimeTypesCountPointer := FFIInt64 newBuffer.
-	mimeTypesStringArrayPointer := sdl getClipboardMimeTypes: mimeTypesCountPointer.
-	mimeTypesStringArray :=
-		mimeTypesStringArrayPointer
-			arrayOfStringsOfSize: (mimeTypesCountPointer int64AtOffset: 0). 
-	sdl free: mimeTypesStringArrayPointer.
+	self assert: sdl clipboardMimeTypes equals: #('text/plain;charset=utf-8').
 
-	self assert: mimeTypesStringArray equals: #('text/plain;charset=utf-8').
+	"Only for X11 and Wayland. 
+	See: https://wiki.libsdl.org/SDL3/CategoryClipboard#primary-selection"
+	self assert: (sdl hasPrimarySelectionText isKindOf: Boolean).
+	self assert: sdl primarySelectionText isString.
 	
 	"Clear"
 	self assert: sdl clearClipboardData.
@@ -45,7 +48,7 @@ SDL3VideoTest >> test02CursorAPI [
 	| cursorId cursor |
 	cursorId := SDL3SystemCursor crosshair.
 	cursor := sdl newSystemCursor: cursorId.
-	self assert: (sdl setCursor: cursor).
+	self assert: cursor setActive.
 
 	self assert: sdl getCursor equals: cursor.
 
@@ -55,13 +58,13 @@ SDL3VideoTest >> test02CursorAPI [
 	sdl showCursor.
 	self assert: sdl cursorVisible.
 
-	sdl destroyCursor: cursor.
+	cursor destroy.
 	
 	cursor := sdl getDefaultCursor.
 	self deny: cursor isNull.
-	self assert: (sdl setCursor: cursor).
+	self assert: cursor setActive.
 	"You do not have to call SDL_DestroyCursor() on the return value, but it is safe to do so."
-	sdl destroyCursor: cursor 
+	cursor destroy
 ]
 
 { #category : 'tests' }

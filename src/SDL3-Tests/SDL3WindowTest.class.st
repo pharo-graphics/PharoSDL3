@@ -47,8 +47,9 @@ SDL3WindowTest >> setUp [
 
 	super setUp.
 
-	"Ensure video subsystem is initialized"
-	self assert: (sdl initSubSystem: SDL3InitFlags video)
+	self
+		assert: (sdl initSubSystem: SDL3InitFlags video)
+		description: 'Initialize video subsystem'
 ]
 
 { #category : 'tests' }
@@ -234,6 +235,22 @@ SDL3WindowTest >> test06Fullscreen [
 	"Tear down"
 	renderer destroy.
 	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test07AllWindows [
+
+	| windows |
+	windows := (1 to: 5) collect: [ :index |
+		sdl
+			newWindowTitle: index asString
+			w: 300 h: 300 flags: 0 ].
+
+	"The query seems to return last window first"
+	self assert: sdl allWindows equals: windows reversed.
+
+	"Tear down"
+	windows do: #destroy
 ]
 
 { #category : 'private' }

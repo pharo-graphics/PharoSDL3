@@ -4,14 +4,14 @@ Extension { #name : 'SDL3Window' }
 SDL3Window >> extent [
 	"Answer my logical extent"
 
-	| widthPointer heightPointer |
-	widthPointer := FFIInt32 newBuffer.
-	heightPointer := FFIInt32 newBuffer.
+	| widthValueHolder heightValueHolder |
+	widthValueHolder := FFIInt32 newValueHolder.
+	heightValueHolder := FFIInt32 newValueHolder.
 
 	self ffiLibrary assertSuccess:
-		(self getSizeIntoW: widthPointer h: heightPointer).
+		(self getSizeIntoW: widthValueHolder h: heightValueHolder).
 
-	^ (widthPointer int32AtOffset: 0) @ (heightPointer int32AtOffset: 0)
+	^ widthValueHolder value @ heightValueHolder value
 ]
 
 { #category : '*SDL3-Own' }
@@ -29,14 +29,14 @@ SDL3Window >> newGPURenderer [
 { #category : '*SDL3-Own' }
 SDL3Window >> position [
 
-	| widthPointer heightPointer |
-	widthPointer := FFIInt32 newBuffer.
-	heightPointer := FFIInt32 newBuffer.
+	| widthValueHolder heightValueHolder |
+	widthValueHolder := FFIInt32 newValueHolder.
+	heightValueHolder := FFIInt32 newValueHolder.
 
 	self ffiLibrary assertSuccess:
-		(self getPositionIntoX: widthPointer y: heightPointer).
+		(self getPositionIntoX: widthValueHolder y: heightValueHolder).
 
-	^ (widthPointer int32AtOffset: 0) @ (heightPointer int32AtOffset: 0)
+	^ widthValueHolder value @ heightValueHolder value
 ]
 
 { #category : '*SDL3-Own' }

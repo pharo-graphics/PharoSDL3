@@ -344,7 +344,7 @@ SDL3Event >> motion: anObject [
 { #category : 'accessing - structure variables' }
 SDL3Event >> padding [
 	"This method was automatically generated"
-	^(FFITypeArray ofType: #FFIUInt8 size: 128) fromHandle: (handle copyFrom: 1 to: 128)
+	^(FFIArray ofType: #FFIUInt8 size: 128) fromHandle: (handle copyFrom: 1 to: 128)
 ]
 
 { #category : 'accessing - structure variables' }

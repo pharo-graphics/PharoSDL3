@@ -14,6 +14,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3JoyBatteryEvent class >> eventType [
+
+	^ SDL3EventType joystickBatteryUpdated
+]
+
 { #category : 'field definition' }
 SDL3JoyBatteryEvent class >> fieldsDesc [
 

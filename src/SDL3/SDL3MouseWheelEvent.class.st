@@ -20,6 +20,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3MouseWheelEvent class >> eventType [
+
+	^ SDL3EventType mouseWheel
+]
+
 { #category : 'field definition' }
 SDL3MouseWheelEvent class >> fieldsDesc [
 

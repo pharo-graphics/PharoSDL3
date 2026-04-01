@@ -18,6 +18,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3GamepadAxisEvent class >> eventType [
+
+	^ SDL3EventType gamepadAxisMotion
+]
+
 { #category : 'field definition' }
 SDL3GamepadAxisEvent class >> fieldsDesc [
 

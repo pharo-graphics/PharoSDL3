@@ -18,6 +18,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3PenAxisEvent class >> eventType [
+
+	^ SDL3EventType penAxis
+]
+
 { #category : 'field definition' }
 SDL3PenAxisEvent class >> fieldsDesc [
 

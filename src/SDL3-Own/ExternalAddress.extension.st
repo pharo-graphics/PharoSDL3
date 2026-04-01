@@ -38,19 +38,16 @@ ExternalAddress >> nullTerminatedArrayOfCStrings [
 ExternalAddress >> readArrayOf: aType size: count [
 	"Returns an array of aType of the specified size"
 
-	| externalType |
-	"resolve type if needed"
-	externalType := aType isString
-		ifTrue: [ FFIExternalType resolveType: aType ]
-		ifFalse: [ aType ].
+	| externalType address results |
+	externalType := FFIExternalType resolveType: aType.
 
 	"then build the array"
-	^ Array streamContents: [ :stream |
-		| address |
-		address := self.
-		1 to: count do: [ :index |
-			stream nextPut: (externalType handle: address at: 1).
-			address := address + externalType typeSize ] ]
+	results := Array new: count.
+	address := self.
+	1 to: count do: [ :index |
+		results at: index put: (externalType handle: address at: 1).
+		address := address + externalType typeSize ].
+	^ results
 ]
 
 { #category : '*SDL3-Own' }

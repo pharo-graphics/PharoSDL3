@@ -1,5 +1,5 @@
 "
-I am a FFI structure that represents the `SDL_EVENT_DISPLAY_ORIENTATION` SDL3 event. The accessing protocol is defined by my superclass.
+I represent the `SDL_EVENT_DISPLAY_ORIENTATION` SDL3 event type. My FFI structure fields and their corresponding accessing protocol are defined on my superclass.
 "
 Class {
 	#name : 'SDL3DisplayOrientationEvent',
@@ -8,6 +8,12 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'accessing' }
+SDL3DisplayOrientationEvent class >> eventType [
+
+	^ SDL3EventType displayOrientation
+]
 
 { #category : 'visitor' }
 SDL3DisplayOrientationEvent >> accept: aVisitor [

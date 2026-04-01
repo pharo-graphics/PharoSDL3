@@ -15,6 +15,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3UserEvent class >> eventType [
+
+	^ SDL3EventType user
+]
+
 { #category : 'field definition' }
 SDL3UserEvent class >> fieldsDesc [
 

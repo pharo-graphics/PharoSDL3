@@ -103,21 +103,6 @@ SDL3Keymod class >> enumDecl [
 		#SDL_KMOD_GUI.    16r0400 | 16r0800 }
 ]
 
-{ #category : 'enum declaration' }
-SDL3Keymod class >> enumDeclToCamelCaseDictionary [
-
-	^ super enumDeclToCamelCaseDictionary
-		at: #SDL_KMOD_LSHIFT put: #leftShift;
-		at: #SDL_KMOD_RSHIFT put: #rightShift;
-		at: #SDL_KMOD_LCTRL put: #leftCtrl;
-		at: #SDL_KMOD_RCTRL put: #rightCtrl;
-		at: #SDL_KMOD_LALT put: #leftAlt;
-		at: #SDL_KMOD_RALT put: #rightAlt;
-		at: #SDL_KMOD_LGUI put: #leftGUI;
-		at: #SDL_KMOD_RGUI put: #rightGUI;
-		yourself
-]
-
 { #category : 'accessing enum' }
 SDL3Keymod class >> gui [
 	"This method was automatically generated"

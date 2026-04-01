@@ -15,6 +15,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3GamepadSensorEvent class >> eventType [
+
+	^ SDL3EventType gamepadSensorUpdate
+]
+
 { #category : 'field definition' }
 SDL3GamepadSensorEvent class >> fieldsDesc [
 

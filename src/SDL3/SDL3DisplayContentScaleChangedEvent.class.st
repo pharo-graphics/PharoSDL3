@@ -1,5 +1,5 @@
 "
-I am a FFI structure that represents the `SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED` SDL3 event. The accessing protocol is defined by my superclass.
+I represent the `SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED` SDL3 event type. My FFI structure fields and their corresponding accessing protocol are defined on my superclass.
 "
 Class {
 	#name : 'SDL3DisplayContentScaleChangedEvent',
@@ -8,6 +8,12 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Events'
 }
+
+{ #category : 'accessing' }
+SDL3DisplayContentScaleChangedEvent class >> eventType [
+
+	^ SDL3EventType displayContentScaleChanged
+]
 
 { #category : 'visitor' }
 SDL3DisplayContentScaleChangedEvent >> accept: aVisitor [

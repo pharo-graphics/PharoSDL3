@@ -14,6 +14,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3SensorEvent class >> eventType [
+
+	^ SDL3EventType sensorUpdate
+]
+
 { #category : 'field definition' }
 SDL3SensorEvent class >> fieldsDesc [
 

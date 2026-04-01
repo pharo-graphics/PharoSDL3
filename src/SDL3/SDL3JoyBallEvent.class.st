@@ -18,6 +18,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3JoyBallEvent class >> eventType [
+
+	^ SDL3EventType joystickBallMotion
+]
+
 { #category : 'field definition' }
 SDL3JoyBallEvent class >> fieldsDesc [
 

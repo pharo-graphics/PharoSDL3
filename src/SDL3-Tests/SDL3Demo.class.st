@@ -137,8 +137,8 @@ SDL3Demo class >> example02LogState [
 
 	"Main loop"
 	[ quit ] whileFalse: [
-		| lib |
-		lib := LibSDL3 uniqueInstance.
+		| sdl |
+		sdl := LibSDL3 uniqueInstance.
 
 		demo pollEventsDo: [ :evt |
 			"Handle quit"
@@ -146,27 +146,27 @@ SDL3Demo class >> example02LogState [
 
 		"Log some SDL state values"
 		logs add: #SYSTEM.
-		#(#getBasePath #getCurrentDirectory #getCurrentVideoDriver
+		#(#allAudioPlaybackDeviceIDs #allAudioRecordingDeviceIDs #allCameraIDs #allKeyboardIDs #allMouseIDs #getBasePath #currentDirectory #getCurrentVideoDriver
 		#getRevision #getSystemPageSize #getSystemTheme
 		#gpuDrivers #renderDrivers #videoDrivers) do: [ :each |
-			logs add: each -> (lib perform: each) ].
+			logs add: each -> (sdl perform: each) ].
 
 		logs add: ''.
 		logs add: #DISPLAYS.
-		logs add: #getPrimaryDisplay -> lib getPrimaryDisplay.
-		logs add: #numberOfDisplays -> lib numberOfDisplays.
-		lib displayIDs do: [ :eachId |
+		logs add: #getPrimaryDisplay -> sdl getPrimaryDisplay.
+		logs add: #numberOfDisplays -> sdl numberOfDisplays.
+		sdl displayIDs do: [ :eachId |
 			logs add: ''.
 			logs add: 'DisplayID' -> eachId.
-			logs add: 'Name' -> (lib getDisplayName: eachId).
-			logs add: 'Desktop display mode' -> (lib getDesktopDisplayMode: eachId).
-			logs add: 'Current display mode' -> (lib getCurrentDisplayMode: eachId).
-			logs add: 'All display modes' -> (lib fullscreenDisplayModesOf: eachId).
-			logs add: 'Scale' -> (lib getDisplayContentScale: eachId).
-			logs add: 'Orientation (current)' -> (lib getCurrentDisplayOrientation: eachId).
-			logs add: 'Orientation (natural)' -> (lib getNaturalDisplayOrientation: eachId).
-			logs add: 'Bounds' -> (lib boundsOfDisplay: eachId).
-			logs add: 'Bounds (usable)' -> (lib usableBoundsOfDisplay: eachId) ].
+			logs add: 'Name' -> (sdl getDisplayName: eachId).
+			logs add: 'Desktop display mode' -> (sdl getDesktopDisplayMode: eachId).
+			logs add: 'Current display mode' -> (sdl getCurrentDisplayMode: eachId).
+			logs add: 'All display modes' -> (sdl fullscreenDisplayModesOf: eachId).
+			logs add: 'Scale' -> (sdl getDisplayContentScale: eachId).
+			logs add: 'Orientation (current)' -> (sdl getCurrentDisplayOrientation: eachId).
+			logs add: 'Orientation (natural)' -> (sdl getNaturalDisplayOrientation: eachId).
+			logs add: 'Bounds' -> (sdl boundsOfDisplay: eachId).
+			logs add: 'Bounds (usable)' -> (sdl usableBoundsOfDisplay: eachId) ].
 
 		logs add: ''.
 		logs add: #WINDOW.
@@ -181,18 +181,18 @@ SDL3Demo class >> example02LogState [
 			allocate: ExternalType float byteSize
 			during: [ :pointerForX :pointerForY |
 				| state |
-				state := lib getMouseStateX: pointerForX y: pointerForY.
+				state := sdl getMouseStateX: pointerForX y: pointerForY.
 				logs add: 'x: ', (pointerForX floatAt: 1) asString.
 				logs add: 'y: ', (pointerForY floatAt: 1) asString.
 				logs addAll: (SDL3MouseButtonFlags allValuesIn: state) ].
 
-		lib getModState in: [ :modState |
+		sdl getModState in: [ :modState |
 			modState > 0 ifTrue: [ 
 				logs add: ''.
 				logs add: #getModState.
 				logs addAll: (SDL3Keymod allValuesIn: modState) ] ].
 
-		(lib getKeyboardState: nil) in: [ :booleanArray |
+		(sdl getKeyboardState: nil) in: [ :booleanArray |
 			logs add: ''.
 			logs add: #getKeyboardState:.
 
@@ -200,9 +200,9 @@ SDL3Demo class >> example02LogState [
 				select: [ :each | booleanArray boolean8AtOffset: each value ]
 				thenDo: [ :each |
 					| key |
-					key := lib
+					key := sdl
 						getKeyFromScancode: each
-						modstate: lib getModState
+						modstate: sdl getModState
 						keyEvent: true.
 					logs add:
 						('Scancode: {1} Key: {2]' format: {
@@ -694,15 +694,7 @@ SDL3Demo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: 
 { #category : 'utilities' }
 SDL3Demo >> clipboardMimeTypes [
 
-	| mimeTypesCountPointer mimeTypesStringArrayPointer mimeTypesStringArray |
-	mimeTypesCountPointer := FFIInt64 newBuffer.
-	mimeTypesStringArrayPointer := sdl getClipboardMimeTypes: mimeTypesCountPointer.
-	mimeTypesStringArray :=
-		mimeTypesStringArrayPointer
-			arrayOfStringsOfSize: (mimeTypesCountPointer signedLongLongAt: 1). 
-	sdl free: mimeTypesStringArrayPointer.
-
-	^ mimeTypesStringArray
+	^ sdl clipboardMimeTypes
 ]
 
 { #category : 'lifecycle' }
@@ -727,8 +719,9 @@ SDL3Demo >> ensureInitSDL3 [
 		appversion: 'v1.2.3'
 		appidentifier: 'org.pharo.sdl3.', self className.
 
-	"Initialize the video subsystem"
-	self assert: (sdl initSubSystem: SDL3InitFlags video)
+	self
+		assert: (sdl initSubSystem: SDL3InitFlags video)
+		description: 'Initialize video subsystem'
 ]
 
 { #category : 'lifecycle' }

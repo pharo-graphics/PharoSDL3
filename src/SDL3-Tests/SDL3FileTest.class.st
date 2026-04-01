@@ -61,19 +61,15 @@ SDL3FileTest >> test03UserFolders [
 { #category : 'tests' }
 SDL3FileTest >> test04CurrentDirectory [
 
-	self flag: #todo. "Memory leak in #getCurrentDirectory: https://github.com/pharo-graphics/PharoSDL3/issues/29"
-
 	self
-		assert: sdl getCurrentDirectory asFileReference 
-		equals: '.' asFileReference
+		assert: sdl currentDirectory asPath
+		equals: OSPlatform current currentWorkingDirectoryPath asPath
 ]
 
 { #category : 'tests' }
 SDL3FileTest >> test05BasePath [
-	
-	self assert:
-		(FileLocator vmDirectory asPath <=
-			sdl getBasePath asFileReference asPath)
+
+	self assert: FileLocator vmDirectory asPath <= sdl getBasePath asPath
 ]
 
 { #category : 'tests' }

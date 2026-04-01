@@ -13,6 +13,12 @@ Class {
 	#tag : 'Events'
 }
 
+{ #category : 'accessing' }
+SDL3TextInputEvent class >> eventType [
+
+	^ SDL3EventType textInput
+]
+
 { #category : 'field definition' }
 SDL3TextInputEvent class >> fieldsDesc [
 

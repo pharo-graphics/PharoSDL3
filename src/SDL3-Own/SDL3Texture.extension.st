@@ -4,11 +4,11 @@ Extension { #name : 'SDL3Texture' }
 SDL3Texture >> extent [
 	"Answer my (float) extent"
 
-	| widthPointer heightPointer |
-	widthPointer := FFIFloat32 newBuffer.
-	heightPointer := FFIFloat32 newBuffer.
+	| widthValueHolder heightValueHolder |
+	widthValueHolder := FFIFloat32 newValueHolder.
+	heightValueHolder := FFIFloat32 newValueHolder.
 
-	self getSizeIntoW: widthPointer h: heightPointer.
+	self getSizeIntoW: widthValueHolder h: heightValueHolder.
 
-	^ (widthPointer float32AtOffset: 0) @ (heightPointer float32AtOffset: 0)
+	^ widthValueHolder value @ heightValueHolder value
 ]
