@@ -114,7 +114,7 @@ SDL3GPUClearDemo >> render [
 { #category : 'running' }
 SDL3GPUClearDemo >> run [
 	"Run headless with:
-	./pharo Pharo.image eval --no-quit 'SDL3GPUClearDemo new run'.
+	./pharo Pharo.image eval 'SDL3GPUClearDemo new run'
 	"
 
 	self open.

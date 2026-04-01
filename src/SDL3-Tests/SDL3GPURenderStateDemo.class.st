@@ -199,7 +199,8 @@ SDL3GPURenderStateDemo >> render [
 { #category : 'running' }
 SDL3GPURenderStateDemo >> run [
 	"Run headless with:
-	./pharo Pharo.image eval --no-quit 'SDL3GPURenderStateDemo new run' "
+	./pharo Pharo.image eval 'SDL3GPURenderStateDemo new run'
+	"
 
 	self open.
 	self iterateUntilQuit.

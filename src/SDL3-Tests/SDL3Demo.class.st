@@ -16,9 +16,10 @@ Class {
 }
 
 { #category : 'examples' }
-SDL3Demo class >> example00ColorWheel [
-	"
-	./pharo Pharo.image eval 'SDL3Demo example00ColorWheel'
+SDL3Demo class >> run00ColorWheel [
+	"Open a window and paint it with a wheel of colors.
+	Example:
+		./pharo Pharo.image eval 'SDL3Demo run00ColorWheel'
 	"
 
 	| demo |
@@ -36,9 +37,10 @@ SDL3Demo class >> example00ColorWheel [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example01MultipleWindows [
-	"
-	./pharo Pharo.image eval 'SDL3Demo example01MultipleWindows'
+SDL3Demo class >> run01MultipleWindows [
+	"Open multiple windows and perform window operations.
+	Example:
+		./pharo Pharo.image eval 'SDL3Demo run01MultipleWindows'
 	"
 
 	| defaultSecondsToWait demos extent consumeEventsBlock |
@@ -119,10 +121,11 @@ SDL3Demo class >> example01MultipleWindows [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example02LogState [
+SDL3Demo class >> run02LogState [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example02LogState' "
+		./pharo Pharo.image eval 'SDL3Demo run02LogState'
+	"
 
 	| demo logs quit |
 	self
@@ -227,10 +230,11 @@ SDL3Demo class >> example02LogState [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example03LogEventsUntilThirdQuit [
+SDL3Demo class >> run03LogEvents [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example03LogEventsUntilThirdQuit' "
+		./pharo Pharo.image eval 'SDL3Demo run03LogEvents'
+	"
 
 	| demo logs quitCount |
 	self
@@ -272,10 +276,11 @@ SDL3Demo class >> example03LogEventsUntilThirdQuit [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example04HandleEvents [
+SDL3Demo class >> run04HandleEvents [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example04HandleEvents' "
+		./pharo Pharo.image eval 'SDL3Demo run04HandleEvents'
+	"
 
 	| demo quit hue bright backgroundColor |
 	self
@@ -335,10 +340,11 @@ SDL3Demo class >> example04HandleEvents [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example05Clipboard [
+SDL3Demo class >> run05ImageClipboard [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example05Clipboard' "
+		./pharo Pharo.image eval 'SDL3Demo run05ImageClipboard'
+	"
 
 	| demo quit pasted |
 	self
@@ -398,10 +404,11 @@ SDL3Demo class >> example05Clipboard [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example06OpenFolderDialog [
+SDL3Demo class >> run06OpenFolderDialog [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example06OpenFolderDialog' "
+		./pharo Pharo.image eval 'SDL3Demo run06OpenFolderDialog'
+	"
 
 	| demo logs quit |
 	self
@@ -452,10 +459,11 @@ SDL3Demo class >> example06OpenFolderDialog [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example07SystemCursors [
+SDL3Demo class >> run07SystemCursors [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example07SystemCursors' "
+		./pharo Pharo.image eval 'SDL3Demo run07SystemCursors'
+	"
 
 	| demo quit logs cursorGenerator |
 	self
@@ -510,10 +518,11 @@ SDL3Demo class >> example07SystemCursors [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example08TrayMenu [
+SDL3Demo class >> run08TrayMenu [
 	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example08TrayMenu' "
+		./pharo Pharo.image eval 'SDL3Demo run08TrayMenu'
+	"
 
 	| demo quit logs sdl tray logEntryLabelCallback strings |
 	self
@@ -623,10 +632,13 @@ SDL3Demo class >> example08TrayMenu [
 ]
 
 { #category : 'examples' }
-SDL3Demo class >> example09Progress [
-	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
+SDL3Demo class >> run09WindowProgress [
+	"Some platforms can indicate progress in the window task bar.
+
+	SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
 	Example:
-		./pharo Pharo.image eval 'SDL3Demo example09Progress' "
+		./pharo Pharo.image eval 'SDL3Demo run09WindowProgress'
+	"
 
 	| demo numberOfSteps |
 	self
@@ -640,17 +652,20 @@ SDL3Demo class >> example09Progress [
 		initialExtent: 400 @ 200;
 		open.
 
+	demo consumeEventsDuring: 0.2 seconds.
+
 	demo window progressState: SDL3ProgressState normal.
 	numberOfSteps := 10.
 	1 to: numberOfSteps do: [ :index |
 		demo window
 			title: 'Progress: ', index asString, '/', numberOfSteps asString;
 			progressValue: (index / numberOfSteps).
-		0.5 seconds wait ].
+		demo consumeEventsDuring: 0.5 seconds ].
+
 	demo window
 		title: 'Progress: Error';
 		progressState: SDL3ProgressState error.
-	1.0 seconds wait.
+	demo consumeEventsDuring: 1.0 seconds.
 
 	"Tear down"
 	demo close; ensureQuitSDL3
@@ -708,6 +723,15 @@ SDL3Demo >> close [
 SDL3Demo >> color: aColor [
 
 	sdl assertSuccess: (renderer renderDrawColor: aColor)
+]
+
+{ #category : 'events' }
+SDL3Demo >> consumeEventsDuring: aDuration [
+
+	| end |
+	end := DateAndTime now + aDuration.
+	[ sdl pollEvent: SDL3Event new ]
+		doWhileTrue: [ DateAndTime now < end ]
 ]
 
 { #category : 'lifecycle' }
@@ -772,14 +796,14 @@ SDL3Demo >> open [
 	sdl assertSuccess: window startTextInput "Enable SDL3TextEditingEvent"
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'events' }
 SDL3Demo >> pollEvents [
 
 	^ Array new: 10 streamContents: [ :stream |
 		self pollEventsDo: [ :evt | stream nextPut: evt copy ]]
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'events' }
 SDL3Demo >> pollEventsDo: aUnaryBlock [
 
 	[ sdl pollEvent: event ] whileTrue: [
