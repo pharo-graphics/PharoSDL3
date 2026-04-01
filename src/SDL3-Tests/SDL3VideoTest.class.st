@@ -48,7 +48,7 @@ SDL3VideoTest >> test02CursorAPI [
 	| cursorId cursor |
 	cursorId := SDL3SystemCursor crosshair.
 	cursor := sdl newSystemCursor: cursorId.
-	self assert: (sdl setCursor: cursor).
+	self assert: cursor setActive.
 
 	self assert: sdl getCursor equals: cursor.
 
@@ -58,13 +58,13 @@ SDL3VideoTest >> test02CursorAPI [
 	sdl showCursor.
 	self assert: sdl cursorVisible.
 
-	sdl destroyCursor: cursor.
+	cursor destroy.
 	
 	cursor := sdl getDefaultCursor.
 	self deny: cursor isNull.
-	self assert: (sdl setCursor: cursor).
+	self assert: cursor setActive.
 	"You do not have to call SDL_DestroyCursor() on the return value, but it is safe to do so."
-	sdl destroyCursor: cursor 
+	cursor destroy
 ]
 
 { #category : 'tests' }
