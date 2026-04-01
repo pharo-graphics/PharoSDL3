@@ -1,6 +1,13 @@
 Extension { #name : 'LibSDL3' }
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allAudioDrivers [
+	"Answer the name of every built-in audio driver."
+
+	^ (1 to: self getNumAudioDrivers) collect: [ :index | self getAudioDriver: index - 1 ]
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allAudioPlaybackDeviceIDs [
 	"Answer an array of currently-connected audio playback device IDs."
 
@@ -15,6 +22,12 @@ LibSDL3 >> allAudioPlaybackDeviceIDs [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allAudioPlaybackDeviceNames [
+
+	^ self allAudioPlaybackDeviceIDs collect: [ :eachID | self getAudioDeviceName: eachID ]
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allAudioRecordingDeviceIDs [
 	"Answer an array of currently-connected audio recording device IDs."
 
@@ -26,6 +39,12 @@ LibSDL3 >> allAudioRecordingDeviceIDs [
 		size: countValueHolder value.
 	self free: address.
 	^ array
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> allAudioRecordingDeviceNames [
+
+	^ self allAudioRecordingDeviceIDs collect: [ :eachID | self getAudioDeviceName: eachID ]
 ]
 
 { #category : '*SDL3-Own' }
