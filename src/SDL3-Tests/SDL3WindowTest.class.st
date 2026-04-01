@@ -1,6 +1,9 @@
 Class {
 	#name : 'SDL3WindowTest',
 	#superclass : 'SDL3Test',
+	#pools : [
+		'SDL3ZConstants'
+	],
 	#classInstVars : [
 		'waitDuration'
 	],
@@ -251,6 +254,54 @@ SDL3WindowTest >> test07AllWindows [
 
 	"Tear down"
 	windows do: #destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test08CreateWindowWithProperties [
+
+	| rectangle id window |
+	rectangle := 100 @ 200 extent: 300 @ 400.
+
+	id := sdl newProperties.
+	sdl
+		setStringPropertyProps: id
+		name: SDL_PROP_WINDOW_CREATE_TITLE_STRING
+		value: #test08CreateWindowWithProperties.
+	sdl
+		setNumberPropertyProps: id
+		name: SDL_PROP_WINDOW_CREATE_X_NUMBER
+		value: rectangle left.
+	sdl
+		setNumberPropertyProps: id
+		name: SDL_PROP_WINDOW_CREATE_Y_NUMBER
+		value: rectangle top.
+	sdl
+		setNumberPropertyProps: id
+		name: SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER
+		value: rectangle width.
+	sdl
+		setNumberPropertyProps: id
+		name: SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER
+		value: rectangle height.
+	sdl
+		setNumberPropertyProps: id
+		name: SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER
+		value: SDL3WindowFlags highPixelDensity | SDL3WindowFlags resizable.
+
+	window := sdl newWindowWithProperties: id.
+	sdl destroyProperties: id.
+
+	self waitToSee.
+
+	self assert: window title equals: #test08CreateWindowWithProperties asString.
+	self assert: window position equals: rectangle origin.
+	self assert: window extent equals: rectangle extent.
+	self deny: (SDL3WindowFlags highPixelDensity & window flags) equals: 0.
+	self deny: (SDL3WindowFlags resizable & window flags) equals: 0.
+	self assert: (SDL3WindowFlags mouseCapture & window flags) equals: 0.
+
+	"Tear down"
+	window destroy
 ]
 
 { #category : 'private' }
