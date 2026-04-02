@@ -62,6 +62,19 @@ LibSDL3 >> allCameraIDs [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allFingersOf: touchID [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getTouchFingersTouchID: touchID count: countValueHolder.
+	array := address
+		readArrayOf: SDL_Finger
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allKeyboardIDs [
 	"Answer the id array of all connected keyboards"
 
@@ -84,6 +97,19 @@ LibSDL3 >> allMouseIDs [
 	address := (self getMice: countValueHolder) getHandle.
 	array := address
 		readArrayOf: SDL_MouseID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> allTouchIDs [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getTouchDevices: countValueHolder.
+	array := address
+		readArrayOf: SDL_TouchID
 		size: countValueHolder value.
 	self free: address.
 	^ array

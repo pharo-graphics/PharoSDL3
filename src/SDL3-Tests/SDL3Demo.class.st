@@ -10,6 +10,10 @@ Class {
 		'sdl',
 		'initialExtent'
 	],
+	#pools : [
+		'SDL3EventType',
+		'SDL3ZConstants'
+	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
 	#tag : 'Library'
@@ -378,17 +382,16 @@ SDL3Demo class >> run05ImageClipboard [
 					Stdio stdout << demo clipboardMimeTypes asString; lf; flush.
 
 					pasteAsTextureFromClipboardBlock := [ :mimeType :bytes |
-							| form texture rect |
+							| form texture |
 							form := ImageReadWriter formFromStream: bytes readStream.
 							"form writeBMPfileNamed: 'last.bmp'."
 							texture := demo unownedNewTextureFromForm: form.
-							rect := SDL3FRect new
-								x: evt x;
-								y: evt y;
-								w: form width;
-								h: form height;
-								yourself. 
-							pasted add: (texture -> rect) ].
+							pasted add:
+								(texture -> (SDL3FRect
+									x: evt x
+									y: evt y
+									width: form width
+									height: form height)) ].
 
 					demo
 						clipboardMimeTypeAnyOf: #('image/png' 'image/bmp')
@@ -677,6 +680,109 @@ SDL3Demo class >> run09WindowProgress [
 	demo close; ensureQuitSDL3
 ]
 
+{ #category : 'examples' }
+SDL3Demo class >> run10PinchToZoom [
+	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
+	Example:
+		./pharo Pharo.image eval 'SDL3Demo run10PinchEvents'
+	"
+
+	| demo quit scale texture rect |
+	self
+		assert: (SDL2 wasInit: 16384) = 0 "SDL_INIT_EVENTS"
+		description: 'SDL2 is already initialized'.
+
+	demo := self new.
+	demo ensureInitSDL3; open.
+
+	scale := 1.0.
+	texture := demo unownedNewTextureFromForm: (self iconNamed: #pharoBig).
+	texture assertNotNullReturn.
+	rect :=
+		SDL3FRect
+			x: 0
+			y: 0
+			width: texture w
+			height: texture h.
+
+	quit := false.
+
+	"Main loop"
+	[ quit ] whileFalse: [ 
+
+		"Process all pending events"
+		demo pollEventsDo: [ :evt |
+
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
+			
+			evt type = SDL_EVENT_PINCH_UPDATE ifTrue: [
+				scale := scale * evt scale.
+				demo scale: scale ]
+			 ].
+
+		"Render frame"
+		demo clearColor: Color blue muchDarker.
+		demo renderTexture: texture at: rect.
+		demo present.
+
+		"Do a little wait before next frame"
+		15 milliSeconds wait ].
+
+	"Tear down"
+	demo close; ensureQuitSDL3
+]
+
+{ #category : 'examples' }
+SDL3Demo class >> run11TouchFingers [
+	"SDL2 event subsystem conflicts with SDL3 event subsystem. Run this demo on a headless Pharo to appreciate it correctly.'.
+	Example:
+		./pharo Pharo.image eval 'SDL3Demo run11TouchFingers'
+	"
+
+	| sdl demo quit |
+	self
+		assert: (SDL2 wasInit: 16384) = 0 "SDL_INIT_EVENTS"
+		description: 'SDL2 is already initialized'.
+
+	sdl := LibSDL3 uniqueInstance.
+
+	sdl setHintName: SDL_HINT_TOUCH_MOUSE_EVENTS value: '0'.
+	sdl setHintName: SDL_HINT_TRACKPAD_IS_TOUCH_ONLY value: '1'.
+"	sdl setHintName: SDL_HINT_MOUSE_TOUCH_EVENTS value: '1'."
+
+	demo := self new.
+	demo initialExtent: 400 asPoint.
+	demo ensureInitSDL3; open.
+
+	quit := false.
+
+
+	"Main loop"
+	[ quit ] whileFalse: [ 
+
+		demo clearColor: Color blue muchDarker.
+
+		"Process all pending events"
+		demo pollEventsDo: [ :evt |
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ] ].
+
+		demo color: Color white.
+		sdl allTouchIDs do: [ :touchID |
+			(sdl allFingersOf: touchID) do: [ :finger |
+				demo renderRectangle:
+					(Rectangle
+						center: finger position * demo initialExtent
+						extent: 20 asPoint) ] ].
+
+		demo present.
+
+		"Do a little wait before next frame"
+		16 milliSeconds wait ].
+
+	"Tear down"
+	demo close; ensureQuitSDL3
+]
+
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
@@ -823,6 +929,13 @@ SDL3Demo >> present [
 ]
 
 { #category : 'renderer' }
+SDL3Demo >> renderRectangle: rectangle [
+
+	sdl assertSuccess:
+		(renderer renderRect: (SDL_FRect newFrom: rectangle))
+]
+
+{ #category : 'renderer' }
 SDL3Demo >> renderTexture: texture at: aSDLFRect [
 
 	sdl assertSuccess:
@@ -830,6 +943,12 @@ SDL3Demo >> renderTexture: texture at: aSDLFRect [
 			renderTexture: texture
 			srcrect: nil
 			dstrect: aSDLFRect)
+]
+
+{ #category : 'renderer' }
+SDL3Demo >> scale: aFloat [
+
+	sdl assertSuccess: (renderer renderScaleX: aFloat scaleY: aFloat)
 ]
 
 { #category : 'utilities' }
