@@ -188,16 +188,9 @@ SDL3Demo class >> run02LogState [
 			logs add: each -> (sdl perform: each) ].
 
 		logs add: ''.
-		logs add: #getMouseStateX:y:.
-		ExternalAddress
-			allocate: ExternalType float byteSize
-			allocate: ExternalType float byteSize
-			during: [ :pointerForX :pointerForY |
-				| state |
-				state := sdl getMouseStateX: pointerForX y: pointerForY.
-				logs add: 'x: ', (pointerForX floatAt: 1) asString.
-				logs add: 'y: ', (pointerForY floatAt: 1) asString.
-				logs addAll: (SDL3MouseButtonFlags allValuesIn: state) ].
+		logs add: #MOUSE.
+		logs add: #position -> sdl mousePosition.
+		logs add: #state -> (SDL3MouseButtonFlags allValuesIn: (sdl getMouseStateX: ExternalAddress null y: ExternalAddress null)).
 
 		sdl getModState in: [ :modState |
 			modState > 0 ifTrue: [ 
