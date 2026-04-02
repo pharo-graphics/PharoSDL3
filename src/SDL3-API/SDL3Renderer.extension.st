@@ -274,7 +274,7 @@ SDL3Renderer >> renderDebugTextX: x y: y str: str [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Renderer >> renderDrawBlendModeBlendMode: blendMode [
+SDL3Renderer >> renderDrawBlendMode: blendMode [
 
 	^ self ffiLibrary
 		  setRenderDrawBlendModeRenderer: self
