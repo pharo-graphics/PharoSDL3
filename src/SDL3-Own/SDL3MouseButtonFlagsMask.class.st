@@ -32,11 +32,11 @@ SDL3MouseButtonFlagsMask class >> enumDecl [
 	"self initializeEnumeration; rebuildEnumAccessors"
 	
 	^ #(
-		#left    1 
-		#middle    2
-		#right    4
-		#x1   8
-		#x2   16
+		SDL_BUTTON_LMASK    1 
+		SDL_BUTTON_MMASK    2
+		SDL_BUTTON_RMASK    4
+		SDL_BUTTON_X1MASK   8
+		SDL_BUTTON_X2MASK   16
 		)
 ]
 
