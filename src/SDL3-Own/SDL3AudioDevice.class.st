@@ -13,36 +13,35 @@ Class {
 		'DefaultPlaybackAudioDeviceID',
 		'DefaultRecordingAudioDeviceID'
 	],
-	#category : 'SDL3-Base',
-	#package : 'SDL3',
-	#tag : 'Base'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultPlayback [
 
 	^ DefaultPlaybackAudioDeviceID
 ]
 
-{ #category : 'class initialization' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultPlaybackAudioDeviceID [
 
 	^ 16rFFFFFFFF
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultRecording [
 
 	^ DefaultRecordingAudioDeviceID
 ]
 
-{ #category : 'class initialization' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultRecordingAudioDeviceID [
 
 	^ 16rFFFFFFFE
 ]
 
-{ #category : 'accessing' }
+{ #category : 'instance creation' }
 SDL3AudioDevice class >> id: anInteger [
 
 	^ self basicNew
