@@ -134,6 +134,27 @@ SDL3BasicTest >> test06Properties [
 ]
 
 { #category : 'tests' }
+SDL3BasicTest >> test06bPropertyGroup [
+
+	| properties |
+	properties := sdl newPropertyGroup.
+
+	self assert: (properties stringAt: 'bonjour' put: 'hola').
+
+	self assert: (properties includesKey: 'bonjour').
+
+	self assert: (properties stringAt: 'bonjour' ifAbsent: 'none') equals: 'hola'.
+
+	self assert: (properties typeAt: 'bonjour') equals: SDL3PropertyType string.
+
+	properties removeKey: 'bonjour'.
+	
+	self deny: (properties includesKey: 'bonjour').
+
+	properties destroy
+]
+
+{ #category : 'tests' }
 SDL3BasicTest >> test07SubsystemLifecycle [
 	"Note: This test initializes and quits events subsystem independently if it was already initialized"
 

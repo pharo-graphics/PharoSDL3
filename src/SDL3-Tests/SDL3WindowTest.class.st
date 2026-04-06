@@ -304,6 +304,43 @@ SDL3WindowTest >> test08CreateWindowWithProperties [
 	window destroy
 ]
 
+{ #category : 'tests' }
+SDL3WindowTest >> test08bCreateWindowWithPropertyGroup [
+
+	| rectangle p window |
+	rectangle := 100 @ 200 extent: 300 @ 400.
+
+	p := sdl newPropertyGroup
+		stringAt: SDL_PROP_WINDOW_CREATE_TITLE_STRING
+			put: #test08CreateWindowWithProperties;
+		numberAt: SDL_PROP_WINDOW_CREATE_X_NUMBER
+			put: rectangle left;
+		numberAt: SDL_PROP_WINDOW_CREATE_Y_NUMBER
+			put: rectangle top;
+		numberAt: SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER
+			put: rectangle width;
+		numberAt: SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER
+			put: rectangle height;
+		numberAt: SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER
+			put: SDL3WindowFlags highPixelDensity | SDL3WindowFlags resizable;
+		yourself.
+
+	window := sdl newWindowWithProperties: p.
+	p destroy.
+
+	self waitToSee.
+
+	self assert: window title equals: #test08CreateWindowWithProperties asString.
+	self assert: window position equals: rectangle origin.
+	self assert: window extent equals: rectangle extent.
+	self deny: (SDL3WindowFlags highPixelDensity & window flags) equals: 0.
+	self deny: (SDL3WindowFlags resizable & window flags) equals: 0.
+	self assert: (SDL3WindowFlags mouseCapture & window flags) equals: 0.
+
+	"Tear down"
+	window destroy
+]
+
 { #category : 'private' }
 SDL3WindowTest >> waitToSee [
 	"Perform a wait to consume events and let user visually check the window"

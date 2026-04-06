@@ -236,6 +236,18 @@ LibSDL3 >> mousePosition [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> newPropertyGroup [
+	"Anwer a new group of properties. Sender is responsible of releasing it with #destroy. 
+	However, all properties are automatically destroyed on `SDL_Quit()`."
+
+	| id |
+	id := self newProperties.
+	self assertSuccess: id > 0.
+
+	^ SDL3PropertyGroup id: id
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> numberOfDisplays [
 
 	| valueHolder |
