@@ -8,6 +8,17 @@ SDL3Renderer >> gpuRenderStateClear [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Renderer >> outputExtent [
+	
+	| widthHolder heightHolder |
+	widthHolder := FFIInt32 newValueHolder.
+	heightHolder := FFIInt32 newValueHolder.
+
+	self getRenderOutputSizeIntoW: widthHolder h: heightHolder.
+	^ widthHolder value @ heightHolder value
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Renderer >> renderDrawColor: aColor [
 
 	^ self

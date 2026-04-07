@@ -111,6 +111,8 @@ SDL3WindowTest >> test03BasicRender [
 	renderer := window newRendererFor: nil.
 	renderer assertNotNullReturn.
 
+	self assert: renderer outputExtent equals: 400@300.
+
 	"Clear background with gray color"
 	self assert: (renderer renderDrawColor: Color gray).
 	self assert: renderer renderClear.
