@@ -38,11 +38,17 @@ SDL3MacroDefinedFlagTest >> testAllValuesIn [
 { #category : 'tests' }
 SDL3MacroDefinedFlagTest >> testFlagOperations [
 
+	self assert: SDL3InitFlags video asInteger equals: 32.
+	self assert: SDL3InitFlags audio asInteger equals: 16.
+
 	self assert: SDL3InitFlags video value equals: 32.
 	self assert: SDL3InitFlags audio value equals: 16.
 
 	self assert: SDL3InitFlags video | SDL3InitFlags audio equals: 48.
-
 	self assert: (SDL3InitFlags video bitOr: SDL3InitFlags audio) equals: 48.
 
+	self assert: (SDL3InitFlags video & 48) equals: 32.
+	self assert: (SDL3InitFlags video bitAnd: 48) equals: 32.
+
+	self assert: (SDL3InitFlags video anyMask: 48)
 ]

@@ -20,7 +20,7 @@ SDL3MacroDefinedFlag class >> allValuesIn: anInteger [
 { #category : 'flag operations' }
 SDL3MacroDefinedFlag >> & another [
 
-	^ self asInteger & another asInteger
+	^ value bitAnd: another asInteger
 ]
 
 { #category : 'comparing' }
@@ -30,13 +30,25 @@ SDL3MacroDefinedFlag >> <= another [
 ]
 
 { #category : 'flag operations' }
-SDL3MacroDefinedFlag >> bitOr: anInteger [
+SDL3MacroDefinedFlag >> anyMask: another [ 
 
-	^ self asInteger bitOr: anInteger
+	^ value anyMask: another asInteger
+]
+
+{ #category : 'flag operations' }
+SDL3MacroDefinedFlag >> bitAnd: another [
+
+	^ value bitAnd: another asInteger
+]
+
+{ #category : 'flag operations' }
+SDL3MacroDefinedFlag >> bitOr: another [
+
+	^ value bitOr: another asInteger
 ]
 
 { #category : 'flag operations' }
 SDL3MacroDefinedFlag >> | another [
 
-	^ self asInteger | another asInteger
+	^ value bitOr: another asInteger
 ]
