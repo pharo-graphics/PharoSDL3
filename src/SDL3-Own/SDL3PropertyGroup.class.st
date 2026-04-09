@@ -3,23 +3,10 @@ I represent a property group. SDL3 doesn't provide an equivalent to me, just my 
 "
 Class {
 	#name : 'SDL3PropertyGroup',
-	#superclass : 'Object',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
-	#instVars : [
-		'id'
-	],
+	#superclass : 'SDL3BaseIDObject',
 	#category : 'SDL3-Own',
 	#package : 'SDL3-Own'
 }
-
-{ #category : 'instance creation' }
-SDL3PropertyGroup class >> id: anInteger [
-
-	^ self basicNew
-		initializeWithID: anInteger;
-		yourself
-]
 
 { #category : 'converting' }
 SDL3PropertyGroup >> asInteger [
@@ -76,22 +63,9 @@ SDL3PropertyGroup >> floatAt: name put: value [
 ]
 
 { #category : 'accessing' }
-SDL3PropertyGroup >> id [
-
-	^ id
-]
-
-{ #category : 'accessing' }
 SDL3PropertyGroup >> includesKey: name [
 
 	^ self ffiLibrary hasPropertyProps: id name: name
-]
-
-{ #category : 'initialization' }
-SDL3PropertyGroup >> initializeWithID: anInteger [
-
-	self initialize.
-	id := anInteger
 ]
 
 { #category : 'accessing' }

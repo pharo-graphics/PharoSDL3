@@ -3,12 +3,7 @@ I represent an audio device. SDL3 doesn't provide an equivalent to me, just my i
 "
 Class {
 	#name : 'SDL3AudioDevice',
-	#superclass : 'Object',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
-	#instVars : [
-		'id'
-	],
+	#superclass : 'SDL3BaseIDObject',
 	#classVars : [
 		'DefaultPlaybackAudioDeviceID',
 		'DefaultRecordingAudioDeviceID'
@@ -39,14 +34,6 @@ SDL3AudioDevice class >> defaultRecording [
 SDL3AudioDevice class >> defaultRecordingAudioDeviceID [
 
 	^ 16rFFFFFFFE
-]
-
-{ #category : 'instance creation' }
-SDL3AudioDevice class >> id: anInteger [
-
-	^ self basicNew
-		initializeWithID: anInteger;
-		yourself
 ]
 
 { #category : 'class initialization' }
@@ -127,19 +114,6 @@ SDL3AudioDevice >> getChannelMapIntoCount: count [
 SDL3AudioDevice >> getFormatIntoSpec: spec sampleFrames: sample_frames [
 
 	^ self ffiLibrary getAudioDeviceFormatDevid: id spec: spec sampleFrames: sample_frames
-]
-
-{ #category : 'accessing' }
-SDL3AudioDevice >> id [
-
-	^ id
-]
-
-{ #category : 'initialization' }
-SDL3AudioDevice >> initializeWithID: anInteger [
-
-	self initialize.
-	id := anInteger
 ]
 
 { #category : 'accessing - generated' }
