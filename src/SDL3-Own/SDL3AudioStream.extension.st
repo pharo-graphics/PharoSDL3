@@ -7,7 +7,7 @@ SDL3AudioStream >> device [
 	audioDeviceID := self deviceID.
 
 	audioDeviceID = 0 ifTrue: [
-		SDL3Error new signal: '0 if not bound or invalid' ].
+		SDL3Error new signal: 'SDL_AudioStream is invalid or not bound' ].
 
 	^ SDL3AudioDevice id: audioDeviceID
 ]

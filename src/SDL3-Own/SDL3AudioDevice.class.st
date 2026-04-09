@@ -5,32 +5,32 @@ Class {
 	#name : 'SDL3AudioDevice',
 	#superclass : 'SDL3BaseIDObject',
 	#classVars : [
-		'DefaultPlaybackAudioDeviceID',
-		'DefaultRecordingAudioDeviceID'
+		'DefaultPlaybackAudioDevice',
+		'DefaultRecordingAudioDevice'
 	],
 	#category : 'SDL3-Own',
 	#package : 'SDL3-Own'
 }
 
-{ #category : 'accessing' }
+{ #category : 'as yet unclassified' }
 SDL3AudioDevice class >> defaultPlayback [
 
-	^ DefaultPlaybackAudioDeviceID
+	^ DefaultPlaybackAudioDevice
 ]
 
-{ #category : 'accessing' }
+{ #category : 'class initialization' }
 SDL3AudioDevice class >> defaultPlaybackAudioDeviceID [
 
 	^ 16rFFFFFFFF
 ]
 
-{ #category : 'accessing' }
+{ #category : 'as yet unclassified' }
 SDL3AudioDevice class >> defaultRecording [
 
-	^ DefaultRecordingAudioDeviceID
+	^ DefaultRecordingAudioDevice
 ]
 
-{ #category : 'accessing' }
+{ #category : 'class initialization' }
 SDL3AudioDevice class >> defaultRecordingAudioDeviceID [
 
 	^ 16rFFFFFFFE
@@ -52,7 +52,7 @@ SDL3AudioDevice class >> initialize [
 	 */
 	#define SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK ((SDL_AudioDeviceID) 0xFFFFFFFFu)"
 
-	DefaultPlaybackAudioDeviceID := self id: self defaultPlaybackAudioDeviceID.
+	DefaultPlaybackAudioDevice := self id: self defaultPlaybackAudioDeviceID.
 
 	"/**
 	 * A value used to request a default recording audio device.
@@ -65,7 +65,7 @@ SDL3AudioDevice class >> initialize [
 	 */
 	#define SDL_AUDIO_DEVICE_DEFAULT_RECORDING ((SDL_AudioDeviceID) 0xFFFFFFFEu)
 	"
-	DefaultRecordingAudioDeviceID := self id: self defaultRecordingAudioDeviceID
+	DefaultRecordingAudioDevice := self id: self defaultRecordingAudioDeviceID
 ]
 
 { #category : 'accessing - generated' }
@@ -88,8 +88,23 @@ SDL3AudioDevice >> bindAudioStreams: streams numStreams: num_streams [
 
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> close [
+	"Close an opened device. This may block while pending audio data is played by the
+	hardware, so that applications don't drop the last buffer of data they supplied if
+	terminating immediately afterwards."
 
 	^ self ffiLibrary closeAudioDevice: id
+]
+
+{ #category : 'accessing' }
+SDL3AudioDevice >> formatSpec [
+
+	| spec |
+	spec := SDL_AudioSpec new.
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getAudioDeviceFormatDevid: id spec: spec sampleFrames: nil).
+	
+	^ spec
 ]
 
 { #category : 'accessing - generated' }
@@ -118,6 +133,7 @@ SDL3AudioDevice >> getFormatIntoSpec: spec sampleFrames: sample_frames [
 
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> isPaused [
+	"Answer whether this audio device is paused. This query only applies to logical devices (non-physical)."
 
 	^ self ffiLibrary audioDevicePaused: id
 ]
@@ -132,6 +148,20 @@ SDL3AudioDevice >> isPhysical [
 SDL3AudioDevice >> isPlayback [
 
 	^ self ffiLibrary isAudioDevicePlayback: id
+]
+
+{ #category : 'accessing' }
+SDL3AudioDevice >> millisecondsBufferSize [
+	"Answer how many milliseconds are buffered by this device"
+
+	| spec valueHolder |
+	valueHolder := FFIInt32 newValueHolder.
+	spec := SDL_AudioSpec new.
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getAudioDeviceFormatDevid: id spec: spec sampleFrames: valueHolder).
+	
+	^ (valueHolder value * 1000) // spec freq
 ]
 
 { #category : 'accessing - generated' }
@@ -160,6 +190,33 @@ SDL3AudioDevice >> openStreamSpec: spec callback: callback userdata: userdata [
 SDL3AudioDevice >> pause [
 
 	^ self ffiLibrary pauseAudioDevice: id
+]
+
+{ #category : 'printing' }
+SDL3AudioDevice >> printOn: aStream [
+
+	super printOn: aStream.
+
+	aStream
+		nextPutAll: '(id: ';
+		print: id.
+
+	self isPlayback
+		ifTrue: [ aStream nextPutAll: ' playback' ]
+		ifFalse: [ aStream nextPutAll: ' recording' ].
+
+	"Only logical devices can be paused/unpaused"
+	self isPhysical
+		ifFalse: [
+			aStream nextPutAll: ' logical'.
+			self isPaused ifTrue: [ aStream nextPutAll: ' paused' ] ]
+		ifTrue: [ aStream nextPutAll: ' physical' ].
+
+	aStream
+		nextPutAll: ' name: ';
+		print: self name.
+
+	aStream nextPut: $)
 ]
 
 { #category : 'accessing - generated' }

@@ -28,6 +28,13 @@ LibSDL3 >> allAudioPlaybackDeviceNames [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allAudioPlaybackDevices [
+	"Answer an array of currently-connected audio playback devices"
+
+	^ self allAudioPlaybackDeviceIDs collect: [ :id | SDL3AudioDevice id: id ]
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allAudioRecordingDeviceIDs [
 	"Answer an array of currently-connected audio recording device IDs."
 
@@ -45,6 +52,13 @@ LibSDL3 >> allAudioRecordingDeviceIDs [
 LibSDL3 >> allAudioRecordingDeviceNames [
 
 	^ self allAudioRecordingDeviceIDs collect: [ :eachID | self getAudioDeviceName: eachID ]
+]
+
+{ #category : '*SDL3-Own' }
+LibSDL3 >> allAudioRecordingDevices [
+	"Answer an array of currently-connected audio recording devices"
+
+	^ self allAudioRecordingDeviceIDs collect: [ :id | SDL3AudioDevice id: id ]
 ]
 
 { #category : '*SDL3-Own' }
