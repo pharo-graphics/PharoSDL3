@@ -1,6 +1,12 @@
 Extension { #name : 'SDL3Window' }
 
 { #category : '*SDL3-Own' }
+SDL3Window >> display [
+
+	^ SDL3Display id: self displayID
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> extent [
 	"Answer my logical extent"
 

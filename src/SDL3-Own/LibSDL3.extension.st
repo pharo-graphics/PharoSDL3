@@ -143,16 +143,6 @@ LibSDL3 >> assertSuccess: aReturnedValue [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> boundsOfDisplay: aDisplayID [
-	"Answer the desktop rectangle of a display."
-
-	| sdlRect |
-	sdlRect := SDL3Rect new.
-	self getDisplayBoundsDisplayID: aDisplayID rect: sdlRect.
-	^ sdlRect asRectangle
-]
-
-{ #category : '*SDL3-Own' }
 LibSDL3 >> clipboardMimeTypes [
 
 	| countValueHolder address array |
@@ -194,24 +184,10 @@ LibSDL3 >> displayIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> fullscreenDisplayModesOf: aDisplayID [
-	"Answer an array of fullscreen display modes available on a display."
+LibSDL3 >> displays [
+	"Answer an array of currently connected displays"
 
-	| countValueHolder first count array |
-	countValueHolder := FFIInt32 newValueHolder.
-
-	first := self
-		getFullscreenDisplayModesDisplayID: aDisplayID
-		count: countValueHolder.
-	count := countValueHolder value.
-
-	array := first
-		readStructArrayFromPointers: SDL3DisplayMode
-		size: count.
-
-	self free: first.
-
-	^ array
+	^ self displayIDs collect: [ :id | SDL3Display id: id ]
 ]
 
 { #category : '*SDL3-Own' }
@@ -303,16 +279,6 @@ LibSDL3 >> timeToDateTime: ticks localTime: isLocal [
 			 localTime: isLocal).
 
 	^ dateAndTimeHolder value
-]
-
-{ #category : '*SDL3-Own' }
-LibSDL3 >> usableBoundsOfDisplay: aDisplayID [
-	"Answer the desktop usable rectangle of a display."
-
-	| sdlRect |
-	sdlRect := SDL3Rect new.
-	self getDisplayUsableBoundsDisplayID: aDisplayID rect: sdlRect.
-	^ sdlRect asRectangle
 ]
 
 { #category : '*SDL3-Own' }

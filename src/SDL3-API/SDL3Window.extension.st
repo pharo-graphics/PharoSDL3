@@ -40,7 +40,7 @@ SDL3Window >> destroySurface [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> display [
+SDL3Window >> displayID [
 
 	^ self ffiLibrary getDisplayForWindow: self
 ]

@@ -160,31 +160,20 @@ SDL3Demo class >> run02LogState [
 
 		logs add: ''.
 		logs add: #DISPLAYS.
-		logs add: #getPrimaryDisplay -> sdl getPrimaryDisplay.
-		logs add: #numberOfDisplays -> sdl numberOfDisplays.
-		sdl displayIDs do: [ :eachId |
-			logs add: ''.
-			logs add: 'DisplayID' -> eachId.
-			logs add: 'Name' -> (sdl getDisplayName: eachId).
-			logs add: 'Desktop display mode' -> (sdl getDesktopDisplayMode: eachId).
-			logs add: 'Current display mode' -> (sdl getCurrentDisplayMode: eachId).
-			logs add: 'All display modes' -> (sdl fullscreenDisplayModesOf: eachId).
-			logs add: 'Scale' -> (sdl getDisplayContentScale: eachId).
-			logs add: 'Orientation (current)' -> (sdl getCurrentDisplayOrientation: eachId).
-			logs add: 'Orientation (natural)' -> (sdl getNaturalDisplayOrientation: eachId).
-			logs add: 'Bounds' -> (sdl boundsOfDisplay: eachId).
-			logs add: 'Bounds (usable)' -> (sdl usableBoundsOfDisplay: eachId) ].
+		sdl displays
+			do: [ :eachDisplay |
+				#(id name isPrimary contentScale bounds usableBounds desktopDisplayMode currentDisplayMode fullscreenDisplayModes currentDisplayOrientation naturalDisplayOrientation) do: [ :each |
+					logs add: each -> (eachDisplay perform: each) ] ]
+			separatedBy: [ logs add: '' ].
 
 		logs add: ''.
 		logs add: #WINDOW.
-		#(displayScale extent isKeyboardGrabbed isMouseGrabbed pixelDensity
-		pixelFormat title) do: [ :each |
+		#(title extent displayScale pixelDensity pixelFormat isKeyboardGrabbed isMouseGrabbed) do: [ :each |
 			logs add: each -> (demo window perform: each) ].
 
 		logs add: ''.
 		logs add: #AUDIO.
-		#(#allAudioPlaybackDeviceNames #allAudioRecordingDeviceNames
-		#getCurrentAudioDriver #allAudioDrivers) do: [ :each |
+		#(allAudioPlaybackDeviceNames allAudioRecordingDeviceNames getCurrentAudioDriver allAudioDrivers) do: [ :each |
 			logs add: each -> (sdl perform: each) ].
 
 		logs add: ''.

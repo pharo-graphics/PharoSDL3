@@ -80,5 +80,6 @@ SDL3VideoTest >> test03RenderDrivers [
 { #category : 'tests' }
 SDL3VideoTest >> test04QueryDisplays [
 
-	self assert: sdl displayIDs size equals: sdl numberOfDisplays
+	self assert: sdl displayIDs size equals: sdl numberOfDisplays.
+	self assert: sdl displays size equals: sdl numberOfDisplays
 ]
