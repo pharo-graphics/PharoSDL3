@@ -168,7 +168,7 @@ SDL3Demo class >> run02LogState [
 
 		logs add: ''.
 		logs add: #WINDOW.
-		#(title extent displayScale pixelDensity pixelFormat isKeyboardGrabbed isMouseGrabbed) do: [ :each |
+		#(title extent displayID displayScale pixelDensity pixelFormat isKeyboardGrabbed isMouseGrabbed) do: [ :each |
 			logs add: each -> (demo window perform: each) ].
 
 		logs add: ''.
