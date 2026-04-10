@@ -177,11 +177,14 @@ SDL3Demo class >> run02LogState [
 		#(getCurrentAudioDriver allAudioDrivers) do: [ :each |
 			logs add: each -> (sdl perform: each) ].
 		logs add: ''.
-		sdl allAudioPlaybackDevices, sdl allAudioRecordingDevices
-			do: [ :eachAudioDevice |
-				#(id name gain formatSpec millisecondsBufferSize isPlayback isPhysical) do: [ :each |
-					logs add: each -> (eachAudioDevice perform: each) ] ]
-			separatedBy: [ logs add: '' ].
+		sdl allAudioPlaybackDevices, sdl allAudioRecordingDevices do: [ :eachAudioDevice |
+			logs add: (String streamContents: [ :stream |
+				#(id name isPlayback isPhysical formatSpec gain millisecondsBufferSize) do: [ :each |
+					stream
+						nextPutAll: each;
+						nextPutAll: ': ';
+						print: (eachAudioDevice perform: each);
+						space ] ]) ].
 
 		logs add: ''.
 		logs add: #MOUSE.
