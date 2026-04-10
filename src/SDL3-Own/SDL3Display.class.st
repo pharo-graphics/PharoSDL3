@@ -27,7 +27,7 @@ SDL3Display class >> primaryDisplayID [
 SDL3Display >> bounds [
 
 	| sdlRect |
-	sdlRect := SDL3Rect new.
+	sdlRect := SDL_Rect new.
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary
@@ -80,7 +80,7 @@ SDL3Display >> fullscreenDisplayModes [
 	count := countValueHolder value.
 
 	array := first
-		readStructArrayFromPointers: SDL3DisplayMode
+		readStructArrayFromPointers: SDL_DisplayMode
 		size: count.
 
 	self ffiLibrary free: first.
@@ -153,7 +153,7 @@ SDL3Display >> propertiesID [
 SDL3Display >> usableBounds [
 
 	| sdlRect |
-	sdlRect := SDL3Rect new.
+	sdlRect := SDL_Rect new.
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary

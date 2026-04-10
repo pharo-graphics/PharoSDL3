@@ -9,6 +9,10 @@ Class {
 	#instVars : [
 		'id'
 	],
+	#pools : [
+		'SDL3Typedef',
+		'SDL3ZConstants'
+	],
 	#category : 'SDL3-Own',
 	#package : 'SDL3-Own'
 }
