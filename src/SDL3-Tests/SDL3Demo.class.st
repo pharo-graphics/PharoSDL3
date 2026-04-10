@@ -8,7 +8,8 @@ Class {
 		'map',
 		'dialogFileCallback',
 		'sdl',
-		'initialExtent'
+		'initialExtent',
+		'initialWindowFlags'
 	],
 	#pools : [
 		'SDL3EventType',
@@ -866,6 +867,12 @@ SDL3Demo >> initialExtent: anObject [
 	initialExtent := anObject
 ]
 
+{ #category : 'accessing' }
+SDL3Demo >> initialWindowFlags: anInteger [
+
+	initialWindowFlags := anInteger
+]
+
 { #category : 'initialization' }
 SDL3Demo >> initialize [
 
@@ -876,6 +883,7 @@ SDL3Demo >> initialize [
 	event := SDL3Event new.
 	map := SDL3EventMap new.
 	
+	initialWindowFlags := SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
 	initialExtent := 1280 @ 720 "720p"
 ]
 
@@ -887,7 +895,7 @@ SDL3Demo >> open [
 			newWindowTitle: self className
 			w: initialExtent x
 			h: initialExtent y
-			flags: SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
+			flags: initialWindowFlags.
 	window assertNotNullReturn.
 
 	renderer := window newRendererFor: nil.
