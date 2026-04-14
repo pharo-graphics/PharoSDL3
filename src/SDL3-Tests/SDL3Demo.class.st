@@ -9,7 +9,8 @@ Class {
 		'dialogFileCallback',
 		'sdl',
 		'initialExtent',
-		'initialWindowFlags'
+		'initialWindowFlags',
+		'isCaptured'
 	],
 	#pools : [
 		'SDL3EventType',
@@ -254,7 +255,7 @@ SDL3Demo class >> run03LogEvents [
 
 		"Process all pending events"
 		demo pollEventsDo: [ :evt |
-			logs addLast: evt asString.
+			logs addLast: evt description "asString".
 
 			"Handle quit"
 			evt type = SDL3EventType quit ifTrue: [
