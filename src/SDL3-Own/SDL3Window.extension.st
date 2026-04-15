@@ -39,6 +39,19 @@ SDL3Window >> extent: aPoint [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> height [
+	"Answer my logical extent"
+
+	| heightValueHolder |
+	heightValueHolder := FFIInt32 newValueHolder.
+
+	self ffiLibrary assertSuccess:
+		(self getSizeIntoW: ExternalAddress null h: heightValueHolder).
+
+	^ heightValueHolder value
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isBordered [
 
 	^ self isBorderless not
@@ -91,4 +104,17 @@ SDL3Window >> position [
 SDL3Window >> position: aPoint [
 
 	self ffiLibrary assertSuccess: (self positionX: aPoint x y: aPoint y)
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> width [
+	"Answer my logical width"
+
+	| widthValueHolder |
+	widthValueHolder := FFIInt32 newValueHolder.
+
+	self ffiLibrary assertSuccess:
+		(self getSizeIntoW: widthValueHolder h: ExternalAddress null).
+
+	^ widthValueHolder value
 ]

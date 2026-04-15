@@ -67,6 +67,8 @@ SDL3WindowTest >> test01CreateWindow [
 
 	self assert: window title equals: #test01CreateWindow.
 	self assert: window extent equals: 800 @ 600.
+	self assert: window width equals: 800.
+	self assert: window height equals: 600.
 	self assert: window displayScale > 0.0.
 	self assert: window pixelDensity > 0.0.
 	self assert: window isBordered.
