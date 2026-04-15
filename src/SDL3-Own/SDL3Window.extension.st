@@ -27,6 +27,12 @@ SDL3Window >> extent: aPoint [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isFullscreen [
+
+	^ self flags anyMask: SDL3WindowFlags fullscreen
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> newGPURenderer [
 
 	^ self newRendererFor: 'gpu'

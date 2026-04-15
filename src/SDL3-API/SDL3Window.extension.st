@@ -90,6 +90,12 @@ SDL3Window >> fullscreen: fullscreen [
 ]
 
 { #category : '*SDL3-API' }
+SDL3Window >> fullscreenMode [
+
+	^ self ffiLibrary getWindowFullscreenMode: self
+]
+
+{ #category : '*SDL3-API' }
 SDL3Window >> fullscreenMode: mode [
 
 	^ self ffiLibrary setWindowFullscreenModeWindow: self mode: mode
@@ -221,12 +227,6 @@ SDL3Window >> icon: icon [
 SDL3Window >> id [
 
 	^ self ffiLibrary getWindowID: self
-]
-
-{ #category : '*SDL3-API' }
-SDL3Window >> isFullscreenMode [
-
-	^ self ffiLibrary getWindowFullscreenMode: self
 ]
 
 { #category : '*SDL3-API' }

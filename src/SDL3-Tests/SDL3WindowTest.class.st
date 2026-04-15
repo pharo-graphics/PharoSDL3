@@ -224,19 +224,26 @@ SDL3WindowTest >> test06Fullscreen [
 			newWindowTitle: #test06Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
 	window assertNotNullReturn.
-
+	
 	renderer := window newRendererFor: nil.
 	renderer assertNotNullReturn.
 
 	"Render text (debugging API)"
 	renderer
 		renderDrawColor: Color white;
-		renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN'.
-
-	sdl assertSuccess: renderer renderPresent.
+		renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN';
+		renderPresent.
 
 	self waitToSee.
+	self assert: window isFullscreen description: #isFullscreen.
 	
+	window fullscreen: false.
+	renderer
+		renderDebugTextX: 100 y: 100 str: 'Good bye FULLSCREEN';
+		renderPresent.
+	self waitToSee.
+	self deny: window isFullscreen description: #isFullscreen.
+
 	"Tear down"
 	renderer destroy.
 	window destroy
