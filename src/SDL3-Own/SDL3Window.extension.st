@@ -7,6 +7,18 @@ SDL3Window >> display [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> displayScale [
+
+	| scale |
+	scale := self ffiLibrary getWindowDisplayScale: self.
+
+	"The function returns the display scale, or 0.0f on failure"
+	self ffiLibrary assertSuccess: scale > 0.0.
+
+	^ scale
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> extent [
 	"Answer my logical extent"
 
@@ -27,6 +39,18 @@ SDL3Window >> extent: aPoint [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isBordered [
+
+	^ self isBorderless not
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> isBorderless [
+
+	^ self flags anyMask: SDL3WindowFlags borderless
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isFullscreen [
 
 	^ self flags anyMask: SDL3WindowFlags fullscreen
@@ -36,6 +60,18 @@ SDL3Window >> isFullscreen [
 SDL3Window >> newGPURenderer [
 
 	^ self newRendererFor: 'gpu'
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> pixelDensity [
+
+	| density |
+	density := self ffiLibrary getWindowPixelDensity: self.
+
+	"The function returns the display scale, or 0.0f on failure"
+	self ffiLibrary assertSuccess: density > 0.0.
+
+	^ density
 ]
 
 { #category : '*SDL3-Own' }

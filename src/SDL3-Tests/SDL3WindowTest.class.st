@@ -65,7 +65,17 @@ SDL3WindowTest >> test01CreateWindow [
 			w: 800 h: 600 flags: 0.
 	window assertNotNullReturn.
 
+	self assert: window title equals: #test01CreateWindow.
 	self assert: window extent equals: 800 @ 600.
+	self assert: window displayScale > 0.0.
+	self assert: window pixelDensity > 0.0.
+	self assert: window isBordered.
+	self deny: window isFullscreen.
+	self deny: window isKeyboardGrabbed.
+	self deny: window isMouseGrabbed.
+	self deny: window isRelativeMouseMode.
+	self deny: window isScreenKeyboardShown.
+	self deny: window isTextInputActive.
 
 	self waitToSee.
 
@@ -347,6 +357,27 @@ SDL3WindowTest >> test08bCreateWindowWithPropertyGroup [
 	self assert: (SDL3WindowFlags mouseCapture & window flags) equals: 0.
 
 	"Tear down"
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test09Bordered [
+
+	| window |
+	window :=
+		sdl
+			newWindowTitle: #test01CreateWindow
+			w: 800 h: 600 flags: SDL3WindowFlags borderless.
+	window assertNotNullReturn.
+
+	self deny: window isBordered description: #isBordered.
+
+	self waitToSee.
+	window bordered: true.
+	self waitToSee.
+	
+	self assert: window isBordered description: #isBordered.
+
 	window destroy
 ]
 

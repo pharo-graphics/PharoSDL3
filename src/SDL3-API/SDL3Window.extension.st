@@ -46,12 +46,6 @@ SDL3Window >> displayID [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> displayScale [
-
-	^ self ffiLibrary getWindowDisplayScale: self
-]
-
-{ #category : '*SDL3-API' }
 SDL3Window >> eglSurface [
 
 	^ self ffiLibrary eglGetWindowSurface: self
@@ -365,12 +359,6 @@ SDL3Window >> parent [
 SDL3Window >> parent: parent [
 
 	^ self ffiLibrary setWindowParentWindow: self parent: parent
-]
-
-{ #category : '*SDL3-API' }
-SDL3Window >> pixelDensity [
-
-	^ self ffiLibrary getWindowPixelDensity: self
 ]
 
 { #category : '*SDL3-API' }
