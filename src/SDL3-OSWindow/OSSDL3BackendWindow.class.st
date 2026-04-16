@@ -49,9 +49,8 @@ OSSDL3BackendWindow class >> screenScaleFactorBaseDPI: aNumber [
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> borderless [
-	"Answer true if the window is borderless."
 
-	^ (sdl3Window flags anyMask: SDL3WindowFlags borderless)
+	^ sdl3Window isBorderless
 ]
 
 { #category : 'accessing' }
@@ -135,7 +134,6 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> hide [
-	"Hide the window."
 
 	sdl3Window hide
 ]
@@ -185,14 +183,12 @@ OSSDL3BackendWindow >> lookupSystemCursor: aCursor ifNotFound: aBlock [
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> maximize [
-	"Maximize the window."
 
 	sdl3Window maximize
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> minimize [
-	"Minimize the window."
 
 	sdl3Window minimize
 ]
@@ -231,9 +227,8 @@ OSSDL3BackendWindow >> raise [
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> resizable [
-	"Answer true if the window is resizable."
 
-	^ sdl3Window flags anyMask: SDL3WindowFlags resizable
+	^ sdl3Window isResizable
 ]
 
 { #category : 'accessing' }
