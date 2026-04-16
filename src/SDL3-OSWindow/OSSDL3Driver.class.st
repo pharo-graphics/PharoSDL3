@@ -7,9 +7,10 @@ and creating SDL3-based OSWindows.
 Class {
 	#name : 'OSSDL3Driver',
 	#superclass : 'OSWindowDriver',
+	#traits : 'LibTSDL3',
+	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'eventProcessor',
-		'sdl'
+		'eventProcessor'
 	],
 	#classVars : [
 		'BackendWindowRegistry',
@@ -49,14 +50,14 @@ OSSDL3Driver class >> isSuitable [
 OSSDL3Driver >> clipboardText [
 	"Answer the current text in the system clipboard."
 
-	^ sdl utf8StringFromExternalAddress: sdl getClipboardText
+	^ self ffiLibrary utf8StringFromExternalAddress: self ffiLibrary getClipboardText
 ]
 
 { #category : 'clipboard' }
 OSSDL3Driver >> clipboardText: aString [
 	"Set the system clipboard text to aString."
 
-	sdl setClipboardText: aString
+	self ffiLibrary setClipboardText: aString
 ]
 
 { #category : 'window creation' }
@@ -67,7 +68,7 @@ OSSDL3Driver >> createWindowWithAttributes: attributes osWindow: osWindow [
 	flags := self windowFlagsFromAttributes: attributes.
 
 	RegistryMutex critical: [
-		sdl3Window := sdl
+		sdl3Window := self ffiLibrary
 			newWindowTitle: attributes title
 			w: attributes width
 			h: attributes height
@@ -129,17 +130,19 @@ OSSDL3Driver >> initialize [
 { #category : 'initialization' }
 OSSDL3Driver >> initializeLibrary [
 
-	sdl := LibSDL3 uniqueInstance.
-
-	sdl
+	self ffiLibrary
 		setHintName: SDL_HINT_VIDEO_ALLOW_SCREENSAVER value: '1';
 		setHintName: SDL_HINT_NO_SIGNAL_HANDLERS value: '1';
 		setHintName: SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH value: '1'.
 
-	sdl setHintName: SDL_HINT_KEYCODE_OPTIONS value: 'french_numbers,latin_letters,hide_numpad'.
-	"We add 'hide_numpad' to default values. This is it's meaning: The numpad keysyms will be translated into their non-numpad versions based on the current NumLock state. For example, SDLK_KP_4 would become SDLK_4 if SDL_KMOD_NUM is set in the event modifiers, and SDLK_LEFT if it is unset."
+	"We add 'hide_numpad' to SDL_HINT_KEYCODE_OPTIONS´s default value.
+	This way, the numpad keysyms will be translated into their non-numpad versions based on the current NumLock state.
+	For example, SDLK_KP_4 would become SDLK_4 if SDL_KMOD_NUM is set in the event modifiers, and SDLK_LEFT if it is unset."
+	self ffiLibrary
+		setHintName: SDL_HINT_KEYCODE_OPTIONS
+		value: 'french_numbers,latin_letters,hide_numpad'.
 
-	sdl assertSuccess: (sdl init: SDL_INIT_VIDEO | SDL_INIT_AUDIO)
+	self ffiLibrary assertSuccess: (self ffiLibrary init: SDL_INIT_VIDEO | SDL_INIT_AUDIO)
 ]
 
 { #category : 'initialization' }
@@ -252,7 +255,7 @@ OSSDL3Driver >> windowAtId: id ifPresent: presentBlock ifAbsent: absentBlock [
 OSSDL3Driver >> windowFlagsFromAttributes: attributes [
 
 	| flags |
-	flags := "SDL3WindowFlags highPixelDensity" 0.
+	flags := SDL3WindowFlags highPixelDensity.
 
 	attributes fullscreen ifTrue: [ flags := flags bitOr: SDL3WindowFlags fullscreen ].
 	attributes borderless ifTrue: [ flags := flags bitOr: SDL3WindowFlags borderless ].
