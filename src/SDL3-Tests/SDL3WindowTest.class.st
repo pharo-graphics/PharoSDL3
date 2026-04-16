@@ -354,9 +354,9 @@ SDL3WindowTest >> test08bCreateWindowWithPropertyGroup [
 	self assert: window title equals: #test08CreateWindowWithProperties asString.
 	self assert: window position equals: rectangle origin.
 	self assert: window extent equals: rectangle extent.
-	self deny: (SDL3WindowFlags highPixelDensity & window flags) equals: 0.
-	self deny: (SDL3WindowFlags resizable & window flags) equals: 0.
-	self assert: (SDL3WindowFlags mouseCapture & window flags) equals: 0.
+	self assert: window isHighPixelDensity.
+	self assert: window isResizable.
+	self deny: window isMouseCaptured.
 
 	"Tear down"
 	window destroy

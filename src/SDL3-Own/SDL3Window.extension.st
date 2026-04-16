@@ -70,6 +70,24 @@ SDL3Window >> isFullscreen [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isHighPixelDensity [
+
+	^ self flags anyMask: SDL3WindowFlags highPixelDensity
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> isMouseCaptured [
+
+	^ self flags anyMask: SDL3WindowFlags mouseCapture
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> isResizable [
+
+	^ self flags anyMask: SDL3WindowFlags resizable
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> newGPURenderer [
 
 	^ self newRendererFor: 'gpu'
