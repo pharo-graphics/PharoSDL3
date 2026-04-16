@@ -47,3 +47,10 @@ SDL3MappedEvent >> typeNumber [
 
 	^ handle unsignedLongAt: 1
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3MappedEvent >> windowID [
+	"Answer the identifier of the SDL_Window associated to this event, or nil if there isn't an associated window."
+
+	^ nil
+]

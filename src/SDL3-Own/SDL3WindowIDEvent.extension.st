@@ -14,8 +14,3 @@ SDL3WindowIDEvent >> window [
 
 	^ self ffiLibrary getWindowFromEvent: self
 ]
-
-{ #category : '*SDL3-Own' }
-SDL3WindowIDEvent >> windowID [
-	^ self subclassResponsibility
-]
