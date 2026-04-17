@@ -269,6 +269,12 @@ OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
 	currentCursor setActive
 ]
 
+{ #category : 'testing' }
+OSSDL3BackendWindow >> shouldRegisterAfterRestart [
+
+	^ sdl3Window isNotNil
+]
+
 { #category : 'accessing' }
 OSSDL3BackendWindow >> show [
 	"Show the window."
