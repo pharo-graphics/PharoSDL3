@@ -398,7 +398,7 @@ SDL3Window >> progressValue: value [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> properties [
+SDL3Window >> propertiesID [
 
 	^ self ffiLibrary getWindowProperties: self
 ]

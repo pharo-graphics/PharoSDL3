@@ -12,9 +12,6 @@ Class {
 		'currentCursor',
 		'currentDraggableCallback'
 	],
-	#classVars : [
-		'ScreenScaleFactorBaseDPI'
-	],
 	#pools : [
 		'SDL3SystemCursor',
 		'SDL3Typedef'
@@ -31,20 +28,6 @@ OSSDL3BackendWindow class >> newWithHandle: handle attributes: attributes [
 	^ self basicNew
 		initWithHandle: handle attributes: attributes;
 		yourself
-]
-
-{ #category : 'accessing' }
-OSSDL3BackendWindow class >> screenScaleFactorBaseDPI [
-	"Answer the base DPI used for scale factor calculations. Default is 96."
-
-	^ ScreenScaleFactorBaseDPI ifNil: [ ScreenScaleFactorBaseDPI := 96 ]
-]
-
-{ #category : 'accessing' }
-OSSDL3BackendWindow class >> screenScaleFactorBaseDPI: aNumber [
-	"Set the base DPI used for scale factor calculations."
-
-	ScreenScaleFactorBaseDPI := aNumber
 ]
 
 { #category : 'accessing' }
@@ -102,13 +85,6 @@ OSSDL3BackendWindow >> destroy [
 		sdl3Window := nil ].
 
 	osWindow := nil
-]
-
-{ #category : 'accessing' }
-OSSDL3BackendWindow >> diagonalDPI [
-	"Answer the estimated diagonal DPI based on the scale factor."
-
-	^ self screenScaleFactor * self screenScaleFactorBaseDPI
 ]
 
 { #category : 'accessing' }
@@ -205,6 +181,12 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 ]
 
 { #category : 'accessing' }
+OSSDL3BackendWindow >> platformSpecificHandle [
+	
+	^ OSPlatform current osSDL3Platform platformSpecificHandleOf: self
+]
+
+{ #category : 'accessing' }
 OSSDL3BackendWindow >> position [
 	"Answer the window's top-left position."
 
@@ -247,16 +229,19 @@ OSSDL3BackendWindow >> restore [
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> screenScaleFactor [
-	"Answer the window's display scale factor provided by SDL3."
+	"Answer the window's display scale factor provided by SDL3.
+	
+	Based on OSSDL2BackendWindow>>#fetchDPI, which states:
 
-	^ sdl3Window displayScale
-]
+	In OS X disable the computation of a DPI based scale factor. These values
+	are completely wrong and we are getting scale factors that are very large
+	even in non-retina display. This workaround does not affect the support for
+	retina display because that is handled by fetching the size of the drawing surface.
+	"
 
-{ #category : 'accessing' }
-OSSDL3BackendWindow >> screenScaleFactorBaseDPI [
-	"Answer the base DPI used for scale factor calculations."
-
-	^ self class screenScaleFactorBaseDPI
+	^ OSPlatform current isMacOS 
+		ifTrue: [ 1.0 ]
+		ifFalse: [ sdl3Window displayScale ]
 ]
 
 { #category : 'accessing' }
@@ -348,6 +333,16 @@ OSSDL3BackendWindow >> title: aString [
 	"Set the window title to aString."
 
 	sdl3Window title: aString
+]
+
+{ #category : 'events' }
+OSSDL3BackendWindow >> updateToNewResolution [
+	"Force the regeneration of the renderer because we have a new resolution"
+
+	renderer
+		destroy;
+		validate;
+		updateAll
 ]
 
 { #category : 'accessing' }

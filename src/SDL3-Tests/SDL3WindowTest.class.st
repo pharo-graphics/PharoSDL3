@@ -383,6 +383,24 @@ SDL3WindowTest >> test09Bordered [
 	window destroy
 ]
 
+{ #category : 'tests' }
+SDL3WindowTest >> test10CocoaWindowPointer [
+
+	| window cocoaPointer |
+	OSPlatform current isMacOS ifFalse: [ self skip ].
+
+	window :=
+		sdl
+			newWindowTitle: #test10CocoaWindowPointer
+			w: 800 h: 600 flags: SDL3WindowFlags borderless.
+	window assertNotNullReturn.
+
+	cocoaPointer := window propertyGroup pointerAt: SDL_PROP_WINDOW_COCOA_WINDOW_POINTER ifAbsent: nil.
+	self deny: cocoaPointer isNull.
+
+	window destroy
+]
+
 { #category : 'private' }
 SDL3WindowTest >> waitToSee [
 	"Perform a wait to consume events and let user visually check the window"

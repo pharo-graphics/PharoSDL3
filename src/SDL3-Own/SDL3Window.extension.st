@@ -125,6 +125,12 @@ SDL3Window >> position: aPoint [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> width [
 	"Answer my logical width"
 

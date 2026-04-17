@@ -46,6 +46,13 @@ OSSDL3Driver class >> isSuitable [
 	^ LibSDL3 uniqueInstance isAvailable
 ]
 
+{ #category : 'events' }
+OSSDL3Driver >> afterSetWindowTitle: windowTitle onWindow: osWindow [
+
+	OSPlatform current osSDL3Platform
+		afterSetWindowTitle: windowTitle onWindow: osWindow
+]
+
 { #category : 'clipboard' }
 OSSDL3Driver >> clipboardText [
 	"Answer the current text in the system clipboard."
@@ -141,6 +148,8 @@ OSSDL3Driver >> initializeLibrary [
 	self ffiLibrary
 		setHintName: SDL_HINT_KEYCODE_OPTIONS
 		value: 'french_numbers,latin_letters,hide_numpad'.
+
+	OSPlatform current osSDL3Platform initPlatformSpecific.
 
 	self ffiLibrary assertSuccess: (self ffiLibrary init: SDL_INIT_VIDEO | SDL_INIT_AUDIO)
 ]
