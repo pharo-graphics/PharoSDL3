@@ -4,25 +4,22 @@ I execute specific operations on SDL for OSX
 Class {
 	#name : 'OSSDL3MacOSXPlatform',
 	#superclass : 'OSSDL3Platform',
-	#category : 'SDL3-OSWindow',
-	#package : 'SDL3-OSWindow'
+	#category : 'SDL3-OSWindow-Platforms',
+	#package : 'SDL3-OSWindow',
+	#tag : 'Platforms'
 }
 
 { #category : 'public' }
-OSSDL3MacOSXPlatform >> afterMainPharoWindowCreated: aOSSD3LWindow [
-]
+OSSDL3MacOSXPlatform >> afterSetWindowTitle: aString onWindow: aOSWindow [
 
-{ #category : 'public' }
-OSSDL3MacOSXPlatform >> afterSetWindowTitle: aString onWindow: aOSSDL3Window [
-
-	| nsString cocoaWindowPointer |
+	| nsString cocoaWindowHandle |
 	nsString := ObjCLibrary uniqueInstance nsStringOf: aString.
 
-	cocoaWindowPointer := self platformSpecificHandleOf: aOSSDL3Window backendWindow.
+	cocoaWindowHandle := aOSWindow platformSpecificHandle.
 
 	ObjCLibrary uniqueInstance
 		sendMessage: (ObjCLibrary uniqueInstance lookupSelector: 'setTitleWithRepresentedFilename:')
-		to: cocoaWindowPointer getHandle
+		to: cocoaWindowHandle
 		with: nsString.
 
 	ObjCLibrary uniqueInstance release: nsString
@@ -53,10 +50,6 @@ OSSDL3MacOSXPlatform >> allowTouchpadInertia [
 		with: key.
 		
 	ObjCLibrary uniqueInstance release: key
-]
-
-{ #category : 'public' }
-OSSDL3MacOSXPlatform >> beforeMainPharoWindowClosed: aOSSDL3Window [
 ]
 
 { #category : 'public' }

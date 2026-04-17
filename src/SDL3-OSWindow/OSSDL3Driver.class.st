@@ -47,10 +47,23 @@ OSSDL3Driver class >> isSuitable [
 ]
 
 { #category : 'events' }
-OSSDL3Driver >> afterSetWindowTitle: windowTitle onWindow: osWindow [
+OSSDL3Driver >> afterMainPharoWindowCreated: osWindow [
 
 	OSPlatform current osSDL3Platform
-		afterSetWindowTitle: windowTitle onWindow: osWindow
+		afterMainPharoWindowCreated: osWindow
+]
+
+{ #category : 'events' }
+OSSDL3Driver >> afterSetWindowTitle: aString onWindow: osWindow [
+
+	OSPlatform current osSDL3Platform
+		afterSetWindowTitle: aString onWindow: osWindow
+]
+
+{ #category : 'events' }
+OSSDL3Driver >> beforeMainPharoWindowClosed: osWindow [
+
+	OSPlatform current osSDL3Platform beforeMainPharoWindowClosed: osWindow
 ]
 
 { #category : 'clipboard' }
