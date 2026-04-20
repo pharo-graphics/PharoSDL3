@@ -12,59 +12,58 @@ Class {
 { #category : 'public' }
 OSSDL3MacOSXPlatform >> afterSetWindowTitle: aString onWindow: aOSWindow [
 
-	| nsString cocoaWindowHandle |
-	nsString := ObjCLibrary uniqueInstance nsStringOf: aString.
+	| nsString |
+	nsString := self objc nsStringOf: aString.
 
-	cocoaWindowHandle := aOSWindow platformSpecificHandle.
-
-	ObjCLibrary uniqueInstance
-		sendMessage: (ObjCLibrary uniqueInstance lookupSelector: 'setTitleWithRepresentedFilename:')
-		to: cocoaWindowHandle
+	self objc
+		sendMessage: (self objc lookupSelector: 'setTitleWithRepresentedFilename:')
+		to: aOSWindow platformSpecificHandle
 		with: nsString.
 
-	ObjCLibrary uniqueInstance release: nsString
+	self objc release: nsString
 ]
 
 { #category : 'private' }
 OSSDL3MacOSXPlatform >> allowTouchpadInertia [
 
-	| nsUserDefaultsClass standardUserDefaultsSel standardUserDefaults key setBoolForKeySel |
-	nsUserDefaultsClass := ObjCLibrary uniqueInstance lookupClass: 'NSUserDefaults'.
+	| nsUserDefaultsClass standardUserDefaults key |
+	nsUserDefaultsClass := self objc lookupClass: 'NSUserDefaults'.
 
-	standardUserDefaultsSel := ObjCLibrary uniqueInstance
-		                           lookupSelector: 'standardUserDefaults'.
+	standardUserDefaults :=
+		self objc
+			sendMessage: (self objc lookupSelector: 'standardUserDefaults')
+			to: (self objc lookupClass: 'NSUserDefaults').
 
-	standardUserDefaults := ObjCLibrary uniqueInstance
-		                        sendMessage: standardUserDefaultsSel
-		                        to: nsUserDefaultsClass.
+	key := self objc nsStringOf: 'AppleMomentumScrollSupported'.
 
-	key := ObjCLibrary uniqueInstance nsStringOf: 'AppleMomentumScrollSupported'.
-
-	setBoolForKeySel := ObjCLibrary uniqueInstance lookupSelector:
-		                    'setBool:forKey:'.
-
-	ObjCLibrary uniqueInstance
-		sendMessage: setBoolForKeySel
+	self objc
+		sendMessage: (self objc lookupSelector: 'setBool:forKey:')
 		to: standardUserDefaults
 		with: (ExternalAddress fromAddress: 1)
 		with: key.
 		
-	ObjCLibrary uniqueInstance release: key
+	self objc release: key
 ]
 
 { #category : 'public' }
 OSSDL3MacOSXPlatform >> initPlatformSpecific [
 
 	| sharedApplication |
-	sharedApplication := ObjCLibrary uniqueInstance sharedApplication.
+	sharedApplication := self objc sharedApplication.
 	
-	ObjCLibrary uniqueInstance
-		sendMessage: (ObjCLibrary uniqueInstance lookupSelector: 'finishLaunching')
+	self objc
+		sendMessage: (self objc lookupSelector: 'finishLaunching')
 		to: sharedApplication.
 
 	SDLOSXPharoMenu uniqueInstance installInOSXWindow.
 
 	self allowTouchpadInertia
+]
+
+{ #category : 'private' }
+OSSDL3MacOSXPlatform >> objc [
+
+	^ ObjCLibrary uniqueInstance
 ]
 
 { #category : 'public' }
