@@ -10,9 +10,9 @@ Class {
 		'SDL_MESSAGEBOX_INFORMATION',
 		'SDL_MESSAGEBOX_WARNING'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

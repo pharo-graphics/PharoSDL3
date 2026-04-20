@@ -31,9 +31,9 @@ Class {
 		'SDL_GL_STENCIL_SIZE',
 		'SDL_GL_STEREO'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

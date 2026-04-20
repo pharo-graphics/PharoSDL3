@@ -6,9 +6,9 @@ Class {
 		'SDL_MICRO_VERSION',
 		'SDL_MINOR_VERSION'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

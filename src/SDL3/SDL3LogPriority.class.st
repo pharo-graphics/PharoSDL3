@@ -12,9 +12,9 @@ Class {
 		'SDL_LOG_PRIORITY_VERBOSE',
 		'SDL_LOG_PRIORITY_WARN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

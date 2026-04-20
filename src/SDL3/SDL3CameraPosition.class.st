@@ -6,9 +6,9 @@ Class {
 		'SDL_CAMERA_POSITION_FRONT_FACING',
 		'SDL_CAMERA_POSITION_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

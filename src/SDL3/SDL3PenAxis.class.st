@@ -11,9 +11,9 @@ Class {
 		'SDL_PEN_AXIS_XTILT',
 		'SDL_PEN_AXIS_YTILT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

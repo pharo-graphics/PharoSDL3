@@ -5,9 +5,9 @@ Class {
 		'SDL_TIME_FORMAT_12HR',
 		'SDL_TIME_FORMAT_24HR'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

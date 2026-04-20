@@ -8,9 +8,9 @@ Class {
 		'SDL_TRAYENTRY_DISABLED',
 		'SDL_TRAYENTRY_SUBMENU'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

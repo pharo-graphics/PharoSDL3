@@ -16,9 +16,9 @@ Class {
 		'SDL_PIXELTYPE_PACKED8',
 		'SDL_PIXELTYPE_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

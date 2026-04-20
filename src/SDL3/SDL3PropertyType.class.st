@@ -9,9 +9,9 @@ Class {
 		'SDL_PROPERTY_TYPE_POINTER',
 		'SDL_PROPERTY_TYPE_STRING'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

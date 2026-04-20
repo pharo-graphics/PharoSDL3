@@ -7,9 +7,9 @@ Class {
 		'SDL_THREAD_PRIORITY_NORMAL',
 		'SDL_THREAD_PRIORITY_TIME_CRITICAL'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

@@ -7,9 +7,9 @@ Class {
 		'SDL_PEN_DEVICE_TYPE_INVALID',
 		'SDL_PEN_DEVICE_TYPE_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

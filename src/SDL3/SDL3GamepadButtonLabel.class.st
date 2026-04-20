@@ -12,9 +12,9 @@ Class {
 		'SDL_GAMEPAD_BUTTON_LABEL_X',
 		'SDL_GAMEPAD_BUTTON_LABEL_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

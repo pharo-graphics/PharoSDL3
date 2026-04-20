@@ -255,7 +255,7 @@ SDL3Demo class >> run03LogEvents [
 
 		"Process all pending events"
 		demo pollEventsDo: [ :evt |
-			logs addLast: evt description "asString".
+			logs addLast: evt asString.
 
 			"Handle quit"
 			evt type = SDL3EventType quit ifTrue: [
@@ -776,6 +776,69 @@ SDL3Demo class >> run11TouchFingers [
 	demo close; ensureQuitSDL3
 ]
 
+{ #category : 'examples' }
+SDL3Demo class >> run12ParityFeatures [
+	"Demonstrate new parity features: mouse capture, borderless mode, and draggable areas.
+	Example:
+		./pharo Pharo.image eval 'SDL3Demo run12ParityFeatures'
+	"
+
+	| demo quit logs |
+	self
+		assert: (SDL2 wasInit: 16384) = 0 "SDL_INIT_EVENTS"
+		description: 'SDL2 is already initialized'.
+
+	demo := self new.
+	demo ensureInitSDL3; open.
+
+	quit := false.
+	logs := LinkedList new.
+	logs add: 'Keys:'.
+	logs add: '  B: Toggle Borderless'.
+	logs add: '  C: Toggle Mouse Capture'.
+	logs add: '  ESCAPE: Quit'.
+	logs add: 'Draggable Area: Top 100px'.
+
+	"Set draggable area"
+	LibSDL3 uniqueInstance setWindowHitTestWindow: demo window callback: (FFICallback
+		signature: #(SDL3HitTestResult (SDL3Window *win, SDL3Point *area, void *data))
+		block: [ :win :areaPointer :data |
+			| area |
+			area := SDL3Point fromHandle: areaPointer.
+			(area y < 100)
+				ifTrue: [ SDL3HitTestResult draggable ]
+				ifFalse: [ SDL3HitTestResult normal ] ]) callbackData: ExternalAddress null.
+
+	"Main loop"
+	[ quit ] whileFalse: [
+		demo pollEventsDo: [ :evt |
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
+			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
+				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ].
+				evt key = SDL3Keycode b asInteger ifTrue: [ 
+					demo toggleBorderless.
+					logs add: 'Borderless: ', (demo window flags anyMask: SDL3WindowFlags borderless) asString ].
+				evt key = SDL3Keycode c asInteger ifTrue: [ 
+					demo toggleCaptureMouse.
+					logs add: 'Captured: ', demo isCaptured asString ] ] ].
+
+		"Render frame"
+		demo clearColor: Color blue muchDarker.
+		[ logs size > 25 ] whileTrue: [ logs removeFirst ].
+		logs withIndexDo: [ :each :index |
+			demo showText: each x: 10 y: 20 * index color: Color white ].
+		
+		"Visual indicator for draggable area"
+		demo color: (Color gray alpha: 0.3).
+		demo renderRectangle: (0@0 extent: demo initialExtent x @ 100).
+		
+		demo present.
+		16 milliSeconds wait ].
+
+	"Tear down"
+	demo close; ensureQuitSDL3
+]
+
 { #category : 'renderer' }
 SDL3Demo >> clear [
 
@@ -888,7 +951,13 @@ SDL3Demo >> initialize [
 	map := SDL3EventMap new.
 	
 	initialWindowFlags := SDL3WindowFlags resizable | SDL3WindowFlags inputFocus.
-	initialExtent := 1280 @ 720 "720p"
+	initialExtent := 1280 @ 720 "720p".
+	isCaptured := false
+]
+
+{ #category : 'accessing' }
+SDL3Demo >> isCaptured [
+	^ isCaptured
 ]
 
 { #category : 'lifecycle' }
@@ -998,6 +1067,19 @@ SDL3Demo >> showText: aString x: x y: y color: aColor [
 
 	self color: aColor.
 	self showText: aString x: x y: y
+]
+
+{ #category : 'window' }
+SDL3Demo >> toggleBorderless [
+	| isBorderless |
+	isBorderless := window flags anyMask: SDL3WindowFlags borderless.
+	window bordered: isBorderless
+]
+
+{ #category : 'mouse' }
+SDL3Demo >> toggleCaptureMouse [
+	isCaptured := isCaptured not.
+	sdl captureMouse: isCaptured
 ]
 
 { #category : 'utilities' }

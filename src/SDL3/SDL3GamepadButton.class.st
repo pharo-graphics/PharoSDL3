@@ -31,9 +31,9 @@ Class {
 		'SDL_GAMEPAD_BUTTON_TOUCHPAD',
 		'SDL_GAMEPAD_BUTTON_WEST'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

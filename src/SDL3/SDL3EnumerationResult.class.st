@@ -6,9 +6,9 @@ Class {
 		'SDL_ENUM_FAILURE',
 		'SDL_ENUM_SUCCESS'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

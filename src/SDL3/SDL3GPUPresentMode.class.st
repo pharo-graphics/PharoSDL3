@@ -6,9 +6,9 @@ Class {
 		'SDL_GPU_PRESENTMODE_MAILBOX',
 		'SDL_GPU_PRESENTMODE_VSYNC'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

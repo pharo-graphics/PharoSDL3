@@ -17,9 +17,9 @@ Class {
 		'SDL_KMOD_RSHIFT',
 		'SDL_KMOD_SCROLL'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

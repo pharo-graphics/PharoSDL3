@@ -6,9 +6,9 @@ Class {
 		'SDL_HINT_NORMAL',
 		'SDL_HINT_OVERRIDE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

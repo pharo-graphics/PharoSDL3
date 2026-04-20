@@ -6,9 +6,9 @@ Class {
 		'SDL_DATE_FORMAT_MMDDYYYY',
 		'SDL_DATE_FORMAT_YYYYMMDD'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

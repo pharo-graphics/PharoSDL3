@@ -7,9 +7,9 @@ Class {
 		'SDL_GPU_SAMPLECOUNT_4',
 		'SDL_GPU_SAMPLECOUNT_8'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

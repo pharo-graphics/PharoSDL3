@@ -108,9 +108,9 @@ Class {
 		'SDL_GPU_TEXTUREFORMAT_R8_UINT',
 		'SDL_GPU_TEXTUREFORMAT_R8_UNORM'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

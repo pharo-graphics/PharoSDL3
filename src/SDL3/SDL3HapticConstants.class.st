@@ -8,9 +8,9 @@ Class {
 		'SDL_HAPTIC_SPHERICAL',
 		'SDL_HAPTIC_STEERING_AXIS'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

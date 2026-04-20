@@ -10,9 +10,9 @@ Class {
 		'SDL_ARRAYORDER_RGB',
 		'SDL_ARRAYORDER_RGBA'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

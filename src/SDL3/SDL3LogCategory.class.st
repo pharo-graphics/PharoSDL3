@@ -23,9 +23,9 @@ Class {
 		'SDL_LOG_CATEGORY_TEST',
 		'SDL_LOG_CATEGORY_VIDEO'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

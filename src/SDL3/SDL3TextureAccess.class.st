@@ -6,9 +6,9 @@ Class {
 		'SDL_TEXTUREACCESS_STREAMING',
 		'SDL_TEXTUREACCESS_TARGET'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

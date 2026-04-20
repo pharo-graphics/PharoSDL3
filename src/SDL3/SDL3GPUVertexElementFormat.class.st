@@ -34,9 +34,9 @@ Class {
 		'SDL_GPU_VERTEXELEMENTFORMAT_USHORT4',
 		'SDL_GPU_VERTEXELEMENTFORMAT_USHORT4_NORM'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

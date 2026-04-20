@@ -9,9 +9,9 @@ Class {
 		'SDL_GPU_BLENDOP_REVERSE_SUBTRACT',
 		'SDL_GPU_BLENDOP_SUBTRACT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

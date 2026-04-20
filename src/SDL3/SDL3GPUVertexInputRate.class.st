@@ -5,9 +5,9 @@ Class {
 		'SDL_GPU_VERTEXINPUTRATE_INSTANCE',
 		'SDL_GPU_VERTEXINPUTRATE_VERTEX'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

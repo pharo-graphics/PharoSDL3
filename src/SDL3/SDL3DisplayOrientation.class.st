@@ -8,9 +8,9 @@ Class {
 		'SDL_ORIENTATION_PORTRAIT_FLIPPED',
 		'SDL_ORIENTATION_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

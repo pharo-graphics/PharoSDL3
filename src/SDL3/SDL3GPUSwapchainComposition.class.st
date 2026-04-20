@@ -7,9 +7,9 @@ Class {
 		'SDL_GPU_SWAPCHAINCOMPOSITION_SDR',
 		'SDL_GPU_SWAPCHAINCOMPOSITION_SDR_LINEAR'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

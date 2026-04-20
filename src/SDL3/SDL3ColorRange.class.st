@@ -6,9 +6,9 @@ Class {
 		'SDL_COLOR_RANGE_LIMITED',
 		'SDL_COLOR_RANGE_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

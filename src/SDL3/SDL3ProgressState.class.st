@@ -9,9 +9,9 @@ Class {
 		'SDL_PROGRESS_STATE_NORMAL',
 		'SDL_PROGRESS_STATE_PAUSED'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

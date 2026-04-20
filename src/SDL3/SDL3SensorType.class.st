@@ -12,9 +12,9 @@ Class {
 		'SDL_SENSOR_INVALID',
 		'SDL_SENSOR_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

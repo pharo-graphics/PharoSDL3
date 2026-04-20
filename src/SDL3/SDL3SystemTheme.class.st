@@ -6,9 +6,9 @@ Class {
 		'SDL_SYSTEM_THEME_LIGHT',
 		'SDL_SYSTEM_THEME_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

@@ -11,9 +11,9 @@ Class {
 		'SDL_INIT_SENSOR',
 		'SDL_INIT_VIDEO'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

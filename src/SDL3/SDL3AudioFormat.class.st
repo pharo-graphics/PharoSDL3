@@ -15,9 +15,9 @@ Class {
 		'SDL_AUDIO_U8',
 		'SDL_AUDIO_UNKNOWN'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }
