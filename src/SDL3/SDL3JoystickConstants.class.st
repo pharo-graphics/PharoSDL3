@@ -9,9 +9,9 @@ Class {
 		'SDL_HAT_UP',
 		'SDL_JOYSTICK_AXIS_MAX'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

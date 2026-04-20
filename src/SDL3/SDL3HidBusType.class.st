@@ -8,9 +8,9 @@ Class {
 		'SDL_HID_API_BUS_UNKNOWN',
 		'SDL_HID_API_BUS_USB'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

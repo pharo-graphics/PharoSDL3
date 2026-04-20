@@ -15,9 +15,9 @@ Class {
 		'SDL_FOLDER_TEMPLATES',
 		'SDL_FOLDER_VIDEOS'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

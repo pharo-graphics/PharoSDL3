@@ -5,9 +5,9 @@ Class {
 		'SDL_MOUSEWHEEL_FLIPPED',
 		'SDL_MOUSEWHEEL_NORMAL'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

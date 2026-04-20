@@ -13,9 +13,9 @@ Class {
 		'SDL_HITTEST_RESIZE_TOPLEFT',
 		'SDL_HITTEST_RESIZE_TOPRIGHT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

@@ -7,9 +7,9 @@ Class {
 		'SDL_SCALEMODE_NEAREST',
 		'SDL_SCALEMODE_PIXELART'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

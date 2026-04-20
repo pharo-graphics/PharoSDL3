@@ -7,9 +7,9 @@ Class {
 		'SDL_INIT_STATUS_UNINITIALIZED',
 		'SDL_INIT_STATUS_UNINITIALIZING'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

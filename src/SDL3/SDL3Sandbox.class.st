@@ -8,9 +8,9 @@ Class {
 		'SDL_SANDBOX_SNAP',
 		'SDL_SANDBOX_UNKNOWN_CONTAINER'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

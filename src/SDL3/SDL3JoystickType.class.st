@@ -14,9 +14,9 @@ Class {
 		'SDL_JOYSTICK_TYPE_UNKNOWN',
 		'SDL_JOYSTICK_TYPE_WHEEL'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

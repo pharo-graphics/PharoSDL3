@@ -8,9 +8,9 @@ Class {
 		'SDL_GPU_TEXTURETYPE_CUBE',
 		'SDL_GPU_TEXTURETYPE_CUBE_ARRAY'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

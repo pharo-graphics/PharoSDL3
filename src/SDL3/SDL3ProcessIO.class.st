@@ -7,9 +7,9 @@ Class {
 		'SDL_PROCESS_STDIO_NULL',
 		'SDL_PROCESS_STDIO_REDIRECT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

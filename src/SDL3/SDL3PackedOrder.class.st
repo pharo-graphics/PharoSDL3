@@ -12,9 +12,9 @@ Class {
 		'SDL_PACKEDORDER_XBGR',
 		'SDL_PACKEDORDER_XRGB'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

@@ -7,9 +7,9 @@ Class {
 		'SDL_JOYSTICK_CONNECTION_WIRED',
 		'SDL_JOYSTICK_CONNECTION_WIRELESS'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

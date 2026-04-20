@@ -11,9 +11,9 @@ Class {
 		'SDL_GAMEPAD_AXIS_RIGHTY',
 		'SDL_GAMEPAD_AXIS_RIGHT_TRIGGER'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

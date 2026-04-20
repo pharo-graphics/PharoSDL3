@@ -252,9 +252,9 @@ Class {
 		'SDL_SCANCODE_Y',
 		'SDL_SCANCODE_Z'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

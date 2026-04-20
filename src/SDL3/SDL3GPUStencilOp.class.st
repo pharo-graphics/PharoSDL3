@@ -12,9 +12,9 @@ Class {
 		'SDL_GPU_STENCILOP_REPLACE',
 		'SDL_GPU_STENCILOP_ZERO'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

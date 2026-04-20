@@ -16,9 +16,9 @@ Class {
 		'SDL_GAMEPAD_TYPE_XBOX360',
 		'SDL_GAMEPAD_TYPE_XBOXONE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

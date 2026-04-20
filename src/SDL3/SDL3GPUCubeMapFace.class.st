@@ -9,9 +9,9 @@ Class {
 		'SDL_GPU_CUBEMAPFACE_POSITIVEY',
 		'SDL_GPU_CUBEMAPFACE_POSITIVEZ'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

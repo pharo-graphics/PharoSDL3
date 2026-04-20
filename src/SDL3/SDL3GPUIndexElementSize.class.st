@@ -5,9 +5,9 @@ Class {
 		'SDL_GPU_INDEXELEMENTSIZE_16BIT',
 		'SDL_GPU_INDEXELEMENTSIZE_32BIT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

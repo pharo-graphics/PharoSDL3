@@ -6,9 +6,9 @@ Class {
 		'SDL_GPU_SAMPLERADDRESSMODE_MIRRORED_REPEAT',
 		'SDL_GPU_SAMPLERADDRESSMODE_REPEAT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

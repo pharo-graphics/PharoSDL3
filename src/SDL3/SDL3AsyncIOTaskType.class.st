@@ -6,9 +6,9 @@ Class {
 		'SDL_ASYNCIO_TASK_READ',
 		'SDL_ASYNCIO_TASK_WRITE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

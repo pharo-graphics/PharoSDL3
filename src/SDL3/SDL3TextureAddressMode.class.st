@@ -7,9 +7,9 @@ Class {
 		'SDL_TEXTURE_ADDRESS_INVALID',
 		'SDL_TEXTURE_ADDRESS_WRAP'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

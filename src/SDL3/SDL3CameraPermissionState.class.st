@@ -6,9 +6,9 @@ Class {
 		'SDL_CAMERA_PERMISSION_STATE_DENIED',
 		'SDL_CAMERA_PERMISSION_STATE_PENDING'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

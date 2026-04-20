@@ -5,9 +5,9 @@ Class {
 		'SDL_GPU_SAMPLERMIPMAPMODE_LINEAR',
 		'SDL_GPU_SAMPLERMIPMAPMODE_NEAREST'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

@@ -17,9 +17,9 @@ Class {
 		'SDL_GPU_BLENDFACTOR_SRC_COLOR',
 		'SDL_GPU_BLENDFACTOR_ZERO'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

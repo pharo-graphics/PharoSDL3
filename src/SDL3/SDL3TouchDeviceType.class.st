@@ -7,9 +7,9 @@ Class {
 		'SDL_TOUCH_DEVICE_INDIRECT_RELATIVE',
 		'SDL_TOUCH_DEVICE_INVALID'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

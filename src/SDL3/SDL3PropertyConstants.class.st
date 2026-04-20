@@ -241,9 +241,9 @@ Class {
 		'SDL_PROP_WINDOW_X11_SCREEN_NUMBER',
 		'SDL_PROP_WINDOW_X11_WINDOW_NUMBER'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

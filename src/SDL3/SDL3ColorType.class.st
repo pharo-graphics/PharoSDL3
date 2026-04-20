@@ -6,9 +6,9 @@ Class {
 		'SDL_COLOR_TYPE_UNKNOWN',
 		'SDL_COLOR_TYPE_YCBCR'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

@@ -16,9 +16,9 @@ Class {
 		'SDL_COLORSPACE_UNKNOWN',
 		'SDL_COLORSPACE_YUV_DEFAULT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

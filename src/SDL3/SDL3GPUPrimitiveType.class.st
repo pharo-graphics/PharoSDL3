@@ -8,9 +8,9 @@ Class {
 		'SDL_GPU_PRIMITIVETYPE_TRIANGLELIST',
 		'SDL_GPU_PRIMITIVETYPE_TRIANGLESTRIP'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

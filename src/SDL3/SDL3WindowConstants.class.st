@@ -6,9 +6,9 @@ Class {
 		'SDL_WINDOWPOS_UNDEFINED_MASK',
 		'SDL_WINDOW_SURFACE_VSYNC_DISABLED'
 	],
-	#category : 'SDL3-Library',
+	#category : 'SDL3-Constants',
 	#package : 'SDL3',
-	#tag : 'Library'
+	#tag : 'Constants'
 }
 
 { #category : 'class initialization' }

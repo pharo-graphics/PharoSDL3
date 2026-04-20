@@ -5,9 +5,9 @@ Class {
 		'SDL_GPU_FILTER_LINEAR',
 		'SDL_GPU_FILTER_NEAREST'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'enum declaration' }

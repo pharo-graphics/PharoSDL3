@@ -7,9 +7,9 @@ Class {
 		'SDL_GPU_STOREOP_RESOLVE_AND_STORE',
 		'SDL_GPU_STOREOP_STORE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }

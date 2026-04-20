@@ -22,9 +22,9 @@ Class {
 		'SDL_TRANSFER_CHARACTERISTICS_UNKNOWN',
 		'SDL_TRANSFER_CHARACTERISTICS_UNSPECIFIED'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-Enumerations',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'Enumerations'
 }
 
 { #category : 'accessing enum' }
