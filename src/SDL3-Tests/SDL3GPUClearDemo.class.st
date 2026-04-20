@@ -16,6 +16,8 @@ Class {
 { #category : 'lifecycle' }
 SDL3GPUClearDemo >> close [
 
+	gpuDevice ifNotNil: #destroy.
+
 	super close.
 
 	(mainLoopProcess isNotNil and: [ mainLoopProcess isTerminated not ])
@@ -27,14 +29,16 @@ SDL3GPUClearDemo >> close [
 { #category : 'rendering' }
 SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffer [
 
-	| colorTargetInfo renderPass |
+	| animatedHue colorTargetInfo renderPass |
+	
+	animatedHue := (Time millisecondClockValue / 10.0) \\ 360.
+	
 	colorTargetInfo := SDL3GPUColorTargetInfo new.
 	colorTargetInfo
 		texture: aSDL3GPUTexture;
 		storeOp: SDL3GPUStoreOp store;
 		loadOp: SDL3GPULoadOp clear.
-	colorTargetInfo clearColor updateFrom:
-		(Color h: (Time millisecondClockValue / 10.0) \\ 360 s: 1.0 v: 1.0).
+	colorTargetInfo clearColor updateFrom: (Color h: animatedHue s: 1.0 v: 1.0).
 
 	renderPass :=
 		aSDL3GPUCommandBuffer
@@ -70,19 +74,20 @@ SDL3GPUClearDemo >> open [
 
 	self ensureInitSDL3.
 
+	gpuDevice := sdl
+		newGPUDeviceFormatFlags: SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv
+		debugMode: true name: nil.
+	gpuDevice assertNotNullReturn.
+
+	"Windows can be created after the GPU device was created (they need to be 'claimed')"
 	window :=
 		sdl
-			newWindowTitle: self className, ' - Low-level GPU demo - Press ESC to quit'
-			w: 800
-			h: 600
+			newWindowTitle: self className, ' - Press ESC to quit'
+			w: 400
+			h: 300
 			flags: 0.
 	window assertNotNullReturn.
-
-	renderer := window newGPURenderer.
-	renderer assertNotNullReturn.
-	
-	gpuDevice := renderer gpuDevice.
-	gpuDevice assertNotNullReturn
+	sdl assertSuccess: (gpuDevice claimWindow: window)
 ]
 
 { #category : 'rendering' }
@@ -91,9 +96,9 @@ SDL3GPUClearDemo >> render [
 	| commandBuffer swapchainTextureHolder |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 
-	swapchainTextureHolder := (FFIExternalValueHolder ofType:
-		                           SDL3GPUTexture) new.
-	sdl assertSuccess: (commandBuffer
+	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
+	sdl assertSuccess:
+		(commandBuffer
 			 waitAndAcquireGPUSwapchainTextureForWindow: window
 			 into: swapchainTextureHolder
 			 width: nil

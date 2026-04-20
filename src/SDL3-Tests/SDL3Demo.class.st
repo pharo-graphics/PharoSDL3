@@ -820,8 +820,8 @@ SDL3Demo >> clipboardMimeTypes [
 { #category : 'lifecycle' }
 SDL3Demo >> close [
 
-	renderer destroy.
-	window destroy
+	renderer ifNotNil: #destroy.
+	window ifNotNil: #destroy
 ]
 
 { #category : 'renderer' }
