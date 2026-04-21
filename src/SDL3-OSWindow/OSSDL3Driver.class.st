@@ -84,25 +84,11 @@ OSSDL3Driver >> clipboardText: aString [
 OSSDL3Driver >> createWindowWithAttributes: attributes osWindow: osWindow [
 	"Create a new SDL3 window with the given attributes and associate it with osWindow."
 
-	| flags sdl3Window aBackendWindow |
-	flags := self windowFlagsFromAttributes: attributes.
-
-	RegistryMutex critical: [
-		sdl3Window := self ffiLibrary
-			newWindowTitle: attributes title
-			w: attributes width
-			h: attributes height
-			flags: flags.
-
-		aBackendWindow := OSSDL3BackendWindow newWithHandle: sdl3Window attributes: attributes.
-		aBackendWindow osWindow: osWindow.
+	^ RegistryMutex critical: [
+		| aBackendWindow |
+		aBackendWindow := OSSDL3BackendWindow fromAttributes: attributes for: osWindow.
 		self registerWindow: aBackendWindow.
-		osWindow setJustCreatedHandle: aBackendWindow.
-		
-		attributes visible ifTrue: [ sdl3Window show ]
-	].
-
-	^ aBackendWindow
+		aBackendWindow ]
 ]
 
 { #category : 'events-processing' }
@@ -204,7 +190,7 @@ OSSDL3Driver >> runEventLoop [
 	session := Smalltalk session.
 
 	[ session == Smalltalk session ] whileTrue: [
-		[ LibSDL3 uniqueInstance pollEvent: sdl3Event ] whileTrue: [
+		[ self ffiLibrary pollEvent: sdl3Event ] whileTrue: [
 			eventProcessor deliver: sdl3Event on: self ].
 
 		(Delay forMilliseconds: 5) wait ]
@@ -271,18 +257,4 @@ OSSDL3Driver >> windowAtId: id ifAbsent: aBlock [
 OSSDL3Driver >> windowAtId: id ifPresent: presentBlock ifAbsent: absentBlock [
 
 	^ BackendWindowRegistry at: id ifPresent: presentBlock ifAbsent: absentBlock
-]
-
-{ #category : 'private' }
-OSSDL3Driver >> windowFlagsFromAttributes: attributes [
-
-	| flags |
-	flags := SDL3WindowFlags highPixelDensity.
-
-	attributes fullscreen ifTrue: [ flags := flags bitOr: SDL3WindowFlags fullscreen ].
-	attributes borderless ifTrue: [ flags := flags bitOr: SDL3WindowFlags borderless ].
-	attributes resizable ifTrue: [ flags := flags bitOr: SDL3WindowFlags resizable ].
-	attributes maximized ifTrue: [ flags := flags bitOr: SDL3WindowFlags maximized ].
-	attributes minimized ifTrue: [ flags := flags bitOr: SDL3WindowFlags minimized ].
-	^ flags
 ]

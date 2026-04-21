@@ -7,6 +7,8 @@ attributes (title, icon, extent, position, modes), and event dispatching.
 Class {
 	#name : 'OSSDL3BackendWindow',
 	#superclass : 'OSBackendWindow',
+	#traits : 'LibTSDL3',
+	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
 		'sdl3Window',
 		'gpuDevice',
@@ -23,11 +25,10 @@ Class {
 }
 
 { #category : 'instance creation' }
-OSSDL3BackendWindow class >> newWithHandle: handle attributes: attributes [
-	"Create a new instance with the given SDL window handle and attributes."
+OSSDL3BackendWindow class >> fromAttributes: attributes for: anOSWindow [
 
 	^ self basicNew
-		initWithHandle: handle attributes: attributes;
+		initializeFromAttributes: attributes for: anOSWindow;
 		yourself
 ]
 
@@ -147,11 +148,20 @@ OSSDL3BackendWindow >> icon: aForm [
 ]
 
 { #category : 'initialization' }
-OSSDL3BackendWindow >> initWithHandle: aHandle attributes: attributes [
-	"Initialize the window with the given SDL handle and attributes."
+OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 
-	sdl3Window := aHandle.
-	"attributes applyTo: self."
+	self initialize.
+
+	osWindow := anOSWindow.
+
+	sdl3Window := self ffiLibrary
+		newWindowTitle: attributes title
+		w: attributes width
+		h: attributes height
+		flags: (self windowFlagsFromAttributes: attributes).
+	sdl3Window assertNotNullReturn.
+	
+	osWindow setJustCreatedHandle: self
 ]
 
 { #category : 'text input' }
@@ -382,6 +392,21 @@ OSSDL3BackendWindow >> updateToNewResolution [
 		destroy;
 		validate;
 		updateAll
+]
+
+{ #category : 'private' }
+OSSDL3BackendWindow >> windowFlagsFromAttributes: attributes [
+
+	| flags |
+	flags := SDL3WindowFlags highPixelDensity.
+
+	attributes fullscreen ifTrue: [ flags := flags bitOr: SDL3WindowFlags fullscreen ].
+	attributes borderless ifTrue: [ flags := flags bitOr: SDL3WindowFlags borderless ].
+	attributes resizable ifTrue: [ flags := flags bitOr: SDL3WindowFlags resizable ].
+	attributes maximized ifTrue: [ flags := flags bitOr: SDL3WindowFlags maximized ].
+	attributes minimized ifTrue: [ flags := flags bitOr: SDL3WindowFlags minimized ].
+
+	^ flags
 ]
 
 { #category : 'accessing' }
