@@ -70,6 +70,12 @@ SDL3Window >> isFullscreen [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isHidden [
+
+	^ self flags anyMask: SDL3WindowFlags hidden
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isHighPixelDensity [
 
 	^ self flags anyMask: SDL3WindowFlags highPixelDensity
@@ -88,6 +94,12 @@ SDL3Window >> isResizable [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isTransparent [
+
+	^ self flags anyMask: SDL3WindowFlags transparent
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> newGPURenderer [
 
 	^ self newRendererFor: 'gpu'
@@ -103,6 +115,20 @@ SDL3Window >> pixelDensity [
 	self ffiLibrary assertSuccess: density > 0.0.
 
 	^ density
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> pixelExtent [
+	"Answer my pysical extent"
+
+	| widthValueHolder heightValueHolder |
+	widthValueHolder := FFIInt32 newValueHolder.
+	heightValueHolder := FFIInt32 newValueHolder.
+
+	self ffiLibrary assertSuccess:
+		(self getSizeInPixelsIntoW: widthValueHolder h: heightValueHolder).
+
+	^ widthValueHolder value @ heightValueHolder value
 ]
 
 { #category : '*SDL3-Own' }
