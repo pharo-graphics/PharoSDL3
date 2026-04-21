@@ -9,6 +9,7 @@ Class {
 	#superclass : 'OSBackendWindow',
 	#instVars : [
 		'sdl3Window',
+		'gpuDevice',
 		'currentCursor',
 		'currentDraggableCallback'
 	],
@@ -49,6 +50,13 @@ OSSDL3BackendWindow >> bounds: newBounds [
 	self
 		position: newBounds origin;
 		extent: newBounds extent
+]
+
+{ #category : 'gpu' }
+OSSDL3BackendWindow >> claimWindow: aGPUDevice [
+	"Claim this window for use with the given GPU device."
+
+	^ aGPUDevice claimWindow: sdl3Window
 ]
 
 { #category : 'accessing' }
@@ -106,6 +114,21 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 	"Set the window to fullscreen mode if aBoolean is true."
 
 	sdl3Window fullscreen: aBoolean
+]
+
+{ #category : 'gpu' }
+OSSDL3BackendWindow >> gpuDevice [
+	"Answer the GPU device associated with this window, creating a default one if necessary."
+
+	^ gpuDevice ifNil: [ 
+		"Create a default GPU device if none exists."
+		gpuDevice := LibSDL3 uniqueInstance 
+			newGPUDeviceFormatFlags: (SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv) 
+			debugMode: true 
+			name: nil.
+		self claimWindow: gpuDevice.
+		gpuDevice
+	]
 ]
 
 { #category : 'accessing' }
@@ -178,6 +201,16 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 			form: form;
 			backendWindow: self;
 			yourself
+]
+
+{ #category : 'instance creation' }
+OSSDL3BackendWindow >> newGPUFormRenderer: form [
+	"Create and answer a new GPU Form-based renderer for this window."
+
+	^ renderer := OSSDL3GPUFormRenderer new
+		              form: form;
+		              backendWindow: self;
+		              yourself
 ]
 
 { #category : 'accessing' }

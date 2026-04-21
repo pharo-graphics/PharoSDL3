@@ -28,17 +28,18 @@ SDL3GPUBaseTest >> setUp [
 		flags: 0.
 	window assertNotNullReturn.
 	
-	gpuDevice := sdl
-		newGPUDeviceFormatFlags: SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv
-		debugMode: true name: nil.
+	gpuDevice := sdl 
+		newGPUDeviceFormatFlags: (SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv) 
+		debugMode: true 
+		name: nil.
 	gpuDevice assertNotNullReturn.
 	
-	gpuDevice claimWindow: window
+	gpuDevice claimWindow: window.
 ]
 
 { #category : 'running' }
 SDL3GPUBaseTest >> tearDown [
-	gpuDevice ifNotNil: [ sdl releaseWindowFromGPUDevice: gpuDevice window: window. sdl destroyGPUDevice: gpuDevice ].
+	gpuDevice ifNotNil: [ gpuDevice releaseWindow: window. gpuDevice destroy ].
 	window ifNotNil: [ window destroy ].
 	super tearDown.
 ]
@@ -66,7 +67,7 @@ SDL3GPUBaseTest >> testAcquireSwapchainTexture [
 	self assert: success.
 	self assert: textureHolder value isNull not.
 	
-	commandBuffer cancel.
+	commandBuffer submit.
 ]
 
 { #category : 'tests' }
@@ -103,4 +104,20 @@ SDL3GPUBaseTest >> testClearScreen [
 { #category : 'tests' }
 SDL3GPUBaseTest >> testCreateGPUDevice [
 	self assert: gpuDevice isNull not
+]
+
+{ #category : 'tests' }
+SDL3GPUBaseTest >> testUploadFromForm [
+	| form transferBuffer |
+	form := Form extent: 32 @ 32 depth: 32.
+	form fillColor: Color blue.
+	
+	transferBuffer := gpuDevice newUploadTransferBuffer: (form width * 4 * form height).
+	transferBuffer assertNotNullReturn.
+	
+	[ 
+		transferBuffer updateFromForm: form device: gpuDevice.
+	] ensure: [ 
+		gpuDevice releaseGPUTransferBuffer: transferBuffer 
+	]
 ]
