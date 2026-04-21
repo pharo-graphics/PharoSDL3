@@ -30,7 +30,7 @@ SDL3WindowTest class >> waitDuration: aDuration [
 	"Establish how much time to wait to see on tests.
 
 	Run a specific test:
-	./pharo Pharo.image eval 'SDL3WindowTest waitDuration: 7 seconds. SDL3WindowTest run: #test05ShapedWindow'
+	./pharo Pharo.image eval 'SDL3WindowTest waitDuration: 7 seconds. SDL3WindowTest run: #test12ShapedWindow'
 
 	Run whole suite:
 	./pharo Pharo.image eval 'SDL3WindowTest waitDuration: 7 seconds. SDL3WindowTest suite run'
@@ -62,17 +62,18 @@ SDL3WindowTest >> test01CreateWindow [
 	window :=
 		sdl
 			newWindowTitle: #test01CreateWindow
-			w: 800 h: 600 flags: 0.
+			w: 400 h: 300 flags: 0.
 	window assertNotNullReturn.
 
 	self assert: window title equals: #test01CreateWindow.
-	self assert: window extent equals: 800 @ 600.
-	self assert: window width equals: 800.
-	self assert: window height equals: 600.
+	self assert: window extent equals: 400 @ 300.
+	self assert: window width equals: 400.
+	self assert: window height equals: 300.
 	self assert: window displayScale > 0.0.
 	self assert: window pixelDensity > 0.0.
 	self assert: window isBordered.
 	self deny: window isFullscreen.
+	self deny: window isHidden.
 	self deny: window isKeyboardGrabbed.
 	self deny: window isMouseGrabbed.
 	self deny: window isRelativeMouseMode.
@@ -85,184 +86,7 @@ SDL3WindowTest >> test01CreateWindow [
 ]
 
 { #category : 'tests' }
-SDL3WindowTest >> test02CreateWindowAndRenderer [
-
-	| windowHolder rendererHolder window renderer success |
-	windowHolder := (FFIExternalValueHolder ofType: SDL3Window) new.
-	rendererHolder := (FFIExternalValueHolder ofType: SDL3Renderer) new.
-
-	success :=
-		sdl
-			newWindowAndRendererTitle: #test02CreateWindowAndRenderer
-			width: 800
-			height: 600
-			windowFlags: 0
-			window: windowHolder
-			renderer: rendererHolder.
-	self assert: success.
-
-	window := windowHolder value.
-	renderer := rendererHolder value.
-	
-	self waitToSee.
-
-	renderer destroy.
-	window destroy
-]
-
-{ #category : 'tests' }
-SDL3WindowTest >> test03BasicRender [
-
-	| window renderer |
-	window :=
-		sdl
-			newWindowTitle: #test03BasicRender
-			w: 400 h: 300 flags: 0.
-	window assertNotNullReturn.
-
-	renderer := window newRendererFor: nil.
-	renderer assertNotNullReturn.
-
-	self assert: renderer outputExtent equals: 400@300.
-
-	"Clear background with gray color"
-	self assert: (renderer renderDrawColor: Color gray).
-	self assert: renderer renderClear.
-
-	"Render a red rectangle"
-	self assert: (renderer renderDrawColor: Color red).
-	self assert: (renderer renderFillRect: (SDL3FRect x: 10 y: 10 width: 120 height: 30)).
-
-	"Render cyan text (debugging API)"
-	self assert: (renderer renderDrawColor: Color cyan).
-	self assert: (renderer renderDebugTextX: 20 y: 20 str: 'Hello World').
-
-	"Present will actually render the previous operations"
-	self assert: renderer renderPresent.
-
-	self waitToSee.
-	
-	"Tear down"
-	renderer destroy.
-	window destroy
-]
-
-{ #category : 'tests' }
-SDL3WindowTest >> test04TextureFromSurfaceFromForm [
-
-	| window renderer texture shapeForm surface |
-	window :=
-		sdl
-			newWindowTitle: #test04TextureFromSurfaceFromForm
-			w: 400 h: 800 flags: 0.
-	window assertNotNullReturn.
-
-	renderer := window newRendererFor: nil.
-	renderer assertNotNullReturn.
-
-	"Render and present a texture created from a surface created from a Form"
-	shapeForm := self iconNamed: #pharoBig.
-	surface := shapeForm asUnownedNewSDL3Surface.
-	texture := renderer newTextureFromSurface: surface.
-	self assert: surface extent equals: 256 @ 256.
-	self assert: texture extent equals: 256.0 @ 256.0.
-	surface destroy.
-	sdl assertSuccess:
-		(renderer renderTexture: texture srcrect: nil dstrect: nil).
-	sdl assertSuccess: renderer renderPresent.
-
-	self waitToSee.
-	
-	"Tear down"
-	texture destroy.
-	renderer destroy.
-	window destroy
-]
-
-{ #category : 'tests' }
-SDL3WindowTest >> test05ShapedWindow [
-	"It doesn't seem to work on Mac"
-
-	| window extent shapeForm surface renderer |
-	extent := 500 @ 500.
-	window :=
-		sdl
-			newWindowTitle: #test05ShapedWindow
-			w: extent x h: extent y
-			flags:
-				SDL3WindowFlags hidden | 
-				SDL3WindowFlags transparent | 
-				SDL3WindowFlags borderless.
-	window assertNotNullReturn.
-
-	renderer := window newRendererFor: nil.
-	renderer assertNotNullReturn.
-
-
-	shapeForm := Form extent: extent depth: 32.
-	shapeForm getCanvas
-		fillColor: Color transparent;
-		fillOval: (0@0 corner: extent) color: Color blue.
-	surface := shapeForm asUnownedNewSDL3Surface.
-
-
-	window shape: surface.
-	window show.
-
-
-	"Set cyan color"
-	sdl assertSuccess: (renderer renderDrawColor: Color cyan).
-
-	"Let's clear with that color"
-	sdl assertSuccess: renderer renderClear.
-
-	"Present will actually apply the clear operation"
-	sdl assertSuccess: renderer renderPresent.
-
-
-	self waitToSee.
-	
-	"Tear down"
-	renderer destroy.
-	window destroy
-]
-
-{ #category : 'tests' }
-SDL3WindowTest >> test06Fullscreen [
-
-	| window renderer |
-	window :=
-		sdl
-			newWindowTitle: #test06Fullscreen
-			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
-	window assertNotNullReturn.
-	
-	renderer := window newRendererFor: nil.
-	renderer assertNotNullReturn.
-
-	renderer
-		renderDrawColor: Color white;
-		renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN';
-		renderPresent.
-
-	self waitToSee.
-	window sync.
-	self assert: window isFullscreen description: 'Should be fullscreen'.
-	
-	window fullscreen: false.
-	renderer
-		renderDebugTextX: 100 y: 150 str: 'Good bye FULLSCREEN';
-		renderPresent.
-	self waitToSee.
-	self deny: window isFullscreen description: 'Shouldn''t be fullscreen'.
-
-	"Tear down"
-	renderer destroy.
-	window destroy
-]
-
-{ #category : 'tests' }
-SDL3WindowTest >> test07AllWindows [
+SDL3WindowTest >> test02AllWindows [
 
 	| windows |
 	windows := (1 to: 5) collect: [ :index |
@@ -278,16 +102,16 @@ SDL3WindowTest >> test07AllWindows [
 ]
 
 { #category : 'tests' }
-SDL3WindowTest >> test08CreateWindowWithProperties [
+SDL3WindowTest >> test03CreateWindowWithProperties [
 
 	| rectangle id window |
-	rectangle := 100 @ 200 extent: 300 @ 400.
+	rectangle := 100 @ 200 extent: 600 @ 300.
 
 	id := sdl newProperties.
 	sdl
 		setStringPropertyProps: id
 		name: SDL_PROP_WINDOW_CREATE_TITLE_STRING
-		value: #test08CreateWindowWithProperties.
+		value: #test03CreateWindowWithProperties.
 	sdl
 		setNumberPropertyProps: id
 		name: SDL_PROP_WINDOW_CREATE_X_NUMBER
@@ -314,26 +138,26 @@ SDL3WindowTest >> test08CreateWindowWithProperties [
 
 	self waitToSee.
 
-	self assert: window title equals: #test08CreateWindowWithProperties asString.
+	self assert: window title equals: #test03CreateWindowWithProperties asString.
 	self assert: window position equals: rectangle origin.
 	self assert: window extent equals: rectangle extent.
-	self deny: (SDL3WindowFlags highPixelDensity & window flags) equals: 0.
-	self deny: (SDL3WindowFlags resizable & window flags) equals: 0.
-	self assert: (SDL3WindowFlags mouseCapture & window flags) equals: 0.
+	self assert: window isHighPixelDensity.
+	self assert: window isResizable.
+	self deny: window isMouseCaptured.
 
 	"Tear down"
 	window destroy
 ]
 
 { #category : 'tests' }
-SDL3WindowTest >> test08bCreateWindowWithPropertyGroup [
+SDL3WindowTest >> test04CreateWindowWithPropertyGroup [
 
 	| rectangle p window |
-	rectangle := 100 @ 200 extent: 300 @ 400.
+	rectangle := 100 @ 200 extent: 600 @ 300.
 
 	p := sdl newPropertyGroup
 		stringAt: SDL_PROP_WINDOW_CREATE_TITLE_STRING
-			put: #test08CreateWindowWithProperties;
+			put: #test04CreateWindowWithPropertyGroup;
 		numberAt: SDL_PROP_WINDOW_CREATE_X_NUMBER
 			put: rectangle left;
 		numberAt: SDL_PROP_WINDOW_CREATE_Y_NUMBER
@@ -351,7 +175,7 @@ SDL3WindowTest >> test08bCreateWindowWithPropertyGroup [
 
 	self waitToSee.
 
-	self assert: window title equals: #test08CreateWindowWithProperties asString.
+	self assert: window title equals: #test04CreateWindowWithPropertyGroup asString.
 	self assert: window position equals: rectangle origin.
 	self assert: window extent equals: rectangle extent.
 	self assert: window isHighPixelDensity.
@@ -363,22 +187,280 @@ SDL3WindowTest >> test08bCreateWindowWithPropertyGroup [
 ]
 
 { #category : 'tests' }
+SDL3WindowTest >> test05CreateWindowAndRenderer [
+
+	| windowHolder rendererHolder window renderer success |
+	windowHolder := (FFIExternalValueHolder ofType: SDL3Window) new.
+	rendererHolder := (FFIExternalValueHolder ofType: SDL3Renderer) new.
+
+	success :=
+		sdl
+			newWindowAndRendererTitle: #test05CreateWindowAndRenderer
+			width: 400
+			height: 300
+			windowFlags: 0
+			window: windowHolder
+			renderer: rendererHolder.
+	self assert: success.
+
+	window := windowHolder value.
+	renderer := rendererHolder value.
+
+	self waitToSee.
+
+	self assert: renderer outputExtent equals: 400@300.
+
+	renderer destroy.
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test06CreateRenderer [
+
+	| window renderer drivers |
+	window :=
+		sdl
+			newWindowTitle: #test06CreateRenderer
+			w: 400 h: 300 flags: 0.
+	window assertNotNullReturn.
+
+	drivers := sdl renderDrivers.
+	self denyEmpty: drivers.
+	self timeLimit: (drivers size * 10) seconds.
+
+	drivers do: [ :eachName |
+		window title: ('<1s> - <2s>'
+			expandMacrosWith: #test06CreateRenderer
+			with: eachName).
+
+		renderer := window newRendererFor: eachName.
+		renderer assertNotNullReturn.
+
+		self waitToSee.
+		
+		renderer destroy ].
+
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test07RenderBasicOperations [
+
+	| window renderer |
+	window :=
+		sdl
+			newWindowTitle: #test07RenderBasicOperations
+			w: 400 h: 300 flags: 0.
+	window assertNotNullReturn.
+
+	"Create the default renderer"
+	renderer := window newRendererFor: nil.
+	renderer assertNotNullReturn.
+
+	"Clear background with gray color"
+	sdl assertSuccess: (renderer renderDrawColor: Color gray).
+	sdl assertSuccess: renderer renderClear.
+
+	"Render a red rectangle"
+	sdl assertSuccess: (renderer renderDrawColor: Color red).
+	sdl assertSuccess: (renderer renderFillRect: (SDL3FRect x: 10 y: 10 width: 120 height: 30)).
+
+	"Render cyan text (debugging API)"
+	sdl assertSuccess: (renderer renderDrawColor: Color cyan).
+	sdl assertSuccess: (renderer renderDebugTextX: 20 y: 20 str: 'Hello World').
+
+	"Present will actually render the previous operations"
+	sdl assertSuccess: renderer renderPresent.
+
+	self waitToSee.
+	
+	"Tear down"
+	renderer destroy.
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
+
+	| window renderer texture form surface |
+	window :=
+		sdl
+			newWindowTitle: #test08RenderTextureFromSurfaceFromForm
+			w: 400 h: 800 flags: 0.
+	window assertNotNullReturn.
+
+	renderer := window newRendererFor: nil.
+	renderer assertNotNullReturn.
+
+	"Render and present a texture created from a surface created from a Form"
+	form := self iconNamed: #pharoBig.
+	surface := form asUnownedNewSDL3Surface.
+	texture := renderer newTextureFromSurface: surface.
+	self assert: surface extent equals: 256 @ 256.
+	self assert: texture extent equals: 256.0 @ 256.0.
+	surface destroy.
+	sdl assertSuccess:
+		(renderer renderTexture: texture srcrect: nil dstrect: nil).
+	sdl assertSuccess: renderer renderPresent.
+
+	self waitToSee.
+	
+	"Tear down"
+	texture destroy.
+	renderer destroy.
+	window destroy
+]
+
+{ #category : 'tests' }
 SDL3WindowTest >> test09Bordered [
+
+	| window renderer |
+	window :=
+		sdl
+			newWindowTitle: #test09Bordered
+			w: 800 h: 600 flags: SDL3WindowFlags borderless.
+	window assertNotNullReturn.
+
+	renderer := window newRendererFor: nil.
+	renderer renderDrawColor: Color white.
+	renderer
+		renderDebugTextX: 20 y: 20
+			str: ('<1s>: <2p>' expandMacrosWith: #isBordered with: window isBordered);
+		renderPresent.
+	self waitToSee.
+	self deny: window isBordered.
+
+	window bordered: true.
+	renderer
+		renderDebugTextX: 20 y: 40
+			str: ('<1s>: <2p>' expandMacrosWith: #isBordered with: window isBordered);
+		renderPresent.
+	self waitToSee.
+	self assert: window isBordered.
+
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test10Hidden [
 
 	| window |
 	window :=
 		sdl
-			newWindowTitle: #test01CreateWindow
+			newWindowTitle: #test10Hidden
+			w: 800 h: 600 flags: SDL3WindowFlags hidden.
+	window assertNotNullReturn.
+
+	self assert: window isHidden.
+
+	self waitToSee.
+	window show.
+	self deny: window isHidden.
+
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test11Fullscreen [
+
+	| window renderer |
+	window :=
+		sdl
+			newWindowTitle: #test11Fullscreen
+			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
+	window assertNotNullReturn.
+	
+	renderer := window newRendererFor: nil.
+	renderer renderDrawColor: Color white.
+	renderer
+		renderDebugTextX: 20 y: 20
+			str: ('<1s>: <2p>' expandMacrosWith: #isFullscreen with: window isFullscreen);
+		renderPresent.
+
+	self waitToSee.
+	self assert: window isFullscreen.
+	
+	window fullscreen: false.
+	renderer
+		renderDebugTextX: 20 y: 40
+			str: ('<1s>: <2p>' expandMacrosWith: #isFullscreen with: window isFullscreen);
+		renderPresent.
+	self waitToSee.
+	self deny: window isFullscreen.
+
+	"Tear down"
+	renderer destroy.
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test12ShapedWindow [
+
+	| window extent shapeForm surface renderer texture |
+	extent := 500 @ 500.
+	window :=
+		sdl
+			newWindowTitle: #test12ShapedWindow
+			w: extent x h: extent y
+			flags:
+				SDL3WindowFlags hidden | 
+				SDL3WindowFlags transparent | 
+				SDL3WindowFlags borderless.
+	window assertNotNullReturn.
+	self assert: window isTransparent.
+	renderer := window newRendererFor: nil.
+	renderer assertNotNullReturn.
+
+	shapeForm := Form extent: extent depth: 32.
+	shapeForm getCanvas
+		fillColor: Color transparent;
+		fillOval: (0@0 corner: extent) color: Color blue.
+	surface := shapeForm asUnownedNewSDL3Surface.
+	sdl assertSuccess: (window shape: surface).
+	"Surface can be destroyed, as it was copied by SDL"
+	surface destroy.
+
+	window show.
+	renderer renderDrawColor: Color blue darker.
+	renderer renderClear.
+	renderer renderDrawColor: Color yellow.
+	renderer renderDebugTextX: extent x / 2 y: 20 str: 'TOP'.
+	renderer renderDebugTextX: extent x / 2 y: extent y - 20 str: 'BOTTOM'.
+	renderer renderDebugTextX: 20 y: extent y / 2 str: 'LEFT'.
+	renderer renderDebugTextX: extent x - 40 y: extent y / 2 str: 'RIGHT'.
+	sdl assertSuccess: renderer renderPresent.
+	self waitToSee.
+
+	"Change shape and render the icon"
+	shapeForm := self iconNamed: #pharoBig.
+	surface := shapeForm asUnownedNewSDL3Surface.
+	texture := renderer newTextureFromSurface: surface.
+	sdl assertSuccess: (window shape: surface).
+	surface destroy.
+	sdl assertSuccess:
+		(renderer renderTexture: texture srcrect: nil dstrect: nil).
+	sdl assertSuccess: renderer renderPresent.
+	self waitToSee.
+	
+	"Tear down"
+	renderer destroy.
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test13CocoaWindowPointer [
+
+	| window cocoaPointer |
+	OSPlatform current isMacOS ifFalse: [ ^ self skip ].
+
+	window :=
+		sdl
+			newWindowTitle: #test13CocoaWindowPointer
 			w: 800 h: 600 flags: SDL3WindowFlags borderless.
 	window assertNotNullReturn.
 
-	self deny: window isBordered description: #isBordered.
-
-	self waitToSee.
-	window bordered: true.
-	self waitToSee.
-	
-	self assert: window isBordered description: #isBordered.
+	cocoaPointer := window propertyGroup pointerAt: SDL_PROP_WINDOW_COCOA_WINDOW_POINTER ifAbsent: nil.
+	self deny: cocoaPointer isNull.
 
 	window destroy
 ]

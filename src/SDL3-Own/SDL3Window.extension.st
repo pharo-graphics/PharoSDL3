@@ -70,6 +70,12 @@ SDL3Window >> isFullscreen [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isHidden [
+
+	^ self flags anyMask: SDL3WindowFlags hidden
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isHighPixelDensity [
 
 	^ self flags anyMask: SDL3WindowFlags highPixelDensity
@@ -85,6 +91,12 @@ SDL3Window >> isMouseCaptured [
 SDL3Window >> isResizable [
 
 	^ self flags anyMask: SDL3WindowFlags resizable
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> isTransparent [
+
+	^ self flags anyMask: SDL3WindowFlags transparent
 ]
 
 { #category : '*SDL3-Own' }
@@ -106,6 +118,20 @@ SDL3Window >> pixelDensity [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> pixelExtent [
+	"Answer my pysical extent"
+
+	| widthValueHolder heightValueHolder |
+	widthValueHolder := FFIInt32 newValueHolder.
+	heightValueHolder := FFIInt32 newValueHolder.
+
+	self ffiLibrary assertSuccess:
+		(self getSizeInPixelsIntoW: widthValueHolder h: heightValueHolder).
+
+	^ widthValueHolder value @ heightValueHolder value
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> position [
 
 	| widthValueHolder heightValueHolder |
@@ -122,6 +148,12 @@ SDL3Window >> position [
 SDL3Window >> position: aPoint [
 
 	self ffiLibrary assertSuccess: (self positionX: aPoint x y: aPoint y)
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
 ]
 
 { #category : '*SDL3-Own' }
