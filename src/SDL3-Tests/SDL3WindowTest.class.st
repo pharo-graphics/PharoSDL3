@@ -65,7 +65,19 @@ SDL3WindowTest >> test01CreateWindow [
 			w: 800 h: 600 flags: 0.
 	window assertNotNullReturn.
 
+	self assert: window title equals: #test01CreateWindow.
 	self assert: window extent equals: 800 @ 600.
+	self assert: window width equals: 800.
+	self assert: window height equals: 600.
+	self assert: window displayScale > 0.0.
+	self assert: window pixelDensity > 0.0.
+	self assert: window isBordered.
+	self deny: window isFullscreen.
+	self deny: window isKeyboardGrabbed.
+	self deny: window isMouseGrabbed.
+	self deny: window isRelativeMouseMode.
+	self deny: window isScreenKeyboardShown.
+	self deny: window isTextInputActive.
 
 	self waitToSee.
 
@@ -224,19 +236,26 @@ SDL3WindowTest >> test06Fullscreen [
 			newWindowTitle: #test06Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
 	window assertNotNullReturn.
-
+	
 	renderer := window newRendererFor: nil.
 	renderer assertNotNullReturn.
 
-	"Render text (debugging API)"
 	renderer
 		renderDrawColor: Color white;
-		renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN'.
-
-	sdl assertSuccess: renderer renderPresent.
+		renderDebugTextX: 100 y: 100 str: 'Hello FULLSCREEN';
+		renderPresent.
 
 	self waitToSee.
+	window sync.
+	self assert: window isFullscreen description: 'Should be fullscreen'.
 	
+	window fullscreen: false.
+	renderer
+		renderDebugTextX: 100 y: 150 str: 'Good bye FULLSCREEN';
+		renderPresent.
+	self waitToSee.
+	self deny: window isFullscreen description: 'Shouldn''t be fullscreen'.
+
 	"Tear down"
 	renderer destroy.
 	window destroy
@@ -335,11 +354,32 @@ SDL3WindowTest >> test08bCreateWindowWithPropertyGroup [
 	self assert: window title equals: #test08CreateWindowWithProperties asString.
 	self assert: window position equals: rectangle origin.
 	self assert: window extent equals: rectangle extent.
-	self deny: (SDL3WindowFlags highPixelDensity & window flags) equals: 0.
-	self deny: (SDL3WindowFlags resizable & window flags) equals: 0.
-	self assert: (SDL3WindowFlags mouseCapture & window flags) equals: 0.
+	self assert: window isHighPixelDensity.
+	self assert: window isResizable.
+	self deny: window isMouseCaptured.
 
 	"Tear down"
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test09Bordered [
+
+	| window |
+	window :=
+		sdl
+			newWindowTitle: #test01CreateWindow
+			w: 800 h: 600 flags: SDL3WindowFlags borderless.
+	window assertNotNullReturn.
+
+	self deny: window isBordered description: #isBordered.
+
+	self waitToSee.
+	window bordered: true.
+	self waitToSee.
+	
+	self assert: window isBordered description: #isBordered.
+
 	window destroy
 ]
 
