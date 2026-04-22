@@ -103,10 +103,10 @@ SDL3GPUClearDemo >> render [
 			 into: swapchainTextureHolder
 			 width: nil
 			 height: nil).
-
-	"A minimized window returns NULL which would mean we'll skip
-	rendering this frame."
-	swapchainTextureHolder tfPointerAddress isNull ifTrue: [
+	
+	"A NULL pointer means we'll skip rendering this time.
+	(This happens when the window is minimized, for example.)"
+	swapchainTextureHolder value isNull ifTrue: [
 		^ commandBuffer cancel ].
 
 	self
