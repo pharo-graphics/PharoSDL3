@@ -10,7 +10,8 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'eventProcessor'
+		'eventProcessor',
+		'gpuDevice'
 	],
 	#classVars : [
 		'BackendWindowRegistry',
@@ -113,6 +114,15 @@ OSSDL3Driver >> deliverGlobalEvent: osEvent [
 			window osWindow deliverGlobalEvent: osEvent ] ]
 ]
 
+{ #category : 'gpu' }
+OSSDL3Driver >> destroyGpuDevice [
+	"Release the shared GPU device if it exists."
+
+	gpuDevice ifNotNil: [
+		gpuDevice destroy.
+		gpuDevice := nil ]
+]
+
 { #category : 'system startup' }
 OSSDL3Driver >> ensureEventLoop [
 	"Ensure that the SDL3 event loop process is running."
@@ -120,6 +130,28 @@ OSSDL3Driver >> ensureEventLoop [
 	EventLoopProcess ifNotNil: [ ^ self ].
 
 	self startUpEventLoop
+]
+
+{ #category : 'gpu' }
+OSSDL3Driver >> ensureGpuDevice [
+	"Ensure the shared GPU device is initialized and answer it."
+
+	^ gpuDevice ifNil: [
+		  gpuDevice := self ffiLibrary
+			               newGPUDeviceFormatFlags:
+			               SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl
+			               | SDL3GPUShaderFormat spirv
+			               debugMode: true
+			               name: nil.
+		  gpuDevice assertNotNullReturn.
+		  gpuDevice ]
+]
+
+{ #category : 'gpu' }
+OSSDL3Driver >> gpuDevice [
+	"Answer the shared GPU device."
+
+	^ gpuDevice
 ]
 
 { #category : 'initialization' }
@@ -200,7 +232,9 @@ OSSDL3Driver >> runEventLoop [
 OSSDL3Driver >> shutDown: quitting [
 	"Reset WindowMap and others, otherwise there will be handlers remaining on restart"
 
-	quitting ifTrue: [ BackendWindowRegistry := nil ].
+	quitting ifTrue: [
+		BackendWindowRegistry := nil.
+		self destroyGpuDevice ].
 
 	self shutDownEventLoop
 ]

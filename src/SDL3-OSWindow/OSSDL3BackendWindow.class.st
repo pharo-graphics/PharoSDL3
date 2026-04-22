@@ -11,7 +11,6 @@ Class {
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
 		'sdl3Window',
-		'gpuDevice',
 		'currentCursor',
 		'currentDraggableCallback'
 	],
@@ -51,13 +50,6 @@ OSSDL3BackendWindow >> bounds: newBounds [
 	self
 		position: newBounds origin;
 		extent: newBounds extent
-]
-
-{ #category : 'gpu' }
-OSSDL3BackendWindow >> claimWindow: aGPUDevice [
-	"Claim this window for use with the given GPU device."
-
-	^ aGPUDevice claimWindow: sdl3Window
 ]
 
 { #category : 'accessing' }
@@ -119,17 +111,12 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 
 { #category : 'gpu' }
 OSSDL3BackendWindow >> gpuDevice [
-	"Answer the GPU device associated with this window, creating a default one if necessary."
+	"Answer the shared GPU device from the driver and ensure this window is claimed by it."
 
-	^ gpuDevice ifNil: [ 
-		"Create a default GPU device if none exists."
-		gpuDevice := LibSDL3 uniqueInstance 
-			newGPUDeviceFormatFlags: (SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv) 
-			debugMode: true 
-			name: nil.
-		self claimWindow: gpuDevice.
-		gpuDevice
-	]
+	| device |
+	device := OSSDL3Driver current ensureGpuDevice.
+	device claimWindow: sdl3Window.
+	^ device
 ]
 
 { #category : 'accessing' }

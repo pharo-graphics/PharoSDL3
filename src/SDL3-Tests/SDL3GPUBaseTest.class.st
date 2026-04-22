@@ -71,6 +71,46 @@ SDL3GPUBaseTest >> testAcquireSwapchainTexture [
 ]
 
 { #category : 'tests' }
+SDL3GPUBaseTest >> testClearMultipleRects [
+	| commandBuffer textureHolder success colorTargetInfo renderPass rects |
+	commandBuffer := gpuDevice acquireGPUCommandBuffer.
+	textureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
+	
+	success := commandBuffer
+		waitAndAcquireGPUSwapchainTextureForWindow: window
+		into: textureHolder
+		width: nil
+		height: nil.
+	
+	self assert: success.
+	
+	rects := { 
+		0@0 extent: 100@100.
+		200@200 extent: 50@50.
+		400@100 extent: 100@200
+	}.
+
+	rects do: [ :rect |
+		colorTargetInfo := SDL3GPUColorTargetInfo new.
+		colorTargetInfo
+			texture: textureHolder value;
+			storeOp: SDL3GPUStoreOp store;
+			loadOp: SDL3GPULoadOp clear.
+		"Using different colors for each rect"
+		colorTargetInfo clearColor updateFrom: Color random.
+
+		renderPass := commandBuffer
+			beginGPURenderPassColorTargetInfos: colorTargetInfo
+			numColorTargets: 1
+			depthStencilTargetInfo: nil.
+		renderPass assertNotNullReturn.
+		renderPass end.
+	].
+	
+	commandBuffer submit.
+]
+
+{ #category : 'tests' }
 SDL3GPUBaseTest >> testClearScreen [
 	| commandBuffer textureHolder success colorTargetInfo renderPass |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
