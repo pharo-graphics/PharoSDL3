@@ -60,6 +60,8 @@ The `LibSDL3` class provides direct access to the C API.
 - **CamelCase:** The first letter of the function name is lowercased.
 - **Keywords:** Function parameters are converted into Pharo keywords.
 
+You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki with a complete mapping from SDL functions to each Pharo method in `LibSDL3`.
+
 **Examples:**
 - `SDL_Init(flags)` maps to `LibSDL3 >> init: flags`
 - `SDL_CreateWindow(title, w, h, flags)` maps to `LibSDL3 >> newWindowTitle:w:h:flags:`
@@ -74,7 +76,7 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` provide more idioma
   - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW:w h:h`
   - `SDL_GetRenderClipRect(renderer, &rect)` maps to `SDL3Renderer >> getRenderClipRectInto: rect`
 
-You can explore all available functions in the `LibSDL3` class or by browsing the object classes.
+You can explore all available functions in the `LibSDL3` class or by browsing the object classes. The tables in [our wiki page](../../wiki/High%E2%80%90level-API) can help, as well.
 
 ## More Information
 
