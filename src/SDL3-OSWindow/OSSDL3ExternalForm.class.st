@@ -108,6 +108,27 @@ OSSDL3ExternalForm >> setExtent: anExtent depth: bitsPerPixel bits: aPointer [
 ]
 
 { #category : 'initialization' }
+OSSDL3ExternalForm >> setExtent: anExtent depth: bitsPerPixel pitch: rowPitch bits: aPointer [
+	"Set the extent, depth, row pitch and the external memory pointer."
+
+	bits ifNotNil: [ self error: 'Bits are already set' ].
+	bitsPerPixel = 32 ifFalse: [ self error: 'Only 32-bit depth is supported for now' ].
+	
+	width := anExtent x asInteger max: 0.
+	height := anExtent y asInteger max: 0.
+	depth := bitsPerPixel.
+	
+	bits := self
+		primCreateManualSurfaceWidth: width
+		height: height
+		rowPitch: rowPitch
+		depth: bitsPerPixel
+		isMSB: true.
+		
+	self setManualSurfacePointer: aPointer
+]
+
+{ #category : 'initialization' }
 OSSDL3ExternalForm >> setManualSurfacePointer: aPointer [
 	"Set the external memory pointer for the pixel data. Handles both ExternalAddress and objects responding to #getHandle."
 

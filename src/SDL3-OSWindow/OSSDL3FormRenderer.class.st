@@ -80,10 +80,10 @@ OSSDL3FormRenderer >> outputExtent [
 ]
 
 { #category : 'private' }
-OSSDL3FormRenderer >> primitiveUpdateRectangle: rectangle externalForm: externalForm [
+OSSDL3FormRenderer >> primitiveUpdateRectangle: rectangle to: targetPoint externalForm: externalForm [
 	"We need to do this ugly hack because the Mutex that is used in the renderer is not correctly liberated when there is an exception. Issue #10156. Once it is fixed, we can signal the exception as normal people."
 
-	[ externalForm copy: rectangle from: form to: rectangle origin rule: Form over ]
+	[ externalForm copy: rectangle from: form to: targetPoint rule: Form over ]
 		on: Exception do: [ :e |
 			Stdio stdout
 				<< 'There was an error during copy, we should not throw an exception here: ';
@@ -106,63 +106,71 @@ OSSDL3FormRenderer >> updateAll [
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
-	| pixels pitch intersection updateUnion externalForm |
+	| pixels pitch intersection updateUnion externalForm sdlRect |
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
-		pixels := ExternalAddress new.
-		ExternalAddress allocate: 4 bytesDuring: [ :pitchHolder |
-			texture lockRect: nil pixels: pixels pitch: pitchHolder.
-			pitch := pitchHolder signedLongAt: 1 ].
-
 		updateUnion := nil.
-		[
-		externalForm := OSSDL3ExternalForm
-			                extent: extent
-			                depth: 32
-			                bits: pixels.
 		allDamage do: [ :rectangle |
 			intersection := rectangle
-				                intersect: (0 @ 0 corner: extent)
+				                intersect: (0 @ 0 extent: extent)
 				                ifNone: [ nil ].
 
 			intersection ifNotNil: [
+				pixels := ExternalAddress new.
+				sdlRect := SDL3Rect newFrom: intersection.
+				ExternalAddress allocate: 4 bytesDuring: [ :pitchHolder |
+					texture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
+					pitch := pitchHolder signedLongAt: 1 ].
+
+				[
+				externalForm := OSSDL3ExternalForm new
+					                setExtent: intersection extent
+					                depth: 32
+					                pitch: pitch
+					                bits: pixels;
+					                yourself.
 				self
-					primitiveUpdateRectangle: rectangle
+					primitiveUpdateRectangle: intersection
+					to: 0@0
 					externalForm: externalForm.
 				updateUnion
 					ifNil: [ updateUnion := intersection ]
-					ifNotNil: [ updateUnion := updateUnion merge: intersection ] ] ] ]
-			ensure: [
-				texture unlock.
-				externalForm destroySurface ].
+					ifNotNil: [ updateUnion := updateUnion merge: intersection ] ]
+					ensure: [
+						texture unlock.
+						externalForm destroySurface ] ] ].
 
-		updateUnion ifNotNil: [
+		(forceToScreen and: [ updateUnion isNotNil ]) ifTrue: [
 			self copyAndPresentTextureRectangle: updateUnion ] ]
 ]
 
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> updateRectangle: rectangle [
 
-	| intersection pixels pitch externalForm |
+	| intersection pixels pitch externalForm sdlRect |
 	mutex critical: [
 		intersection := rectangle
-			                intersect: (0 @ 0 corner: backendWindow extent)
+			                intersect: (0 @ 0 extent: extent)
 			                ifNone: [ ^ self ].
 		self validate ifFalse: [ ^ self ].
 
 		pixels := ExternalAddress new.
+		sdlRect := SDL3Rect newFrom: intersection.
 		ExternalAddress allocate: 4 bytesDuring: [ :pitchHolder |
-			texture lockRect: nil pixels: pixels pitch: pitchHolder.
+			texture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
 			pitch := pitchHolder signedLongAt: 1 ].
 
 		[
-		externalForm := OSSDL3ExternalForm
-			                extent: extent
+		externalForm := OSSDL3ExternalForm new
+			                setExtent: intersection extent
 			                depth: 32
-			                bits: pixels.
+			                pitch: pitch
+			                bits: pixels;
+			                yourself.
 		self
 			primitiveUpdateRectangle: intersection
+			to: 0@0
 			externalForm: externalForm ] ensure: [
 			texture unlock.
 			externalForm destroySurface ].
