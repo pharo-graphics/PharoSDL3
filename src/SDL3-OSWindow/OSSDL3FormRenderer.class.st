@@ -5,11 +5,11 @@ Class {
 	#name : 'OSSDL3FormRenderer',
 	#superclass : 'OSWindowFormRenderer',
 	#instVars : [
-		'texture',
-		'renderer',
 		'extent',
 		'deferUpdates',
-		'mutex'
+		'mutex',
+		'sdlRenderer',
+		'sdlTexture'
 	],
 	#category : 'SDL3-OSWindow-Renderers',
 	#package : 'SDL3-OSWindow',
@@ -23,22 +23,22 @@ OSSDL3FormRenderer >> copyAndPresentTextureRectangle: rectangle [
 	deferUpdates ifTrue: [ ^ self ].
 
 	sdlRectangle := SDL3FRect newFrom: rectangle.
-	renderer renderTexture: texture srcrect: sdlRectangle dstrect: sdlRectangle.
-	renderer renderPresent
+	sdlRenderer renderTexture: sdlTexture srcrect: sdlRectangle dstrect: sdlRectangle.
+	sdlRenderer renderPresent
 ]
 
 { #category : 'private' }
 OSSDL3FormRenderer >> createRenderer [
 
-	renderer := backendWindow sdl3Window newRendererFor: nil
+	sdlRenderer := backendWindow sdl3Window newRendererFor: nil
 ]
 
 { #category : 'private' }
 OSSDL3FormRenderer >> createTexture [
 	"Existing texture released explicitly to avoid memory leak on resize"
 
-	texture ifNotNil: [ texture destroy ].
-	texture := renderer
+	sdlTexture ifNotNil: [ sdlTexture destroy ].
+	sdlTexture := sdlRenderer
 		           newTextureFormat: SDL3PixelFormat xrgb8888
 		           access: SDL3TextureAccess streaming
 		           w: form width
@@ -56,13 +56,14 @@ OSSDL3FormRenderer >> deferUpdatesWhile: aBlock [
 
 { #category : 'deleting' }
 OSSDL3FormRenderer >> destroy [
+	"Destroy my SDL3 resources. You can send #validate to reinitialize the resources. Super-send is avoided since it looses the backendWindow, and we want to keep the reference."
 
 	mutex critical: [
-		(texture isNil or: [ renderer isNil ]) ifTrue: [ ^ self ].
-		texture destroy.
-		renderer destroy.
-		texture := nil.
-		renderer := nil ]
+		(sdlTexture isNil or: [ sdlRenderer isNil ]) ifTrue: [ ^ self ].
+		sdlTexture destroy.
+		sdlRenderer destroy.
+		sdlTexture := nil.
+		sdlRenderer := nil ]
 ]
 
 { #category : 'initialization' }
@@ -76,7 +77,7 @@ OSSDL3FormRenderer >> initialize [
 { #category : 'accessing' }
 OSSDL3FormRenderer >> outputExtent [
 
-	^ renderer outputExtent
+	^ sdlRenderer outputExtent
 ]
 
 { #category : 'private' }
@@ -97,10 +98,10 @@ OSSDL3FormRenderer >> updateAll [
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
-		texture updateRect: nil pixels: form bits pitch: form width * 4.
+		sdlTexture updateRect: nil pixels: form bits pitch: form width * 4.
 		deferUpdates ifTrue: [ ^ self ].
-		renderer renderTexture: texture srcrect: nil dstrect: nil.
-		renderer renderPresent ]
+		sdlRenderer renderTexture: sdlTexture srcrect: nil dstrect: nil.
+		sdlRenderer renderPresent ]
 ]
 
 { #category : 'updating screen' }
@@ -120,7 +121,7 @@ OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 				pixels := ExternalAddress new.
 				sdlRect := SDL3Rect newFrom: intersection.
 				ExternalAddress allocate: 4 bytesDuring: [ :pitchHolder |
-					texture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
+					sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
 					pitch := pitchHolder signedLongAt: 1 ].
 
 				[
@@ -138,7 +139,7 @@ OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 					ifNil: [ updateUnion := intersection ]
 					ifNotNil: [ updateUnion := updateUnion merge: intersection ] ]
 					ensure: [
-						texture unlock.
+						sdlTexture unlock.
 						externalForm destroySurface ] ] ].
 
 		(forceToScreen and: [ updateUnion isNotNil ]) ifTrue: [
@@ -158,7 +159,7 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 		pixels := ExternalAddress new.
 		sdlRect := SDL3Rect newFrom: intersection.
 		ExternalAddress allocate: 4 bytesDuring: [ :pitchHolder |
-			texture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
+			sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
 			pitch := pitchHolder signedLongAt: 1 ].
 
 		[
@@ -172,7 +173,7 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 			primitiveUpdateRectangle: intersection
 			to: 0@0
 			externalForm: externalForm ] ensure: [
-			texture unlock.
+			sdlTexture unlock.
 			externalForm destroySurface ].
 
 		self copyAndPresentTextureRectangle: intersection ]
@@ -182,8 +183,8 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 OSSDL3FormRenderer >> useDeferredUpdates [
 
 	mutex critical: [
-		renderer
-			renderTexture: texture
+		sdlRenderer
+			renderTexture: sdlTexture
 				srcrect: nil
 				dstrect: nil;
 			renderPresent ]
@@ -193,7 +194,7 @@ OSSDL3FormRenderer >> useDeferredUpdates [
 OSSDL3FormRenderer >> validate [
 
 	form ifNil: [ ^ false ].
-	(renderer isNil or: [ renderer isNull ]) ifTrue: [ self createRenderer ].
-	(texture isNil or: [ texture isNull or: [ form extent ~= extent ] ]) ifTrue: [ self createTexture ].
+	(sdlRenderer isNil or: [ sdlRenderer isNull ]) ifTrue: [ self createRenderer ].
+	(sdlTexture isNil or: [ sdlTexture isNull or: [ form extent ~= extent ] ]) ifTrue: [ self createTexture ].
 	^ true
 ]
