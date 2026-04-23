@@ -101,9 +101,9 @@ OSSDL3EventProcessor >> initialize [
 
 { #category : 'private' }
 OSSDL3EventProcessor >> mousePosition [
-	"Answer the current mouse position relative to this window."
+	"Answer an Integer Point with the current mouse position relative to this window."
 
-	^ LibSDL3 uniqueInstance mousePosition
+	^ LibSDL3 uniqueInstance mousePositionRounded
 ]
 
 { #category : 'private' }
@@ -162,7 +162,7 @@ OSSDL3EventProcessor >> visitMouseButtonDownEvent: anEvent [
 	osEvent := OSMouseButtonPressEvent new.
 	osEvent
 		button: anEvent button;
-		position: anEvent x @ anEvent y.
+		position: anEvent x rounded @ anEvent y rounded.
 
 	self
 		convertButtonState: nil
@@ -178,7 +178,7 @@ OSSDL3EventProcessor >> visitMouseButtonUpEvent: anEvent [
 	osEvent := OSMouseButtonReleaseEvent new.
 	osEvent
 		button: anEvent button;
-		position: anEvent x @ anEvent y.
+		position: anEvent x rounded @ anEvent y rounded.
 
 	self
 		convertButtonState: nil
@@ -193,8 +193,8 @@ OSSDL3EventProcessor >> visitMouseMotionEvent: anSDLEvent [
 	| osEvent |
 	osEvent := OSMouseMoveEvent new.
 	osEvent
-		position: anSDLEvent x @ anSDLEvent y;
-		delta: anSDLEvent xrel @ anSDLEvent yrel.
+		position: anSDLEvent x rounded @ anSDLEvent y rounded;
+		delta: anSDLEvent xrel rounded @ anSDLEvent yrel rounded.
 
 	self
 		convertButtonState: anSDLEvent state
@@ -209,7 +209,7 @@ OSSDL3EventProcessor >> visitMouseWheelEvent: anSDLEvent [
 	| osEvent |
 	osEvent := OSMouseWheelEvent new.
 	osEvent
-		position: self mousePosition;
+		position: anSDLEvent mouseX rounded @ anSDLEvent mouseY rounded;
 		scrollHorizontal: anSDLEvent x;
 		scrollVertical: anSDLEvent y.
 

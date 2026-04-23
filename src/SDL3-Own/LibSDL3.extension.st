@@ -226,6 +226,18 @@ LibSDL3 >> mousePosition [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> mousePositionRounded [
+	"Answer the mouse position with rounded coordinates."
+
+	| xHolder yHolder |
+	xHolder := FFIFloat32 newValueHolder.
+	yHolder := FFIFloat32 newValueHolder.
+
+	self getMouseStateX: xHolder y: yHolder.
+	^ xHolder value rounded @ yHolder value rounded
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> newPropertyGroup [
 	"Anwer a new group of properties. Sender is responsible of releasing it with #destroy. 
 	However, all properties are automatically destroyed on `SDL_Quit()`."
