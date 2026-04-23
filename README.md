@@ -28,7 +28,7 @@ curl https://get.pharo.org/140+vm | bash
 ### 2. Install the SDL3 library
 
 Ensure the SDL3 library is available on your system so Pharo's FFI can find it.
-- **macOS:** `brew install sdl3`
+- **MacOS:** `brew install sdl3`
 - **Linux:** Build from [source](https://github.com/libsdl-org/SDL/blob/main/INSTALL.md) or use your package manager.
 - **Windows:** Download the DLL from [SDL releases](https://github.com/libsdl-org/SDL/releases) and place it in the same folder as your Pharo image.
 
@@ -37,18 +37,30 @@ Ensure the SDL3 library is available on your system so Pharo's FFI can find it.
 
 The project includes automated tests as well as interactive demos. These demos complement automated testing by allowing for human verification of visual rendering and event handling.
 
-Available demos:
-- **Basic Windows:** `SDL3Demo example01MultipleWindows`
-- **Events & Input:** `SDL3Demo example04HandleEvents`
-- **System Tray:** `SDL3Demo example08TrayMenu`
-- **GPU Rendering:** `SDL3GPURenderStateDemo run` ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
-
-**Important:** Pharo's UI and SDL2 (used by the Pharo VM) may conflict with SDL3's event loop in some environments. It is recommended to run SDL3 applications in **headless mode** or ensure proper event handling.
+**Important:** Pharo's UI and SDL2 (used by default in Pharo 14) conflict with SDL3's event loop in some environments. Therefore, it is recommended to run SDL3 applications in **headless mode** or ensure proper event handling.
 
 To run tests from the terminal:
 ```bash
 ./pharo Pharo.image test 'SDL3-Tests'
 ```
+
+Available demos:
+- **Basic Windows:** `./pharo Pharo.image eval 'SDL3Demo run01MultipleWindows'`
+- **Events & Input:** `./pharo Pharo.image eval 'SDL3Demo run04HandleEvents'`
+- **System Tray:** `./pharo Pharo.image eval 'SDL3Demo run08TrayMenu'`
+- **GPU shader effects:** `./pharo Pharo.image eval 'SDL3GPURenderStateDemo new run'` ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
+- **GPU low-level API:** `./pharo Pharo.image eval 'SDL3GPUClearDemo new run'`
+
+
+## OSWindow backend
+
+It can be test by:
+1. Download Pharo 14 via zeroconf script: `curl https://get.pharo.org/140+vm | bash`
+2. Load this project's baseline
+3. Save and Close
+4. Run in terminal: `PHARO_WINDOW_DRIVER=OSSDL3Driver ./pharo-ui Pharo.image`
+5. Verify that `OSWindowDriver current` answers a `OSSDL3Driver`
+
 
 ## Mapping SDL3 Functions to Pharo Methods
 

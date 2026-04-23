@@ -9,8 +9,7 @@ Class {
 		'dialogFileCallback',
 		'sdl',
 		'initialExtent',
-		'initialWindowFlags',
-		'isCaptured'
+		'initialWindowFlags'
 	],
 	#pools : [
 		'SDL3EventType',
