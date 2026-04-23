@@ -164,18 +164,30 @@ OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 			intersection := rect intersect: (0@0 extent: extent) ifNone: [ nil ].
 			intersection ifNotNil: [ 
 				blitInfo := SDL3GPUBlitInfo new.
-				blitInfo source texture: gpuTexture.
-				blitInfo source x: intersection left; y: intersection top; w: intersection width; h: intersection height.
-				blitInfo source mipLevel: 0; layerOrDepthPlane: 0.
-				
-				blitInfo destination texture: swapchainTextureHolder value.
-				blitInfo destination x: intersection left; y: intersection top; w: intersection width; h: intersection height.
-				blitInfo destination mipLevel: 0; layerOrDepthPlane: 0.
-				
-				blitInfo loadOp: SDL3GPULoadOp dontCare.
-				blitInfo filter: SDL3GPUFilter nearest.
-				blitInfo cycle: false.
-				blitInfo flipMode: SDL3FlipMode none.
+
+				blitInfo source
+					texture: gpuTexture;
+					x: intersection left;
+					y: intersection top;
+					w: intersection width;
+					h: intersection height;
+					mipLevel: 0;
+					layerOrDepthPlane: 0.
+
+				blitInfo destination
+					texture: swapchainTextureHolder value;
+					x: intersection left;
+					y: intersection top;
+					w: intersection width;
+					h: intersection height;
+					mipLevel: 0;
+					layerOrDepthPlane: 0.
+
+				blitInfo
+					loadOp: SDL3GPULoadOp dontCare;
+					filter: SDL3GPUFilter nearest;
+					cycle: false;
+					flipMode: SDL3FlipMode none.
 
 				commandBuffer blitGPUTextureInfo: blitInfo.
 			]
@@ -202,9 +214,10 @@ OSSDL3GPUFormRenderer >> uploadInternalTextureAreas: allDamage commandBuffer: co
 	
 	allDamage do: [ :rect |
 		| intersection |
-		intersection := rect intersect: (0@0 extent: extent) ifNone: [ nil ].
+		"Upload SDL3 call fails with float values on rect, then we expand to tolerate it."
+		intersection := rect expanded intersect: (0@0 extent: extent) ifNone: [ nil ].
 		intersection ifNotNil: [ 
-			"1. Upload partial bits from Smalltalk Form to the mapped Transfer Buffer.
+			"1. Upload partial bits from Form to the mapped Transfer Buffer.
 			 For simplicity and to correctly handle pitch/stride, we use updateFromForm:area:device:
 			 which correctly maps/unmaps the buffer for each rectangle.
 			 
@@ -212,18 +225,28 @@ OSSDL3GPUFormRenderer >> uploadInternalTextureAreas: allDamage commandBuffer: co
 			 then perform multiple uploadToGPUTexture calls inside the same copyPass."
 			gpuTransferBuffer updateFromForm: form area: intersection device: gpuDevice.
 
-			source := SDL3GPUTextureTransferInfo new.
-			source transferBuffer: gpuTransferBuffer.
 			"Since we copy only the sub-rect to the beginning of the transferBuffer in updateFromForm:area:,
 			 the source offset is 0, but we must use the correct pitch."
-			source offset: 0; pixelsPerRow: intersection width; rowsPerLayer: intersection height.
-			
+			source := SDL3GPUTextureTransferInfo new.
+			source
+				transferBuffer: gpuTransferBuffer;
+				offset: 0;
+				pixelsPerRow: intersection width;
+				rowsPerLayer: intersection height.
+
 			destination := SDL3GPUTextureRegion new.
-			destination texture: gpuTexture.
-			destination x: intersection left; y: intersection top; z: 0; w: intersection width; h: intersection height; d: 1.
-			destination mipLevel: 0; layer: 0.
-			
-			copyPass uploadToGPUTextureSource: source destination: destination cycle: false.
+			destination
+				texture: gpuTexture;
+				x: intersection left;
+				y: intersection top;
+				z: 0;
+				w: intersection width;
+				h: intersection height;
+				d: 1;
+				mipLevel: 0;
+				layer: 0.
+
+			copyPass uploadToGPUTextureSource: source destination: destination cycle: false
 		]
 	].
 	
