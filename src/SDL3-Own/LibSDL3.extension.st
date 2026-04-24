@@ -153,7 +153,7 @@ LibSDL3 >> assertSuccess: aReturnedValue [
 		ifFalse: [ ^ aReturnedValue ].
 
 	"Try to retrieve a descriptive error message"
-	^ SDL3Error new signal: self getError
+	^ SDL3Error signalFromLibraryErrorMessage
 ]
 
 { #category : '*SDL3-Own' }

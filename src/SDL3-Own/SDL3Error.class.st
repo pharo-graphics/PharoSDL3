@@ -8,6 +8,17 @@ Class {
 	#package : 'SDL3-Own'
 }
 
+{ #category : 'signalling' }
+SDL3Error class >> signalFromLibraryErrorMessage [
+
+	| errorMessage |
+	errorMessage :=
+		LibSDL3 uniqueInstance getError
+			ifEmpty: [ 'Unknown error in a SDL3 FFI call' ].
+
+	^ self new signal: errorMessage
+]
+
 { #category : 'accessing' }
 SDL3Error >> messageText [
 

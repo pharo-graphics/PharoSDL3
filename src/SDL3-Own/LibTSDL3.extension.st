@@ -8,5 +8,5 @@ LibTSDL3 >> assertNotNullReturn [
 	self isNull ifFalse: [ ^ self ].
 
 	"Try to retrieve a descriptive error message"
-	^ SDL3Error new signal: self ffiLibrary getError
+	^ SDL3Error signalFromLibraryErrorMessage
 ]
