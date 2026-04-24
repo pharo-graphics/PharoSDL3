@@ -137,14 +137,13 @@ OSSDL3Driver >> ensureGpuDevice [
 	"Ensure the shared GPU device is initialized and answer it."
 
 	^ gpuDevice ifNil: [
-		  gpuDevice := self ffiLibrary
-			               newGPUDeviceFormatFlags:
-			               SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl
-			               | SDL3GPUShaderFormat spirv
-			               debugMode: true
-			               name: nil.
-		  gpuDevice assertNotNullReturn.
-		  gpuDevice ]
+		gpuDevice :=
+			self ffiLibrary
+				newGPUDeviceFormatFlags: SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv
+				debugMode: true
+				name: nil.
+		gpuDevice assertNotNullReturn.
+		gpuDevice ]
 ]
 
 { #category : 'gpu' }
