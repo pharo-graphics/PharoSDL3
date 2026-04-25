@@ -223,8 +223,12 @@ OSSDL3Driver >> runEventLoop [
 	[ session == Smalltalk session ] whileTrue: [
 		[ self ffiLibrary pollEvent: sdl3Event ] whileTrue: [
 			eventProcessor deliver: sdl3Event on: self ].
+		
+		"Flush all renderers to ensure screen updates"
+		self class allWindows do: [ :win | 
+			win renderer ifNotNil: [ :renderer | renderer flush ] ].
 
-		(Delay forMilliseconds: 5) wait ]
+		(Delay forMilliseconds: 1) wait ]
 ]
 
 { #category : 'system startup' }

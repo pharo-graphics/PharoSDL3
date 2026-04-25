@@ -66,6 +66,11 @@ OSSDL3FormRenderer >> destroy [
 		sdlRenderer := nil ]
 ]
 
+{ #category : 'accessing' }
+OSSDL3FormRenderer >> flush [
+	"Process any pending presentation to the screen."
+]
+
 { #category : 'initialization' }
 OSSDL3FormRenderer >> initialize [
 
