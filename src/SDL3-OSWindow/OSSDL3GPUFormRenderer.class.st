@@ -10,10 +10,17 @@ Class {
 		'gpuDevice',
 		'gpuTexture',
 		'extent',
-		'deferUpdates',
 		'mutex',
-		'accumulatedDamage',
-		'gpuTransferBuffer'
+		'gpuTransferBuffer',
+		'gpuTextureFormat',
+		'swapchainTextureHolder',
+		'pooledTextureTransferInfo',
+		'pooledTextureRegion',
+		'pooledSourceLocation',
+		'pooledDestinationLocation',
+		'externalForm',
+		'needsFlush',
+		'deferFlush'
 	],
 	#pools : [
 		'SDL3GPUTextureFormat',
@@ -24,32 +31,14 @@ Class {
 	#tag : 'Renderers'
 }
 
-{ #category : 'updating screen' }
-OSSDL3GPUFormRenderer >> accumulateDamage: aRectangle [
-
-	accumulatedDamage add: aRectangle
-]
-
-{ #category : 'accessing' }
-OSSDL3GPUFormRenderer >> accumulatedDamage [
-
-	^ accumulatedDamage
-]
-
-{ #category : 'updating screen' }
-OSSDL3GPUFormRenderer >> clearAccumulatedDamage [
-
-	accumulatedDamage removeAll
-]
-
 { #category : 'morphic integration' }
 OSSDL3GPUFormRenderer >> deferUpdatesWhile: aBlock [
 	"Defer screen updates during the execution of aBlock."
 
-	deferUpdates := true.
+	deferFlush := true.
 	aBlock ensure: [ 
-		deferUpdates := false.
-		self useDeferredUpdates ]
+		deferFlush := false.
+		self flush ]
 ]
 
 { #category : 'deleting' }
@@ -61,18 +50,39 @@ OSSDL3GPUFormRenderer >> destroy [
 			gpuDevice releaseGPUTexture: gpuTexture ].
 		gpuTransferBuffer ifNotNil: [
 			gpuDevice releaseGPUTransferBuffer: gpuTransferBuffer ].
+		externalForm ifNotNil: [
+			externalForm destroySurface ].
 		gpuTexture := nil.
 		gpuTransferBuffer := nil.
 		gpuDevice := nil ]
+]
+
+{ #category : 'updating screen' }
+OSSDL3GPUFormRenderer >> flush [
+	"Process any pending presentation to the screen.
+	 The backing store is assumed to be up-to-date (handled in updateAreas:)."
+
+	| commandBuffer |
+	mutex critical: [
+		self validate ifFalse: [ ^ self ].
+		
+		"If nothing dirty to present, just return"
+		needsFlush ifFalse: [ ^ self ].
+
+		commandBuffer := gpuDevice acquireGPUCommandBuffer.
+		self privateFlush: commandBuffer.
+	]
 ]
 
 { #category : 'initialization' }
 OSSDL3GPUFormRenderer >> initialize [
 
 	super initialize.
-	deferUpdates := false.
+	deferFlush := false.
 	mutex := Mutex new.
-	accumulatedDamage := OrderedCollection new
+	needsFlush := false.
+	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
+	externalForm := OSSDL3ExternalForm new
 ]
 
 { #category : 'private' }
@@ -80,7 +90,12 @@ OSSDL3GPUFormRenderer >> initializeGPUDevice [
 
 	gpuDevice := backendWindow gpuDevice.
 
-	"Explicitly set VSYNC to ensure consistent behavior and avoid tearing."
+	"Query swapchain format to match our internal texture for fast copies"
+	gpuTextureFormat := self ffiLibrary 
+		getGPUSwapchainTextureFormatDevice: gpuDevice 
+		window: backendWindow sdl3Window.
+
+	"Explicitly set VSYNC mode to avoid tearing"
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary
 			setGPUSwapchainParametersDevice: gpuDevice 
@@ -99,21 +114,84 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	extent := form extent.
 	totalBytes := extent x * 4 * extent y.
 	
+	"Backing store needs SAMPLER usage for copying/rendering to swapchain"
 	gpuTexture := gpuDevice
-		new2DTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
-		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER asInteger
+		new2DTextureFormat: gpuTextureFormat
+		usage: (SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET) asInteger
 		width: extent x 
 		height: extent y.
 	gpuTexture assertNotNullReturn.
 
 	gpuTransferBuffer := gpuDevice newUploadTransferBuffer: totalBytes.
-	gpuTransferBuffer assertNotNullReturn
+	gpuTransferBuffer assertNotNullReturn.
+	
+	"New texture is empty/garbage, so it is dirty relative to screen"
+	needsFlush := true.
+	
+	"Pre-allocate pooled structures to avoid GC pressure in hot path"
+	pooledTextureTransferInfo := SDL3GPUTextureTransferInfo new.
+	pooledTextureTransferInfo transferBuffer: gpuTransferBuffer.
+	pooledTextureTransferInfo pixelsPerRow: 0; rowsPerLayer: 0.
+	pooledTextureTransferInfo offset: 0.
+
+	pooledTextureRegion := SDL3GPUTextureRegion new.
+	pooledTextureRegion texture: gpuTexture.
+	pooledTextureRegion z: 0; d: 1; mipLevel: 0; layer: 0.
+
+	pooledSourceLocation := SDL3GPUTextureLocation new.
+	pooledSourceLocation texture: gpuTexture.
+	pooledSourceLocation z: 0; mipLevel: 0; layer: 0.
+
+	pooledDestinationLocation := SDL3GPUTextureLocation new.
+	pooledDestinationLocation z: 0; mipLevel: 0; layer: 0
 ]
 
 { #category : 'accessing' }
 OSSDL3GPUFormRenderer >> outputExtent [
 	
 	^ backendWindow sdl3Window pixelExtent
+]
+
+{ #category : 'private' }
+OSSDL3GPUFormRenderer >> privateFlush: commandBuffer [
+	"Actual implementation of swapchain presentation. 
+	 Assumes mutex is held and resources are validated."
+
+	"A. Try Acquire Swapchain texture (Non-blocking).
+	   This avoids starving background processes when VSYNC is enabled."
+	| copyPass |
+	(commandBuffer
+		acquireGPUSwapchainTextureForWindow: backendWindow sdl3Window
+		into: swapchainTextureHolder
+		width: nil
+		height: nil).
+				
+	swapchainTextureHolder value isNull ifTrue: [ 
+		"Swapchain busy. Submit existing uploads and try again in the next flush."
+		self ffiLibrary assertSuccess: commandBuffer submit.
+		^ self ].
+					
+	"B. Copy FULL backing store to Swapchain.
+	   GPU-to-GPU copy is extremely fast and ensures screen consistency."
+	copyPass := commandBuffer beginGPUCopyPass.
+	
+	pooledSourceLocation x: 0; y: 0.
+	pooledDestinationLocation texture: swapchainTextureHolder value.
+	pooledDestinationLocation x: 0; y: 0.
+	
+	copyPass 
+		copyGPUTextureToTextureSource: pooledSourceLocation 
+		destination: pooledDestinationLocation 
+		w: extent x 
+		h: extent y 
+		d: 1 
+		cycle: false.
+	
+	copyPass end.
+
+	"C. Submit everything and record that screen is now up-to-date"
+	self ffiLibrary assertSuccess: commandBuffer submit.
+	needsFlush := false
 ]
 
 { #category : 'updating screen' }
@@ -126,77 +204,58 @@ OSSDL3GPUFormRenderer >> updateAll [
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
-	| commandBuffer swapchainTextureHolder blitInfo currentAreas |
+	| updateUnion surgicalRect commandBuffer mappedAddress copyPass |
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
-		"If updates are deferred, we accumulate damage and stop here."
-		deferUpdates ifTrue: [ 
-			allDamage do: [ :rect | self accumulateDamage: rect ].
-			^ self ].
-
-		currentAreas := accumulatedDamage asOrderedCollection.
-		currentAreas addAll: allDamage.
-		currentAreas ifEmpty: [ ^ self ].
-
-		"1. Start a single Command Buffer for the whole frame"
-		commandBuffer := gpuDevice acquireGPUCommandBuffer.
-
-		"2. Upload only the damaged bits from Smalltalk Form to the internal GPU Texture"
-		self uploadInternalTextureAreas: currentAreas commandBuffer: commandBuffer.
-		
-		"3. Acquire Swapchain"
-		swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
-		self ffiLibrary assertSuccess:
-			(commandBuffer
-				waitAndAcquireGPUSwapchainTextureForWindow: backendWindow sdl3Window
-				into: swapchainTextureHolder
-				width: nil
-				height: nil).
-				
-		swapchainTextureHolder value isNull ifTrue: [ 
-			self ffiLibrary assertSuccess: commandBuffer cancel.
-			^ self ].
-				
-		"4. Blit each damage area from internal GPU Texture to the Swapchain"
-		currentAreas do: [ :rect |
+		"1. Calculate the union of all damage and expand it to FULL WIDTH.
+		   This avoids pitch/alignment corruption on some GPU drivers (D3D12, Metal)."
+		updateUnion := nil.
+		allDamage do: [ :rect |
 			| intersection |
 			intersection := rect intersect: (0@0 extent: extent) ifNone: [ nil ].
 			intersection ifNotNil: [ 
-				blitInfo := SDL3GPUBlitInfo new.
+				updateUnion := updateUnion ifNil: [ intersection ] ifNotNil: [ updateUnion merge: intersection ] ] ].
+		
+		updateUnion ifNotNil: [
+			"Expand to full width of the form"
+			surgicalRect := 0 @ updateUnion top extent: extent x @ updateUnion height.
+			
+			"2. Capture and Upload damage to backing store IMMEDIATELY.
+			   This must happen in the UI thread to grab the bits while they are consistent."
+			mappedAddress := gpuDevice mapGPUTransferBuffer: gpuTransferBuffer cycle: true.
+			mappedAddress isNull ifTrue: [ self error: 'Failed to map GPU transfer buffer' ].
+			
+			[ 
+				externalForm
+					resetExtent: surgicalRect extent
+					depth: 32
+					pitch: extent x * 4
+					bits: mappedAddress.
+				[ 
+					externalForm copy: surgicalRect from: form to: 0@0 rule: Form over
+				] ensure: [ 
+					externalForm destroySurface 
+				]
+			] ensure: [ 
+				gpuDevice unmapGPUTransferBuffer: gpuTransferBuffer
+			].
 
-				blitInfo source
-					texture: gpuTexture;
-					x: intersection left;
-					y: intersection top;
-					w: intersection width;
-					h: intersection height;
-					mipLevel: 0;
-					layerOrDepthPlane: 0.
-
-				blitInfo destination
-					texture: swapchainTextureHolder value;
-					x: intersection left;
-					y: intersection top;
-					w: intersection width;
-					h: intersection height;
-					mipLevel: 0;
-					layerOrDepthPlane: 0.
-
-				blitInfo
-					loadOp: SDL3GPULoadOp dontCare;
-					filter: SDL3GPUFilter nearest;
-					cycle: false;
-					flipMode: SDL3FlipMode none.
-
-				commandBuffer blitGPUTextureInfo: blitInfo.
-			]
+			commandBuffer := gpuDevice acquireGPUCommandBuffer.
+			copyPass := commandBuffer beginGPUCopyPass.
+			
+			pooledTextureRegion x: 0; y: surgicalRect top; w: extent x; h: surgicalRect height.
+			
+			copyPass uploadToGPUTextureSource: pooledTextureTransferInfo destination: pooledTextureRegion cycle: false.
+			copyPass end.
+			
+			self ffiLibrary assertSuccess: commandBuffer submit.
+			needsFlush := true.
 		].
 
-		"5. Submit the combined work and clear state"
-		self ffiLibrary assertSuccess: commandBuffer submit.
-
-		self clearAccumulatedDamage ]
+		"3. If forcing to screen OR not deferred, flush to swapchain."
+		(forceToScreen or: [ deferFlush not ]) ifTrue: [ self flush ]
+	]
 ]
 
 { #category : 'updating screen' }
@@ -204,60 +263,6 @@ OSSDL3GPUFormRenderer >> updateRectangle: rectangle [
 	"Use batch update for single rectangle as well"
 
 	self updateAreas: { rectangle } immediate: true
-]
-
-{ #category : 'private' }
-OSSDL3GPUFormRenderer >> uploadInternalTextureAreas: allDamage commandBuffer: commandBuffer [
-
-	| copyPass source destination |
-	copyPass := commandBuffer beginGPUCopyPass.
-	
-	allDamage do: [ :rect |
-		| intersection |
-		"Upload SDL3 call fails with float values on rect, then we expand to tolerate it."
-		intersection := rect expanded intersect: (0@0 extent: extent) ifNone: [ nil ].
-		intersection ifNotNil: [ 
-			"1. Upload partial bits from Form to the mapped Transfer Buffer.
-			 For simplicity and to correctly handle pitch/stride, we use updateFromForm:area:device:
-			 which correctly maps/unmaps the buffer for each rectangle.
-			 
-			 Optimization note: To further optimize, we could map ONCE and do multiple BitBlt copies, 
-			 then perform multiple uploadToGPUTexture calls inside the same copyPass."
-			gpuTransferBuffer updateFromForm: form area: intersection device: gpuDevice.
-
-			"Since we copy only the sub-rect to the beginning of the transferBuffer in updateFromForm:area:,
-			 the source offset is 0, but we must use the correct pitch."
-			source := SDL3GPUTextureTransferInfo new.
-			source
-				transferBuffer: gpuTransferBuffer;
-				offset: 0;
-				pixelsPerRow: intersection width;
-				rowsPerLayer: intersection height.
-
-			destination := SDL3GPUTextureRegion new.
-			destination
-				texture: gpuTexture;
-				x: intersection left;
-				y: intersection top;
-				z: 0;
-				w: intersection width;
-				h: intersection height;
-				d: 1;
-				mipLevel: 0;
-				layer: 0.
-
-			copyPass uploadToGPUTextureSource: source destination: destination cycle: false
-		]
-	].
-	
-	copyPass end
-]
-
-{ #category : 'private' }
-OSSDL3GPUFormRenderer >> useDeferredUpdates [
-	"Perform a full blit of the internal texture to the screen"
-
-	self updateAll
 ]
 
 { #category : 'private' }

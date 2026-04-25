@@ -81,6 +81,14 @@ OSSDL3ExternalForm >> primManualSurface: surfaceID setPointer: aPointer [
 ]
 
 { #category : 'initialization' }
+OSSDL3ExternalForm >> resetExtent: anExtent depth: bitsPerPixel pitch: rowPitch bits: aPointer [
+	"Reset the form with new extent and bits. This avoids allocating a new OSSDL3ExternalForm object."
+
+	self destroySurface.
+	self setExtent: anExtent depth: bitsPerPixel pitch: rowPitch bits: aPointer
+]
+
+{ #category : 'initialization' }
 OSSDL3ExternalForm >> setExtent: anExtent depth: bitsPerPixel [
 	"Set the extent and depth of the form, and create the manual surface."
 
