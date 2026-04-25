@@ -146,6 +146,36 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	pooledDestinationLocation z: 0; mipLevel: 0; layer: 0
 ]
 
+{ #category : 'private' }
+OSSDL3GPUFormRenderer >> mergeDamageIntoSpans: allDamage [
+	"Merge overlapping or adjacent damage rectangles into a collection of disjoint vertical spans.
+	 Returns a collection of Rectangles (with full width or just vertical range info)."
+
+	| sortedRects spans currentSpan |
+	allDamage ifEmpty: [ ^ #() ].
+
+	"Filter and sort by top coordinate"
+	sortedRects := (allDamage 
+		collect: [ :r | r intersect: (0@0 extent: extent) ifNone: [ nil ] ])
+		select: [ :each | each isNotNil ];
+		sorted: [ :a :b | a top < b top ].
+	
+	sortedRects ifEmpty: [ ^ #() ].
+
+	spans := OrderedCollection new.
+	currentSpan := sortedRects first.
+
+	sortedRects allButFirstDo: [ :rect |
+		rect top <= currentSpan bottom
+			ifTrue: [ currentSpan := currentSpan merge: rect ]
+			ifFalse: [ 
+				spans add: currentSpan.
+				currentSpan := rect ] ].
+	
+	spans add: currentSpan.
+	^ spans
+]
+
 { #category : 'accessing' }
 OSSDL3GPUFormRenderer >> outputExtent [
 	
@@ -204,54 +234,53 @@ OSSDL3GPUFormRenderer >> updateAll [
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
-	| updateUnion surgicalRect commandBuffer mappedAddress copyPass |
+	| damageSpans currentOffset mappedAddress commandBuffer |
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
-		"1. Calculate the union of all damage and expand it to FULL WIDTH.
-		   This avoids pitch/alignment corruption on some GPU drivers (D3D12, Metal)."
-		updateUnion := nil.
-		allDamage do: [ :rect |
-			| intersection |
-			intersection := rect intersect: (0@0 extent: extent) ifNone: [ nil ].
-			intersection ifNotNil: [ 
-				updateUnion := updateUnion ifNil: [ intersection ] ifNotNil: [ updateUnion merge: intersection ] ] ].
+		"1. Identify disjoint vertical spans of damage and expand each to FULL WIDTH."
+		damageSpans := self mergeDamageIntoSpans: allDamage.
+		damageSpans ifEmpty: [ ^ self ].
+
+		"2. Capture and Upload each span to backing store IMMEDIATELY."
+		mappedAddress := gpuDevice mapGPUTransferBuffer: gpuTransferBuffer cycle: true.
+		mappedAddress isNull ifTrue: [ self error: 'Failed to map GPU transfer buffer' ].
 		
-		updateUnion ifNotNil: [
-			"Expand to full width of the form"
-			surgicalRect := 0 @ updateUnion top extent: extent x @ updateUnion height.
+		commandBuffer := gpuDevice acquireGPUCommandBuffer.
+		
+		[ | copyPass |
+			currentOffset := 0.
+			copyPass := commandBuffer beginGPUCopyPass.
 			
-			"2. Capture and Upload damage to backing store IMMEDIATELY.
-			   This must happen in the UI thread to grab the bits while they are consistent."
-			mappedAddress := gpuDevice mapGPUTransferBuffer: gpuTransferBuffer cycle: true.
-			mappedAddress isNull ifTrue: [ self error: 'Failed to map GPU transfer buffer' ].
-			
-			[ 
+			damageSpans do: [ :span |
+				| surgicalRect |
+				surgicalRect := 0 @ span top extent: extent x @ span height.
+				
 				externalForm
 					resetExtent: surgicalRect extent
 					depth: 32
 					pitch: extent x * 4
-					bits: mappedAddress.
+					bits: mappedAddress + currentOffset.
 				[ 
 					externalForm copy: surgicalRect from: form to: 0@0 rule: Form over
 				] ensure: [ 
 					externalForm destroySurface 
-				]
-			] ensure: [ 
-				gpuDevice unmapGPUTransferBuffer: gpuTransferBuffer
-			].
-
-			commandBuffer := gpuDevice acquireGPUCommandBuffer.
-			copyPass := commandBuffer beginGPUCopyPass.
-			
-			pooledTextureRegion x: 0; y: surgicalRect top; w: extent x; h: surgicalRect height.
-			
-			copyPass uploadToGPUTextureSource: pooledTextureTransferInfo destination: pooledTextureRegion cycle: false.
+				].
+				
+				pooledTextureTransferInfo offset: currentOffset.
+				pooledTextureRegion x: 0; y: surgicalRect top; w: extent x; h: surgicalRect height.
+				
+				copyPass uploadToGPUTextureSource: pooledTextureTransferInfo destination: pooledTextureRegion cycle: false.
+				
+				currentOffset := currentOffset + (surgicalRect width * surgicalRect height * 4) ].
+				
 			copyPass end.
-			
-			self ffiLibrary assertSuccess: commandBuffer submit.
-			needsFlush := true.
+		] ensure: [ 
+			gpuDevice unmapGPUTransferBuffer: gpuTransferBuffer
 		].
+
+		self ffiLibrary assertSuccess: commandBuffer submit.
+		needsFlush := true.
 
 		"3. If forcing to screen OR not deferred, flush to swapchain."
 		(forceToScreen or: [ deferFlush not ]) ifTrue: [ self flush ]
