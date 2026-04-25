@@ -11,41 +11,99 @@ Class {
 		'stepCount',
 		'countBackgroundProcess'
 	],
+	#classVars : [
+		'DefaultTime',
+		'DefaultWindowExtent'
+	],
 	#category : 'SDL3-Tests-Benchmarks',
 	#package : 'SDL3-Tests',
 	#tag : 'Benchmarks'
 }
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> measureFor: aDuration positions: positions [
+OSSDL3GPURenderingBenchmark class >> benchAll [
+	<script>
 
-	| results |
-	results := AtomicSharedQueue new.
-
-	positions do: [ :e |
-		| bench |
-		bench := self new.
-		bench position: e asPoint.
-		bench measureFor: aDuration to: results ].
-
-	^ Array streamContents: [ :str |
-		positions size timesRepeat: [ str nextPut: results next ] ]
+	[(self classSide selectors sorted copyWithout: #benchAll)
+		select: [ :e | e beginsWith: 'bench' ]
+		thenDo: [ :e | (self perform: e) waitForCompletion: DefaultTime * 2 ]] fork
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> measureForFiveSecondsOneSmallMorph [
+OSSDL3GPURenderingBenchmark class >> benchHorizontal [
+	<script>
 
-	[ 	self currentWorld worldState worldRenderer osWindowRenderer class trace.
-		'. ' trace.
-		(self measureFor: 5 seconds positions: #(400)) traceCr ] fork.
+	^ self measureFor: DefaultTime all: { 50 asPoint extent: 600@20 }
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> measureForFiveSecondsTwoSmallMorphs [
+OSSDL3GPURenderingBenchmark class >> benchLarge [
+	<script>
 
-	[ 	self currentWorld worldState worldRenderer osWindowRenderer class trace.
-		'. ' trace.
-		(self measureFor: 5 seconds positions: #(100 800)) traceCr ] fork.
+	^ self measureFor: DefaultTime all: { 0@0 extent: DefaultWindowExtent }
+]
+
+{ #category : 'convenience' }
+OSSDL3GPURenderingBenchmark class >> benchMedium [
+	<script>
+
+	^ self measureFor: DefaultTime all: { 50 asPoint extent: 600@600 }
+]
+
+{ #category : 'convenience' }
+OSSDL3GPURenderingBenchmark class >> benchTwoDistant [
+	<script>
+
+	^ self measureFor: DefaultTime all: {
+		50 asPoint extent: 50 asPoint.
+		600 asPoint extent: 50 asPoint. }
+]
+
+{ #category : 'convenience' }
+OSSDL3GPURenderingBenchmark class >> benchVertical [
+	<script>
+
+	^ self measureFor: DefaultTime all: { 50 asPoint extent: 20@600 }
+]
+
+{ #category : 'class initialization' }
+OSSDL3GPURenderingBenchmark class >> initialize [
+
+	DefaultTime := 5 seconds.
+	DefaultWindowExtent := 1280 @ 720 "720p"
+]
+
+{ #category : 'convenience' }
+OSSDL3GPURenderingBenchmark class >> measureFor: aDuration all: aCollectionOfRectangles [
+	"Either evaluate from UI. Convenient From terminal:
+	
+	./pharo-ui Pharo.image eval 'OSSDL3GPURenderingBenchmark benchVertical andThen: [ Smalltalk snapshot: false andQuit: true ] future'
+	"
+	
+	"For consistency, set the Pharo window extent"
+	self currentWorld worldState worldRenderer osWindow extent: DefaultWindowExtent.
+	Smalltalk garbageCollect.
+	1.0 seconds wait.
+
+	^ [		| results |
+			results := AtomicSharedQueue new.
+
+			aCollectionOfRectangles do: [ :e |
+				| bench |
+				bench := self new.
+				bench position: e origin.
+				bench extent: e extent.
+				bench measureFor: aDuration to: results ].
+
+			results := Array streamContents: [ :str |
+				aCollectionOfRectangles size timesRepeat: [ str nextPut: results next ] ].
+			
+			Stdio stdout
+				print: self currentWorld worldState worldRenderer osWindowRenderer class;
+				<< '. ';
+				print: results;
+				lf; flush
+		] future
 ]
 
 { #category : 'benchmarking' }
@@ -62,8 +120,8 @@ OSSDL3GPURenderingBenchmark >> measureFor: aDuration to: aCollection [
 	measureProcess := [
 		aDuration wait.
 		aCollection nextPut: {
-			#stepsPerSecond -> (stepCount/aDuration asSeconds asFloat).
-			#backgroundCountPerMS -> (backgroundCount/aDuration asMilliSeconds asFloat) }.
+			#stepsPerSecond -> (stepCount/aDuration asSeconds) asInteger.
+			#backgroundCountPerMS -> (backgroundCount/aDuration asMilliSeconds) asInteger }.
 		self stop
 	] forkAt: Processor userInterruptPriority
 ]
