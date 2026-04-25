@@ -23,6 +23,15 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'configuration' }
+OSSDL3BackendWindow class >> formRendererClass [
+
+	^ OSEnvironment current
+		at: 'PHARO_WINDOW_RENDERER'
+		ifPresent: [ :aClass | self environment classNamed: aClass ]
+		ifAbsent: [ OSSDL3FormRenderer ]
+]
+
 { #category : 'instance creation' }
 OSSDL3BackendWindow class >> fromAttributes: attributes for: anOSWindow [
 
@@ -189,12 +198,12 @@ OSSDL3BackendWindow >> minimize [
 	sdl3Window minimize
 ]
 
-{ #category : 'instance creation' }
+{ #category : 'factory' }
 OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
 
 	^ renderer :=
-		OSSDL3FormRenderer new
+		self class formRendererClass new
 			form: form;
 			backendWindow: self;
 			yourself
