@@ -95,6 +95,7 @@ SDL3GPUClearDemo >> render [
 
 	| commandBuffer swapchainTextureHolder |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
+	commandBuffer assertNotNullReturn.
 
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
 	sdl assertSuccess:
