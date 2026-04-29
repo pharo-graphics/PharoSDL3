@@ -212,17 +212,6 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 			yourself
 ]
 
-{ #category : 'instance creation' }
-OSSDL3BackendWindow >> newGPUFormRenderer: form [
-	"Create and answer a new GPU Form-based renderer for this window."
-
-	^ renderer :=
-		OSSDL3GPUFormRenderer new
-			form: form;
-			backendWindow: self;
-			yourself
-]
-
 { #category : 'accessing' }
 OSSDL3BackendWindow >> platformSpecificHandle [
 	
