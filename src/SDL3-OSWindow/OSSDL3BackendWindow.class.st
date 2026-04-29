@@ -28,7 +28,10 @@ OSSDL3BackendWindow class >> formRendererClass [
 
 	^ OSEnvironment current
 		at: 'PHARO_WINDOW_RENDERER'
-		ifPresent: [ :aClass | self environment classNamed: aClass ]
+		ifPresent: [ :aClass |
+			(self environment hasClassNamed: aClass)
+				ifFalse: [ self error: 'Renderer not found' ].
+			self environment classNamed: aClass ]
 		ifAbsent: [ OSSDL3FormRenderer ]
 ]
 
