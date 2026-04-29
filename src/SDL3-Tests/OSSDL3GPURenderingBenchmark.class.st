@@ -12,8 +12,9 @@ Class {
 		'countBackgroundProcess'
 	],
 	#classVars : [
-		'DefaultTime',
-		'DefaultWindowExtent'
+		'BenchDuration',
+		'StepTime',
+		'WindowExtent'
 	],
 	#category : 'SDL3-Tests-Benchmarks',
 	#package : 'SDL3-Tests',
@@ -26,35 +27,35 @@ OSSDL3GPURenderingBenchmark class >> benchAll [
 
 	[(self classSide selectors sorted copyWithout: #benchAll)
 		select: [ :e | e beginsWith: 'bench' ]
-		thenDo: [ :e | (self perform: e) waitForCompletion: DefaultTime * 2 ]] fork
+		thenDo: [ :e | (self perform: e) waitForCompletion: BenchDuration * 2 ]] fork
 ]
 
 { #category : 'convenience' }
 OSSDL3GPURenderingBenchmark class >> benchHorizontal [
 	<script>
 
-	^ self measureFor: DefaultTime all: { 50 asPoint extent: 600@20 }
+	^ self measureFor: BenchDuration all: { 50 asPoint extent: 600@20 }
 ]
 
 { #category : 'convenience' }
 OSSDL3GPURenderingBenchmark class >> benchLarge [
 	<script>
 
-	^ self measureFor: DefaultTime all: { 0@0 extent: DefaultWindowExtent }
+	^ self measureFor: BenchDuration all: { 0@0 extent: WindowExtent }
 ]
 
 { #category : 'convenience' }
 OSSDL3GPURenderingBenchmark class >> benchMedium [
 	<script>
 
-	^ self measureFor: DefaultTime all: { 50 asPoint extent: 600@600 }
+	^ self measureFor: BenchDuration all: { 50 asPoint extent: 600@600 }
 ]
 
 { #category : 'convenience' }
 OSSDL3GPURenderingBenchmark class >> benchTwoDistant [
 	<script>
 
-	^ self measureFor: DefaultTime all: {
+	^ self measureFor: BenchDuration all: {
 		50 asPoint extent: 50 asPoint.
 		600 asPoint extent: 50 asPoint. }
 ]
@@ -63,25 +64,26 @@ OSSDL3GPURenderingBenchmark class >> benchTwoDistant [
 OSSDL3GPURenderingBenchmark class >> benchVertical [
 	<script>
 
-	^ self measureFor: DefaultTime all: { 50 asPoint extent: 20@600 }
+	^ self measureFor: BenchDuration all: { 50 asPoint extent: 20@600 }
 ]
 
 { #category : 'class initialization' }
 OSSDL3GPURenderingBenchmark class >> initialize [
 
-	DefaultTime := 5 seconds.
-	DefaultWindowExtent := 1280 @ 720 "720p"
+	StepTime := 16. "Aim for ~60 FPS"
+	BenchDuration := 5 seconds.
+	WindowExtent := 1280 @ 720 "720p"
 ]
 
 { #category : 'convenience' }
 OSSDL3GPURenderingBenchmark class >> measureFor: aDuration all: aCollectionOfRectangles [
-	"Either evaluate from UI. Convenient From terminal:
+	"Benchmark in a new process. You can send me from UI or from terminal. The answer is a `TKTFuture`, which is can be used in this way:
 	
 	./pharo-ui Pharo.image eval 'OSSDL3GPURenderingBenchmark benchVertical andThen: [ Smalltalk snapshot: false andQuit: true ] future'
 	"
 	
 	"For consistency, set the Pharo window extent"
-	self currentWorld worldState worldRenderer osWindow extent: DefaultWindowExtent.
+	self currentWorld worldState worldRenderer osWindow extent: WindowExtent.
 	Smalltalk garbageCollect.
 	1.0 seconds wait.
 
@@ -95,6 +97,7 @@ OSSDL3GPURenderingBenchmark class >> measureFor: aDuration all: aCollectionOfRec
 				bench extent: e extent.
 				bench measureFor: aDuration to: results ].
 
+			"Collect bench results (the queue has an internal Semaphore)"
 			results := Array streamContents: [ :str |
 				aCollectionOfRectangles size timesRepeat: [ str nextPut: results next ] ].
 			
@@ -160,9 +163,8 @@ OSSDL3GPURenderingBenchmark >> step [
 
 { #category : 'stepping and presenter' }
 OSSDL3GPURenderingBenchmark >> stepTime [
-	"Aim for ~60 FPS"
 
-	^ 16
+	^ StepTime
 ]
 
 { #category : 'stepping and presenter' }
