@@ -121,16 +121,6 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 	sdl3Window fullscreen: aBoolean
 ]
 
-{ #category : 'gpu' }
-OSSDL3BackendWindow >> gpuDevice [
-	"Answer the shared GPU device from the driver and ensure this window is claimed by it."
-
-	| device |
-	device := OSSDL3Driver current ensureGpuDevice.
-	device claimWindow: sdl3Window.
-	^ device
-]
-
 { #category : 'accessing' }
 OSSDL3BackendWindow >> hide [
 
@@ -377,10 +367,7 @@ OSSDL3BackendWindow >> title: aString [
 OSSDL3BackendWindow >> updateToNewResolution [
 	"Force the regeneration of the renderer because we have a new resolution"
 
-	renderer
-		destroy;
-		validate;
-		updateAll
+	renderer updateToNewResolution
 ]
 
 { #category : 'private' }

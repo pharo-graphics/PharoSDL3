@@ -11,7 +11,8 @@ Class {
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
 		'eventProcessor',
-		'gpuDevice'
+		'gpuDevice',
+		'pendingFlush'
 	],
 	#classVars : [
 		'BackendWindowRegistry',
@@ -115,7 +116,7 @@ OSSDL3Driver >> deliverGlobalEvent: osEvent [
 ]
 
 { #category : 'gpu' }
-OSSDL3Driver >> destroyGpuDevice [
+OSSDL3Driver >> destroyGPUDevice [
 	"Release the shared GPU device if it exists."
 
 	gpuDevice ifNotNil: [
@@ -133,24 +134,12 @@ OSSDL3Driver >> ensureEventLoop [
 ]
 
 { #category : 'gpu' }
-OSSDL3Driver >> ensureGpuDevice [
+OSSDL3Driver >> gpuDevice [
 	"Ensure the shared GPU device is initialized and answer it."
 
 	^ gpuDevice ifNil: [
-		gpuDevice :=
-			self ffiLibrary
-				newGPUDeviceFormatFlags: SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv
-				debugMode: true
-				name: nil.
-		gpuDevice assertNotNullReturn.
+		self initializeGPUDevice.
 		gpuDevice ]
-]
-
-{ #category : 'gpu' }
-OSSDL3Driver >> gpuDevice [
-	"Answer the shared GPU device."
-
-	^ gpuDevice
 ]
 
 { #category : 'initialization' }
@@ -162,6 +151,19 @@ OSSDL3Driver >> initialize [
 
 	self initializeWindowMap.
 	self initializeLibrary
+]
+
+{ #category : 'gpu' }
+OSSDL3Driver >> initializeGPUDevice [
+	"Initialize the shared GPU device."
+
+	gpuDevice :=
+		self ffiLibrary
+			newGPUDeviceFormatFlags:
+				SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv
+			debugMode: true
+			name: nil.
+	gpuDevice assertNotNullReturn
 ]
 
 { #category : 'initialization' }
@@ -224,11 +226,12 @@ OSSDL3Driver >> runEventLoop [
 		[ self ffiLibrary pollEvent: sdl3Event ] whileTrue: [
 			eventProcessor deliver: sdl3Event on: self ].
 		
-		"Flush all renderers to ensure screen updates"
-		self class allWindows do: [ :win | 
-			win renderer ifNotNil: [ :renderer | renderer flush ] ].
+		5 timesRepeat: [
+			"Flush all renderers to ensure screen updates"
+			self class allWindows do: [ :win | 
+				win renderer ifNotNil: [ :renderer | renderer flush ] ].
 
-		(Delay forMilliseconds: 1) wait ]
+			(Delay forMilliseconds: 1) wait ]]
 ]
 
 { #category : 'system startup' }
@@ -237,7 +240,7 @@ OSSDL3Driver >> shutDown: quitting [
 
 	quitting ifTrue: [
 		BackendWindowRegistry := nil.
-		self destroyGpuDevice ].
+		self destroyGPUDevice ].
 
 	self shutDownEventLoop
 ]
@@ -282,16 +285,4 @@ OSSDL3Driver >> unregisterWindowWithId: aWindowID [
 
 	RegistryMutex critical: [
 		BackendWindowRegistry removeKey: aWindowID ifAbsent: [ ] ]
-]
-
-{ #category : 'window registry' }
-OSSDL3Driver >> windowAtId: id ifAbsent: aBlock [
-
-	^ BackendWindowRegistry at: id ifAbsent: aBlock
-]
-
-{ #category : 'window registry' }
-OSSDL3Driver >> windowAtId: id ifPresent: presentBlock ifAbsent: absentBlock [
-
-	^ BackendWindowRegistry at: id ifPresent: presentBlock ifAbsent: absentBlock
 ]
