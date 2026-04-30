@@ -45,10 +45,12 @@ OSSDL3GPUFormRenderer >> destroy [
 	mutex critical: [
 		gpuTexture ifNotNil: [
 			gpuDevice releaseGPUTexture: gpuTexture ].
-		transferBuffer ifNotNil: [
-			gpuDevice releaseGPUTransferBuffer: transferBuffer ].
-		gpuTexture := nil.
-		transferBuffer := nil ]
+		
+		uploadStream ifNotNil: [ 
+			uploadStream destroy.
+			uploadStream := nil ].
+
+		gpuTexture := nil ]
 ]
 
 { #category : 'updating screen' }
@@ -74,22 +76,22 @@ OSSDL3GPUFormRenderer >> initialize [
 	super initialize.
 	deferFlush := false.
 	mutex := Mutex new.
-	needsFlush := false.
-	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
-	externalForm := OSSDL3ExternalForm new
+	needsFlush := false
 ]
 
 { #category : 'private' }
 OSSDL3GPUFormRenderer >> initializeGPUResources [
 	"Initialize the SDL3 resources that depend on the form extent"
 
-	| totalBytes |
 	gpuTexture ifNotNil: [ gpuDevice releaseGPUTexture: gpuTexture ].
-	transferBuffer ifNotNil: [ gpuDevice releaseGPUTransferBuffer: transferBuffer ].
 	
 	extent := form extent.
-	totalBytes := extent x * 4 * extent y.
 	
+	uploadStream ifNil: [ 
+		uploadStream := OSSDL3GPUUploadStream new.
+		uploadStream gpuDevice: OSSDL3Driver new gpuDevice.
+		uploadStream resetForExtent: extent ].
+
 	"Backing store needs SAMPLER usage for copying/rendering to swapchain"
 	gpuTexture := gpuDevice
 		new2DTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
@@ -98,25 +100,12 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 		height: extent y.
 	gpuTexture assertNotNullReturn.
 
-	transferBuffer := gpuDevice newUploadTransferBuffer: totalBytes.
-	transferBuffer assertNotNullReturn.
-	
 	"Pre-allocate pooled structures to avoid GC pressure in hot path"
-	transferInfo := SDL3GPUTextureTransferInfo new.
-	transferInfo transferBuffer: transferBuffer.
-	transferInfo pixelsPerRow: 0; rowsPerLayer: 0.
-	transferInfo offset: 0.
-
-	transferRegion := SDL3GPUTextureRegion new.
-	transferRegion texture: gpuTexture.
-	transferRegion z: 0; d: 1; mipLevel: 0; layer: 0.
-
+	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
 	pooledSourceLocation := SDL3GPUTextureLocation new.
 	pooledSourceLocation texture: gpuTexture.
-	pooledSourceLocation z: 0; mipLevel: 0; layer: 0.
-
 	pooledDestinationLocation := SDL3GPUTextureLocation new.
-	pooledDestinationLocation z: 0; mipLevel: 0; layer: 0
+
 ]
 
 { #category : 'private' }
@@ -167,20 +156,18 @@ OSSDL3GPUFormRenderer >> privateFlush: commandBuffer [
 		into: swapchainTextureHolder
 		width: nil
 		height: nil).
-				
+
 	swapchainTextureHolder value isNull ifTrue: [ 
 		"Swapchain not available; retry in the next flush."
 		self ffiLibrary assertSuccess: commandBuffer cancel.
 		^ self ].
-					
+
 	"B. Copy FULL backing store to Swapchain.
 	   GPU-to-GPU copy is extremely fast and ensures screen consistency."
 	copyPass := commandBuffer beginGPUCopyPass.
-	
-	pooledSourceLocation x: 0; y: 0.
+
 	pooledDestinationLocation texture: swapchainTextureHolder value.
-	pooledDestinationLocation x: 0; y: 0.
-	
+
 	copyPass 
 		copyGPUTextureToTextureSource: pooledSourceLocation 
 		destination: pooledDestinationLocation 
@@ -188,7 +175,7 @@ OSSDL3GPUFormRenderer >> privateFlush: commandBuffer [
 		h: extent y 
 		d: 1 
 		cycle: false.
-	
+
 	copyPass end.
 
 	"C. Submit everything and record that screen is now up-to-date"
@@ -205,57 +192,18 @@ OSSDL3GPUFormRenderer >> updateAll [
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
-	| mergedDamage currentOffset mappedAddress commandBuffer |
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
-		"1. Identify disjoint vertical spans of damage."
-		mergedDamage := self mergeDamage: allDamage.
-		mergedDamage ifEmpty: [ ^ self ].
+		allDamage ifEmpty: [ ^ self ].
 
-		"2. Upload each span to backing store IMMEDIATELY."
-		mappedAddress := gpuDevice mapGPUTransferBuffer: transferBuffer cycle: true.
-		mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
+		"1. Identify disjoint vertical spans of damage.
+		   We still merge them to reduce the number of BitBlt calls."
+		(self mergeDamage: allDamage) do: [ :span |
+			uploadStream uploadForm: form region: span to: gpuTexture ].
 		
-		commandBuffer := gpuDevice acquireGPUCommandBuffer.
-		commandBuffer assertNotNullReturn.
-		
-		[ | copyPass |
-			currentOffset := 0.
-			copyPass := commandBuffer beginGPUCopyPass.
-			
-			mergedDamage do: [ :each |
-				| uploadRectangle |
-				uploadRectangle := 0 @ each top extent: extent x @ each height.
-				
-				externalForm
-					resetExtent: uploadRectangle extent
-					depth: 32
-					pitch: uploadRectangle width * 4
-					bits: mappedAddress + currentOffset.
-				[ 
-					externalForm copy: uploadRectangle from: form to: 0@0 rule: Form over
-				] ensure: [ 
-					externalForm destroySurface 
-				].
-				
-				transferInfo offset: currentOffset.
-				transferRegion
-					x: uploadRectangle left;
-					y: uploadRectangle top;
-					w: uploadRectangle width;
-					h: uploadRectangle height.
+		uploadStream finish.
 
-				copyPass uploadToGPUTextureSource: transferInfo destination: transferRegion cycle: false.
-				
-				currentOffset := currentOffset + (uploadRectangle width * uploadRectangle height * 4) ].
-				
-			copyPass end.
-		] ensure: [ 
-			gpuDevice unmapGPUTransferBuffer: transferBuffer
-		].
-
-		self ffiLibrary assertSuccess: commandBuffer submit.
 		needsFlush := true.
 
 		"3. If forcing to screen OR not deferred, flush to swapchain."
@@ -283,11 +231,14 @@ OSSDL3GPUFormRenderer >> validate [
 
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [
 		"The SDL3GPUDevice is shared among windows"
+		Stdio stdout << backendWindow sdl3Window asString; lf; flush.
+
 	 	gpuDevice := OSSDL3Driver current gpuDevice.
 		gpuDevice claimWindow: backendWindow sdl3Window ].
 
-	(gpuTexture isNil or: [ gpuTexture isNull or: [ form extent ~= extent ] ])
-		ifTrue: [ self initializeGPUResources ].
+	(gpuTexture isNil or: [ uploadStream isNil or: [ form extent ~= extent ] ]) ifTrue: [ 
+		uploadStream ifNotNil: [ uploadStream resetForExtent: form extent ].
+		self initializeGPUResources ].
 
 	^ true
 ]
