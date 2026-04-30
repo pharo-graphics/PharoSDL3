@@ -66,8 +66,7 @@ OSSDL3GPUFormRenderer >> flush [
 		needsFlush ifFalse: [ ^ self ].
 
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
-		self privateFlush: commandBuffer.
-	]
+		self privateFlush: commandBuffer ]
 ]
 
 { #category : 'initialization' }
@@ -87,10 +86,10 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	
 	extent := form extent.
 	
-	uploadStream ifNil: [ 
-		uploadStream := OSSDL3GPUUploadStream new.
-		uploadStream gpuDevice: OSSDL3Driver new gpuDevice.
-		uploadStream resetForExtent: extent ].
+	uploadStream ifNil: [
+		uploadStream := OSSDL3GPUUploadStream new ].
+	uploadStream gpuDevice: gpuDevice.
+	uploadStream resetForExtent: extent.
 
 	"Backing store needs SAMPLER usage for copying/rendering to swapchain"
 	gpuTexture := gpuDevice
@@ -104,16 +103,15 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
 	pooledSourceLocation := SDL3GPUTextureLocation new.
 	pooledSourceLocation texture: gpuTexture.
-	pooledDestinationLocation := SDL3GPUTextureLocation new.
-
+	pooledDestinationLocation := SDL3GPUTextureLocation new
 ]
 
 { #category : 'private' }
-OSSDL3GPUFormRenderer >> mergeDamage: allDamage [
+OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 	"Merge overlapping or adjacent damage rectangles into a collection of disjoint vertical spans.
 	 Returns a collection of Rectangles (with full width or just vertical range info)."
 
-	| sortedRects spans currentSpan |
+	| sortedRects currentSpan |
 	allDamage ifEmpty: [ ^ #() ].
 
 	"Filter and sort by top coordinate"
@@ -124,18 +122,16 @@ OSSDL3GPUFormRenderer >> mergeDamage: allDamage [
 	sortedRects ifEmpty: [ ^ #() ].
 	sortedRects sort: [ :a :b | a top < b top ].
 
-	spans := OrderedCollection new.
 	currentSpan := sortedRects first.
 
 	sortedRects allButFirstDo: [ :each |
 		each top <= currentSpan bottom
 			ifTrue: [ currentSpan := currentSpan merge: each ]
 			ifFalse: [ 
-				spans add: currentSpan.
+				aBlock value: currentSpan.
 				currentSpan := each ] ].
 	
-	spans add: currentSpan.
-	^ spans
+	aBlock value: currentSpan
 ]
 
 { #category : 'accessing' }
@@ -157,10 +153,9 @@ OSSDL3GPUFormRenderer >> privateFlush: commandBuffer [
 		width: nil
 		height: nil).
 
+	"If swapchain is not available sender can retry afterwards."
 	swapchainTextureHolder value isNull ifTrue: [ 
-		"Swapchain not available; retry in the next flush."
-		self ffiLibrary assertSuccess: commandBuffer cancel.
-		^ self ].
+		^ self ffiLibrary assertSuccess: commandBuffer cancel ].
 
 	"B. Copy FULL backing store to Swapchain.
 	   GPU-to-GPU copy is extremely fast and ensures screen consistency."
@@ -186,7 +181,7 @@ OSSDL3GPUFormRenderer >> privateFlush: commandBuffer [
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateAll [
 
-	self updateAreas: { form boundingBox } immediate: true
+	self updateRectangle: (0@0 extent: extent)
 ]
 
 { #category : 'updating screen' }
@@ -198,8 +193,8 @@ OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 		allDamage ifEmpty: [ ^ self ].
 
 		"1. Identify disjoint vertical spans of damage.
-		   We still merge them to reduce the number of BitBlt calls."
-		(self mergeDamage: allDamage) do: [ :span |
+		   We merge them to reduce the number of BitBlt calls."
+		self mergedDamage: allDamage do: [ :span |
 			uploadStream uploadForm: form region: span to: gpuTexture ].
 		
 		uploadStream finish.
@@ -234,9 +229,8 @@ OSSDL3GPUFormRenderer >> validate [
 	 	gpuDevice := OSSDL3Driver current gpuDevice.
 		gpuDevice claimWindow: backendWindow sdl3Window ].
 
-	(gpuTexture isNil or: [ uploadStream isNil or: [ form extent ~= extent ] ]) ifTrue: [ 
-		uploadStream ifNotNil: [ uploadStream resetForExtent: form extent ].
-		self initializeGPUResources ].
+	(gpuTexture isNil or: [ uploadStream isNil or: [ form extent ~= extent ] ])
+		ifTrue: [ self initializeGPUResources ].
 
 	^ true
 ]

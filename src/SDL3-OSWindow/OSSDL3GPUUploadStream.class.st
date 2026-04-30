@@ -166,7 +166,7 @@ OSSDL3GPUUploadStream >> preferredBufferSizeForExtent: anExtent [
 	"Calculate dynamic buffer size based on renderer extent.
 	 We want enough space for at least one full update of the backing store."
 
-	^ (anExtent x * anExtent y * 4 min: MaxBufferSize) max: MinBufferSize
+	^ anExtent x * anExtent y * 4 min: MaxBufferSize max: MinBufferSize
 ]
 
 { #category : 'initialization' }
