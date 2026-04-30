@@ -231,8 +231,6 @@ OSSDL3GPUFormRenderer >> validate [
 
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [
 		"The SDL3GPUDevice is shared among windows"
-		Stdio stdout << backendWindow sdl3Window asString; lf; flush.
-
 	 	gpuDevice := OSSDL3Driver current gpuDevice.
 		gpuDevice claimWindow: backendWindow sdl3Window ].
 
