@@ -11,15 +11,13 @@ Class {
 		'gpuTexture',
 		'extent',
 		'mutex',
+		'gpuTextureFormat',
 		'swapchainTextureHolder',
 		'pooledSourceLocation',
 		'pooledDestinationLocation',
-		'externalForm',
 		'needsFlush',
 		'deferFlush',
-		'transferInfo',
-		'transferBuffer',
-		'transferRegion'
+		'uploadStream'
 	],
 	#pools : [
 		'SDL3GPUTextureFormat',
@@ -201,7 +199,7 @@ OSSDL3GPUFormRenderer >> privateFlush: commandBuffer [
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateAll [
 
-	self updateAreas: form boundingBox immediate: true
+	self updateAreas: { form boundingBox } immediate: true
 ]
 
 { #category : 'updating screen' }
@@ -272,7 +270,7 @@ OSSDL3GPUFormRenderer >> updateRectangle: rectangle [
 	self updateAreas: { rectangle } immediate: true
 ]
 
-{ #category : 'events' }
+{ #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateToNewResolution [
 
 	self validate
