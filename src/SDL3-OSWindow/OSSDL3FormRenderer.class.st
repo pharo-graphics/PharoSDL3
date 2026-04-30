@@ -185,6 +185,12 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 		self copyAndPresentTextureRectangle: intersection ]
 ]
 
+{ #category : 'events' }
+OSSDL3FormRenderer >> updateToNewResolution [
+
+	self validate
+]
+
 { #category : 'private' }
 OSSDL3FormRenderer >> useDeferredUpdates [
 

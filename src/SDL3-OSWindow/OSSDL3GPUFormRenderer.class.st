@@ -95,7 +95,7 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	"Backing store needs SAMPLER usage for copying/rendering to swapchain"
 	gpuTexture := gpuDevice
 		new2DTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
-		usage: (SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET) asInteger
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
 		width: extent x 
 		height: extent y.
 	gpuTexture assertNotNullReturn.
@@ -131,20 +131,7 @@ OSSDL3GPUFormRenderer >> mergeDamage: allDamage [
 
 	"Filter and sort by top coordinate"
 	sortedRects := allDamage
-		collect: [ :each |
-			| expandedRect |
-			expandedRect := each alignedForOptimalGPUUploadWithBpp: 4 fullWidth: extent x.
-
-"transferInfo := SDL_GPUTextureTransferInfo new.
-transferInfo
-    transfer_buffer: myTransferBuffer;
-    offset: (expandedRect top * myTextureWidth * 4) + (expandedRect left * 4);  ""or compute properly""
-    pixels_per_row: expandedRect width;
-    rows_per_layer: expandedRect height."			
-			
-			"expandedRect intersect: (0@0 extent: extent) ifNone: [ nil ]"
-			
-			each intersect: (0@0 extent: extent) ifNone: [ nil ] ]
+		collect: [ :each | each intersect: (0@0 extent: extent) ifNone: [ nil ] ]
 		thenSelect: [ :each | each isNotNil ].
 	
 	sortedRects ifEmpty: [ ^ #() ].
