@@ -14,8 +14,12 @@ Class {
 { #category : 'code generation' }
 SDL3ShaderSource class >> generateEmbeddedSourceAt: hlslFilename toExtension: extension [
 
-	| result outputFilename outputContents methodSourceCode fileReference |
-	outputFilename := '{1}.frag.{2}' format: { self name. extension }.
+	| result outputFilename outputContents methodSourceCode fileReference stageExtension |
+	stageExtension :=
+		self shaderStage = SDL3GPUShaderStage vertex
+			ifTrue: [ 'vert' ] ifFalse: [ 'frag' ].
+	outputFilename := '{1}.{2}.{3}' format: { self name. stageExtension. extension }.
+
 	result := LibC runCommand:
 		('shadercross "{1}" -o "{2}"' format: { hlslFilename. outputFilename }).
 	self assert: result = 0 description: 'Compilation error - ', extension.
@@ -46,8 +50,9 @@ SDL3ShaderSource class >> generateEmbeddedSourceAt: hlslFilename toExtension: ex
 SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSL [
 	<example>
 
-	| hlslFilename |
-	hlslFilename := '{1}.frag.hlsl' format: { self className }.
+	| hlslFilename stageExtension |
+	stageExtension := (self shaderStage == SDL3GPUShaderStage vertex) ifTrue: [ 'vert' ] ifFalse: [ 'frag' ].
+	hlslFilename := '{1}.{2}.hlsl' format: { self className. stageExtension }.
 	hlslFilename asFileReference
 		ensureDelete;
 		writeStreamDo: [ :stream | stream << self hlslSource ].
@@ -79,7 +84,7 @@ SDL3ShaderSource class >> newShaderAmong: supportedShaderFormats device: aSDL3GP
 	| createInfo |
 	createInfo :=
 		SDL3GPUShaderCreateInfo new
-			stage: SDL3GPUShaderStage fragment;
+			stage: self shaderStage;
 			numSamplers: self numberOfSamplers;
 			numUniformBuffers: self numberOfUniformBuffers;
 			yourself.
@@ -112,6 +117,12 @@ SDL3ShaderSource class >> numberOfSamplers [
 SDL3ShaderSource class >> numberOfUniformBuffers [
 
 	^ self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> shaderStage [
+
+	^ SDL3GPUShaderStage fragment
 ]
 
 { #category : 'accessing' }
