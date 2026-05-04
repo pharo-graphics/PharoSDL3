@@ -2,22 +2,22 @@ Extension { #name : 'Form' }
 
 { #category : '*SDL3-Own' }
 Form >> asUnownedNewSDL3Surface [
-	"Answer a version of this instance as a `S3SDL_Surface`. If the result `isNull`, check the message at `SDL_GetError`."
+	"Answer a `SDL3Surface` that shares my pixels (there isn't a copy). The sender is responsible of destroying the surface."
 
-	| convertedForm aSDLSurface |
-	convertedForm :=
-		self
-			unhibernate;
-			asFormOfDepth: 32.
+	| aSDLSurface |
+	"Other formats needs to be implemented yet"
+	self assert: [ self depth = 32 ].
+
+	self unhibernate.
 
 	aSDLSurface := LibSDL3 uniqueInstance
-		               newSurfaceFromWidth: convertedForm width
-		               height: convertedForm height
+		               newSurfaceFromWidth: self width
+		               height: self height
 		               format: SDL3PixelFormat argb8888 
-		               pixels: convertedForm bits
-		               pitch: convertedForm width * 4.
+		               pixels: self bits
+		               pitch: self stride.
 
-	LibSDL3 uniqueInstance assertSuccess: aSDLSurface.
+	aSDLSurface assertNotNullReturn.
 
 	^ aSDLSurface
 ]
