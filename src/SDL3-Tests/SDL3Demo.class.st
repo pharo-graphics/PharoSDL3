@@ -841,6 +841,8 @@ SDL3Demo >> consumeEventsDuring: aDuration [
 { #category : 'lifecycle' }
 SDL3Demo >> ensureInitSDL3 [
 
+	LibSDL3 uniqueInstance setLogPriorities: SDL3LogPriority trace.
+
 	"Set (optional) metadata"
 	sdl
 		setAppMetadataAppname: self className
