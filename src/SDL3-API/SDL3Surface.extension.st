@@ -101,7 +101,7 @@ SDL3Surface >> blitUncheckedSrcrect: srcrect dst: dst dstrect: dstrect [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> cleaR: r g: g b: b a: a [
+SDL3Surface >> clearR: r g: g b: b a: a [
 
 	^ self ffiLibrary
 		  clearSurface: self
