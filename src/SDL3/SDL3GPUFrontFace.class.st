@@ -10,22 +10,22 @@ Class {
 	#tag : 'Enumerations'
 }
 
+{ #category : 'accessing enum' }
+SDL3GPUFrontFace class >> clockwise [
+	"This method was automatically generated"
+	^ SDL_GPU_FRONTFACE_CLOCKWISE
+]
+
+{ #category : 'accessing enum' }
+SDL3GPUFrontFace class >> counterClockwise [
+	"This method was automatically generated"
+	^ SDL_GPU_FRONTFACE_COUNTER_CLOCKWISE
+]
+
 { #category : 'enum declaration' }
 SDL3GPUFrontFace class >> enumDecl [
 
 	^ #(
 	SDL_GPU_FRONTFACE_COUNTER_CLOCKWISE 0
 	SDL_GPU_FRONTFACE_CLOCKWISE 1 )
-]
-
-{ #category : 'accessing enum' }
-SDL3GPUFrontFace class >> lockwise [
-	"This method was automatically generated"
-	^ SDL_GPU_FRONTFACE_CLOCKWISE
-]
-
-{ #category : 'accessing enum' }
-SDL3GPUFrontFace class >> ounterClockwise [
-	"This method was automatically generated"
-	^ SDL_GPU_FRONTFACE_COUNTER_CLOCKWISE
 ]
