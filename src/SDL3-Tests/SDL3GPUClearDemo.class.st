@@ -52,6 +52,13 @@ SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffe
 	renderPass end
 ]
 
+{ #category : 'initialization' }
+SDL3GPUClearDemo >> initialize [
+
+	super initialize.
+	initialExtent := 400 @ 300.
+]
+
 { #category : 'running' }
 SDL3GPUClearDemo >> iterateUntilQuit [
 
@@ -82,11 +89,12 @@ SDL3GPUClearDemo >> open [
 	"Windows can be created after the GPU device was created (they need to be 'claimed')"
 	window :=
 		sdl
-			newWindowTitle: self className, ' - Press ESC to quit'
-			w: 400
-			h: 300
-			flags: 0.
+			newWindowTitle: self className, ' - ESC to quit'
+			w: initialExtent x
+			h: initialExtent y
+			flags: initialWindowFlags.
 	window assertNotNullReturn.
+
 	sdl assertSuccess: (gpuDevice claimWindow: window)
 ]
 
