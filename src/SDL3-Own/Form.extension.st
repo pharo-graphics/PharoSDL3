@@ -15,7 +15,7 @@ Form >> asUnownedNewSDL3Surface [
 		               height: self height
 		               format: SDL3PixelFormat argb8888 
 		               pixels: self bits
-		               pitch: self stride.
+		               pitch: self bits byteSize // self height.
 
 	aSDLSurface assertNotNullReturn.
 

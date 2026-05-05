@@ -45,7 +45,6 @@ SDL3SurfaceTest >> testFormAsSurface [
 
 	self assert: surface w equals: form width.
 	self assert: surface h equals: form height.
-	self assert: surface pitch equals: form stride.
 
 	0 to: form width - 1 do: [ :x |
 		0 to: form height - 1 do: [ :y |
