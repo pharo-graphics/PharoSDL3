@@ -379,6 +379,7 @@ SDL3WindowTest >> test11Fullscreen [
 		renderPresent.
 
 	self waitToSee.
+	window sync.
 	self assert: window isFullscreen.
 	
 	window fullscreen: false.
