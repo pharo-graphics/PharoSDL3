@@ -20,6 +20,7 @@ Class {
 		'RegistryMutex'
 	],
 	#pools : [
+		'SDL3AllEnumerations',
 		'SDL3ZConstants'
 	],
 	#category : 'SDL3-OSWindow-Core',
@@ -160,7 +161,7 @@ OSSDL3Driver >> initializeGPUDevice [
 	gpuDevice :=
 		self ffiLibrary
 			newGPUDeviceFormatFlags:
-				SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv
+				SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 			debugMode: true
 			name: nil.
 	gpuDevice assertNotNullReturn
