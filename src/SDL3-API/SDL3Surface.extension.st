@@ -337,7 +337,7 @@ SDL3Surface >> premultiplyAlphaLinear: linear [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> properties [
+SDL3Surface >> propertiesID [
 
 	^ self ffiLibrary getSurfaceProperties: self
 ]

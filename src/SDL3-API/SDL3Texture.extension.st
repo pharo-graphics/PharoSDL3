@@ -132,7 +132,7 @@ SDL3Texture >> palette: palette [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Texture >> properties [
+SDL3Texture >> propertiesID [
 
 	^ self ffiLibrary getTextureProperties: self
 ]

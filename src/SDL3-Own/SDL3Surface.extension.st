@@ -63,3 +63,9 @@ SDL3Surface >> extent [
 	
 	^ self w @ self h
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]

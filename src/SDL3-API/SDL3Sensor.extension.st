@@ -31,7 +31,7 @@ SDL3Sensor >> nonPortableType [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Sensor >> properties [
+SDL3Sensor >> propertiesID [
 
 	^ self ffiLibrary getSensorProperties: self
 ]

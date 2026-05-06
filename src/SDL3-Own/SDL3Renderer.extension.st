@@ -19,6 +19,12 @@ SDL3Renderer >> outputExtent [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Renderer >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Renderer >> renderDrawColor: aColor [
 
 	^ self

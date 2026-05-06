@@ -121,7 +121,7 @@ SDL3AudioStream >> pauseDevice [
 ]
 
 { #category : '*SDL3-API' }
-SDL3AudioStream >> properties [
+SDL3AudioStream >> propertiesID [
 
 	^ self ffiLibrary getAudioStreamProperties: self
 ]

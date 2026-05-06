@@ -149,6 +149,12 @@ SDL3Display >> propertiesID [
 	^ self ffiLibrary getDisplayProperties: id
 ]
 
+{ #category : 'as yet unclassified' }
+SDL3Display >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]
+
 { #category : 'accessing' }
 SDL3Display >> usableBounds [
 

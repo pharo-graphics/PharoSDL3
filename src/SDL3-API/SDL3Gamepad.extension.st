@@ -190,7 +190,7 @@ SDL3Gamepad >> productVersion [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Gamepad >> properties [
+SDL3Gamepad >> propertiesID [
 
 	^ self ffiLibrary getGamepadProperties: self
 ]

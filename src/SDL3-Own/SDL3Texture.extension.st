@@ -12,3 +12,9 @@ SDL3Texture >> extent [
 
 	^ widthValueHolder value @ heightValueHolder value
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3Texture >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]

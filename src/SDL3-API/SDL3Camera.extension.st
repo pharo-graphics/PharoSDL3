@@ -31,7 +31,7 @@ SDL3Camera >> permissionState [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Camera >> properties [
+SDL3Camera >> propertiesID [
 
 	^ self ffiLibrary getCameraProperties: self
 ]

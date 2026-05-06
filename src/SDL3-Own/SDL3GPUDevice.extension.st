@@ -44,3 +44,9 @@ SDL3GPUDevice >> newUploadTransferBuffer: size [
 
 	^ self newGPUTransferBufferCreateinfo: createinfo
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]

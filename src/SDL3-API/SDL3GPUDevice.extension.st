@@ -157,7 +157,7 @@ SDL3GPUDevice >> newGPUTransferBufferCreateinfo: createinfo [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUDevice >> properties [
+SDL3GPUDevice >> propertiesID [
 
 	^ self ffiLibrary getGPUDeviceProperties: self
 ]

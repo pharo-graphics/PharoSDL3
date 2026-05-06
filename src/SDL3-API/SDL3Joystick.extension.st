@@ -159,7 +159,7 @@ SDL3Joystick >> productVersion [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Joystick >> properties [
+SDL3Joystick >> propertiesID [
 
 	^ self ffiLibrary getJoystickProperties: self
 ]

@@ -240,7 +240,7 @@ SDL3Renderer >> newTextureWithProperties: props [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Renderer >> properties [
+SDL3Renderer >> propertiesID [
 
 	^ self ffiLibrary getRendererProperties: self
 ]

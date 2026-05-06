@@ -11,3 +11,9 @@ SDL3AudioStream >> device [
 
 	^ SDL3AudioDevice id: audioDeviceID
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3AudioStream >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]
