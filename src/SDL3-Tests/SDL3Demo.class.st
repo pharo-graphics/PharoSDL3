@@ -12,6 +12,7 @@ Class {
 		'initialWindowFlags'
 	],
 	#pools : [
+		'SDL3AllEnumerations',
 		'SDL3EventType',
 		'SDL3ZConstants'
 	],
