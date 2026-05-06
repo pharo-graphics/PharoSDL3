@@ -34,16 +34,20 @@ SDL3AudioDemo >> iterateUntilQuit [
 
 	[ quit ] whileFalse: [
 		self pollEventsDo: [ :evt |
-			evt type = SDL3EventType quit ifTrue: [ quit := true ].
-			evt type = SDL3EventType keyDown ifTrue: [
-				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ].
-				(evt key = SDL3Keycode space asInteger and: [ evt isRepeat not ]) ifTrue: [
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
+
+			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
+
+				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ].
+
+				(evt key = SDLK_SPACE asInteger and: [ evt isRepeat not ]) ifTrue: [
 					playbackStream
 						pauseDevice;
 						flush.
 					recordingStream resumeDevice ] ].
-			evt type = SDL3EventType keyUp ifTrue: [
-				evt key = SDL3Keycode space asInteger ifTrue: [
+
+			evt type = SDL_EVENT_KEY_UP ifTrue: [
+				evt key = SDLK_SPACE asInteger ifTrue: [
 					recordingStream
 						pauseDevice;
 						flush.
@@ -151,7 +155,7 @@ SDL3AudioDemo >> render [
 { #category : 'running' }
 SDL3AudioDemo >> run [
 	"Run headless with:
-	./pharo Pharo.image eval 'SDL3AudioDemo new run'.
+	./pharo Pharo.image eval 'SDL3AudioDemo new run'
 	"
 
 	[ 

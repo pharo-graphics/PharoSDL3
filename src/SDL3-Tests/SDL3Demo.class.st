@@ -1,3 +1,6 @@
+"
+I provide several demos showing how to use the SDL3 FFI bindings.
+"
 Class {
 	#name : 'SDL3Demo',
 	#superclass : 'Object',
@@ -13,7 +16,6 @@ Class {
 	],
 	#pools : [
 		'SDL3AllEnumerations',
-		'SDL3EventType',
 		'SDL3ZConstants'
 	],
 	#category : 'SDL3-Tests-Library',
@@ -151,7 +153,7 @@ SDL3Demo class >> run02LogState [
 
 		demo pollEventsDo: [ :evt |
 			"Handle quit"
-			evt type = SDL3EventType quit ifTrue: [ quit := true ] ].
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ] ].
 
 		"Log some SDL state values"
 		logs add: #SYSTEM.
@@ -307,17 +309,17 @@ SDL3Demo class >> run04HandleEvents [
 
 			evt type = SDL3EventType keyDown ifTrue: [
 				
-				evt key = SDL3Keycode down asInteger
+				evt key = SDLK_DOWN asInteger
 					ifTrue: [ bright := (bright - 0.1) max: 0 ].
-				evt key = SDL3Keycode up asInteger
+				evt key = SDLK_UP asInteger
 					ifTrue: [ bright := (bright + 0.1) min: 1.0 ].
 
-				evt key = SDL3Keycode left asInteger
+				evt key = SDLK_LEFT asInteger
 					ifTrue: [ hue := (hue - 5) max: 0 ].
-				evt key = SDL3Keycode right asInteger
+				evt key = SDLK_RIGHT asInteger
 					ifTrue: [ hue := (hue + 5) min: 360 ].
 
-				evt key = SDL3Keycode escape asInteger
+				evt key = SDLK_ESCAPE asInteger
 					ifTrue: [ quit := true ] ]
 			].
 		

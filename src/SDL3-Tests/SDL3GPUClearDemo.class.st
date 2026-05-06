@@ -16,7 +16,7 @@ Class {
 { #category : 'lifecycle' }
 SDL3GPUClearDemo >> close [
 
-	gpuDevice ifNotNil: #destroy.
+	gpuDevice ifNotNil: [ gpuDevice destroy ].
 
 	super close.
 
@@ -33,11 +33,11 @@ SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffe
 	
 	animatedHue := (Time millisecondClockValue / 10.0) \\ 360.
 	
-	colorTargetInfo := SDL3GPUColorTargetInfo new.
+	colorTargetInfo := SDL_GPUColorTargetInfo new.
 	colorTargetInfo
 		texture: aSDL3GPUTexture;
-		storeOp: SDL3GPUStoreOp store;
-		loadOp: SDL3GPULoadOp clear.
+		storeOp: SDL_GPU_STOREOP_STORE;
+		loadOp: SDL_GPU_LOADOP_CLEAR.
 	colorTargetInfo clearColor updateFrom: (Color h: animatedHue s: 1.0 v: 1.0).
 
 	renderPass :=
@@ -56,7 +56,7 @@ SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffe
 SDL3GPUClearDemo >> initialize [
 
 	super initialize.
-	initialExtent := 400 @ 300.
+	initialExtent := 400 @ 300
 ]
 
 { #category : 'running' }
@@ -66,10 +66,11 @@ SDL3GPUClearDemo >> iterateUntilQuit [
 	quit := false.
 
 	[ quit ] whileFalse: [
+
 		self pollEventsDo: [ :evt |
-			evt type = SDL3EventType quit ifTrue: [ quit := true ].
-			evt type = SDL3EventType keyDown ifTrue: [
-				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ] ] ].
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
+			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
+				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ] ] ].
 
 		self render.
 
@@ -82,7 +83,7 @@ SDL3GPUClearDemo >> open [
 	self ensureInitSDL3.
 
 	gpuDevice := sdl
-		newGPUDeviceFormatFlags: SDL3GPUShaderFormat dxil | SDL3GPUShaderFormat msl | SDL3GPUShaderFormat spirv
+		newGPUDeviceFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 		debugMode: true name: nil.
 	gpuDevice assertNotNullReturn.
 
@@ -105,7 +106,7 @@ SDL3GPUClearDemo >> render [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer assertNotNullReturn.
 
-	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
+	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	sdl assertSuccess:
 		(commandBuffer
 			 waitAndAcquireGPUSwapchainTextureForWindow: window
@@ -115,8 +116,7 @@ SDL3GPUClearDemo >> render [
 	
 	"A NULL pointer means we'll skip rendering this time.
 	(This happens when the window is minimized, for example.)"
-	swapchainTextureHolder value isNull ifTrue: [
-		^ commandBuffer cancel ].
+	swapchainTextureHolder value isNull ifTrue: [ ^ commandBuffer cancel ].
 
 	self
 		doRenderPassesOn: swapchainTextureHolder value

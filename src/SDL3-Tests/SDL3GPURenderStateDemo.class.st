@@ -76,7 +76,7 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 		aShader := eachSources newShaderAmong: supportedShaderFormats device: gpuDevice.
 		aShader assertNotNullReturn.
 
-		renderStateInfo := SDL3GPURenderStateCreateInfo new.
+		renderStateInfo := SDL_GPURenderStateCreateInfo new.
 		renderStateInfo fragmentShader: aShader.
 		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.
 		aRenderState assertNotNullReturn.
@@ -117,15 +117,18 @@ SDL3GPURenderStateDemo >> iterateUntilQuit [
 
 		"Process all pending events"
 		self pollEventsDo: [ :evt |
-			evt type = SDL3EventType quit ifTrue: [ quit := true ].
+			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
 
-			evt type = SDL3EventType keyDown ifTrue: [
-				evt key = SDL3Keycode escape asInteger ifTrue: [ quit := true ].
-				evt key = SDL3Keycode right asInteger ifTrue: [
+			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
+
+				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ].
+
+				evt key = SDLK_RIGHT asInteger ifTrue: [
 					renderStateIndex := renderStateIndex + 1.
 					renderStateIndex > renderStates size ifTrue: [
 						renderStateIndex := 1 ] ].
-				evt key = SDL3Keycode left asInteger ifTrue: [
+
+				evt key = SDLK_LEFT asInteger ifTrue: [
 					renderStateIndex := renderStateIndex - 1.
 					renderStateIndex < 1 ifTrue: [
 						renderStateIndex := renderStates size ] ]
@@ -145,7 +148,7 @@ SDL3GPURenderStateDemo >> open [
 
 	window :=
 		sdl
-			newWindowTitle: self className, ' - Press LEFT/RIGHT to switch current shader - Press ESC to quit'
+			newWindowTitle: self className, ' - LEFT/RIGHT to change shader - ESC to quit'
 			w: backgroundForm width
 			h: backgroundForm height
 			flags: 0.
@@ -173,7 +176,7 @@ SDL3GPURenderStateDemo >> render [
 	renderer
 		 renderTexture: backgroundTexture
 		 srcrect: nil "<-- meaning: take the full texture as source"
-		 dstrect: (SDL3FRect origin: 0@0 extent: backgroundTexture extent).
+		 dstrect: (SDL_FRect origin: 0@0 extent: backgroundTexture extent).
 
 	"We're done with that shader"
 	renderer gpuRenderStateClear.
