@@ -48,8 +48,9 @@ Class {
 		'SDL_GPU_TEXTUREUSAGE_GRAPHICS_STORAGE_READ',
 		'SDL_GPU_TEXTUREUSAGE_SAMPLER'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Defines',
+	#package : 'SDL3-Own',
+	#tag : 'Defines'
 }
 
 { #category : 'accessing enum' }

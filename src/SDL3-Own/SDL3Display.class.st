@@ -4,8 +4,9 @@ I represent a property group that is identified by its `SDL_DisplayID`.
 Class {
 	#name : 'SDL3Display',
 	#superclass : 'SDL3BaseIDObject',
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-IDObjects',
+	#package : 'SDL3-Own',
+	#tag : 'IDObjects'
 }
 
 { #category : 'accessing' }

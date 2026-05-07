@@ -1,64 +1,62 @@
 "
-I represent a fragment shader to be used in the SDL3 library, and provide convenience API to embed shaders as Pharo code. Such API is based on `SDL_shadercross` to generate DXIL, MSL and SPV compiled shaders from HLSL (a human-readable format). `SDL_shadercross` is a library for translating shaders to different formats, and MUST be installed and either in your PATH, or close to the Pharo image's working directory.
+I represent a shader to be used in the SDL3 library, and provide convenience API to embed shaders as Pharo code. Such API is based on `SDL_shadercross` to generate DXIL, MSL and SPV compiled shaders from HLSL (a human-readable format). `SDL_shadercross` is a library for translating shaders to different formats, and MUST be installed and either in your PATH, or close to the Pharo image's working directory.
 
 For more information, see: https://github.com/libsdl-org/SDL_shadercross
-
 "
 Class {
 	#name : 'SDL3ShaderSource',
 	#superclass : 'Object',
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#pools : [
+		'SDL3AllEnumerations',
+		'SDL3ZConstants'
+	],
+	#category : 'SDL3-Own-Shaders',
+	#package : 'SDL3-Own',
+	#tag : 'Shaders'
 }
 
 { #category : 'code generation' }
-SDL3ShaderSource class >> generateEmbeddedSourceAt: hlslFilename toExtension: extension [
+SDL3ShaderSource class >> compileEmbeddedSource: shadercrossOutput as: selector [
 
-	| result outputFilename outputContents methodSourceCode fileReference stageExtension |
-	stageExtension :=
-		self shaderStage = SDL3GPUShaderStage vertex
-			ifTrue: [ 'vert' ] ifFalse: [ 'frag' ].
-	outputFilename := '{1}.{2}.{3}' format: { self name. stageExtension. extension }.
+	| methodSourceCode |
 
-	result := LibC runCommand:
-		('shadercross "{1}" -o "{2}"' format: { hlslFilename. outputFilename }).
-	self assert: result = 0 description: 'Compilation error - ', extension.
-
-	fileReference := outputFilename asFileReference.
-	self assert: fileReference exists.
-
-	outputContents := fileReference binaryReadStreamDo: [ :stream | stream upToEnd ].
-	
 	methodSourceCode := String streamContents: [ :stream |
 		stream
-			nextPutAll: 'sourceCompiledAs';
-			nextPutAll: extension asUppercase;
+			nextPutAll: selector;
 			cr;
 			tab; nextPutAll: '"This method was generated from #hlslSource"';
 			cr; cr;
 			tab; nextPutAll: '^ ';
-			print: outputContents base64Encoded ].
+			print: shadercrossOutput base64Encoded ].
 	
 	self classSide
 		compile: methodSourceCode
-		classified: #accessing.
-	
-	fileReference ensureDelete
+		classified: #accessing
+]
+
+{ #category : 'code generation' }
+SDL3ShaderSource class >> embeddedSourceSelectorFor: formatExtension [
+
+	^ #sourceCompiledAs, formatExtension asUppercase
 ]
 
 { #category : 'code generation' }
 SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSL [
 	<example>
 
-	| hlslFilename stageExtension |
-	stageExtension := (self shaderStage == SDL3GPUShaderStage vertex) ifTrue: [ 'vert' ] ifFalse: [ 'frag' ].
-	hlslFilename := '{1}.{2}.hlsl' format: { self className. stageExtension }.
+	| hlslFilename |
+	hlslFilename := '{1}.{2}.hlsl' format: { self name. self stageFileExtension }.
 	hlslFilename asFileReference
 		ensureDelete;
-		writeStreamDo: [ :stream | stream << self hlslSource ].
+		writeStreamDo: [ :stream | stream << self hlslSource withUnixLineEndings ].
 
-	#(dxil msl spv) do: [ :extension |
-		self generateEmbeddedSourceAt: hlslFilename toExtension: extension ].
+	#(dxil msl spv) do: [ :formatExtension |
+		| outputFilename binaryContents |
+		outputFilename := '{1}.{2}.{3}' format: { self name. self stageFileExtension. formatExtension }.
+		binaryContents := self shadercrossOutputFrom: hlslFilename to: outputFilename.
+		self
+			compileEmbeddedSource: binaryContents
+			as: (self embeddedSourceSelectorFor: formatExtension) ].
 
 	hlslFilename asFileReference ensureDelete
 ]
@@ -78,33 +76,10 @@ SDL3ShaderSource class >> hlslSource [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'instance creation' }
-SDL3ShaderSource class >> newShaderAmong: supportedShaderFormats device: aSDL3GPUDevice [
+{ #category : 'testing' }
+SDL3ShaderSource class >> isAbstract [
 
-	| createInfo |
-	createInfo :=
-		SDL3GPUShaderCreateInfo new
-			stage: self shaderStage;
-			numSamplers: self numberOfSamplers;
-			numUniformBuffers: self numberOfUniformBuffers;
-			yourself.
-
-	"TODO: Either write a builder that stores the selector or fill create info in a double-dispatch"
-	(supportedShaderFormats includes: SDL3GPUShaderFormat dxil) ifTrue: [
-		createInfo
-			format: SDL3GPUShaderFormat dxil asInteger;
-			base64Source: self sourceCompiledAsDXIL ].
-	(supportedShaderFormats includes: SDL3GPUShaderFormat msl) ifTrue: [
-		createInfo
-			format: SDL3GPUShaderFormat msl asInteger;
-			base64Source: self sourceCompiledAsMSL ].
-	(supportedShaderFormats includes: SDL3GPUShaderFormat spirv) ifTrue: [
-		createInfo
-			format: SDL3GPUShaderFormat spirv asInteger;
-			base64Source: self sourceCompiledAsSPV ].
-	createInfo format = 0 ifTrue: [ NotFound signal ].
-
-	^ aSDL3GPUDevice newGPUShaderCreateinfo: createInfo
+	^ self == SDL3ShaderSource
 ]
 
 { #category : 'accessing' }
@@ -116,13 +91,28 @@ SDL3ShaderSource class >> numberOfSamplers [
 { #category : 'accessing' }
 SDL3ShaderSource class >> numberOfUniformBuffers [
 
-	^ self subclassResponsibility
+	^ 0
 ]
 
-{ #category : 'accessing' }
-SDL3ShaderSource class >> shaderStage [
+{ #category : 'code generation' }
+SDL3ShaderSource class >> shadercrossOutputFrom: hlslFilename to: outputFilename [
 
-	^ SDL3GPUShaderStage fragment
+	| result outputContents fileReference commandString |
+	commandString := 'shadercross "{1}" -o "{2}"' format: { hlslFilename. outputFilename }.
+
+	result := LibC runCommand: commandString.
+	self
+		assert: result = 0
+		description: [ LibC resultOfCommand: commandString, ' 2>&1 >/dev/null'  ].
+
+	fileReference := outputFilename asFileReference.
+	self assert: fileReference exists.
+
+	outputContents := fileReference binaryReadStreamDo: [ :stream | stream upToEnd ].
+		
+	fileReference ensureDelete.
+	
+	^ outputContents
 ]
 
 { #category : 'accessing' }
@@ -139,6 +129,12 @@ SDL3ShaderSource class >> sourceCompiledAsMSL [
 
 { #category : 'accessing' }
 SDL3ShaderSource class >> sourceCompiledAsSPV [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'code generation' }
+SDL3ShaderSource class >> stageFileExtension [
 
 	^ self subclassResponsibility
 ]

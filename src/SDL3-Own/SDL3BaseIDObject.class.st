@@ -13,8 +13,9 @@ Class {
 		'SDL3Typedef',
 		'SDL3ZConstants'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-IDObjects',
+	#package : 'SDL3-Own',
+	#tag : 'IDObjects'
 }
 
 { #category : 'accessing' }

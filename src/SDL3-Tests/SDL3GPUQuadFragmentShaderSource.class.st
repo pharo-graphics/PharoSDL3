@@ -3,7 +3,7 @@ I am a fragment shader for the quads demo (see my references).
 "
 Class {
 	#name : 'SDL3GPUQuadFragmentShaderSource',
-	#superclass : 'SDL3ShaderSource',
+	#superclass : 'SDL3FragmentShaderSource',
 	#category : 'SDL3-Tests-Quads',
 	#package : 'SDL3-Tests',
 	#tag : 'Quads'
@@ -22,16 +22,6 @@ float4 main(float2 uv : TEXCOORD0) : SV_Target {
     return tex.Sample(sam, uv);
 }
 '
-]
-
-{ #category : 'accessing' }
-SDL3GPUQuadFragmentShaderSource class >> numberOfSamplers [
-	^ 1
-]
-
-{ #category : 'accessing' }
-SDL3GPUQuadFragmentShaderSource class >> numberOfUniformBuffers [
-	^ 0
 ]
 
 { #category : 'instance creation' }

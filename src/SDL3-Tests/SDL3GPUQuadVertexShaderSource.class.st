@@ -3,7 +3,7 @@ I am a vertex shader for the quads demo (see my references).
 "
 Class {
 	#name : 'SDL3GPUQuadVertexShaderSource',
-	#superclass : 'SDL3ShaderSource',
+	#superclass : 'SDL3VertexShaderSource',
 	#category : 'SDL3-Tests-Quads',
 	#package : 'SDL3-Tests',
 	#tag : 'Quads'
@@ -11,41 +11,27 @@ Class {
 
 { #category : 'accessing' }
 SDL3GPUQuadVertexShaderSource class >> hlslSource [
-	"Vertex shader for quad rendering"
 	<script: 'self generateEmbeddedSourcesFromHLSL'>
 
-	^ 'struct VertexInput {
-	  float3 position : TEXCOORD0;
-	  float2 uv : TEXCOORD1;
-	};
+	^ '
+struct VertexInput {
+  float3 position : TEXCOORD0;
+  float2 uv : TEXCOORD1;
+};
 
-	struct VertexOutput {
-	  float4 position : SV_Position;
-	  float2 uv : TEXCOORD0;
-	};
+struct VertexOutput {
+  float4 position : SV_Position;
+  float2 uv : TEXCOORD0;
+};
 
-	VertexOutput main(VertexInput input) {
-	  VertexOutput output;
-	  output.position = float4(input.position, 1.0);
-	  output.uv = input.uv;
-	  return output;
-	}'
+VertexOutput main(VertexInput input) {
+  VertexOutput output;
+  output.position = float4(input.position, 1.0);
+  output.uv = input.uv;
+  return output;
+}
+'
 
-]
-
-{ #category : 'accessing' }
-SDL3GPUQuadVertexShaderSource class >> numberOfSamplers [
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3GPUQuadVertexShaderSource class >> numberOfUniformBuffers [
-	^ 0
-]
-
-{ #category : 'instance creation' }
-SDL3GPUQuadVertexShaderSource class >> shaderStage [
-	^ SDL3GPUShaderStage vertex
 ]
 
 { #category : 'accessing' }
