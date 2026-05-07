@@ -50,7 +50,9 @@ Available demos:
 - **Events & Input:** `./pharo Pharo.image eval 'SDL3Demo run04HandleEvents'`
 - **System Tray:** `./pharo Pharo.image eval 'SDL3Demo run08TrayMenu'`
 - **GPU shader effects:** `./pharo Pharo.image eval 'SDL3GPURenderStateDemo new run'` ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
-- **GPU low-level API:** `./pharo Pharo.image eval 'SDL3GPUClearDemo new run'`
+- **GPU low-level API:**
+    * `./pharo Pharo.image eval 'SDL3GPUClearDemo new run'`
+    * `./pharo Pharo.image eval 'SDL3GPUQuadDemo new run'`
 
 
 ## OSWindow backend
