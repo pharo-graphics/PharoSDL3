@@ -1,3 +1,13 @@
+"
+Abstract superclass for shaders that participate in the graphics rendering pipeline.
+
+Provides shared protocol for graphics-specific concerns:
+- Input/output variable metadata (vertex attributes, varying data)
+- Graphics resource bindings (samplers, uniform buffers)
+- Creation of graphics pipeline components
+
+Subclasses represent specific stages of the graphics pipeline.
+"
 Class {
 	#name : 'SDL3GraphicsShaderSource',
 	#superclass : 'SDL3ShaderSource',

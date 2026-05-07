@@ -1,3 +1,14 @@
+"
+Represents source code for vertex shaders.
+
+Responsibilities:
+- Maintain vertex shader HLSL source code
+- Report vertex input attributes (positions, UVs, normals, etc.)
+- Report vertex outputs (interpolated data for fragments)
+- Create SDL_GPUShader objects for vertex stage
+
+Example: transforms vertex positions, applies skinning
+"
 Class {
 	#name : 'SDL3VertexShaderSource',
 	#superclass : 'SDL3GraphicsShaderSource',

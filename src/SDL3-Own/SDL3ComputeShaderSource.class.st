@@ -1,3 +1,16 @@
+"
+Represents source code for compute shaders.
+
+Responsibilities:
+- Maintain compute shader HLSL source code
+- Report threadgroup dimensions (X, Y, Z)
+- Report storage resources (read/write buffers and textures)
+- Create SDL_GPUComputePipeline objects
+- Query metadata via reflection
+
+Compute shaders operate outside the graphics pipeline for 
+general-purpose GPU computation (physics, post-processing, etc.)
+"
 Class {
 	#name : 'SDL3ComputeShaderSource',
 	#superclass : 'SDL3ShaderSource',
