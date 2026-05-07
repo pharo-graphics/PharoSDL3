@@ -4,8 +4,9 @@ I represent a property group. SDL3 doesn't provide an equivalent to me, just my 
 Class {
 	#name : 'SDL3PropertyGroup',
 	#superclass : 'SDL3BaseIDObject',
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-IDObjects',
+	#package : 'SDL3-Own',
+	#tag : 'IDObjects'
 }
 
 { #category : 'converting' }

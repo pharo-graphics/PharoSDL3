@@ -46,8 +46,9 @@ Class {
 		'SDL_BUTTON_X1',
 		'SDL_BUTTON_X2'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Defines',
+	#package : 'SDL3-Own',
+	#tag : 'Defines'
 }
 
 { #category : 'enum declaration' }

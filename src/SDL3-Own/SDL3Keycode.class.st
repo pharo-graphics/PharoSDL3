@@ -264,8 +264,9 @@ Class {
 		'SDLK_Y',
 		'SDLK_Z'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Defines',
+	#package : 'SDL3-Own',
+	#tag : 'Defines'
 }
 
 { #category : 'accessing enum' }

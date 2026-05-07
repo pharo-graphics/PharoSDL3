@@ -4,8 +4,9 @@ I represent an error in a SDL3 FFI call.
 Class {
 	#name : 'SDL3Error',
 	#superclass : 'Error',
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Errors',
+	#package : 'SDL3-Own',
+	#tag : 'Errors'
 }
 
 { #category : 'signalling' }

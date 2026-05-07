@@ -1,8 +1,9 @@
 Class {
 	#name : 'SDL3FragmentShaderSource',
 	#superclass : 'SDL3GraphicsShaderSource',
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Shaders',
+	#package : 'SDL3-Own',
+	#tag : 'Shaders'
 }
 
 { #category : 'testing' }

@@ -23,8 +23,9 @@ Class {
 		'SDL_BUTTON_X1MASK',
 		'SDL_BUTTON_X2MASK'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Defines',
+	#package : 'SDL3-Own',
+	#tag : 'Defines'
 }
 
 { #category : 'enum declaration' }

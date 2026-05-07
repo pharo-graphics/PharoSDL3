@@ -8,8 +8,9 @@ Class {
 		'DefaultPlaybackAudioDevice',
 		'DefaultRecordingAudioDevice'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-IDObjects',
+	#package : 'SDL3-Own',
+	#tag : 'IDObjects'
 }
 
 { #category : 'as yet unclassified' }

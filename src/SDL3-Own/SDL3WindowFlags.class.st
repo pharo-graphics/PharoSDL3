@@ -76,8 +76,9 @@ Class {
 		'SDL_WINDOW_UTILITY',
 		'SDL_WINDOW_VULKAN'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Defines',
+	#package : 'SDL3-Own',
+	#tag : 'Defines'
 }
 
 { #category : 'accessing enum' }

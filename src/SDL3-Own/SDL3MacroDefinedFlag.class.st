@@ -4,8 +4,9 @@ My subclasses represent SDL3 C typedefs whose values are defined by `#define` C 
 Class {
 	#name : 'SDL3MacroDefinedFlag',
 	#superclass : 'SDL3Enumeration',
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Defines',
+	#package : 'SDL3-Own',
+	#tag : 'Defines'
 }
 
 { #category : 'converting' }

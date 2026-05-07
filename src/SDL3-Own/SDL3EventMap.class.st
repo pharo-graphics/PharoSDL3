@@ -9,8 +9,9 @@ Class {
 	#instVars : [
 		'eventClassByTypeNumber'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Events',
+	#package : 'SDL3-Own',
+	#tag : 'Events'
 }
 
 { #category : 'accessing' }

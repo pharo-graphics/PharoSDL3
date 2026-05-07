@@ -43,8 +43,9 @@ Class {
 		'SDL_GPU_BUFFERUSAGE_INDIRECT',
 		'SDL_GPU_BUFFERUSAGE_VERTEX'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Defines',
+	#package : 'SDL3-Own',
+	#tag : 'Defines'
 }
 
 { #category : 'accessing enum' }

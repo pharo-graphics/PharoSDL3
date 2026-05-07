@@ -10,8 +10,9 @@ Class {
 		'SDL3AllEnumerations',
 		'SDL3ZConstants'
 	],
-	#category : 'SDL3-Own',
-	#package : 'SDL3-Own'
+	#category : 'SDL3-Own-Shaders',
+	#package : 'SDL3-Own',
+	#tag : 'Shaders'
 }
 
 { #category : 'code generation' }
