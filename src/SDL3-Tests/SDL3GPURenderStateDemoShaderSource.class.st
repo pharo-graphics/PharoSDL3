@@ -7,16 +7,16 @@ See my superclass about compilation and embedding binaries.
 "
 Class {
 	#name : 'SDL3GPURenderStateDemoShaderSource',
-	#superclass : 'SDL3ShaderSource',
+	#superclass : 'SDL3FragmentShaderSource',
 	#category : 'SDL3-Tests-Shaders',
 	#package : 'SDL3-Tests',
 	#tag : 'Shaders'
 }
 
-{ #category : 'accessing' }
-SDL3GPURenderStateDemoShaderSource class >> numberOfSamplers [
+{ #category : 'testing' }
+SDL3GPURenderStateDemoShaderSource class >> isAbstract [
 
-	^ 1
+	^ self == SDL3GPURenderStateDemoShaderSource
 ]
 
 { #category : 'accessing' }
