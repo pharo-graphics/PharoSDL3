@@ -112,7 +112,6 @@ Class {
 		'SDL3TrayEntryFlags',
 		'SDL3WindowFlags'
 	],
-	#category : 'SDL3-Enumerations',
-	#package : 'SDL3',
-	#tag : 'Enumerations'
+	#category : 'SDL3-Own',
+	#package : 'SDL3-Own'
 }
