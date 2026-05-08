@@ -225,6 +225,10 @@ SDL3GPUQuadDemo >> initializePipeline [
 				alphaBlendOp: SDL_GPU_BLENDOP_ADD;
 				yourself).
 	pipelineCreateInfo := SDL_GPUGraphicsPipelineCreateInfo new.
+	pipelineCreateInfo
+		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+		vertexShader: vertexShader;
+		fragmentShader: fragmentShader.
 	pipelineCreateInfo targetInfo
 		colorTargetDescriptions: colorTargets;
 		numColorTargets: colorTargets size.
@@ -233,10 +237,6 @@ SDL3GPUQuadDemo >> initializePipeline [
 		numVertexBuffers: vertexBindings size;
 		vertexAttributes: vertexAttributes;
 		numVertexAttributes: vertexAttributes size.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: vertexShader;
-		fragmentShader: fragmentShader.
 
 	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
 	gpuPipeline assertNotNullReturn.
@@ -408,7 +408,7 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 { #category : 'actions' }
 SDL3GPUQuadDemo >> updateTitle [
 
-	window title: ('Quads: {1} (UP/DOWN to change) - {2} filter (F to switch) - ESC to quit'
+	window title: ('Quads: {1} (UP/DOWN to change) - Filter: {2} (F to switch) - ESC to quit'
 		format: {
 			numberOfQuads.
 			self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ] })
