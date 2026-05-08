@@ -137,7 +137,10 @@ SDL3GPUQuadDemo >> indicesCount [
 SDL3GPUQuadDemo >> initialize [
 
 	super initialize.
+
 	initialExtent := 600 @ 600.
+	initialWindowFlags := SDL3WindowFlags inputFocus | SDL3WindowFlags highPixelDensity.
+
 	filter := SDL_GPU_FILTER_NEAREST.
 	numberOfQuads := 36.
 	vertexBufferSize := 0.
