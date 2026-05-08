@@ -8,9 +8,9 @@ Class {
 		'mainLoopProcess',
 		'gpuDevice'
 	],
-	#category : 'SDL3-Tests-Shaders',
+	#category : 'SDL3-Tests-Quads',
 	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#tag : 'Quads'
 }
 
 { #category : 'lifecycle' }

@@ -74,14 +74,13 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 	shaderSources do: [ :eachSources |
 		| aShader renderStateInfo aRenderState |
 		aShader := eachSources newShaderAmong: supportedShaderFormats device: gpuDevice.
-		aShader assertNotNullReturn.
 
 		renderStateInfo := SDL_GPURenderStateCreateInfo new.
 		renderStateInfo fragmentShader: aShader.
 		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.
 		aRenderState assertNotNullReturn.
 
-		shaders add: aShader. "Keep a referente to destroy on close"
+		shaders add: aShader. "Keep a reference to destroy on close"
 		renderStates add: aRenderState "These will be switched with arrow keys" ].
 
 	renderStateIndex := 1.

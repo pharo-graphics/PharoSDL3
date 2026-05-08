@@ -29,7 +29,13 @@ SDL3FragmentShaderSource class >> numberOfSamplers [
 	^ 1
 ]
 
-{ #category : 'code generation' }
+{ #category : 'accessing' }
+SDL3FragmentShaderSource class >> shaderStage [
+
+	^ SDL3GPUShaderStage fragment
+]
+
+{ #category : 'accessing' }
 SDL3FragmentShaderSource class >> stageFileExtension [
 
 	^ 'frag'

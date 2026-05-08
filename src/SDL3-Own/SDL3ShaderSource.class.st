@@ -15,33 +15,54 @@ Class {
 	#tag : 'Shaders'
 }
 
-{ #category : 'code generation' }
-SDL3ShaderSource class >> compileEmbeddedSource: shadercrossOutput as: selector [
+{ #category : 'private' }
+SDL3ShaderSource class >> base64CodeSelectorAt: formatExtension [
+
+	^ {
+		#dxil -> #base64DXILCode.
+		#msl -> #base64MSLCode.
+		#spv -> #base64SPVCode.
+		} asDictionary at: formatExtension
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> base64DXILCode [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> base64MSLCode [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> base64SPVCode [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'private' }
+SDL3ShaderSource class >> compileBase64Code: shadercrossOutput as: selector [
 
 	| methodSourceCode |
-
 	methodSourceCode := String streamContents: [ :stream |
 		stream
 			nextPutAll: selector;
 			cr;
-			tab; nextPutAll: '"This method was generated from #hlslSource"';
+			tab; nextPutAll: '"Generated from #hlslSource"';
 			cr; cr;
 			tab; nextPutAll: '^ ';
-			print: shadercrossOutput base64Encoded ].
-	
+			print: (ZnBase64Encoder new encode: shadercrossOutput) ].
+
 	self classSide
 		compile: methodSourceCode
 		classified: #accessing
 ]
 
 { #category : 'code generation' }
-SDL3ShaderSource class >> embeddedSourceSelectorFor: formatExtension [
-
-	^ #sourceCompiledAs, formatExtension asUppercase
-]
-
-{ #category : 'code generation' }
-SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSL [
+SDL3ShaderSource class >> compileBase64CodeFromHLSLSource [
 	<example>
 
 	| hlslFilename |
@@ -55,19 +76,19 @@ SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSL [
 		outputFilename := '{1}.{2}.{3}' format: { self name. self stageFileExtension. formatExtension }.
 		binaryContents := self shadercrossOutputFrom: hlslFilename to: outputFilename.
 		self
-			compileEmbeddedSource: binaryContents
-			as: (self embeddedSourceSelectorFor: formatExtension) ].
+			compileBase64Code: binaryContents
+			as: (self base64CodeSelectorAt: formatExtension) ].
 
 	hlslFilename asFileReference ensureDelete
 ]
 
 { #category : 'code generation' }
-SDL3ShaderSource class >> generateEmbeddedSourcesFromHLSLInAllSubclasses [
+SDL3ShaderSource class >> compileBase64CodeFromHLSLSourceInAllSubclasses [
 	<example>
 
 	self allSubclassesDo: [ :each |
 		(each classSide includesSelector: #hlslSource) ifTrue: [ 
-			each generateEmbeddedSourcesFromHLSL ] ]
+			each compileBase64CodeFromHLSLSource ] ]
 ]
 
 { #category : 'accessing' }
@@ -94,7 +115,7 @@ SDL3ShaderSource class >> numberOfUniformBuffers [
 	^ 0
 ]
 
-{ #category : 'code generation' }
+{ #category : 'private' }
 SDL3ShaderSource class >> shadercrossOutputFrom: hlslFilename to: outputFilename [
 
 	| result outputContents fileReference commandString |
@@ -116,25 +137,43 @@ SDL3ShaderSource class >> shadercrossOutputFrom: hlslFilename to: outputFilename
 ]
 
 { #category : 'accessing' }
-SDL3ShaderSource class >> sourceCompiledAsDXIL [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource class >> sourceCompiledAsMSL [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource class >> sourceCompiledAsSPV [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'code generation' }
 SDL3ShaderSource class >> stageFileExtension [
 
 	^ self subclassResponsibility
+]
+
+{ #category : 'private' }
+SDL3ShaderSource class >> withNew: createInfoClass formats: supportedShaderFormats do: aBlock [
+	"Either fragment, vertex or compute shaders, all of them have a common createInfo setup."
+
+	| createInfo codeAsBase64 codeAsByteArray codeAsExternalArray |
+	createInfo := createInfoClass new.
+	createInfo
+		numSamplers: self numberOfSamplers;
+		numUniformBuffers: self numberOfUniformBuffers.
+
+	"Detect the format among the supported ones"
+	(supportedShaderFormats includes: SDL_GPU_SHADERFORMAT_DXIL) ifTrue: [
+		createInfo format: SDL_GPU_SHADERFORMAT_DXIL asInteger.
+		codeAsBase64 := self base64DXILCode ].
+	(supportedShaderFormats includes: SDL_GPU_SHADERFORMAT_MSL) ifTrue: [
+		createInfo format: SDL_GPU_SHADERFORMAT_MSL asInteger.
+		codeAsBase64 := self base64MSLCode ].
+	(supportedShaderFormats includes: SDL_GPU_SHADERFORMAT_SPIRV) ifTrue: [
+		createInfo format: SDL_GPU_SHADERFORMAT_SPIRV asInteger.
+		codeAsBase64 := self base64SPVCode ].
+	createInfo format = 0 ifTrue: [ NotFound signal ].
+
+	"Decode the shader binary code from BASE64 to an external array (and free it later)"
+	codeAsByteArray := ZnBase64Encoder new decode: codeAsBase64.
+	codeAsExternalArray :=
+		FFIExternalArray
+			externalNewType: FFICharacterType
+			size: codeAsByteArray size.	
+	LibC memCopy: codeAsByteArray to: codeAsExternalArray size: codeAsByteArray size.
+	createInfo
+		code: codeAsExternalArray;
+		codeSize: codeAsExternalArray size.
+
+	[ aBlock value: createInfo ] ensure: [ codeAsExternalArray free ]
 ]

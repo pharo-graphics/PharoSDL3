@@ -25,6 +25,29 @@ SDL3ComputeShaderSource class >> isAbstract [
 	^ self == SDL3ComputeShaderSource
 ]
 
+{ #category : 'building' }
+SDL3ComputeShaderSource class >> newComputePipelineAmong: supportedShaderFormats device: aSDL3GPUDevice [
+	"Create a new compute pipeline given the available formats."
+
+	self
+		withNew: SDL3GPUComputePipelineCreateInfo
+		formats: supportedShaderFormats
+		do: [ :createInfo |
+			| computePipeline |
+			createInfo
+				numReadonlyStorageTextures: self numberOfReadOnlyStorageTextures;
+				numReadonlyStorageBuffers: self numberOfReadOnlyStorageBuffers;
+				numReadwriteStorageTextures: self numberOfReadWriteStorageTextures;
+				numReadwriteStorageBuffers: self numberOfReadWriteStorageBuffers;
+				threadcountX: self threadCountX;
+				threadcountY: self threadCountY;
+				threadcountZ: self threadCountZ.
+
+			computePipeline := aSDL3GPUDevice newGPUComputePipelineCreateinfo: createInfo.
+			computePipeline assertNotNullReturn.
+			^ computePipeline ]
+]
+
 { #category : 'accessing' }
 SDL3ComputeShaderSource class >> numberOfReadOnlyStorageBuffers [
 
@@ -55,7 +78,7 @@ SDL3ComputeShaderSource class >> numberOfSamplers [
 	^ 0
 ]
 
-{ #category : 'code generation' }
+{ #category : 'accessing' }
 SDL3ComputeShaderSource class >> stageFileExtension [
 
 	^ 'comp'

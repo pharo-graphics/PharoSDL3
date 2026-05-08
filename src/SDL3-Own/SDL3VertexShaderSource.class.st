@@ -29,13 +29,13 @@ SDL3VertexShaderSource class >> numberOfSamplers [
 	^ 0
 ]
 
-{ #category : 'instance creation' }
+{ #category : 'accessing' }
 SDL3VertexShaderSource class >> shaderStage [
 
 	^ SDL3GPUShaderStage vertex
 ]
 
-{ #category : 'code generation' }
+{ #category : 'accessing' }
 SDL3VertexShaderSource class >> stageFileExtension [
 
 	^ 'vert'
