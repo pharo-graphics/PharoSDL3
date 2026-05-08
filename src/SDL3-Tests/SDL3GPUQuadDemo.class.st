@@ -252,51 +252,10 @@ SDL3GPUQuadDemo >> initializePipeline [
 { #category : 'initialization' }
 SDL3GPUQuadDemo >> initializeTexture [
 
-	| transferBuffer mappedAddress commandBuffer copyPass icon form |
-	icon := self iconNamed: #remote.
-	form := Form extent: icon extent depth: 32.
-	form fillColor: Color transparent.
-	icon displayOn: form.
-	form unhibernate.
-
 	texture :=
 		gpuDevice
-			new2DTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+			newGPUTextureUploadingForm: (self iconNamed: #remote)
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
-			width: form width
-			height: form height.
-	texture assertNotNullReturn.
-
-	transferBuffer := gpuDevice newUploadTransferBuffer: form bits byteSize.
-	transferBuffer assertNotNullReturn.
-	mappedAddress := gpuDevice mapGPUTransferBuffer: transferBuffer cycle: false.
-	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
-
-	"Copy from surface pixels handle to mappedAddress handle"
-	LibC memCopy: form bits to: mappedAddress size: form bits byteSize.
-	gpuDevice unmapGPUTransferBuffer: transferBuffer.
-
-	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
-	copyPass := commandBuffer beginGPUCopyPass.
-	copyPass
-		uploadToGPUTextureSource:
-			(SDL_GPUTextureTransferInfo new
-				 transferBuffer: transferBuffer;
-				 offset: 0;
-				 yourself)
-		destination:
-			(SDL_GPUTextureRegion new
-				 texture: texture;
-				 w: form width;
-				 h: form height;
-				 d: 1;
-				 yourself)
-		cycle: false.
-	copyPass end.
-	sdl assertSuccess: commandBuffer submit.
-
-	gpuDevice releaseGPUTransferBuffer: transferBuffer
 ]
 
 { #category : 'testing' }
@@ -404,15 +363,11 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 			gpuDevice releaseGPUTransferBuffer: indexTransferBuffer ].
 
 		indexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
-		indexTransferBuffer assertNotNullReturn.
 
 		indexBuffer := gpuDevice 
-			newGPUBufferCreateinfo:
-				(SDL_GPUBufferCreateInfo new 
-					usage: SDL_GPU_BUFFERUSAGE_INDEX asInteger;
-					size: byteSize;
-					yourself).
-		indexBuffer assertNotNullReturn.
+			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+			size: byteSize.
+
 		indexBufferSize := byteSize ].
 
 	"2. Upload new data"
@@ -481,15 +436,11 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 			gpuDevice releaseGPUTransferBuffer: vertexTransferBuffer ].
 
 		vertexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
-		vertexTransferBuffer assertNotNullReturn.
 
 		vertexBuffer := gpuDevice 
-			newGPUBufferCreateinfo:
-				(SDL_GPUBufferCreateInfo new 
-					usage: SDL_GPU_BUFFERUSAGE_VERTEX asInteger;
-					size: byteSize;
-					yourself).
-		vertexBuffer assertNotNullReturn.
+			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+			size: byteSize.
+
 		vertexBufferSize := byteSize ].
 
 	"3. Upload new data (Using CYCLE: TRUE for animation)"

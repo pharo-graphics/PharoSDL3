@@ -12,37 +12,105 @@ SDL3GPUDevice >> gpuShaderFormatsAsArray [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> new2DTextureFormat: format usage: usage width: width height: height [
-	"Create a 2D texture with the given format, usage, and dimensions."
+SDL3GPUDevice >> new2DGPUTextureFormat: pixelFormat usage: usage width: width height: height [
+	"Answer a new `SDL_GPUTexture` with the given pixel format, usage and extent, and use default values."
 
-	| createinfo |
-	createinfo := SDL3GPUTextureCreateInfo new.
+	| createinfo texture |
+	createinfo := SDL_GPUTextureCreateInfo new.
 	createinfo
-		type: SDL3GPUTextureType at2d;
-		format: format;
+		type: SDL_GPU_TEXTURETYPE_2D;
+		format: pixelFormat;
 		usage: usage asInteger;
 		width: width;
 		height: height;
 		layerCountOrDepth: 1;
 		numLevels: 1;
-		sampleCount: SDL3GPUSampleCount one;
+		sampleCount: SDL_GPU_SAMPLECOUNT_1;
 		props: 0.
 
-	^ self newGPUTextureCreateinfo: createinfo
+	texture := self newGPUTextureCreateinfo: createinfo.
+	texture assertNotNullReturn.
+	^ texture
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> newGPUBufferUsage: usage size: size [
+
+	| createInfo gpuBuffer |
+	createInfo :=
+		SDL_GPUBufferCreateInfo new 
+			usage: usage asInteger;
+			size: size;
+			yourself.
+
+	gpuBuffer := self newGPUBufferCreateinfo: createInfo.
+	gpuBuffer assertNotNullReturn.
+	^ gpuBuffer
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> newGPUTextureUploadingForm: aForm usage: aUsage [
+	"Answer a new `SDL_GPUTexture` and copy the Form pixels to it (assuming depth is 32 bits).
+	Sender is responsible of releasing the texture. Note: It may be convenient to reuse the transfer buffer and other SDL objects."
+
+	| gpuTexture transferBuffer mappedAddress commandBuffer copyPass |
+	self assert: [ aForm depth = 32 ].
+	aForm unhibernate.
+
+	gpuTexture :=
+		self
+			new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+			usage: aUsage
+			width: aForm width
+			height: aForm height.
+
+	transferBuffer := self newUploadTransferBuffer: aForm bits byteSize.
+	mappedAddress := self mapGPUTransferBuffer: transferBuffer cycle: false.
+	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
+
+	"Copy from surface pixels handle to mappedAddress handle"
+	LibC memCopy: aForm bits to: mappedAddress size: aForm bits byteSize.
+	self unmapGPUTransferBuffer: transferBuffer.
+
+	commandBuffer := self acquireGPUCommandBuffer.
+	commandBuffer assertNotNullReturn.
+	copyPass := commandBuffer beginGPUCopyPass.
+	copyPass
+		uploadToGPUTextureSource:
+			(SDL_GPUTextureTransferInfo new
+				 transferBuffer: transferBuffer;
+				 offset: 0;
+				 yourself)
+		destination:
+			(SDL_GPUTextureRegion new
+				 texture: gpuTexture;
+				 w: aForm width;
+				 h: aForm height;
+				 d: 1;
+				 yourself)
+		cycle: false.
+	copyPass end.
+	self ffiLibrary assertSuccess: commandBuffer submit.
+
+	self releaseGPUTransferBuffer: transferBuffer.
+	
+	^ gpuTexture
 ]
 
 { #category : '*SDL3-Own' }
 SDL3GPUDevice >> newUploadTransferBuffer: size [
 	"Create a transfer buffer for uploading data to the GPU."
 
-	| createinfo |
+	| createinfo transferBuffer |
 	createinfo := SDL3GPUTransferBufferCreateInfo new.
 	createinfo
 		usage: SDL3GPUTransferBufferUsage upload;
 		size: size;
 		props: 0.
 
-	^ self newGPUTransferBufferCreateinfo: createinfo
+	transferBuffer := self newGPUTransferBufferCreateinfo: createinfo.
+	transferBuffer assertNotNullReturn.
+	^ transferBuffer
 ]
 
 { #category : '*SDL3-Own' }

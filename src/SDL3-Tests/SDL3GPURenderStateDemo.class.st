@@ -93,17 +93,8 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 { #category : 'initialization' }
 SDL3GPURenderStateDemo >> initializeTextures [
 
-	| aForm surface |
-	aForm := self iconNamed: #pharoBig.
-	surface := aForm asUnownedNewSDL3Surface.
-	foregroundTexture := renderer newTextureFromSurface: surface.
-	foregroundTexture assertNotNullReturn.
-	surface destroy.
-
-	surface := backgroundForm asUnownedNewSDL3Surface.
-	backgroundTexture := renderer newTextureFromSurface: surface.
-	backgroundTexture assertNotNullReturn.
-	surface destroy
+	foregroundTexture := renderer newTextureFromForm: (self iconNamed: #pharoBig).
+	backgroundTexture := renderer newTextureFromForm: backgroundForm
 ]
 
 { #category : 'running' }
