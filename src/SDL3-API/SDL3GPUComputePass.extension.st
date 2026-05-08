@@ -39,22 +39,22 @@ SDL3GPUComputePass >> bindGPUComputeStorageTexturesFirstSlot: first_slot storage
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> dispatchGPUComputeGroupcountX: groupcount_x groupcountY: groupcount_y groupcountZ: groupcount_z [
-
-	^ self ffiLibrary
-		  dispatchGPUComputeComputePass: self
-		  groupcountX: groupcount_x
-		  groupcountY: groupcount_y
-		  groupcountZ: groupcount_z
-]
-
-{ #category : '*SDL3-API' }
 SDL3GPUComputePass >> dispatchGPUComputeIndirectBuffer: buffer offset: offset [
 
 	^ self ffiLibrary
 		  dispatchGPUComputeIndirectComputePass: self
 		  buffer: buffer
 		  offset: offset
+]
+
+{ #category : '*SDL3-API' }
+SDL3GPUComputePass >> dispatchWorkgroupCountX: groupcount_x y: groupcount_y z: groupcount_z [
+
+	^ self ffiLibrary
+		  dispatchGPUComputeComputePass: self
+		  groupcountX: groupcount_x
+		  groupcountY: groupcount_y
+		  groupcountZ: groupcount_z
 ]
 
 { #category : '*SDL3-API' }
