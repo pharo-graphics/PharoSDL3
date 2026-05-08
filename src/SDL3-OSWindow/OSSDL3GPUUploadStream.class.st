@@ -135,7 +135,6 @@ OSSDL3GPUUploadStream >> initializeResources [
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ self ].
 
 	transferBuffer := gpuDevice newUploadTransferBuffer: gpuTransferBufferSize.
-	transferBuffer assertNotNullReturn.
 	
 	externalForm := OSSDL3ExternalForm new.
 
@@ -185,8 +184,8 @@ OSSDL3GPUUploadStream >> resetForExtent: anExtent [
 ]
 
 { #category : 'public' }
-OSSDL3GPUUploadStream >> uploadForm: aForm region: aRectangle to: aTexture [
-	"Upload a surgical region of a Smalltalk Form to a GPU Texture.
+OSSDL3GPUUploadStream >> uploadForm: aForm region: aRectangle to: aTexture at: aPoint [
+	"Upload a surgical region of a Smalltalk Form to a GPU Texture at a specific destination point.
 	 I handle the BitBlt into the mapped transfer buffer."
 
 	| bytesPerRow bytesNeeded |
@@ -221,7 +220,7 @@ OSSDL3GPUUploadStream >> uploadForm: aForm region: aRectangle to: aTexture [
 	
 	textureRegion 
 		texture: aTexture;
-		x: aRectangle left; y: aRectangle top;
+		x: aPoint x; y: aPoint y;
 		w: aRectangle width; h: aRectangle height.
 
 	copyPass uploadToGPUTextureSource: transferInfo destination: textureRegion cycle: false.

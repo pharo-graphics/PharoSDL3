@@ -55,15 +55,15 @@ OSSDL3GPUFormRenderer >> destroy [
 
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> flush [
-	"Process any pending presentation to the screen.
-	 The backing store is assumed to be up-to-date (handled in updateAreas:)."
+	"Process any pending presentation to the screen. The backing store is assumed to be up-to-date."
 
-	| commandBuffer |
 	mutex critical: [
-		self validate ifFalse: [ ^ self ].
-		
+		| commandBuffer |
+
 		"If nothing dirty to present, just return"
 		needsFlush ifFalse: [ ^ self ].
+	
+		self validate ifFalse: [ ^ self ].
 
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
 		self privateFlush: commandBuffer ]
@@ -93,11 +93,10 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 
 	"Backing store needs SAMPLER usage for copying/rendering to swapchain"
 	gpuTexture := gpuDevice
-		new2DTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+		new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
 		width: extent x 
 		height: extent y.
-	gpuTexture assertNotNullReturn.
 
 	"Pre-allocate pooled structures to avoid GC pressure in hot path"
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
@@ -194,8 +193,12 @@ OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
 		"1. Identify disjoint vertical spans of damage.
 		   We merge them to reduce the number of BitBlt calls."
-		self mergedDamage: allDamage do: [ :span |
-			uploadStream uploadForm: form region: span to: gpuTexture ].
+		self mergedDamage: allDamage do: [ :each |
+			uploadStream
+				uploadForm: form
+				region: each
+				to: gpuTexture
+				at: each origin ].
 		
 		uploadStream finish.
 
