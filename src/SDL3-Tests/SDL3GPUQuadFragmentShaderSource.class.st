@@ -34,7 +34,7 @@ SDL3GPUQuadFragmentShaderSource class >> base64SPVCode [
 SDL3GPUQuadFragmentShaderSource class >> hlslSource [
 	"Fragment shader for quad rendering.
 	 Matches official SDL_gpu example style."
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ 'Texture2D<float4> tex : register(t0, space0);
 SamplerState sam : register(s0, space0);

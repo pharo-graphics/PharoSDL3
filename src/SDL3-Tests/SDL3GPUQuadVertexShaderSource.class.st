@@ -32,7 +32,7 @@ SDL3GPUQuadVertexShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3GPUQuadVertexShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 struct VertexInput {

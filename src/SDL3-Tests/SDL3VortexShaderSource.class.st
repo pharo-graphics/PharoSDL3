@@ -34,7 +34,7 @@ SDL3VortexShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3VortexShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 Texture2D texture : register(t0, space2);

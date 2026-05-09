@@ -32,7 +32,7 @@ SDL3CloudsShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3CloudsShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 Texture2D inputTexture : register(t0, space2);

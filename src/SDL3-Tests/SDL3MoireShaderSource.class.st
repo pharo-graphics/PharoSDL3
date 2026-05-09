@@ -32,7 +32,7 @@ SDL3MoireShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3MoireShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 Texture2D iChannel0 : register(t0, space2);

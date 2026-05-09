@@ -32,7 +32,7 @@ SDL3BumpedSinusoidalWrapShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3BumpedSinusoidalWrapShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 Texture2D iChannel0 : register(t0, space2);

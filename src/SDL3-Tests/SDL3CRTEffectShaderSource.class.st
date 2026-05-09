@@ -32,7 +32,7 @@ SDL3CRTEffectShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3CRTEffectShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 Texture2D u_texture : register(t0, space2);

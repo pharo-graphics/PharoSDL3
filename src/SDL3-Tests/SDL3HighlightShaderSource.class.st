@@ -32,7 +32,7 @@ SDL3HighlightShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3HighlightShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 Texture2D texture : register(t0, space2);

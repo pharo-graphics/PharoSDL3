@@ -34,7 +34,7 @@ SDL3WaterShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3WaterShaderSource class >> hlslSource [
-	<script: 'self generateEmbeddedSourcesFromHLSL'>
+	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ '
 Texture2D texture : register(t0, space2);
