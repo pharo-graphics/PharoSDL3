@@ -43,8 +43,7 @@ SDL3GPURenderStateDemo >> initialize [
 
 	super initialize.
 	
-	"We take a snapshot of the current world to use a background"
-	backgroundForm := self currentWorld asForm
+	initialExtent := 1280@720 "720p"
 ]
 
 { #category : 'initialization' }
@@ -93,6 +92,9 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 SDL3GPURenderStateDemo >> initializeTextures [
 
 	foregroundTexture := renderer newTextureFromForm: (self iconNamed: #pharoBig).
+
+	"Take a snapshot of a browser to be used as background"
+	backgroundForm := (Object >> #at:put:) browse owner extent: window extent; asForm.
 	backgroundTexture := renderer newTextureFromForm: backgroundForm
 ]
 
@@ -139,8 +141,8 @@ SDL3GPURenderStateDemo >> open [
 	window :=
 		sdl
 			newWindowTitle: self className, ' - LEFT/RIGHT to change shader - ESC to quit'
-			w: backgroundForm width
-			h: backgroundForm height
+			w: initialExtent x
+			h: initialExtent y
 			flags: 0.
 	window assertNotNullReturn.
 
