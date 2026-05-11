@@ -63,7 +63,7 @@ SDL3ShaderSource class >> compileBase64Code: shadercrossOutput as: selector [
 
 { #category : 'code generation' }
 SDL3ShaderSource class >> compileBase64CodeFromHLSLSource [
-	<example>
+	"Transpile the HLSL code answered by `#hlslSource` to DXIL, MSL and SPV binaries, which will be encoded as BASE64 in `#base64DXILCode` and similar. Read class comment for more information."
 
 	| hlslFilename |
 	hlslFilename := '{1}.{2}.hlsl' format: { self name. self stageFileExtension }.
@@ -84,7 +84,7 @@ SDL3ShaderSource class >> compileBase64CodeFromHLSLSource [
 
 { #category : 'code generation' }
 SDL3ShaderSource class >> compileBase64CodeFromHLSLSourceInAllSubclasses [
-	<example>
+	<script>
 
 	self allSubclassesDo: [ :each |
 		(each classSide includesSelector: #hlslSource) ifTrue: [ 
@@ -130,9 +130,9 @@ SDL3ShaderSource class >> shadercrossOutputFrom: hlslFilename to: outputFilename
 	self assert: fileReference exists.
 
 	outputContents := fileReference binaryReadStreamDo: [ :stream | stream upToEnd ].
-		
+
 	fileReference ensureDelete.
-	
+
 	^ outputContents
 ]
 
