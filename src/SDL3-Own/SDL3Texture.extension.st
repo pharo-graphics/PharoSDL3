@@ -2,7 +2,12 @@ Extension { #name : 'SDL3Texture' }
 
 { #category : '*SDL3-Own' }
 SDL3Texture >> extent [
-	"Answer my (float) extent"
+	^ self w @ self h
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Texture >> floatExtent [
+	"Use API to answer my (float) extent"
 
 	| widthValueHolder heightValueHolder |
 	widthValueHolder := FFIFloat32 newValueHolder.
