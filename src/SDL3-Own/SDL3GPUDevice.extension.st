@@ -34,6 +34,22 @@ SDL3GPUDevice >> new2DGPUTextureFormat: pixelFormat usage: usage width: width he
 ]
 
 { #category : '*SDL3-Own' }
+SDL3GPUDevice >> newDownloadTransferBuffer: size [
+	"Create a transfer buffer for downloading data from the GPU."
+
+	| createinfo transferBuffer |
+	createinfo := SDL3GPUTransferBufferCreateInfo new.
+	createinfo
+		usage: SDL3GPUTransferBufferUsage download;
+		size: size;
+		props: 0.
+
+	transferBuffer := self newGPUTransferBufferCreateinfo: createinfo.
+	transferBuffer assertNotNullReturn.
+	^ transferBuffer
+]
+
+{ #category : '*SDL3-Own' }
 SDL3GPUDevice >> newGPUBufferUsage: usage size: size [
 
 	| createInfo gpuBuffer |
@@ -117,4 +133,11 @@ SDL3GPUDevice >> newUploadTransferBuffer: size [
 SDL3GPUDevice >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> waitGPUFence: aGPUFence [
+
+	self ffiLibrary assertSuccess:
+		(self waitForGPUFencesWaitAll: true fences: aGPUFence numFences: 1)
 ]
