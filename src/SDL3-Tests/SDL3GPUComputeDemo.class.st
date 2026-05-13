@@ -15,17 +15,18 @@ Class {
 		'textureSamplerBindings',
 		'indexBuffer',
 		'indexBinding',
-		'computePipeline',
 		'writeTexture',
-		'intermediateTexture',
 		'blurRadius',
 		'blurSpread',
 		'brightness',
 		'bufferIndex',
 		'vertexTransferBuffer',
-		'uniforms',
-		'storageTextureArray',
-		'lastExtent'
+		'lastExtent',
+		'filterGraph',
+		'hBlurFilter',
+		'vBlurFilter',
+		'colorFilter',
+		'colorMode'
 	],
 	#category : 'SDL3-Tests-Quads',
 	#package : 'SDL3-Tests',
@@ -297,8 +298,7 @@ SDL3GPUComputeDemo >> initializeGeometry [
 { #category : 'initialization' }
 SDL3GPUComputeDemo >> initializePipeline [
 
-	| shaderFormats vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
-	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
+	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
 	vertexShader :=
 		SDL3GPUQuadVertexShaderSource
 			newShaderAmong: shaderFormats
