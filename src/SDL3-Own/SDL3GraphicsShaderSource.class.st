@@ -42,11 +42,3 @@ SDL3GraphicsShaderSource class >> shaderStage [
 
 	^ self subclassResponsibility
 ]
-
-{ #category : 'accessing' }
-SDL3GraphicsShaderSource class >> stageFileExtension [
-
-	self shaderStage = SDL3GPUShaderStage vertex ifTrue: [ ^ 'vert' ].
-	self shaderStage = SDL3GPUShaderStage fragment ifTrue: [ ^ 'frag' ].
-	self error
-]
