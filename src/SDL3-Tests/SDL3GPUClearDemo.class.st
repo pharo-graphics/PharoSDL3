@@ -6,7 +6,9 @@ Class {
 	#superclass : 'SDL3Demo',
 	#instVars : [
 		'mainLoopProcess',
-		'gpuDevice'
+		'gpuDevice',
+		'swapchainTextureHolder',
+		'shaderFormats'
 	],
 	#category : 'SDL3-Tests-Quads',
 	#package : 'SDL3-Tests',
@@ -27,7 +29,7 @@ SDL3GPUClearDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffer [
+SDL3GPUClearDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
 	| animatedHue colorTargetInfo renderPass |
 	
@@ -35,13 +37,13 @@ SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffe
 	
 	colorTargetInfo := SDL_GPUColorTargetInfo new.
 	colorTargetInfo
-		texture: aSDL3GPUTexture;
+		texture: swapchainTexture;
 		storeOp: SDL_GPU_STOREOP_STORE;
 		loadOp: SDL_GPU_LOADOP_CLEAR.
 	colorTargetInfo clearColor updateFrom: (Color h: animatedHue s: 1.0 v: 1.0).
 
 	renderPass :=
-		aSDL3GPUCommandBuffer
+		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfo
 			numColorTargets: 1
 			depthStencilTargetInfo: nil.
@@ -56,7 +58,10 @@ SDL3GPUClearDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffe
 SDL3GPUClearDemo >> initialize [
 
 	super initialize.
-	initialExtent := 400 @ 300
+	initialExtent := 400 @ 300.
+	
+	"Pre-allocate object to avoid GC pressure in hot path"
+	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new
 ]
 
 { #category : 'running' }
@@ -87,6 +92,8 @@ SDL3GPUClearDemo >> open [
 		debugMode: true name: nil.
 	gpuDevice assertNotNullReturn.
 
+	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
+	
 	"Windows can be created after the GPU device was created (they need to be 'claimed')"
 	window :=
 		sdl
@@ -102,11 +109,10 @@ SDL3GPUClearDemo >> open [
 { #category : 'rendering' }
 SDL3GPUClearDemo >> render [
 
-	| commandBuffer swapchainTextureHolder |
+	| commandBuffer |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer assertNotNullReturn.
 
-	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	sdl assertSuccess:
 		(commandBuffer
 			 waitAndAcquireGPUSwapchainTextureForWindow: window
