@@ -87,6 +87,7 @@ SDL3ShaderSource class >> compileBase64CodeFromHLSLSourceInAllSubclasses [
 	<script>
 
 	self allSubclassesDo: [ :each |
+		Stdio stdout << 'Transpiling ' << each name; lf.
 		(each classSide includesSelector: #hlslSource) ifTrue: [ 
 			each compileBase64CodeFromHLSLSource ] ]
 ]
