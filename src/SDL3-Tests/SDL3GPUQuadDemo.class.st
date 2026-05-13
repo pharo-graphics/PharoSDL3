@@ -72,19 +72,17 @@ SDL3GPUQuadDemo >> decrementQuads [
 ]
 
 { #category : 'rendering' }
-SDL3GPUQuadDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffer [
+SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
 	| animatedHue renderPass |
-	vertexBufferBindings first buffer: vertexBuffer.
-
-	colorTargetInfos first texture: aSDL3GPUTexture.
+	colorTargetInfos first texture: swapchainTexture.
 
 	"Animate background hue to show blending"
 	animatedHue := (Time millisecondClockValue / 20.0) \\ 360.
 	colorTargetInfos first clearColor updateFrom: (Color h: animatedHue s: 0.8 v: 0.3).
 
 	renderPass :=
-		aSDL3GPUCommandBuffer
+		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfos
 			numColorTargets: colorTargetInfos size
 			depthStencilTargetInfo: nil.
@@ -97,12 +95,10 @@ SDL3GPUQuadDemo >> doRenderPassesOn: aSDL3GPUTexture with: aSDL3GPUCommandBuffer
 		bindings: vertexBufferBindings
 		numBindings: vertexBufferBindings size.
 
-	indexBinding buffer: indexBuffer; offset: 0.
 	renderPass
 		bindGPUIndexBufferBinding: indexBinding
 		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
 	
-	textureSamplerBindings first texture: texture.
 	renderPass
 		bindGPUFragmentSamplersFirstSlot: 0
 		textureSamplerBindings: textureSamplerBindings
@@ -175,8 +171,7 @@ SDL3GPUQuadDemo >> initializeGPUResources [
 { #category : 'initialization' }
 SDL3GPUQuadDemo >> initializePipeline [
 
-	| shaderFormats vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
-	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
+	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
 	vertexShader :=
 		SDL3GPUQuadVertexShaderSource
 			newShaderAmong: shaderFormats
@@ -258,7 +253,9 @@ SDL3GPUQuadDemo >> initializeTexture [
 	texture :=
 		gpuDevice
 			newGPUTextureUploadingForm: (self iconNamed: #remote)
-			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
+			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER.
+
+	textureSamplerBindings first texture: texture
 ]
 
 { #category : 'testing' }
@@ -354,7 +351,7 @@ SDL3GPUQuadDemo >> switchSamplerFilter [
 { #category : 'initialization' }
 SDL3GPUQuadDemo >> updateIndexBuffer [
 
-	| mappedAddress indices byteSize commandBuffer copyPass |
+	| mappedAddress indices byteSize commandBuffer |
 	
 	byteSize := self indicesCount * 2. "16-bit indices"
 
@@ -371,6 +368,7 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 			size: byteSize.
 
+		indexBinding buffer: indexBuffer.
 		indexBufferSize := byteSize ].
 
 	"2. Upload new data"
@@ -390,8 +388,7 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer assertNotNullReturn.
-	copyPass := commandBuffer beginGPUCopyPass.
-	copyPass
+	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
 				transferBuffer: indexTransferBuffer;
@@ -403,8 +400,8 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 				offset: 0;
 				size: byteSize;
 				yourself)
-		cycle: true.
-	copyPass end.
+		cycle: true;
+		end.
 	sdl assertSuccess: commandBuffer submit
 ]
 
@@ -420,7 +417,7 @@ SDL3GPUQuadDemo >> updateTitle [
 { #category : 'initialization' }
 SDL3GPUQuadDemo >> updateVertexBuffer [
 
-	| mappedAddress vertices byteSize commandBuffer copyPass cols rows quadW quadH phase zoom |
+	| mappedAddress vertices byteSize commandBuffer cols rows quadW quadH phase zoom |
 	
 	"1. Determine Grid Layout"
 	cols := numberOfQuads sqrt ceiling.
@@ -444,6 +441,7 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 			size: byteSize.
 
+		vertexBufferBindings first buffer: vertexBuffer.
 		vertexBufferSize := byteSize ].
 
 	"3. Upload new data (Using CYCLE: TRUE for animation)"
@@ -476,8 +474,7 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer assertNotNullReturn.
-	copyPass := commandBuffer beginGPUCopyPass.
-	copyPass
+	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
 				transferBuffer: vertexTransferBuffer;
@@ -489,8 +486,8 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 				offset: 0;
 				size: byteSize;
 				yourself)
-		cycle: true.
-	copyPass end.
+		cycle: true;
+		end.
 	sdl assertSuccess: commandBuffer submit
 ]
 
