@@ -91,10 +91,13 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 { #category : 'initialization' }
 SDL3GPURenderStateDemo >> initializeTextures [
 
+	| browserMorph |
 	foregroundTexture := renderer newTextureFromForm: (self iconNamed: #pharoBig).
 
 	"Take a snapshot of a browser to be used as background"
-	backgroundForm := (Object >> #at:put:) browse owner extent: window extent; asForm.
+	browserMorph :=(Object >> #at:put:) browse owner.
+	backgroundForm := browserMorph extent: window extent; asForm.
+	browserMorph delete.
 	backgroundTexture := renderer newTextureFromForm: backgroundForm
 ]
 
