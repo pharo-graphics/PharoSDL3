@@ -18,6 +18,7 @@ Class {
 
 { #category : 'field definition' }
 SDL3GPUQuadVertex class >> fieldsDesc [
+	<script: 'self rebuildFieldAccessors'>
 
 	^ #(
 	float x;

@@ -14,9 +14,7 @@ Class {
 
 { #category : 'field definition' }
 SDL3GPUBlurUniforms class >> fieldsDesc [
-	"
-	self rebuildFieldAccessors 
-	"
+	<script: 'self rebuildFieldAccessors'>
 
 	^ #(
 	float blurRadius
