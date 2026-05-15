@@ -26,7 +26,11 @@ Class {
 		'hBlurFilter',
 		'vBlurFilter',
 		'colorFilter',
-		'colorMode'
+		'colorMode',
+		'computePipeline',
+		'intermediateTexture',
+		'uniforms',
+		'storageTextureArray'
 	],
 	#category : 'SDL3-Tests-Quads',
 	#package : 'SDL3-Tests',
