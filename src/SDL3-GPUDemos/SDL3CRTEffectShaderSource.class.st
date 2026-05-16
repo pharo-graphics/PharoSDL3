@@ -4,9 +4,9 @@ I am a post-processing fragment shader inspired on SDL/test/testgpurender_effect
 Class {
 	#name : 'SDL3CRTEffectShaderSource',
 	#superclass : 'SDL3GPURenderStateDemoShaderSource',
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPUDemos-RenderState',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'RenderState'
 }
 
 { #category : 'accessing' }

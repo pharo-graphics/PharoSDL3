@@ -1,34 +1,34 @@
 "
-I demonstrate how to render textured quads using the SDL3 GPU API.
-I use vertex and fragment shaders defined in Pharo.
+I demonstrate how to render SDF shapes.
 "
 Class {
-	#name : 'SDL3GPUQuadDemo',
+	#name : 'SDL3GPUSDFRoundedRectDemo',
 	#superclass : 'SDL3GPUClearDemo',
 	#instVars : [
 		'gpuPipeline',
 		'vertexBuffer',
-		'sampler',
-		'texture',
 		'colorTargetInfos',
 		'vertexBufferBindings',
-		'textureSamplerBindings',
 		'numberOfQuads',
-		'filter',
 		'vertexTransferBuffer',
 		'vertexBufferSize',
 		'indexBuffer',
 		'indexBufferSize',
 		'indexTransferBuffer',
-		'indexBinding'
+		'indexBinding',
+		'sdfUniforms',
+		'columns',
+		'rows',
+		'cornerRadiiBase',
+		'radius'
 	],
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos-SDF',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'SDF'
 }
 
 { #category : 'lifecycle' }
-SDL3GPUQuadDemo >> close [
+SDL3GPUSDFRoundedRectDemo >> close [
 
 	gpuPipeline ifNotNil: [ 
 		gpuDevice releaseGPUGraphicsPipeline: gpuPipeline.
@@ -50,36 +50,32 @@ SDL3GPUQuadDemo >> close [
 		gpuDevice releaseGPUBuffer: indexBuffer.
 		indexBuffer := nil ].
 
-	sampler ifNotNil: [ 
-		gpuDevice releaseGPUSampler: sampler.
-		sampler := nil ].
-
-	texture ifNotNil: [ 
-		gpuDevice releaseGPUTexture: texture.
-		texture := nil ].
-
-	
 	super close
 ]
 
-{ #category : 'actions' }
-SDL3GPUQuadDemo >> decrementQuads [
-
-	numberOfQuads := (numberOfQuads - 1) max: 1.
-	self updateVertexBuffer.
-	self updateIndexBuffer.
-	self updateTitle
-]
-
 { #category : 'rendering' }
-SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
+SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
-	| animatedHue renderPass |
+	| renderPass quadWidthPixels quadHeightPixels |
 	colorTargetInfos first texture: swapchainTexture.
 
-	"Animate background hue to show blending"
-	animatedHue := (Time millisecondClockValue / 20.0) \\ 360.
-	colorTargetInfos first clearColor updateFrom: (Color h: animatedHue s: 0.8 v: 0.3).
+	"Calculate actual pixel dimensions of the quads based on window size and grid"
+	quadWidthPixels := window width asFloat / columns.
+	quadHeightPixels := window height asFloat / rows.
+
+	sdfUniforms
+		dimX: quadWidthPixels;
+		dimY: quadHeightPixels;
+		cornerR1: cornerRadiiBase;
+		cornerR2: cornerRadiiBase;
+		cornerR3: cornerRadiiBase;
+		cornerR4: cornerRadiiBase;
+		radius: radius.
+
+	aCommandBuffer
+		pushGPUFragmentUniformDataSlotIndex: 0
+		data: sdfUniforms
+		length: sdfUniforms class structureSize.
 
 	renderPass :=
 		aCommandBuffer
@@ -98,11 +94,6 @@ SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 	renderPass
 		bindGPUIndexBufferBinding: indexBinding
 		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-	
-	renderPass
-		bindGPUFragmentSamplersFirstSlot: 0
-		textureSamplerBindings: textureSamplerBindings
-		numBindings: textureSamplerBindings size.
 
 	renderPass
 		drawGPUIndexedPrimitivesNumIndices: self indicesCount
@@ -114,59 +105,61 @@ SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 	renderPass end
 ]
 
-{ #category : 'actions' }
-SDL3GPUQuadDemo >> incrementQuads [
-
-	numberOfQuads := numberOfQuads + 1.
-	self updateVertexBuffer.
-	self updateIndexBuffer.
-	self updateTitle
-]
-
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> indicesCount [
+SDL3GPUSDFRoundedRectDemo >> indicesCount [
 
 	^ numberOfQuads * 6
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> initialize [
+SDL3GPUSDFRoundedRectDemo >> initialize [
 
 	super initialize.
 
-	initialExtent := 600 @ 600.
-	initialWindowFlags := SDL3WindowFlags inputFocus | SDL3WindowFlags highPixelDensity.
+	initialExtent := 800 @ 600.
+	initialWindowFlags := SDL3WindowFlags inputFocus | SDL3WindowFlags highPixelDensity | SDL3WindowFlags resizable.
 
-	filter := SDL_GPU_FILTER_NEAREST.
-	numberOfQuads := 36.
+	numberOfQuads := 16.
+	columns := 4.
+	rows := 4.
 	vertexBufferSize := 0.
 	indexBufferSize := 0.
+	cornerRadiiBase := 20.0.
+	radius := 50.0.
 
 	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
 	colorTargetInfos first
 		storeOp: SDL_GPU_STOREOP_STORE;
 		loadOp: SDL_GPU_LOADOP_CLEAR.
+	colorTargetInfos first clearColor r: 0.1; g: 0.1; b: 0.1; a: 1.0.
 
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 
-	textureSamplerBindings := FFIArray newType: SDL_GPUTextureSamplerBinding size: 1.
-
 	indexBinding := SDL_GPUBufferBinding externalNew.
-	indexBinding autoRelease
+	indexBinding autoRelease.
+
+	sdfUniforms := SDL3GPUSDFRoundedRectUniforms new.
+	sdfUniforms
+		shapeType: 1; "Rounded Rect"
+		radius: radius;
+		strokeSize: 5.0;
+		fillColor: (SDL3FColor r: 0.2 g: 0.6 b: 1.0 a: 1.0);
+		strokeColor: (SDL3FColor r: 1.0 g: 1.0 b: 1.0 a: 1.0);
+		fillType: 0;
+		dashCount: 0.0;
+		fillColor2: (SDL3FColor r: 1.0 g: 0.2 b: 0.6 a: 1.0).
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> initializeGPUResources [
+SDL3GPUSDFRoundedRectDemo >> initializeGPUResources [
 
-	self initializeTexture.
 	self updateVertexBuffer.
 	self updateIndexBuffer.
-	self initializePipeline.
-	self switchSamplerFilter
+	self initializePipeline
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> initializePipeline [
+SDL3GPUSDFRoundedRectDemo >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
 	vertexShader :=
@@ -174,7 +167,7 @@ SDL3GPUQuadDemo >> initializePipeline [
 			newShaderAmong: shaderFormats
 			device: gpuDevice.
 	fragmentShader :=
-		SDL3GPUQuadFragmentShaderSource
+		SDL3GPUSDFRoundedRectFragmentShaderSource
 			newShaderAmong: shaderFormats
 			device: gpuDevice.
 
@@ -244,25 +237,8 @@ SDL3GPUQuadDemo >> initializePipeline [
 	colorTargets free
 ]
 
-{ #category : 'initialization' }
-SDL3GPUQuadDemo >> initializeTexture [
-
-	texture :=
-		gpuDevice
-			newGPUTextureUploadingForm: (self iconNamed: #remote)
-			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER.
-
-	textureSamplerBindings first texture: texture
-]
-
-{ #category : 'testing' }
-SDL3GPUQuadDemo >> isNearestSamplerFilter [
-
-	^ filter = SDL_GPU_FILTER_NEAREST
-]
-
 { #category : 'running' }
-SDL3GPUQuadDemo >> iterateUntilQuit [
+SDL3GPUSDFRoundedRectDemo >> iterateUntilQuit [
 
 	| quit |
 	quit := false.
@@ -273,13 +249,33 @@ SDL3GPUQuadDemo >> iterateUntilQuit [
 			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
 				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ].
 
+				evt key = SDLK_SPACE asInteger ifTrue: [
+					sdfUniforms shapeType: (sdfUniforms shapeType = 0 ifTrue: [ 1 ] ifFalse: [ 0 ]).
+					self updateTitle ].
 				evt key = SDLK_F asInteger ifTrue: [
-					self switchSamplerFilter.
+					sdfUniforms fillType: (sdfUniforms fillType + 1) \\ 3.
+					self updateTitle ].
+				evt key = SDLK_D asInteger ifTrue: [
+					sdfUniforms dashCount: (sdfUniforms dashCount > 0.0 ifTrue: [ 0.0 ] ifFalse: [ 16.0 ]).
 					self updateTitle ].
 				evt key = SDLK_UP asInteger ifTrue: [
-					self incrementQuads ].
+					columns := columns + 1. rows := rows + 1.
+					numberOfQuads := columns * rows.
+					self updateIndexBuffer.
+					self updateTitle ].
 				evt key = SDLK_DOWN asInteger ifTrue: [
-					self decrementQuads ]
+					columns := (columns - 1) max: 1. rows := (rows - 1) max: 1.
+					numberOfQuads := columns * rows.
+					self updateIndexBuffer.
+					self updateTitle ].
+				evt key = SDLK_LEFT asInteger ifTrue: [
+					cornerRadiiBase := (cornerRadiiBase - 2.0) max: 0.0.
+					radius := (radius - 2.0) max: 0.0.
+					self updateTitle ].
+				evt key = SDLK_RIGHT asInteger ifTrue: [
+					cornerRadiiBase := (cornerRadiiBase + 2.0) min: 200.0.
+					radius := (radius + 2.0) min: 200.0.
+					self updateTitle ]
 			] ].
 
 		self render.
@@ -288,15 +284,15 @@ SDL3GPUQuadDemo >> iterateUntilQuit [
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> numberOfVerticesPerQuad [
+SDL3GPUSDFRoundedRectDemo >> numberOfVerticesPerQuad [
 
 	^ 4
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUQuadDemo >> open [
+SDL3GPUSDFRoundedRectDemo >> open [
 	"Run headless with:
-	./pharo Pharo.image eval 'SDL3GPUQuadDemo new run'
+	./pharo Pharo.image eval 'SDL3GPUSDFRoundedRectDemo new run'
 	"
 
 	super open.
@@ -305,7 +301,7 @@ SDL3GPUQuadDemo >> open [
 ]
 
 { #category : 'private' }
-SDL3GPUQuadDemo >> quadIndices [
+SDL3GPUSDFRoundedRectDemo >> quadIndices [
 	"Standard 16-bit index pattern for a quad:
 	Vertices: 0:TL, 1:TR, 2:BR, 3:BL
 	Triangles: (0,1,2) and (0,2,3)
@@ -314,39 +310,14 @@ SDL3GPUQuadDemo >> quadIndices [
 ]
 
 { #category : 'rendering' }
-SDL3GPUQuadDemo >> render [
+SDL3GPUSDFRoundedRectDemo >> render [
 
 	self updateVertexBuffer.
 	super render
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> switchSamplerFilter [
-
-	"If needed, switch to the other filter and release current sampler"
-	sampler ifNotNil: [
-		filter :=
-			self isNearestSamplerFilter
-				ifTrue: [ SDL_GPU_FILTER_LINEAR ]
-				ifFalse: [ SDL_GPU_FILTER_NEAREST ].
-		gpuDevice releaseGPUSampler: sampler ].
-
-	sampler := gpuDevice newGPUSamplerCreateinfo:
-		(SDL3GPUSamplerCreateInfo new
-			minFilter: filter;
-			magFilter: filter;
-			mipmapMode: filter;
-			addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-			yourself).
-	sampler assertNotNullReturn.
-	
-	textureSamplerBindings first sampler: sampler
-]
-
-{ #category : 'initialization' }
-SDL3GPUQuadDemo >> updateIndexBuffer [
+SDL3GPUSDFRoundedRectDemo >> updateIndexBuffer [
 
 	| mappedAddress indices byteSize commandBuffer |
 	
@@ -403,25 +374,27 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 ]
 
 { #category : 'actions' }
-SDL3GPUQuadDemo >> updateTitle [
+SDL3GPUSDFRoundedRectDemo >> updateTitle [
 
-	window title: ('Quads: {1} (UP/DOWN to change) - Filter: {2} (F to switch) - ESC to quit'
+	window title: ('SDF Shapes: {1} (UP/DOWN rows/cols) - Radius: {2} (LEFT/RIGHT) - SPACE: Shape - F: Fill - D: Dashes'
 		format: {
 			numberOfQuads.
-			self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ] })
+			cornerRadiiBase })
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> updateVertexBuffer [
+SDL3GPUSDFRoundedRectDemo >> updateVertexBuffer [
 
-	| mappedAddress vertices byteSize commandBuffer cols rows quadW quadH phase zoom |
+	| mappedAddress vertices byteSize commandBuffer quadW quadH padX padY cellW cellH |
 	
-	"1. Determine Grid Layout"
-	cols := numberOfQuads sqrt ceiling.
-	rows := (numberOfQuads / cols) ceiling.
-	zoom := 1.1. "Increase zoom to overlap quads"
-	quadW := (2.0 / cols) * zoom.
-	quadH := (2.0 / rows) * zoom.
+	cellW := 2.0 / columns.
+	cellH := 2.0 / rows.
+	
+	padX := cellW * 0.1.
+	padY := cellH * 0.1.
+	
+	quadW := cellW - padX.
+	quadH := cellH - padY.
 	
 	byteSize := SDL3GPUQuadVertex structureSize * self verticesCount.
 
@@ -451,14 +424,12 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 			type: SDL3GPUQuadVertex
 			size: self verticesCount.
 	
-	phase := Time millisecondClockValue / 500.0.
 	1 to: numberOfQuads do: [ :i |
-		| col row x y p |
-		p := phase + (i * 0.3).
-		row := (i - 1) // cols + 1.
-		col := (i - 1) \\ cols + 1.
-		x := -1.0 + ((col - 1) * (2.0 / cols)) + (p sin * 0.05).
-		y := 1.0 - ((row - 1) * (2.0 / rows)) + (p cos * 0.05).
+		| col row x y |
+		row := (i - 1) // columns + 1.
+		col := (i - 1) \\ columns + 1.
+		x := -1.0 + (padX * 0.5) + ((col - 1) * cellW).
+		y := 1.0 - (padY * 0.5) - ((row - 1) * cellH).
 		self
 			writeQuadTo: vertices
 			at: (i - 1) * self numberOfVerticesPerQuad + 1 
@@ -489,13 +460,13 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> verticesCount [
+SDL3GPUSDFRoundedRectDemo >> verticesCount [
 
 	^ self numberOfVerticesPerQuad * numberOfQuads
 ]
 
 { #category : 'private' }
-SDL3GPUQuadDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h [
+SDL3GPUSDFRoundedRectDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h [
 
 	| v |
 	"Vertices (NDC): y increases UPWARDS.

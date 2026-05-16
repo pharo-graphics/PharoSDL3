@@ -20,9 +20,9 @@ Class {
 		'OFFSET_RESOLUTIONY',
 		'OFFSET_TIME'
 	],
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPUDemos-RenderState',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'RenderState'
 }
 
 { #category : 'field definition' }

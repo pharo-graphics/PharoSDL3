@@ -1,9 +1,9 @@
 Class {
 	#name : 'SDL3GPUGaussianBlurShaderSource',
 	#superclass : 'SDL3ComputeShaderSource',
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos-GaussianBlur',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'GaussianBlur'
 }
 
 { #category : 'accessing' }

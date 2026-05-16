@@ -1,90 +1,73 @@
-"
-I represent a vertex struct in the quads demo (see my references).
-"
 Class {
-	#name : 'SDL3GPUQuadVertex',
+	#name : 'SDL3GPUBoidsVertex',
 	#superclass : 'SDL3Structure',
 	#classVars : [
-		'OFFSET_U',
-		'OFFSET_V',
+		'OFFSET_HUE',
+		'OFFSET_PADDING',
 		'OFFSET_X',
-		'OFFSET_Y',
-		'OFFSET_Z'
+		'OFFSET_Y'
 	],
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos-Boids',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'Boids'
 }
 
 { #category : 'field definition' }
-SDL3GPUQuadVertex class >> fieldsDesc [
+SDL3GPUBoidsVertex class >> fieldsDesc [
 	<script: 'self rebuildFieldAccessors'>
 
 	^ #(
 	float x;
 	float y;
-	float z;
-	float u;
-	float v
+	float hue;
+	float padding;
 	)
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> u [
+SDL3GPUBoidsVertex >> hue [
 	"This method was automatically generated"
-	^handle floatAt: OFFSET_U
+	^handle floatAt: OFFSET_HUE
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> u: anObject [
+SDL3GPUBoidsVertex >> hue: anObject [
 	"This method was automatically generated"
-	handle floatAt: OFFSET_U put: anObject
+	handle floatAt: OFFSET_HUE put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> v [
+SDL3GPUBoidsVertex >> padding [
 	"This method was automatically generated"
-	^handle floatAt: OFFSET_V
+	^handle floatAt: OFFSET_PADDING
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> v: anObject [
+SDL3GPUBoidsVertex >> padding: anObject [
 	"This method was automatically generated"
-	handle floatAt: OFFSET_V put: anObject
+	handle floatAt: OFFSET_PADDING put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> x [
+SDL3GPUBoidsVertex >> x [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_X
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> x: anObject [
+SDL3GPUBoidsVertex >> x: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_X put: anObject
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> y [
+SDL3GPUBoidsVertex >> y [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_Y
 ]
 
 { #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> y: anObject [
+SDL3GPUBoidsVertex >> y: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_Y put: anObject
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> z [
-	"This method was automatically generated"
-	^handle floatAt: OFFSET_Z
-]
-
-{ #category : 'accessing - structure variables' }
-SDL3GPUQuadVertex >> z: anObject [
-	"This method was automatically generated"
-	handle floatAt: OFFSET_Z put: anObject
 ]
