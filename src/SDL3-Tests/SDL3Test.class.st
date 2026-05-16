@@ -7,6 +7,10 @@ Class {
 	#instVars : [
 		'sdl'
 	],
+	#pools : [
+		'SDL3AllEnumerations',
+		'SDL3ZConstants'
+	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
 	#tag : 'Library'
