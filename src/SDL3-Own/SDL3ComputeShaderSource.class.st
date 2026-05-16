@@ -19,6 +19,24 @@ Class {
 	#tag : 'Shaders'
 }
 
+{ #category : 'accessing' }
+SDL3ComputeShaderSource class >> dispatchWorkgroupCountXFor: totalItems [
+
+	^ (totalItems + self threadCountX - 1) // self threadCountX
+]
+
+{ #category : 'accessing' }
+SDL3ComputeShaderSource class >> dispatchWorkgroupCountYFor: totalItems [
+
+	^ (totalItems + self threadCountY - 1) // self threadCountY
+]
+
+{ #category : 'accessing' }
+SDL3ComputeShaderSource class >> dispatchWorkgroupCountZFor: totalItems [
+
+	^ (totalItems + self threadCountZ - 1) // self threadCountZ
+]
+
 { #category : 'testing' }
 SDL3ComputeShaderSource class >> isAbstract [
 
