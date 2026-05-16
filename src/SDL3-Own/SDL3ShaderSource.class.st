@@ -168,7 +168,7 @@ SDL3ShaderSource class >> withNew: createInfoClass formats: supportedShaderForma
 	"Decode the shader binary code from BASE64 to an external array (and free it later)"
 	codeAsByteArray := ZnBase64Encoder new decode: codeAsBase64.
 	codeAsExternalArray :=
-		FFIExternalArray
+		FFIArray
 			externalNewType: FFICharacterType
 			size: codeAsByteArray size.	
 	LibC memCopy: codeAsByteArray to: codeAsExternalArray size: codeAsByteArray size.

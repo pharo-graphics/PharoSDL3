@@ -142,17 +142,14 @@ SDL3GPUQuadDemo >> initialize [
 	vertexBufferSize := 0.
 	indexBufferSize := 0.
 
-	colorTargetInfos := FFIExternalArray externalNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos autoRelease.
+	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
 	colorTargetInfos first
 		storeOp: SDL_GPU_STOREOP_STORE;
 		loadOp: SDL_GPU_LOADOP_CLEAR.
 
-	vertexBufferBindings := FFIExternalArray externalNewType: SDL_GPUBufferBinding size: 1.
-	vertexBufferBindings autoRelease.
+	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 
-	textureSamplerBindings := FFIExternalArray externalNewType: SDL_GPUTextureSamplerBinding size: 1.
-	textureSamplerBindings autoRelease.
+	textureSamplerBindings := FFIArray newType: SDL_GPUTextureSamplerBinding size: 1.
 
 	indexBinding := SDL_GPUBufferBinding externalNew.
 	indexBinding autoRelease
@@ -375,7 +372,7 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 	mappedAddress := gpuDevice mapGPUTransferBuffer: indexTransferBuffer cycle: true.
 	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
 
-	indices := FFIExternalArray fromHandle: mappedAddress type: FFIUInt16 size: self indicesCount.
+	indices := FFIArray fromHandle: mappedAddress type: FFIUInt16 size: self indicesCount.
 	
 	1 to: numberOfQuads do: [ :i |
 		| baseVertex baseIndex |
@@ -449,7 +446,7 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
 
 	vertices :=
-		FFIExternalArray
+		FFIArray
 			fromHandle: mappedAddress
 			type: SDL3GPUQuadVertex
 			size: self verticesCount.

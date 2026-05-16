@@ -18,7 +18,7 @@ SDL3Surface >> asFormARGB32 [
 
 	| result theData |
 	self lock.
-	theData := FFIExternalArray
+	theData := FFIArray
 		fromHandle: self pixels getHandle
 		type: FFIUInt32
 		size: self w * self h.

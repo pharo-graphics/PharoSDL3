@@ -263,7 +263,7 @@ SDL3GPUComputeDemo >> initializeGeometry [
 	iTransfer := gpuDevice newUploadTransferBuffer: 2 * 6. "16-bit indices"
 	iTransfer assertNotNullReturn.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: iTransfer cycle: false.
-	indices := FFIExternalArray fromHandle: mappedAddress type: FFIUInt16 size: 6.
+	indices := FFIArray fromHandle: mappedAddress type: FFIUInt16 size: 6.
 	#(1 2 3 1 3 4) doWithIndex: [ :val :idx | indices at: idx put: val - 1 ].
 	gpuDevice unmapGPUTransferBuffer: iTransfer.
 
@@ -277,7 +277,7 @@ SDL3GPUComputeDemo >> initializeGeometry [
 		commandBuffer assertNotNullReturn.
 		mappedAddress := gpuDevice mapGPUTransferBuffer: vertexTransferBuffer cycle: false.
 		
-		(FFIExternalArray fromHandle: mappedAddress type: SDL3GPUQuadVertex size: 4)
+		(FFIArray fromHandle: mappedAddress type: SDL3GPUQuadVertex size: 4)
 			at: 1 put: (SDL3GPUQuadVertex new x: -1.0; y: 1.0; z: 0.0; u: 0.0; v: 0.0; yourself);
 			at: 2 put: (SDL3GPUQuadVertex new x: 1.0; y: 1.0; z: 0.0; u: 1.0; v: 0.0; yourself);
 			at: 3 put: (SDL3GPUQuadVertex new x: 1.0; y: -1.0; z: 0.0; u: 1.0; v: 1.0; yourself);
