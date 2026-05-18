@@ -22,19 +22,14 @@ Class {
 		'bufferIndex',
 		'vertexTransferBuffer',
 		'lastExtent',
-		'filterGraph',
-		'hBlurFilter',
-		'vBlurFilter',
-		'colorFilter',
-		'colorMode',
 		'computePipeline',
 		'intermediateTexture',
 		'uniforms',
 		'storageTextureArray'
 	],
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos-GaussianBlur',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'GaussianBlur'
 }
 
 { #category : 'lifecycle' }

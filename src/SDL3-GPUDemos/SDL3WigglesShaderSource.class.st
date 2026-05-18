@@ -6,9 +6,9 @@ Adapted from: https://www.shadertoy.com/view/4Xc3DM (free)
 Class {
 	#name : 'SDL3WigglesShaderSource',
 	#superclass : 'SDL3GPURenderStateDemoShaderSource',
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPUDemos-RenderState',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'RenderState'
 }
 
 { #category : 'accessing' }

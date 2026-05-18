@@ -6,9 +6,9 @@ Post-processing fragment shader that creates a smooth, rolling distortion like o
 Class {
 	#name : 'SDL3WaterShaderSource',
 	#superclass : 'SDL3GPURenderStateDemoShaderSource',
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPUDemos-RenderState',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'RenderState'
 }
 
 { #category : 'accessing' }

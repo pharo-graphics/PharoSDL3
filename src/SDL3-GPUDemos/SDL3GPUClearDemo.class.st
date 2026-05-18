@@ -10,9 +10,8 @@ Class {
 		'swapchainTextureHolder',
 		'shaderFormats'
 	],
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos',
+	#package : 'SDL3-GPUDemos'
 }
 
 { #category : 'lifecycle' }

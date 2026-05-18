@@ -4,9 +4,9 @@ I am a vertex shader for the quads demo (see my references).
 Class {
 	#name : 'SDL3GPUQuadVertexShaderSource',
 	#superclass : 'SDL3VertexShaderSource',
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos-SimpleQuads',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'SimpleQuads'
 }
 
 { #category : 'accessing' }

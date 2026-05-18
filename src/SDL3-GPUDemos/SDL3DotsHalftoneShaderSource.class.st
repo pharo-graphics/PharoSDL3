@@ -4,9 +4,9 @@ Post-processing fragment shader inspired on https://www.shadertoy.com/view/4sBBD
 Class {
 	#name : 'SDL3DotsHalftoneShaderSource',
 	#superclass : 'SDL3GPURenderStateDemoShaderSource',
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPUDemos-RenderState',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'RenderState'
 }
 
 { #category : 'accessing' }

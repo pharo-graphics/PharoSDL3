@@ -8,9 +8,9 @@ See my superclass about compilation and embedding binaries.
 Class {
 	#name : 'SDL3GPURenderStateDemoShaderSource',
 	#superclass : 'SDL3FragmentShaderSource',
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPUDemos-RenderState',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'RenderState'
 }
 
 { #category : 'testing' }

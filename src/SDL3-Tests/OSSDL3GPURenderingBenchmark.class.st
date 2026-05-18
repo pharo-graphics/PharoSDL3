@@ -16,9 +16,9 @@ Class {
 		'StepTime',
 		'WindowExtent'
 	],
-	#category : 'SDL3-Tests-Benchmarks',
+	#category : 'SDL3-Tests-OSWindow',
 	#package : 'SDL3-Tests',
-	#tag : 'Benchmarks'
+	#tag : 'OSWindow'
 }
 
 { #category : 'convenience' }

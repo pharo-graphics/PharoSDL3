@@ -7,9 +7,9 @@ Class {
 		'OFFSET_BRIGHTNESS',
 		'OFFSET_DIRECTION'
 	],
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos-GaussianBlur',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'GaussianBlur'
 }
 
 { #category : 'field definition' }

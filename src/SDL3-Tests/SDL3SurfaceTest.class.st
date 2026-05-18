@@ -27,7 +27,7 @@ SDL3SurfaceTest >> testColorAt [
 	surface clearColor: color.
 
 	self assert: surface extent equals: extent.
-	self assert: surface pitch equals: surface w * 4.
+	self assert: surface pitch equals: surface w * FFIUInt32 externalTypeSize.
 
 	0 to: extent x - 1 do: [ :x |
 		0 to: extent y - 1 do: [ :y |

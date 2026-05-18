@@ -6,9 +6,9 @@ Post-processing fragment shader that twists the texture around the center of the
 Class {
 	#name : 'SDL3VortexShaderSource',
 	#superclass : 'SDL3GPURenderStateDemoShaderSource',
-	#category : 'SDL3-Tests-Shaders',
-	#package : 'SDL3-Tests',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPUDemos-RenderState',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'RenderState'
 }
 
 { #category : 'accessing' }

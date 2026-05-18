@@ -4,9 +4,9 @@ I am a fragment shader for the quads demo (see my references).
 Class {
 	#name : 'SDL3GPUQuadFragmentShaderSource',
 	#superclass : 'SDL3FragmentShaderSource',
-	#category : 'SDL3-Tests-Quads',
-	#package : 'SDL3-Tests',
-	#tag : 'Quads'
+	#category : 'SDL3-GPUDemos-SimpleQuads',
+	#package : 'SDL3-GPUDemos',
+	#tag : 'SimpleQuads'
 }
 
 { #category : 'accessing' }
