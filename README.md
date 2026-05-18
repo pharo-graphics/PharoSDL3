@@ -45,7 +45,7 @@ To run tests from the terminal:
 ./pharo Pharo.image test 'SDL3-Tests'
 ```
 
-Available demos:
+Some demos:
 - **Basic Windows:** `./pharo Pharo.image eval 'SDL3Demo run01MultipleWindows'`
 - **Events & Input:** `./pharo Pharo.image eval 'SDL3Demo run04HandleEvents'`
 - **System Tray:** `./pharo Pharo.image eval 'SDL3Demo run08TrayMenu'`
@@ -54,6 +54,10 @@ Available demos:
     * `./pharo Pharo.image eval 'SDL3GPUClearDemo new run'`
     * `./pharo Pharo.image eval 'SDL3GPUQuadDemo new run'`
 
+Run all subclasses of SDL3Demo sequencially:
+```bash
+./pharo Pharo.image eval SDL3Demo allSubclasses | sed 's/.*(//;s/)//' | xargs -n 1 | while read -r item; do ./pharo Pharo.image eval "$item new run"; done
+```
 
 ## OSWindow backend
 
