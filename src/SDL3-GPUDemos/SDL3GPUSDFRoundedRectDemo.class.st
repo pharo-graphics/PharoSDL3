@@ -137,6 +137,7 @@ SDL3GPUSDFRoundedRectDemo >> initialize [
 
 	indexBinding := SDL_GPUBufferBinding externalNew.
 	indexBinding autoRelease.
+	indexBinding offset: 0.
 
 	sdfUniforms := SDL3GPUSDFRoundedRectUniforms new.
 	sdfUniforms
