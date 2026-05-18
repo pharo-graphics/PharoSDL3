@@ -199,26 +199,22 @@ SDL3GPUComputeDemo >> initialize [
 	brightness := 1.0.
 	bufferIndex := 1.
 
-	colorTargetInfos := FFIExternalArray externalNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos autoRelease.
+	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
 	colorTargetInfos first
 		storeOp: SDL_GPU_STOREOP_STORE;
 		loadOp: SDL_GPU_LOADOP_CLEAR.
 	colorTargetInfos first clearColor updateFrom: Color red.
 
-	vertexBufferBindings := FFIExternalArray externalNewType: SDL_GPUBufferBinding size: 1.
-	vertexBufferBindings autoRelease.
+	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 
-	textureSamplerBindings := FFIExternalArray externalNewType: SDL_GPUTextureSamplerBinding size: 1.
-	textureSamplerBindings autoRelease.
+	textureSamplerBindings := FFIArray newType: SDL_GPUTextureSamplerBinding size: 1.
 
 	indexBinding := SDL_GPUBufferBinding externalNew.
 	indexBinding autoRelease.
 	indexBinding offset: 0.
 	
 	uniforms := SDL3GPUBlurUniforms new.
-	storageTextureArray := FFIExternalArray externalNewType: SDL_GPUTexture size: 1.
-	storageTextureArray autoRelease
+	storageTextureArray := FFIArray newType: SDL_GPUTexture size: 1.
 ]
 
 { #category : 'initialization' }
@@ -330,7 +326,9 @@ SDL3GPUComputeDemo >> initializePipeline [
 
 	colorTargets :=
 		FFIExternalArray externalNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
+	colorTargets first 
+		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
+		blendState: SDL_GPUColorTargetBlendState new.
 
 	pipelineCreateInfo := SDL_GPUGraphicsPipelineCreateInfo new.
 	pipelineCreateInfo
