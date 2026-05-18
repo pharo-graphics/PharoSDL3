@@ -102,7 +102,7 @@ OSSDL3ExternalForm >> setExtent: anExtent depth: bitsPerPixel [
 	bits := self
 		primCreateManualSurfaceWidth: width
 		height: height
-		rowPitch: width * 4
+		rowPitch: width * FFIUInt32 externalTypeSize
 		depth: bitsPerPixel
 		isMSB: true
 ]

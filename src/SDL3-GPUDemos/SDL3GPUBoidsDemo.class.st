@@ -273,7 +273,7 @@ SDL3GPUBoidsDemo >> initializeBuffers [
 	"Hues Buffer (Static)"
 	huesBuffer := gpuDevice
 		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		size: numBoids * 4. "4 bytes per float"
+		size: numBoids * FFIFloat32 externalTypeSize.
 
 	"Vertex Buffer (Geometry Output)"
 	"3 vertices per boid"
@@ -511,7 +511,7 @@ SDL3GPUBoidsDemo >> uploadInitialData [
 	gpuDevice unmapGPUTransferBuffer: bTransfer.
 	
 	"2. Hues (Colors)"
-	hSize := numBoids * 4.
+	hSize := numBoids * FFIFloat32 externalTypeSize.
 	hTransfer := gpuDevice newUploadTransferBuffer: hSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: hTransfer cycle: false.
 	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].

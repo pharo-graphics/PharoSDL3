@@ -104,7 +104,7 @@ OSSDL3FormRenderer >> updateAll [
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
-		sdlTexture updateRect: nil pixels: form bits pitch: form width * 4.
+		sdlTexture updateRect: nil pixels: form bits pitch: form width * FFIUInt32 externalTypeSize.
 		deferUpdates ifTrue: [ ^ self ].
 		sdlRenderer renderTexture: sdlTexture srcrect: nil dstrect: nil.
 		sdlRenderer renderPresent ]
@@ -126,7 +126,7 @@ OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 			intersection ifNotNil: [
 				pixels := ExternalAddress new.
 				sdlRect := SDL3Rect newFrom: intersection.
-				ExternalAddress allocate: 4 bytesDuring: [ :pitchHolder |
+				ExternalAddress allocate: FFIInt32 externalTypeSize bytesDuring: [ :pitchHolder |
 					sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
 					pitch := pitchHolder signedLongAt: 1 ].
 
@@ -164,7 +164,7 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 
 		pixels := ExternalAddress new.
 		sdlRect := SDL3Rect newFrom: intersection.
-		ExternalAddress allocate: 4 bytesDuring: [ :pitchHolder |
+		ExternalAddress allocate: FFIInt32 externalTypeSize bytesDuring: [ :pitchHolder |
 			sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
 			pitch := pitchHolder signedLongAt: 1 ].
 

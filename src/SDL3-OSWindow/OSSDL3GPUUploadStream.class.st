@@ -165,7 +165,7 @@ OSSDL3GPUUploadStream >> preferredBufferSizeForExtent: anExtent [
 	"Calculate dynamic buffer size based on renderer extent.
 	 We want enough space for at least one full update of the backing store."
 
-	^ anExtent x * anExtent y * 4 min: MaxBufferSize max: MinBufferSize
+	^ anExtent x * anExtent y * FFIUInt32 externalTypeSize min: MaxBufferSize max: MinBufferSize
 ]
 
 { #category : 'initialization' }
@@ -195,7 +195,7 @@ OSSDL3GPUUploadStream >> uploadForm: aForm region: aRectangle to: aTexture at: a
 	self ensureBatchStarted.
 
 	"1. Calculate space needed for this surgical rectangle (tightly packed)"
-	bytesPerRow := aRectangle width * 4.
+	bytesPerRow := aRectangle width * FFIUInt32 externalTypeSize.
 	bytesNeeded := bytesPerRow * aRectangle height.
 
 	"2. Capacity check. If we exceed the buffer, submit current batch and start over."
