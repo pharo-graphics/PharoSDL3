@@ -273,7 +273,7 @@ SDL3GPUBoidsDemo >> initializeBuffers [
 	"Hues Buffer (Static)"
 	huesBuffer := gpuDevice
 		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		size: numBoids * FFIFloat32 externalTypeSize.
+		size: numBoids * FFIFloat32 externalTypeSize. "4 bytes per float"
 
 	"Vertex Buffer (Geometry Output)"
 	"3 vertices per boid"

@@ -445,7 +445,7 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 	
 	texWidth := 16.
 	texHeight := 16.
-	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
+	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize. "R8G8B8A8"
 
 	"1. Create GPU result texture"
 	resultTexture := gpuDevice
