@@ -375,15 +375,17 @@ SDL3GPUComputeDemo >> initializeSampler [
 { #category : 'initialization' }
 SDL3GPUComputeDemo >> initializeTexture [
 
-	| morph |
+	| browserMorph form |
 	lastExtent := window pixelExtent.
 
-	morph := (Object >> #at:put:) browse owner.
-	morph extent: lastExtent.
+	"Take a snapshot of a browser to be used as background"
+	browserMorph :=(Object >> #at:put:) browse owner.
+	form := browserMorph extent: lastExtent; asForm.
+	browserMorph delete.
 
 	texture :=
 		gpuDevice
-			newGPUTextureUploadingForm: morph asForm
+			newGPUTextureUploadingForm: form
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ
 ]
 
