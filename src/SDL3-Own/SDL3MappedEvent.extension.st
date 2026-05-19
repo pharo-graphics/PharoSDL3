@@ -24,8 +24,16 @@ SDL3MappedEvent >> printOn: aStream [
 
 { #category : '*SDL3-Own' }
 SDL3MappedEvent >> timestamp [
+	"Answer a timestamp in nanoseconds"
 
 	^ self subclassResponsibility
+]
+
+{ #category : '*SDL3-Own' }
+SDL3MappedEvent >> timestampAsMilliseconds [
+	"Answer a timestamp in milliseconds"
+
+	^ self timestamp // 1e6
 ]
 
 { #category : '*SDL3-Own' }
