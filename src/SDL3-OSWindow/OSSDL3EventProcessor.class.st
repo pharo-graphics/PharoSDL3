@@ -126,7 +126,7 @@ OSSDL3EventProcessor >> updateKeyboardEvent: osEvent from: anSDLKeyboardEvent [
 OSSDL3EventProcessor >> visitDropFileEvent: anSDLEvent [
 
 	^ OSWindowDropEvent new
-		timestamp: anSDLEvent timestamp;
+		timestamp: anSDLEvent timestampAsMilliseconds;
 		filePath: anSDLEvent data utf8StringFromCString;
 		yourself
 ]
@@ -261,7 +261,7 @@ OSSDL3EventProcessor >> visitWindowExposedEvent: anEvent [
 	"Handle the window expose event."
 
 	^ OSWindowExposeEvent new
-		timestamp: anEvent timestamp;
+		timestamp: anEvent timestampAsMilliseconds;
 		yourself
 ]
 
@@ -345,6 +345,6 @@ OSSDL3EventProcessor >> visitWindowShownEvent: anEvent [
 	"Handle the window being shown."
 
 	^ OSWindowShownEvent new
-		timestamp: anEvent timestamp;
+		timestamp: anEvent timestampAsMilliseconds;
 		yourself
 ]
