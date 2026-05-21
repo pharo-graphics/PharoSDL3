@@ -1,6 +1,12 @@
 Extension { #name : 'SDL3Window' }
 
 { #category : '*SDL3-Own' }
+SDL3Window >> centerBoth [
+
+	self ffiLibrary assertSuccess: (self positionX: 16r2FFF0000 y: 16r2FFF0000)
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> display [
 
 	^ SDL3Display id: self displayID

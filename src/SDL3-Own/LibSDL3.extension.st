@@ -76,6 +76,21 @@ LibSDL3 >> allCameraIDs [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> allCameraSupportedFormatsOf: cameraId [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self
+		getCameraSupportedFormatsInstanceId: cameraId
+		count: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_CameraSpec
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> allFingersOf: touchID [
 
 	| countValueHolder address array |
