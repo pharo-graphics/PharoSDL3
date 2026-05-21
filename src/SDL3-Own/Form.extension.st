@@ -5,8 +5,7 @@ Form >> asUnownedNewSDL3Surface [
 	"Answer a `SDL3Surface` that shares my pixels (there isn't a copy). The sender is responsible of destroying the surface."
 
 	| aSDLSurface |
-	"Other formats needs to be implemented yet"
-	self assert: [ self depth = 32 ].
+	self depth = 32 ifFalse: [ ^ (self asFormOfDepth: 32) asUnownedNewSDL3Surface ].
 
 	self unhibernate.
 

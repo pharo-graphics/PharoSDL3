@@ -2,19 +2,13 @@
 I'm responsible of converting a `SDL3Event` into a `OSEvent` using Visitor design pattern.
 "
 Class {
-	#name : 'OSSDL3EventProcessor',
-	#superclass : 'Object',
-	#traits : 'TSDL3HierarchicalEventVisitor',
-	#classTraits : 'TSDL3HierarchicalEventVisitor classTrait',
+	#name : 'OSSDL3DeliverOSEventHandler',
+	#superclass : 'OSSDL3EventHandler',
 	#instVars : [
-		'eventMap'
+		'driver'
 	],
 	#classVars : [
 		'CharacterByKeycodeMapping'
-	],
-	#pools : [
-		'SDL3Keymod',
-		'SDL3MouseButtonFlagsMask'
 	],
 	#category : 'SDL3-OSWindow-Events',
 	#package : 'SDL3-OSWindow',
@@ -22,7 +16,7 @@ Class {
 }
 
 { #category : 'class initialization' }
-OSSDL3EventProcessor class >> initialize [
+OSSDL3DeliverOSEventHandler class >> initialize [
 
 	CharacterByKeycodeMapping := Dictionary newFromPairs: {
 		SDLK_RETURN . Character cr.
@@ -42,7 +36,7 @@ OSSDL3EventProcessor class >> initialize [
 ]
 
 { #category : 'private' }
-OSSDL3EventProcessor >> convertButtonState: mouseStateOrNil modifiers: modifiers [
+OSSDL3DeliverOSEventHandler >> convertButtonState: mouseStateOrNil modifiers: modifiers [
 	"Update the modifiers object based on the current mouse and modifier key states."
 
 	| mouseState modState |
@@ -72,42 +66,39 @@ OSSDL3EventProcessor >> convertButtonState: mouseStateOrNil modifiers: modifiers
 		numLock: (SDL_KMOD_NUM anyMask: modState)
 ]
 
-{ #category : 'events' }
-OSSDL3EventProcessor >> deliver: aSDL3Event on: aSDL3Driver [
+{ #category : 'accessing' }
+OSSDL3DeliverOSEventHandler >> driver [
 
-	| mappedEvent osEvent |
-	mappedEvent := eventMap value: aSDL3Event.
-	
-	osEvent := mappedEvent accept: self.
-	osEvent ifNil: [ ^ nil ]. "Some events are discarded"
-
-	mappedEvent windowID
-		ifNil: [
-			aSDL3Driver deliverGlobalEvent: osEvent ]
-		ifNotNil: [
-			aSDL3Driver
-				deliverEvent: osEvent
-				windowID: mappedEvent windowID ]
+	^ driver
 ]
 
-{ #category : 'initialization' }
-OSSDL3EventProcessor >> initialize [
+{ #category : 'accessing' }
+OSSDL3DeliverOSEventHandler >> driver: anObject [
 
-	super initialize.
+	driver := anObject
+]
 
-	"SDL3Event union -> SDL3MappedEvent"
-	eventMap := SDL3EventMap new
+{ #category : 'events' }
+OSSDL3DeliverOSEventHandler >> handle: aSDL3MappedEvent [
+
+	| osEvent |
+	osEvent := aSDL3MappedEvent accept: self.
+	osEvent ifNil: [ ^ nil ]. "Some events are discarded"
+
+	aSDL3MappedEvent windowID
+		ifNil: [ driver deliverGlobalEvent: osEvent ]
+		ifNotNil: [ driver deliverEvent: osEvent windowID: aSDL3MappedEvent windowID ]
 ]
 
 { #category : 'private' }
-OSSDL3EventProcessor >> mousePosition [
+OSSDL3DeliverOSEventHandler >> mousePosition [
 	"Answer an Integer Point with the current mouse position relative to this window."
 
 	^ LibSDL3 uniqueInstance mousePositionRounded
 ]
 
 { #category : 'private' }
-OSSDL3EventProcessor >> updateKeyboardEvent: osEvent from: anSDLKeyboardEvent [
+OSSDL3DeliverOSEventHandler >> updateKeyboardEvent: osEvent from: anSDLKeyboardEvent [
 
 	osEvent 
 		scanCode: anSDLKeyboardEvent scancode;
@@ -123,7 +114,7 @@ OSSDL3EventProcessor >> updateKeyboardEvent: osEvent from: anSDLKeyboardEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitDropFileEvent: anSDLEvent [
+OSSDL3DeliverOSEventHandler >> visitDropFileEvent: anSDLEvent [
 
 	^ OSWindowDropEvent new
 		timestamp: anSDLEvent timestamp;
@@ -132,7 +123,7 @@ OSSDL3EventProcessor >> visitDropFileEvent: anSDLEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitKeyboardDownEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitKeyboardDownEvent: anEvent [
 
 	| osEvent |
 	osEvent := OSKeyDownEvent new.
@@ -141,7 +132,7 @@ OSSDL3EventProcessor >> visitKeyboardDownEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitKeyboardUpEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitKeyboardUpEvent: anEvent [
 
 	| osEvent |
 	osEvent := OSKeyUpEvent new.
@@ -150,13 +141,13 @@ OSSDL3EventProcessor >> visitKeyboardUpEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitMappedEvent: aVisitor [
+OSSDL3DeliverOSEventHandler >> visitMappedEvent: aVisitor [
 
 	^ nil
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitMouseButtonDownEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitMouseButtonDownEvent: anEvent [
 
 	| osEvent |
 	osEvent := OSMouseButtonPressEvent new.
@@ -172,7 +163,7 @@ OSSDL3EventProcessor >> visitMouseButtonDownEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitMouseButtonUpEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitMouseButtonUpEvent: anEvent [
 
 	| osEvent |
 	osEvent := OSMouseButtonReleaseEvent new.
@@ -188,7 +179,7 @@ OSSDL3EventProcessor >> visitMouseButtonUpEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitMouseMotionEvent: anSDLEvent [
+OSSDL3DeliverOSEventHandler >> visitMouseMotionEvent: anSDLEvent [
 
 	| osEvent |
 	osEvent := OSMouseMoveEvent new.
@@ -204,7 +195,7 @@ OSSDL3EventProcessor >> visitMouseMotionEvent: anSDLEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitMouseWheelEvent: anSDLEvent [
+OSSDL3DeliverOSEventHandler >> visitMouseWheelEvent: anSDLEvent [
 
 	| osEvent |
 	osEvent := OSMouseWheelEvent new.
@@ -221,7 +212,7 @@ OSSDL3EventProcessor >> visitMouseWheelEvent: anSDLEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitTextEditingEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitTextEditingEvent: anEvent [
 
 	^ OSTextEditingEvent new
 		text: anEvent text utf8StringFromCString;
@@ -232,7 +223,7 @@ OSSDL3EventProcessor >> visitTextEditingEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitTextInputEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitTextInputEvent: anEvent [
 
 	^ OSTextInputEvent new
 		text: anEvent text utf8StringFromCString;
@@ -241,14 +232,14 @@ OSSDL3EventProcessor >> visitTextInputEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowCloseRequestedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowCloseRequestedEvent: anEvent [
 	"Handle the window close request from SDL."
 
 	^ OSWindowCloseEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowDisplayScaleChangedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowDisplayScaleChangedEvent: anEvent [
 	"Handle the window display scale change."
 
 	^ OSWindowResolutionChangeEvent new
@@ -257,7 +248,7 @@ OSSDL3EventProcessor >> visitWindowDisplayScaleChangedEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowExposedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowExposedEvent: anEvent [
 	"Handle the window expose event."
 
 	^ OSWindowExposeEvent new
@@ -266,63 +257,63 @@ OSSDL3EventProcessor >> visitWindowExposedEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowFocusGainedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowFocusGainedEvent: anEvent [
 	"Handle the window gaining input focus."
 
 	^ OSWindowFocusInEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowFocusLostEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowFocusLostEvent: anEvent [
 	"Handle the window losing input focus."
 
 	^ OSWindowFocusOutEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowHiddenEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowHiddenEvent: anEvent [
 	"Handle the window becoming hidden."
 
 	^ OSWindowHiddenEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowMaximizedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowMaximizedEvent: anEvent [
 	"Handle the window being maximized."
 
 	^ OSWindowMaximizedEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowMinimizedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowMinimizedEvent: anEvent [
 	"Handle the window being minimized."
 
 	^ OSWindowMinimizedEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowMouseEnterEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowMouseEnterEvent: anEvent [
 	"Handle the mouse cursor entering the window."
 
 	^ OSWindowMouseEnterEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowMouseLeaveEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowMouseLeaveEvent: anEvent [
 	"Handle the mouse cursor leaving the window."
 
 	^ OSWindowMouseLeaveEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowMovedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowMovedEvent: anEvent [
 	"Handle the window being moved."
 
 	^ OSWindowMoveEvent new
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowPixelSizeChangedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowPixelSizeChangedEvent: anEvent [
 	"Handle the window pixel size change."
 
 	^ OSWindowResolutionChangeEvent new
@@ -331,7 +322,7 @@ OSSDL3EventProcessor >> visitWindowPixelSizeChangedEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowResizedEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowResizedEvent: anEvent [
 	"Handle the window being resized."
 
 	^ OSWindowResizeEvent new
@@ -341,7 +332,7 @@ OSSDL3EventProcessor >> visitWindowResizedEvent: anEvent [
 ]
 
 { #category : 'visiting - conversion' }
-OSSDL3EventProcessor >> visitWindowShownEvent: anEvent [
+OSSDL3DeliverOSEventHandler >> visitWindowShownEvent: anEvent [
 	"Handle the window being shown."
 
 	^ OSWindowShownEvent new
