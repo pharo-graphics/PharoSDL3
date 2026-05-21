@@ -10,9 +10,9 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'eventProcessor',
 		'gpuDevice',
-		'pendingFlush'
+		'eventMap',
+		'eventHandlerChain'
 	],
 	#classVars : [
 		'BackendWindowRegistry',
@@ -148,7 +148,19 @@ OSSDL3Driver >> initialize [
 
 	super initialize.
 
-	eventProcessor := OSSDL3EventProcessor new.
+	"Maps SDL3Event (a C union) to SDL3MappedEvent"
+	eventMap := SDL3EventMap new.
+
+	eventHandlerChain :=
+		OSSDL3InterruptHandler new
+			nextHandler:
+				(OSSDL3PasteHandler new
+					nextHandler: 
+						(OSSDL3DeliverOSEventHandler new
+							driver: self;
+							yourself);
+					yourself)
+			yourself.
 
 	self initializeWindowMap.
 	self initializeLibrary
@@ -198,14 +210,16 @@ OSSDL3Driver >> initializeWindowMap [
 ]
 
 { #category : 'events-processing' }
-OSSDL3Driver >> processSDL3Event: sdl3Event [
+OSSDL3Driver >> processSDL3Event: aSDL3Event [
 	
-	[ eventProcessor deliver: sdl3Event on: self ]
-		on: UnhandledException
-		do: [ :ex |
-			"It is critical that event handling keep running despite errors.
-			Any error in event handling require immediate attention and fixing"
-			ex freeze. [ ex debug ] fork ]
+	[	| mappedEvent |
+		mappedEvent := eventMap value: aSDL3Event.
+		eventHandlerChain handle: mappedEvent ]
+			on: UnhandledException
+			do: [ :ex |
+				"It is critical that event handling keep running despite errors.
+				Any error in event handling require immediate attention and fixing"
+				ex freeze. [ ex debug ] fork ]
 ]
 
 { #category : 'window registry' }
@@ -225,7 +239,7 @@ OSSDL3Driver >> runEventLoop [
 
 	[ session == Smalltalk session ] whileTrue: [
 		[ self ffiLibrary pollEvent: sdl3Event ] whileTrue: [
-			eventProcessor deliver: sdl3Event on: self ].
+			self processSDL3Event: sdl3Event ].
 		
 		5 timesRepeat: [
 			"Flush all renderers to ensure screen updates"
