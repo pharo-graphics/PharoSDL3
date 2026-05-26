@@ -24,3 +24,13 @@ OSSDL3FocusHandler >> driver: anObject [
 
 	driver := anObject
 ]
+
+{ #category : 'visiting - concrete' }
+OSSDL3FocusHandler >> visitWindowFocusGainedEvent: anEvent [
+
+	driver
+		backendWindowWithId: anEvent windowID
+		ifPresent: [ :win | win ensureSetCurrentCursor ].
+
+	^ self forwardToNextHandler: anEvent
+]
