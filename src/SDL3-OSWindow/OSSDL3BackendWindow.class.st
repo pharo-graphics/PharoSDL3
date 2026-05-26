@@ -327,14 +327,16 @@ OSSDL3BackendWindow >> sdl3Window [
 	^ sdl3Window
 ]
 
-{ #category : 'cursor' }
+{ #category : 'accessing' }
 OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
-	"Set the window's mouse cursor to aCursor (a Form). The mask and scale are currently ignored in this SDL3 implementation as we use color surfaces."
+	"Set the window's mouse cursor to aCursor (a Form). The mask and scale are used to create a properly scaled color cursor."
 
-	| surface sdlCursor offset |
+	| surface sdlCursor offset scaledForm scaleToUse |
 	sdlCursor := self lookupSystemCursor: aCursor ifNotFound: [ 
-		surface := aCursor asUnownedNewSDL3Surface.
-		offset := aCursor offset.
+		scaleToUse := aScale ceiling.
+		scaledForm := self convertCursor: aCursor withMask: aMask andScale: aScale.
+		surface := scaledForm asUnownedNewSDL3Surface.
+		offset := aCursor offset * scaleToUse.
 		[ 
 			LibSDL3 uniqueInstance newColorCursorSurface: surface hotX: offset x negated hotY: offset y negated
 		] ensure: [ surface destroy ]
@@ -342,7 +344,9 @@ OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
 
 	currentCursor ifNotNil: [ currentCursor destroy ].
 	currentCursor := sdlCursor.
-	currentCursor setActive
+	
+	self hasInputFocus ifFalse: [ ^ self ].
+	self ensureSetCurrentCursor
 ]
 
 { #category : 'testing' }
