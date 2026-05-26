@@ -45,6 +45,12 @@ SDL3Window >> extent: aPoint [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> hasInputFocus [
+
+	^ self flags anyMask: SDL3WindowFlags inputFocus
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> height [
 	"Answer my logical extent"
 

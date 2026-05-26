@@ -78,6 +78,45 @@ OSSDL3BackendWindow >> clipboardText: aString [
 	LibSDL3 uniqueInstance setClipboardText: aString
 ]
 
+{ #category : 'private' }
+OSSDL3BackendWindow >> convertCursor: aCursor withMask: aMask andScale: aScale [
+	"Convert the given cursor and mask into a 32-bit ARGB Form, applying the specified scale."
+
+	| scaleToUse scaledCursor scaledMask argbForm |
+	scaleToUse := aScale ceiling.
+
+	"If it's already depth 32 and no scaling is needed, return as is"
+	(aCursor depth = 32 and: [ scaleToUse = 1 ]) ifTrue: [ ^ aCursor ].
+
+	"If it's already depth 32, scale it and return"
+	aCursor depth = 32 ifTrue: [ 
+		^ aCursor scaledToSize: (aCursor extent * scaleToUse) ].
+
+	"Traditional 1-bit cursor: create a scaled version of cursor and mask"
+	scaledCursor := aCursor scaledToSize: (aCursor extent * scaleToUse).
+	scaledMask := aMask scaledToSize: (aMask extent * scaleToUse).
+
+	argbForm := Form extent: scaledCursor extent depth: 32.
+
+	"Build ARGB pixels from 1-bit data + mask"
+	"Pharo 1-bit logic: mask 1 = opaque, mask 0 = transparent. val 1 = black, val 0 = white"
+	0 to: argbForm width - 1 do: [ :x | 
+		0 to: argbForm height - 1 do: [ :y | 
+			| m val |
+			m := scaledMask pixelValueAt: x @ y.
+			val := scaledCursor pixelValueAt: x @ y.
+			m = 1
+				ifTrue: [ 
+					argbForm
+						colorAt: x @ y
+						put: (val = 1
+								 ifTrue: [ Color black ]
+								 ifFalse: [ Color white ]) ]
+				ifFalse: [ argbForm colorAt: x @ y put: Color transparent ] ] ].
+
+	^ argbForm
+]
+
 { #category : 'deleting' }
 OSSDL3BackendWindow >> destroy [
 	"Destroy the backend window and release its resources, including any associated GPU device and callbacks."
@@ -100,6 +139,14 @@ OSSDL3BackendWindow >> destroy [
 	osWindow := nil
 ]
 
+{ #category : 'cursor' }
+OSSDL3BackendWindow >> ensureSetCurrentCursor [
+	"Ensure current cursor is set."
+
+	currentCursor ifNil: [ ^ self ].
+	currentCursor setActive
+]
+
 { #category : 'accessing' }
 OSSDL3BackendWindow >> extent [
 	"Answer the size of the window."
@@ -119,6 +166,13 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 	"Set the window to fullscreen mode if aBoolean is true."
 
 	sdl3Window fullscreen: aBoolean
+]
+
+{ #category : 'testing' }
+OSSDL3BackendWindow >> hasInputFocus [
+	"Answer true if the window has input focus."
+
+	^ sdl3Window hasInputFocus
 ]
 
 { #category : 'accessing' }

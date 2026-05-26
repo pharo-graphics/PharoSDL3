@@ -63,6 +63,14 @@ OSSDL3Driver >> afterSetWindowTitle: aString onWindow: osWindow [
 		afterSetWindowTitle: aString onWindow: osWindow
 ]
 
+{ #category : 'window registry' }
+OSSDL3Driver >> backendWindowWithId: aWindowID [
+	"Answer the backend window associated with the given ID, or nil if not found."
+
+	^ RegistryMutex critical: [
+		BackendWindowRegistry at: aWindowID ifAbsent: [ nil ] ]
+]
+
 { #category : 'events' }
 OSSDL3Driver >> beforeMainPharoWindowClosed: osWindow [
 
@@ -154,10 +162,14 @@ OSSDL3Driver >> initialize [
 	eventHandlerChain :=
 		OSSDL3InterruptHandler new
 			nextHandler:
-				(OSSDL3PasteHandler new
+				(OSSDL3FocusHandler new
+					driver: self;
 					nextHandler: 
-						(OSSDL3DeliverOSEventHandler new
-							driver: self;
+						(OSSDL3PasteHandler new
+							nextHandler: 
+								(OSSDL3DeliverOSEventHandler new
+									driver: self;
+									yourself);
 							yourself);
 					yourself)
 			yourself.
