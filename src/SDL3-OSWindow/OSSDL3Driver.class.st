@@ -68,7 +68,7 @@ OSSDL3Driver >> backendWindowWithId: aWindowID ifPresent: aBlock [
 	"Evaluate aBlock with the backend window associated with the given ID"
 
 	^ RegistryMutex critical: [
-		BackendWindowRegistry at: aWindowID ifAbsent: [ aBlock value ] ]
+		BackendWindowRegistry at: aWindowID ifPresent: aBlock ]
 ]
 
 { #category : 'events' }

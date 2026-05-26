@@ -30,7 +30,7 @@ OSSDL3FocusHandler >> visitWindowFocusGainedEvent: anEvent [
 
 	driver
 		backendWindowWithId: anEvent windowID
-		ifPresent: [ :win | win ensureSetCurrentCursor ].
+		ifPresent: [ :window | window ensureSetCurrentCursor ].
 
 	^ self forwardToNextHandler: anEvent
 ]
