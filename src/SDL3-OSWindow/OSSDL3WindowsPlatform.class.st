@@ -9,13 +9,16 @@ Class {
 	#tag : 'Platforms'
 }
 
-{ #category : 'public' }
+{ #category : 'operations' }
 OSSDL3WindowsPlatform >> afterMainPharoWindowCreated: aOSWindow [
 
 	| handle |
 	handle := aOSWindow platformSpecificHandle.
 
-	self tryToEnableDebugWindowMenu: handle. 
+	[ self enableDebugWindowMenu: handle ] onErrorDo: [
+		"There was an error installing the support for
+		debug Window: is the VM too old?" ].
+
 	self wtsRegisterSessionNotification: handle
 ]
 
@@ -42,15 +45,6 @@ OSSDL3WindowsPlatform >> platformSpecificHandleOf: aOSSDL3BackendWindow [
 	^ aOSSDL3BackendWindow sdl3Window propertyGroup
 		pointerAt: SDL_PROP_WINDOW_WIN32_HWND_POINTER
 		ifAbsent: nil
-]
-
-{ #category : 'private' }
-OSSDL3WindowsPlatform >> tryToEnableDebugWindowMenu: handle [
-
-	^ [ self class enableDebugWindowMenu: handle ] 
-		onErrorDo: [
-			"There was an error installing the support for debug Window, the VM is not new enough."
-		]
 ]
 
 { #category : 'private' }
