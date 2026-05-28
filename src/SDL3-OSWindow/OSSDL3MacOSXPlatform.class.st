@@ -23,28 +23,6 @@ OSSDL3MacOSXPlatform >> afterSetWindowTitle: aString onWindow: aOSWindow [
 	self objc release: nsString
 ]
 
-{ #category : 'private' }
-OSSDL3MacOSXPlatform >> allowTouchpadInertia [
-
-	| nsUserDefaultsClass standardUserDefaults key |
-	nsUserDefaultsClass := self objc lookupClass: 'NSUserDefaults'.
-
-	standardUserDefaults :=
-		self objc
-			sendMessage: (self objc lookupSelector: 'standardUserDefaults')
-			to: (self objc lookupClass: 'NSUserDefaults').
-
-	key := self objc nsStringOf: 'AppleMomentumScrollSupported'.
-
-	self objc
-		sendMessage: (self objc lookupSelector: 'setBool:forKey:')
-		to: standardUserDefaults
-		with: (ExternalAddress fromAddress: 1)
-		with: key.
-		
-	self objc release: key
-]
-
 { #category : 'public' }
 OSSDL3MacOSXPlatform >> initPlatformSpecific [
 
@@ -57,7 +35,9 @@ OSSDL3MacOSXPlatform >> initPlatformSpecific [
 
 	SDLOSXPharoMenu uniqueInstance installInOSXWindow.
 
-	self allowTouchpadInertia
+	"Enable AppleMomentumScrollSupported"
+	LibSDL3 uniqueInstance setHintName: SDL_HINT_MAC_SCROLL_MOMENTUM value: '1'
+
 ]
 
 { #category : 'private' }
