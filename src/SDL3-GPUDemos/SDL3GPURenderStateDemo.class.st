@@ -3,9 +3,8 @@ I'm a demo of SDL3 GPU renderer API introduced in SDL 3.4.0, that applies a frag
 "
 Class {
 	#name : 'SDL3GPURenderStateDemo',
-	#superclass : 'SDL3Demo',
+	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
-		'mainLoopProcess',
 		'backgroundTexture',
 		'foregroundTexture',
 		'backgroundForm',
@@ -30,27 +29,13 @@ SDL3GPURenderStateDemo >> close [
 	foregroundTexture destroy.
 	backgroundTexture destroy.
 
-	super close.
-
-	(mainLoopProcess isNotNil and: [ mainLoopProcess isTerminated not ])
-		ifTrue: [ mainLoopProcess terminate ].
-
-	self ensureQuitSDL3
+	super close
 ]
 
 { #category : 'initialization' }
 SDL3GPURenderStateDemo >> initialize [
 
 	super initialize.
-	
-	initialExtent := 1280@720 "720p"
-]
-
-{ #category : 'initialization' }
-SDL3GPURenderStateDemo >> initializeGPURenderStates [
-
-	| supportedShaderFormats |
-	supportedShaderFormats := gpuDevice gpuShaderFormatsAsArray.
 
 	shaders := OrderedCollection new.
 	renderStates := OrderedCollection new.
@@ -70,6 +55,15 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 		SDL3MoireShaderSource 
 		}.
 
+	renderStateIndex := 1
+]
+
+{ #category : 'initialization' }
+SDL3GPURenderStateDemo >> initializeGPURenderStates [
+
+	| supportedShaderFormats |
+	supportedShaderFormats := gpuDevice gpuShaderFormatsAsArray.
+
 	shaderSources do: [ :eachSources |
 		| aShader renderStateInfo aRenderState |
 		aShader := eachSources newShaderAmong: supportedShaderFormats device: gpuDevice.
@@ -82,10 +76,15 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 		shaders add: aShader. "Keep a reference to destroy on close"
 		renderStates add: aRenderState "These will be switched with arrow keys" ].
 
-	renderStateIndex := 1.
-	
 	"We'll update these input before each render to produce an animation"
 	uniformBuffer := SDL3GPURenderStateDemoUniformBuffer new
+]
+
+{ #category : 'lifecycle' }
+SDL3GPURenderStateDemo >> initializeRenderer [
+
+	renderer := window newGPURenderer.
+	renderer assertNotNullReturn
 ]
 
 { #category : 'initialization' }
@@ -101,56 +100,21 @@ SDL3GPURenderStateDemo >> initializeTextures [
 	backgroundTexture := renderer newTextureFromForm: backgroundForm
 ]
 
-{ #category : 'running' }
-SDL3GPURenderStateDemo >> iterateUntilQuit [
-
-	| quit |
-	quit := false.
-
-	"main loop"
-	[ quit ] whileFalse: [
-
-		"Process all pending events"
-		self pollEventsDo: [ :evt |
-			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
-
-			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
-
-				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ].
-
-				evt key = SDLK_RIGHT asInteger ifTrue: [
-					renderStateIndex := renderStateIndex + 1.
-					renderStateIndex > renderStates size ifTrue: [
-						renderStateIndex := 1 ] ].
-
-				evt key = SDLK_LEFT asInteger ifTrue: [
-					renderStateIndex := renderStateIndex - 1.
-					renderStateIndex < 1 ifTrue: [
-						renderStateIndex := renderStates size ] ]
-				]
-			].
-
-		self render.
-		
-		"Do a little wait before next frame"
-		16.6 milliSeconds wait ]
-]
-
 { #category : 'lifecycle' }
 SDL3GPURenderStateDemo >> open [
 
-	self ensureInitSDL3.
-
 	window :=
 		sdl
-			newWindowTitle: self className, ' - LEFT/RIGHT to change shader - ESC to quit'
-			w: initialExtent x
-			h: initialExtent y
-			flags: 0.
+			newWindowTitle: self updatedTitle
+			w: self initialExtent x
+			h: self initialExtent y
+			flags: self initialWindowFlags.
 	window assertNotNullReturn.
 
 	renderer := window newGPURenderer.
 	renderer assertNotNullReturn.
+	
+	sdl assertSuccess: window startTextInput.
 	
 	gpuDevice := renderer gpuDevice.
 	gpuDevice assertNotNullReturn.
@@ -176,11 +140,6 @@ SDL3GPURenderStateDemo >> render [
 	"We're done with that shader"
 	renderer gpuRenderStateClear.
 
-	"Draw the shader name"
-	self
-		showText: (shaderSources at: renderStateIndex) name
-		x: 10 y: 20 color: self currentWorld theme caretColor.
-
 	"Finally, render the Pharo logo"
 	renderer
 		 renderTexture: foregroundTexture
@@ -194,15 +153,10 @@ SDL3GPURenderStateDemo >> render [
 	self present
 ]
 
-{ #category : 'running' }
-SDL3GPURenderStateDemo >> run [
-	"Run headless with:
-	./pharo Pharo.image eval 'SDL3GPURenderStateDemo new run'
-	"
+{ #category : 'hooks' }
+SDL3GPURenderStateDemo >> step [
 
-	self open.
-	self iterateUntilQuit.
-	self close
+	self render
 ]
 
 { #category : 'initialization' }
@@ -222,4 +176,31 @@ SDL3GPURenderStateDemo >> updateRenderState: renderState [
 			 length: uniformBuffer byteSize).
 
 	sdl assertSuccess: (renderer gpuRenderState: renderState)
+]
+
+{ #category : 'accessing' }
+SDL3GPURenderStateDemo >> updatedTitle [
+
+	^ super updatedTitle,
+		' - Shader: ',
+		(shaderSources at: renderStateIndex) name,
+		' (LEFT/RIGHT to change)'
+]
+
+{ #category : 'hooks' }
+SDL3GPURenderStateDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+
+	super visitKeyboardDownEvent: aKeyboardDownEvent.
+
+	aKeyboardDownEvent key = SDLK_RIGHT asInteger ifTrue: [
+		renderStateIndex := renderStateIndex + 1.
+		renderStateIndex > renderStates size ifTrue: [
+			renderStateIndex := 1 ] ].
+
+	aKeyboardDownEvent key = SDLK_LEFT asInteger ifTrue: [
+		renderStateIndex := renderStateIndex - 1.
+		renderStateIndex < 1 ifTrue: [
+			renderStateIndex := renderStates size ] ].
+	
+	self updateTitle
 ]

@@ -79,7 +79,7 @@ SDL3GPUBasicTest >> test02AcquireSwapchainTextureAndSubmitEmpty [
 { #category : 'tests' }
 SDL3GPUBasicTest >> test03ClearColorInRenderPass [
 
-	| commandBuffer textureHolder success colorTargetInfo renderPass |
+	| commandBuffer textureHolder success renderPass colorTargetInfos |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer assertNotNullReturn.
 
@@ -94,16 +94,16 @@ SDL3GPUBasicTest >> test03ClearColorInRenderPass [
 	self assert: success.
 	self deny: textureHolder value isNull.
 	
-	colorTargetInfo := SDL_GPUColorTargetInfo new.
-	colorTargetInfo
+	colorTargetInfos := FFIExternalArray externalNewType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos autoRelease.
+	colorTargetInfos first
 		texture: textureHolder value;
-		storeOp: SDL_GPUStoreOp store;
-		loadOp: SDL_GPULoadOp clear.
-	colorTargetInfo clearColor updateFrom: Color yellow.
+		storeOp: SDL_GPU_STOREOP_STORE;
+		loadOp: SDL_GPU_LOADOP_CLEAR;
+		updateClearColorFrom: Color yellow.
 
 	renderPass := commandBuffer
-		beginGPURenderPassColorTargetInfos: colorTargetInfo
-		numColorTargets: 1
+		beginGPURenderPassColorTargetInfos: colorTargetInfos
 		depthStencilTargetInfo: nil.
 	renderPass assertNotNullReturn.
 	renderPass end.
