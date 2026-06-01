@@ -69,3 +69,16 @@ SDL3ImageClipboardDemo >> updatedTitle [
 
 	^ super updatedTitle, ' - Copy an image to clipboard and select this window'
 ]
+
+{ #category : 'visiting - concrete' }
+SDL3ImageClipboardDemo >> visitClipboardEvent: anEvent [
+
+	self
+		clipboardMimeTypeAnyOf: #('image/png' 'image/bmp' 'image/tiff')
+		ifPresent: [ :mimeType :bytes |
+			| form |
+			form := ImageReadWriter formFromStream: bytes readStream.
+			texture ifNotNil: [ texture destroy ].
+			texture := renderer newTextureFromForm: form ]
+		ifAbsent: [ self log: 'No image found in clipboard' ]
+]

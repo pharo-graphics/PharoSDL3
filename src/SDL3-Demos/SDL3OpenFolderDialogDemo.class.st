@@ -54,3 +54,13 @@ SDL3OpenFolderDialogDemo >> step [
 	self clearColor: Color blue muchDarker.
 	self present
 ]
+
+{ #category : 'visiting - concrete' }
+SDL3OpenFolderDialogDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
+
+	super visitMouseButtonDownEvent: aMouseButtonDownEvent.
+	
+	self showOpenFolderIfSuccess: [ :paths |
+		paths do: [ :path | self log: 'Path selected: ', path ] ]
+	ifError: [ self log: 'Error or cancelled!!!' ]
+]

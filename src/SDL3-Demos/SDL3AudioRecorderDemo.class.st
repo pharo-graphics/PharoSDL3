@@ -158,3 +158,15 @@ SDL3AudioRecorderDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		frequencyRatio := (frequencyRatio - 0.05) max: 0.5.
 		playbackStream frequencyRatio: frequencyRatio ]
 ]
+
+{ #category : 'visiting - concrete' }
+SDL3AudioRecorderDemo >> visitKeyboardUpEvent: aKeyboardUpEvent [
+
+	super visitKeyboardUpEvent: aKeyboardUpEvent.
+	
+	aKeyboardUpEvent key = SDLK_SPACE asInteger ifTrue: [
+		recordingStream
+			pauseDevice;
+			flush.
+		playbackStream resumeDevice ]
+]
