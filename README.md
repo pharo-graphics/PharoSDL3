@@ -57,7 +57,7 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3MultipleWindowsDemo`: Demonstrates managing and updating multiple top-level windows simultaneously.
 - `SDL3TouchpadFingersDemo`: Visualizes multi-touch finger tracking on modern touchpads.
 - `SDL3TouchpadPinchToZoomDemo`: Implements smooth zooming gestures by handling complex touchpad pinch events.
-- `SDL3AudioRecorderDemo`: Captures audio from the system's default microphone and visualizes the input.
+- `SDL3AudioRecorderDemo`: Captures audio from the system's default microphone and plays the recording.
 - `SDL3CameraDemo`: Acquires live frames from a system camera and renders them with rotation support.
 - `SDL3SystemCursorsDemo`: Shows how to switch between standard OS mouse cursors.
 - `SDL3TrayMenuDemo`: Shows system tray integration, including icon management and contextual menus.
@@ -67,7 +67,7 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 #### GPU API Demos (Advanced Graphics)
 - `SDL3GPUClearDemo`: The simplest entry point to the new hardware-accelerated GPU API.
 - `SDL3GPUQuadDemo`: Foundations of geometry: Rendering a single textured quad using a graphics pipeline.
-- `SDL3GPURenderStateDemo`: Showcases advanced graphics pipeline states including blending and depth. ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
+- `SDL3GPURenderStateDemo`: Shows simplified use of the graphics pipeline via `SDL_Renderer` API. ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
 - `SDL3GPUInstancedQuadDemo`: High-performance rendering of thousands of objects using hardware instancing.
 - `SDL3GPUSDFRoundedRectDemo`: Renders perfectly anti-aliased procedural shapes using Signed Distance Fields (SDF).
 - `SDL3GPUBoidsDemo`: A high-performance flocking simulation utilizing a Compute-to-Vertex-Buffer architecture.
