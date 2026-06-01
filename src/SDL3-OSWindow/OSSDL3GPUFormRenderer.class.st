@@ -11,17 +11,15 @@ Class {
 		'gpuTexture',
 		'extent',
 		'mutex',
-		'gpuTextureFormat',
 		'swapchainTextureHolder',
-		'pooledSourceLocation',
-		'pooledDestinationLocation',
 		'needsFlush',
 		'deferFlush',
-		'uploadStream'
+		'uploadStream',
+		'swapchainWidthHolder',
+		'swapchainHeightHolder'
 	],
 	#pools : [
-		'SDL3GPUTextureFormat',
-		'SDL3GPUTextureUsageFlags'
+		'SDL3AllEnumerations'
 	],
 	#category : 'SDL3-OSWindow-Renderers',
 	#package : 'SDL3-OSWindow',
@@ -44,29 +42,57 @@ OSSDL3GPUFormRenderer >> destroy [
 
 	mutex critical: [
 		gpuTexture ifNotNil: [
-			gpuDevice releaseGPUTexture: gpuTexture ].
+			gpuDevice releaseGPUTexture: gpuTexture.
+			gpuTexture := nil ].
 		
 		uploadStream ifNotNil: [ 
 			uploadStream destroy.
-			uploadStream := nil ].
-
-		gpuTexture := nil ]
+			uploadStream := nil ]
+		]
 ]
 
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> flush [
-	"Process any pending presentation to the screen. The backing store is assumed to be up-to-date."
+	"Process any pending presentation to the screen"
 
 	mutex critical: [
-		| commandBuffer |
-
-		"If nothing dirty to present, just return"
+		| commandBuffer blitInfo |
 		needsFlush ifFalse: [ ^ self ].
-	
 		self validate ifFalse: [ ^ self ].
 
+		"Try to Acquire Swapchain texture (Non-blocking)."
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
-		self privateFlush: commandBuffer ]
+		(commandBuffer
+			acquireGPUSwapchainTextureForWindow: backendWindow sdl3Window
+			into: swapchainTextureHolder 
+			width: swapchainWidthHolder 
+			height: swapchainHeightHolder).
+
+		"If swapchain is not available submit the empty command buffer and retry later"
+		[	swapchainTextureHolder value isNull ifFalse: [ 
+
+				blitInfo := SDL3GPUBlitInfo externalNew.
+				blitInfo autoRelease.
+				
+				blitInfo source 
+					texture: gpuTexture;
+					w: extent x;
+					h: extent y.
+					
+				blitInfo destination 
+					texture: swapchainTextureHolder value;
+					w: swapchainWidthHolder value;
+					h: swapchainHeightHolder value.
+					
+				blitInfo loadOp: SDL_GPU_LOADOP_DONT_CARE.
+				blitInfo filter: SDL_GPU_FILTER_LINEAR.
+
+				commandBuffer blitGPUTextureInfo: blitInfo.
+
+				needsFlush := false ]
+
+			] ensure: [ self ffiLibrary assertSuccess: commandBuffer submit ]
+		]
 ]
 
 { #category : 'initialization' }
@@ -82,9 +108,9 @@ OSSDL3GPUFormRenderer >> initialize [
 OSSDL3GPUFormRenderer >> initializeGPUResources [
 	"Initialize the SDL3 resources that depend on the form extent"
 
-	gpuTexture ifNotNil: [ gpuDevice releaseGPUTexture: gpuTexture ].
-	
 	extent := form extent.
+
+	gpuTexture ifNotNil: [ gpuDevice releaseGPUTexture: gpuTexture ].
 	
 	uploadStream ifNil: [
 		uploadStream := OSSDL3GPUUploadStream new ].
@@ -99,10 +125,9 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 		height: extent y.
 
 	"Pre-allocate pooled structures to avoid GC pressure in hot path"
-	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL3GPUTexture) new.
-	pooledSourceLocation := SDL3GPUTextureLocation new.
-	pooledSourceLocation texture: gpuTexture.
-	pooledDestinationLocation := SDL3GPUTextureLocation new
+	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
+	swapchainWidthHolder := FFIUInt32 newValueHolder.
+	swapchainHeightHolder := FFIUInt32 newValueHolder
 ]
 
 { #category : 'private' }
@@ -137,44 +162,6 @@ OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 OSSDL3GPUFormRenderer >> outputExtent [
 	
 	^ backendWindow sdl3Window pixelExtent
-]
-
-{ #category : 'private' }
-OSSDL3GPUFormRenderer >> privateFlush: commandBuffer [
-	"Actual implementation of swapchain presentation. 
-	 Assumes mutex is held and resources are validated."
-
-	"A. Try Acquire Swapchain texture (Non-blocking)."
-	| copyPass |
-	(commandBuffer
-		acquireGPUSwapchainTextureForWindow: backendWindow sdl3Window
-		into: swapchainTextureHolder
-		width: nil
-		height: nil).
-
-	"If swapchain is not available sender can retry afterwards."
-	swapchainTextureHolder value isNull ifTrue: [ 
-		^ self ffiLibrary assertSuccess: commandBuffer cancel ].
-
-	"B. Copy FULL backing store to Swapchain.
-	   GPU-to-GPU copy is extremely fast and ensures screen consistency."
-	copyPass := commandBuffer beginGPUCopyPass.
-
-	pooledDestinationLocation texture: swapchainTextureHolder value.
-
-	copyPass 
-		copyGPUTextureToTextureSource: pooledSourceLocation 
-		destination: pooledDestinationLocation 
-		w: extent x 
-		h: extent y 
-		d: 1 
-		cycle: false.
-
-	copyPass end.
-
-	"C. Submit everything and record that screen is now up-to-date"
-	self ffiLibrary assertSuccess: commandBuffer submit.
-	needsFlush := false
 ]
 
 { #category : 'updating screen' }
