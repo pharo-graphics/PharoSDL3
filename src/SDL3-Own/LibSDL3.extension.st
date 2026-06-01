@@ -97,8 +97,8 @@ LibSDL3 >> allFingersOf: touchID [
 	countValueHolder := FFIInt32 newValueHolder.
 	address := self getTouchFingersTouchID: touchID count: countValueHolder.
 	array := address
-		readArrayOf: SDL_Finger
-		size: countValueHolder value.
+		         readStructArrayFromPointers: SDL_Finger
+		         size: countValueHolder value.
 	self free: address.
 	^ array
 ]
