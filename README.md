@@ -38,26 +38,40 @@ Ensure the SDL3 library is available on your system so Pharo's FFI can find it.
 
 The project includes automated tests as well as interactive demos. These demos complement automated testing by allowing for human verification of visual rendering and event handling.
 
-**Important:** Pharo's UI and SDL2 (used by default in Pharo 14) conflict with SDL3's event loop in some environments. Therefore, it is recommended to run SDL3 applications in **headless mode** or ensure proper event handling.
+**Important:** Pharo's UI and SDL2 (used by default in Pharo 14) conflict with SDL3's subsystems. It is recommended to run SDL3 tests and demos in **headless mode** or ensure proper work.
 
-To run tests from the terminal:
+### Tests
+
+Run tests from the terminal:
 ```bash
-./pharo Pharo.image test 'SDL3-Tests'
+./pharo Pharo.image test 'SDL3-Tests' 'SDL3-Graphics-Tests'  'SDL3-Compute-Tests' 
 ```
+### Demos
 
-Some demos:
-- **Basic Windows:** `./pharo Pharo.image eval 'SDL3Demo run01MultipleWindows'`
-- **Events & Input:** `./pharo Pharo.image eval 'SDL3Demo run04HandleEvents'`
-- **System Tray:** `./pharo Pharo.image eval 'SDL3Demo run08TrayMenu'`
-- **GPU shader effects:** `./pharo Pharo.image eval 'SDL3GPURenderStateDemo new run'` ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
-- **GPU low-level API:**
-    * `./pharo Pharo.image eval 'SDL3GPUClearDemo new run'`
-    * `./pharo Pharo.image eval 'SDL3GPUQuadDemo new run'`
+You can run any of the following demos by evaluating `./pharo Pharo.image eval '<ClassName> new run'` from terminal. They are listed below from simplest to most advanced:
 
-Run all subclasses of SDL3Demo sequencially:
-```bash
-./pharo Pharo.image eval SDL3Demo allSubclasses | sed 's/.*(//;s/)//' | xargs -n 1 | while read -r item; do ./pharo Pharo.image eval "$item new run"; done
-```
+#### Core API Demos
+- `SDL3ClearDemo`: The basic "Hello World" of window management and clearing.
+- `SDL3LogEventsDemo`: Real-time logging of the SDL3 event stream (mouse, keyboard, window) to a console.
+- `SDL3LogStateDemo`: Displays current system and device properties like display modes and audio devices.
+- `SDL3MultipleWindowsDemo`: Demonstrates managing and updating multiple top-level windows simultaneously.
+- `SDL3TouchpadFingersDemo`: Visualizes multi-touch finger tracking on modern touchpads.
+- `SDL3TouchpadPinchToZoomDemo`: Implements smooth zooming gestures by handling complex touchpad pinch events.
+- `SDL3AudioRecorderDemo`: Captures audio from the system's default microphone and visualizes the input.
+- `SDL3CameraDemo`: Acquires live frames from a system camera and renders them with rotation support.
+- `SDL3SystemCursorsDemo`: Shows how to switch between standard OS mouse cursors.
+- `SDL3TrayMenuDemo`: Shows system tray integration, including icon management and contextual menus.
+- `SDL3ImageClipboardDemo`: Demonstrates system clipboard integration for copying and pasting image data.
+- `SDL3OpenFolderDialogDemo`: Shows how to trigger and handle native system file/folder selection dialogs.
+
+#### GPU API Demos (Advanced Graphics)
+- `SDL3GPUClearDemo`: The simplest entry point to the new hardware-accelerated GPU API.
+- `SDL3GPUQuadDemo`: Foundations of geometry: Rendering a single textured quad using a graphics pipeline.
+- `SDL3GPURenderStateDemo`: Showcases advanced graphics pipeline states including blending and depth. ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
+- `SDL3GPUInstancedQuadDemo`: High-performance rendering of thousands of objects using hardware instancing.
+- `SDL3GPUSDFRoundedRectDemo`: Renders perfectly anti-aliased procedural shapes using Signed Distance Fields (SDF).
+- `SDL3GPUBoidsDemo`: A high-performance flocking simulation utilizing a Compute-to-Vertex-Buffer architecture.
+
 
 ## OSWindow backend
 
