@@ -32,164 +32,164 @@ SDL3GPUSDFRoundedRectFragmentShaderSource class >> hlslSource [
 	<script: 'self compileBase64CodeFromHLSLSource'>
 	^ '
 cbuffer Params : register(b0, space3) {
-    uint shapeType;
-    float radius;
-    float strokeSize;
-    float padding;
-    float dimX;
-    float dimY;
-    float padding2X;
-    float padding2Y;
-    float cornerR1;
-    float cornerR2;
-    float cornerR3;
-    float cornerR4;
-    float4 fillColor;
-    float4 strokeColor;
-    uint fillType;
-    float dashCount;
-    float pad1;
-    float pad2;
-    float4 fillColor2;
+   uint shapeType;
+   float radius;
+   float strokeSize;
+   float padding;
+   float dimX;
+   float dimY;
+   float padding2X;
+   float padding2Y;
+   float cornerR1;
+   float cornerR2;
+   float cornerR3;
+   float cornerR4;
+   float4 fillColor;
+   float4 strokeColor;
+   uint fillType;
+   float dashCount;
+   float pad1;
+   float pad2;
+   float4 fillColor2;
 };
 
 struct PSInput {
-    float4 position : SV_Position;
-    float2 uv : TEXCOORD0;
+   float4 position : SV_Position;
+   float2 uv : TEXCOORD0;
 };
 
 // signed distance to a 2D box with rounded corners
 float sdRoundedBox(float2 p, float2 b, float4 r) {
-    r.xy = (p.x > 0.0) ? r.xy : r.zw;
-    r.x  = (p.y > 0.0) ? r.x  : r.y;
-    float2 q = abs(p) - b + r.x;
-    return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
+   r.xy = (p.x > 0.0) ? r.xy : r.zw;
+   r.x  = (p.y > 0.0) ? r.x  : r.y;
+   float2 q = abs(p) - b + r.x;
+   return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
 }
 
 float sdCircle(float2 p, float r) {
-    return length(p) - r;
+   return length(p) - r;
 }
 
 static const float PI = 3.14159265f;
 
 float4 main(PSInput input) : SV_Target {
-    // uv goes from 0 to 1. Center is 0.5.
-    float2 dimensions = float2(dimX, dimY);
-    float4 cornerRadii = float4(cornerR1, cornerR2, cornerR3, cornerR4);
-    float2 p = (input.uv - 0.5) * dimensions;
-    
-    float d = 0.0;
-    if (shapeType == 0) {
-        // Circle: radius is clamped to min dimension / 2
-        float r = min(radius, min(dimensions.x, dimensions.y) * 0.5);
-        d = sdCircle(p, r);
-    } else {
-        // Rounded Rect: implement CSS-like border-radius scaling
-        float4 r = cornerRadii;
-        float f = 1.0;
-        f = min(f, dimensions.x / max(0.0001, r.w + r.y)); // Top Edge
-        f = min(f, dimensions.x / max(0.0001, r.z + r.x)); // Bottom Edge
-        f = min(f, dimensions.y / max(0.0001, r.w + r.z)); // Left Edge
-        f = min(f, dimensions.y / max(0.0001, r.y + r.x)); // Right Edge
-        r *= f;
-        
-        d = sdRoundedBox(p, dimensions * 0.5, r);
-    }
-    
-    // Anti-aliasing using fwidth or smoothstep
-    float aa = fwidth(d) * 0.7071;
-    
-    // Inside the shape
-    float shapeAlpha = 1.0 - smoothstep(-aa, aa, d);
-    
-    // Stroke distance
-    float strokeD = abs(d + strokeSize * 0.5) - strokeSize * 0.5;
-    
-    // Dashed stroke logic
-    float dashAlpha = 1.0;
-    if (dashCount > 0.0) {
-        float s = 0.0;
-        if (shapeType == 0) {
-            float angle = atan2(p.y, p.x); // from -PI to PI
-            float normalizedAngle = (angle + PI) / (2.0 * PI);
-            s = normalizedAngle * dashCount;
-        } else {
-            float2 b = dimensions * 0.5;
-            
-            // Re-apply CSS-like scaling to get accurate centers
-            float4 r = cornerRadii;
-            float f = 1.0;
-            f = min(f, dimensions.x / max(0.0001, r.w + r.y));
-            f = min(f, dimensions.x / max(0.0001, r.z + r.x));
-            f = min(f, dimensions.y / max(0.0001, r.w + r.z));
-            f = min(f, dimensions.y / max(0.0001, r.y + r.x));
-            r *= f;
+   // uv goes from 0 to 1. Center is 0.5.
+   float2 dimensions = float2(dimX, dimY);
+   float4 cornerRadii = float4(cornerR1, cornerR2, cornerR3, cornerR4);
+   float2 p = (input.uv - 0.5) * dimensions;
+   
+   float d = 0.0;
+   if (shapeType == 0) {
+       // Circle: radius is clamped to min dimension / 2
+       float r = min(radius, min(dimensions.x, dimensions.y) * 0.5);
+       d = sdCircle(p, r);
+   } else {
+       // Rounded Rect: implement CSS-like border-radius scaling
+       float4 r = cornerRadii;
+       float f = 1.0;
+       f = min(f, dimensions.x / max(0.0001, r.w + r.y)); // Top Edge
+       f = min(f, dimensions.x / max(0.0001, r.z + r.x)); // Bottom Edge
+       f = min(f, dimensions.y / max(0.0001, r.w + r.z)); // Left Edge
+       f = min(f, dimensions.y / max(0.0001, r.y + r.x)); // Right Edge
+       r *= f;
+       
+       d = sdRoundedBox(p, dimensions * 0.5, r);
+   }
+   
+   // Anti-aliasing using fwidth or smoothstep
+   float aa = fwidth(d) * 0.7071;
+   
+   // Inside the shape
+   float shapeAlpha = 1.0 - smoothstep(-aa, aa, d);
+   
+   // Stroke distance
+   float strokeD = abs(d + strokeSize * 0.5) - strokeSize * 0.5;
+   
+   // Dashed stroke logic
+   float dashAlpha = 1.0;
+   if (dashCount > 0.0) {
+       float s = 0.0;
+       if (shapeType == 0) {
+           float angle = atan2(p.y, p.x); // from -PI to PI
+           float normalizedAngle = (angle + PI) / (2.0 * PI);
+           s = normalizedAngle * dashCount;
+       } else {
+           float2 b = dimensions * 0.5;
+           
+           // Re-apply CSS-like scaling to get accurate centers
+           float4 r = cornerRadii;
+           float f = 1.0;
+           f = min(f, dimensions.x / max(0.0001, r.w + r.y));
+           f = min(f, dimensions.x / max(0.0001, r.z + r.x));
+           f = min(f, dimensions.y / max(0.0001, r.w + r.z));
+           f = min(f, dimensions.y / max(0.0001, r.y + r.x));
+           r *= f;
 
-            float rBR = r.x; float rTR = r.y; float rBL = r.z; float rTL = r.w;
-            float2 cTR = float2( b.x - rTR, -b.y + rTR);
-            float2 cBR = float2( b.x - rBR,  b.y - rBR);
-            float2 cBL = float2(-b.x + rBL,  b.y - rBL);
-            float2 cTL = float2(-b.x + rTL, -b.y + rTL);
-            
-            float pTop = cTR.x - cTL.x;       float pTR = (PI / 2.0) * rTR;
-            float pRight = cBR.y - cTR.y;     float pBR = (PI / 2.0) * rBR;
-            float pBottom = cBR.x - cBL.x;    float pBL = (PI / 2.0) * rBL;
-            float pLeft = cBL.y - cTL.y;      float pTL = (PI / 2.0) * rTL;
-            
-            float perimeter = pTop + pTR + pRight + pBR + pBottom + pBL + pLeft + pTL;
-            
-            if (p.x > cTR.x && p.y < cTR.y) {
-                float angle = atan2(p.x - cTR.x, -(p.y - cTR.y));
-                s = pTop + angle * rTR;
-            } else if (p.x > cBR.x && p.y > cBR.y) {
-                float angle = atan2(p.y - cBR.y, p.x - cBR.x);
-                s = pTop + pTR + pRight + angle * rBR;
-            } else if (p.x < cBL.x && p.y > cBL.y) {
-                float angle = atan2(-(p.x - cBL.x), p.y - cBL.y);
-                s = pTop + pTR + pRight + pBR + pBottom + angle * rBL;
-            } else if (p.x < cTL.x && p.y < cTL.y) {
-                float angle = atan2(-(p.y - cTL.y), -(p.x - cTL.x));
-                s = pTop + pTR + pRight + pBR + pBottom + pBL + pLeft + angle * rTL;
-            } else {
-                float dTop = abs(p.y - (-b.y));
-                float dBottom = abs(p.y - b.y);
-                float dLeft = abs(p.x - (-b.x));
-                float dRight = abs(p.x - b.x);
-                
-                if (dTop <= dBottom && dTop <= dLeft && dTop <= dRight) {
-                    s = p.x - cTL.x;
-                } else if (dRight <= dBottom && dRight <= dLeft) {
-                    s = pTop + pTR + (p.y - cTR.y);
-                } else if (dBottom <= dLeft) {
-                    s = pTop + pTR + pRight + pBR + (cBR.x - p.x);
-                } else {
-                    s = pTop + pTR + pRight + pBR + pBottom + pBL + (cBL.y - p.y);
-                }
-            }
-            s = (s / perimeter) * dashCount;
-        }
-        float dashPattern = fmod(s, 2.0);
-        dashAlpha = dashPattern < 1.0 ? 1.0 : 0.0;
-    }
-    
-    float strokeAlpha = (1.0 - smoothstep(-aa, aa, strokeD)) * dashAlpha;
-    
-    // Gradient fill logic
-    float4 currentFillColor = fillColor;
-    if (fillType == 1) { // Linear gradient (vertical)
-        currentFillColor = lerp(fillColor, fillColor2, input.uv.y);
-    } else if (fillType == 2) { // Radial gradient
-        float distFromCenter = length(input.uv - 0.5) * 2.0; // 0 at center, 1 at edge
-        currentFillColor = lerp(fillColor, fillColor2, clamp(distFromCenter, 0.0, 1.0));
-    }
-    
-    // Combine fill and stroke
-    float4 finalColor = lerp(float4(currentFillColor.rgb, 0.0), currentFillColor, shapeAlpha);
-    if (strokeSize > 0.0) {
-        finalColor = lerp(finalColor, strokeColor, strokeAlpha);
-    }
-    
-    return finalColor;
+           float rBR = r.x; float rTR = r.y; float rBL = r.z; float rTL = r.w;
+           float2 cTR = float2( b.x - rTR, -b.y + rTR);
+           float2 cBR = float2( b.x - rBR,  b.y - rBR);
+           float2 cBL = float2(-b.x + rBL,  b.y - rBL);
+           float2 cTL = float2(-b.x + rTL, -b.y + rTL);
+           
+           float pTop = cTR.x - cTL.x;       float pTR = (PI / 2.0) * rTR;
+           float pRight = cBR.y - cTR.y;     float pBR = (PI / 2.0) * rBR;
+           float pBottom = cBR.x - cBL.x;    float pBL = (PI / 2.0) * rBL;
+           float pLeft = cBL.y - cTL.y;      float pTL = (PI / 2.0) * rTL;
+           
+           float perimeter = pTop + pTR + pRight + pBR + pBottom + pBL + pLeft + pTL;
+           
+           if (p.x > cTR.x && p.y < cTR.y) {
+               float angle = atan2(p.x - cTR.x, -(p.y - cTR.y));
+               s = pTop + angle * rTR;
+           } else if (p.x > cBR.x && p.y > cBR.y) {
+               float angle = atan2(p.y - cBR.y, p.x - cBR.x);
+               s = pTop + pTR + pRight + angle * rBR;
+           } else if (p.x < cBL.x && p.y > cBL.y) {
+               float angle = atan2(-(p.x - cBL.x), p.y - cBL.y);
+               s = pTop + pTR + pRight + pBR + pBottom + angle * rBL;
+           } else if (p.x < cTL.x && p.y < cTL.y) {
+               float angle = atan2(-(p.y - cTL.y), -(p.x - cTL.x));
+               s = pTop + pTR + pRight + pBR + pBottom + pBL + pLeft + angle * rTL;
+           } else {
+               float dTop = abs(p.y - (-b.y));
+               float dBottom = abs(p.y - b.y);
+               float dLeft = abs(p.x - (-b.x));
+               float dRight = abs(p.x - b.x);
+               
+               if (dTop <= dBottom && dTop <= dLeft && dTop <= dRight) {
+                   s = p.x - cTL.x;
+               } else if (dRight <= dBottom && dRight <= dLeft) {
+                   s = pTop + pTR + (p.y - cTR.y);
+               } else if (dBottom <= dLeft) {
+                   s = pTop + pTR + pRight + pBR + (cBR.x - p.x);
+               } else {
+                   s = pTop + pTR + pRight + pBR + pBottom + pBL + (cBL.y - p.y);
+               }
+           }
+           s = (s / perimeter) * dashCount;
+       }
+       float dashPattern = fmod(s, 2.0);
+       dashAlpha = dashPattern < 1.0 ? 1.0 : 0.0;
+   }
+   
+   float strokeAlpha = (1.0 - smoothstep(-aa, aa, strokeD)) * dashAlpha;
+   
+   // Gradient fill logic
+   float4 currentFillColor = fillColor;
+   if (fillType == 1) { // Linear gradient (vertical)
+       currentFillColor = lerp(fillColor, fillColor2, input.uv.y);
+   } else if (fillType == 2) { // Radial gradient
+       float distFromCenter = length(input.uv - 0.5) * 2.0; // 0 at center, 1 at edge
+       currentFillColor = lerp(fillColor, fillColor2, clamp(distFromCenter, 0.0, 1.0));
+   }
+   
+   // Combine fill and stroke
+   float4 finalColor = lerp(float4(currentFillColor.rgb, 0.0), currentFillColor, shapeAlpha);
+   if (strokeSize > 0.0) {
+       finalColor = lerp(finalColor, strokeColor, strokeAlpha);
+   }
+   
+   return finalColor;
 }
 '
 ]

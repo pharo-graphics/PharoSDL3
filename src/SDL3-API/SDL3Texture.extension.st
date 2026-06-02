@@ -3,132 +3,149 @@ Extension { #name : 'SDL3Texture' }
 { #category : '*SDL3-API' }
 SDL3Texture >> alphaModAlpha: alpha [
 
-	^ self ffiLibrary setTextureAlphaModTexture: self alpha: alpha
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setTextureAlphaModTexture: self alpha: alpha)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> alphaModFloatAlpha: alpha [
 
-	^ self ffiLibrary setTextureAlphaModFloatTexture: self alpha: alpha
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setTextureAlphaModFloatTexture: self alpha: alpha)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> blendModeBlendMode: blendMode [
 
-	^ self ffiLibrary
-		  setTextureBlendModeTexture: self
-		  blendMode: blendMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setTextureBlendModeTexture: self
+			blendMode: blendMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> colorModFloatR: r g: g b: b [
 
-	^ self ffiLibrary
-		  setTextureColorModFloatTexture: self
-		  r: r
-		  g: g
-		  b: b
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setTextureColorModFloatTexture: self
+			r: r
+			g: g
+			b: b)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> colorModR: r g: g b: b [
 
-	^ self ffiLibrary
-		  setTextureColorModTexture: self
-		  r: r
-		  g: g
-		  b: b
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setTextureColorModTexture: self
+			r: r
+			g: g
+			b: b)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> destroy [
 
-	^ self ffiLibrary destroyTexture: self
+	self ffiLibrary destroyTexture: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> getAlphaModFloatIntoAlpha: alpha [
 
-	^ self ffiLibrary getTextureAlphaModFloatTexture: self alpha: alpha
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getTextureAlphaModFloatTexture: self alpha: alpha)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> getAlphaModIntoAlpha: alpha [
 
-	^ self ffiLibrary getTextureAlphaModTexture: self alpha: alpha
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getTextureAlphaModTexture: self alpha: alpha)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> getBlendModeIntoBlendMode: blendMode [
 
-	^ self ffiLibrary
-		  getTextureBlendModeTexture: self
-		  blendMode: blendMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getTextureBlendModeTexture: self
+			blendMode: blendMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> getColorModFloatIntoR: r g: g b: b [
 
-	^ self ffiLibrary
-		  getTextureColorModFloatTexture: self
-		  r: r
-		  g: g
-		  b: b
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getTextureColorModFloatTexture: self
+			r: r
+			g: g
+			b: b)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> getColorModIntoR: r g: g b: b [
 
-	^ self ffiLibrary
-		  getTextureColorModTexture: self
-		  r: r
-		  g: g
-		  b: b
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getTextureColorModTexture: self
+			r: r
+			g: g
+			b: b)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> getScaleModeIntoScaleMode: scaleMode [
 
-	^ self ffiLibrary
-		  getTextureScaleModeTexture: self
-		  scaleMode: scaleMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getTextureScaleModeTexture: self
+			scaleMode: scaleMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> getSizeIntoW: w h: h [
 
-	^ self ffiLibrary getTextureSizeTexture: self w: w h: h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getTextureSizeTexture: self w: w h: h)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> lockRect: rect pixels: pixels pitch: pitch [
 
-	^ self ffiLibrary
-		  lockTexture: self
-		  rect: rect
-		  pixels: pixels
-		  pitch: pitch
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			lockTexture: self
+			rect: rect
+			pixels: pixels
+			pitch: pitch)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> lockToSurfaceRect: rect surface: surface [
 
-	^ self ffiLibrary
-		  lockTextureToSurfaceTexture: self
-		  rect: rect
-		  surface: surface
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			lockTextureToSurfaceTexture: self
+			rect: rect
+			surface: surface)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> palette [
 
-	^ self ffiLibrary getTexturePalette: self
+	^ (self ffiLibrary getTexturePalette: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> palette: palette [
 
-	^ self ffiLibrary setTexturePaletteTexture: self palette: palette
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setTexturePaletteTexture: self palette: palette)
 ]
 
 { #category : '*SDL3-API' }
@@ -140,55 +157,61 @@ SDL3Texture >> propertiesID [
 { #category : '*SDL3-API' }
 SDL3Texture >> renderer [
 
-	^ self ffiLibrary getRendererFromTexture: self
+	^ (self ffiLibrary getRendererFromTexture: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> scaleMode: scaleMode [
 
-	^ self ffiLibrary
-		  setTextureScaleModeTexture: self
-		  scaleMode: scaleMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setTextureScaleModeTexture: self
+			scaleMode: scaleMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> unlock [
 
-	^ self ffiLibrary unlockTexture: self
+	self ffiLibrary unlockTexture: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> updateNVRect: rect yplane: Yplane ypitch: Ypitch uVplane: UVplane uVpitch: UVpitch [
 
-	^ self ffiLibrary
-		  updateNVTexture: self
-		  rect: rect
-		  yplane: Yplane
-		  ypitch: Ypitch
-		  uVplane: UVplane
-		  uVpitch: UVpitch
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			updateNVTexture: self
+			rect: rect
+			yplane: Yplane
+			ypitch: Ypitch
+			uVplane: UVplane
+			uVpitch: UVpitch)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> updateRect: rect pixels: pixels pitch: pitch [
 
-	^ self ffiLibrary
-		  updateTexture: self
-		  rect: rect
-		  pixels: pixels
-		  pitch: pitch
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			updateTexture: self
+			rect: rect
+			pixels: pixels
+			pitch: pitch)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Texture >> updateYUVRect: rect yplane: Yplane ypitch: Ypitch uplane: Uplane upitch: Upitch vplane: Vplane vpitch: Vpitch [
 
-	^ self ffiLibrary
-		  updateYUVTexture: self
-		  rect: rect
-		  yplane: Yplane
-		  ypitch: Ypitch
-		  uplane: Uplane
-		  upitch: Upitch
-		  vplane: Vplane
-		  vpitch: Vpitch
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			updateYUVTexture: self
+			rect: rect
+			yplane: Yplane
+			ypitch: Ypitch
+			uplane: Uplane
+			upitch: Upitch
+			vplane: Vplane
+			vpitch: Vpitch)
 ]

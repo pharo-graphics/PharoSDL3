@@ -38,7 +38,7 @@ RWStructuredBuffer<float> Output : register(u0, space1);
 
 [numthreads(64, 1, 1)]
 void main(uint3 dtid : SV_DispatchThreadID) {
-    Output[dtid.x] = Input[dtid.x] * 2.0;
+   Output[dtid.x] = Input[dtid.x] * 2.0;
 }
 '
 ]

@@ -55,18 +55,16 @@ SDL3TrayMenuDemo >> setupTray [
 	menu := tray newMenu.
 
 	"Basic: Add a button that is disabled and doesn't have a callback"
-	(menu
+	menu
 		insertEntryAt: -1
 			label: 'Disabled button'
-			flags: SDL3TrayEntryFlags button | SDL3TrayEntryFlags disabled)
-		assertNotNullReturn.
+			flags: SDL3TrayEntryFlags button | SDL3TrayEntryFlags disabled.
 
 	"Add separator"
-	(menu
+	menu
 		insertEntryAt: -1
 			label: nil
-			flags: SDL3TrayEntryFlags button)
-		assertNotNullReturn.
+			flags: SDL3TrayEntryFlags button.
 			
 	"Add submenu with buttons"
 	submenu :=
@@ -74,14 +72,12 @@ SDL3TrayMenuDemo >> setupTray [
 			insertEntryAt: -1
 				label: 'Buttons'
 				flags: SDL3TrayEntryFlags submenu)
-			assertNotNullReturn;
 			newSubmenu.
 	strings do: [ :each |
 		(submenu
 			insertEntryAt: -1
 				label: 'Button ', each
 				flags: SDL3TrayEntryFlags button)
-			assertNotNullReturn;
 			callback: logEntryLabelCallback userdata: nil ].
 
 	"Add submenu with checkboxes"
@@ -90,14 +86,12 @@ SDL3TrayMenuDemo >> setupTray [
 			insertEntryAt: -1
 				label: 'Checkboxes'
 				flags: SDL3TrayEntryFlags submenu)
-			assertNotNullReturn;
 			newSubmenu.
 	strings do: [ :each |
 		(submenu
 			insertEntryAt: -1
 				label: 'Checkbox ', each
 				flags: SDL3TrayEntryFlags checkbox)
-			assertNotNullReturn;
 			callback: logEntryLabelCallback userdata: nil ].
 
 	self log: 'Click on the system tray menu with Pharo icon.'

@@ -17,14 +17,14 @@ Check #changeEventsToIncludeModifier.
 This is implemented with a 3 state machine.
 
 State 1: This is the default state. All events are passed to the next filter (or the driver if there is not filter).
-         If we found a Clipboard Update event, we store the event for the future, and change the state to 2. We don't dispatch the event.
+        If we found a Clipboard Update event, we store the event for the future, and change the state to 2. We don't dispatch the event.
 
 State 2: It will check if the event is a KeyDown with a $V and if it is, it will store the event and change to state 3.
-         If the event is other one, it will go to error state and flush all pending events, change to state one and dispatch current event.
+        If the event is other one, it will go to error state and flush all pending events, change to state one and dispatch current event.
 
 State 3: It will check if the event is a KeyUp with a $V and if it is, it will update pending events to have the virtual modifier.
-	      Then pending events are flushed.
-         If the event is other one, it will go to error state and flush all pending events, change to state one and dispatch current event.
+	     Then pending events are flushed.
+        If the event is other one, it will go to error state and flush all pending events, change to state one and dispatch current event.
 
 See: https://github.com/pharo-project/pharo/issues/9571
 "

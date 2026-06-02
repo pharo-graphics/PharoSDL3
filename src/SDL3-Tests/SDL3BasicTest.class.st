@@ -139,7 +139,7 @@ SDL3BasicTest >> test06bPropertyGroup [
 	| properties |
 	properties := sdl newPropertyGroup.
 
-	self assert: (properties stringAt: 'bonjour' put: 'hola').
+	properties stringAt: 'bonjour' put: 'hola'.
 
 	self assert: (properties includesKey: 'bonjour').
 

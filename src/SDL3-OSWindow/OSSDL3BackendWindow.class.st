@@ -98,8 +98,8 @@ OSSDL3BackendWindow >> convertCursor: aCursor withMask: aMask andScale: aScale [
 					argbForm
 						colorAt: x @ y
 						put: (val = 1
-								 ifTrue: [ Color black ]
-								 ifFalse: [ Color white ]) ]
+								ifTrue: [ Color black ]
+								ifFalse: [ Color white ]) ]
 				ifFalse: [ argbForm colorAt: x @ y put: Color transparent ] ] ].
 
 	^ argbForm
@@ -190,9 +190,9 @@ OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 		w: attributes width
 		h: attributes height
 		flags: (self windowFlagsFromAttributes: attributes).
-	sdl3Window assertNotNullReturn.
-	
-	osWindow setJustCreatedHandle: self
+
+		osWindow setJustCreatedHandle: self
+
 ]
 
 { #category : 'text input' }

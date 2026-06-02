@@ -82,9 +82,9 @@ SDL3MultipleWindowsDemo >> step [
 	tasksStream next value.
 
 	renderers with: colors do: [ :each :color |
-		sdl assertSuccess: (each renderDrawColor: color).
-		sdl assertSuccess: each renderClear.
-		sdl assertSuccess: each renderPresent ].
+		each renderDrawColor: color.
+		each renderClear.
+		each renderPresent ].
 ]
 
 { #category : 'initialization' }

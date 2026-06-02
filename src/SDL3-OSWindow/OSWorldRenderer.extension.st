@@ -17,8 +17,8 @@ OSWorldRenderer class >> restart [
 	UIManager default activate.
 
 	oldWindows
-	 select: [ :e | e shouldRegisterAfterRestart ]
-	 thenDo: [ :e | driverClass current registerWindow: e ].
+	select: [ :e | e shouldRegisterAfterRestart ]
+	thenDo: [ :e | driverClass current registerWindow: e ].
 
 	InformativeNotification signal: self class name , ' restarted'
 ]

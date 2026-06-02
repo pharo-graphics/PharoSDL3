@@ -71,7 +71,6 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 		renderStateInfo := SDL_GPURenderStateCreateInfo new.
 		renderStateInfo fragmentShader: aShader.
 		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.
-		aRenderState assertNotNullReturn.
 
 		shaders add: aShader. "Keep a reference to destroy on close"
 		renderStates add: aRenderState "These will be switched with arrow keys" ].
@@ -83,8 +82,7 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 { #category : 'lifecycle' }
 SDL3GPURenderStateDemo >> initializeRenderer [
 
-	renderer := window newGPURenderer.
-	renderer assertNotNullReturn
+	renderer := window newGPURenderer
 ]
 
 { #category : 'initialization' }
@@ -109,15 +107,12 @@ SDL3GPURenderStateDemo >> open [
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: self initialWindowFlags.
-	window assertNotNullReturn.
 
 	renderer := window newGPURenderer.
-	renderer assertNotNullReturn.
 	
-	sdl assertSuccess: window startTextInput.
+	window startTextInput.
 	
 	gpuDevice := renderer gpuDevice.
-	gpuDevice assertNotNullReturn.
 
 	self
 		initializeTextures;
@@ -133,18 +128,18 @@ SDL3GPURenderStateDemo >> render [
 	"Set the selected shader and render the background"
 	self updateRenderState: (renderStates at: renderStateIndex).
 	renderer
-		 renderTexture: backgroundTexture
-		 srcrect: nil "<-- meaning: take the full texture as source"
-		 dstrect: (SDL_FRect origin: 0@0 extent: backgroundTexture extent).
+		renderTexture: backgroundTexture
+		srcrect: nil "<-- meaning: take the full texture as source"
+		dstrect: (SDL_FRect origin: 0@0 extent: backgroundTexture extent).
 
 	"We're done with that shader"
 	renderer gpuRenderStateClear.
 
 	"Finally, render the Pharo logo"
 	renderer
-		 renderTexture: foregroundTexture
-		 srcrect: nil
-		 dstrect:
+		renderTexture: foregroundTexture
+		srcrect: nil
+		dstrect:
 			(SDL3FRect
 				origin: (backgroundTexture extent - foregroundTexture extent / 2)
 				extent: foregroundTexture extent).
@@ -169,13 +164,12 @@ SDL3GPURenderStateDemo >> updateRenderState: renderState [
 		resolutionX: backgroundTexture w;
 		resolutionY: backgroundTexture h.
 
-	sdl assertSuccess:
-		(renderState
-			 fragmentUniformsSlotIndex: 0
-			 data: uniformBuffer
-			 length: uniformBuffer byteSize).
+	renderState
+		fragmentUniformsSlotIndex: 0
+		data: uniformBuffer
+		length: uniformBuffer byteSize.
 
-	sdl assertSuccess: (renderer gpuRenderState: renderState)
+	renderer gpuRenderState: renderState
 ]
 
 { #category : 'accessing' }

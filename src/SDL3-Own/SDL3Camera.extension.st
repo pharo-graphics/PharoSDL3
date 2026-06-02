@@ -1,6 +1,20 @@
 Extension { #name : 'SDL3Camera' }
 
 { #category : '*SDL3-Own' }
+SDL3Camera >> acquireFrameTimestampNS: timestampNS ifNotAvailable: aBlock [
+
+	| acquiredFrame |
+	acquiredFrame := self ffiLibrary
+		acquireCameraFrameCamera: self
+		timestampNS: timestampNS.
+
+	"NULL means no available frame"
+	^ acquiredFrame isNull
+		ifTrue: [ aBlock value ]
+		ifFalse: [ acquiredFrame ]
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Camera >> formatSpec [
 
 	| spec |

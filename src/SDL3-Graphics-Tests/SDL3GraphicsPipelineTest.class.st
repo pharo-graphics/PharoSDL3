@@ -30,7 +30,6 @@ SDL3GraphicsPipelineTest >> setUp [
 	gpuDevice := sdl
 		newGPUDeviceFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 		debugMode: true name: nil.
-	gpuDevice assertNotNullReturn.
 
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray
 ]
@@ -74,12 +73,12 @@ SDL3GraphicsPipelineTest >> test01ClearTarget [
 	colorTargetInfos first clearColor r: 1.0; g: 0.0; b: 0.0; a: 1.0. "Red"
 
 	renderPass := commandBuffer
-		  beginGPURenderPassColorTargetInfos: colorTargetInfos
-		  numColorTargets: 1
-		  depthStencilTargetInfo: nil.
+		 beginGPURenderPassColorTargetInfos: colorTargetInfos
+		 numColorTargets: 1
+		 depthStencilTargetInfo: nil.
 	renderPass end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"3. Download results"
 	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
@@ -88,7 +87,7 @@ SDL3GraphicsPipelineTest >> test01ClearTarget [
 		downloadFromGPUTextureSource: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
 		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -193,7 +192,6 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 		numColorTargets: 1.
 
 	graphicsPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	graphicsPipeline assertNotNullReturn.
 
 	"3. Render"
 	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
@@ -204,9 +202,9 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 	colorTargetInfos first clearColor r: 0.0; g: 0.0; b: 0.0; a: 1.0. "Initial black"
 
 	renderPass := commandBuffer
-		  beginGPURenderPassColorTargetInfos: colorTargetInfos
-		  numColorTargets: 1
-		  depthStencilTargetInfo: nil.
+		 beginGPURenderPassColorTargetInfos: colorTargetInfos
+		 numColorTargets: 1
+		 depthStencilTargetInfo: nil.
 	
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 	vertexBufferBindings first buffer: vertexBuffer; offset: 0.
@@ -217,7 +215,7 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 		drawGPUPrimitivesNumVertices: 6 numInstances: 1 firstVertex: 0 firstInstance: 0;
 		end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"4. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -227,7 +225,7 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 		downloadFromGPUTextureSource: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
 		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -338,7 +336,6 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 		numColorTargets: 1.
 
 	graphicsPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	graphicsPipeline assertNotNullReturn.
 
 	"3. Render"
 	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
@@ -349,9 +346,9 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 	colorTargetInfos first clearColor r: 0.0; g: 0.0; b: 0.0; a: 1.0. "Initial black"
 
 	renderPass := commandBuffer
-		  beginGPURenderPassColorTargetInfos: colorTargetInfos
-		  numColorTargets: 1
-		  depthStencilTargetInfo: nil.
+		 beginGPURenderPassColorTargetInfos: colorTargetInfos
+		 numColorTargets: 1
+		 depthStencilTargetInfo: nil.
 	
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 	vertexBufferBindings first buffer: vertexBuffer; offset: 0.
@@ -362,7 +359,7 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 		drawGPUPrimitivesNumVertices: 3 numInstances: 1 firstVertex: 0 firstInstance: 0;
 		end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"4. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -372,7 +369,7 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 		downloadFromGPUTextureSource: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
 		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -478,7 +475,6 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 		numColorTargets: 1.
 
 	graphicsPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	graphicsPipeline assertNotNullReturn.
 
 	"3. Prepare Uniforms"
 	vertUniforms := SDL3TestGraphicsVertUniform new.
@@ -496,9 +492,9 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 	colorTargetInfos first clearColor r: 0.0; g: 0.0; b: 0.0; a: 1.0.
 
 	renderPass := commandBuffer
-		  beginGPURenderPassColorTargetInfos: colorTargetInfos
-		  numColorTargets: 1
-		  depthStencilTargetInfo: nil.
+		 beginGPURenderPassColorTargetInfos: colorTargetInfos
+		 numColorTargets: 1
+		 depthStencilTargetInfo: nil.
 	
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 	vertexBufferBindings first buffer: vertexBuffer; offset: 0.
@@ -515,7 +511,7 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 		drawGPUPrimitivesNumVertices: 3 numInstances: 1 firstVertex: 0 firstInstance: 0;
 		end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"5. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -525,7 +521,7 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 		downloadFromGPUTextureSource: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
 		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -628,7 +624,6 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 		numColorTargets: 1.
 
 	graphicsPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	graphicsPipeline assertNotNullReturn.
 
 	"3. Render 4 instances"
 	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
@@ -639,9 +634,9 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 	colorTargetInfos first clearColor r: 0.0; g: 0.0; b: 0.0; a: 1.0.
 
 	renderPass := commandBuffer
-		  beginGPURenderPassColorTargetInfos: colorTargetInfos
-		  numColorTargets: 1
-		  depthStencilTargetInfo: nil.
+		 beginGPURenderPassColorTargetInfos: colorTargetInfos
+		 numColorTargets: 1
+		 depthStencilTargetInfo: nil.
 	
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 	vertexBufferBindings first buffer: vertexBuffer; offset: 0.
@@ -652,7 +647,7 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 		drawGPUPrimitivesNumVertices: 3 numInstances: 4 firstVertex: 0 firstInstance: 0;
 		end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"4. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -662,7 +657,7 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 		downloadFromGPUTextureSource: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
 		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -784,7 +779,6 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 			yourself).
 
 	graphicsPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	graphicsPipeline assertNotNullReturn.
 
 	"3. Prepare Uniforms"
 	blueUniforms := SDL3TestGraphicsFragUniform new r: 0.0; g: 0.0; b: 1.0; a: 1.0. "Near Blue"
@@ -807,9 +801,9 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	depthStencilTargetInfo clearDepth: 1.0.
 
 	renderPass := commandBuffer
-		  beginGPURenderPassColorTargetInfos: colorTargetInfos
-		  numColorTargets: 1
-		  depthStencilTargetInfo: depthStencilTargetInfo.
+		 beginGPURenderPassColorTargetInfos: colorTargetInfos
+		 numColorTargets: 1
+		 depthStencilTargetInfo: depthStencilTargetInfo.
 	
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 	vertexBufferBindings first buffer: vertexBuffer; offset: 0.
@@ -828,7 +822,7 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	renderPass drawGPUPrimitivesNumVertices: 6 numInstances: 1 firstVertex: 0 firstInstance: 0.
 
 	renderPass end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"5. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -838,7 +832,7 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 		downloadFromGPUTextureSource: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
 		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 

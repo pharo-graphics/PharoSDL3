@@ -6,12 +6,12 @@ This class isn't generated automatically, it's manual. Why? SDL3 doesn't define 
 
 ```
 /**
- * Message box flags.
- *
- * If supported will display warning icon, etc.
- *
- * \since This datatype is available since SDL 3.2.0.
- */
+* Message box flags.
+*
+* If supported will display warning icon, etc.
+*
+* \since This datatype is available since SDL 3.2.0.
+*/
 typedef Uint32 SDL_MessageBoxFlags;
 
 #define SDL_MESSAGEBOX_ERROR                    0x00000010u /**< error dialog */

@@ -22,10 +22,7 @@ SDL3CameraDemo >> acquireFrameIfAvailable: aBlock [
 	| acquiredFrame |
 	camera ifNil: [ ^ self ].
 
-	acquiredFrame := camera acquireFrameTimestampNS: nil.
-
-	"NULL means no available frame"
-	acquiredFrame isNull ifTrue: [ ^ self ].
+	acquiredFrame := camera acquireFrameTimestampNS: nil ifNotAvailable: [ ^ self ].
 
 	"testcamera.c says:
 		It's not needed to keep the frame once updated the texture is updated.
@@ -172,10 +169,8 @@ SDL3CameraDemo >> updateTextureFromCurrentFrame [
 		texture ifNotNil: [ texture destroy ].
 		texture := renderer newTextureWithProperties: propertyGroup.
 		propertyGroup destroy.
-		texture assertNotNullReturn.
-		
+
 		self adjustWindowToNewFrameExtent ].
-	
 	texture updateRect: nil pixels: currentFrame pixels pitch: currentFrame pitch
 ]
 

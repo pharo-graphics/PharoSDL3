@@ -9,7 +9,12 @@ Class {
 		'deferUpdates',
 		'mutex',
 		'sdlRenderer',
-		'sdlTexture'
+		'sdlTexture',
+		'recycledSDLRect',
+		'recycledSDLFRect',
+		'pitchHolder',
+		'recycledExternalForm',
+		'recycledPixelsPointer'
 	],
 	#category : 'SDL3-OSWindow-Renderers',
 	#package : 'SDL3-OSWindow',
@@ -19,11 +24,13 @@ Class {
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> copyAndPresentTextureRectangle: rectangle [
 
-	| sdlRectangle |
 	deferUpdates ifTrue: [ ^ self ].
 
-	sdlRectangle := SDL3FRect newFrom: rectangle.
-	sdlRenderer renderTexture: sdlTexture srcrect: sdlRectangle dstrect: sdlRectangle.
+	recycledSDLFRect updateFrom: rectangle.
+	sdlRenderer
+		renderTexture: sdlTexture
+		srcrect: recycledSDLFRect
+		dstrect: recycledSDLFRect.
 	sdlRenderer renderPresent
 ]
 
@@ -38,13 +45,25 @@ OSSDL3FormRenderer >> createRenderer [
 OSSDL3FormRenderer >> createTexture [
 	"Existing texture released explicitly to avoid memory leak on resize"
 
+	| pixelExtent |
 	sdlTexture ifNotNil: [ sdlTexture destroy ].
+
+	"Improvement 3: Ensure texture matches pixel extent for crisp rendering"
+	pixelExtent := backendWindow sdl3Window pixelExtent.
+
 	sdlTexture := sdlRenderer
-		           newTextureFormat: SDL3PixelFormat xrgb8888
-		           access: SDL3TextureAccess streaming
-		           w: form width
-		           h: form height.
-	extent := form extent
+					 newTextureFormat: SDL3PixelFormat xrgb8888
+					 access: SDL3TextureAccess streaming
+					 w: pixelExtent x
+					 h: pixelExtent y.
+
+	extent := form extent.
+
+	"Enable logical presentation to handle logical coordinates automatically"
+	sdlRenderer
+		logicalPresentationLogicalW: extent x
+		logicalH: extent y
+		mode: SDL_LOGICAL_PRESENTATION_STRETCH
 ]
 
 { #category : 'updating screen' }
@@ -77,10 +96,29 @@ OSSDL3FormRenderer >> initialize [
 
 	super initialize.
 	deferUpdates := false.
-	mutex := Mutex new
+	mutex := Mutex new.
+	recycledSDLRect := SDL3Rect new.
+	recycledSDLFRect := SDL3FRect new.
+	pitchHolder := FFIInt32 newValueHolder.
+	recycledPixelsPointer := ExternalAddress new
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
+OSSDL3FormRenderer >> logicalToPixelRect: aRectangle [
+
+	| window logicalExtent pixelExtent scaleX scaleY |
+	window := backendWindow sdl3Window.
+	logicalExtent := window extent.
+	pixelExtent := window pixelExtent.
+	
+	scaleX := pixelExtent x asFloat / (logicalExtent x max: 1).
+	scaleY := pixelExtent y asFloat / (logicalExtent y max: 1).
+	
+	^ (aRectangle origin x * scaleX) rounded @ (aRectangle origin y * scaleY) rounded 
+		extent: (aRectangle width * scaleX) rounded @ (aRectangle height * scaleY) rounded
+]
+
+{ #category : 'private' }
 OSSDL3FormRenderer >> outputExtent [
 
 	^ sdlRenderer outputExtent
@@ -104,83 +142,125 @@ OSSDL3FormRenderer >> updateAll [
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
-		sdlTexture updateRect: nil pixels: form bits pitch: form width * FFIUInt32 externalTypeSize.
+		recycledSDLRect updateFrom: (0 @ 0 extent: form extent).
+		sdlTexture
+			updateRect: recycledSDLRect
+			pixels: form bits
+			pitch: form width * FFIUInt32 externalTypeSize.
+
 		deferUpdates ifTrue: [ ^ self ].
-		sdlRenderer renderTexture: sdlTexture srcrect: nil dstrect: nil.
+		sdlRenderer
+			renderTexture: sdlTexture
+			srcrect: recycledSDLRect
+			dstrect: nil.
 		sdlRenderer renderPresent ]
 ]
 
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
-	| pixels pitch intersection updateUnion externalForm sdlRect |
+	| updateBoundingBox pitch pixelBoundingBox |
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
+		allDamage ifEmpty: [ ^ self ].
 
-		updateUnion := nil.
-		allDamage do: [ :rectangle |
-			intersection := rectangle
-				                intersect: (0 @ 0 extent: extent)
-				                ifNone: [ nil ].
-
+		"1. Compute bounding box of all damage in logical units"
+		updateBoundingBox := nil.
+		allDamage do: [ :rect |
+			| intersection |
+			intersection := rect
+								intersect: (0 @ 0 extent: extent)
+								ifNone: [ nil ].
 			intersection ifNotNil: [
-				pixels := ExternalAddress new.
-				sdlRect := SDL3Rect newFrom: intersection.
-				ExternalAddress allocate: FFIInt32 externalTypeSize bytesDuring: [ :pitchHolder |
-					sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
-					pitch := pitchHolder signedLongAt: 1 ].
+				updateBoundingBox := updateBoundingBox
+										ifNil: [ intersection ]
+										ifNotNil: [
+											updateBoundingBox merge: intersection ] ] ].
 
-				[
-				externalForm := OSSDL3ExternalForm new
-					                setExtent: intersection extent
-					                depth: 32
-					                pitch: pitch
-					                bits: pixels;
-					                yourself.
+		updateBoundingBox ifNil: [ ^ self ].
+
+		"2. Map logical bounding box to pixel units for texture locking"
+		pixelBoundingBox := self logicalToPixelRect: updateBoundingBox.
+		recycledSDLRect updateFrom: pixelBoundingBox.
+
+		sdlTexture
+			lockRect: recycledSDLRect
+			pixels: recycledPixelsPointer
+			pitch: pitchHolder getHandle.
+		pitch := pitchHolder signedLongAt: 1.
+
+		[
+		"3. Update damage areas within the locked region"
+		recycledExternalForm ifNil: [
+			recycledExternalForm := OSSDL3ExternalForm new ].
+
+		allDamage do: [ :rect |
+			| intersection pixelRect |
+			intersection := rect
+								intersect: updateBoundingBox
+								ifNone: [ nil ].
+			intersection ifNotNil: [
+				pixelRect := self logicalToPixelRect: intersection.
+				recycledExternalForm
+					resetExtent: pixelRect extent
+					depth: 32
+					pitch: pitch
+					bits: recycledPixelsPointer
+						+ (pixelRect top - pixelBoundingBox top * pitch)
+						+ (pixelRect left - pixelBoundingBox left * 4).
 				self
-					primitiveUpdateRectangle: intersection
-					to: 0@0
-					externalForm: externalForm.
-				updateUnion
-					ifNil: [ updateUnion := intersection ]
-					ifNotNil: [ updateUnion := updateUnion merge: intersection ] ]
-					ensure: [
-						sdlTexture unlock.
-						externalForm destroySurface ] ] ].
+					primitiveUpdateRectangle: pixelRect
+					to: 0 @ 0
+					externalForm: recycledExternalForm ] ] ] ensure: [
+			sdlTexture unlock.
+			recycledExternalForm ifNotNil: [
+				recycledExternalForm
+					resetExtent: 0 @ 0
+					depth: 32
+					pitch: 0
+					bits: ExternalAddress null ] ].
 
-		(forceToScreen and: [ updateUnion isNotNil ]) ifTrue: [
-			self copyAndPresentTextureRectangle: updateUnion ] ]
+		(forceToScreen and: [ updateBoundingBox isNotNil ]) ifTrue: [
+			self copyAndPresentTextureRectangle: updateBoundingBox ] ]
 ]
 
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> updateRectangle: rectangle [
 
-	| intersection pixels pitch externalForm sdlRect |
+	| intersection pitch pixelRect |
 	mutex critical: [
 		intersection := rectangle
-			                intersect: (0 @ 0 extent: extent)
-			                ifNone: [ ^ self ].
+							intersect: (0 @ 0 extent: extent)
+							ifNone: [ ^ self ].
 		self validate ifFalse: [ ^ self ].
 
-		pixels := ExternalAddress new.
-		sdlRect := SDL3Rect newFrom: intersection.
-		ExternalAddress allocate: FFIInt32 externalTypeSize bytesDuring: [ :pitchHolder |
-			sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
-			pitch := pitchHolder signedLongAt: 1 ].
+		pixelRect := self logicalToPixelRect: intersection.
+		recycledSDLRect updateFrom: pixelRect.
+		sdlTexture
+			lockRect: recycledSDLRect
+			pixels: recycledPixelsPointer
+			pitch: pitchHolder getHandle.
+		pitch := pitchHolder signedLongAt: 1.
 
 		[
-		externalForm := OSSDL3ExternalForm new
-			                setExtent: intersection extent
-			                depth: 32
-			                pitch: pitch
-			                bits: pixels;
-			                yourself.
+		recycledExternalForm ifNil: [
+			recycledExternalForm := OSSDL3ExternalForm new ].
+		recycledExternalForm
+			resetExtent: pixelRect extent
+			depth: 32
+			pitch: pitch
+			bits: recycledPixelsPointer.
 		self
-			primitiveUpdateRectangle: intersection
-			to: 0@0
-			externalForm: externalForm ] ensure: [
+			primitiveUpdateRectangle: pixelRect
+			to: 0 @ 0
+			externalForm: recycledExternalForm ] ensure: [
 			sdlTexture unlock.
-			externalForm destroySurface ].
+			recycledExternalForm ifNotNil: [
+				recycledExternalForm
+					resetExtent: 0 @ 0
+					depth: 32
+					pitch: 0
+					bits: ExternalAddress null ] ].
 
 		self copyAndPresentTextureRectangle: intersection ]
 ]

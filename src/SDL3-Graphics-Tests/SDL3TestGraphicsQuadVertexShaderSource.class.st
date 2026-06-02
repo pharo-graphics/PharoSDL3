@@ -34,17 +34,17 @@ SDL3TestGraphicsQuadVertexShaderSource class >> hlslSource [
 
 	^ '
 struct VertexInput {
-    float3 position : POSITION;
+   float3 position : POSITION;
 };
 
 struct VertexOutput {
-    float4 position : SV_Position;
+   float4 position : SV_Position;
 };
 
 VertexOutput main(VertexInput input) {
-    VertexOutput output;
-    output.position = float4(input.position, 1.0);
-    return output;
+   VertexOutput output;
+   output.position = float4(input.position, 1.0);
+   return output;
 }
 '
 ]

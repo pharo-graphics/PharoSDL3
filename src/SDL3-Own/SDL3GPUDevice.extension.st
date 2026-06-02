@@ -29,7 +29,6 @@ SDL3GPUDevice >> new2DGPUTextureFormat: pixelFormat usage: usage width: width he
 		props: 0.
 
 	texture := self newGPUTextureCreateinfo: createinfo.
-	texture assertNotNullReturn.
 	^ texture
 ]
 
@@ -45,7 +44,6 @@ SDL3GPUDevice >> newDownloadTransferBuffer: size [
 		props: 0.
 
 	transferBuffer := self newGPUTransferBufferCreateinfo: createinfo.
-	transferBuffer assertNotNullReturn.
 	^ transferBuffer
 ]
 
@@ -60,7 +58,6 @@ SDL3GPUDevice >> newGPUBufferUsage: usage size: size [
 			yourself.
 
 	gpuBuffer := self newGPUBufferCreateinfo: createInfo.
-	gpuBuffer assertNotNullReturn.
 	^ gpuBuffer
 ]
 
@@ -89,21 +86,20 @@ SDL3GPUDevice >> newGPUTextureUploadingForm: aForm usage: aUsage [
 	self unmapGPUTransferBuffer: transferBuffer.
 
 	commandBuffer := self acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	copyPass := commandBuffer beginGPUCopyPass.
 	copyPass
 		uploadToGPUTextureSource:
 			(SDL_GPUTextureTransferInfo new
-				 transferBuffer: transferBuffer;
-				 offset: 0;
-				 yourself)
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself)
 		destination:
 			(SDL_GPUTextureRegion new
-				 texture: gpuTexture;
-				 w: aForm width;
-				 h: aForm height;
-				 d: 1;
-				 yourself)
+				texture: gpuTexture;
+				w: aForm width;
+				h: aForm height;
+				d: 1;
+				yourself)
 		cycle: false.
 	copyPass end.
 	self ffiLibrary assertSuccess: commandBuffer submit.
@@ -125,7 +121,6 @@ SDL3GPUDevice >> newUploadTransferBuffer: size [
 		props: 0.
 
 	transferBuffer := self newGPUTransferBufferCreateinfo: createinfo.
-	transferBuffer assertNotNullReturn.
 	^ transferBuffer
 ]
 

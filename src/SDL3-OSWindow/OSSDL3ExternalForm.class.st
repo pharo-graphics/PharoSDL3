@@ -153,7 +153,7 @@ OSSDL3ExternalForm >> setManualSurfacePointer: aPointer [
 
 	"The primitive expects an unsigned integer arg, not an ExternalAddress."
 	"NOTE: it used to be acceptable for 'newPointer' to be an Integer...
-	 if you get a MNU for #getHandle here, you should update your code
-	 to pass in either an ExternalStructure or an ExternalAddress."
+	if you get a MNU for #getHandle here, you should update your code
+	to pass in either an ExternalStructure or an ExternalAddress."
 	self primManualSurface: bits setPointer: pointer getHandle asInteger
 ]

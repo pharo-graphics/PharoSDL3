@@ -34,20 +34,20 @@ SDL3TestGraphicsInstancedVertexShaderSource class >> hlslSource [
 
 	^ '
 struct VertexInput {
-    float3 position : POSITION;
+   float3 position : POSITION;
 };
 
 struct VertexOutput {
-    float4 position : SV_Position;
+   float4 position : SV_Position;
 };
 
 VertexOutput main(VertexInput input, uint instanceID : SV_InstanceID) {
-    VertexOutput output;
-    // Offset each instance based on ID
-    float xOffset = (instanceID % 2 == 0) ? -0.5 : 0.5;
-    float yOffset = (instanceID / 2 == 0) ? -0.5 : 0.5;
-    output.position = float4(input.position.x + xOffset, input.position.y + yOffset, input.position.z, 1.0);
-    return output;
+   VertexOutput output;
+   // Offset each instance based on ID
+   float xOffset = (instanceID % 2 == 0) ? -0.5 : 0.5;
+   float yOffset = (instanceID / 2 == 0) ? -0.5 : 0.5;
+   output.position = float4(input.position.x + xOffset, input.position.y + yOffset, input.position.z, 1.0);
+   return output;
 }
 '
 ]

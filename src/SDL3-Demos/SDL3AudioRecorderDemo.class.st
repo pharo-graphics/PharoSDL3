@@ -91,7 +91,7 @@ SDL3AudioRecorderDemo >> putAllAvailableRecording [
 		| readCount |
 		readCount := recordingStream getDataIntoBuf: recordingBuffer len: recordingBuffer size.
 		sdl assertSuccess: readCount >= 0.
-		sdl assertSuccess: (playbackStream putDataBuf: recordingBuffer len: readCount) ]
+		playbackStream putDataBuf: recordingBuffer len: readCount ]
 ]
 
 { #category : 'lifecycle' }

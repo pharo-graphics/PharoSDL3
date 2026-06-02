@@ -33,20 +33,20 @@ SDL3GPUBoidsVertexShaderSource class >> hlslSource [
 
 	^ '
 struct VertexInput {
-  float2 position : TEXCOORD0;
-  float hue : TEXCOORD1;
+ float2 position : TEXCOORD0;
+ float hue : TEXCOORD1;
 };
 
 struct VertexOutput {
-  float4 position : SV_Position;
-  float hue : TEXCOORD0;
+ float4 position : SV_Position;
+ float hue : TEXCOORD0;
 };
 
 VertexOutput main(VertexInput input) {
-  VertexOutput output;
-  output.position = float4(input.position, 0.0, 1.0);
-  output.hue = input.hue;
-  return output;
+ VertexOutput output;
+ output.position = float4(input.position, 0.0, 1.0);
+ output.hue = input.hue;
+ return output;
 }
 '
 ]

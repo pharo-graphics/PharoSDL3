@@ -72,7 +72,6 @@ SDL3GPUBoidsDemo >> computeSimulation [
 
 	| commandBuffer nextBoidsBuffer |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 
 	"Ping-Pong"
 	nextBoidsBuffer :=
@@ -90,7 +89,7 @@ SDL3GPUBoidsDemo >> computeSimulation [
 	"Geometry Pass"
 	self doGeometryPassWith: commandBuffer input: currentBoidsBuffer.
 	
-	sdl assertSuccess: commandBuffer submit
+	commandBuffer submit
 ]
 
 { #category : 'rendering' }
@@ -104,8 +103,8 @@ SDL3GPUBoidsDemo >> doGeometryPassWith: aCommandBuffer input: inputBuffer [
 		cycle: false.
 
 	computePass := aCommandBuffer
-					   beginGPUComputePassStorageTextureBindings: #()
-					   storageBufferBindings: storageBufferBinding.
+					  beginGPUComputePassStorageTextureBindings: #()
+					  storageBufferBindings: storageBufferBinding.
 
 	storageBuffers at: 1 put: inputBuffer getHandle.
 	storageBuffers at: 2 put: huesBuffer getHandle.
@@ -151,8 +150,8 @@ SDL3GPUBoidsDemo >> doPhysicsPassWith: aCommandBuffer input: inputBuffer output:
 	physicsStorageBuffers at: 1 put: inputBuffer getHandle.
 
 	(aCommandBuffer
-		 beginGPUComputePassStorageTextureBindings: #()
-		 storageBufferBindings: storageBufferBinding)
+		beginGPUComputePassStorageTextureBindings: #()
+		storageBufferBindings: storageBufferBinding)
 		bindGPUComputePipeline: boidsComputePipeline;
 		bindGPUComputeStorageBuffersFirstSlot: 0
 		storageBuffers: physicsStorageBuffers;
@@ -169,10 +168,9 @@ SDL3GPUBoidsDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 	renderColorTargetInfos first texture: swapchainTexture.
 
 	renderPass := aCommandBuffer
-				  beginGPURenderPassColorTargetInfos:
-				  renderColorTargetInfos
-				  depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
+				 beginGPURenderPassColorTargetInfos:
+				 renderColorTargetInfos
+				 depthStencilTargetInfo: nil.
 
 	renderPass bindGPUGraphicsPipeline: renderPipeline.
 
@@ -281,13 +279,13 @@ SDL3GPUBoidsDemo >> initialize [
 	geometryUniforms autoRelease.
 
 	physicsStorageBuffers := FFIExternalArray
-					 externalNewType: ExternalAddress
-					 size: 1.
+					externalNewType: ExternalAddress
+					size: 1.
 	physicsStorageBuffers autoRelease.
 
 	renderColorTargetInfos := FFIExternalArray
-					  externalNewType: SDL_GPUColorTargetInfo
-					  size: 1.
+					 externalNewType: SDL_GPUColorTargetInfo
+					 size: 1.
 	renderColorTargetInfos autoRelease.
 	renderColorTargetInfos first
 		storeOp: SDL_GPU_STOREOP_STORE;
@@ -315,8 +313,8 @@ SDL3GPUBoidsDemo >> initializeRenderPipeline [
 						newShaderAmong: shaderFormats
 						device: gpuDevice.
 	fragmentShader := SDL3GPUBoidsFragmentShaderSource
-						  newShaderAmong: shaderFormats
-						  device: gpuDevice.
+						 newShaderAmong: shaderFormats
+						 device: gpuDevice.
 
 	vertexBindings := self newBoidsVertexBindings.
 	vertexAttributes := self newBoidsVertexAttributes.
@@ -327,7 +325,7 @@ SDL3GPUBoidsDemo >> initializeRenderPipeline [
 		blendState: self newAlphaBlendState.
 
 	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew
-							  autoRelease.
+							 autoRelease.
 	pipelineCreateInfo
 		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
 		vertexShader: vertexShader;
@@ -342,8 +340,7 @@ SDL3GPUBoidsDemo >> initializeRenderPipeline [
 		numVertexAttributes: vertexAttributes size.
 
 	renderPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
-						  pipelineCreateInfo.
-	renderPipeline assertNotNullReturn.
+						 pipelineCreateInfo.
 
 	gpuDevice releaseGPUShader: vertexShader.
 	gpuDevice releaseGPUShader: fragmentShader.
@@ -356,14 +353,14 @@ SDL3GPUBoidsDemo >> initializeRenderPipeline [
 SDL3GPUBoidsDemo >> newAlphaBlendState [
 
 	^ SDL_GPUColorTargetBlendState new
-		  enableBlend: true;
-		  srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-		  dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-		  colorBlendOp: SDL_GPU_BLENDOP_ADD;
-		  srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-		  dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-		  alphaBlendOp: SDL_GPU_BLENDOP_ADD;
-		  yourself
+		 enableBlend: true;
+		 srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+		 dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+		 colorBlendOp: SDL_GPU_BLENDOP_ADD;
+		 srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+		 dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+		 alphaBlendOp: SDL_GPU_BLENDOP_ADD;
+		 yourself
 ]
 
 { #category : 'private' }
@@ -391,8 +388,8 @@ SDL3GPUBoidsDemo >> newBoidsVertexBindings [
 
 	| vertexBindings |
 	vertexBindings := FFIExternalArray
-						  externalNewType: SDL_GPUVertexBufferDescription
-						  size: 1.
+						 externalNewType: SDL_GPUVertexBufferDescription
+						 size: 1.
 	vertexBindings first
 		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
@@ -407,23 +404,23 @@ SDL3GPUBoidsDemo >> newBuffers [
 	"Boids Buffers (Physics Ping-Pong)"
 
 	boidsBufferPing := gpuDevice
-						   newGPUBufferUsage:
-							   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-							   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-						   size: numBoids * SDL3GPUBoidsBoid structureSize.
+						  newGPUBufferUsage:
+							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+						  size: numBoids * SDL3GPUBoidsBoid structureSize.
 
 	boidsBufferPong := gpuDevice
-						   newGPUBufferUsage:
-							   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-							   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-						   size: numBoids * SDL3GPUBoidsBoid structureSize.
+						  newGPUBufferUsage:
+							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+						  size: numBoids * SDL3GPUBoidsBoid structureSize.
 
 	currentBoidsBuffer := boidsBufferPing.
 
 	"Hues Buffer (Static)"
 	huesBuffer := gpuDevice
-					  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-					  size: numBoids * FFIFloat32 externalTypeSize. "4 bytes per float"
+					 newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+					 size: numBoids * FFIFloat32 externalTypeSize. "4 bytes per float"
 
 	"Vertex Buffer (Geometry Output)"
 	"3 vertices per boid"
@@ -444,12 +441,12 @@ SDL3GPUBoidsDemo >> newBuffers [
 	"Index Buffer"
 	"3 indices per boid"
 	indexBuffer := gpuDevice
-					   newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-					   size: numBoids * 3 * 2. "16-bit"
+					  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+					  size: numBoids * 3 * 2. "16-bit"
 
 	indexBufferBinding := SDL_GPUBufferBinding externalNew
-							  buffer: indexBuffer;
-							  yourself.
+							 buffer: indexBuffer;
+							 yourself.
 	indexBufferBinding autoRelease
 ]
 
@@ -525,21 +522,20 @@ SDL3GPUBoidsDemo >> uploadBoids: boids [
 
 	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
 		| copyPass |
-		commandBuffer assertNotNullReturn.
 		copyPass := commandBuffer beginGPUCopyPass.
 		copyPass
 			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					 transferBuffer: bTransfer;
-					 offset: 0;
-					 yourself)
+					transferBuffer: bTransfer;
+					offset: 0;
+					yourself)
 			destination: (SDL_GPUBufferRegion new
-					 buffer: boidsBufferPing;
-					 offset: 0;
-					 size: bSize;
-					 yourself)
+					buffer: boidsBufferPing;
+					offset: 0;
+					size: bSize;
+					yourself)
 			cycle: false.
 		copyPass end.
-		sdl assertSuccess: commandBuffer submit ].
+		commandBuffer submit ].
 
 	gpuDevice releaseGPUTransferBuffer: bTransfer
 ]
@@ -557,21 +553,20 @@ SDL3GPUBoidsDemo >> uploadHues: hues [
 
 	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
 		| copyPass |
-		commandBuffer assertNotNullReturn.
 		copyPass := commandBuffer beginGPUCopyPass.
 		copyPass
 			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					 transferBuffer: hTransfer;
-					 offset: 0;
-					 yourself)
+					transferBuffer: hTransfer;
+					offset: 0;
+					yourself)
 			destination: (SDL_GPUBufferRegion new
-					 buffer: huesBuffer;
-					 offset: 0;
-					 size: hSize;
-					 yourself)
+					buffer: huesBuffer;
+					offset: 0;
+					size: hSize;
+					yourself)
 			cycle: false.
 		copyPass end.
-		sdl assertSuccess: commandBuffer submit ].
+		commandBuffer submit ].
 
 	gpuDevice releaseGPUTransferBuffer: hTransfer
 ]
@@ -584,9 +579,9 @@ SDL3GPUBoidsDemo >> uploadIndices [
 	iTransfer := gpuDevice newUploadTransferBuffer: iSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: iTransfer cycle: false.
 	indices := FFIArray
-					 fromHandle: mappedAddress
-					 type: FFIUInt16
-					 size: numBoids * 3.
+					fromHandle: mappedAddress
+					type: FFIUInt16
+					size: numBoids * 3.
 	1 to: numBoids do: [ :i | 
 		| baseVertex baseIndex |
 		baseVertex := (i - 1) * 3.
@@ -598,21 +593,20 @@ SDL3GPUBoidsDemo >> uploadIndices [
 
 	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
 		| copyPass |
-		commandBuffer assertNotNullReturn.
 		copyPass := commandBuffer beginGPUCopyPass.
 		copyPass
 			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					 transferBuffer: iTransfer;
-					 offset: 0;
-					 yourself)
+					transferBuffer: iTransfer;
+					offset: 0;
+					yourself)
 			destination: (SDL_GPUBufferRegion new
-					 buffer: indexBuffer;
-					 offset: 0;
-					 size: iSize;
-					 yourself)
+					buffer: indexBuffer;
+					offset: 0;
+					size: iSize;
+					yourself)
 			cycle: false.
 		copyPass end.
-		sdl assertSuccess: commandBuffer submit ].
+		commandBuffer submit ].
 
 	gpuDevice releaseGPUTransferBuffer: iTransfer
 ]

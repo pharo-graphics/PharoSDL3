@@ -62,7 +62,6 @@ SDL3ComputeShaderSource class >> newComputePipelineAmong: supportedShaderFormats
 				threadcountZ: self threadCountZ.
 
 			computePipeline := aSDL3GPUDevice newGPUComputePipelineCreateinfo: createInfo.
-			computePipeline assertNotNullReturn.
 			^ computePipeline ]
 ]
 

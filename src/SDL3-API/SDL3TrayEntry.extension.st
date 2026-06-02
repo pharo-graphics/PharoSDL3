@@ -3,10 +3,10 @@ Extension { #name : 'SDL3TrayEntry' }
 { #category : '*SDL3-API' }
 SDL3TrayEntry >> callback: callback userdata: userdata [
 
-	^ self ffiLibrary
-		  setTrayEntryCallbackEntry: self
-		  callback: callback
-		  userdata: userdata
+	self ffiLibrary
+		setTrayEntryCallbackEntry: self
+		callback: callback
+		userdata: userdata
 ]
 
 { #category : '*SDL3-API' }
@@ -18,13 +18,13 @@ SDL3TrayEntry >> checked [
 { #category : '*SDL3-API' }
 SDL3TrayEntry >> checked: checked [
 
-	^ self ffiLibrary setTrayEntryCheckedEntry: self checked: checked
+	self ffiLibrary setTrayEntryCheckedEntry: self checked: checked
 ]
 
 { #category : '*SDL3-API' }
 SDL3TrayEntry >> click [
 
-	^ self ffiLibrary clickTrayEntry: self
+	self ffiLibrary clickTrayEntry: self
 ]
 
 { #category : '*SDL3-API' }
@@ -36,7 +36,7 @@ SDL3TrayEntry >> enabled [
 { #category : '*SDL3-API' }
 SDL3TrayEntry >> enabled: enabled [
 
-	^ self ffiLibrary setTrayEntryEnabledEntry: self enabled: enabled
+	self ffiLibrary setTrayEntryEnabledEntry: self enabled: enabled
 ]
 
 { #category : '*SDL3-API' }
@@ -48,7 +48,7 @@ SDL3TrayEntry >> label [
 { #category : '*SDL3-API' }
 SDL3TrayEntry >> label: label [
 
-	^ self ffiLibrary setTrayEntryLabelEntry: self label: label
+	self ffiLibrary setTrayEntryLabelEntry: self label: label
 ]
 
 { #category : '*SDL3-API' }
@@ -66,7 +66,7 @@ SDL3TrayEntry >> parent [
 { #category : '*SDL3-API' }
 SDL3TrayEntry >> remove [
 
-	^ self ffiLibrary removeTrayEntry: self
+	self ffiLibrary removeTrayEntry: self
 ]
 
 { #category : '*SDL3-API' }
