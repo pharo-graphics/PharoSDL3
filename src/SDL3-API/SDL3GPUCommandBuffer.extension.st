@@ -13,14 +13,14 @@ SDL3GPUCommandBuffer >> acquireGPUSwapchainTextureForWindow: window into: swapch
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> beginGPUComputePassStorageTextureBindings: storage_texture_bindings numStorageTextureBindings: num_storage_texture_bindings storageBufferBindings: storage_buffer_bindings numStorageBufferBindings: num_storage_buffer_bindings [
+SDL3GPUCommandBuffer >> beginGPUComputePassStorageTextureBindings: storageTextureBindings numStorageTextureBindings: numStorageTextureBindings storageBufferBindings: storageBufferBindings numStorageBufferBindings: numStorageBufferBindings [
 
 	^ self ffiLibrary
 		  beginGPUComputePassCommandBuffer: self
-		  storageTextureBindings: storage_texture_bindings
-		  numStorageTextureBindings: num_storage_texture_bindings
-		  storageBufferBindings: storage_buffer_bindings
-		  numStorageBufferBindings: num_storage_buffer_bindings
+		  storageTextureBindings: storageTextureBindings
+		  numStorageTextureBindings: numStorageTextureBindings
+		  storageBufferBindings: storageBufferBindings
+		  numStorageBufferBindings: numStorageBufferBindings
 ]
 
 { #category : '*SDL3-API' }
@@ -30,13 +30,13 @@ SDL3GPUCommandBuffer >> beginGPUCopyPass [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> beginGPURenderPassColorTargetInfos: color_target_infos numColorTargets: num_color_targets depthStencilTargetInfo: depth_stencil_target_info [
+SDL3GPUCommandBuffer >> beginGPURenderPassColorTargetInfos: colorTargetInfos numColorTargets: numColorTargets depthStencilTargetInfo: depthStencilTargetInfo [
 
 	^ self ffiLibrary
 		  beginGPURenderPassCommandBuffer: self
-		  colorTargetInfos: color_target_infos
-		  numColorTargets: num_color_targets
-		  depthStencilTargetInfo: depth_stencil_target_info
+		  colorTargetInfos: colorTargetInfos
+		  numColorTargets: numColorTargets
+		  depthStencilTargetInfo: depthStencilTargetInfo
 ]
 
 { #category : '*SDL3-API' }
