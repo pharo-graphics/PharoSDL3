@@ -40,13 +40,13 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time; // Elapsed time in seconds
-    float2 resolution; // Viewport width/height in pixels
+   float time; // Elapsed time in seconds
+   float2 resolution; // Viewport width/height in pixels
 }
 
 struct PSInput {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 static const float PI = 3.14159265f;
@@ -60,30 +60,30 @@ static const float grille_amount = 0.95; // Range 0-1
 static const float brightness_boost = 1.2; // Range 1-2
 
 float4 main(PSInput input) : SV_Target {
-    float2 uv = input.uv;
+   float2 uv = input.uv;
 
-    float warp_amount = cos(time);
-    
-    float2 delta = uv - 0.5;
-    float warp_factor = dot(delta, delta) * warp_amount;
-    uv += delta * warp_factor;
-    
-    float scanline = sin(uv.y * resolution.y * PI) * 0.5 + 0.5;
-    scanline = lerp(1.0, scanline, scan_line_amount * 0.5);
-    
-    float grille = fmod(uv.x * resolution.x, 3.0) < 1.5 ? 0.95 : 1.05;
-    grille = lerp(1.0, grille, grille_amount * 0.5);
-    
-    float4 color = InputTexture.Sample(InputSampler, input.uv) * input.color;
-    color.rgb *= scanline * grille;
-    
-    float2 v_uv = uv * (1.0 - uv.xy);
-    float vignette = v_uv.x * v_uv.y * 15.0;
-    vignette = lerp(1.0, vignette, vignette_amount * 0.7);
+   float warp_amount = cos(time);
+   
+   float2 delta = uv - 0.5;
+   float warp_factor = dot(delta, delta) * warp_amount;
+   uv += delta * warp_factor;
+   
+   float scanline = sin(uv.y * resolution.y * PI) * 0.5 + 0.5;
+   scanline = lerp(1.0, scanline, scan_line_amount * 0.5);
+   
+   float grille = fmod(uv.x * resolution.x, 3.0) < 1.5 ? 0.95 : 1.05;
+   grille = lerp(1.0, grille, grille_amount * 0.5);
+   
+   float4 color = InputTexture.Sample(InputSampler, input.uv) * input.color;
+   color.rgb *= scanline * grille;
+   
+   float2 v_uv = uv * (1.0 - uv.xy);
+   float vignette = v_uv.x * v_uv.y * 15.0;
+   vignette = lerp(1.0, vignette, vignette_amount * 0.7);
 
-    color.rgb *= vignette * brightness_boost;
+   color.rgb *= vignette * brightness_boost;
 
-    return color;
+   return color;
 }
 '
 ]

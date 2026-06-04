@@ -40,8 +40,8 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time;
-    float2 resolution;
+   float time;
+   float2 resolution;
 }
 
 // constants
@@ -51,109 +51,109 @@ static const float3 lightPosBase = float3(0.0, 0.0, -1.0);
 // HLSL fmod returns negative values for negative inputs, GLSL mod does not.
 float2 glsl_mod(float2 x, float y)
 {
-    return x - y * floor(x / y);
+   return x - y * floor(x / y);
 }
 
 // Warp function
 float2 W(float2 p, float time)
 {
-    p = (p + 3.0) * 4.0;
+   p = (p + 3.0) * 4.0;
 
-    float t = time / 2.0;
+   float t = time / 2.0;
 
-    // Layered, sinusoidal feedback, with time component.
-    for (int i = 0; i < 3; i++)
-    {
-        p += cos(p.yx * 3.0 + float2(t, 1.57)) / 3.0;
-        p += sin(p.yx + t + float2(1.57, 0)) / 2.0;
-        p *= 1.3;
-    }
+   // Layered, sinusoidal feedback, with time component.
+   for (int i = 0; i < 3; i++)
+   {
+       p += cos(p.yx * 3.0 + float2(t, 1.57)) / 3.0;
+       p += sin(p.yx + t + float2(1.57, 0)) / 2.0;
+       p *= 1.3;
+   }
 
-    // A bit of jitter to counter the high frequency sections.
-    p += frac(sin(p + float2(13, 7)) * 5e5) * 0.03 - 0.015;
+   // A bit of jitter to counter the high frequency sections.
+   p += frac(sin(p + float2(13, 7)) * 5e5) * 0.03 - 0.015;
 
-    return glsl_mod(p, 2.0) - 1.0; // Range: [vec2(-1), vec2(1)]
+   return glsl_mod(p, 2.0) - 1.0; // Range: [vec2(-1), vec2(1)]
 }
 
 // Bump mapping function.
 float bumpFunc(float2 p, float time)
 {
-    return length(W(p, time)) * 0.7071; // Range: [0, 1]
+   return length(W(p, time)) * 0.7071; // Range: [0, 1]
 }
 
 struct PSInput
 {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 float4 main(PSInput input) : SV_Target
 {
-    // Screen coordinates (Aspect Ratio Corrected)
-    // Equivalent to: (fragCoord - resolution.xy*.5)/resolution.y;
+   // Screen coordinates (Aspect Ratio Corrected)
+   // Equivalent to: (fragCoord - resolution.xy*.5)/resolution.y;
 //    float2 uv = (input.uv * resolution - resolution * 0.5) / resolution.y;
-    float2 uv = input.uv;
+   float2 uv = input.uv;
 
-    // VECTOR SETUP
-    float3 sp = float3(uv, 0); // Surface position
-    float3 rd = normalize(float3(uv, 1)); // Ray direction
-    float3 lp = float3(cos(time) * 0.5, sin(time) * 0.2, -1); // Light position
-    float3 sn = float3(0, 0, -1); // Plane normal
+   // VECTOR SETUP
+   float3 sp = float3(uv, 0); // Surface position
+   float3 rd = normalize(float3(uv, 1)); // Ray direction
+   float3 lp = float3(cos(time) * 0.5, sin(time) * 0.2, -1); // Light position
+   float3 sn = float3(0, 0, -1); // Plane normal
 
-    // BUMP MAPPING - PERTURBING THE NORMAL
-    float2 eps = float2(4.0 / resolution.y, 0);
+   // BUMP MAPPING - PERTURBING THE NORMAL
+   float2 eps = float2(4.0 / resolution.y, 0);
 
-    float f = bumpFunc(sp.xy, time);
-    float fx = bumpFunc(sp.xy - eps.xy, time);
-    float fy = bumpFunc(sp.xy - eps.yx, time);
+   float f = bumpFunc(sp.xy, time);
+   float fx = bumpFunc(sp.xy - eps.xy, time);
+   float fy = bumpFunc(sp.xy - eps.yx, time);
 
-    // Controls how much the bump is accentuated.
-    const float bumpFactor = 0.05;
+   // Controls how much the bump is accentuated.
+   const float bumpFactor = 0.05;
 
-    fx = (fx - f) / eps.x;
-    fy = (fy - f) / eps.x;
+   fx = (fx - f) / eps.x;
+   fy = (fy - f) / eps.x;
 
-    // Perturb normal
-    sn = normalize(sn + float3(fx, fy, 0) * bumpFactor);
+   // Perturb normal
+   sn = normalize(sn + float3(fx, fy, 0) * bumpFactor);
 
-    // LIGHTING
-    float3 ld = lp - sp;
-    float lDist = max(length(ld), 0.0001);
-    ld /= lDist;
+   // LIGHTING
+   float3 ld = lp - sp;
+   float lDist = max(length(ld), 0.0001);
+   ld /= lDist;
 
-    // Light attenuation.
-    float atten = 1.0 / (1.0 + lDist * lDist * 0.15);
+   // Light attenuation.
+   float atten = 1.0 / (1.0 + lDist * lDist * 0.15);
 
-    // Darken crevices
-    atten *= f * 0.9 + 0.1;
+   // Darken crevices
+   atten *= f * 0.9 + 0.1;
 
-    // Diffuse value.
-    float diff = max(dot(sn, ld), 0.0);
-    // Enhancing the diffuse value
-    diff = pow(diff, 4.0) * 0.66 + pow(diff, 8.0) * 0.34;
+   // Diffuse value.
+   float diff = max(dot(sn, ld), 0.0);
+   // Enhancing the diffuse value
+   diff = pow(diff, 4.0) * 0.66 + pow(diff, 8.0) * 0.34;
 
-    // Specular highlighting.
-    float spec = pow(max(dot(reflect(-ld, sn), -rd), 0.0), 12.0);
+   // Specular highlighting.
+   float spec = pow(max(dot(reflect(-ld, sn), -rd), 0.0), 12.0);
 
-    // TEXTURE COLOR
-    // Sample texture with warp offset
-    float2 warpOffset = W(sp.xy, time) / 8.0;
-    float3 texCol = InputTexture.Sample(InputSampler, sp.xy + warpOffset).rgb * input.color.rgb;
-    
-    texCol *= texCol; // Rough sRGB to linear conversion
-    
-    // Color processing
-    texCol = smoothstep(0.05, 0.75, pow(texCol, float3(0.75, 0.8, 0.85)));
+   // TEXTURE COLOR
+   // Sample texture with warp offset
+   float2 warpOffset = W(sp.xy, time) / 8.0;
+   float3 texCol = InputTexture.Sample(InputSampler, sp.xy + warpOffset).rgb * input.color.rgb;
+   
+   texCol *= texCol; // Rough sRGB to linear conversion
+   
+   // Color processing
+   texCol = smoothstep(0.05, 0.75, pow(texCol, float3(0.75, 0.8, 0.85)));
 
-    // FINAL COLOR
-    float3 col = (texCol * (diff * float3(1, 0.97, 0.92) * 2.0 + 0.5) + float3(1, 0.6, 0.2) * spec * 2.0) * atten;
+   // FINAL COLOR
+   float3 col = (texCol * (diff * float3(1, 0.97, 0.92) * 2.0 + 0.5) + float3(1, 0.6, 0.2) * spec * 2.0) * atten;
 
-    // Faux environment mapping
-    float ref = max(dot(reflect(rd, sn), float3(1, 1, 1)), 0.0);
-    col += col * pow(ref, 4.0) * float3(0.25, 0.5, 1) * 3.0;
+   // Faux environment mapping
+   float ref = max(dot(reflect(rd, sn), float3(1, 1, 1)), 0.0);
+   col += col * pow(ref, 4.0) * float3(0.25, 0.5, 1) * 3.0;
 
-    // Gamma correction
-    return float4(sqrt(clamp(col, 0.0, 1.0)), 1.0);
+   // Gamma correction
+   return float4(sqrt(clamp(col, 0.0, 1.0)), 1.0);
 }
 '
 ]

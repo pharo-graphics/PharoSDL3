@@ -48,12 +48,11 @@ SDL3SingleWindowApp >> initialWindowFlags [
 SDL3SingleWindowApp >> open [
 
 	window :=
-		sdl
-			newWindowTitle: self updatedTitle
+		SDL3Window
+			unsafeNewTitle: self updatedTitle
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: self initialWindowFlags.
-	window assertNotNullReturn
 ]
 
 { #category : 'lifecycle' }

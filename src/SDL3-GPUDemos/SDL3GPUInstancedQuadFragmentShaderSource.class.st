@@ -39,14 +39,14 @@ Texture2D<float4> tex : register(t0, space2);
 SamplerState sam : register(s0, space2);
 
 struct PSInput {
-    float4 position : SV_Position;
-    float2 uv : TEXCOORD0;
-    float4 color : COLOR0;
+   float4 position : SV_Position;
+   float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
 };
 
 float4 main(PSInput input) : SV_Target {
-    float4 texColor = tex.Sample(sam, input.uv);
-    return texColor * input.color;
+   float4 texColor = tex.Sample(sam, input.uv);
+   return texColor * input.color;
 }
 '
 ]

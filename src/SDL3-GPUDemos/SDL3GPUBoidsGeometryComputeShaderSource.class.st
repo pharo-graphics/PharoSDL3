@@ -36,14 +36,14 @@ SDL3GPUBoidsGeometryComputeShaderSource class >> hlslSource [
 
 	^ '
 struct Node {
-    float2 position;
-    float2 velocity;
+   float2 position;
+   float2 velocity;
 };
 
 struct Vertex {
-    float2 position;
-    float hue;
-    float padding;
+   float2 position;
+   float hue;
+   float padding;
 };
 
 StructuredBuffer<Node> Boids : register(t0, space0);
@@ -51,42 +51,42 @@ StructuredBuffer<float> Hues : register(t1, space0);
 RWStructuredBuffer<Vertex> Vertices : register(u0, space1);
 
 cbuffer Params : register(b0, space2) {
-    uint numBoids;
-    float boidRadius;
-    float boundX;
-    float boundY;
+   uint numBoids;
+   float boidRadius;
+   float boundX;
+   float boundY;
 };
 
 [numthreads(64, 1, 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
-    if (id.x >= numBoids) return;
+   if (id.x >= numBoids) return;
 
-    float2 pos = Boids[id.x].position;
-    float2 vel = Boids[id.x].velocity;
-    float hue = Hues[id.x];
+   float2 pos = Boids[id.x].position;
+   float2 vel = Boids[id.x].velocity;
+   float hue = Hues[id.x];
 
-    // Calculate orientation from velocity
-    float2 forward = normalize(vel + float2(1e-6, 1e-6));
-    float2 side = float2(-forward.y, forward.x);
+   // Calculate orientation from velocity
+   float2 forward = normalize(vel + float2(1e-6, 1e-6));
+   float2 side = float2(-forward.y, forward.x);
 
-    uint baseVertex = id.x * 3;
-    float size = boidRadius;
+   uint baseVertex = id.x * 3;
+   float size = boidRadius;
 
-    float2 invBounds = 1.0 / float2(boundX, boundY);
+   float2 invBounds = 1.0 / float2(boundX, boundY);
 
-    // Map simulation coordinates back to NDC [-1, 1] while preserving aspect ratio
-    // Triangle Tip
-    Vertices[baseVertex + 0].position = (pos + forward * size) * invBounds;
-    Vertices[baseVertex + 0].hue = hue;
+   // Map simulation coordinates back to NDC [-1, 1] while preserving aspect ratio
+   // Triangle Tip
+   Vertices[baseVertex + 0].position = (pos + forward * size) * invBounds;
+   Vertices[baseVertex + 0].hue = hue;
 
-    // Bottom Left
-    Vertices[baseVertex + 1].position = (pos - forward * (size * 0.5) + side * (size * 0.5)) * invBounds;
-    Vertices[baseVertex + 1].hue = hue;
+   // Bottom Left
+   Vertices[baseVertex + 1].position = (pos - forward * (size * 0.5) + side * (size * 0.5)) * invBounds;
+   Vertices[baseVertex + 1].hue = hue;
 
-    // Bottom Right
-    Vertices[baseVertex + 2].position = (pos - forward * (size * 0.5) - side * (size * 0.5)) * invBounds;
-    Vertices[baseVertex + 2].hue = hue;
+   // Bottom Right
+   Vertices[baseVertex + 2].position = (pos - forward * (size * 0.5) - side * (size * 0.5)) * invBounds;
+   Vertices[baseVertex + 2].hue = hue;
 }
 '
 ]

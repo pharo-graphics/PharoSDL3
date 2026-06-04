@@ -586,12 +586,12 @@ SDL3Keycode class >> enumDecl [
 	allChanges := OrderedCollection new.
 	renames keysAndValuesDo: [ :oldName :newName |
 		allChanges addAll: (ReRenameMethodRefactoring new
-	        model: model;
-	        renameMethod: oldName
-	        	in: enumClass classSide
+	       model: model;
+	       renameMethod: oldName
+	       	in: enumClass classSide
 				to: newName
 				permutation: #();
-	        renameChanges) changes ].
+	       renameChanges) changes ].
 
 	allChanges := allChanges reject: [ :e |
 		e class = RBAddMethodChange and: [

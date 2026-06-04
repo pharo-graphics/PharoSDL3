@@ -41,22 +41,22 @@ groupshared float sharedData[64];
 
 [numthreads(64, 1, 1)]
 void main(uint3 dtid : SV_DispatchThreadID, uint3 gtid : SV_GroupThreadID, uint3 gid : SV_GroupID) {
-    // Load into shared memory
-    sharedData[gtid.x] = Input[dtid.x];
-    GroupMemoryBarrierWithGroupSync();
+   // Load into shared memory
+   sharedData[gtid.x] = Input[dtid.x];
+   GroupMemoryBarrierWithGroupSync();
 
-    // Simple reduction: sum pairs
-    for (uint s = 32; s > 0; s >>= 1) {
-        if (gtid.x < s) {
-            sharedData[gtid.x] += sharedData[gtid.x + s];
-        }
-        GroupMemoryBarrierWithGroupSync();
-    }
+   // Simple reduction: sum pairs
+   for (uint s = 32; s > 0; s >>= 1) {
+       if (gtid.x < s) {
+           sharedData[gtid.x] += sharedData[gtid.x + s];
+       }
+       GroupMemoryBarrierWithGroupSync();
+   }
 
-    // Write result for this workgroup to output
-    if (gtid.x == 0) {
-        Output[gid.x] = sharedData[0];
-    }
+   // Write result for this workgroup to output
+   if (gtid.x == 0) {
+       Output[gid.x] = sharedData[0];
+   }
 }
 '
 ]

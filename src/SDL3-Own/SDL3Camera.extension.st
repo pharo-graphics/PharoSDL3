@@ -1,6 +1,20 @@
 Extension { #name : 'SDL3Camera' }
 
 { #category : '*SDL3-Own' }
+SDL3Camera >> acquireFrameTimestampNS: timestampNS ifNotAvailable: aBlock [
+
+	| acquiredFrame |
+	acquiredFrame := self ffiLibrary
+		acquireCameraFrameCamera: self
+		timestampNS: timestampNS.
+
+	"NULL means no available frame"
+	^ acquiredFrame isNull
+		ifTrue: [ aBlock value ]
+		ifFalse: [ acquiredFrame ]
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Camera >> formatSpec [
 
 	| spec |
@@ -21,4 +35,12 @@ SDL3Camera >> name [
 SDL3Camera >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Camera class >> unsafeOpenInstanceId: instanceId spec: spec [
+
+	^ (self ffiLibrary openCameraInstanceId: instanceId spec: spec)
+		  assertNotNullReturn;
+		  yourself
 ]

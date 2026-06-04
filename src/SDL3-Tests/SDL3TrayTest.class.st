@@ -20,7 +20,7 @@ SDL3TrayTest >> setUp [
 		description: 'Initialize video subsystem'.
 	
 	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
-	tray := sdl newTrayIcon: iconSurface tooltip: 'Test tooltip'
+	tray := SDL3Tray unsafeNewIcon: iconSurface tooltip: 'Test tooltip'
 ]
 
 { #category : 'running' }
@@ -50,11 +50,10 @@ SDL3TrayTest >> test02InsertButton [
 	menu := tray newMenu.
 
 	"Insert a button at position 0 (the only available position to insert)"
-	(menu
+	menu
 		insertEntryAt: 0
 		label: 'First entry'
-		flags: SDL3TrayEntryFlags button)
-		assertNotNullReturn.
+		flags: SDL3TrayEntryFlags button.
 
 	self assert: menu entries size equals: 1.
 	self assert: menu entries first label equals: 'First entry'
@@ -66,11 +65,10 @@ SDL3TrayTest >> test03AppendButton [
 	| menu |
 	menu := tray newMenu.
 
-	(menu
+	menu
 		insertEntryAt: -1
 		label: 'First entry'
-		flags: SDL3TrayEntryFlags button)
-		assertNotNullReturn.
+		flags: SDL3TrayEntryFlags button.
 
 	self assert: menu entries size equals: 1.
 	self assert: menu entries first label equals: 'First entry'
@@ -84,11 +82,10 @@ SDL3TrayTest >> test04WrongInsertButton [
 
 	self
 		should: [
-			(menu
+			menu
 				insertEntryAt: 7
 				label: 'Entry At Wrong Position'
-				flags: SDL3TrayEntryFlags button)
-				assertNotNullReturn ]
+				flags: SDL3TrayEntryFlags button ]
 		raise: SDL3Error.
 
 	self assert: menu entries isEmpty
@@ -114,7 +111,6 @@ SDL3TrayTest >> test08ClickCallbacks [
 				insertEntryAt: each - 1
 				label: 'Entry', each asString
 				flags: SDL3TrayEntryFlags button.
-		menuEntry assertNotNullReturn.
 		menuEntry callback: callback userdata: nil.
 		menuEntry ].
 
@@ -140,7 +136,6 @@ SDL3TrayTest >> test09Checkbox [
 			insertEntryAt: -1
 			label: 'Checkbox'
 			flags: SDL3TrayEntryFlags checkbox.
-	entry assertNotNullReturn.
 
 	self deny: entry checked.
 
@@ -160,7 +155,6 @@ SDL3TrayTest >> test10Submenu [
 			insertEntryAt: -1
 			label: 'Submenu A'
 			flags: SDL3TrayEntryFlags submenu)
-			assertNotNullReturn;
 			newSubmenu.
 
 	self assert: submenuA entries isEmpty.
@@ -173,7 +167,6 @@ SDL3TrayTest >> test10Submenu [
 			insertEntryAt: -1
 			label: 'Submenu B'
 			flags: SDL3TrayEntryFlags submenu)
-			assertNotNullReturn;
 			newSubmenu.
 
 	self assert: submenuA entries size equals: 1.

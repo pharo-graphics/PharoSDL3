@@ -42,8 +42,8 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time;
-    float2 resolution;
+   float time;
+   float2 resolution;
 }
 
 // constants
@@ -53,33 +53,33 @@ static const float distortion = 0.03;
 
 struct PSInput
 {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 float4 main(PSInput input) : SV_Target
 {
-    // 1. Base UV from input (Equivalent to fragCoord/resolution.xy)
-    float2 uv = input.uv;
-    
-    // 2. Reconstruct "p" (the centered coordinate space)
-    // Corresponds to: (2. * fragCoord - resolution.xy)
-    // Derived as: resolution * (2.0 * uv - 1.0)
-    float2 p = resolution * (2.0 * uv - 1.0);
+   // 1. Base UV from input (Equivalent to fragCoord/resolution.xy)
+   float2 uv = input.uv;
+   
+   // 2. Reconstruct "p" (the centered coordinate space)
+   // Corresponds to: (2. * fragCoord - resolution.xy)
+   // Derived as: resolution * (2.0 * uv - 1.0)
+   float2 p = resolution * (2.0 * uv - 1.0);
 
-    // 3. Calculate leg factors (Vignette/Masking based on aspect ratio)
-    float legsx = 1.0 - length(p / resolution.x);
-    float legsy = 1.0 - length(p / resolution.y);
-    
-    // 4. Calculate offsets
-    float xOffset = sin((time * speed) + uv.y * strength) * (distortion * legsx);
-    float yOffset = sin((time * speed) + uv.x * strength) * (distortion * legsy);
-    
-    // 5. Sample texture
-    float4 tex = InputTexture.Sample(InputSampler, uv + float2(xOffset, yOffset));
-    
-    // 6. Return result
-    return tex * input.color;
+   // 3. Calculate leg factors (Vignette/Masking based on aspect ratio)
+   float legsx = 1.0 - length(p / resolution.x);
+   float legsy = 1.0 - length(p / resolution.y);
+   
+   // 4. Calculate offsets
+   float xOffset = sin((time * speed) + uv.y * strength) * (distortion * legsx);
+   float yOffset = sin((time * speed) + uv.x * strength) * (distortion * legsy);
+   
+   // 5. Sample texture
+   float4 tex = InputTexture.Sample(InputSampler, uv + float2(xOffset, yOffset));
+   
+   // 6. Return result
+   return tex * input.color;
 }
 '
 ]

@@ -32,32 +32,32 @@ SDL3GPUBoidsComputeShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3GPUBoidsComputeShaderSource class >> hlslSource [
-        <script: 'self compileBase64CodeFromHLSLSource'>
+       <script: 'self compileBase64CodeFromHLSLSource'>
 
-        ^ '
+       ^ '
 struct Node {
-    float2 position;
-    float2 velocity;
+   float2 position;
+   float2 velocity;
 };
 
 StructuredBuffer<Node>   BoidsIn  : register(t0, space0);
 RWStructuredBuffer<Node> BoidsOut : register(u0, space1);
 
 cbuffer Params : register(b0, space2) {
-    uint  numBoids;
-    float separationRadius;
-    float neighborRadius;
-    float separationWeight;
-    float alignmentWeight;
-    float cohesionWeight;
-    float time;
-    float deltaTime;
-    float damping;
-    float maxVelocity;
-    float minVelocity;
-    float boundX;
-    float boundY;
-    float3 _padding;
+   uint  numBoids;
+   float separationRadius;
+   float neighborRadius;
+   float separationWeight;
+   float alignmentWeight;
+   float cohesionWeight;
+   float time;
+   float deltaTime;
+   float damping;
+   float maxVelocity;
+   float minVelocity;
+   float boundX;
+   float boundY;
+   float3 _padding;
 };
 
 #define GROUP_SIZE 64
@@ -67,99 +67,99 @@ groupshared float2 s_vel[GROUP_SIZE];
 
 [numthreads(GROUP_SIZE, 1, 1)]
 void main(
-    uint3 id      : SV_DispatchThreadID,
-    uint3 localID : SV_GroupThreadID)
+   uint3 id      : SV_DispatchThreadID,
+   uint3 localID : SV_GroupThreadID)
 {
-    bool  active = id.x < numBoids;
-    float2 pos   = active ? BoidsIn[id.x].position : float2(0, 0);
-    float2 vel   = active ? BoidsIn[id.x].velocity : float2(0, 0);
+   bool  active = id.x < numBoids;
+   float2 pos   = active ? BoidsIn[id.x].position : float2(0, 0);
+   float2 vel   = active ? BoidsIn[id.x].velocity : float2(0, 0);
 
-    float2 separation = float2(0, 0);
-    float2 alignment  = float2(0, 0);
-    float2 cohesion   = float2(0, 0);
-    int    neighbors  = 0;
+   float2 separation = float2(0, 0);
+   float2 alignment  = float2(0, 0);
+   float2 cohesion   = float2(0, 0);
+   int    neighbors  = 0;
 
-    uint numTiles = (numBoids + GROUP_SIZE - 1) / GROUP_SIZE;
+   uint numTiles = (numBoids + GROUP_SIZE - 1) / GROUP_SIZE;
 
-    for (uint tile = 0; tile < numTiles; tile++)
-    {
-        uint tileIdx = tile * GROUP_SIZE + localID.x;
-        if (tileIdx < numBoids) {
-            s_pos[localID.x] = BoidsIn[tileIdx].position;
-            s_vel[localID.x] = BoidsIn[tileIdx].velocity;
-        } else {
-            s_pos[localID.x] = float2(1e9, 1e9);
-            s_vel[localID.x] = float2(0, 0);
-        }
+   for (uint tile = 0; tile < numTiles; tile++)
+   {
+       uint tileIdx = tile * GROUP_SIZE + localID.x;
+       if (tileIdx < numBoids) {
+           s_pos[localID.x] = BoidsIn[tileIdx].position;
+           s_vel[localID.x] = BoidsIn[tileIdx].velocity;
+       } else {
+           s_pos[localID.x] = float2(1e9, 1e9);
+           s_vel[localID.x] = float2(0, 0);
+       }
 
-        GroupMemoryBarrierWithGroupSync();
+       GroupMemoryBarrierWithGroupSync();
 
-        if (active)
-        {
-            for (uint j = 0; j < GROUP_SIZE; j++)
-            {
-                uint globalJ = tile * GROUP_SIZE + j;
-                if (globalJ >= numBoids || globalJ == id.x) continue;
+       if (active)
+       {
+           for (uint j = 0; j < GROUP_SIZE; j++)
+           {
+               uint globalJ = tile * GROUP_SIZE + j;
+               if (globalJ >= numBoids || globalJ == id.x) continue;
 
-                float2 otherPos = s_pos[j];
-                float2 diff     = pos - otherPos;
-                float  dist     = length(diff);
+               float2 otherPos = s_pos[j];
+               float2 diff     = pos - otherPos;
+               float  dist     = length(diff);
 
-                if (dist < neighborRadius)
-                {
-                    neighbors++;
-                    alignment += s_vel[j];
-                    cohesion  += otherPos;
+               if (dist < neighborRadius)
+               {
+                   neighbors++;
+                   alignment += s_vel[j];
+                   cohesion  += otherPos;
 
-                    if (dist < separationRadius)
-                    {
-                        float2 dir = (dist > 0.0001) ? (diff / dist) : float2(1, 0);
-                        separation += dir * (1.0 - dist / separationRadius);
-                    }
-                }
-            }
-        }
+                   if (dist < separationRadius)
+                   {
+                       float2 dir = (dist > 0.0001) ? (diff / dist) : float2(1, 0);
+                       separation += dir * (1.0 - dist / separationRadius);
+                   }
+               }
+           }
+       }
 
-        GroupMemoryBarrierWithGroupSync();
-    }
+       GroupMemoryBarrierWithGroupSync();
+   }
 
-    if (!active) return;
+   if (!active) return;
 
-    float2 steer = float2(0, 0);
-    if (neighbors > 0)
-    {
-        float inv = 1.0 / (float)neighbors;
-        float2 avgVel = alignment * inv;
-        steer += (avgVel - vel) * alignmentWeight;
-        float2 avgPos = cohesion * inv;
-        steer += (avgPos - pos) * cohesionWeight;
-    }
+   float2 steer = float2(0, 0);
+   if (neighbors > 0)
+   {
+       float inv = 1.0 / (float)neighbors;
+       float2 avgVel = alignment * inv;
+       steer += (avgVel - vel) * alignmentWeight;
+       float2 avgPos = cohesion * inv;
+       steer += (avgPos - pos) * cohesionWeight;
+   }
 
-    steer += separation * separationWeight;
+   steer += separation * separationWeight;
 
-    // Add small random noise to velocities to prevent perfect alignment
-    float noiseX = frac(sin(dot(pos + float2(time, time), float2(12.9898, 78.233))) * 43758.5453) * 2.0 - 1.0;
-    float noiseY = frac(sin(dot(pos - float2(time, time), float2(39.346, 11.135))) * 43758.5453) * 2.0 - 1.0;
-    steer += float2(noiseX, noiseY) * 0.01;
+   // Add small random noise to velocities to prevent perfect alignment
+   float noiseX = frac(sin(dot(pos + float2(time, time), float2(12.9898, 78.233))) * 43758.5453) * 2.0 - 1.0;
+   float noiseY = frac(sin(dot(pos - float2(time, time), float2(39.346, 11.135))) * 43758.5453) * 2.0 - 1.0;
+   steer += float2(noiseX, noiseY) * 0.01;
 
-    vel += steer * deltaTime;
+   vel += steer * deltaTime;
 
-    float speed = length(vel);
-    if (speed > maxVelocity && speed > 0.0001)
-        vel = (vel / speed) * maxVelocity;
-    else if (speed < minVelocity && speed > 0.0001)
-        vel = (vel / speed) * minVelocity;
+   float speed = length(vel);
+   if (speed > maxVelocity && speed > 0.0001)
+       vel = (vel / speed) * maxVelocity;
+   else if (speed < minVelocity && speed > 0.0001)
+       vel = (vel / speed) * minVelocity;
 
-    vel *= pow(damping, deltaTime);
-    pos += vel * deltaTime;
+   vel *= pow(damping, deltaTime);
+   pos += vel * deltaTime;
 
-    if (pos.x < -boundX) { pos.x =  boundX; }
-    if (pos.x >  boundX) { pos.x = -boundX; }
-    if (pos.y < -boundY) { pos.y =  boundY; }
-    if (pos.y >  boundY) { pos.y = -boundY; }
+   if (pos.x < -boundX) { pos.x =  boundX; }
+   if (pos.x >  boundX) { pos.x = -boundX; }
+   if (pos.y < -boundY) { pos.y =  boundY; }
+   if (pos.y >  boundY) { pos.y = -boundY; }
 
-    BoidsOut[id.x].position = pos;
-    BoidsOut[id.x].velocity = vel;
+   BoidsOut[id.x].position = pos;
+   BoidsOut[id.x].velocity = vel;
 }
 '
 ]

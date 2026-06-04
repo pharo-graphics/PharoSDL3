@@ -10,19 +10,29 @@ SDL3FRect class >> newFrom: aRectangle [
 SDL3FRect class >> origin: origin extent: extent [
 
 	^ self
-		  x: origin x
-		  y: origin y
-		  width: extent x
-		  height: extent y
+		 x: origin x
+		 y: origin y
+		 width: extent x
+		 height: extent y
+]
+
+{ #category : '*SDL3-Own' }
+SDL3FRect >> updateFrom: aRectangle [
+
+	self
+		x: aRectangle origin x asFloat;
+		y: aRectangle origin y asFloat;
+		w: aRectangle width asFloat;
+		h: aRectangle height asFloat
 ]
 
 { #category : '*SDL3-Own' }
 SDL3FRect class >> x: x y: y width: w height: h [
 
 	^ self new
-		  x: x;
-		  y: y;
-		  w: w;
-		  h: h;
-		  yourself
+		 x: x;
+		 y: y;
+		 w: w;
+		 h: h;
+		 yourself
 ]

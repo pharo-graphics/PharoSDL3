@@ -40,8 +40,8 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time;
-    float2 resolution;
+   float time;
+   float2 resolution;
 }
 
 // static const constants
@@ -55,86 +55,86 @@ static const float REF_X = 10;
 // Hash functions
 float hash12(float2 p)
 {
-    float3 p3 = frac(float3(p.xyx) * HASHSCALE1);
-    p3 += dot(p3, p3.yzx + 19.19);
-    return frac((p3.x + p3.y) * p3.z);
+   float3 p3 = frac(float3(p.xyx) * HASHSCALE1);
+   p3 += dot(p3, p3.yzx + 19.19);
+   return frac((p3.x + p3.y) * p3.z);
 }
 
 float2 hash22(float2 p)
 {
-    float3 p3 = frac(float3(p.xyx) * HASHSCALE3);
-    p3 += dot(p3, p3.yzx + 19.19);
-    return frac((p3.xx + p3.yz) * p3.zy);
+   float3 p3 = frac(float3(p.xyx) * HASHSCALE3);
+   p3 += dot(p3, p3.yzx + 19.19);
+   return frac((p3.xx + p3.yz) * p3.zy);
 }
 
 struct PSInput
 {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 float4 main(PSInput input) : SV_Target
 {
-    float res = 10.0 * exp2(-3.0 * REF_X / resolution.x);
+   float res = 10.0 * exp2(-3.0 * REF_X / resolution.x);
 
-    // Coordinate setup
-    // fragCoord in GLSL is (uv * resolution)
-    // Formula: fragCoord.xy / resolution.y * res;
-    float2 uv = (input.uv * resolution) / resolution.y * res;
-    float2 p0 = floor(uv);
+   // Coordinate setup
+   // fragCoord in GLSL is (uv * resolution)
+   // Formula: fragCoord.xy / resolution.y * res;
+   float2 uv = (input.uv * resolution) / resolution.y * res;
+   float2 p0 = floor(uv);
 
-    float2 circles = float2(0.0, 0.0);
+   float2 circles = float2(0.0, 0.0);
 
-    // Ripple accumulation loop
-    for (int j = -MAX_RADIUS; j <= MAX_RADIUS; ++j)
-    {
-        for (int i = -MAX_RADIUS; i <= MAX_RADIUS; ++i)
-        {
-            float2 pi = p0 + float2(i, j);
+   // Ripple accumulation loop
+   for (int j = -MAX_RADIUS; j <= MAX_RADIUS; ++j)
+   {
+       for (int i = -MAX_RADIUS; i <= MAX_RADIUS; ++i)
+       {
+           float2 pi = p0 + float2(i, j);
 
-            #if DOUBLE_HASH
-            float2 hsh = hash22(pi);
-            #else
-            float2 hsh = pi;
-            #endif
-            
-            float2 p = pi + hash22(hsh);
+           #if DOUBLE_HASH
+           float2 hsh = hash22(pi);
+           #else
+           float2 hsh = pi;
+           #endif
+           
+           float2 p = pi + hash22(hsh);
 
-            float t = frac(0.3 * time + hash12(hsh));
-            float2 v = p - uv;
-            
-            float d = length(v) - (float(MAX_RADIUS) + 1.0) * t;
+           float t = frac(0.3 * time + hash12(hsh));
+           float2 v = p - uv;
+           
+           float d = length(v) - (float(MAX_RADIUS) + 1.0) * t;
 
-            float h = 1e-3;
-            float d1 = d - h;
-            float d2 = d + h;
-            
-            float p1 = sin(31.0 * d1) * smoothstep(-0.6, -0.3, d1) * smoothstep(0.0, -0.3, d1);
-            float p2 = sin(31.0 * d2) * smoothstep(-0.6, -0.3, d2) * smoothstep(0.0, -0.3, d2);
-            
-            circles += 0.5 * normalize(v) * ((p2 - p1) / (2.0 * h) * (1.0 - t) * (1.0 - t));
-        }
-    }
-    
-    circles /= float((MAX_RADIUS * 2 + 1) * (MAX_RADIUS * 2 + 1));
+           float h = 1e-3;
+           float d1 = d - h;
+           float d2 = d + h;
+           
+           float p1 = sin(31.0 * d1) * smoothstep(-0.6, -0.3, d1) * smoothstep(0.0, -0.3, d1);
+           float p2 = sin(31.0 * d2) * smoothstep(-0.6, -0.3, d2) * smoothstep(0.0, -0.3, d2);
+           
+           circles += 0.5 * normalize(v) * ((p2 - p1) / (2.0 * h) * (1.0 - t) * (1.0 - t));
+       }
+   }
+   
+   circles /= float((MAX_RADIUS * 2 + 1) * (MAX_RADIUS * 2 + 1));
 
-    float intensity = lerp(0.01, 0.15, smoothstep(0.1, 0.6, abs(frac(0.05 * time + 0.5) * 2.0 - 1.0)));
-    
-    // Reconstruct Normal Z
-    // Added max(0, ...) to prevent NaN if dot product slightly exceeds 1.0 due to float precision
-    float3 n = float3(circles, sqrt(max(0.0, 1.0 - dot(circles, circles))));
-    
-    // Color and Lighting
-    float3 lightDir = normalize(float3(1.0, 0.7, 0.5));
-    float specular = 5.0 * pow(clamp(dot(n, lightDir), 0.0, 1.0), 6.0);
-    
-    // Texture Sample with offset
-    // Base on input.uv (true [0,1]x[0,1] space) and scale the
-    // ripple offset back from rain-space to UV space.
-    float2 texUV = input.uv - intensity * n.xy * (resolution.y / resolution);
-    float3 color = InputTexture.Sample(InputSampler, texUV).rgb * input.color.rgb + specular;
+   float intensity = lerp(0.01, 0.15, smoothstep(0.1, 0.6, abs(frac(0.05 * time + 0.5) * 2.0 - 1.0)));
+   
+   // Reconstruct Normal Z
+   // Added max(0, ...) to prevent NaN if dot product slightly exceeds 1.0 due to float precision
+   float3 n = float3(circles, sqrt(max(0.0, 1.0 - dot(circles, circles))));
+   
+   // Color and Lighting
+   float3 lightDir = normalize(float3(1.0, 0.7, 0.5));
+   float specular = 5.0 * pow(clamp(dot(n, lightDir), 0.0, 1.0), 6.0);
+   
+   // Texture Sample with offset
+   // Base on input.uv (true [0,1]x[0,1] space) and scale the
+   // ripple offset back from rain-space to UV space.
+   float2 texUV = input.uv - intensity * n.xy * (resolution.y / resolution);
+   float3 color = InputTexture.Sample(InputSampler, texUV).rgb * input.color.rgb + specular;
 
-    return float4(color, 1.0);
+   return float4(color, 1.0);
 }
 '
 ]

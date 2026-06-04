@@ -39,14 +39,14 @@ SDL3ConsoleDemoApp class >> isAbstract [
 { #category : 'renderer' }
 SDL3ConsoleDemoApp >> clear [
 
-	sdl assertSuccess: renderer renderClear
+	renderer renderClear
 ]
 
 { #category : 'renderer' }
 SDL3ConsoleDemoApp >> clearColor: aColor [
 
-	self color: aColor.
-	self clear
+	renderer renderDrawColor: aColor.
+	renderer renderClear
 ]
 
 { #category : 'lifecycle' }
@@ -62,7 +62,7 @@ SDL3ConsoleDemoApp >> close [
 { #category : 'renderer' }
 SDL3ConsoleDemoApp >> color: aColor [
 
-	sdl assertSuccess: (renderer renderDrawColor: aColor)
+	renderer renderDrawColor: aColor
 ]
 
 { #category : 'accessing' }
@@ -74,8 +74,7 @@ SDL3ConsoleDemoApp >> console [
 { #category : 'lifecycle' }
 SDL3ConsoleDemoApp >> initializeRenderer [
 
-	renderer := window newRendererFor: nil.
-	renderer assertNotNullReturn
+	renderer := window newRenderer
 ]
 
 { #category : 'logging' }
@@ -96,22 +95,24 @@ SDL3ConsoleDemoApp >> open [
 SDL3ConsoleDemoApp >> present [
 
 	console ifNotNil: [ console renderOn: renderer ].
-	sdl assertSuccess: renderer renderPresent
+	renderer renderPresent
 ]
 
 { #category : 'renderer' }
 SDL3ConsoleDemoApp >> showText: aString x: x y: y [
 
-	sdl assertSuccess:
-		(renderer
-			renderDebugTextX: x
-			y: y
-			str: aString)
+	renderer
+		renderDebugTextX: x
+		y: y
+		str: aString
 ]
 
 { #category : 'renderer' }
 SDL3ConsoleDemoApp >> showText: aString x: x y: y color: aColor [
 
-	self color: aColor.
-	self showText: aString x: x y: y
+	renderer renderDrawColor: aColor.
+	renderer
+		renderDebugTextX: x
+		y: y
+		str: aString
 ]

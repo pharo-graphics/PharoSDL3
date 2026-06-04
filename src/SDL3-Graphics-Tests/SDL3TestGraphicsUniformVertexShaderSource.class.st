@@ -34,21 +34,21 @@ SDL3TestGraphicsUniformVertexShaderSource class >> hlslSource [
 
 	^ '
 cbuffer VertParams : register(b0, space1) {
-    float3 offset;
+   float3 offset;
 };
 
 struct VertexInput {
-    float3 position : POSITION;
+   float3 position : POSITION;
 };
 
 struct VertexOutput {
-    float4 position : SV_Position;
+   float4 position : SV_Position;
 };
 
 VertexOutput main(VertexInput input) {
-    VertexOutput output;
-    output.position = float4(input.position + offset, 1.0);
-    return output;
+   VertexOutput output;
+   output.position = float4(input.position + offset, 1.0);
+   return output;
 }
 '
 ]

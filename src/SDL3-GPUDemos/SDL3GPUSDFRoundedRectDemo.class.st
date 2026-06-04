@@ -81,7 +81,6 @@ SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: aCommandBu
 		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfos
 			depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
 
 	renderPass bindGPUGraphicsPipeline: gpuPipeline.
 
@@ -156,8 +155,8 @@ SDL3GPUSDFRoundedRectDemo >> initializePipeline [
 						newShaderAmong: shaderFormats
 						device: gpuDevice.
 	fragmentShader := SDL3GPUSDFRoundedRectFragmentShaderSource
-						  newShaderAmong: shaderFormats
-						  device: gpuDevice.
+						 newShaderAmong: shaderFormats
+						 device: gpuDevice.
 
 	vertexBindings := self newSDFVertexBindings.
 	vertexAttributes := self newSDFVertexAttributes.
@@ -182,11 +181,11 @@ SDL3GPUSDFRoundedRectDemo >> initializePipeline [
 		numVertexAttributes: vertexAttributes size.
 
 	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
-					   pipelineCreateInfo.
-	gpuPipeline assertNotNullReturn.
+		              pipelineCreateInfo.
 
 	"We can free after pipeline was created"
 	gpuDevice releaseGPUShader: vertexShader.
+
 	gpuDevice releaseGPUShader: fragmentShader.
 	vertexBindings free.
 	vertexAttributes free.
@@ -197,14 +196,14 @@ SDL3GPUSDFRoundedRectDemo >> initializePipeline [
 SDL3GPUSDFRoundedRectDemo >> newAlphaBlendState [
 
 	^ SDL_GPUColorTargetBlendState new
-		  enableBlend: true;
-		  srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-		  dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-		  colorBlendOp: SDL_GPU_BLENDOP_ADD;
-		  srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-		  dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-		  alphaBlendOp: SDL_GPU_BLENDOP_ADD;
-		  yourself
+		 enableBlend: true;
+		 srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+		 dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+		 colorBlendOp: SDL_GPU_BLENDOP_ADD;
+		 srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+		 dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+		 alphaBlendOp: SDL_GPU_BLENDOP_ADD;
+		 yourself
 ]
 
 { #category : 'initialization' }
@@ -251,8 +250,8 @@ SDL3GPUSDFRoundedRectDemo >> newSDFVertexBindings [
 
 	| vertexBindings |
 	vertexBindings := FFIExternalArray
-						  externalNewType: SDL_GPUVertexBufferDescription
-						  size: 1.
+						 externalNewType: SDL_GPUVertexBufferDescription
+						 size: 1.
 	vertexBindings autoRelease.
 	vertexBindings first
 		slot: 0;
@@ -324,7 +323,6 @@ SDL3GPUSDFRoundedRectDemo >> updateIndexBuffer [
 	gpuDevice unmapGPUTransferBuffer: indexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -339,7 +337,7 @@ SDL3GPUSDFRoundedRectDemo >> updateIndexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit
+	commandBuffer submit
 ]
 
 { #category : 'initialization' }
@@ -401,7 +399,6 @@ SDL3GPUSDFRoundedRectDemo >> updateVertexBuffer [
 	gpuDevice unmapGPUTransferBuffer: vertexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -416,7 +413,7 @@ SDL3GPUSDFRoundedRectDemo >> updateVertexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit
+	commandBuffer submit
 ]
 
 { #category : 'accessing' }
@@ -468,13 +465,13 @@ SDL3GPUSDFRoundedRectDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y 
 
 	| v |
 	"Vertices (NDC): y increases UPWARDS.
-	 UVs: y increases DOWNWARDS.
-	 
-	 0: TL: x, y	   UV: 0, 0
-	 1: TR: x+w, y	 UV: 1, 0
-	 2: BR: x+w, y-h   UV: 1, 1
-	 3: BL: x, y-h	 UV: 0, 1
-	 "
+	UVs: y increases DOWNWARDS.
+	
+	0: TL: x, y	   UV: 0, 0
+	1: TR: x+w, y	 UV: 1, 0
+	2: BR: x+w, y-h   UV: 1, 1
+	3: BL: x, y-h	 UV: 0, 1
+	"
 
 	"0: TL"
 	v := aVertexArray at: startIndex.

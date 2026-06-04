@@ -37,9 +37,9 @@ RWTexture2D<float4> OutputTexture : register(u0, space1);
 
 [numthreads(16, 16, 1)]
 void main(uint3 dtid : SV_DispatchThreadID) {
-    float r = (float)dtid.x / 16.0;
-    float g = (float)dtid.y / 16.0;
-    OutputTexture[dtid.xy] = float4(r, g, 0.0, 1.0);
+   float r = (float)dtid.x / 16.0;
+   float g = (float)dtid.y / 16.0;
+   OutputTexture[dtid.xy] = float4(r, g, 0.0, 1.0);
 }
 '
 ]

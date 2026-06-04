@@ -40,14 +40,14 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time; // Elapsed time in seconds
-    float2 resolution; // Viewport width/height in pixels
+   float time; // Elapsed time in seconds
+   float2 resolution; // Viewport width/height in pixels
 }
 
 struct PSInput
 {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 // The color that flashes when highlighting the sprite
@@ -68,19 +68,19 @@ static const float highlight_width = 15.0;
 
 float4 main(PSInput input) : SV_Target
 {
-    float4 input_color = InputTexture.Sample(InputSampler, input.uv) * input.color;
-    float width = 0.001 * frequency * highlight_width / 2.0;
+   float4 input_color = InputTexture.Sample(InputSampler, input.uv) * input.color;
+   float width = 0.001 * frequency * highlight_width / 2.0;
 	
 	// can play with + or - sign for each UV
 	// to control which direction the highlight moves
 	// ex. -UV.x - UV.y makes the highlight go from
 	// top left to bottom right
-    float value = floor(sin(frequency * ((input.uv.x - input.uv.y) + time * highlight_speed)) + width);
+   float value = floor(sin(frequency * ((input.uv.x - input.uv.y) + time * highlight_speed)) + width);
 	
 	// used to control when to use input color vs highlight color
-    float highlight = value > 0.5 ? 1.0 : 0.0;
-    float3 new_color = input_color.rgb * (1.0 - highlight) + highlight_color.rgb * highlight;
+   float highlight = value > 0.5 ? 1.0 : 0.0;
+   float3 new_color = input_color.rgb * (1.0 - highlight) + highlight_color.rgb * highlight;
 
-    return float4(new_color, input_color.a);
+   return float4(new_color, input_color.a);
 }'
 ]

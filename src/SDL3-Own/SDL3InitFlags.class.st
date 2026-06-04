@@ -7,19 +7,19 @@ CIG already translated `SDL_InitFlags` as an alias of uint32. So, this avoid a p
 
 ```
 /**
- * Initialization flags for SDL_Init and/or SDL_InitSubSystem
- *
- * These are the flags which may be passed to SDL_Init(). You should specify
- * the subsystems which you will be using in your application.
- *
- * \since This datatype is available since SDL 3.0.0.
- *
- * \sa SDL_Init
- * \sa SDL_Quit
- * \sa SDL_InitSubSystem
- * \sa SDL_QuitSubSystem
- * \sa SDL_WasInit
- */
+* Initialization flags for SDL_Init and/or SDL_InitSubSystem
+*
+* These are the flags which may be passed to SDL_Init(). You should specify
+* the subsystems which you will be using in your application.
+*
+* \since This datatype is available since SDL 3.0.0.
+*
+* \sa SDL_Init
+* \sa SDL_Quit
+* \sa SDL_InitSubSystem
+* \sa SDL_QuitSubSystem
+* \sa SDL_WasInit
+*/
 typedef Uint32 SDL_InitFlags;
 
 #define SDL_INIT_AUDIO      0x00000010u /**< `SDL_INIT_AUDIO` implies `SDL_INIT_EVENTS` */

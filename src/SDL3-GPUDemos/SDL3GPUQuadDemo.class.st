@@ -85,7 +85,6 @@ SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfos
 			depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
 
 	renderPass bindGPUGraphicsPipeline: gpuPipeline.
 
@@ -239,7 +238,6 @@ SDL3GPUQuadDemo >> initializePipeline [
 		numVertexAttributes: vertexAttributes size.
 
 	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	gpuPipeline assertNotNullReturn.
 
 	"We can free after pipeline was created"
 	gpuDevice releaseGPUShader: vertexShader.
@@ -318,9 +316,9 @@ SDL3GPUQuadDemo >> switchSamplerFilter [
 			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			yourself).
-	sampler assertNotNullReturn.
-	
-	textureSamplerBindings first sampler: sampler.
+
+			textureSamplerBindings first sampler: sampler
+.
 	
 	self updateTitle
 ]
@@ -364,7 +362,6 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 	gpuDevice unmapGPUTransferBuffer: indexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -379,7 +376,7 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit
+	commandBuffer submit
 ]
 
 { #category : 'initialization' }
@@ -441,7 +438,6 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 	gpuDevice unmapGPUTransferBuffer: vertexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -456,7 +452,7 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit
+	commandBuffer submit
 ]
 
 { #category : 'accessing' }
@@ -493,13 +489,13 @@ SDL3GPUQuadDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h 
 
 	| v |
 	"Vertices (NDC): y increases UPWARDS.
-	 UVs: y increases DOWNWARDS.
-	 
-	 0: TL: x, y	   UV: 0, 0
-	 1: TR: x+w, y	 UV: 1, 0
-	 2: BR: x+w, y-h   UV: 1, 1
-	 3: BL: x, y-h	 UV: 0, 1
-	 "
+	UVs: y increases DOWNWARDS.
+	
+	0: TL: x, y	   UV: 0, 0
+	1: TR: x+w, y	 UV: 1, 0
+	2: BR: x+w, y-h   UV: 1, 1
+	3: BL: x, y-h	 UV: 0, 1
+	"
 
 	"0: TL"
 	v := aVertexArray at: startIndex.

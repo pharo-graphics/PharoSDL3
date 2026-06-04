@@ -82,7 +82,6 @@ SDL3GPUInstancedQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuf
 		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfos
 			depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
 
 	renderPass bindGPUGraphicsPipeline: gpuPipeline.
 
@@ -242,7 +241,6 @@ SDL3GPUInstancedQuadDemo >> initializePipeline [
 		numVertexAttributes: vertexAttributes size.
 
 	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	gpuPipeline assertNotNullReturn.
 
 	"We can free after pipeline was created"
 	gpuDevice releaseGPUShader: vertexShader.
@@ -301,9 +299,9 @@ SDL3GPUInstancedQuadDemo >> switchSamplerFilter [
 			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			yourself).
-	sampler assertNotNullReturn.
-	
-	textureSamplerBindings first sampler: sampler
+
+			textureSamplerBindings first sampler: sampler
+
 ]
 
 { #category : 'initialization' }
@@ -330,7 +328,6 @@ SDL3GPUInstancedQuadDemo >> updateIndexBuffer [
 	gpuDevice unmapGPUTransferBuffer: indexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -345,7 +342,7 @@ SDL3GPUInstancedQuadDemo >> updateIndexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	gpuDevice releaseGPUTransferBuffer: indexTransferBuffer.
 	indexTransferBuffer := nil
@@ -383,7 +380,6 @@ SDL3GPUInstancedQuadDemo >> updateVertexBuffer [
 	gpuDevice unmapGPUTransferBuffer: vertexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -398,7 +394,7 @@ SDL3GPUInstancedQuadDemo >> updateVertexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	gpuDevice releaseGPUTransferBuffer: vertexTransferBuffer.
 	vertexTransferBuffer := nil

@@ -3,19 +3,22 @@ Extension { #name : 'SDL3Haptic' }
 { #category : '*SDL3-API' }
 SDL3Haptic >> autocenter: autocenter [
 
-	^ self ffiLibrary setHapticAutocenterHaptic: self autocenter: autocenter
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setHapticAutocenterHaptic: self
+			autocenter: autocenter)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> close [
 
-	^ self ffiLibrary closeHaptic: self
+	self ffiLibrary closeHaptic: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> destroyEffect: effect [
 
-	^ self ffiLibrary destroyHapticEffectHaptic: self effect: effect
+	self ffiLibrary destroyHapticEffectHaptic: self effect: effect
 ]
 
 { #category : '*SDL3-API' }
@@ -33,7 +36,8 @@ SDL3Haptic >> features [
 { #category : '*SDL3-API' }
 SDL3Haptic >> gain: gain [
 
-	^ self ffiLibrary setHapticGainHaptic: self gain: gain
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setHapticGainHaptic: self gain: gain)
 ]
 
 { #category : '*SDL3-API' }
@@ -51,7 +55,7 @@ SDL3Haptic >> id [
 { #category : '*SDL3-API' }
 SDL3Haptic >> initRumble [
 
-	^ self ffiLibrary initHapticRumble: self
+	self ffiLibrary assertSuccess: (self ffiLibrary initHapticRumble: self)
 ]
 
 { #category : '*SDL3-API' }
@@ -87,19 +91,23 @@ SDL3Haptic >> numberOfAxes [
 { #category : '*SDL3-API' }
 SDL3Haptic >> pause [
 
-	^ self ffiLibrary pauseHaptic: self
+	self ffiLibrary assertSuccess: (self ffiLibrary pauseHaptic: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> playRumbleStrength: strength length: length [
 
-	^ self ffiLibrary playHapticRumbleHaptic: self strength: strength length: length
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			playHapticRumbleHaptic: self
+			strength: strength
+			length: length)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> resume [
 
-	^ self ffiLibrary resumeHaptic: self
+	self ffiLibrary assertSuccess: (self ffiLibrary resumeHaptic: self)
 ]
 
 { #category : '*SDL3-API' }
@@ -111,29 +119,38 @@ SDL3Haptic >> rumbleSupported [
 { #category : '*SDL3-API' }
 SDL3Haptic >> runEffect: effect iterations: iterations [
 
-	^ self ffiLibrary runHapticEffectHaptic: self effect: effect iterations: iterations
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			runHapticEffectHaptic: self
+			effect: effect
+			iterations: iterations)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> stopEffect: effect [
 
-	^ self ffiLibrary stopHapticEffectHaptic: self effect: effect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary stopHapticEffectHaptic: self effect: effect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> stopEffects [
 
-	^ self ffiLibrary stopHapticEffects: self
+	self ffiLibrary assertSuccess: (self ffiLibrary stopHapticEffects: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> stopRumble [
 
-	^ self ffiLibrary stopHapticRumble: self
+	self ffiLibrary assertSuccess: (self ffiLibrary stopHapticRumble: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Haptic >> updateEffect: effect data: data [
 
-	^ self ffiLibrary updateHapticEffectHaptic: self effect: effect data: data
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			updateHapticEffectHaptic: self
+			effect: effect
+			data: data)
 ]

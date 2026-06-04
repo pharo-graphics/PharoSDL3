@@ -14,7 +14,6 @@ SDL3Renderer >> newTextureFromForm: aForm [
 	| surface texture |
 	surface := aForm asUnownedNewSDL3Surface.
 	texture := self newTextureFromSurface: surface.
-	texture assertNotNullReturn.
 	surface destroy.
 	^ texture
 ]
@@ -40,8 +39,8 @@ SDL3Renderer >> propertyGroup [
 SDL3Renderer >> renderDrawColor: aColor [
 
 	^ self
-		  renderDrawColorFloatR: aColor red
-		  g: aColor green
-		  b: aColor blue
-		  a: aColor alpha
+		 renderDrawColorFloatR: aColor red
+		 g: aColor green
+		 b: aColor blue
+		 a: aColor alpha
 ]

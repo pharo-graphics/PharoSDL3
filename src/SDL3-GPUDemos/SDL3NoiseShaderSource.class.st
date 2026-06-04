@@ -40,36 +40,36 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time;        
-    float2 resolution;
+   float time;        
+   float2 resolution;
 }
 
 static const float Strength = 5.0;
 
 static float rand(float2 uv)
 {
-    return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453);
+   return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453);
 }
 
 struct PSInput
 {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 float4 main(PSInput input) : SV_Target
 {
-    float2 texelSize = 1.0 / resolution;
-    
-    // Generate noise
-    float noise = rand(input.uv * resolution + time);
-    
-    // Distort UVs
-    float offsetMagnitude = (noise * 2.0 - 1.0);
-    float2 offset = float2(offsetMagnitude, offsetMagnitude) * Strength * texelSize;
-    
-    // Sample texture with offset
-    return InputTexture.Sample(InputSampler, input.uv + offset) * input.color;
+   float2 texelSize = 1.0 / resolution;
+   
+   // Generate noise
+   float noise = rand(input.uv * resolution + time);
+   
+   // Distort UVs
+   float offsetMagnitude = (noise * 2.0 - 1.0);
+   float2 offset = float2(offsetMagnitude, offsetMagnitude) * Strength * texelSize;
+   
+   // Sample texture with offset
+   return InputTexture.Sample(InputSampler, input.uv + offset) * input.color;
 }
 '
 ]

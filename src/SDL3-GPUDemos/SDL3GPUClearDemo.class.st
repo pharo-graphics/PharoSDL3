@@ -27,7 +27,6 @@ SDL3GPUClearDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfos
 			depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
 
 	"HERE: use `SDL3GPURenderPass` to draw"
 

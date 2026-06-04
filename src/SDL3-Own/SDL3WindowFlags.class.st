@@ -6,17 +6,17 @@ This class isn't generated automatically, it's manual. Why? SDL3 doesn't define 
 
 ```
 /**
- * The flags on a window.
- *
- * These cover a lot of true/false, or on/off, window state. Some of it is
- * immutable after being set through SDL_CreateWindow(), some of it can be
- * changed on existing windows by the app, and some of it might be altered by
- * the user or system outside of the app's control.
- *
- * \since This datatype is available since SDL 3.2.0.
- *
- * \sa SDL_GetWindowFlags
- */
+* The flags on a window.
+*
+* These cover a lot of true/false, or on/off, window state. Some of it is
+* immutable after being set through SDL_CreateWindow(), some of it can be
+* changed on existing windows by the app, and some of it might be altered by
+* the user or system outside of the app's control.
+*
+* \since This datatype is available since SDL 3.2.0.
+*
+* \sa SDL_GetWindowFlags
+*/
 typedef Uint64 SDL_WindowFlags;
 
 #define SDL_WINDOW_FULLSCREEN           SDL_UINT64_C(0x0000000000000001)    /**< window is in fullscreen mode */

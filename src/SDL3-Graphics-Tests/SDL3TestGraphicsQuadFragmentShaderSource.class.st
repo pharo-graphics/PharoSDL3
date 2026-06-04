@@ -34,7 +34,7 @@ SDL3TestGraphicsQuadFragmentShaderSource class >> hlslSource [
 
 	^ '
 float4 main() : SV_Target0 {
-    return float4(0.0, 1.0, 0.0, 1.0);
+   return float4(0.0, 1.0, 0.0, 1.0);
 }
 '
 ]

@@ -6,25 +6,25 @@ This class isn't generated automatically, it's manual. Why? SDL3 doesn't define 
 
 ```
 /**
- * Specifies how a texture is intended to be used by the client.
- *
- * A texture must have at least one usage flag. Note that some usage flag
- * combinations are invalid.
- *
- * With regards to compute storage usage, READ | WRITE means that you can have
- * shader A that only writes into the texture and shader B that only reads
- * from the texture and bind the same texture to either shader respectively.
- * SIMULTANEOUS means that you can do reads and writes within the same shader
- * or compute pass. It also implies that atomic ops can be used, since those
- * are read-modify-write operations. If you use SIMULTANEOUS, you are
- * responsible for avoiding data races, as there is no data synchronization
- * within a compute pass. Note that SIMULTANEOUS usage is only supported by a
- * limited number of texture formats.
- *
- * \since This datatype is available since SDL 3.2.0.
- *
- * \sa SDL_CreateGPUTexture
- */
+* Specifies how a texture is intended to be used by the client.
+*
+* A texture must have at least one usage flag. Note that some usage flag
+* combinations are invalid.
+*
+* With regards to compute storage usage, READ | WRITE means that you can have
+* shader A that only writes into the texture and shader B that only reads
+* from the texture and bind the same texture to either shader respectively.
+* SIMULTANEOUS means that you can do reads and writes within the same shader
+* or compute pass. It also implies that atomic ops can be used, since those
+* are read-modify-write operations. If you use SIMULTANEOUS, you are
+* responsible for avoiding data races, as there is no data synchronization
+* within a compute pass. Note that SIMULTANEOUS usage is only supported by a
+* limited number of texture formats.
+*
+* \since This datatype is available since SDL 3.2.0.
+*
+* \sa SDL_CreateGPUTexture
+*/
 typedef Uint32 SDL_GPUTextureUsageFlags;
 
 #define SDL_GPU_TEXTUREUSAGE_SAMPLER                                 (1u << 0) /**< Texture supports sampling. */

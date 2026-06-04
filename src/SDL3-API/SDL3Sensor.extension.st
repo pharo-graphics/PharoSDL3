@@ -3,13 +3,17 @@ Extension { #name : 'SDL3Sensor' }
 { #category : '*SDL3-API' }
 SDL3Sensor >> close [
 
-	^ self ffiLibrary closeSensor: self
+	self ffiLibrary closeSensor: self
 ]
 
 { #category : '*SDL3-API' }
-SDL3Sensor >> getDataInto: data numValues: num_values [
+SDL3Sensor >> getDataInto: data numValues: numValues [
 
-	^ self ffiLibrary getSensorDataSensor: self data: data numValues: num_values
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getSensorDataSensor: self
+			data: data
+			numValues: numValues)
 ]
 
 { #category : '*SDL3-API' }

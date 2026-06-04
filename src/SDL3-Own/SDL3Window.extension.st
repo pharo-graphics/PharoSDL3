@@ -118,6 +118,12 @@ SDL3Window >> newGPURenderer [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> newRenderer [
+
+	^ self newRendererFor: nil
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> pixelDensity [
 
 	| density |
@@ -166,6 +172,40 @@ SDL3Window >> position: aPoint [
 SDL3Window >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window class >> unsafeNewPopupParent: parent offsetX: offsetX offsetY: offsetY w: w h: h flags: flags [
+
+	^ (self ffiLibrary
+		   newPopupWindowParent: parent
+		   offsetX: offsetX
+		   offsetY: offsetY
+		   w: w
+		   h: h
+		   flags: flags)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window class >> unsafeNewTitle: title w: w h: h flags: flags [
+
+	^ (self ffiLibrary
+		   newWindowTitle: title
+		   w: w
+		   h: h
+		   flags: flags)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window class >> unsafeNewWithProperties: props [
+
+	^ (self ffiLibrary newWindowWithProperties: props)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-Own' }

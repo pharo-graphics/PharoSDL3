@@ -53,15 +53,15 @@ SDL3MultipleWindowsDemo >> prepareToLoop [
 	
 	1 to: 4 do: [ :i |
 		| aWindow |
-		aWindow := sdl
-			newWindowTitle: ('Window {1}' format: {i}) 
+		aWindow := SDL3Window
+			unsafeNewTitle: ('Window {1}' format: {i}) 
 			w: 100 h: 75
 			flags: SDL_WINDOW_RESIZABLE.
 
 		aWindow position: (100 + (i * 220)) @ 100.
 
 		windows add: aWindow.
-		renderers add: (aWindow newRendererFor: nil) ].
+		renderers add: aWindow newRenderer ].
 
 	colors := Color wheel: windows size.
 
@@ -82,9 +82,9 @@ SDL3MultipleWindowsDemo >> step [
 	tasksStream next value.
 
 	renderers with: colors do: [ :each :color |
-		sdl assertSuccess: (each renderDrawColor: color).
-		sdl assertSuccess: each renderClear.
-		sdl assertSuccess: each renderPresent ].
+		each renderDrawColor: color.
+		each renderClear.
+		each renderPresent ].
 ]
 
 { #category : 'initialization' }

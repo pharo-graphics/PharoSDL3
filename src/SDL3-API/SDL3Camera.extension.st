@@ -9,13 +9,14 @@ SDL3Camera >> acquireFrameTimestampNS: timestampNS [
 { #category : '*SDL3-API' }
 SDL3Camera >> close [
 
-	^ self ffiLibrary closeCamera: self
+	self ffiLibrary closeCamera: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Camera >> getFormatIntoSpec: spec [
 
-	^ self ffiLibrary getCameraFormatCamera: self spec: spec
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getCameraFormatCamera: self spec: spec)
 ]
 
 { #category : '*SDL3-API' }
@@ -39,5 +40,5 @@ SDL3Camera >> propertiesID [
 { #category : '*SDL3-API' }
 SDL3Camera >> releaseFrame: frame [
 
-	^ self ffiLibrary releaseCameraFrameCamera: self frame: frame
+	self ffiLibrary releaseCameraFrameCamera: self frame: frame
 ]

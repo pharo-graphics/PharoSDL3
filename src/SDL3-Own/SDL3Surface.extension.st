@@ -69,3 +69,27 @@ SDL3Surface >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface class >> unsafeNewFromWidth: width height: height format: aFormat pixels: pixels pitch: pitch [
+
+	^ (self ffiLibrary
+		   newSurfaceFromWidth: width
+		   height: height
+		   format: aFormat
+		   pixels: pixels
+		   pitch: pitch)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface class >> unsafeNewWidth: width height: height format: aFormat [
+
+	^ (self ffiLibrary
+		   newSurfaceWidth: width
+		   height: height
+		   format: aFormat)
+		  assertNotNullReturn;
+		  yourself
+]

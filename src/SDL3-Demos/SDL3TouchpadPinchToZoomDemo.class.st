@@ -50,7 +50,7 @@ SDL3TouchpadPinchToZoomDemo >> step [
 
 	self clearColor: Color blue muchDarker.
 	
-	sdl assertSuccess: (renderer renderScaleX: zoom scaleY: zoom).
+	renderer renderScaleX: zoom scaleY: zoom.
 	
 	renderer renderTexture: texture srcrect: nil dstrect: textureRectangle.
 	

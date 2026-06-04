@@ -40,40 +40,40 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time;
-    float2 resolution;
+   float time;
+   float2 resolution;
 }
 
 // Random function dependent on time
 float rand(float2 co, float time)
 {
-    return frac(sin(dot(co.xy, float2(92.0, 80.0))) + 
-                cos(dot(co.xy, float2(cos(time) * 41.0, 62.0))) * 2.1);
+   return frac(sin(dot(co.xy, float2(92.0, 80.0))) + 
+               cos(dot(co.xy, float2(cos(time) * 41.0, 62.0))) * 2.1);
 }
 
 struct PSInput
 {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 float4 main(PSInput input) : SV_Target
 {
-    // Amount of jitter
-    float amt = cos(time * 5.0) * 0.01;
-    
-    // Base UV
-    float2 uv = input.uv;
-    
-    // Calculate random offset
-    // Note: The original code calls rand twice with the exact same UVs, 
-    // resulting in a diagonal offset (x == y). Replicated here for accuracy.
-    float2 rnd = float2(rand(uv, time), rand(uv, time));
-    
-    // Sample texture with offset
-    float4 color = InputTexture.Sample(InputSampler, uv + rnd * amt);
-    
-    return color * input.color;
+   // Amount of jitter
+   float amt = cos(time * 5.0) * 0.01;
+   
+   // Base UV
+   float2 uv = input.uv;
+   
+   // Calculate random offset
+   // Note: The original code calls rand twice with the exact same UVs, 
+   // resulting in a diagonal offset (x == y). Replicated here for accuracy.
+   float2 rnd = float2(rand(uv, time), rand(uv, time));
+   
+   // Sample texture with offset
+   float4 color = InputTexture.Sample(InputSampler, uv + rnd * amt);
+   
+   return color * input.color;
 }
 '
 ]

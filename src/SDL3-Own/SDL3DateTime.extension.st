@@ -4,14 +4,14 @@ Extension { #name : 'SDL3DateTime' }
 SDL3DateTime >> asDateAndTime [
 
 	^ DateAndTime
-		  year: self year
-		  month: self month
-		  day: self day
-		  hour: self hour
-		  minute: self minute
-		  second: self second
-		  nanoSecond: self nanosecond
-		  offset: self utcOffset seconds
+		 year: self year
+		 month: self month
+		 day: self day
+		 hour: self hour
+		 minute: self minute
+		 second: self second
+		 nanoSecond: self nanosecond
+		 offset: self utcOffset seconds
 ]
 
 { #category : '*SDL3-Own' }

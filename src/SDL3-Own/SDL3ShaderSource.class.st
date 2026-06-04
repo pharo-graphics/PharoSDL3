@@ -105,6 +105,30 @@ SDL3ShaderSource class >> isAbstract [
 ]
 
 { #category : 'accessing' }
+SDL3ShaderSource class >> numberOfReadOnlyStorageBuffers [
+
+	^ 0
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> numberOfReadOnlyStorageTextures [
+
+	^ 0
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> numberOfReadWriteStorageBuffers [
+
+	^ 0
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> numberOfReadWriteStorageTextures [
+
+	^ 0
+]
+
+{ #category : 'accessing' }
 SDL3ShaderSource class >> numberOfSamplers [
 
 	^ self subclassResponsibility

@@ -91,7 +91,7 @@ OSSDL3GPUFormRenderer >> flush [
 
 				needsFlush := false ]
 
-			] ensure: [ self ffiLibrary assertSuccess: commandBuffer submit ]
+			] ensure: [ commandBuffer submit ]
 		]
 ]
 
@@ -133,7 +133,7 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 { #category : 'private' }
 OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 	"Merge overlapping or adjacent damage rectangles into a collection of disjoint vertical spans.
-	 Returns a collection of Rectangles (with full width or just vertical range info)."
+	Returns a collection of Rectangles (with full width or just vertical range info)."
 
 	| sortedRects currentSpan |
 	allDamage ifEmpty: [ ^ #() ].
@@ -179,7 +179,7 @@ OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 		allDamage ifEmpty: [ ^ self ].
 
 		"1. Identify disjoint vertical spans of damage.
-		   We merge them to reduce the number of BitBlt calls."
+		  We merge them to reduce the number of BitBlt calls."
 		self mergedDamage: allDamage do: [ :each |
 			uploadStream
 				uploadForm: form
@@ -216,7 +216,7 @@ OSSDL3GPUFormRenderer >> validate [
 
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [
 		"The SDL3GPUDevice is shared among windows"
-	 	gpuDevice := OSSDL3Driver current gpuDevice.
+		gpuDevice := OSSDL3Driver current gpuDevice.
 		gpuDevice claimWindow: backendWindow sdl3Window ].
 
 	(gpuTexture isNil or: [ uploadStream isNil or: [ form extent ~= extent ] ])

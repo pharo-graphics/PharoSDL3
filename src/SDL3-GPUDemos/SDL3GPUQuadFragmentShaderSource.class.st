@@ -33,14 +33,14 @@ SDL3GPUQuadFragmentShaderSource class >> base64SPVCode [
 { #category : 'accessing' }
 SDL3GPUQuadFragmentShaderSource class >> hlslSource [
 	"Fragment shader for quad rendering.
-	 Matches official SDL_gpu example style."
+	Matches official SDL_gpu example style."
 	<script: 'self compileBase64CodeFromHLSLSource'>
 
 	^ 'Texture2D<float4> tex : register(t0, space2);
 SamplerState sam : register(s0, space2);
 
 float4 main(float2 uv : TEXCOORD0) : SV_Target {
-    return tex.Sample(sam, uv);
+   return tex.Sample(sam, uv);
 }
 '
 ]

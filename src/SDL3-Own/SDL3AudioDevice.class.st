@@ -13,25 +13,25 @@ Class {
 	#tag : 'IDObjects'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultPlayback [
 
 	^ DefaultPlaybackAudioDevice
 ]
 
-{ #category : 'class initialization' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultPlaybackAudioDeviceID [
 
 	^ 16rFFFFFFFF
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultRecording [
 
 	^ DefaultRecordingAudioDevice
 ]
 
-{ #category : 'class initialization' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultRecordingAudioDeviceID [
 
 	^ 16rFFFFFFFE
@@ -43,48 +43,63 @@ SDL3AudioDevice class >> initialize [
 	See: https://github.com/pharo-cig/pharo-libsdl3/issues/5"
 
 	"/**
-	 * A value used to request a default playback audio device.
-	 *
-	 * Several functions that require an SDL_AudioDeviceID will accept this value
-	 * to signify the app just wants the system to choose a default device instead
-	 * of the app providing a specific one.
-	 *
-	 * \since This macro is available since SDL 3.2.0.
-	 */
+	* A value used to request a default playback audio device.
+	*
+	* Several functions that require an SDL_AudioDeviceID will accept this value
+	* to signify the app just wants the system to choose a default device instead
+	* of the app providing a specific one.
+	*
+	* \since This macro is available since SDL 3.2.0.
+	*/
 	#define SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK ((SDL_AudioDeviceID) 0xFFFFFFFFu)"
 
 	DefaultPlaybackAudioDevice := self id: self defaultPlaybackAudioDeviceID.
 
 	"/**
-	 * A value used to request a default recording audio device.
-	 *
-	 * Several functions that require an SDL_AudioDeviceID will accept this value
-	 * to signify the app just wants the system to choose a default device instead
-	 * of the app providing a specific one.
-	 *
-	 * \since This macro is available since SDL 3.2.0.
-	 */
+	* A value used to request a default recording audio device.
+	*
+	* Several functions that require an SDL_AudioDeviceID will accept this value
+	* to signify the app just wants the system to choose a default device instead
+	* of the app providing a specific one.
+	*
+	* \since This macro is available since SDL 3.2.0.
+	*/
 	#define SDL_AUDIO_DEVICE_DEFAULT_RECORDING ((SDL_AudioDeviceID) 0xFFFFFFFEu)
 	"
 	DefaultRecordingAudioDevice := self id: self defaultRecordingAudioDeviceID
 ]
 
+{ #category : 'instance creation' }
+SDL3AudioDevice class >> unsafeOpenDevid: devid spec: spec [
+
+	^ self ffiLibrary openAudioDeviceDevid: devid spec: spec
+]
+
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> audioPostmixCallback: callback userdata: userdata [
 
-	^ self ffiLibrary setAudioPostmixCallbackDevid: id callback: callback userdata: userdata
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setAudioPostmixCallbackDevid: id
+			callback: callback
+			userdata: userdata)
 ]
 
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> bindAudioStream: stream [
 
-	^ self ffiLibrary bindAudioStreamDevid: id stream: stream
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary bindAudioStreamDevid: id stream: stream)
 ]
 
 { #category : 'accessing - generated' }
-SDL3AudioDevice >> bindAudioStreams: streams numStreams: num_streams [
+SDL3AudioDevice >> bindAudioStreams: streams numStreams: numStreams [
 
-	^ self ffiLibrary bindAudioStreamsDevid: id streams: streams numStreams: num_streams
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			bindAudioStreamsDevid: id
+			streams: streams
+			numStreams: numStreams)
 ]
 
 { #category : 'accessing - generated' }
@@ -117,7 +132,8 @@ SDL3AudioDevice >> gain [
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> gain: gain [
 
-	^ self ffiLibrary setAudioDeviceGainDevid: id gain: gain
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setAudioDeviceGainDevid: id gain: gain)
 ]
 
 { #category : 'accessing - generated' }
@@ -127,9 +143,13 @@ SDL3AudioDevice >> getChannelMapIntoCount: count [
 ]
 
 { #category : 'accessing - generated' }
-SDL3AudioDevice >> getFormatIntoSpec: spec sampleFrames: sample_frames [
+SDL3AudioDevice >> getFormatIntoSpec: spec sampleFrames: sampleFrames [
 
-	^ self ffiLibrary getAudioDeviceFormatDevid: id spec: spec sampleFrames: sample_frames
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getAudioDeviceFormatDevid: id
+			spec: spec
+			sampleFrames: sampleFrames)
 ]
 
 { #category : 'accessing - generated' }
@@ -160,8 +180,11 @@ SDL3AudioDevice >> millisecondsBufferSize [
 	spec := SDL_AudioSpec new.
 
 	self ffiLibrary assertSuccess:
-		(self ffiLibrary getAudioDeviceFormatDevid: id spec: spec sampleFrames: valueHolder).
-	
+		(self ffiLibrary
+			getAudioDeviceFormatDevid: id
+			spec: spec
+			sampleFrames: valueHolder).
+
 	^ (valueHolder value * 1000) // spec freq
 ]
 
@@ -180,17 +203,19 @@ SDL3AudioDevice >> openSpec: spec [
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> openStreamSpec: spec callback: callback userdata: userdata [
 
-	^ self ffiLibrary
-		  openAudioDeviceStreamDevid: id
-		  spec: spec
-		  callback: callback
-		  userdata: userdata
+	^ (self ffiLibrary
+		   openAudioDeviceStreamDevid: id
+		   spec: spec
+		   callback: callback
+		   userdata: userdata)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> pause [
 
-	^ self ffiLibrary pauseAudioDevice: id
+	self ffiLibrary assertSuccess: (self ffiLibrary pauseAudioDevice: id)
 ]
 
 { #category : 'printing' }
@@ -223,5 +248,5 @@ SDL3AudioDevice >> printOn: aStream [
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> resume [
 
-	^ self ffiLibrary resumeAudioDevice: id
+	self ffiLibrary assertSuccess: (self ffiLibrary resumeAudioDevice: id)
 ]

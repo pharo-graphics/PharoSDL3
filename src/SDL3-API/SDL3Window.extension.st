@@ -1,42 +1,45 @@
 Extension { #name : 'SDL3Window' }
 
 { #category : '*SDL3-API' }
-SDL3Window >> alwaysOnTopOnTop: on_top [
+SDL3Window >> alwaysOnTopOnTop: onTop [
 
-	^ self ffiLibrary setWindowAlwaysOnTopWindow: self onTop: on_top
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowAlwaysOnTopWindow: self onTop: onTop)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> aspectRatioMinAspect: min_aspect maxAspect: max_aspect [
+SDL3Window >> aspectRatioMinAspect: minAspect maxAspect: maxAspect [
 
-	^ self ffiLibrary
-		  setWindowAspectRatioWindow: self
-		  minAspect: min_aspect
-		  maxAspect: max_aspect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setWindowAspectRatioWindow: self
+			minAspect: minAspect
+			maxAspect: maxAspect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> bordered: bordered [
 
-	^ self ffiLibrary setWindowBorderedWindow: self bordered: bordered
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowBorderedWindow: self bordered: bordered)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> clearComposition [
 
-	^ self ffiLibrary clearComposition: self
+	self ffiLibrary assertSuccess: (self ffiLibrary clearComposition: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> destroy [
 
-	^ self ffiLibrary destroyWindow: self
+	self ffiLibrary destroyWindow: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> destroySurface [
 
-	^ self ffiLibrary destroyWindowSurface: self
+	self ffiLibrary assertSuccess: (self ffiLibrary destroyWindowSurface: self)
 ]
 
 { #category : '*SDL3-API' }
@@ -48,13 +51,16 @@ SDL3Window >> displayID [
 { #category : '*SDL3-API' }
 SDL3Window >> eglSurface [
 
-	^ self ffiLibrary eglGetWindowSurface: self
+	^ (self ffiLibrary eglGetWindowSurface: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> fillDocumentSpace: fill [
 
-	^ self ffiLibrary setWindowFillDocumentWindow: self fill: fill
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowFillDocumentWindow: self fill: fill)
 ]
 
 { #category : '*SDL3-API' }
@@ -66,21 +72,24 @@ SDL3Window >> flags [
 { #category : '*SDL3-API' }
 SDL3Window >> flashWithOperation: operation [
 
-	^ self ffiLibrary flashWindow: self operation: operation
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary flashWindow: self operation: operation)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> focusable: focusable [
 
-	^ self ffiLibrary setWindowFocusableWindow: self focusable: focusable
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowFocusableWindow: self focusable: focusable)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> fullscreen: fullscreen [
 
-	^ self ffiLibrary
-		  setWindowFullscreenWindow: self
-		  fullscreen: fullscreen
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setWindowFullscreenWindow: self
+			fullscreen: fullscreen)
 ]
 
 { #category : '*SDL3-API' }
@@ -92,27 +101,30 @@ SDL3Window >> fullscreenMode [
 { #category : '*SDL3-API' }
 SDL3Window >> fullscreenMode: mode [
 
-	^ self ffiLibrary setWindowFullscreenModeWindow: self mode: mode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowFullscreenModeWindow: self mode: mode)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> getAspectRatioIntoMinAspect: min_aspect maxAspect: max_aspect [
+SDL3Window >> getAspectRatioIntoMinAspect: minAspect maxAspect: maxAspect [
 
-	^ self ffiLibrary
-		  getWindowAspectRatioWindow: self
-		  minAspect: min_aspect
-		  maxAspect: max_aspect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getWindowAspectRatioWindow: self
+			minAspect: minAspect
+			maxAspect: maxAspect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getBordersSizeIntoTop: top left: left bottom: bottom right: right [
 
-	^ self ffiLibrary
-		  getWindowBordersSizeWindow: self
-		  top: top
-		  left: left
-		  bottom: bottom
-		  right: right
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getWindowBordersSizeWindow: self
+			top: top
+			left: left
+			bottom: bottom
+			right: right)
 ]
 
 { #category : '*SDL3-API' }
@@ -124,70 +136,81 @@ SDL3Window >> getICCProfileIntoSize: size [
 { #category : '*SDL3-API' }
 SDL3Window >> getMaximumSizeIntoW: w h: h [
 
-	^ self ffiLibrary getWindowMaximumSizeWindow: self w: w h: h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getWindowMaximumSizeWindow: self w: w h: h)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getMinimumSizeIntoW: w h: h [
 
-	^ self ffiLibrary getWindowMinimumSizeWindow: self w: w h: h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getWindowMinimumSizeWindow: self w: w h: h)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getPositionIntoX: x y: y [
 
-	^ self ffiLibrary getWindowPositionWindow: self x: x y: y
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getWindowPositionWindow: self x: x y: y)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getSafeAreaIntoRect: rect [
 
-	^ self ffiLibrary getWindowSafeAreaWindow: self rect: rect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getWindowSafeAreaWindow: self rect: rect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getSizeInPixelsIntoW: w h: h [
 
-	^ self ffiLibrary getWindowSizeInPixelsWindow: self w: w h: h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getWindowSizeInPixelsWindow: self w: w h: h)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getSizeIntoW: w h: h [
 
-	^ self ffiLibrary getWindowSizeWindow: self w: w h: h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getWindowSizeWindow: self w: w h: h)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getSurfaceVSyncInto: vsync [
 
-	^ self ffiLibrary getWindowSurfaceVSyncWindow: self vsync: vsync
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getWindowSurfaceVSyncWindow: self vsync: vsync)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> getTextInputAreaIntoRect: rect cursor: cursor [
 
-	^ self ffiLibrary
-		  getTextInputAreaWindow: self
-		  rect: rect
-		  cursor: cursor
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getTextInputAreaWindow: self
+			rect: rect
+			cursor: cursor)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> glMakeCurrentContext: context [
 
-	^ self ffiLibrary glMakeCurrentWindow: self context: context
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary glMakeCurrentWindow: self context: context)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> glNewContext [
 
-	^ self ffiLibrary glCreateContext: self
+	^ (self ffiLibrary glCreateContext: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> glSwap [
 
-	^ self ffiLibrary glSwapWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary glSwapWindow: self)
 ]
 
 { #category : '*SDL3-API' }
@@ -199,22 +222,24 @@ SDL3Window >> hasSurface [
 { #category : '*SDL3-API' }
 SDL3Window >> hide [
 
-	^ self ffiLibrary hideWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary hideWindow: self)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> hitTestCallback: callback callbackData: callback_data [
+SDL3Window >> hitTestCallback: callback callbackData: callbackData [
 
-	^ self ffiLibrary
-		  setWindowHitTestWindow: self
-		  callback: callback
-		  callbackData: callback_data
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setWindowHitTestWindow: self
+			callback: callback
+			callbackData: callbackData)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> icon: icon [
 
-	^ self ffiLibrary setWindowIconWindow: self icon: icon
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowIconWindow: self icon: icon)
 ]
 
 { #category : '*SDL3-API' }
@@ -256,22 +281,24 @@ SDL3Window >> isTextInputActive [
 { #category : '*SDL3-API' }
 SDL3Window >> keyboardGrabbed: grabbed [
 
-	^ self ffiLibrary setWindowKeyboardGrabWindow: self grabbed: grabbed
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowKeyboardGrabWindow: self grabbed: grabbed)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> maximize [
 
-	^ self ffiLibrary maximizeWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary maximizeWindow: self)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> maximumSizeMaxW: max_w maxH: max_h [
+SDL3Window >> maximumSizeMaxW: maxW maxH: maxH [
 
-	^ self ffiLibrary
-		  setWindowMaximumSizeWindow: self
-		  maxW: max_w
-		  maxH: max_h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setWindowMaximumSizeWindow: self
+			maxW: maxW
+			maxH: maxH)
 ]
 
 { #category : '*SDL3-API' }
@@ -283,28 +310,31 @@ SDL3Window >> metalCreateView [
 { #category : '*SDL3-API' }
 SDL3Window >> minimize [
 
-	^ self ffiLibrary minimizeWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary minimizeWindow: self)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> minimumSizeMinW: min_w minH: min_h [
+SDL3Window >> minimumSizeMinW: minW minH: minH [
 
-	^ self ffiLibrary
-		  setWindowMinimumSizeWindow: self
-		  minW: min_w
-		  minH: min_h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setWindowMinimumSizeWindow: self
+			minW: minW
+			minH: minH)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> modal: modal [
 
-	^ self ffiLibrary setWindowModalWindow: self modal: modal
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowModalWindow: self modal: modal)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> mouseGrabbed: grabbed [
 
-	^ self ffiLibrary setWindowMouseGrabWindow: self grabbed: grabbed
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowMouseGrabWindow: self grabbed: grabbed)
 ]
 
 { #category : '*SDL3-API' }
@@ -316,25 +346,30 @@ SDL3Window >> mouseRect [
 { #category : '*SDL3-API' }
 SDL3Window >> mouseRect: rect [
 
-	^ self ffiLibrary setWindowMouseRectWindow: self rect: rect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowMouseRectWindow: self rect: rect)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> newPopupParentOffsetX: offset_x offsetY: offset_y w: w h: h flags: flags [
+SDL3Window >> newPopupParentOffsetX: offsetX offsetY: offsetY w: w h: h flags: flags [
 
-	^ self ffiLibrary
-		  newPopupWindowParent: self
-		  offsetX: offset_x
-		  offsetY: offset_y
-		  w: w
-		  h: h
-		  flags: flags
+	^ (self ffiLibrary
+		   newPopupWindowParent: self
+		   offsetX: offsetX
+		   offsetY: offsetY
+		   w: w
+		   h: h
+		   flags: flags)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> newRendererFor: name [
 
-	^ self ffiLibrary newRendererWindow: self name: name
+	^ (self ffiLibrary newRendererWindow: self name: name)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
@@ -346,19 +381,23 @@ SDL3Window >> opacity [
 { #category : '*SDL3-API' }
 SDL3Window >> opacity: opacity [
 
-	^ self ffiLibrary setWindowOpacityWindow: self opacity: opacity
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowOpacityWindow: self opacity: opacity)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> parent [
 
-	^ self ffiLibrary getWindowParent: self
+	^ (self ffiLibrary getWindowParent: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> parent: parent [
 
-	^ self ffiLibrary setWindowParentWindow: self parent: parent
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowParentWindow: self parent: parent)
 ]
 
 { #category : '*SDL3-API' }
@@ -370,7 +409,8 @@ SDL3Window >> pixelFormat [
 { #category : '*SDL3-API' }
 SDL3Window >> positionX: x y: y [
 
-	^ self ffiLibrary setWindowPositionWindow: self x: x y: y
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowPositionWindow: self x: x y: y)
 ]
 
 { #category : '*SDL3-API' }
@@ -382,7 +422,8 @@ SDL3Window >> progressState [
 { #category : '*SDL3-API' }
 SDL3Window >> progressState: state [
 
-	^ self ffiLibrary setWindowProgressStateWindow: self state: state
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowProgressStateWindow: self state: state)
 ]
 
 { #category : '*SDL3-API' }
@@ -394,7 +435,8 @@ SDL3Window >> progressValue [
 { #category : '*SDL3-API' }
 SDL3Window >> progressValue: value [
 
-	^ self ffiLibrary setWindowProgressValueWindow: self value: value
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowProgressValueWindow: self value: value)
 ]
 
 { #category : '*SDL3-API' }
@@ -406,114 +448,127 @@ SDL3Window >> propertiesID [
 { #category : '*SDL3-API' }
 SDL3Window >> raise [
 
-	^ self ffiLibrary raiseWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary raiseWindow: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> relativeMouseModeEnabled: enabled [
 
-	^ self ffiLibrary
-		  setWindowRelativeMouseModeWindow: self
-		  enabled: enabled
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setWindowRelativeMouseModeWindow: self
+			enabled: enabled)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> renderer [
 
-	^ self ffiLibrary getRenderer: self
+	^ (self ffiLibrary getRenderer: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> resizable: resizable [
 
-	^ self ffiLibrary setWindowResizableWindow: self resizable: resizable
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowResizableWindow: self resizable: resizable)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> restore [
 
-	^ self ffiLibrary restoreWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary restoreWindow: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> setiOSAnimationCallbackInterval: interval callback: callback callbackParam: callbackParam [
 
-	^ self ffiLibrary
-		  setiOSAnimationCallbackWindow: self
-		  interval: interval
-		  callback: callback
-		  callbackParam: callbackParam
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setiOSAnimationCallbackWindow: self
+			interval: interval
+			callback: callback
+			callbackParam: callbackParam)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> shape: shape [
 
-	^ self ffiLibrary setWindowShapeWindow: self shape: shape
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowShapeWindow: self shape: shape)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> show [
 
-	^ self ffiLibrary showWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary showWindow: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> showSystemMenuX: x y: y [
 
-	^ self ffiLibrary showWindowSystemMenuWindow: self x: x y: y
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary showWindowSystemMenuWindow: self x: x y: y)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> sizeW: w h: h [
 
-	^ self ffiLibrary setWindowSizeWindow: self w: w h: h
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowSizeWindow: self w: w h: h)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> startTextInput [
 
-	^ self ffiLibrary startTextInput: self
+	self ffiLibrary assertSuccess: (self ffiLibrary startTextInput: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> startTextInputWithPropertiesProps: props [
 
-	^ self ffiLibrary
-		  startTextInputWithPropertiesWindow: self
-		  props: props
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			startTextInputWithPropertiesWindow: self
+			props: props)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> stopTextInput [
 
-	^ self ffiLibrary stopTextInput: self
+	self ffiLibrary assertSuccess: (self ffiLibrary stopTextInput: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> surface [
 
-	^ self ffiLibrary getWindowSurface: self
+	^ (self ffiLibrary getWindowSurface: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> surfaceVsync: vsync [
 
-	^ self ffiLibrary setWindowSurfaceVSyncWindow: self vsync: vsync
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowSurfaceVSyncWindow: self vsync: vsync)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> sync [
 
-	^ self ffiLibrary syncWindow: self
+	self ffiLibrary assertSuccess: (self ffiLibrary syncWindow: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> textInputAreaRect: rect cursor: cursor [
 
-	^ self ffiLibrary
-		  setTextInputAreaWindow: self
-		  rect: rect
-		  cursor: cursor
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setTextInputAreaWindow: self
+			rect: rect
+			cursor: cursor)
 ]
 
 { #category : '*SDL3-API' }
@@ -525,26 +580,29 @@ SDL3Window >> title [
 { #category : '*SDL3-API' }
 SDL3Window >> title: title [
 
-	^ self ffiLibrary setWindowTitleWindow: self title: title
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowTitleWindow: self title: title)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> updateSurface [
 
-	^ self ffiLibrary updateWindowSurface: self
+	self ffiLibrary assertSuccess: (self ffiLibrary updateWindowSurface: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> updateSurfaceRects: rects numrects: numrects [
 
-	^ self ffiLibrary
-		  updateWindowSurfaceRectsWindow: self
-		  rects: rects
-		  numrects: numrects
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			updateWindowSurfaceRectsWindow: self
+			rects: rects
+			numrects: numrects)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Window >> warpMouseInX: x y: y [
 
-	^ self ffiLibrary warpMouseInWindow: self x: x y: y
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary warpMouseInWindow: self x: x y: y)
 ]

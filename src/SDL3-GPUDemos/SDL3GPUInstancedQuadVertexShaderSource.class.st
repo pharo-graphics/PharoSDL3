@@ -36,79 +36,79 @@ SDL3GPUInstancedQuadVertexShaderSource class >> hlslSource [
 
 	^ '
 cbuffer Params : register(b0, space1) {
-    float time;
-    float enableRotation;
-    float enableScale;
-    float numCols;
-    float numRows;
-    float pad1;
-    float pad2;
-    float pad3;
+   float time;
+   float enableRotation;
+   float enableScale;
+   float numCols;
+   float numRows;
+   float pad1;
+   float pad2;
+   float pad3;
 };
 
 struct VertexInput {
-  float2 position : TEXCOORD0;
-  float2 uv : TEXCOORD1;
-  uint instanceID : SV_InstanceID;
+ float2 position : TEXCOORD0;
+ float2 uv : TEXCOORD1;
+ uint instanceID : SV_InstanceID;
 };
 
 struct VertexOutput {
-  float4 position : SV_Position;
-  float2 uv : TEXCOORD0;
-  float4 color : COLOR0;
+ float4 position : SV_Position;
+ float2 uv : TEXCOORD0;
+ float4 color : COLOR0;
 };
 
 VertexOutput main(VertexInput input) {
-  VertexOutput output;
-  
-  float col = fmod((float)input.instanceID, numCols);
-  float row = floor((float)input.instanceID / numCols);
-  
-  float zoom = 1.1;
-  float quadW = (2.0 / numCols) * zoom;
-  float quadH = (2.0 / numRows) * zoom;
+ VertexOutput output;
+ 
+ float col = fmod((float)input.instanceID, numCols);
+ float row = floor((float)input.instanceID / numCols);
+ 
+ float zoom = 1.1;
+ float quadW = (2.0 / numCols) * zoom;
+ float quadH = (2.0 / numRows) * zoom;
 
-  float p = (time / 0.5) + ((float)input.instanceID * 0.3);
-  float x_offset = -1.0 + (col * (2.0 / numCols)) + (sin(p) * 0.05);
-  float y_offset = 1.0 - (row * (2.0 / numRows)) + (cos(p) * 0.05);
+ float p = (time / 0.5) + ((float)input.instanceID * 0.3);
+ float x_offset = -1.0 + (col * (2.0 / numCols)) + (sin(p) * 0.05);
+ float y_offset = 1.0 - (row * (2.0 / numRows)) + (cos(p) * 0.05);
 
-  float2 pos = input.position;
-  
-  // Center pos before scale/rotate (pos is 0..1 in x, 0..-1 in y)
-  pos.x -= 0.5;
-  pos.y += 0.5;
+ float2 pos = input.position;
+ 
+ // Center pos before scale/rotate (pos is 0..1 in x, 0..-1 in y)
+ pos.x -= 0.5;
+ pos.y += 0.5;
 
-  if (enableScale > 0.5) {
-      float scale = 1.0 + sin(time * 5.0 + input.instanceID) * 0.3;
-      pos *= scale;
-  }
+ if (enableScale > 0.5) {
+     float scale = 1.0 + sin(time * 5.0 + input.instanceID) * 0.3;
+     pos *= scale;
+ }
 
-  if (enableRotation > 0.5) {
-      float angle = time * 2.0 + input.instanceID;
-      float s, c;
-      sincos(angle, s, c);
-      float2 rotated;
-      rotated.x = pos.x * c - pos.y * s;
-      rotated.y = pos.x * s + pos.y * c;
-      pos = rotated;
-  }
+ if (enableRotation > 0.5) {
+     float angle = time * 2.0 + input.instanceID;
+     float s, c;
+     sincos(angle, s, c);
+     float2 rotated;
+     rotated.x = pos.x * c - pos.y * s;
+     rotated.y = pos.x * s + pos.y * c;
+     pos = rotated;
+ }
 
-  // Uncenter and scale to final size
-  pos.x += 0.5;
-  pos.y -= 0.5;
-  
-  pos.x = (pos.x * quadW) + x_offset;
-  pos.y = (pos.y * quadH) + y_offset;
+ // Uncenter and scale to final size
+ pos.x += 0.5;
+ pos.y -= 0.5;
+ 
+ pos.x = (pos.x * quadW) + x_offset;
+ pos.y = (pos.y * quadH) + y_offset;
 
-  output.position = float4(pos, 0.0, 1.0);
-  output.uv = input.uv;
-  
-  float r = fmod(input.instanceID * 0.13, 1.0);
-  float g = fmod(input.instanceID * 0.37, 1.0);
-  float b = fmod(input.instanceID * 0.71, 1.0);
-  output.color = float4(r, g, b, 1.0) * 0.5 + 0.5; // Bright pastel colors
+ output.position = float4(pos, 0.0, 1.0);
+ output.uv = input.uv;
+ 
+ float r = fmod(input.instanceID * 0.13, 1.0);
+ float g = fmod(input.instanceID * 0.37, 1.0);
+ float b = fmod(input.instanceID * 0.71, 1.0);
+ output.color = float4(r, g, b, 1.0) * 0.5 + 0.5; // Bright pastel colors
 
-  return output;
+ return output;
 }
 '
 

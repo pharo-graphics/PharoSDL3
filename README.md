@@ -92,6 +92,7 @@ The `LibSDL3` class provides direct access to the C API.
 - **Prefix Removal:** The `SDL_` prefix is removed.
 - **CamelCase:** The first letter of the function name is lowercased.
 - **Keywords:** Function parameters are converted into Pharo keywords.
+- **Argument Naming:** Arguments are named using `camelCase` (e.g., `numThreads` instead of `num_threads`).
 
 You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki with a complete mapping from SDL functions to each Pharo method in `LibSDL3`.
 
@@ -108,8 +109,33 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` provide more idioma
 - **Output Parameters (Into):** When a function returns values via pointers (output parameters), the Pharo method typically uses the `Into` keyword in the selector.
   - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW:w h:h`
   - `SDL_GetRenderClipRect(renderer, &rect)` maps to `SDL3Renderer >> getRenderClipRectInto: rect`
+- **Argument Naming:** Just like in the low-level API, all arguments use `camelCase`.
 
 You can explore all available functions in the `LibSDL3` class or by browsing the object classes. The tables in [our wiki page](../../wiki/High%E2%80%90level-API) can help, as well.
+
+### 3. Instance Creation (Class-side Methods)
+Independent root classes provide class-side methods for creating or opening resources.
+
+- **Explicit Ownership:** These methods are prefixed with `unsafeNew` (for creation) or `unsafeOpen` (for opening peripherals). This naming convention explicitly signals that the **caller is responsible** for manual memory management (e.g., calling `destroy`, `close`, or `release`).
+- **Internal Assertions:** These methods internally perform success assertions (typically using `assertNotNullReturn`).
+
+**Examples:**
+- `SDL3Window unsafeNewTitle: 'title' w: 800 h: 600 flags: 0`
+- `SDL3Joystick unsafeOpen: 0`
+- `SDL3PropertyGroup unsafeNew`
+
+
+## Success Assertions
+
+To provide a more idiomatic and safe experience, many wrapper methods in the High-level API handle error checking internally:
+
+- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered`) use `assertSuccess:` internally. If the call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
+- **Pointer Results:** Methods that create or return SDL3 objects (e.g., `newRendererFor:`) use `assertNotNullReturn` internally. If the returned pointer is NULL, an `SDL3Error` is raised.
+- **Void Returns:** Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
+- **Query Methods:** Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.
+
+You can explore all available functions in the `LibSDL3` class or by browsing the object classes.
+
 
 ## More Information
 

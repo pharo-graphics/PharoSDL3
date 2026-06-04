@@ -61,8 +61,8 @@ SDL3GPUDemoApp >> newColorTargetDescriptions: aSize [
 
 	| array |
 	array := FFIExternalArray
-				   externalNewType: SDL_GPUColorTargetDescription
-				   size: aSize.
+				  externalNewType: SDL_GPUColorTargetDescription
+				  size: aSize.
 	array autoRelease.
 	^ array
 ]
@@ -79,7 +79,7 @@ SDL3GPUDemoApp >> open [
 	
 	super open.
 
-	sdl assertSuccess: (gpuDevice claimWindow: window)
+	gpuDevice claimWindow: window
 ]
 
 { #category : 'rendering' }
@@ -87,15 +87,13 @@ SDL3GPUDemoApp >> render [
 
 	| commandBuffer |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 
 	"This SDL3 function doesn't block on VSYNC.
 	We do use it to avoid blocking Pharo VM."
-	sdl assertSuccess:
-		(commandBuffer
-			 acquireGPUSwapchainTextureForWindow: window
-			 into: swapchainTextureHolder
-			 width: nil height: nil).
+	commandBuffer
+		acquireGPUSwapchainTextureForWindow: window
+		into: swapchainTextureHolder
+		width: nil height: nil.
 
 	"A NULL pointer is not an error in this case:
 	It means too many frames are in flight, or window is minimized, so we'll skip rendering this time."

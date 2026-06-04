@@ -10,7 +10,7 @@ SDL3FPoint class >> newFrom: aPoint [
 SDL3FPoint class >> x: x y: y [
 
 	^ self new
-		  x: x;
-		  y: y;
-		  yourself
+		 x: x;
+		 y: y;
+		 yourself
 ]
