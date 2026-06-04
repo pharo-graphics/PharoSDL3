@@ -131,6 +131,25 @@ SDL3GPUDevice >> propertyGroup [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3GPUDevice class >> unsafeNewFormatFlags: formatFlags debugMode: debugMode name: aString [
+
+	^ (self ffiLibrary
+		   newGPUDeviceFormatFlags: formatFlags
+		   debugMode: debugMode
+		   name: aString)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice class >> unsafeNewWithProperties: propertiesID [
+
+	^ (self ffiLibrary newGPUDeviceWithProperties: propertiesID)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
 SDL3GPUDevice >> waitGPUFence: aGPUFence [
 
 	self ffiLibrary assertSuccess:

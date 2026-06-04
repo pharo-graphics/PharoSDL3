@@ -36,7 +36,7 @@ SDL3SystemCursorsDemo >> step [
 	self present
 ]
 
-{ #category : 'hooks' }
+{ #category : 'visiting - concrete' }
 SDL3SystemCursorsDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 
 	super visitMouseButtonDownEvent: aMouseButtonDownEvent.
@@ -44,7 +44,7 @@ SDL3SystemCursorsDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 	[
 		| cursorId cursor |
 		cursorId := cursorGenerator next.
-		cursor := sdl newSystemCursor: cursorId.
+		cursor := SDL3Cursor unsafeNewSystem: cursorId.
 		"cursor assertNotNullReturn.
 		sdl assertSuccess:" (sdl setCursor: cursor).
 		self log: cursorId item
