@@ -13,25 +13,25 @@ Class {
 	#tag : 'IDObjects'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultPlayback [
 
 	^ DefaultPlaybackAudioDevice
 ]
 
-{ #category : 'class initialization' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultPlaybackAudioDeviceID [
 
 	^ 16rFFFFFFFF
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultRecording [
 
 	^ DefaultRecordingAudioDevice
 ]
 
-{ #category : 'class initialization' }
+{ #category : 'accessing' }
 SDL3AudioDevice class >> defaultRecordingAudioDeviceID [
 
 	^ 16rFFFFFFFE
@@ -67,6 +67,12 @@ SDL3AudioDevice class >> initialize [
 	#define SDL_AUDIO_DEVICE_DEFAULT_RECORDING ((SDL_AudioDeviceID) 0xFFFFFFFEu)
 	"
 	DefaultRecordingAudioDevice := self id: self defaultRecordingAudioDeviceID
+]
+
+{ #category : 'instance creation' }
+SDL3AudioDevice class >> unsafeOpenDevid: devid spec: spec [
+
+	^ self ffiLibrary openAudioDeviceDevid: devid spec: spec
 ]
 
 { #category : 'accessing - generated' }
@@ -197,11 +203,13 @@ SDL3AudioDevice >> openSpec: spec [
 { #category : 'accessing - generated' }
 SDL3AudioDevice >> openStreamSpec: spec callback: callback userdata: userdata [
 
-	^ self ffiLibrary
-		 openAudioDeviceStreamDevid: id
-		 spec: spec
-		 callback: callback
-		 userdata: userdata
+	^ (self ffiLibrary
+		   openAudioDeviceStreamDevid: id
+		   spec: spec
+		   callback: callback
+		   userdata: userdata)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : 'accessing - generated' }

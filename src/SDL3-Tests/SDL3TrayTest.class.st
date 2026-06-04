@@ -20,7 +20,7 @@ SDL3TrayTest >> setUp [
 		description: 'Initialize video subsystem'.
 	
 	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
-	tray := sdl newTrayIcon: iconSurface tooltip: 'Test tooltip'
+	tray := SDL3Tray unsafeNewIcon: iconSurface tooltip: 'Test tooltip'
 ]
 
 { #category : 'running' }

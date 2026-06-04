@@ -47,7 +47,7 @@ SDL3VideoTest >> test02CursorAPI [
 
 	| cursorId cursor |
 	cursorId := SDL3SystemCursor crosshair.
-	cursor := sdl newSystemCursor: cursorId.
+	cursor := SDL3Cursor unsafeNewSystem: cursorId.
 	cursor setActive.
 
 	self assert: sdl getCursor equals: cursor.

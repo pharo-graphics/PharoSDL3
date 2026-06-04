@@ -36,3 +36,11 @@ SDL3Camera >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3Camera class >> unsafeOpenInstanceId: instanceId spec: spec [
+
+	^ (self ffiLibrary openCameraInstanceId: instanceId spec: spec)
+		  assertNotNullReturn;
+		  yourself
+]

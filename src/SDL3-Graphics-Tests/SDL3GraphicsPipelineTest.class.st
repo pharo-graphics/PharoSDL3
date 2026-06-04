@@ -27,8 +27,8 @@ SDL3GraphicsPipelineTest >> setUp [
 		assert: (sdl initSubSystem: SDL_INIT_VIDEO)
 		description: 'Initialize video subsystem'.
 
-	gpuDevice := sdl
-		newGPUDeviceFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
+	gpuDevice := SDL3GPUDevice
+		unsafeNewFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 		debugMode: true name: nil.
 
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray

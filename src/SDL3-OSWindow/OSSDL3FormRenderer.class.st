@@ -37,7 +37,7 @@ OSSDL3FormRenderer >> copyAndPresentTextureRectangle: rectangle [
 { #category : 'private' }
 OSSDL3FormRenderer >> createRenderer [
 
-	sdlRenderer := backendWindow sdl3Window newRendererFor: nil.
+	sdlRenderer := backendWindow sdl3Window newRenderer.
 	sdlRenderer renderVsync: 1
 ]
 

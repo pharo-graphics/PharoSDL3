@@ -9,6 +9,12 @@ Class {
 	#tag : 'IDObjects'
 }
 
+{ #category : 'instance creation' }
+SDL3PropertyGroup class >> unsafeNew [
+
+	^ self ffiLibrary newPropertyGroup
+]
+
 { #category : 'converting' }
 SDL3PropertyGroup >> asInteger [
 

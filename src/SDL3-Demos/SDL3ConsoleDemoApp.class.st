@@ -74,7 +74,7 @@ SDL3ConsoleDemoApp >> console [
 { #category : 'lifecycle' }
 SDL3ConsoleDemoApp >> initializeRenderer [
 
-	renderer := window newRendererFor: nil
+	renderer := window newRenderer
 ]
 
 { #category : 'logging' }

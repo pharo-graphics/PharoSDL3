@@ -19,21 +19,19 @@ SDL3GPUBasicTest >> setUp [
 	super setUp.
 	sdl := LibSDL3 uniqueInstance.
 	sdl init: SDL_INIT_VIDEO.
-	window := sdl
-		         newWindowTitle: 'GPU Test'
+	window := SDL3Window
+		         unsafeNewTitle: 'GPU Test'
 		         w: 640
 		         h: 480
 		         flags: 0.
-	window assertNotNullReturn.
 
-	gpuDevice := sdl
-		            newGPUDeviceFormatFlags:
+	gpuDevice := SDL3GPUDevice
+		            unsafeNewFormatFlags:
 			            SDL_GPU_SHADERFORMAT_DXIL
 			            | SDL_GPU_SHADERFORMAT_MSL
 			            | SDL_GPU_SHADERFORMAT_SPIRV
 		            debugMode: true
 		            name: nil.
-	gpuDevice assertNotNullReturn.
 
 	gpuDevice claimWindow: window
 ]

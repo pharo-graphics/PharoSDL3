@@ -137,7 +137,7 @@ SDL3BasicTest >> test06Properties [
 SDL3BasicTest >> test06bPropertyGroup [
 
 	| properties |
-	properties := sdl newPropertyGroup.
+	properties := SDL3PropertyGroup unsafeNew.
 
 	properties stringAt: 'bonjour' put: 'hola'.
 

@@ -60,10 +60,9 @@ SDL3WindowTest >> test01CreateWindow [
 
 	| window |
 	window :=
-		sdl
-			newWindowTitle: #test01CreateWindow
+		SDL3Window
+			unsafeNewTitle: #test01CreateWindow
 			w: 400 h: 300 flags: 0.
-	window assertNotNullReturn.
 
 	self assert: window title equals: #test01CreateWindow.
 
@@ -91,8 +90,8 @@ SDL3WindowTest >> test02AllWindows [
 
 	| windows |
 	windows := (1 to: 5) collect: [ :index |
-		sdl
-			newWindowTitle: index asString
+		SDL3Window
+			unsafeNewTitle: index asString
 			w: 300 h: 300 flags: 0 ].
 
 	"The query seems to return last window first"
@@ -156,7 +155,7 @@ SDL3WindowTest >> test04CreateWindowWithPropertyGroup [
 	| rectangle p window |
 	rectangle := 100 @ 200 extent: 600 @ 300.
 
-	p := sdl newPropertyGroup
+	p := SDL3PropertyGroup unsafeNew
 		stringAt: SDL_PROP_WINDOW_CREATE_TITLE_STRING
 			put: #test04CreateWindowWithPropertyGroup;
 		numberAt: SDL_PROP_WINDOW_CREATE_X_NUMBER
@@ -168,10 +167,10 @@ SDL3WindowTest >> test04CreateWindowWithPropertyGroup [
 		numberAt: SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER
 			put: rectangle height;
 		numberAt: SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER
-			put: SDL3WindowFlags highPixelDensity | SDL3WindowFlags resizable;
+			put: SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE;
 		yourself.
 
-	window := sdl newWindowWithProperties: p.
+	window := SDL3Window unsafeNewWithProperties: p.
 	p destroy.
 
 	self waitToSee.
@@ -220,10 +219,9 @@ SDL3WindowTest >> test06CreateRenderer [
 
 	| window renderer drivers |
 	window :=
-		sdl
-			newWindowTitle: #test06CreateRenderer
+		SDL3Window
+			unsafeNewTitle: #test06CreateRenderer
 			w: 400 h: 300 flags: 0.
-	window assertNotNullReturn.
 
 	drivers := sdl renderDrivers.
 
@@ -250,13 +248,12 @@ SDL3WindowTest >> test07RenderBasicOperations [
 
 	| window renderer |
 	window :=
-		sdl
-			newWindowTitle: #test07RenderBasicOperations
+		SDL3Window
+			unsafeNewTitle: #test07RenderBasicOperations
 			w: 400 h: 300 flags: 0.
-	window assertNotNullReturn.
 
 	"Create the default renderer"
-	renderer := window newRendererFor: nil.
+	renderer := window newRenderer.
 
 	"Clear background with gray color"
 
@@ -286,12 +283,11 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 
 	| window renderer texture form surface |
 	window :=
-		sdl
-			newWindowTitle: #test08RenderTextureFromSurfaceFromForm
+		SDL3Window
+			unsafeNewTitle: #test08RenderTextureFromSurfaceFromForm
 			w: 400 h: 800 flags: 0.
-	window assertNotNullReturn.
 
-	renderer := window newRendererFor: nil.
+	renderer := window newRenderer.
 
 	"Render and present a texture created from a surface created from a Form"
 
@@ -317,12 +313,11 @@ SDL3WindowTest >> test09Bordered [
 
 	| window renderer |
 	window :=
-		sdl
-			newWindowTitle: #test09Bordered
+		SDL3Window
+			unsafeNewTitle: #test09Bordered
 			w: 800 h: 600 flags: SDL3WindowFlags borderless.
-	window assertNotNullReturn.
 
-	renderer := window newRendererFor: nil.
+	renderer := window newRenderer.
 
 	renderer renderDrawColor: Color white.
 	renderer
@@ -348,10 +343,9 @@ SDL3WindowTest >> test10Hidden [
 
 	| window |
 	window :=
-		sdl
-			newWindowTitle: #test10Hidden
+		SDL3Window
+			unsafeNewTitle: #test10Hidden
 			w: 800 h: 600 flags: SDL3WindowFlags hidden.
-	window assertNotNullReturn.
 
 	self assert: window isHidden.
 	self waitToSee.
@@ -366,12 +360,11 @@ SDL3WindowTest >> test11Fullscreen [
 
 	| window renderer |
 	window :=
-		sdl
-			newWindowTitle: #test11Fullscreen
+		SDL3Window
+			unsafeNewTitle: #test11Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
-	window assertNotNullReturn.
 
-	renderer := window newRendererFor: nil.
+	renderer := window newRenderer.
 
 	renderer renderDrawColor: Color white.
 	renderer
@@ -402,15 +395,15 @@ SDL3WindowTest >> test12ShapedWindow [
 	| window extent shapeForm surface renderer texture |
 	extent := 500 @ 500.
 	window :=
-		sdl
-			newWindowTitle: #test12ShapedWindow
+		SDL3Window
+			unsafeNewTitle: #test12ShapedWindow
 			w: extent x h: extent y
 			flags:
 				SDL3WindowFlags hidden | SDL3WindowFlags transparent
 				| SDL3WindowFlags borderless.
-	window assertNotNullReturn.
+
 	self assert: window isTransparent.
-	renderer := window newRendererFor: nil.
+	renderer := window newRenderer.
 
 	shapeForm := Form extent: extent depth: 32.
 	shapeForm getCanvas
@@ -454,10 +447,9 @@ SDL3WindowTest >> test13CocoaWindowPointer [
 	OSPlatform current isMacOS ifFalse: [ ^ self skip ].
 
 	window :=
-		sdl
-			newWindowTitle: #test13CocoaWindowPointer
+		SDL3Window
+			unsafeNewTitle: #test13CocoaWindowPointer
 			w: 800 h: 600 flags: SDL3WindowFlags borderless.
-	window assertNotNullReturn.
 
 	cocoaPointer := window propertyGroup pointerAt: SDL_PROP_WINDOW_COCOA_WINDOW_POINTER ifAbsent: nil.
 

@@ -49,7 +49,7 @@ SDL3TrayMenuDemo >> setupTray [
 				self log: 'Click on ', entry label surroundedBySingleQuotes ].
 
 	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
-	tray := sdl newTrayIcon: iconSurface tooltip: 'PharoSDL3'.
+	tray := SDL3Tray unsafeNewIcon: iconSurface tooltip: 'PharoSDL3'.
 	iconSurface destroy.
 
 	menu := tray newMenu.

@@ -5,3 +5,11 @@ SDL3Joystick >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3Joystick class >> unsafeOpen: instanceId [
+
+	^ (self ffiLibrary openJoystick: instanceId)
+		  assertNotNullReturn;
+		  yourself
+]
