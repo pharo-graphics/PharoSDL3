@@ -67,7 +67,7 @@ OSSDL3Renderer >> present [
 ]
 
 { #category : 'accessing' }
-OSSDL3Renderer >> sdl3Renderer [
+OSSDL3Renderer >> sdlRenderer [
 	^ sdl3Renderer
 ]
 

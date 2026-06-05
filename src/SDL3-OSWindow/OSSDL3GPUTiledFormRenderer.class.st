@@ -124,7 +124,7 @@ OSSDL3GPUTiledFormRenderer >> initializeGPUResources [
 { #category : 'accessing' }
 OSSDL3GPUTiledFormRenderer >> outputExtent [
 	
-	^ backendWindow sdl3Window pixelExtent
+	^ backendWindow sdlWindow pixelExtent
 ]
 
 { #category : 'private' }
@@ -133,7 +133,7 @@ OSSDL3GPUTiledFormRenderer >> privateFlush: commandBuffer [
 
 	| copyPass gridDims |
 	(commandBuffer
-		acquireGPUSwapchainTextureForWindow: backendWindow sdl3Window
+		acquireGPUSwapchainTextureForWindow: backendWindow sdlWindow
 		into: swapchainTextureHolder
 		width: nil
 		height: nil).
@@ -287,7 +287,7 @@ OSSDL3GPUTiledFormRenderer >> validate [
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [
 		"The SDL3GPUDevice is shared among windows"
 		gpuDevice := OSSDL3Driver current gpuDevice.
-		gpuDevice claimWindow: backendWindow sdl3Window ].
+		gpuDevice claimWindow: backendWindow sdlWindow ].
 
 	(uploadStream isNil or: [ form extent ~= extent ]) ifTrue: [ 
 		uploadStream ifNotNil: [ uploadStream resetForExtent: form extent ].

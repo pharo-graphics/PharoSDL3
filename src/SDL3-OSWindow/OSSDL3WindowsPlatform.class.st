@@ -42,7 +42,7 @@ OSSDL3WindowsPlatform >> enableDebugWindowMenu: hwnd [
 { #category : 'public' }
 OSSDL3WindowsPlatform >> platformSpecificHandleOf: aOSSDL3BackendWindow [
 
-	^ aOSSDL3BackendWindow sdl3Window propertyGroup
+	^ aOSSDL3BackendWindow sdlWindow propertyGroup
 		pointerAt: SDL_PROP_WINDOW_WIN32_HWND_POINTER
 		ifAbsent: nil
 ]

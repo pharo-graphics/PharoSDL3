@@ -76,7 +76,7 @@ OSSDL3AthensRenderer >> initializeWindowHandle: aBackendWindow [
 
 	self initialize.
 	self backendWindow: aBackendWindow.
-	sdl3Renderer := backendWindow sdl3Window newRenderer.
+	sdl3Renderer := backendWindow sdlWindow newRenderer.
 	mutex critical: [ self resetResources ]
 ]
 

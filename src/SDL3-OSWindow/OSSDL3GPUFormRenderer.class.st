@@ -63,7 +63,7 @@ OSSDL3GPUFormRenderer >> flush [
 		"Try to Acquire Swapchain texture (Non-blocking)."
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
 		(commandBuffer
-			acquireGPUSwapchainTextureForWindow: backendWindow sdl3Window
+			acquireGPUSwapchainTextureForWindow: backendWindow sdlWindow
 			into: swapchainTextureHolder 
 			width: swapchainWidthHolder 
 			height: swapchainHeightHolder).
@@ -161,7 +161,7 @@ OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 { #category : 'accessing' }
 OSSDL3GPUFormRenderer >> outputExtent [
 	
-	^ backendWindow sdl3Window pixelExtent
+	^ backendWindow sdlWindow pixelExtent
 ]
 
 { #category : 'updating screen' }
@@ -217,7 +217,7 @@ OSSDL3GPUFormRenderer >> validate [
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [
 		"The SDL3GPUDevice is shared among windows"
 		gpuDevice := OSSDL3Driver current gpuDevice.
-		gpuDevice claimWindow: backendWindow sdl3Window ].
+		gpuDevice claimWindow: backendWindow sdlWindow ].
 
 	(gpuTexture isNil or: [ uploadStream isNil or: [ form extent ~= extent ] ])
 		ifTrue: [ self initializeGPUResources ].

@@ -35,7 +35,7 @@ OSSDL3FormRenderer >> copyAndPresentTextureRectangle: rectangle [
 { #category : 'private' }
 OSSDL3FormRenderer >> createRenderer [
 
-	sdlRenderer := backendWindow sdl3Window newRenderer.
+	sdlRenderer := backendWindow sdlWindow newRenderer.
 	sdlRenderer renderVsync: 1
 ]
 
@@ -46,7 +46,7 @@ OSSDL3FormRenderer >> createTexture [
 	"Existing texture released explicitly to avoid memory leak on resize"
 	sdlTexture ifNotNil: [ sdlTexture destroy ].
 
-	pixelExtent := backendWindow sdl3Window pixelExtent.
+	pixelExtent := backendWindow sdlWindow pixelExtent.
 
 	sdlTexture := sdlRenderer
 					 newTextureFormat: SDL_PIXELFORMAT_XRGB8888

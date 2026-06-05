@@ -60,7 +60,7 @@ OSSDL3GenericRenderer >> createRenderTargetTextureWithExtent: anExtent [
 { #category : 'initialization' }
 OSSDL3GenericRenderer >> createSDL3Renderer [
 
-	sdl3Renderer := backendWindow sdl3Window newRenderer.
+	sdl3Renderer := backendWindow sdlWindow newRenderer.
 
 	self useNoBlending;
 		color: Color white
