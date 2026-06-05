@@ -208,6 +208,12 @@ OSSDL3BackendWindow >> isValid [
 	^ (sdl3Window isNotNil and: [ sdl3Window isNull not ])
 ]
 
+{ #category : 'testing' }
+OSSDL3BackendWindow >> isVisible [
+
+	^ sdl3Window isHidden not
+]
+
 { #category : 'cursor' }
 OSSDL3BackendWindow >> lookupSystemCursor: aCursor ifNotFound: aBlock [
 	"Lookup the SDL3 equivalent for a standard Pharo cursor."

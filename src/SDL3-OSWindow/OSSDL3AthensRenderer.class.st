@@ -83,13 +83,11 @@ OSSDL3AthensRenderer >> initializeWindowHandle: aBackendWindow [
 
 { #category : 'updating screen' }
 OSSDL3AthensRenderer >> pixelExtent [
+
 	mutex critical: [
-		(sdl3Renderer isNil or: [ sdl3Renderer isNull ]) ifFalse: [ 
-			^ ExternalAddress allocate: 8 bytesDuring: [ :buffer |
-		 		sdl3Renderer getCurrentRenderOutputSizeIntoW: buffer h: buffer + 4.
-		 		(buffer signedLongAt: 1) @ (buffer signedLongAt: 5) ]
-		].
-	].
+		(sdl3Renderer isNil or: [ sdl3Renderer isNull ])
+			ifFalse: [ ^ sdl3Renderer outputExtent ] ].
+
 	^ super pixelExtent
 ]
 
@@ -149,7 +147,8 @@ OSSDL3AthensRenderer >> resized [
 
 { #category : 'accessing' }
 OSSDL3AthensRenderer >> surface [
-	^ mutex critical: [super surface]
+
+	^ mutex critical: [ super surface ]
 ]
 
 { #category : 'updating screen' }
@@ -203,5 +202,6 @@ OSSDL3AthensRenderer >> validate [
 	athensSurface ifNil: [ ^ false ].
 	(texture isNil or: [ texture isNull ]) ifTrue: [ ^ false ].
 	(sdl3Renderer isNil or: [ sdl3Renderer isNull ]) ifTrue: [ ^ false ].
+	sdl3Renderer outputExtent ~= textureExtent ifTrue: [ ^ false ].
 	^ true
 ]
