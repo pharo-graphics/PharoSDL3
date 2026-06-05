@@ -30,8 +30,7 @@ OSSDL3ExternalForm >> destroySurface [
 
 	bits ifNotNil: [ :surfaceID |
 		bits := nil.
-		self primDestroyManualSurface: surfaceID
-	]
+		self primDestroyManualSurface: surfaceID ]
 ]
 
 { #category : 'scaling, rotation' }

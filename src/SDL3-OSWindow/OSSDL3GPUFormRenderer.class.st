@@ -63,11 +63,11 @@ OSSDL3GPUFormRenderer >> flush [
 
 		"Try to Acquire Swapchain texture (Non-blocking)."
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
-		(commandBuffer
+		commandBuffer
 			acquireGPUSwapchainTextureForWindow: backendWindow sdlWindow
 			into: swapchainTextureHolder 
 			width: swapchainWidthHolder 
-			height: swapchainHeightHolder).
+			height: swapchainHeightHolder.
 
 		"If swapchain is not available submit the empty command buffer and retry later"
 		[	swapchainTextureHolder value isNull ifFalse: [ 
