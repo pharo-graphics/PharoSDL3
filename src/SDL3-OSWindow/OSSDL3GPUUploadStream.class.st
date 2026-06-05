@@ -185,16 +185,17 @@ OSSDL3GPUUploadStream >> resetForExtent: anExtent [
 { #category : 'public' }
 OSSDL3GPUUploadStream >> uploadForm: aForm region: aRectangle to: aTexture at: aPoint [
 	"Upload a surgical region of a Smalltalk Form to a GPU Texture at a specific destination point.
-	I handle the BitBlt into the mapped transfer buffer."
+	 I handle the BitBlt into the mapped transfer buffer."
 
 	| bytesPerRow bytesNeeded |
-	
 	aRectangle area <= 0 ifTrue: [ ^ self ].
+
+	self assert: aRectangle isIntegerRectangle. "Crash prevention"
 	
 	self ensureBatchStarted.
 
 	"1. Calculate space needed for this surgical rectangle (tightly packed)"
-	bytesPerRow := aRectangle width * FFIUInt32 externalTypeSize.
+	bytesPerRow := aRectangle width * 4.
 	bytesNeeded := bytesPerRow * aRectangle height.
 
 	"2. Capacity check. If we exceed the buffer, submit current batch and start over."

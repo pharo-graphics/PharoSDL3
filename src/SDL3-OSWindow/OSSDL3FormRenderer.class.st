@@ -48,11 +48,12 @@ OSSDL3FormRenderer >> createTexture [
 
 	pixelExtent := backendWindow sdlWindow pixelExtent.
 
-	sdlTexture := sdlRenderer
-					 newTextureFormat: SDL_PIXELFORMAT_XRGB8888
-					 access: SDL_TEXTUREACCESS_STREAMING
-					 w: pixelExtent x
-					 h: pixelExtent y.
+	sdlTexture :=
+		sdlRenderer
+			newTextureFormat: SDL_PIXELFORMAT_XRGB8888
+			access: SDL_TEXTUREACCESS_STREAMING
+			w: pixelExtent x
+			h: pixelExtent y.
 
 	extent := form extent
 ]
