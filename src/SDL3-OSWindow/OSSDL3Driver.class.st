@@ -158,9 +158,8 @@ OSSDL3Driver >> ensureEventLoop [
 OSSDL3Driver >> gpuDevice [
 	"Ensure the shared GPU device is initialized and answer it."
 
-	^ gpuDevice ifNil: [
-		self initializeGPUDevice.
-		gpuDevice ]
+	gpuDevice ifNil: [ self initializeGPUDevice ].
+	^ gpuDevice
 ]
 
 { #category : 'initialization' }
@@ -195,8 +194,8 @@ OSSDL3Driver >> initializeGPUDevice [
 	"Initialize the shared GPU device."
 
 	gpuDevice :=
-		self ffiLibrary
-			newGPUDeviceFormatFlags:
+		SDL_GPUDevice
+			unsafeNewFormatFlags:
 				SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 			debugMode: true
 			name: nil
