@@ -52,26 +52,22 @@ SDL3AudioRecorderDemo >> initialize [
 SDL3AudioRecorderDemo >> openPlaybackStream [
 	"Open a stream at the the default playback device, with it's default format."
 
-	playbackStream := sdl
-		openAudioDeviceStreamDevid: SDL3AudioDevice defaultPlaybackAudioDeviceID
+	playbackStream := SDL_AudioStream
+		unsafeOpenDeviceStreamDevid: SDL3AudioDevice defaultPlaybackAudioDeviceID
 		spec: ExternalAddress null
 		callback: ExternalAddress null
-		userdata: ExternalAddress null.
-
-	playbackStream assertNotNullReturn
+		userdata: ExternalAddress null
 ]
 
 { #category : 'initialization' }
 SDL3AudioRecorderDemo >> openRecordingStream [
 	"Open a stream at the the default recording device. Use the same format as the playback device"
 
-	recordingStream := sdl
-		openAudioDeviceStreamDevid: SDL3AudioDevice defaultRecordingAudioDeviceID
+	recordingStream := SDL_AudioStream
+		unsafeOpenDeviceStreamDevid: SDL3AudioDevice defaultRecordingAudioDeviceID
 		spec: playbackStream outputFormatSpec
 		callback: ExternalAddress null
-		userdata: ExternalAddress null.
-
-	recordingStream assertNotNullReturn
+		userdata: ExternalAddress null
 ]
 
 { #category : 'lifecycle' }
