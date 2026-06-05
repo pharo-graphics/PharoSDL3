@@ -72,6 +72,8 @@ SDL3WindowTest >> test01CreateWindow [
 	self assert: window displayScale > 0.0.
 	self assert: window pixelDensity > 0.0.
 	self assert: window isBordered.
+	self deny: window isMaximized.
+	self deny: window isMinimized.
 	self deny: window isFullscreen.
 	self deny: window isHidden.
 	self deny: window isKeyboardGrabbed.
