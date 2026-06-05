@@ -117,7 +117,7 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	uploadStream gpuDevice: gpuDevice.
 	uploadStream resetForExtent: extent.
 
-	"Backing store needs SAMPLER usage for copying/rendering to swapchain"
+	"Backbuffer needs SAMPLER usage for copying/rendering to swapchain"
 	gpuTexture := gpuDevice
 		new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET

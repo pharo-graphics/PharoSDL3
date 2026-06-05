@@ -239,12 +239,6 @@ OSSDL3BackendWindow >> minimize [
 	sdlWindow minimize
 ]
 
-{ #category : 'instance creation' }
-OSSDL3BackendWindow >> newAthensRenderer [
-
-	^ renderer := OSSDL3AthensRenderer for: self
-]
-
 { #category : 'factory' }
 OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
