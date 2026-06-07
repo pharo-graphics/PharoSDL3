@@ -1,6 +1,30 @@
 Extension { #name : 'SDL3Cursor' }
 
 { #category : '*SDL3-Own' }
+SDL3Cursor class >> hide [
+
+	self ffiLibrary assertSuccess: self ffiLibrary hideCursor
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Cursor class >> isVisible [
+
+	^ self ffiLibrary cursorVisible
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Cursor class >> show [
+
+	self ffiLibrary assertSuccess: self ffiLibrary showCursor
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Cursor class >> toggleVisible [
+
+	self isVisible ifTrue: [ self hide ] ifFalse: [ self show ]
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Cursor class >> unsafeNewAnimatedFrames: frames frameCount: frameCount hotX: hotX hotY: hotY [
 
 	^ (self ffiLibrary

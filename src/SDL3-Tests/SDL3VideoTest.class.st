@@ -52,16 +52,21 @@ SDL3VideoTest >> test02CursorAPI [
 
 	self assert: sdl getCursor equals: cursor.
 
-	sdl hideCursor.
-	self deny: sdl cursorVisible.
+	SDL3Cursor hide.
+	self deny: SDL3Cursor isVisible.
 
-	sdl showCursor.
-	self assert: sdl cursorVisible.
+	SDL3Cursor show.
+	self assert: SDL3Cursor isVisible.
+
+	SDL3Cursor toggleVisible.
+	self deny: SDL3Cursor isVisible.
+	SDL3Cursor toggleVisible.
+	self assert: SDL3Cursor isVisible.
 
 	cursor destroy.
-	
 	cursor := sdl getDefaultCursor.
 	self deny: cursor isNull.
+
 	cursor setActive.
 	"You do not have to call SDL_DestroyCursor() on the return value, but it is safe to do so."
 	cursor destroy
