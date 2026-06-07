@@ -2,7 +2,6 @@ Class {
 	#name : 'SDL3SystemCursor',
 	#superclass : 'SDL3Enumeration',
 	#classVars : [
-		'SDL_SYSTEM_CURSOR_COUNT',
 		'SDL_SYSTEM_CURSOR_CROSSHAIR',
 		'SDL_SYSTEM_CURSOR_DEFAULT',
 		'SDL_SYSTEM_CURSOR_EW_RESIZE',
@@ -28,12 +27,6 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Enumerations'
 }
-
-{ #category : 'accessing enum' }
-SDL3SystemCursor class >> count [
-	"This method was automatically generated"
-	^ SDL_SYSTEM_CURSOR_COUNT
-]
 
 { #category : 'accessing enum' }
 SDL3SystemCursor class >> crosshair [
@@ -77,7 +70,7 @@ SDL3SystemCursor class >> enumDecl [
 	SDL_SYSTEM_CURSOR_S_RESIZE 17
 	SDL_SYSTEM_CURSOR_SW_RESIZE 18
 	SDL_SYSTEM_CURSOR_W_RESIZE 19
-	SDL_SYSTEM_CURSOR_COUNT 20 )
+	"SDL_SYSTEM_CURSOR_COUNT 20 <-- NOT A CURSOR!" )
 ]
 
 { #category : 'accessing enum' }
