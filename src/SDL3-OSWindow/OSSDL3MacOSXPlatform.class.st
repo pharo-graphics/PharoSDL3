@@ -49,7 +49,7 @@ OSSDL3MacOSXPlatform >> objc [
 { #category : 'public' }
 OSSDL3MacOSXPlatform >> platformSpecificHandleOf: aOSSDL3BackendWindow [
 
-	^ aOSSDL3BackendWindow sdl3Window propertyGroup
+	^ aOSSDL3BackendWindow sdlWindow propertyGroup
 		pointerAt: SDL_PROP_WINDOW_COCOA_WINDOW_POINTER
 		ifAbsent: nil
 ]
