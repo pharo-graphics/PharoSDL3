@@ -4,7 +4,7 @@ I use vertex and fragment shaders defined in Pharo.
 "
 Class {
 	#name : 'SDL3GPUQuadDemo',
-	#superclass : 'SDL3GPUClearDemo',
+	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'gpuPipeline',
 		'vertexBuffer',
@@ -84,26 +84,21 @@ SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 	renderPass :=
 		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfos
-			numColorTargets: colorTargetInfos size
 			depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
 
 	renderPass bindGPUGraphicsPipeline: gpuPipeline.
-	
+
 	renderPass
 		bindGPUVertexBuffersFirstSlot: 0
-		bindings: vertexBufferBindings
-		numBindings: vertexBufferBindings size.
+		bindings: vertexBufferBindings.
 
 	renderPass
 		bindGPUIndexBufferBinding: indexBinding
 		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-	
+
 	renderPass
 		bindGPUFragmentSamplersFirstSlot: 0
-		textureSamplerBindings: textureSamplerBindings
-		numBindings: textureSamplerBindings size.
-
+		textureSamplerBindings: textureSamplerBindings.
 	renderPass
 		drawGPUIndexedPrimitivesNumIndices: self indicesCount
 		numInstances: 1
@@ -129,13 +124,22 @@ SDL3GPUQuadDemo >> indicesCount [
 	^ numberOfQuads * 6
 ]
 
+{ #category : 'accessing' }
+SDL3GPUQuadDemo >> initialExtent [
+
+	^ 720 @ 720
+]
+
+{ #category : 'accessing' }
+SDL3GPUQuadDemo >> initialWindowFlags [
+
+	^ SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_HIGH_PIXEL_DENSITY
+]
+
 { #category : 'initialization' }
 SDL3GPUQuadDemo >> initialize [
 
 	super initialize.
-
-	initialExtent := 600 @ 600.
-	initialWindowFlags := SDL3WindowFlags inputFocus | SDL3WindowFlags highPixelDensity.
 
 	filter := SDL_GPU_FILTER_NEAREST.
 	numberOfQuads := 36.
@@ -234,7 +238,6 @@ SDL3GPUQuadDemo >> initializePipeline [
 		numVertexAttributes: vertexAttributes size.
 
 	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	gpuPipeline assertNotNullReturn.
 
 	"We can free after pipeline was created"
 	gpuDevice releaseGPUShader: vertexShader.
@@ -261,32 +264,6 @@ SDL3GPUQuadDemo >> isNearestSamplerFilter [
 	^ filter = SDL_GPU_FILTER_NEAREST
 ]
 
-{ #category : 'running' }
-SDL3GPUQuadDemo >> iterateUntilQuit [
-
-	| quit |
-	quit := false.
-
-	[ quit ] whileFalse: [
-		self pollEventsDo: [ :evt |
-			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
-			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
-				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ].
-
-				evt key = SDLK_F asInteger ifTrue: [
-					self switchSamplerFilter.
-					self updateTitle ].
-				evt key = SDLK_UP asInteger ifTrue: [
-					self incrementQuads ].
-				evt key = SDLK_DOWN asInteger ifTrue: [
-					self decrementQuads ]
-			] ].
-
-		self render.
-
-		16.6 milliSeconds wait ]
-]
-
 { #category : 'accessing' }
 SDL3GPUQuadDemo >> numberOfVerticesPerQuad [
 
@@ -300,7 +277,6 @@ SDL3GPUQuadDemo >> open [
 	"
 
 	super open.
-	self updateTitle.
 	self initializeGPUResources
 ]
 
@@ -313,11 +289,11 @@ SDL3GPUQuadDemo >> quadIndices [
 	^ #(0 1 2 0 2 3)
 ]
 
-{ #category : 'rendering' }
-SDL3GPUQuadDemo >> render [
+{ #category : 'hooks' }
+SDL3GPUQuadDemo >> step [
 
 	self updateVertexBuffer.
-	super render
+	super step
 ]
 
 { #category : 'initialization' }
@@ -340,9 +316,11 @@ SDL3GPUQuadDemo >> switchSamplerFilter [
 			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			yourself).
-	sampler assertNotNullReturn.
+
+			textureSamplerBindings first sampler: sampler
+.
 	
-	textureSamplerBindings first sampler: sampler
+	self updateTitle
 ]
 
 { #category : 'initialization' }
@@ -384,7 +362,6 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 	gpuDevice unmapGPUTransferBuffer: indexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -399,16 +376,7 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit
-]
-
-{ #category : 'actions' }
-SDL3GPUQuadDemo >> updateTitle [
-
-	window title: ('Quads: {1} (UP/DOWN to change) - Filter: {2} (F to switch) - ESC to quit'
-		format: {
-			numberOfQuads.
-			self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ] })
+	commandBuffer submit
 ]
 
 { #category : 'initialization' }
@@ -470,7 +438,6 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 	gpuDevice unmapGPUTransferBuffer: vertexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -485,7 +452,17 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit
+	commandBuffer submit
+]
+
+{ #category : 'accessing' }
+SDL3GPUQuadDemo >> updatedTitle [
+
+	^ super updatedTitle,
+		(' - Count: {1} (UP/DOWN to change) - Filter: {2} (F to switch)'
+			format: {
+				numberOfQuads.
+				self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ] })
 ]
 
 { #category : 'accessing' }
@@ -494,18 +471,31 @@ SDL3GPUQuadDemo >> verticesCount [
 	^ self numberOfVerticesPerQuad * numberOfQuads
 ]
 
+{ #category : 'hooks' }
+SDL3GPUQuadDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+
+	super visitKeyboardDownEvent: aKeyboardDownEvent.
+
+	aKeyboardDownEvent key = SDLK_F asInteger ifTrue: [
+		self switchSamplerFilter ].
+	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
+		self incrementQuads ].
+	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
+		self decrementQuads ]
+]
+
 { #category : 'private' }
 SDL3GPUQuadDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h [
 
 	| v |
 	"Vertices (NDC): y increases UPWARDS.
-	 UVs: y increases DOWNWARDS.
-	 
-	 0: TL: x, y       UV: 0, 0
-	 1: TR: x+w, y     UV: 1, 0
-	 2: BR: x+w, y-h   UV: 1, 1
-	 3: BL: x, y-h     UV: 0, 1
-	 "
+	UVs: y increases DOWNWARDS.
+	
+	0: TL: x, y	   UV: 0, 0
+	1: TR: x+w, y	 UV: 1, 0
+	2: BR: x+w, y-h   UV: 1, 1
+	3: BL: x, y-h	 UV: 0, 1
+	"
 
 	"0: TL"
 	v := aVertexArray at: startIndex.

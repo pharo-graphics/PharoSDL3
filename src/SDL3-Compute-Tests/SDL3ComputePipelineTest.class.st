@@ -26,10 +26,9 @@ SDL3ComputePipelineTest >> setUp [
 		assert: (sdl initSubSystem: SDL3InitFlags video)
 		description: 'Initialize video subsystem'.
 
-	gpuDevice := sdl
-		newGPUDeviceFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
+	gpuDevice := SDL3GPUDevice
+		unsafeNewFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 		debugMode: true name: nil.
-	gpuDevice assertNotNullReturn.
 
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray
 ]
@@ -92,10 +91,10 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 	roBindings at: 1 put: inputBuffer getHandle.
 
 	computePass := commandBuffer
-		  beginGPUComputePassStorageTextureBindings: nil
-		  numStorageTextureBindings: 0
-		  storageBufferBindings: rwBindings
-		  numStorageBufferBindings: 1.
+		 beginGPUComputePassStorageTextureBindings: nil
+		 numStorageTextureBindings: 0
+		 storageBufferBindings: rwBindings
+		 numStorageBufferBindings: 1.
 		
 	computePass bindGPUComputePipeline: computePipeline.
 	computePass bindGPUComputeStorageBuffersFirstSlot: 0 storageBuffers: roBindings numBindings: 1.
@@ -103,7 +102,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 	computePass dispatchWorkgroupCountX: (SDL3TestComputeMathShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1.
 	computePass end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	"4. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -113,7 +112,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 		downloadFromGPUBufferSource: (SDL_GPUBufferRegion new buffer: resultBuffer; offset: 0; size: byteSize; yourself)
 		destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -166,16 +165,16 @@ SDL3ComputePipelineTest >> test02Uniforms [
 	rwBindings first buffer: resultBuffer; cycle: false.
 
 	computePass := commandBuffer
-		  beginGPUComputePassStorageTextureBindings: nil
-		  numStorageTextureBindings: 0
-		  storageBufferBindings: rwBindings
-		  numStorageBufferBindings: 1.
+		 beginGPUComputePassStorageTextureBindings: nil
+		 numStorageTextureBindings: 0
+		 storageBufferBindings: rwBindings
+		 numStorageBufferBindings: 1.
 
 	computePass bindGPUComputePipeline: computePipeline.
 	computePass dispatchWorkgroupCountX: (SDL3TestComputeUniformShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1.
 	computePass end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"4. Download results"
 	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
@@ -184,7 +183,7 @@ SDL3ComputePipelineTest >> test02Uniforms [
 		downloadFromGPUBufferSource: (SDL_GPUBufferRegion new buffer: resultBuffer; offset: 0; size: byteSize; yourself)
 		destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -264,7 +263,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 	computePass dispatchWorkgroupCountX: (SDL3TestComputeAddOneShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1.
 	computePass end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	"3. Download results from C"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -274,7 +273,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 		downloadFromGPUBufferSource: (SDL_GPUBufferRegion new buffer: bufferC; offset: 0; size: byteSize; yourself)
 		destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -348,7 +347,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 	computePass dispatchWorkgroupCountX: (SDL3TestComputeStructShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1.
 	computePass end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"4. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -358,7 +357,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 		downloadFromGPUBufferSource: (SDL_GPUBufferRegion new buffer: resultBuffer; offset: 0; size: byteSize; yourself)
 		destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -410,7 +409,7 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 	computePass bindGPUComputePipeline: computePipeline.
 	computePass dispatchWorkgroupCountX: (SDL3TestComputeIndexShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1.
 	computePass end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"3. Download results"
 	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
@@ -419,7 +418,7 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 		downloadFromGPUBufferSource: (SDL_GPUBufferRegion new buffer: resultBuffer; offset: 0; size: byteSize; yourself)
 		destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -467,7 +466,7 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 	computePass bindGPUComputePipeline: computePipeline.
 	computePass dispatchWorkgroupCountX: 1 y: 1 z: 1.
 	computePass end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	"3. Download results"
 	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
@@ -476,7 +475,7 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 		downloadFromGPUTextureSource: (SDL3GPUTextureRegion new texture: resultTexture; w: texWidth; h: texHeight; d: 1; yourself)
 		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -555,7 +554,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 	computePass dispatchWorkgroupCountX: numWorkgroups y: 1 z: 1.
 	computePass end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	"4. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -565,7 +564,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 		downloadFromGPUBufferSource: (SDL_GPUBufferRegion new buffer: resultBuffer; offset: 0; size: numWorkgroups * FFIFloat32 externalTypeSize; yourself)
 		destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 
@@ -654,7 +653,7 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	computePass dispatchGPUComputeIndirectBuffer: indirectBuffer offset: 0.
 	computePass end.
 	
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	"6. Download results"
 	gpuDevice releaseGPUTransferBuffer: transferBuffer.
@@ -664,7 +663,7 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 		downloadFromGPUBufferSource: (SDL_GPUBufferRegion new buffer: resultBuffer; offset: 0; size: byteSize; yourself)
 		destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself);
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
 

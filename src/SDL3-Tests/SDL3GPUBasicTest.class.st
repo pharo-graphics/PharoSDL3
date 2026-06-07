@@ -17,21 +17,22 @@ Class {
 SDL3GPUBasicTest >> setUp [
 
 	super setUp.
-
+	sdl := LibSDL3 uniqueInstance.
 	sdl init: SDL_INIT_VIDEO.
-	window := sdl
-		newWindowTitle: 'GPU Test'
-		w: 640
-		h: 480
-		flags: 0.
-	window assertNotNullReturn.
-	
-	gpuDevice := sdl 
-		newGPUDeviceFormatFlags:
-			SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
-		debugMode: true name: nil.
-	gpuDevice assertNotNullReturn.
-	
+	window := SDL3Window
+		         unsafeNewTitle: 'GPU Test'
+		         w: 640
+		         h: 480
+		         flags: 0.
+
+	gpuDevice := SDL3GPUDevice
+		            unsafeNewFormatFlags:
+			            SDL_GPU_SHADERFORMAT_DXIL
+			            | SDL_GPU_SHADERFORMAT_MSL
+			            | SDL_GPU_SHADERFORMAT_SPIRV
+		            debugMode: true
+		            name: nil.
+
 	gpuDevice claimWindow: window
 ]
 
@@ -51,62 +52,57 @@ SDL3GPUBasicTest >> test01AcquireAndCancelCommandBuffer [
 
 	| commandBuffer |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer cancel
 ]
 
 { #category : 'tests' }
 SDL3GPUBasicTest >> test02AcquireSwapchainTextureAndSubmitEmpty [
 
-	| commandBuffer textureHolder success |
+	| commandBuffer textureHolder |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 
 	textureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	
-	success := commandBuffer
+	commandBuffer
 		waitAndAcquireGPUSwapchainTextureForWindow: window
 		into: textureHolder
 		width: nil
 		height: nil.
 		
-	self assert: success.
 	self deny: textureHolder value isNull.
 
-	sdl assertSuccess: commandBuffer submit
+	commandBuffer submit
 ]
 
 { #category : 'tests' }
 SDL3GPUBasicTest >> test03ClearColorInRenderPass [
 
-	| commandBuffer textureHolder success colorTargetInfo renderPass |
+	| commandBuffer textureHolder renderPass colorTargetInfos |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 
 	textureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	
-	success := commandBuffer
+	commandBuffer
 		waitAndAcquireGPUSwapchainTextureForWindow: window
 		into: textureHolder
 		width: nil
 		height: nil.
 	
-	self assert: success.
 	self deny: textureHolder value isNull.
 	
-	colorTargetInfo := SDL_GPUColorTargetInfo new.
-	colorTargetInfo
+	colorTargetInfos := FFIExternalArray externalNewType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos autoRelease.
+	colorTargetInfos first
 		texture: textureHolder value;
-		storeOp: SDL_GPUStoreOp store;
-		loadOp: SDL_GPULoadOp clear.
-	colorTargetInfo clearColor updateFrom: Color yellow.
+		storeOp: SDL_GPU_STOREOP_STORE;
+		loadOp: SDL_GPU_LOADOP_CLEAR;
+		updateClearColorFrom: Color yellow.
 
 	renderPass := commandBuffer
-		beginGPURenderPassColorTargetInfos: colorTargetInfo
-		numColorTargets: 1
+		beginGPURenderPassColorTargetInfos: colorTargetInfos
 		depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
-	renderPass end.
-	
-	sdl assertSuccess: commandBuffer submit
+		renderPass end.
+
+	commandBuffer submit
+
 ]

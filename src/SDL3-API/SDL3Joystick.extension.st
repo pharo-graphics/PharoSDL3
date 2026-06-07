@@ -3,7 +3,7 @@ Extension { #name : 'SDL3Joystick' }
 { #category : '*SDL3-API' }
 SDL3Joystick >> close [
 
-	^ self ffiLibrary closeJoystick: self
+	self ffiLibrary closeJoystick: self
 ]
 
 { #category : '*SDL3-API' }
@@ -27,7 +27,11 @@ SDL3Joystick >> firmwareVersion [
 { #category : '*SDL3-API' }
 SDL3Joystick >> getAxisInitialStateIntoAxis: axis state: state [
 
-	^ self ffiLibrary getJoystickAxisInitialStateJoystick: self axis: axis state: state
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getJoystickAxisInitialStateJoystick: self
+			axis: axis
+			state: state)
 ]
 
 { #category : '*SDL3-API' }
@@ -39,17 +43,17 @@ SDL3Joystick >> getAxisInto: axis [
 { #category : '*SDL3-API' }
 SDL3Joystick >> getBallInto: ball dx: dx dy: dy [
 
-	^ self ffiLibrary
-		  getJoystickBallJoystick: self
-		  ball: ball
-		  dx: dx
-		  dy: dy
+	self ffiLibrary assertSuccess: (self ffiLibrary
+			 getJoystickBallJoystick: self
+			 ball: ball
+			 dx: dx
+			 dy: dy)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Joystick >> getButtonInto: button [
 
-	^ self ffiLibrary getJoystickButtonJoystick: self button: button
+	self ffiLibrary assertSuccess: (self ffiLibrary getJoystickButtonJoystick: self button: button)
 ]
 
 { #category : '*SDL3-API' }
@@ -85,11 +89,12 @@ SDL3Joystick >> isHaptic [
 { #category : '*SDL3-API' }
 SDL3Joystick >> ledRed: red green: green blue: blue [
 
-	^ self ffiLibrary
-		  setJoystickLEDJoystick: self
-		  red: red
-		  green: green
-		  blue: blue
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setJoystickLEDJoystick: self
+			red: red
+			green: green
+			blue: blue)
 ]
 
 { #category : '*SDL3-API' }
@@ -125,7 +130,9 @@ SDL3Joystick >> numHats [
 { #category : '*SDL3-API' }
 SDL3Joystick >> openHapticFrom [
 
-	^ self ffiLibrary openHapticFromJoystick: self
+	^ (self ffiLibrary openHapticFromJoystick: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
@@ -141,9 +148,12 @@ SDL3Joystick >> playerIndex [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Joystick >> playerIndexPlayerIndex: player_index [
+SDL3Joystick >> playerIndexPlayerIndex: playerIndex [
 
-	^ self ffiLibrary setJoystickPlayerIndexJoystick: self playerIndex: player_index
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setJoystickPlayerIndexJoystick: self
+			playerIndex: playerIndex)
 ]
 
 { #category : '*SDL3-API' }
@@ -165,40 +175,44 @@ SDL3Joystick >> propertiesID [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Joystick >> rumbleLowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
+SDL3Joystick >> rumbleLowFrequencyRumble: lowFrequencyRumble highFrequencyRumble: highFrequencyRumble durationMs: durationMs [
 
-	^ self ffiLibrary
-		  rumbleJoystick: self
-		  lowFrequencyRumble: low_frequency_rumble
-		  highFrequencyRumble: high_frequency_rumble
-		  durationMs: duration_ms
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			rumbleJoystick: self
+			lowFrequencyRumble: lowFrequencyRumble
+			highFrequencyRumble: highFrequencyRumble
+			durationMs: durationMs)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Joystick >> rumbleTriggersLeftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
+SDL3Joystick >> rumbleTriggersLeftRumble: leftRumble rightRumble: rightRumble durationMs: durationMs [
 
-	^ self ffiLibrary
-		  rumbleJoystickTriggersJoystick: self
-		  leftRumble: left_rumble
-		  rightRumble: right_rumble
-		  durationMs: duration_ms
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			rumbleJoystickTriggersJoystick: self
+			leftRumble: leftRumble
+			rightRumble: rightRumble
+			durationMs: durationMs)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Joystick >> sendEffectData: data size: size [
 
-	^ self ffiLibrary sendJoystickEffectJoystick: self data: data size: size
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary sendJoystickEffectJoystick: self data: data size: size)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Joystick >> sendVirtualSensorDataType: type sensorTimestamp: sensor_timestamp data: data numValues: num_values [
+SDL3Joystick >> sendVirtualSensorDataType: type sensorTimestamp: sensorTimestamp data: data numValues: numValues [
 
-	^ self ffiLibrary
-		  sendJoystickVirtualSensorDataJoystick: self
-		  type: type
-		  sensorTimestamp: sensor_timestamp
-		  data: data
-		  numValues: num_values
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			sendJoystickVirtualSensorDataJoystick: self
+			type: type
+			sensorTimestamp: sensorTimestamp
+			data: data
+			numValues: numValues)
 ]
 
 { #category : '*SDL3-API' }
@@ -222,40 +236,54 @@ SDL3Joystick >> vendor [
 { #category : '*SDL3-API' }
 SDL3Joystick >> virtualAxis: axis value: value [
 
-	^ self ffiLibrary setJoystickVirtualAxisJoystick: self axis: axis value: value
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setJoystickVirtualAxisJoystick: self
+			axis: axis
+			value: value)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Joystick >> virtualBall: ball xrel: xrel yrel: yrel [
+SDL3Joystick >> virtualBall: ball xrel: xRel yrel: yRel [
 
-	^ self ffiLibrary
-		  setJoystickVirtualBallJoystick: self
-		  ball: ball
-		  xrel: xrel
-		  yrel: yrel
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setJoystickVirtualBallJoystick: self
+			ball: ball
+			xrel: xRel
+			yrel: yRel)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Joystick >> virtualButton: button down: down [
 
-	^ self ffiLibrary setJoystickVirtualButtonJoystick: self button: button down: down
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setJoystickVirtualButtonJoystick: self
+			button: button
+			down: down)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Joystick >> virtualHat: hat value: value [
 
-	^ self ffiLibrary setJoystickVirtualHatJoystick: self hat: hat value: value
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setJoystickVirtualHatJoystick: self
+			hat: hat
+			value: value)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Joystick >> virtualTouchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
 
-	^ self ffiLibrary
-		  setJoystickVirtualTouchpadJoystick: self
-		  touchpad: touchpad
-		  finger: finger
-		  down: down
-		  x: x
-		  y: y
-		  pressure: pressure
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setJoystickVirtualTouchpadJoystick: self
+			touchpad: touchpad
+			finger: finger
+			down: down
+			x: x
+			y: y
+			pressure: pressure)
 ]

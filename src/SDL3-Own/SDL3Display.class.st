@@ -90,21 +90,26 @@ SDL3Display >> fullscreenDisplayModes [
 ]
 
 { #category : 'accessing' }
-SDL3Display >> getClosestFullscreenDisplayModeIntoW: w h: h refreshRate: refresh_rate includeHighDensityModes: include_high_density_modes closest: closest [
+SDL3Display >> getClosestFullscreenDisplayModeIntoW: w h: h refreshRate: refreshRate includeHighDensityModes: includeHighDensityModes closest: closest [
 
-	^ self ffiLibrary
-		  getClosestFullscreenDisplayModeDisplayID: id
-		  w: w
-		  h: h
-		  refreshRate: refresh_rate
-		  includeHighDensityModes: include_high_density_modes
-		  closest: closest
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getClosestFullscreenDisplayModeDisplayID: id
+			w: w
+			h: h
+			refreshRate: refreshRate
+			includeHighDensityModes: includeHighDensityModes
+			closest: closest)
 ]
 
 { #category : 'accessing' }
 SDL3Display >> getDXGIOutputInfoIntoAdapterIndex: adapterIndex outputIndex: outputIndex [
 
-	^ self ffiLibrary getDXGIOutputInfoDisplayID: id adapterIndex: adapterIndex outputIndex: outputIndex
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getDXGIOutputInfoDisplayID: id
+			adapterIndex: adapterIndex
+			outputIndex: outputIndex)
 ]
 
 { #category : 'accessing' }

@@ -15,6 +15,9 @@ Class {
 		'OFFSET_MINVELOCITY',
 		'OFFSET_NEIGHBORRADIUS',
 		'OFFSET_NUMBOIDS',
+		'OFFSET_PADDING1',
+		'OFFSET_PADDING2',
+		'OFFSET_PADDING3',
 		'OFFSET_SEPARATIONRADIUS',
 		'OFFSET_SEPARATIONWEIGHT',
 		'OFFSET_TIME'
@@ -42,6 +45,9 @@ SDL3GPUBoidsUniforms class >> fieldsDesc [
 	float minVelocity;
 	float boundX;
 	float boundY;
+	float padding1;
+	float padding2;
+	float padding3;
 	)
 ]
 
@@ -163,6 +169,42 @@ SDL3GPUBoidsUniforms >> numBoids [
 SDL3GPUBoidsUniforms >> numBoids: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_NUMBOIDS put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUBoidsUniforms >> padding1 [
+	"This method was automatically generated"
+	^handle floatAt: OFFSET_PADDING1
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUBoidsUniforms >> padding1: anObject [
+	"This method was automatically generated"
+	handle floatAt: OFFSET_PADDING1 put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUBoidsUniforms >> padding2 [
+	"This method was automatically generated"
+	^handle floatAt: OFFSET_PADDING2
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUBoidsUniforms >> padding2: anObject [
+	"This method was automatically generated"
+	handle floatAt: OFFSET_PADDING2 put: anObject
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUBoidsUniforms >> padding3 [
+	"This method was automatically generated"
+	^handle floatAt: OFFSET_PADDING3
+]
+
+{ #category : 'accessing - structure variables' }
+SDL3GPUBoidsUniforms >> padding3: anObject [
+	"This method was automatically generated"
+	handle floatAt: OFFSET_PADDING3 put: anObject
 ]
 
 { #category : 'accessing - structure variables' }

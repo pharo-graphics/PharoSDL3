@@ -6,14 +6,14 @@ This class isn't generated automatically, it's manual. Why? SDL3 doesn't define 
 
 ```
 /**
- * Specifies the format of shader code.
- *
- * Each format corresponds to a specific backend that accepts it.
- *
- * \since This datatype is available since SDL 3.2.0.
- *
- * \sa SDL_CreateGPUShader
- */
+* Specifies the format of shader code.
+*
+* Each format corresponds to a specific backend that accepts it.
+*
+* \since This datatype is available since SDL 3.2.0.
+*
+* \sa SDL_CreateGPUShader
+*/
 typedef Uint32 SDL_GPUShaderFormat;
 
 #define SDL_GPU_SHADERFORMAT_INVALID  0

@@ -5,16 +5,16 @@ This class isn't generated automatically, it's manual. Why? SDL3 doesn't define 
 
 ```
 /**
- * Flags that control the creation of system tray entries.
- *
- * Some of these flags are required; exactly one of them must be specified at
- * the time a tray entry is created. Other flags are optional; zero or more of
- * those can be OR'ed together with the required flag.
- *
- * \since This datatype is available since SDL 3.2.0.
- *
- * \sa SDL_InsertTrayEntryAt
- */
+* Flags that control the creation of system tray entries.
+*
+* Some of these flags are required; exactly one of them must be specified at
+* the time a tray entry is created. Other flags are optional; zero or more of
+* those can be OR'ed together with the required flag.
+*
+* \since This datatype is available since SDL 3.2.0.
+*
+* \sa SDL_InsertTrayEntryAt
+*/
 typedef Uint32 SDL_TrayEntryFlags;
 
 #define SDL_TRAYENTRY_BUTTON      0x00000001u /**< Make the entry a simple button. Required. */

@@ -3,7 +3,7 @@ I demonstrate boids flocking using a compute-to-vertex-buffer architecture.
 "
 Class {
 	#name : 'SDL3GPUBoidsDemo',
-	#superclass : 'SDL3GPUClearDemo',
+	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'boidsBufferPing',
 		'boidsBufferPong',
@@ -18,13 +18,11 @@ Class {
 		'boidsComputePipeline',
 		'storageBuffers',
 		'indexBufferBinding',
-		'colorTargetInfo',
 		'boidsUniforms',
 		'geometryUniforms',
-		'frameCount',
-		'lastFpsTime',
-		'currentFps',
-		'huesBuffer'
+		'huesBuffer',
+		'physicsStorageBuffers',
+		'renderColorTargetInfos'
 	],
 	#category : 'SDL3-GPUDemos-Boids',
 	#package : 'SDL3-GPUDemos',
@@ -70,48 +68,54 @@ SDL3GPUBoidsDemo >> close [
 ]
 
 { #category : 'rendering' }
+SDL3GPUBoidsDemo >> computeSimulation [
+
+	| commandBuffer nextBoidsBuffer |
+	commandBuffer := gpuDevice acquireGPUCommandBuffer.
+
+	"Ping-Pong"
+	nextBoidsBuffer :=
+		currentBoidsBuffer == boidsBufferPing
+			ifTrue: [ boidsBufferPong ]
+			ifFalse: [ boidsBufferPing ].
+
+	"Physics Pass"
+	self
+		doPhysicsPassWith: commandBuffer
+		input: currentBoidsBuffer
+		output: nextBoidsBuffer.
+	currentBoidsBuffer := nextBoidsBuffer.
+
+	"Geometry Pass"
+	self doGeometryPassWith: commandBuffer input: currentBoidsBuffer.
+	
+	commandBuffer submit
+]
+
+{ #category : 'rendering' }
 SDL3GPUBoidsDemo >> doGeometryPassWith: aCommandBuffer input: inputBuffer [
 
-	| computePass extent |
-	extent := window extent.
-	
-	"Aspect ratio bounds calculation: keep the minimum dimension mapped to [-1, 1]"
-	extent x > extent y 
-		ifTrue: [
-			geometryUniforms boundX: (extent x asFloat / extent y asFloat).
-			geometryUniforms boundY: 1.0 ]
-		ifFalse: [
-			geometryUniforms boundX: 1.0.
-			geometryUniforms boundY: (extent y asFloat / extent x asFloat) ].
+	| computePass |
+	self pushGeometryUniformsTo: aCommandBuffer.
 
-	geometryUniforms
-		numBoids: numBoids;
-		boidRadius: 0.05.
-
-	aCommandBuffer
-		pushGPUComputeUniformDataSlotIndex: 0
-		data: geometryUniforms
-		length: geometryUniforms class structureSize.
-
-	storageBufferBinding first 
-		buffer: vertexBuffer; 
+	storageBufferBinding first
+		buffer: vertexBuffer;
 		cycle: false.
 
 	computePass := aCommandBuffer
-		beginGPUComputePassStorageTextureBindings: nil
-		numStorageTextureBindings: 0
-		storageBufferBindings: storageBufferBinding
-		numStorageBufferBindings: 1.
+					  beginGPUComputePassStorageTextureBindings: #()
+					  storageBufferBindings: storageBufferBinding.
 
 	storageBuffers at: 1 put: inputBuffer getHandle.
 	storageBuffers at: 2 put: huesBuffer getHandle.
 
 	computePass
 		bindGPUComputePipeline: geometryComputePipeline;
-		bindGPUComputeStorageBuffersFirstSlot: 0 
-		storageBuffers: storageBuffers
-		numBindings: 2;
-		dispatchWorkgroupCountX: ((numBoids + 63) // 64) y: 1 z: 1;
+		bindGPUComputeStorageBuffersFirstSlot: 0
+		storageBuffers: storageBuffers;
+		dispatchWorkgroupCountX: numBoids + 63 // 64
+		y: 1
+		z: 1;
 		end
 ]
 
@@ -120,15 +124,15 @@ SDL3GPUBoidsDemo >> doPhysicsPassWith: aCommandBuffer input: inputBuffer output:
 
 	| extent |
 	extent := window extent.
-	
+
 	"Aspect ratio bounds calculation: keep the minimum dimension mapped to [-1, 1]"
-	extent x > extent y 
-		ifTrue: [
-			boidsUniforms boundX: (extent x asFloat / extent y asFloat).
+	extent x > extent y
+		ifTrue: [ 
+			boidsUniforms boundX: extent x asFloat / extent y asFloat.
 			boidsUniforms boundY: 1.0 ]
-		ifFalse: [
+		ifFalse: [ 
 			boidsUniforms boundX: 1.0.
-			boidsUniforms boundY: (extent y asFloat / extent x asFloat) ].
+			boidsUniforms boundY: extent y asFloat / extent x asFloat ].
 
 	boidsUniforms time: Time millisecondClockValue / 1000.0.
 
@@ -140,43 +144,39 @@ SDL3GPUBoidsDemo >> doPhysicsPassWith: aCommandBuffer input: inputBuffer output:
 	storageBuffers at: 1 put: inputBuffer getHandle.
 
 	storageBufferBinding first
-		buffer: outputBuffer; 
+		buffer: outputBuffer;
 		cycle: false.
 
+	physicsStorageBuffers at: 1 put: inputBuffer getHandle.
+
 	(aCommandBuffer
-		beginGPUComputePassStorageTextureBindings: nil
-		numStorageTextureBindings: 0
-		storageBufferBindings: storageBufferBinding
-		numStorageBufferBindings: 1)
-			bindGPUComputePipeline: boidsComputePipeline;
-			bindGPUComputeStorageBuffersFirstSlot: 0 
-				storageBuffers: storageBuffers
-				numBindings: 1;
-			dispatchWorkgroupCountX: ((numBoids + 63) // 64) y: 1 z: 1;
-			end
+		beginGPUComputePassStorageTextureBindings: #()
+		storageBufferBindings: storageBufferBinding)
+		bindGPUComputePipeline: boidsComputePipeline;
+		bindGPUComputeStorageBuffersFirstSlot: 0
+		storageBuffers: physicsStorageBuffers;
+		dispatchWorkgroupCountX: numBoids + 63 // 64
+		y: 1
+		z: 1;
+		end
 ]
 
 { #category : 'rendering' }
 SDL3GPUBoidsDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
 	| renderPass |
-	colorTargetInfo texture: swapchainTexture.
+	renderColorTargetInfos first texture: swapchainTexture.
 
 	renderPass := aCommandBuffer
-		beginGPURenderPassColorTargetInfos: colorTargetInfo
-		numColorTargets: 1
-		depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
+				 beginGPURenderPassColorTargetInfos:
+				 renderColorTargetInfos
+				 depthStencilTargetInfo: nil.
 
 	renderPass bindGPUGraphicsPipeline: renderPipeline.
-	
-	renderPass
-		bindGPUVertexBuffersFirstSlot: 0 
-		bindings: vertexBufferBindings 
-		numBindings: vertexBufferBindings size.
 
+	renderPass bindGPUVertexBuffersFirstSlot: 0 bindings: vertexBufferBindings.
 	renderPass
-		bindGPUIndexBufferBinding: indexBufferBinding 
+		bindGPUIndexBufferBinding: indexBufferBinding
 		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
 
 	renderPass
@@ -187,6 +187,36 @@ SDL3GPUBoidsDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 		firstInstance: 0.
 
 	renderPass end
+]
+
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> generateInitialBoids [
+
+	| random boids |
+	random := Random seed: 7.
+	boids := FFIArray newType: SDL3GPUBoidsBoid size: numBoids.
+	1 to: numBoids do: [ :i | 
+		| boid |
+		boid := boids at: i.
+		boid
+			x: random next * 2.0 - 1.0;
+			y: random next * 2.0 - 1.0.
+		boid
+			vx: random next * boidsUniforms maxVelocity
+				- (boidsUniforms maxVelocity / 2.0);
+			vy: random next * boidsUniforms maxVelocity
+				- (boidsUniforms maxVelocity / 2.0) ].
+	^ boids
+]
+
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> generateInitialHues [
+
+	| random hues |
+	random := Random seed: 7.
+	hues := FFIArray newType: FFIFloat32 size: numBoids.
+	1 to: numBoids do: [ :i | hues at: i put: random next ].
+	^ hues
 ]
 
 { #category : 'events' }
@@ -216,27 +246,23 @@ SDL3GPUBoidsDemo >> handleKeyDown: aKeyboardEvent [
 
 { #category : 'initialization' }
 SDL3GPUBoidsDemo >> initialize [
-	super initialize.
 
-	initialExtent := 720 @ 720.
-	initialWindowFlags := SDL3WindowFlags inputFocus | SDL3WindowFlags resizable.
+	super initialize.
 
 	numBoids := 1000.
 
-	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
+	vertexBufferBindings := FFIExternalArray externalNewType: SDL_GPUBufferBinding size: 1.
+	vertexBufferBindings autoRelease.
 
-	storageBuffers := FFIArray newType: ExternalAddress size: 2.
+	storageBuffers := FFIExternalArray externalNewType: ExternalAddress size: 2.
+	storageBuffers autoRelease.
 
-	storageBufferBinding := FFIArray newType: SDL_GPUStorageBufferReadWriteBinding size: 1.
-
-	colorTargetInfo := SDL_GPUColorTargetInfo new.
-	colorTargetInfo
-		storeOp: SDL_GPU_STOREOP_STORE;
-		loadOp: SDL_GPU_LOADOP_CLEAR.
-	colorTargetInfo clearColor r: 0.0; g: 0.0; b: 0.2; a: 1.0.
+	storageBufferBinding := FFIExternalArray externalNewType: SDL_GPUStorageBufferReadWriteBinding size: 1.
+	storageBufferBinding autoRelease.
 
 	"Simulation defaults"
-	boidsUniforms := SDL3GPUBoidsUniforms new.
+	boidsUniforms := SDL3GPUBoidsUniforms externalNew.
+	boidsUniforms autoRelease.
 	boidsUniforms
 		numBoids: numBoids;
 		separationWeight: 1.5;
@@ -247,55 +273,24 @@ SDL3GPUBoidsDemo >> initialize [
 		maxVelocity: 2.0;
 		minVelocity: 0.5;
 		damping: 0.99;
-		deltaTime: 0.016.
+		deltaTime: loop periodAsSeconds.
 
-	geometryUniforms := SDL3GPUBoidsGeometryUniforms new.
+	geometryUniforms := SDL3GPUBoidsGeometryUniforms externalNew.
+	geometryUniforms autoRelease.
 
-	frameCount := 0.
-	lastFpsTime := Time millisecondClockValue.
-	currentFps := 0
-]
+	physicsStorageBuffers := FFIExternalArray
+					externalNewType: ExternalAddress
+					size: 1.
+	physicsStorageBuffers autoRelease.
 
-{ #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeBuffers [
-
-	"Boids Buffers (Physics Ping-Pong)"
-	boidsBufferPing := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		size: numBoids * SDL3GPUBoidsBoid structureSize.
-
-	boidsBufferPong := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		size: numBoids * SDL3GPUBoidsBoid structureSize.
-
-	currentBoidsBuffer := boidsBufferPing.
-
-	"Hues Buffer (Static)"
-	huesBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		size: numBoids * FFIFloat32 externalTypeSize. "4 bytes per float"
-
-	"Vertex Buffer (Geometry Output)"
-	"3 vertices per boid"
-	vertexBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-		size: numBoids * 3 * SDL3GPUBoidsVertex structureSize.
-
-	vertexBufferBindings first 
-		buffer: vertexBuffer;
-		offset: 0.
-
-	storageBufferBinding first 
-		buffer: vertexBuffer; 
-		cycle: false.
-
-	"Index Buffer"
-	"3 indices per boid"
-	indexBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-		size: numBoids * 3 * 2. "16-bit"
-
-	indexBufferBinding := SDL_GPUBufferBinding new buffer: indexBuffer; yourself.
+	renderColorTargetInfos := FFIExternalArray
+					 externalNewType: SDL_GPUColorTargetInfo
+					 size: 1.
+	renderColorTargetInfos autoRelease.
+	renderColorTargetInfos first
+		storeOp: SDL_GPU_STOREOP_STORE;
+		loadOp: SDL_GPU_LOADOP_CLEAR;
+		updateClearColorFrom: Color black
 ]
 
 { #category : 'initialization' }
@@ -314,29 +309,67 @@ SDL3GPUBoidsDemo >> initializeComputeResources [
 SDL3GPUBoidsDemo >> initializeRenderPipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
-	vertexShader :=
-		SDL3GPUBoidsVertexShaderSource
-			newShaderAmong: shaderFormats
-			device: gpuDevice.
-	fragmentShader :=
-		SDL3GPUBoidsFragmentShaderSource
-			newShaderAmong: shaderFormats
-			device: gpuDevice.
+	vertexShader := SDL3GPUBoidsVertexShaderSource
+						newShaderAmong: shaderFormats
+						device: gpuDevice.
+	fragmentShader := SDL3GPUBoidsFragmentShaderSource
+						 newShaderAmong: shaderFormats
+						 device: gpuDevice.
 
-	vertexBindings :=
-		FFIExternalArray
-			externalNewType: SDL_GPUVertexBufferDescription
-			size: 1.
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: 16. "float2 + float + float pad = 16 bytes"
+	vertexBindings := self newBoidsVertexBindings.
+	vertexAttributes := self newBoidsVertexAttributes.
 
-	vertexAttributes :=
-		FFIExternalArray
-			externalNewType: SDL_GPUVertexAttribute
-			size: 2.
+	colorTargets := self newColorTargetDescriptions: 1.
+	colorTargets first
+		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
+		blendState: self newAlphaBlendState.
+
+	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew
+							 autoRelease.
+	pipelineCreateInfo
+		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+		vertexShader: vertexShader;
+		fragmentShader: fragmentShader.
+	pipelineCreateInfo targetInfo
+		colorTargetDescriptions: colorTargets;
+		numColorTargets: colorTargets size.
+	pipelineCreateInfo vertexInputState
+		vertexBufferDescriptions: vertexBindings;
+		numVertexBuffers: vertexBindings size;
+		vertexAttributes: vertexAttributes;
+		numVertexAttributes: vertexAttributes size.
+
+	renderPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
+						 pipelineCreateInfo.
+
+	gpuDevice releaseGPUShader: vertexShader.
+	gpuDevice releaseGPUShader: fragmentShader.
+	vertexBindings free.
+	vertexAttributes free.
+	colorTargets free
+]
+
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> newAlphaBlendState [
+
+	^ SDL_GPUColorTargetBlendState new
+		 enableBlend: true;
+		 srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+		 dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+		 colorBlendOp: SDL_GPU_BLENDOP_ADD;
+		 srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
+		 dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
+		 alphaBlendOp: SDL_GPU_BLENDOP_ADD;
+		 yourself
+]
+
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> newBoidsVertexAttributes [
+
+	| vertexAttributes |
+	vertexAttributes := FFIExternalArray
+							externalNewType: SDL_GPUVertexAttribute
+							size: 2.
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
@@ -347,75 +380,74 @@ SDL3GPUBoidsDemo >> initializeRenderPipeline [
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
 		location: 1;
 		offset: 8.
-
-	colorTargets :=
-		FFIExternalArray
-			externalNewType: SDL_GPUColorTargetDescription
-			size: 1.
-	colorTargets first 
-		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState:
-			(SDL_GPUColorTargetBlendState new
-				enableBlend: true;
-				srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-				dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-				colorBlendOp: SDL_GPU_BLENDOP_ADD;
-				srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-				dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-				alphaBlendOp: SDL_GPU_BLENDOP_ADD;
-				yourself).
-
-	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo new.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: vertexShader;
-		fragmentShader: fragmentShader.
-	pipelineCreateInfo targetInfo
-		colorTargetDescriptions: colorTargets;
-		numColorTargets: colorTargets size.
-	pipelineCreateInfo vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 1;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 2;
-		yourself.
-
-	renderPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	renderPipeline assertNotNullReturn.
-
-	gpuDevice releaseGPUShader: vertexShader.
-	gpuDevice releaseGPUShader: fragmentShader.	
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	^ vertexAttributes
 ]
 
-{ #category : 'running' }
-SDL3GPUBoidsDemo >> iterateUntilQuit [
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> newBoidsVertexBindings [
 
-	| quit |
-	quit := false.
+	| vertexBindings |
+	vertexBindings := FFIExternalArray
+						 externalNewType: SDL_GPUVertexBufferDescription
+						 size: 1.
+	vertexBindings first
+		slot: 0;
+		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
+		instanceStepRate: 0;
+		pitch: 16. "float2 + float + float pad = 16 bytes"
+	^ vertexBindings
+]
 
-	[ quit ] whileFalse: [
+{ #category : 'initialization' }
+SDL3GPUBoidsDemo >> newBuffers [
 
-		self pollEventsDo: [ :evt |
-			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
-			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
-				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ].
-				self handleKeyDown: evt.
-				self updateTitle ] ].
+	"Boids Buffers (Physics Ping-Pong)"
 
-		self render.
+	boidsBufferPing := gpuDevice
+						  newGPUBufferUsage:
+							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+						  size: numBoids * SDL3GPUBoidsBoid structureSize.
 
-		frameCount := frameCount + 1.
-		(Time millisecondClockValue - lastFpsTime >= 1000) ifTrue: [
-			currentFps := frameCount.
-			frameCount := 0.
-			lastFpsTime := Time millisecondClockValue.
-			self updateTitle
-		].
+	boidsBufferPong := gpuDevice
+						  newGPUBufferUsage:
+							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+						  size: numBoids * SDL3GPUBoidsBoid structureSize.
 
-		16.6 milliSeconds wait ]
+	currentBoidsBuffer := boidsBufferPing.
+
+	"Hues Buffer (Static)"
+	huesBuffer := gpuDevice
+					 newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+					 size: numBoids * FFIFloat32 externalTypeSize. "4 bytes per float"
+
+	"Vertex Buffer (Geometry Output)"
+	"3 vertices per boid"
+	vertexBuffer := gpuDevice
+						newGPUBufferUsage:
+							SDL_GPU_BUFFERUSAGE_VERTEX
+							| SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+						size: numBoids * 3 * SDL3GPUBoidsVertex structureSize.
+
+	vertexBufferBindings first
+		buffer: vertexBuffer;
+		offset: 0.
+
+	storageBufferBinding first
+		buffer: vertexBuffer;
+		cycle: false.
+
+	"Index Buffer"
+	"3 indices per boid"
+	indexBuffer := gpuDevice
+					  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+					  size: numBoids * 3 * 2. "16-bit"
+
+	indexBufferBinding := SDL_GPUBufferBinding externalNew
+							 buffer: indexBuffer;
+							 yourself.
+	indexBufferBinding autoRelease
 ]
 
 { #category : 'lifecycle' }
@@ -425,54 +457,48 @@ SDL3GPUBoidsDemo >> open [
 	"
 
 	super open.
-	self initializeBuffers.
+	self newBuffers.
 	self uploadInitialData.
 	self initializeComputeResources.
-	self initializeRenderPipeline.
-	self updateTitle
+	self initializeRenderPipeline
 ]
 
-{ #category : 'rendering' }
-SDL3GPUBoidsDemo >> render [
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> pushGeometryUniformsTo: aCommandBuffer [
 
-	| commandBuffer nextBoidsBuffer |
-	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
+	| extent |
+	extent := window extent.
 
-	"1. Physics Pass (Ping-Pong)"
-	nextBoidsBuffer :=
-		currentBoidsBuffer == boidsBufferPing
-			ifTrue: [ boidsBufferPong ]
-			ifFalse: [ boidsBufferPing ].
+	"Aspect ratio bounds calculation: keep the minimum dimension mapped to [-1, 1]"
+	extent x > extent y
+		ifTrue: [ 
+			geometryUniforms boundX: extent x asFloat / extent y asFloat.
+			geometryUniforms boundY: 1.0 ]
+		ifFalse: [ 
+			geometryUniforms boundX: 1.0.
+			geometryUniforms boundY: extent y asFloat / extent x asFloat ].
 
-	self
-		doPhysicsPassWith: commandBuffer
-		input: currentBoidsBuffer
-		output: nextBoidsBuffer.
-	currentBoidsBuffer := nextBoidsBuffer.
+	geometryUniforms
+		numBoids: numBoids;
+		boidRadius: 0.05.
 
-	"2. Geometry Pass"
-	self doGeometryPassWith: commandBuffer input: currentBoidsBuffer.
-	
-	"3. Render Pass"
-	sdl assertSuccess:
-		(commandBuffer
-			 waitAndAcquireGPUSwapchainTextureForWindow: window
-			 into: swapchainTextureHolder
-			 width: nil
-			 height: nil).
-
-	swapchainTextureHolder value isNull ifTrue: [ ^ commandBuffer cancel ].
-
-	self doRenderPassesOn: swapchainTextureHolder value with: commandBuffer.
-
-	sdl assertSuccess: commandBuffer submit
+	aCommandBuffer
+		pushGPUComputeUniformDataSlotIndex: 0
+		data: geometryUniforms
+		length: geometryUniforms class structureSize
 ]
 
-{ #category : 'actions' }
-SDL3GPUBoidsDemo >> updateTitle [
+{ #category : 'hooks' }
+SDL3GPUBoidsDemo >> step [
 
-	window title: ('Boids: {1} | Sep: {2} Ali: {3} Coh: {4} | Rad: {5}/{6} | MaxV: {7}' format: {
+	self computeSimulation.
+	super step
+]
+
+{ #category : 'accessing' }
+SDL3GPUBoidsDemo >> updatedTitle [
+
+	^ super updatedTitle, (' - Count: {1} | Sep: {2} Ali: {3} Coh: {4} | Rad: {5}/{6} | MaxV: {7}' format: {
 		numBoids. 
 		boidsUniforms separationWeight printShowingDecimalPlaces: 1.
 		boidsUniforms alignmentWeight printShowingDecimalPlaces: 1.
@@ -483,34 +509,41 @@ SDL3GPUBoidsDemo >> updateTitle [
 	})
 ]
 
-{ #category : 'initialization' }
-SDL3GPUBoidsDemo >> uploadInitialData [
-	"Upload initial nodes, hues, and static index buffer to GPU"
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> uploadBoids: boids [
 
-	| boids bTransfer mappedAddress bSize random iTransfer iSize indices hTransfer hSize hues |
-	
-	"1. Boids (Positions & Velocities)"
-	random := Random seed: 7.
-	boids := FFIArray newType: SDL3GPUBoidsBoid size: numBoids.
-	hues := FFIArray newType: FFIFloat32 size: numBoids.
-	
-	1 to: numBoids do: [ :i |
-		| boid |
-		boid := boids at: i.
-		boid x: (random next * 2.0 - 1.0); y: (random next * 2.0 - 1.0).
-		boid
-			vx: (random next * boidsUniforms maxVelocity) - (boidsUniforms maxVelocity/2.0);
-			vy: (random next * boidsUniforms maxVelocity) - (boidsUniforms maxVelocity/2.0).
-		hues at: i put: random next ].
-
+	| bSize bTransfer mappedAddress |
 	bSize := numBoids * SDL3GPUBoidsBoid structureSize.
 	bTransfer := gpuDevice newUploadTransferBuffer: bSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: bTransfer cycle: false.
 	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
 	LibC memCopy: boids getHandle to: mappedAddress size: bSize.
 	gpuDevice unmapGPUTransferBuffer: bTransfer.
-	
-	"2. Hues (Colors)"
+
+	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
+		| copyPass |
+		copyPass := commandBuffer beginGPUCopyPass.
+		copyPass
+			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
+					transferBuffer: bTransfer;
+					offset: 0;
+					yourself)
+			destination: (SDL_GPUBufferRegion new
+					buffer: boidsBufferPing;
+					offset: 0;
+					size: bSize;
+					yourself)
+			cycle: false.
+		copyPass end.
+		commandBuffer submit ].
+
+	gpuDevice releaseGPUTransferBuffer: bTransfer
+]
+
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> uploadHues: hues [
+
+	| hSize hTransfer mappedAddress |
 	hSize := numBoids * FFIFloat32 externalTypeSize.
 	hTransfer := gpuDevice newUploadTransferBuffer: hSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: hTransfer cycle: false.
@@ -518,41 +551,89 @@ SDL3GPUBoidsDemo >> uploadInitialData [
 	LibC memCopy: hues getHandle to: mappedAddress size: hSize.
 	gpuDevice unmapGPUTransferBuffer: hTransfer.
 
-	"3. Indices"
+	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
+		| copyPass |
+		copyPass := commandBuffer beginGPUCopyPass.
+		copyPass
+			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
+					transferBuffer: hTransfer;
+					offset: 0;
+					yourself)
+			destination: (SDL_GPUBufferRegion new
+					buffer: huesBuffer;
+					offset: 0;
+					size: hSize;
+					yourself)
+			cycle: false.
+		copyPass end.
+		commandBuffer submit ].
+
+	gpuDevice releaseGPUTransferBuffer: hTransfer
+]
+
+{ #category : 'private' }
+SDL3GPUBoidsDemo >> uploadIndices [
+
+	| iSize iTransfer mappedAddress indices |
 	iSize := numBoids * 3 * 2.
 	iTransfer := gpuDevice newUploadTransferBuffer: iSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: iTransfer cycle: false.
-	indices := FFIArray fromHandle: mappedAddress type: FFIUInt16 size: numBoids * 3.
-	1 to: numBoids do: [ :i |
+	indices := FFIArray
+					fromHandle: mappedAddress
+					type: FFIUInt16
+					size: numBoids * 3.
+	1 to: numBoids do: [ :i | 
 		| baseVertex baseIndex |
 		baseVertex := (i - 1) * 3.
 		baseIndex := (i - 1) * 3.
 		indices at: baseIndex + 1 put: baseVertex + 0.
 		indices at: baseIndex + 2 put: baseVertex + 1.
-		indices at: baseIndex + 3 put: baseVertex + 2.
-	].
+		indices at: baseIndex + 3 put: baseVertex + 2 ].
 	gpuDevice unmapGPUTransferBuffer: iTransfer.
 
-	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer |
+	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
 		| copyPass |
-		commandBuffer assertNotNullReturn.
 		copyPass := commandBuffer beginGPUCopyPass.
-		"Initialize the input ping-pong buffer with starting state"
 		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new transferBuffer: bTransfer; offset: 0; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: boidsBufferPing; offset: 0; size: bSize; yourself) cycle: false.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new transferBuffer: hTransfer; offset: 0; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: huesBuffer; offset: 0; size: hSize; yourself) cycle: false.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new transferBuffer: iTransfer; offset: 0; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: indexBuffer; offset: 0; size: iSize; yourself) cycle: false.
+			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
+					transferBuffer: iTransfer;
+					offset: 0;
+					yourself)
+			destination: (SDL_GPUBufferRegion new
+					buffer: indexBuffer;
+					offset: 0;
+					size: iSize;
+					yourself)
+			cycle: false.
 		copyPass end.
-		sdl assertSuccess: commandBuffer submit ].
+		commandBuffer submit ].
 
-	gpuDevice releaseGPUTransferBuffer: bTransfer.
-	gpuDevice releaseGPUTransferBuffer: hTransfer.
-	gpuDevice releaseGPUTransferBuffer: iTransfer.
+	gpuDevice releaseGPUTransferBuffer: iTransfer
+]
+
+{ #category : 'initialization' }
+SDL3GPUBoidsDemo >> uploadInitialData [
+	"Upload initial nodes, hues, and static index buffer to GPU"
+
+	| boids hues |
+	"1. Generate Data"
+	boids := self generateInitialBoids.
+	hues := self generateInitialHues.
+
+	"2. Upload to GPU"
+	self uploadBoids: boids.
+	self uploadHues: hues.
+	self uploadIndices.
+
 	boids free.
 	hues free
+]
+
+{ #category : 'hooks' }
+SDL3GPUBoidsDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+
+	super visitKeyboardDownEvent: aKeyboardDownEvent.
+
+	self handleKeyDown: aKeyboardDownEvent.
+	self updateTitle
 ]

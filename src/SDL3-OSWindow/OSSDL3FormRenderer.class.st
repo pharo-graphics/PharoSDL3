@@ -9,7 +9,12 @@ Class {
 		'deferUpdates',
 		'mutex',
 		'sdlRenderer',
-		'sdlTexture'
+		'sdlTexture',
+		'pitchHolder',
+		'pixels'
+	],
+	#pools : [
+		'SDL3AllEnumerations'
 	],
 	#category : 'SDL3-OSWindow-Renderers',
 	#package : 'SDL3-OSWindow',
@@ -30,21 +35,28 @@ OSSDL3FormRenderer >> copyAndPresentTextureRectangle: rectangle [
 { #category : 'private' }
 OSSDL3FormRenderer >> createRenderer [
 
-	sdlRenderer := backendWindow sdl3Window newRendererFor: nil.
+	sdlRenderer := backendWindow sdl3Window newRenderer.
 	sdlRenderer renderVsync: 1
 ]
 
 { #category : 'private' }
 OSSDL3FormRenderer >> createTexture [
-	"Existing texture released explicitly to avoid memory leak on resize"
 
+	| pixelExtent |
+	"Existing texture released explicitly to avoid memory leak on resize"
 	sdlTexture ifNotNil: [ sdlTexture destroy ].
+
+	pixelExtent := backendWindow sdl3Window pixelExtent.
+
 	sdlTexture := sdlRenderer
-		           newTextureFormat: SDL3PixelFormat xrgb8888
-		           access: SDL3TextureAccess streaming
-		           w: form width
-		           h: form height.
-	extent := form extent
+					 newTextureFormat: SDL_PIXELFORMAT_XRGB8888
+					 access: SDL_TEXTUREACCESS_STREAMING
+					 w: pixelExtent x
+					 h: pixelExtent y.
+
+	extent := form extent.
+	
+"	sdlRenderer renderLogicalPresentationW: extent x h: extent y mode: SDL_LOGICAL_PRESENTATION_STRETCH"
 ]
 
 { #category : 'updating screen' }
@@ -61,9 +73,11 @@ OSSDL3FormRenderer >> destroy [
 
 	mutex critical: [
 		(sdlTexture isNil or: [ sdlRenderer isNil ]) ifTrue: [ ^ self ].
+
 		sdlTexture destroy.
-		sdlRenderer destroy.
 		sdlTexture := nil.
+
+		sdlRenderer destroy.
 		sdlRenderer := nil ]
 ]
 
@@ -77,10 +91,27 @@ OSSDL3FormRenderer >> initialize [
 
 	super initialize.
 	deferUpdates := false.
-	mutex := Mutex new
+	mutex := Mutex new.
+	pitchHolder := FFIInt32 newValueHolder.
+	pixels := ExternalAddress new
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
+OSSDL3FormRenderer >> logicalToPixelRect: aRectangle [
+
+	| window logicalExtent pixelExtent scaleX scaleY |
+	window := backendWindow sdl3Window.
+	logicalExtent := window extent.
+	pixelExtent := window pixelExtent.
+	
+	scaleX := pixelExtent x asFloat / (logicalExtent x max: 1).
+	scaleY := pixelExtent y asFloat / (logicalExtent y max: 1).
+	
+	^ (aRectangle origin x * scaleX) rounded @ (aRectangle origin y * scaleY) rounded 
+		extent: (aRectangle width * scaleX) rounded @ (aRectangle height * scaleY) rounded
+]
+
+{ #category : 'private' }
 OSSDL3FormRenderer >> outputExtent [
 
 	^ sdlRenderer outputExtent
@@ -113,7 +144,7 @@ OSSDL3FormRenderer >> updateAll [
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
-	| pixels pitch intersection updateUnion externalForm sdlRect |
+	| pitch intersection updateUnion externalForm sdlRect |
 	mutex critical: [
 		self validate ifFalse: [ ^ self ].
 
@@ -124,11 +155,9 @@ OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 				                ifNone: [ nil ].
 
 			intersection ifNotNil: [
-				pixels := ExternalAddress new.
 				sdlRect := SDL3Rect newFrom: intersection.
-				ExternalAddress allocate: FFIInt32 externalTypeSize bytesDuring: [ :pitchHolder |
-					sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
-					pitch := pitchHolder signedLongAt: 1 ].
+				sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
+				pitch := pitchHolder value.
 
 				[
 				externalForm := OSSDL3ExternalForm new
@@ -155,18 +184,16 @@ OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> updateRectangle: rectangle [
 
-	| intersection pixels pitch externalForm sdlRect |
+	| intersection pitch externalForm sdlRect |
 	mutex critical: [
 		intersection := rectangle
 			                intersect: (0 @ 0 extent: extent)
 			                ifNone: [ ^ self ].
 		self validate ifFalse: [ ^ self ].
 
-		pixels := ExternalAddress new.
 		sdlRect := SDL3Rect newFrom: intersection.
-		ExternalAddress allocate: FFIInt32 externalTypeSize bytesDuring: [ :pitchHolder |
-			sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
-			pitch := pitchHolder signedLongAt: 1 ].
+		sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
+		pitch := pitchHolder signedLongAt: 1.
 
 		[
 		externalForm := OSSDL3ExternalForm new

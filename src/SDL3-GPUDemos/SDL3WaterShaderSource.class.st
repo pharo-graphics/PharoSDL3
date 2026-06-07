@@ -42,33 +42,33 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-    float time;
-    float2 resolution; 
+   float time;
+   float2 resolution; 
 }
 
 static const float Strength = 0.01; // 0.01 for subtle, 0.5 for crazy
 
 struct PSInput
 {
-    float4 color : COLOR0;
-    float2 uv : TEXCOORD0;
+   float4 color : COLOR0;
+   float2 uv : TEXCOORD0;
 };
 
 float4 main(PSInput input) : SV_Target
 {
-    float2 p = input.uv;
-    
-    // Create two sine waves moving in different directions
-    float x = sin(p.y * 4.0 + time) * cos(p.x * 10.0 + time * 0.5);
-    float y = sin(p.x * 4.0 + time) * cos(p.y * 10.0 + time * 0.3);
-    
-    // Apply the wave as an offset to the UVs
-    float2 offset = float2(x, y) * Strength;
-    
-    // Sample the texture with the distorted coordinates
-    float4 color = InputTexture.Sample(InputSampler, p + offset);
+   float2 p = input.uv;
+   
+   // Create two sine waves moving in different directions
+   float x = sin(p.y * 4.0 + time) * cos(p.x * 10.0 + time * 0.5);
+   float y = sin(p.x * 4.0 + time) * cos(p.y * 10.0 + time * 0.3);
+   
+   // Apply the wave as an offset to the UVs
+   float2 offset = float2(x, y) * Strength;
+   
+   // Sample the texture with the distorted coordinates
+   float4 color = InputTexture.Sample(InputSampler, p + offset);
 
-    return float4(color.rgb, 1.0) * input.color;
+   return float4(color.rgb, 1.0) * input.color;
 }
 '
 ]

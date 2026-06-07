@@ -1,25 +1,26 @@
 Extension { #name : 'SDL3GPUCommandBuffer' }
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> acquireGPUSwapchainTextureForWindow: window into: swapchain_texture width: swapchain_texture_width height: swapchain_texture_height [
+SDL3GPUCommandBuffer >> acquireGPUSwapchainTextureForWindow: window into: swapchainTexture width: swapchainTextureWidth height: swapchainTextureHeight [
 
-	^ self ffiLibrary
-		  acquireGPUSwapchainTextureCommandBuffer: self
-		  window: window
-		  swapchainTexture: swapchain_texture
-		  swapchainTextureWidth: swapchain_texture_width
-		  swapchainTextureHeight: swapchain_texture_height
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			acquireGPUSwapchainTextureCommandBuffer: self
+			window: window
+			swapchainTexture: swapchainTexture
+			swapchainTextureWidth: swapchainTextureWidth
+			swapchainTextureHeight: swapchainTextureHeight)
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> beginGPUComputePassStorageTextureBindings: storage_texture_bindings numStorageTextureBindings: num_storage_texture_bindings storageBufferBindings: storage_buffer_bindings numStorageBufferBindings: num_storage_buffer_bindings [
+SDL3GPUCommandBuffer >> beginGPUComputePassStorageTextureBindings: storageTextureBindings numStorageTextureBindings: numStorageTextureBindings storageBufferBindings: storageBufferBindings numStorageBufferBindings: numStorageBufferBindings [
 
 	^ self ffiLibrary
 		  beginGPUComputePassCommandBuffer: self
-		  storageTextureBindings: storage_texture_bindings
-		  numStorageTextureBindings: num_storage_texture_bindings
-		  storageBufferBindings: storage_buffer_bindings
-		  numStorageBufferBindings: num_storage_buffer_bindings
+		  storageTextureBindings: storageTextureBindings
+		  numStorageTextureBindings: numStorageTextureBindings
+		  storageBufferBindings: storageBufferBindings
+		  numStorageBufferBindings: numStorageBufferBindings
 ]
 
 { #category : '*SDL3-API' }
@@ -29,102 +30,107 @@ SDL3GPUCommandBuffer >> beginGPUCopyPass [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> beginGPURenderPassColorTargetInfos: color_target_infos numColorTargets: num_color_targets depthStencilTargetInfo: depth_stencil_target_info [
+SDL3GPUCommandBuffer >> beginGPURenderPassColorTargetInfos: colorTargetInfos numColorTargets: numColorTargets depthStencilTargetInfo: depthStencilTargetInfo [
 
 	^ self ffiLibrary
 		  beginGPURenderPassCommandBuffer: self
-		  colorTargetInfos: color_target_infos
-		  numColorTargets: num_color_targets
-		  depthStencilTargetInfo: depth_stencil_target_info
+		  colorTargetInfos: colorTargetInfos
+		  numColorTargets: numColorTargets
+		  depthStencilTargetInfo: depthStencilTargetInfo
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> blitGPUTextureInfo: info [
 
-	^ self ffiLibrary blitGPUTextureCommandBuffer: self info: info
+	self ffiLibrary blitGPUTextureCommandBuffer: self info: info
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> cancel [
 
-	^ self ffiLibrary cancelGPUCommandBuffer: self
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary cancelGPUCommandBuffer: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> generateMipmapsForGPUTexture: texture [
 
-	^ self ffiLibrary
-		  generateMipmapsForGPUTextureCommandBuffer: self
-		  texture: texture
+	self ffiLibrary
+		generateMipmapsForGPUTextureCommandBuffer: self
+		texture: texture
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> insertGPUDebugLabelText: text [
 
-	^ self ffiLibrary insertGPUDebugLabelCommandBuffer: self text: text
+	self ffiLibrary insertGPUDebugLabelCommandBuffer: self text: text
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> popGPUDebugGroup [
 
-	^ self ffiLibrary popGPUDebugGroup: self
+	self ffiLibrary popGPUDebugGroup: self
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> pushGPUComputeUniformDataSlotIndex: slot_index data: data length: length [
+SDL3GPUCommandBuffer >> pushGPUComputeUniformDataSlotIndex: slotIndex data: data length: length [
 
-	^ self ffiLibrary
-		  pushGPUComputeUniformDataCommandBuffer: self
-		  slotIndex: slot_index
-		  data: data
-		  length: length
+	self ffiLibrary
+		pushGPUComputeUniformDataCommandBuffer: self
+		slotIndex: slotIndex
+		data: data
+		length: length
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> pushGPUDebugGroupName: name [
 
-	^ self ffiLibrary pushGPUDebugGroupCommandBuffer: self name: name
+	self ffiLibrary pushGPUDebugGroupCommandBuffer: self name: name
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> pushGPUFragmentUniformDataSlotIndex: slot_index data: data length: length [
+SDL3GPUCommandBuffer >> pushGPUFragmentUniformDataSlotIndex: slotIndex data: data length: length [
 
-	^ self ffiLibrary
-		  pushGPUFragmentUniformDataCommandBuffer: self
-		  slotIndex: slot_index
-		  data: data
-		  length: length
+	self ffiLibrary
+		pushGPUFragmentUniformDataCommandBuffer: self
+		slotIndex: slotIndex
+		data: data
+		length: length
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> pushGPUVertexUniformDataSlotIndex: slot_index data: data length: length [
+SDL3GPUCommandBuffer >> pushGPUVertexUniformDataSlotIndex: slotIndex data: data length: length [
 
-	^ self ffiLibrary
-		  pushGPUVertexUniformDataCommandBuffer: self
-		  slotIndex: slot_index
-		  data: data
-		  length: length
+	self ffiLibrary
+		pushGPUVertexUniformDataCommandBuffer: self
+		slotIndex: slotIndex
+		data: data
+		length: length
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> submit [
 
-	^ self ffiLibrary submitGPUCommandBuffer: self
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary submitGPUCommandBuffer: self)
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUCommandBuffer >> submitAndAcquireFence [
 
-	^ self ffiLibrary submitGPUCommandBufferAndAcquireFence: self
+	^ (self ffiLibrary submitGPUCommandBufferAndAcquireFence: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> waitAndAcquireGPUSwapchainTextureForWindow: window into: swapchain_texture width: swapchain_texture_width height: swapchain_texture_height [
+SDL3GPUCommandBuffer >> waitAndAcquireGPUSwapchainTextureForWindow: window into: swapchainTexture width: swapchainTextureWidth height: swapchainTextureHeight [
 
-	^ self ffiLibrary
-		  waitAndAcquireGPUSwapchainTextureCommandBuffer: self
-		  window: window
-		  swapchainTexture: swapchain_texture
-		  swapchainTextureWidth: swapchain_texture_width
-		  swapchainTextureHeight: swapchain_texture_height
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			waitAndAcquireGPUSwapchainTextureCommandBuffer: self
+			window: window
+			swapchainTexture: swapchainTexture
+			swapchainTextureWidth: swapchainTextureWidth
+			swapchainTextureHeight: swapchainTextureHeight)
 ]

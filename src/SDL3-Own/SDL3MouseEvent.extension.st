@@ -1,6 +1,11 @@
 Extension { #name : 'SDL3MouseEvent' }
 
 { #category : '*SDL3-Own' }
+SDL3MouseEvent >> position [
+	^ self x @ self y
+]
+
+{ #category : '*SDL3-Own' }
 SDL3MouseEvent >> printOn: aStream [
 
 	super printOn: aStream.

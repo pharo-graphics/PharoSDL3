@@ -3,7 +3,7 @@ Extension { #name : 'SDL3Gamepad' }
 { #category : '*SDL3-API' }
 SDL3Gamepad >> close [
 
-	^ self ffiLibrary closeGamepad: self
+	self ffiLibrary closeGamepad: self
 ]
 
 { #category : '*SDL3-API' }
@@ -51,7 +51,7 @@ SDL3Gamepad >> getBindingsIntoCount: count [
 { #category : '*SDL3-API' }
 SDL3Gamepad >> getButtonInto: button [
 
-	^ self ffiLibrary getGamepadButtonGamepad: self button: button
+	self ffiLibrary assertSuccess: (self ffiLibrary getGamepadButtonGamepad: self button: button)
 ]
 
 { #category : '*SDL3-API' }
@@ -73,13 +73,14 @@ SDL3Gamepad >> getPowerInfoIntoPercent: percent [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Gamepad >> getSensorDataIntoType: type data: data numValues: num_values [
+SDL3Gamepad >> getSensorDataIntoType: type data: data numValues: numValues [
 
-	^ self ffiLibrary
-		  getGamepadSensorDataGamepad: self
-		  type: type
-		  data: data
-		  numValues: num_values
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getGamepadSensorDataGamepad: self
+			type: type
+			data: data
+			numValues: numValues)
 ]
 
 { #category : '*SDL3-API' }
@@ -91,14 +92,15 @@ SDL3Gamepad >> getSensorDataRateIntoType: type [
 { #category : '*SDL3-API' }
 SDL3Gamepad >> getTouchpadFingerIntoTouchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
 
-	^ self ffiLibrary
-		  getGamepadTouchpadFingerGamepad: self
-		  touchpad: touchpad
-		  finger: finger
-		  down: down
-		  x: x
-		  y: y
-		  pressure: pressure
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getGamepadTouchpadFingerGamepad: self
+			touchpad: touchpad
+			finger: finger
+			down: down
+			x: x
+			y: y
+			pressure: pressure)
 ]
 
 { #category : '*SDL3-API' }
@@ -128,17 +130,20 @@ SDL3Gamepad >> id [
 { #category : '*SDL3-API' }
 SDL3Gamepad >> joystick [
 
-	^ self ffiLibrary getGamepadJoystick: self
+	^ (self ffiLibrary getGamepadJoystick: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Gamepad >> ledRed: red green: green blue: blue [
 
-	^ self ffiLibrary
-		  setGamepadLEDGamepad: self
-		  red: red
-		  green: green
-		  blue: blue
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setGamepadLEDGamepad: self
+			red: red
+			green: green
+			blue: blue)
 ]
 
 { #category : '*SDL3-API' }
@@ -172,9 +177,12 @@ SDL3Gamepad >> playerIndex [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Gamepad >> playerIndexPlayerIndex: player_index [
+SDL3Gamepad >> playerIndexPlayerIndex: playerIndex [
 
-	^ self ffiLibrary setGamepadPlayerIndexGamepad: self playerIndex: player_index
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setGamepadPlayerIndexGamepad: self
+			playerIndex: playerIndex)
 ]
 
 { #category : '*SDL3-API' }
@@ -202,29 +210,32 @@ SDL3Gamepad >> realType [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Gamepad >> rumbleLowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
+SDL3Gamepad >> rumbleLowFrequencyRumble: lowFrequencyRumble highFrequencyRumble: highFrequencyRumble durationMs: durationMs [
 
-	^ self ffiLibrary
-		  rumbleGamepad: self
-		  lowFrequencyRumble: low_frequency_rumble
-		  highFrequencyRumble: high_frequency_rumble
-		  durationMs: duration_ms
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			rumbleGamepad: self
+			lowFrequencyRumble: lowFrequencyRumble
+			highFrequencyRumble: highFrequencyRumble
+			durationMs: durationMs)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Gamepad >> rumbleTriggersLeftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
+SDL3Gamepad >> rumbleTriggersLeftRumble: leftRumble rightRumble: rightRumble durationMs: durationMs [
 
-	^ self ffiLibrary
-		  rumbleGamepadTriggersGamepad: self
-		  leftRumble: left_rumble
-		  rightRumble: right_rumble
-		  durationMs: duration_ms
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			rumbleGamepadTriggersGamepad: self
+			leftRumble: leftRumble
+			rightRumble: rightRumble
+			durationMs: durationMs)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Gamepad >> sendEffectData: data size: size [
 
-	^ self ffiLibrary sendGamepadEffectGamepad: self data: data size: size
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary sendGamepadEffectGamepad: self data: data size: size)
 ]
 
 { #category : '*SDL3-API' }
@@ -236,7 +247,11 @@ SDL3Gamepad >> sensorEnabledType: type [
 { #category : '*SDL3-API' }
 SDL3Gamepad >> sensorEnabledType: type enabled: enabled [
 
-	^ self ffiLibrary setGamepadSensorEnabledGamepad: self type: type enabled: enabled
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setGamepadSensorEnabledGamepad: self
+			type: type
+			enabled: enabled)
 ]
 
 { #category : '*SDL3-API' }

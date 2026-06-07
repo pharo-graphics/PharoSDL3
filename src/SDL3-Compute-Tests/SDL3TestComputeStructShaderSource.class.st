@@ -34,10 +34,10 @@ SDL3TestComputeStructShaderSource class >> hlslSource [
 
 	^ '
 struct MyData {
-    float x;
-    float y;
-    float z;
-    float w;
+   float x;
+   float y;
+   float z;
+   float w;
 };
 
 StructuredBuffer<MyData> Input : register(t0, space0);
@@ -45,12 +45,12 @@ RWStructuredBuffer<MyData> Output : register(u0, space1);
 
 [numthreads(64, 1, 1)]
 void main(uint3 dtid : SV_DispatchThreadID) {
-    MyData d = Input[dtid.x];
-    d.x += 1.0;
-    d.y += 2.0;
-    d.z += 3.0;
-    d.w += 4.0;
-    Output[dtid.x] = d;
+   MyData d = Input[dtid.x];
+   d.x += 1.0;
+   d.y += 2.0;
+   d.z += 3.0;
+   d.w += 4.0;
+   Output[dtid.x] = d;
 }
 '
 ]

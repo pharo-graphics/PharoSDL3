@@ -9,17 +9,21 @@ SDL3TrayMenu >> getEntriesIntoCount: count [
 { #category : '*SDL3-API' }
 SDL3TrayMenu >> insertEntryAt: pos label: label flags: flags [
 
-	^ self ffiLibrary
-		  insertTrayEntryAtMenu: self
-		  pos: pos
-		  label: label
-		  flags: flags
+	^ (self ffiLibrary
+		   insertTrayEntryAtMenu: self
+		   pos: pos
+		   label: label
+		   flags: flags)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3TrayMenu >> parentEntry [
 
-	^ self ffiLibrary getTrayMenuParentEntry: self
+	^ (self ffiLibrary getTrayMenuParentEntry: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }

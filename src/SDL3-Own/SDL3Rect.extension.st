@@ -33,3 +33,13 @@ SDL3Rect >> printOn: aStream [
 
 	self asRectangle printOn: aStream
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3Rect >> updateFrom: aRectangle [
+
+	self
+		x: aRectangle origin x asInteger;
+		y: aRectangle origin y asInteger;
+		w: aRectangle width asInteger;
+		h: aRectangle height asInteger
+]

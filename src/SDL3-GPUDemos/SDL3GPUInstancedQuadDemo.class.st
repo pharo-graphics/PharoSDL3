@@ -3,7 +3,7 @@ I demonstrate how to render textured quads using the SDL3 GPU API and instanced 
 "
 Class {
 	#name : 'SDL3GPUInstancedQuadDemo',
-	#superclass : 'SDL3GPUClearDemo',
+	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'gpuPipeline',
 		'vertexBuffer',
@@ -81,26 +81,21 @@ SDL3GPUInstancedQuadDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuf
 	renderPass :=
 		aCommandBuffer
 			beginGPURenderPassColorTargetInfos: colorTargetInfos
-			numColorTargets: colorTargetInfos size
 			depthStencilTargetInfo: nil.
-	renderPass assertNotNullReturn.
 
 	renderPass bindGPUGraphicsPipeline: gpuPipeline.
-	
+
 	renderPass
 		bindGPUVertexBuffersFirstSlot: 0
-		bindings: vertexBufferBindings
-		numBindings: vertexBufferBindings size.
+		bindings: vertexBufferBindings.
 
 	renderPass
 		bindGPUIndexBufferBinding: indexBinding
 		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-	
+
 	renderPass
 		bindGPUFragmentSamplersFirstSlot: 0
-		textureSamplerBindings: textureSamplerBindings
-		numBindings: textureSamplerBindings size.
-
+		textureSamplerBindings: textureSamplerBindings.
 	uniforms 
 		time: Time millisecondClockValue / 1000.0;
 		enableRotation: enableRotation;
@@ -132,13 +127,16 @@ SDL3GPUInstancedQuadDemo >> incrementQuads [
 	self updateTitle
 ]
 
+{ #category : 'accessing' }
+SDL3GPUInstancedQuadDemo >> initialExtent [
+
+	^ 800 @ 600
+]
+
 { #category : 'initialization' }
 SDL3GPUInstancedQuadDemo >> initialize [
 
 	super initialize.
-
-	initialExtent := 800 @ 600.
-	initialWindowFlags := SDL3WindowFlags inputFocus | SDL3WindowFlags highPixelDensity | SDL3WindowFlags resizable.
 
 	filter := SDL_GPU_FILTER_NEAREST.
 	columns := 6.
@@ -243,7 +241,6 @@ SDL3GPUInstancedQuadDemo >> initializePipeline [
 		numVertexAttributes: vertexAttributes size.
 
 	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	gpuPipeline assertNotNullReturn.
 
 	"We can free after pipeline was created"
 	gpuDevice releaseGPUShader: vertexShader.
@@ -270,43 +267,10 @@ SDL3GPUInstancedQuadDemo >> isNearestSamplerFilter [
 	^ filter = SDL_GPU_FILTER_NEAREST
 ]
 
-{ #category : 'running' }
-SDL3GPUInstancedQuadDemo >> iterateUntilQuit [
-
-	| quit |
-	quit := false.
-
-	[ quit ] whileFalse: [
-		self pollEventsDo: [ :evt |
-			evt type = SDL_EVENT_QUIT ifTrue: [ quit := true ].
-			evt type = SDL_EVENT_KEY_DOWN ifTrue: [
-				evt key = SDLK_ESCAPE asInteger ifTrue: [ quit := true ].
-
-				evt key = SDLK_F asInteger ifTrue: [
-					self switchSamplerFilter.
-					self updateTitle ].
-				evt key = SDLK_UP asInteger ifTrue: [
-					self incrementQuads ].
-				evt key = SDLK_DOWN asInteger ifTrue: [
-					self decrementQuads ].
-				evt key = SDLK_R asInteger ifTrue: [
-					enableRotation := enableRotation > 0.5 ifTrue: [0.0] ifFalse: [1.0].
-					self updateTitle ].
-				evt key = SDLK_S asInteger ifTrue: [
-					enableScale := enableScale > 0.5 ifTrue: [0.0] ifFalse: [1.0].
-					self updateTitle ].
-			] ].
-
-		self render.
-
-		16.6 milliSeconds wait ]
-]
-
 { #category : 'lifecycle' }
 SDL3GPUInstancedQuadDemo >> open [
 
 	super open.
-	self updateTitle.
 	self initializeGPUResources
 ]
 
@@ -335,9 +299,9 @@ SDL3GPUInstancedQuadDemo >> switchSamplerFilter [
 			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			yourself).
-	sampler assertNotNullReturn.
-	
-	textureSamplerBindings first sampler: sampler
+
+			textureSamplerBindings first sampler: sampler
+
 ]
 
 { #category : 'initialization' }
@@ -364,7 +328,6 @@ SDL3GPUInstancedQuadDemo >> updateIndexBuffer [
 	gpuDevice unmapGPUTransferBuffer: indexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -379,21 +342,10 @@ SDL3GPUInstancedQuadDemo >> updateIndexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	gpuDevice releaseGPUTransferBuffer: indexTransferBuffer.
 	indexTransferBuffer := nil
-]
-
-{ #category : 'actions' }
-SDL3GPUInstancedQuadDemo >> updateTitle [
-
-	window title: ('Instanced Quads: {1} (UP/DOWN) - Filter: {2} (F) - Rot: {3} (R) - Scale: {4} (S) - ESC to quit'
-		format: {
-			numberOfQuads.
-			self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ].
-			enableRotation > 0.5 ifTrue: ['ON'] ifFalse: ['OFF'].
-			enableScale > 0.5 ifTrue: ['ON'] ifFalse: ['OFF'] })
 ]
 
 { #category : 'initialization' }
@@ -428,7 +380,6 @@ SDL3GPUInstancedQuadDemo >> updateVertexBuffer [
 	gpuDevice unmapGPUTransferBuffer: vertexTransferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 	commandBuffer beginGPUCopyPass
 		uploadToGPUBufferSource:
 			(SDL_GPUTransferBufferLocation new
@@ -443,8 +394,40 @@ SDL3GPUInstancedQuadDemo >> updateVertexBuffer [
 				yourself)
 		cycle: true;
 		end.
-	sdl assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	gpuDevice releaseGPUTransferBuffer: vertexTransferBuffer.
 	vertexTransferBuffer := nil
+]
+
+{ #category : 'accessing' }
+SDL3GPUInstancedQuadDemo >> updatedTitle [
+
+	^ super updatedTitle,
+		(' - Count: {1} (UP/DOWN) - Filter: {2} (F) - Rot: {3} (R) - Scale: {4} (S)'
+			format: {
+				numberOfQuads.
+				self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ].
+				enableRotation > 0.5 ifTrue: ['ON'] ifFalse: ['OFF'].
+				enableScale > 0.5 ifTrue: ['ON'] ifFalse: ['OFF'] })
+]
+
+{ #category : 'hooks' }
+SDL3GPUInstancedQuadDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+
+	super visitKeyboardDownEvent: aKeyboardDownEvent.
+
+	aKeyboardDownEvent key = SDLK_F asInteger ifTrue: [
+		self switchSamplerFilter.
+		self updateTitle ].
+	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
+		self incrementQuads ].
+	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
+		self decrementQuads ].
+	aKeyboardDownEvent key = SDLK_R asInteger ifTrue: [
+		enableRotation := enableRotation > 0.5 ifTrue: [0.0] ifFalse: [1.0].
+		self updateTitle ].
+	aKeyboardDownEvent key = SDLK_S asInteger ifTrue: [
+		enableScale := enableScale > 0.5 ifTrue: [0.0] ifFalse: [1.0].
+		self updateTitle ]
 ]

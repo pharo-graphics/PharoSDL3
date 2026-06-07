@@ -34,10 +34,10 @@ SDL3GPUGaussianBlurShaderSource class >> hlslSource [
 	^ '
 cbuffer BlurParams : register(b0, space2)
 {
-    float blurRadius;
-    float blurSpread;
-    int direction;
-    float brightness;
+   float blurRadius;
+   float blurSpread;
+   int direction;
+   float brightness;
 };
 
 Texture2D<float4> InputTexture : register(t0, space0);
@@ -47,38 +47,38 @@ RWTexture2D<float4> OutputTexture : register(u0, space1);
 [numthreads(8, 8, 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
-    float w, h;
-    OutputTexture.GetDimensions(w, h);
-    if (id.x >= (uint)w || id.y >= (uint)h) return;
+   float w, h;
+   OutputTexture.GetDimensions(w, h);
+   if (id.x >= (uint)w || id.y >= (uint)h) return;
 
-    if (blurRadius <= 0.0) {
-        OutputTexture[id.xy] = InputTexture.Load(int3(id.xy, 0)) * brightness;
-        return;
-    }
+   if (blurRadius <= 0.0) {
+       OutputTexture[id.xy] = InputTexture.Load(int3(id.xy, 0)) * brightness;
+       return;
+   }
 
-    InputTexture.GetDimensions(w, h);
-    float2 texelSize = 1.0 / float2(w, h);
-    float2 uv = (float2(id.xy) + 0.5) * texelSize;
+   InputTexture.GetDimensions(w, h);
+   float2 texelSize = 1.0 / float2(w, h);
+   float2 uv = (float2(id.xy) + 0.5) * texelSize;
 
-    float4 color = float4(0, 0, 0, 0);
-    float totalWeight = 0.0;
-    
-    int radius = (int)ceil(blurRadius * 3.0);
-    
-    for (int i = -radius; i <= radius; i++) {
-        float2 offset;
-        if (direction == 0) {
-            offset = float2(i, 0) * texelSize * blurSpread;
-        } else {
-            offset = float2(0, i) * texelSize * blurSpread;
-        }
-        
-        float weight = exp(-(float(i * i)) / (2.0 * blurRadius * blurRadius + 0.001));
-        color += InputTexture.SampleLevel(InputSampler, uv + offset, 0.0) * weight;
-        totalWeight += weight;
-    }
-    
-    OutputTexture[id.xy] = (color / totalWeight) * brightness;
+   float4 color = float4(0, 0, 0, 0);
+   float totalWeight = 0.0;
+   
+   int radius = (int)ceil(blurRadius * 3.0);
+   
+   for (int i = -radius; i <= radius; i++) {
+       float2 offset;
+       if (direction == 0) {
+           offset = float2(i, 0) * texelSize * blurSpread;
+       } else {
+           offset = float2(0, i) * texelSize * blurSpread;
+       }
+       
+       float weight = exp(-(float(i * i)) / (2.0 * blurRadius * blurRadius + 0.001));
+       color += InputTexture.SampleLevel(InputSampler, uv + offset, 0.0) * weight;
+       totalWeight += weight;
+   }
+   
+   OutputTexture[id.xy] = (color / totalWeight) * brightness;
 }
 '
 ]

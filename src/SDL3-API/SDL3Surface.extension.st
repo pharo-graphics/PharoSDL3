@@ -3,137 +3,151 @@ Extension { #name : 'SDL3Surface' }
 { #category : '*SDL3-API' }
 SDL3Surface >> addAlternateImage: image [
 
-	^ self ffiLibrary addSurfaceAlternateImageSurface: self image: image
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary addSurfaceAlternateImageSurface: self image: image)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> alphaModAlpha: alpha [
 
-	^ self ffiLibrary setSurfaceAlphaModSurface: self alpha: alpha
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setSurfaceAlphaModSurface: self alpha: alpha)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> blendModeBlendMode: blendMode [
 
-	^ self ffiLibrary
-		  setSurfaceBlendModeSurface: self
-		  blendMode: blendMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setSurfaceBlendModeSurface: self
+			blendMode: blendMode)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> blit9GridSrcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
+SDL3Surface >> blit9GridSrcrect: srcrect leftWidth: leftWidth rightWidth: rightWidth topHeight: topHeight bottomHeight: bottomHeight scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
 
-	^ self ffiLibrary
-		  blitSurface9GridSrc: self
-		  srcrect: srcrect
-		  leftWidth: left_width
-		  rightWidth: right_width
-		  topHeight: top_height
-		  bottomHeight: bottom_height
-		  scale: scale
-		  scaleMode: scaleMode
-		  dst: dst
-		  dstrect: dstrect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			blitSurface9GridSrc: self
+			srcrect: srcrect
+			leftWidth: leftWidth
+			rightWidth: rightWidth
+			topHeight: topHeight
+			bottomHeight: bottomHeight
+			scale: scale
+			scaleMode: scaleMode
+			dst: dst
+			dstrect: dstrect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> blitScaledSrcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 
-	^ self ffiLibrary
-		  blitSurfaceScaledSrc: self
-		  srcrect: srcrect
-		  dst: dst
-		  dstrect: dstrect
-		  scaleMode: scaleMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			blitSurfaceScaledSrc: self
+			srcrect: srcrect
+			dst: dst
+			dstrect: dstrect
+			scaleMode: scaleMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> blitSrcrect: srcrect dst: dst dstrect: dstrect [
 
-	^ self ffiLibrary
-		  blitSurfaceSrc: self
-		  srcrect: srcrect
-		  dst: dst
-		  dstrect: dstrect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			blitSurfaceSrc: self
+			srcrect: srcrect
+			dst: dst
+			dstrect: dstrect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> blitTiledSrcrect: srcrect dst: dst dstrect: dstrect [
 
-	^ self ffiLibrary
-		  blitSurfaceTiledSrc: self
-		  srcrect: srcrect
-		  dst: dst
-		  dstrect: dstrect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			blitSurfaceTiledSrc: self
+			srcrect: srcrect
+			dst: dst
+			dstrect: dstrect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> blitTiledWithScaleSrcrect: srcrect scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
 
-	^ self ffiLibrary
-		  blitSurfaceTiledWithScaleSrc: self
-		  srcrect: srcrect
-		  scale: scale
-		  scaleMode: scaleMode
-		  dst: dst
-		  dstrect: dstrect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			blitSurfaceTiledWithScaleSrc: self
+			srcrect: srcrect
+			scale: scale
+			scaleMode: scaleMode
+			dst: dst
+			dstrect: dstrect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> blitUncheckedScaledSrcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 
-	^ self ffiLibrary
-		  blitSurfaceUncheckedScaledSrc: self
-		  srcrect: srcrect
-		  dst: dst
-		  dstrect: dstrect
-		  scaleMode: scaleMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			blitSurfaceUncheckedScaledSrc: self
+			srcrect: srcrect
+			dst: dst
+			dstrect: dstrect
+			scaleMode: scaleMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> blitUncheckedSrcrect: srcrect dst: dst dstrect: dstrect [
 
-	^ self ffiLibrary
-		  blitSurfaceUncheckedSrc: self
-		  srcrect: srcrect
-		  dst: dst
-		  dstrect: dstrect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			blitSurfaceUncheckedSrc: self
+			srcrect: srcrect
+			dst: dst
+			dstrect: dstrect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> clearR: r g: g b: b a: a [
 
-	^ self ffiLibrary
-		  clearSurface: self
-		  r: r
-		  g: g
-		  b: b
-		  a: a
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			clearSurface: self
+			r: r
+			g: g
+			b: b
+			a: a)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> clipRect: rect [
 
-	^ self ffiLibrary setSurfaceClipRectSurface: self rect: rect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setSurfaceClipRectSurface: self rect: rect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> colorKeyEnabled: enabled key: key [
 
-	^ self ffiLibrary
-		  setSurfaceColorKeySurface: self
-		  enabled: enabled
-		  key: key
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setSurfaceColorKeySurface: self
+			enabled: enabled
+			key: key)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> colorModR: r g: g b: b [
 
-	^ self ffiLibrary
-		  setSurfaceColorModSurface: self
-		  r: r
-		  g: g
-		  b: b
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setSurfaceColorModSurface: self
+			r: r
+			g: g
+			b: b)
 ]
 
 { #category : '*SDL3-API' }
@@ -145,102 +159,119 @@ SDL3Surface >> colorspace [
 { #category : '*SDL3-API' }
 SDL3Surface >> colorspace: colorspace [
 
-	^ self ffiLibrary
-		  setSurfaceColorspaceSurface: self
-		  colorspace: colorspace
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setSurfaceColorspaceSurface: self
+			colorspace: colorspace)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> copyWithFormat: format [
 
-	^ self ffiLibrary convertSurface: self format: format
+	^ (self ffiLibrary convertSurface: self format: format)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> copyWithFormat: format palette: palette colorspace: colorspace props: props [
 
-	^ self ffiLibrary
-		  convertSurfaceAndColorspaceSurface: self
-		  format: format
-		  palette: palette
-		  colorspace: colorspace
-		  props: props
+	^ (self ffiLibrary
+		   convertSurfaceAndColorspaceSurface: self
+		   format: format
+		   palette: palette
+		   colorspace: colorspace
+		   props: props)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> destroy [
 
-	^ self ffiLibrary destroySurface: self
+	self ffiLibrary destroySurface: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> duplicate [
 
-	^ self ffiLibrary duplicateSurface: self
+	^ (self ffiLibrary duplicateSurface: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> fillRectDstRect: rect color: color [
 
-	^ self ffiLibrary fillSurfaceRectDst: self rect: rect color: color
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary fillSurfaceRectDst: self rect: rect color: color)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> fillRectsDstRects: rects count: count color: color [
 
-	^ self ffiLibrary
-		  fillSurfaceRectsDst: self
-		  rects: rects
-		  count: count
-		  color: color
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			fillSurfaceRectsDst: self
+			rects: rects
+			count: count
+			color: color)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> flip: flip [
 
-	^ self ffiLibrary flipSurface: self flip: flip
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary flipSurface: self flip: flip)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> getAlphaModIntoAlpha: alpha [
 
-	^ self ffiLibrary getSurfaceAlphaModSurface: self alpha: alpha
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getSurfaceAlphaModSurface: self alpha: alpha)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> getBlendModeIntoBlendMode: blendMode [
 
-	^ self ffiLibrary
-		  getSurfaceBlendModeSurface: self
-		  blendMode: blendMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getSurfaceBlendModeSurface: self
+			blendMode: blendMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> getClipRectInto: rect [
 
-	^ self ffiLibrary getSurfaceClipRectSurface: self rect: rect
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getSurfaceClipRectSurface: self rect: rect)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> getColorKeyInto: key [
 
-	^ self ffiLibrary getSurfaceColorKeySurface: self key: key
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary getSurfaceColorKeySurface: self key: key)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> getColorModIntoR: r g: g b: b [
 
-	^ self ffiLibrary
-		  getSurfaceColorModSurface: self
-		  r: r
-		  g: g
-		  b: b
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			getSurfaceColorModSurface: self
+			r: r
+			g: g
+			b: b)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> getImagesIntoCount: count [
 
-	^ self ffiLibrary getSurfaceImagesSurface: self count: count
+	^ (self ffiLibrary getSurfaceImagesSurface: self count: count)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
@@ -264,13 +295,14 @@ SDL3Surface >> hasRLE [
 { #category : '*SDL3-API' }
 SDL3Surface >> isRLEEnabled: enabled [
 
-	^ self ffiLibrary setSurfaceRLESurface: self enabled: enabled
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setSurfaceRLESurface: self enabled: enabled)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> lock [
 
-	^ self ffiLibrary lockSurface: self
+	self ffiLibrary assertSuccess: (self ffiLibrary lockSurface: self)
 ]
 
 { #category : '*SDL3-API' }
@@ -295,21 +327,27 @@ SDL3Surface >> mapRGBR: r g: g b: b [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> newColorCursorHotX: hot_x hotY: hot_y [
+SDL3Surface >> newColorCursorHotX: hotX hotY: hotY [
 
-	^ self ffiLibrary newColorCursorSurface: self hotX: hot_x hotY: hot_y
+	^ (self ffiLibrary newColorCursorSurface: self hotX: hotX hotY: hotY)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> newPalette [
 
-	^ self ffiLibrary newSurfacePalette: self
+	^ (self ffiLibrary newSurfacePalette: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> newSoftwareRenderer [
 
-	^ self ffiLibrary newSoftwareRenderer: self
+	^ (self ffiLibrary newSoftwareRenderer: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
@@ -321,19 +359,25 @@ SDL3Surface >> newTrayIconTooltip: tooltip [
 { #category : '*SDL3-API' }
 SDL3Surface >> palette [
 
-	^ self ffiLibrary getSurfacePalette: self
+	^ (self ffiLibrary getSurfacePalette: self)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> palette: palette [
 
-	^ self ffiLibrary setSurfacePaletteSurface: self palette: palette
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setSurfacePaletteSurface: self palette: palette)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> premultiplyAlphaLinear: linear [
 
-	^ self ffiLibrary premultiplySurfaceAlphaSurface: self linear: linear
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			premultiplySurfaceAlphaSurface: self
+			linear: linear)
 ]
 
 { #category : '*SDL3-API' }
@@ -345,114 +389,131 @@ SDL3Surface >> propertiesID [
 { #category : '*SDL3-API' }
 SDL3Surface >> readPixelFloatX: x y: y r: r g: g b: b a: a [
 
-	^ self ffiLibrary
-		  readSurfacePixelFloatSurface: self
-		  x: x
-		  y: y
-		  r: r
-		  g: g
-		  b: b
-		  a: a
+	self ffiLibrary assertSuccess: (self ffiLibrary
+			 readSurfacePixelFloatSurface: self
+			 x: x
+			 y: y
+			 r: r
+			 g: g
+			 b: b
+			 a: a)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> readPixelX: x y: y r: r g: g b: b a: a [
 
-	^ self ffiLibrary
-		  readSurfacePixelSurface: self
-		  x: x
-		  y: y
-		  r: r
-		  g: g
-		  b: b
-		  a: a
+	self ffiLibrary assertSuccess: (self ffiLibrary
+			 readSurfacePixelSurface: self
+			 x: x
+			 y: y
+			 r: r
+			 g: g
+			 b: b
+			 a: a)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> removeAlternateImages [
 
-	^ self ffiLibrary removeSurfaceAlternateImages: self
+	self ffiLibrary removeSurfaceAlternateImages: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> rotateAngle: angle [
 
-	^ self ffiLibrary rotateSurface: self angle: angle
+	^ (self ffiLibrary rotateSurface: self angle: angle)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> saveBMPFile: file [
 
-	^ self ffiLibrary saveBMPSurface: self file: file
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary saveBMPSurface: self file: file)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> saveBMPIODst: dst closeio: closeio [
+SDL3Surface >> saveBMPIODst: dst closeio: closeIO [
 
-	^ self ffiLibrary saveBMPIOSurface: self dst: dst closeio: closeio
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			saveBMPIOSurface: self
+			dst: dst
+			closeio: closeIO)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> savePNGFile: file [
 
-	^ self ffiLibrary savePNGSurface: self file: file
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary savePNGSurface: self file: file)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> savePNGIODst: dst closeio: closeio [
+SDL3Surface >> savePNGIODst: dst closeio: closeIO [
 
-	^ self ffiLibrary savePNGIOSurface: self dst: dst closeio: closeio
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			savePNGIOSurface: self
+			dst: dst
+			closeio: closeIO)
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> scaleWidth: width height: height scaleMode: scaleMode [
+SDL3Surface >> scaleWidth: width height: height scaleMode: scalemode [
 
-	^ self ffiLibrary
-		  scaleSurface: self
-		  width: width
-		  height: height
-		  scaleMode: scaleMode
+	^ (self ffiLibrary
+		   scaleSurface: self
+		   width: width
+		   height: height
+		   scaleMode: scalemode)
+		  assertNotNullReturn;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> stretchSrcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 
-	^ self ffiLibrary
-		  stretchSurfaceSrc: self
-		  srcrect: srcrect
-		  dst: dst
-		  dstrect: dstrect
-		  scaleMode: scaleMode
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			stretchSurfaceSrc: self
+			srcrect: srcrect
+			dst: dst
+			dstrect: dstrect
+			scaleMode: scaleMode)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> unlock [
 
-	^ self ffiLibrary unlockSurface: self
+	self ffiLibrary unlockSurface: self
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> writePixelFloatX: x y: y r: r g: g b: b a: a [
 
-	^ self ffiLibrary
-		  writeSurfacePixelFloatSurface: self
-		  x: x
-		  y: y
-		  r: r
-		  g: g
-		  b: b
-		  a: a
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			writeSurfacePixelFloatSurface: self
+			x: x
+			y: y
+			r: r
+			g: g
+			b: b
+			a: a)
 ]
 
 { #category : '*SDL3-API' }
 SDL3Surface >> writePixelX: x y: y r: r g: g b: b a: a [
 
-	^ self ffiLibrary
-		  writeSurfacePixelSurface: self
-		  x: x
-		  y: y
-		  r: r
-		  g: g
-		  b: b
-		  a: a
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			writeSurfacePixelSurface: self
+			x: x
+			y: y
+			r: r
+			g: g
+			b: b
+			a: a)
 ]

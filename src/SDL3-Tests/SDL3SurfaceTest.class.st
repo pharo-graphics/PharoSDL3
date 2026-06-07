@@ -23,7 +23,7 @@ SDL3SurfaceTest >> testColorAt [
 	color := Color purple.
 	extent := 300@200.	
 
-	surface := sdl newSurfaceWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
+	surface := SDL3Surface unsafeNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
 	surface clearColor: color.
 
 	self assert: surface extent equals: extent.
@@ -94,7 +94,7 @@ SDL3SurfaceTest >> testSaveAndLoadPNG [
 	filePathString := 'sdl3.png'.
 	filePathString asFileReference ensureDelete.
 
-	surface := sdl newSurfaceWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
+	surface := SDL3Surface unsafeNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
 	surface clearColor: color.
 
 	self deny: filePathString asFileReference exists.

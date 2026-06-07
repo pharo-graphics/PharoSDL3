@@ -18,8 +18,8 @@ I encapsulate the complex dance of mapping Smalltalk Form bits into GPU transfer
 ```smalltalk
 stream := OSSDL3GPUUploadStream on: renderer.
 [
-    stream uploadForm: aForm region: aRectangle to: aTexture.
-    stream uploadForm: anotherForm region: anotherRect to: anotherTexture.
+   stream uploadForm: aForm region: aRectangle to: aTexture.
+   stream uploadForm: anotherForm region: anotherRect to: anotherTexture.
 ] ensure: [ stream finish ].
 ```
 "
@@ -104,7 +104,6 @@ OSSDL3GPUUploadStream >> ensureBatchStarted [
 	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer assertNotNullReturn.
 
 	copyPass := commandBuffer beginGPUCopyPass.
 	currentOffset := 0
@@ -153,7 +152,7 @@ OSSDL3GPUUploadStream >> internalFinishBatch [
 
 	copyPass end.
 	gpuDevice unmapGPUTransferBuffer: transferBuffer.
-	self ffiLibrary assertSuccess: commandBuffer submit.
+	commandBuffer submit.
 	
 	mappedAddress := nil.
 	commandBuffer := nil.
@@ -163,7 +162,7 @@ OSSDL3GPUUploadStream >> internalFinishBatch [
 { #category : 'initialization' }
 OSSDL3GPUUploadStream >> preferredBufferSizeForExtent: anExtent [
 	"Calculate dynamic buffer size based on renderer extent.
-	 We want enough space for at least one full update of the backing store."
+	We want enough space for at least one full update of the backing store."
 
 	^ anExtent x * anExtent y * FFIUInt32 externalTypeSize min: MaxBufferSize max: MinBufferSize
 ]
@@ -171,7 +170,7 @@ OSSDL3GPUUploadStream >> preferredBufferSizeForExtent: anExtent [
 { #category : 'initialization' }
 OSSDL3GPUUploadStream >> resetForExtent: anExtent [
 	"Re-initialize the stream resources for a new extent.
-	 This may reallocate the transfer buffer if the preferred size changed."
+	This may reallocate the transfer buffer if the preferred size changed."
 
 	| newSize |
 	newSize := self preferredBufferSizeForExtent: anExtent.
@@ -186,7 +185,7 @@ OSSDL3GPUUploadStream >> resetForExtent: anExtent [
 { #category : 'public' }
 OSSDL3GPUUploadStream >> uploadForm: aForm region: aRectangle to: aTexture at: aPoint [
 	"Upload a surgical region of a Smalltalk Form to a GPU Texture at a specific destination point.
-	 I handle the BitBlt into the mapped transfer buffer."
+	I handle the BitBlt into the mapped transfer buffer."
 
 	| bytesPerRow bytesNeeded |
 	

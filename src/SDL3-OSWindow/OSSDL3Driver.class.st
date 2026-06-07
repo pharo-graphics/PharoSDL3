@@ -42,6 +42,18 @@ OSSDL3Driver class >> eventLoopProcess [
 	^ EventLoopProcess
 ]
 
+{ #category : 'configuration' }
+OSSDL3Driver class >> formRendererClass [
+
+	^ OSEnvironment current
+		at: 'PHARO_WINDOW_RENDERER'
+		ifPresent: [ :aClass |
+			(self environment hasClassNamed: aClass)
+				ifFalse: [ self error: 'Renderer not found' ].
+			self environment classNamed: aClass ]
+		ifAbsent: [ OSSDL3FormRenderer ]
+]
+
 { #category : 'testing' }
 OSSDL3Driver class >> isSuitable [
 	"Answer true if the SDL3 library is available on the current platform."
@@ -187,8 +199,7 @@ OSSDL3Driver >> initializeGPUDevice [
 			newGPUDeviceFormatFlags:
 				SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 			debugMode: true
-			name: nil.
-	gpuDevice assertNotNullReturn
+			name: nil
 ]
 
 { #category : 'initialization' }
@@ -208,7 +219,7 @@ OSSDL3Driver >> initializeLibrary [
 
 	OSPlatform current osSDL3Platform initPlatformSpecific.
 
-	self ffiLibrary assertSuccess: (self ffiLibrary init: SDL_INIT_VIDEO | SDL_INIT_AUDIO)
+	self ffiLibrary assertSuccess: (self ffiLibrary init: SDL_INIT_VIDEO)
 ]
 
 { #category : 'initialization' }

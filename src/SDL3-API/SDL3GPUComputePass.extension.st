@@ -1,64 +1,64 @@
 Extension { #name : 'SDL3GPUComputePass' }
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputePipeline: compute_pipeline [
+SDL3GPUComputePass >> bindGPUComputePipeline: computePipeline [
 
-	^ self ffiLibrary
-		  bindGPUComputePipelineComputePass: self
-		  computePipeline: compute_pipeline
+	self ffiLibrary
+		bindGPUComputePipelineComputePass: self
+		computePipeline: computePipeline
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputeSamplersFirstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
+SDL3GPUComputePass >> bindGPUComputeSamplersFirstSlot: firstSlot textureSamplerBindings: textureSamplerBindings numBindings: numBindings [
 
-	^ self ffiLibrary
-		  bindGPUComputeSamplersComputePass: self
-		  firstSlot: first_slot
-		  textureSamplerBindings: texture_sampler_bindings
-		  numBindings: num_bindings
+	self ffiLibrary
+		bindGPUComputeSamplersComputePass: self
+		firstSlot: firstSlot
+		textureSamplerBindings: textureSamplerBindings
+		numBindings: numBindings
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputeStorageBuffersFirstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
+SDL3GPUComputePass >> bindGPUComputeStorageBuffersFirstSlot: firstSlot storageBuffers: storageBuffers numBindings: numBindings [
 
-	^ self ffiLibrary
-		  bindGPUComputeStorageBuffersComputePass: self
-		  firstSlot: first_slot
-		  storageBuffers: storage_buffers
-		  numBindings: num_bindings
+	self ffiLibrary
+		bindGPUComputeStorageBuffersComputePass: self
+		firstSlot: firstSlot
+		storageBuffers: storageBuffers
+		numBindings: numBindings
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputeStorageTexturesFirstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
+SDL3GPUComputePass >> bindGPUComputeStorageTexturesFirstSlot: firstSlot storageTextures: storageTextures numBindings: numBindings [
 
-	^ self ffiLibrary
-		  bindGPUComputeStorageTexturesComputePass: self
-		  firstSlot: first_slot
-		  storageTextures: storage_textures
-		  numBindings: num_bindings
+	self ffiLibrary
+		bindGPUComputeStorageTexturesComputePass: self
+		firstSlot: firstSlot
+		storageTextures: storageTextures
+		numBindings: numBindings
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUComputePass >> dispatchGPUComputeIndirectBuffer: buffer offset: offset [
 
-	^ self ffiLibrary
-		  dispatchGPUComputeIndirectComputePass: self
-		  buffer: buffer
-		  offset: offset
+	self ffiLibrary
+		dispatchGPUComputeIndirectComputePass: self
+		buffer: buffer
+		offset: offset
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> dispatchWorkgroupCountX: groupcount_x y: groupcount_y z: groupcount_z [
+SDL3GPUComputePass >> dispatchWorkgroupCountX: groupcountX y: groupcountY z: groupcountZ [
 
-	^ self ffiLibrary
-		  dispatchGPUComputeComputePass: self
-		  groupcountX: groupcount_x
-		  groupcountY: groupcount_y
-		  groupcountZ: groupcount_z
+	self ffiLibrary
+		dispatchGPUComputeComputePass: self
+		groupcountX: groupcountX
+		groupcountY: groupcountY
+		groupcountZ: groupcountZ
 ]
 
 { #category : '*SDL3-API' }
 SDL3GPUComputePass >> end [
 
-	^ self ffiLibrary endGPUComputePass: self
+	self ffiLibrary endGPUComputePass: self
 ]

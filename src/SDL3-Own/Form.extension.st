@@ -10,11 +10,11 @@ Form >> asUnownedNewSDL3Surface [
 	self unhibernate.
 
 	aSDLSurface := LibSDL3 uniqueInstance
-		               newSurfaceFromWidth: self width
-		               height: self height
-		               format: SDL3PixelFormat argb8888 
-		               pixels: self bits
-		               pitch: self bits byteSize // self height.
+		              newSurfaceFromWidth: self width
+		              height: self height
+		              format: SDL3PixelFormat argb8888
+		              pixels: self bits
+		              pitch: self bits byteSize // self height.
 
 	aSDLSurface assertNotNullReturn.
 

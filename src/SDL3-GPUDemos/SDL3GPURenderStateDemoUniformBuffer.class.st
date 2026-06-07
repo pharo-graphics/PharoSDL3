@@ -6,8 +6,8 @@ The HLSL code of such shaders declare something like:
 ```
 cbuffer Context : register(b0, space3)
 {
-    float time; // Elapsed time in seconds
-    float2 resolution; // Viewport width/height in pixels
+   float time; // Elapsed time in seconds
+   float2 resolution; // Viewport width/height in pixels
 }
 ```
 those 3 floats will have my 3 fields. Note the order in the declaration is essential, not the names.

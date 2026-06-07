@@ -23,18 +23,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'configuration' }
-OSSDL3BackendWindow class >> formRendererClass [
-
-	^ OSEnvironment current
-		at: 'PHARO_WINDOW_RENDERER'
-		ifPresent: [ :aClass |
-			(self environment hasClassNamed: aClass)
-				ifFalse: [ self error: 'Renderer not found' ].
-			self environment classNamed: aClass ]
-		ifAbsent: [ OSSDL3FormRenderer ]
-]
-
 { #category : 'instance creation' }
 OSSDL3BackendWindow class >> fromAttributes: attributes for: anOSWindow [
 
@@ -110,8 +98,8 @@ OSSDL3BackendWindow >> convertCursor: aCursor withMask: aMask andScale: aScale [
 					argbForm
 						colorAt: x @ y
 						put: (val = 1
-								 ifTrue: [ Color black ]
-								 ifFalse: [ Color white ]) ]
+								ifTrue: [ Color black ]
+								ifFalse: [ Color white ]) ]
 				ifFalse: [ argbForm colorAt: x @ y put: Color transparent ] ] ].
 
 	^ argbForm
@@ -202,9 +190,9 @@ OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 		w: attributes width
 		h: attributes height
 		flags: (self windowFlagsFromAttributes: attributes).
-	sdl3Window assertNotNullReturn.
-	
-	osWindow setJustCreatedHandle: self
+
+		osWindow setJustCreatedHandle: self
+
 ]
 
 { #category : 'text input' }
@@ -250,7 +238,7 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
 
 	^ renderer :=
-		self class formRendererClass new
+		OSSDL3Driver formRendererClass new
 			form: form;
 			backendWindow: self;
 			yourself

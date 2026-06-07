@@ -34,17 +34,17 @@ SDL3TestComputeUniformShaderSource class >> hlslSource [
 
 	^ '
 cbuffer Params : register(b0, space2) {
-    float multiplier;
-    float offset;
-    float pad1;
-    float pad2;
+   float multiplier;
+   float offset;
+   float pad1;
+   float pad2;
 };
 
 RWStructuredBuffer<float> Output : register(u0, space1);
 
 [numthreads(64, 1, 1)]
 void main(uint3 dtid : SV_DispatchThreadID) {
-    Output[dtid.x] = (float)dtid.x * multiplier + offset;
+   Output[dtid.x] = (float)dtid.x * multiplier + offset;
 }
 '
 ]

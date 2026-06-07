@@ -17,3 +17,25 @@ SDL3AudioStream >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3AudioStream class >> unsafeNewSrcSpec: srcSpec dstSpec: dstSpec [
+
+	^ (self ffiLibrary
+		   newAudioStreamSrcSpec: srcSpec
+		   dstSpec: dstSpec)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3AudioStream class >> unsafeOpenDeviceStreamDevid: devid spec: spec callback: callback userdata: userdata [
+
+	^ (self ffiLibrary
+		   openAudioDeviceStreamDevid: devid
+		   spec: spec
+		   callback: callback
+		   userdata: userdata)
+		  assertNotNullReturn;
+		  yourself
+]

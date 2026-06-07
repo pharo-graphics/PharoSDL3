@@ -6,10 +6,10 @@ This class isn't generated automatically, it's manual. Why? SDL3 doesn't define 
 
 ```
 /**
- * Valid key modifiers (possibly OR'd together).
- *
- * \since This datatype is available since SDL 3.2.0.
- */
+* Valid key modifiers (possibly OR'd together).
+*
+* \since This datatype is available since SDL 3.2.0.
+*/
 typedef Uint16 SDL_Keymod;
 
 #define SDL_KMOD_NONE   0x0000u /**< no modifier is applicable. */
