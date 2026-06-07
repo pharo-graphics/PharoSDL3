@@ -56,17 +56,20 @@ SDL3Console >> maxLines: anInteger [
 { #category : 'rendering' }
 SDL3Console >> renderOn: aSDL3Renderer [
 
-	| height maxVisible displayLines rowHeight |
+	| height maxVisible displayLines |
 	height := aSDL3Renderer outputExtent y.
-	rowHeight := self lineHeight.
-	maxVisible := (height // rowHeight) - 1.
+	maxVisible := (height // self lineHeight) - 1.
+
+	displayLines :=
+		lines size > maxVisible
+			ifTrue: [ lines last: maxVisible ]
+			ifFalse: [ lines ].
 
 	aSDL3Renderer renderDrawColor: Color white.
 
-	displayLines := lines size > maxVisible
-		               ifTrue: [ lines last: maxVisible ]
-		               ifFalse: [ lines ].
-
 	displayLines withIndexDo: [ :each :index | 
-		aSDL3Renderer renderDebugTextX: 10 y: (index - 1) * rowHeight + 10 str: each asString ]
+		aSDL3Renderer
+			renderDebugTextX: 10
+			y: (index - 1) * self lineHeight + 10
+			str: each asString ]
 ]
