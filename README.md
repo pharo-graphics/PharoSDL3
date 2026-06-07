@@ -53,13 +53,15 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 #### Core API Demos
 - `SDL3ClearDemo`: The basic "Hello World" of window management and clearing.
 - `SDL3LogEventsDemo`: Real-time logging of the SDL3 event stream (mouse, keyboard, window) to a console.
-- `SDL3LogStateDemo`: Displays current system and device properties like display modes and audio devices.
+- `SDL3SystemQueryDemo`: Displays current system and device properties like display modes, audio drivers, and video drivers.
+- `SDL3MouseDemo`: Demonstrates mouse-related functions including grabbing, relative mode, sub-rectangle confinement (locking), warping, and system cursor cycling.
+- `SDL3KeyboardStateDemo`: Shows low-level keyboard state monitoring (scancodes, keycodes, modifiers) and Unicode text input mode.
+- `SDL3AnimatedCursorDemo`: Demonstrates how to create and use custom animated cursors from image frames.
 - `SDL3MultipleWindowsDemo`: Demonstrates managing and updating multiple top-level windows simultaneously.
 - `SDL3TouchpadFingersDemo`: Visualizes multi-touch finger tracking on modern touchpads.
 - `SDL3TouchpadPinchToZoomDemo`: Implements smooth zooming gestures by handling complex touchpad pinch events.
 - `SDL3AudioRecorderDemo`: Captures audio from the system's default microphone and plays the recording.
 - `SDL3CameraDemo`: Acquires live frames from a system camera and renders them with rotation support.
-- `SDL3SystemCursorsDemo`: Shows how to switch between standard OS mouse cursors.
 - `SDL3TrayMenuDemo`: Shows system tray integration, including icon management and contextual menus.
 - `SDL3ImageClipboardDemo`: Demonstrates system clipboard integration for copying and pasting image data.
 - `SDL3OpenFolderDialogDemo`: Shows how to trigger and handle native system file/folder selection dialogs.

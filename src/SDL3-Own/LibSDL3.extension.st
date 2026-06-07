@@ -220,6 +220,17 @@ LibSDL3 >> displays [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> globalMousePosition [
+
+	| xHolder yHolder |
+	xHolder := FFIFloat32 newValueHolder.
+	yHolder := FFIFloat32 newValueHolder.
+
+	self getGlobalMouseStateX: xHolder y: yHolder.
+	^ xHolder value @ yHolder value
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> gpuDrivers [
 
 	| result |

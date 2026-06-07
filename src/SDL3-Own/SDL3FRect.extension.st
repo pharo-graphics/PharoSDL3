@@ -1,9 +1,21 @@
 Extension { #name : 'SDL3FRect' }
 
 { #category : '*SDL3-Own' }
+SDL3FRect >> extent [
+
+	^ self w @ self h
+]
+
+{ #category : '*SDL3-Own' }
 SDL3FRect class >> newFrom: aRectangle [
 
 	^ self origin: aRectangle origin extent: aRectangle extent
+]
+
+{ #category : '*SDL3-Own' }
+SDL3FRect >> origin [
+
+	^ self x @ self y
 ]
 
 { #category : '*SDL3-Own' }

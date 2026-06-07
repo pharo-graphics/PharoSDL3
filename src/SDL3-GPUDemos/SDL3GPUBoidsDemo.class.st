@@ -123,7 +123,7 @@ SDL3GPUBoidsDemo >> doGeometryPassWith: aCommandBuffer input: inputBuffer [
 SDL3GPUBoidsDemo >> doPhysicsPassWith: aCommandBuffer input: inputBuffer output: outputBuffer [
 
 	| extent |
-	extent := window extent.
+	extent := window pixelExtent.
 
 	"Aspect ratio bounds calculation: keep the minimum dimension mapped to [-1, 1]"
 	extent x > extent y
