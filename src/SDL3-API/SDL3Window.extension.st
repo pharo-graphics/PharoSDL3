@@ -603,6 +603,5 @@ SDL3Window >> updateSurfaceRects: rects numrects: numrects [
 { #category : '*SDL3-API' }
 SDL3Window >> warpMouseInX: x y: y [
 
-	self ffiLibrary assertSuccess:
-		(self ffiLibrary warpMouseInWindow: self x: x y: y)
+	self ffiLibrary warpMouseInWindow: self x: x y: y
 ]
