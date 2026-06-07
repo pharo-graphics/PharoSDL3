@@ -94,6 +94,18 @@ SDL3Window >> isHighPixelDensity [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isMaximized [
+
+	^ self flags anyMask: SDL3WindowFlags maximized
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> isMinimized [
+
+	^ self flags anyMask: SDL3WindowFlags minimized
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isMouseCaptured [
 
 	^ self flags anyMask: SDL3WindowFlags mouseCapture
