@@ -15,7 +15,7 @@ SDL3GPUDevice >> gpuShaderFormatsAsArray [
 SDL3GPUDevice >> new2DGPUTextureFormat: pixelFormat usage: usage width: width height: height [
 	"Answer a new `SDL_GPUTexture` with the given pixel format, usage and extent, and use default values."
 
-	| createinfo texture |
+	| createinfo |
 	createinfo := SDL_GPUTextureCreateInfo new.
 	createinfo
 		type: SDL_GPU_TEXTURETYPE_2D;
@@ -28,8 +28,7 @@ SDL3GPUDevice >> new2DGPUTextureFormat: pixelFormat usage: usage width: width he
 		sampleCount: SDL_GPU_SAMPLECOUNT_1;
 		props: 0.
 
-	texture := self newGPUTextureCreateinfo: createinfo.
-	^ texture
+	^ self newGPUTextureCreateinfo: createinfo
 ]
 
 { #category : '*SDL3-Own' }
