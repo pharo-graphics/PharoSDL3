@@ -38,6 +38,20 @@ SDL3MouseDemo >> initialExtent [
 	^ 800 @ 240
 ]
 
+{ #category : 'lifecycle' }
+SDL3MouseDemo >> prepareToLoop [
+
+	super prepareToLoop.
+
+	cursorIdGenerator := Generator on: [ :g |
+		[ (SDL3SystemCursor allValues
+				sorted: [ :a :b | a value < b value ])
+				do: [ :each | g yield: each ]
+		] repeat ].
+
+	self activateNextSystemCursor
+]
+
 { #category : 'hooks' }
 SDL3MouseDemo >> step [
 
