@@ -10,6 +10,15 @@ Class {
 }
 
 { #category : 'converting' }
+SDL3MacroDefinedFlag class >> allItemsIn: anInteger [
+
+	^ Array streamContents: [ :stream |
+		self allValuesDo: [ :each |
+			(anInteger bitAnd: each asInteger) = 0
+				ifFalse: [ stream nextPut: each item ] ] ]
+]
+
+{ #category : 'converting' }
 SDL3MacroDefinedFlag class >> allValuesIn: anInteger [
 
 	^ Array streamContents: [ :stream |
