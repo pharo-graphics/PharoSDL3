@@ -10,9 +10,9 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'sdl3Window',
 		'currentCursor',
-		'currentDraggableCallback'
+		'currentDraggableCallback',
+		'sdlWindow'
 	],
 	#pools : [
 		'SDL3SystemCursor',
@@ -34,14 +34,14 @@ OSSDL3BackendWindow class >> fromAttributes: attributes for: anOSWindow [
 { #category : 'accessing' }
 OSSDL3BackendWindow >> borderless [
 
-	^ sdl3Window isBorderless
+	^ sdlWindow isBorderless
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> borderless: aBoolean [
 	"Set the window to be borderless if aBoolean is true."
 
-	sdl3Window bordered: aBoolean not
+	sdlWindow bordered: aBoolean not
 ]
 
 { #category : 'accessing' }
@@ -56,7 +56,7 @@ OSSDL3BackendWindow >> bounds: newBounds [
 OSSDL3BackendWindow >> clipboardText [
 	"Answer the current text in the system clipboard."
 
-	^ LibSDL3 uniqueInstance utf8StringFromExternalAddress: LibSDL3 uniqueInstance getClipboardText
+	^ self ffiLibrary utf8StringFromExternalAddress: self ffiLibrary getClipboardText
 ]
 
 { #category : 'accessing' }
@@ -109,8 +109,8 @@ OSSDL3BackendWindow >> convertCursor: aCursor withMask: aMask andScale: aScale [
 OSSDL3BackendWindow >> destroy [
 	"Destroy the backend window and release its resources, including any associated GPU device and callbacks."
 
-	sdl3Window ifNotNil: [
-		OSSDL3Driver current unregisterWindowWithId: sdl3Window id.
+	sdlWindow ifNotNil: [
+		OSSDL3Driver current unregisterWindowWithId: sdlWindow id.
 
 		renderer ifNotNil: [ 
 			renderer destroy.
@@ -121,8 +121,8 @@ OSSDL3BackendWindow >> destroy [
 			currentCursor := nil ].
 		currentDraggableCallback := nil. "Callback will be collected by GC"
 
-		sdl3Window destroy.
-		sdl3Window := nil ].
+		sdlWindow destroy.
+		sdlWindow := nil ].
 
 	osWindow := nil
 ]
@@ -139,34 +139,34 @@ OSSDL3BackendWindow >> ensureSetCurrentCursor [
 OSSDL3BackendWindow >> extent [
 	"Answer the size of the window."
 
-	^ sdl3Window extent
+	^ sdlWindow extent
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> extent: aPoint [
 	"Set the window extent to aPoint."
 
-	sdl3Window extent: aPoint
+	sdlWindow extent: aPoint
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> fullscreen: aBoolean [
 	"Set the window to fullscreen mode if aBoolean is true."
 
-	sdl3Window fullscreen: aBoolean
+	sdlWindow fullscreen: aBoolean
 ]
 
 { #category : 'testing' }
 OSSDL3BackendWindow >> hasInputFocus [
 	"Answer true if the window has input focus."
 
-	^ sdl3Window hasInputFocus
+	^ sdlWindow hasInputFocus
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> hide [
 
-	sdl3Window hide
+	sdlWindow hide
 ]
 
 { #category : 'accessing' }
@@ -175,7 +175,7 @@ OSSDL3BackendWindow >> icon: aForm [
 
 	| surface |
 	surface := aForm asUnownedNewSDL3Surface.
-	[ sdl3Window icon: surface ] ensure: [ surface destroy ]
+	[ sdlWindow icon: surface ] ensure: [ surface destroy ]
 ]
 
 { #category : 'initialization' }
@@ -185,7 +185,7 @@ OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 
 	osWindow := anOSWindow.
 
-	sdl3Window := self ffiLibrary
+	sdlWindow := self ffiLibrary
 		newWindowTitle: attributes title
 		w: attributes width
 		h: attributes height
@@ -198,14 +198,20 @@ OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 { #category : 'text input' }
 OSSDL3BackendWindow >> isTextInputActive [
 
-	^ sdl3Window isTextInputActive
+	^ sdlWindow isTextInputActive
 ]
 
 { #category : 'testing' }
 OSSDL3BackendWindow >> isValid [
 	"Answer true if the SDL window handle is still valid."
 
-	^ (sdl3Window isNotNil and: [ sdl3Window isNull not ])
+	^ (sdlWindow isNotNil and: [ sdlWindow isNull not ])
+]
+
+{ #category : 'testing' }
+OSSDL3BackendWindow >> isVisible [
+
+	^ sdlWindow isHidden not
 ]
 
 { #category : 'cursor' }
@@ -224,13 +230,13 @@ OSSDL3BackendWindow >> lookupSystemCursor: aCursor ifNotFound: aBlock [
 { #category : 'accessing' }
 OSSDL3BackendWindow >> maximize [
 
-	sdl3Window maximize
+	sdlWindow maximize
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> minimize [
 
-	sdl3Window minimize
+	sdlWindow minimize
 ]
 
 { #category : 'factory' }
@@ -254,41 +260,41 @@ OSSDL3BackendWindow >> platformSpecificHandle [
 OSSDL3BackendWindow >> position [
 	"Answer the window's top-left position."
 
-	^ sdl3Window position
+	^ sdlWindow position
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> position: aPoint [
 	"Set the window's position to aPoint."
 
-	sdl3Window position: aPoint
+	sdlWindow position: aPoint
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> raise [
 	"Raise the window to the front."
 
-	sdl3Window raise
+	sdlWindow raise
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> resizable [
 
-	^ sdl3Window isResizable
+	^ sdlWindow isResizable
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> resizable: aBoolean [
 	"Set the window's resizable attribute."
 
-	sdl3Window resizable: aBoolean
+	sdlWindow resizable: aBoolean
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> restore [
 	"Restore the window from a maximized or minimized state."
 
-	sdl3Window restore
+	sdlWindow restore
 ]
 
 { #category : 'accessing' }
@@ -305,14 +311,14 @@ OSSDL3BackendWindow >> screenScaleFactor [
 
 	^ OSPlatform current isMacOS 
 		ifTrue: [ 1.0 ]
-		ifFalse: [ sdl3Window displayScale ]
+		ifFalse: [ sdlWindow displayScale ]
 ]
 
 { #category : 'accessing' }
-OSSDL3BackendWindow >> sdl3Window [
-	"Answer the underlying SDL window handle."
+OSSDL3BackendWindow >> sdlWindow [
+	"Answer the underlying SDL window"
 
-	^ sdl3Window
+	^ sdlWindow
 ]
 
 { #category : 'accessing' }
@@ -340,26 +346,25 @@ OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
 { #category : 'testing' }
 OSSDL3BackendWindow >> shouldRegisterAfterRestart [
 
-	^ sdl3Window isNotNil
+	^ sdlWindow isNotNil
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> show [
-	"Show the window."
 
-	sdl3Window show
+	sdlWindow show
 ]
 
 { #category : 'text input' }
 OSSDL3BackendWindow >> startTextInput [
 
-	sdl3Window startTextInput
+	sdlWindow startTextInput
 ]
 
 { #category : 'text input' }
 OSSDL3BackendWindow >> startTextInputAtRectangle: aRectangle [
 
-	sdl3Window
+	sdlWindow
 		startTextInput;
 		textInputAreaRect: (SDL_Rect newFrom: aRectangle)
 			cursor: 0
@@ -368,7 +373,7 @@ OSSDL3BackendWindow >> startTextInputAtRectangle: aRectangle [
 { #category : 'text input' }
 OSSDL3BackendWindow >> stopTextInput [
 
-	sdl3Window stopTextInput
+	sdlWindow stopTextInput
 ]
 
 { #category : 'private' }
@@ -399,14 +404,14 @@ OSSDL3BackendWindow >> systemCursorConversionTable [
 OSSDL3BackendWindow >> title [
 	"Answer the window title."
 
-	^ sdl3Window title
+	^ sdlWindow title
 ]
 
 { #category : 'accessing' }
 OSSDL3BackendWindow >> title: aString [
 	"Set the window title to aString."
 
-	sdl3Window title: aString
+	sdlWindow title: aString
 ]
 
 { #category : 'events' }
@@ -435,5 +440,5 @@ OSSDL3BackendWindow >> windowFlagsFromAttributes: attributes [
 OSSDL3BackendWindow >> windowId [
 	"Answer the unique ID of the underlying SDL window."
 
-	^ sdl3Window id
+	^ sdlWindow id
 ]

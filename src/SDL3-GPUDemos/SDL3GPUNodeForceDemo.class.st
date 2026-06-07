@@ -41,11 +41,16 @@ SDL3GPUNodeForceDemo >> bindSharedGraphicsResourcesTo: aRenderPass with: aComman
 	aRenderPass
 		bindGPUVertexStorageBuffersFirstSlot: 0
 		storageBuffers: storageBuffers.
-	aRenderPass bindGPUIndexBufferBinding: indexBufferBinding indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
+	aRenderPass
+		bindGPUIndexBufferBinding: indexBufferBinding
+		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
 
 	uniforms aspectRatio: window extent x asFloat / (window extent y max: 1).
 	uniforms selectedNodeIndex: selectedNodeIndex.
-	aCommandBuffer pushGPUVertexUniformDataSlotIndex: 0 data: uniforms length: SDL3GPUNodeForceUniforms structureSize
+	aCommandBuffer
+		pushGPUVertexUniformDataSlotIndex: 0
+		data: uniforms
+		length: SDL3GPUNodeForceUniforms structureSize
 ]
 
 { #category : 'lifecycle' }
@@ -88,19 +93,20 @@ SDL3GPUNodeForceDemo >> computeSimulation [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 
 	"Ping-pong"
-	nextBuffer := currentNodesBuffer == nodesBufferPing
-					 ifTrue: [ nodesBufferPong ]
-					 ifFalse: [ nodesBufferPing ].
+	nextBuffer :=
+		currentNodesBuffer == nodesBufferPing
+			ifTrue: [ nodesBufferPong ]
+			ifFalse: [ nodesBufferPing ].
 
-	self pushSimulationUniformsTo: commandBuffer.
 	self
+		pushSimulationUniformsTo: commandBuffer;
 		executeSimulationComputePassWith: commandBuffer
-		input: currentNodesBuffer
-		output: nextBuffer.
+			input: currentNodesBuffer
+			output: nextBuffer.
 
 	commandBuffer submit.
 
-	"Ping-pong"
+	"Prepare for next compute"
 	currentNodesBuffer := nextBuffer
 ]
 
@@ -304,9 +310,6 @@ SDL3GPUNodeForceDemo >> initializeGeometry [
 SDL3GPUNodeForceDemo >> initializeGraph [
 
 	| random |
-	numNodes := 64.
-	numEdges := 128.
-
 	random := Random seed: 17.
 	
 	nodeArray := FFIArray newType: SDL3GPUNode size: numNodes.
@@ -352,9 +355,9 @@ SDL3GPUNodeForceDemo >> initializeUniforms [
 	uniforms
 		numNodes: numNodes;
 		numEdges: numEdges;
-		deltaTime: 0.016;
-		springStiffness: 5.0;
-		repulsionWeight: 1.0;
+		deltaTime: loop periodAsSeconds;
+		springStiffness: 2.0;
+		repulsionWeight: 6.0;
 		repulsionRadius: 0.5;
 		centerGravityWeight: 0.5;
 		damping: 0.01;
@@ -362,7 +365,7 @@ SDL3GPUNodeForceDemo >> initializeUniforms [
 		aspectRatio: 1.0;
 		hoverX: -10.0;
 		hoverY: -10.0;
-		isDragging: 0.
+		isDragging: 0
 ]
 
 { #category : 'private' }
@@ -411,8 +414,8 @@ SDL3GPUNodeForceDemo >> newGraphicsPipelineCreateInfoFor: vertexShader colorTarg
 	vertexBindings := self newNodeVertexBindings.
 	vertexAttributes := self newNodeVertexAttributes.
 
-	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew
-							 autoRelease.
+	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew.
+	pipelineCreateInfo autoRelease.
 	pipelineCreateInfo
 		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
 		vertexShader: vertexShader.
@@ -446,8 +449,7 @@ SDL3GPUNodeForceDemo >> newNodePipelineWith: aFormatArray colorTargets: colorTar
 							 colorTargets: colorTargets.
 	pipelineCreateInfo fragmentShader: fragmentShader.
 
-	nodePipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
-						pipelineCreateInfo.
+	nodePipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
 	gpuDevice
 		releaseGPUShader: vertexShader;
 		releaseGPUShader: fragmentShader
@@ -496,7 +498,8 @@ SDL3GPUNodeForceDemo >> prepareToLoop [
 	super prepareToLoop.
 	self initializeBuffers.
 	self initializeGraph.
-	self uploadGraph.
+	self uploadNodes.
+	self uploadEdges.
 	self initializeGeometry.
 	self initializeShaders
 ]
@@ -511,9 +514,7 @@ SDL3GPUNodeForceDemo >> pushSimulationUniformsTo: commandBuffer [
 		time: Time millisecondClockValue / 1000.0;
 		aspectRatio: aspect;
 		selectedNodeIndex: selectedNodeIndex;
-		isDragging: (isDragging
-				ifTrue: [ 1 ]
-				ifFalse: [ 0 ]).
+		isDragging: (isDragging ifTrue: [ 1 ] ifFalse: [ 0 ]).
 
 	commandBuffer
 		pushGPUComputeUniformDataSlotIndex: 0
@@ -631,13 +632,6 @@ SDL3GPUNodeForceDemo >> uploadEdges [
 		commandBuffer submit ].
 
 	gpuDevice releaseGPUTransferBuffer: transfer
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemo >> uploadGraph [
-
-	self uploadNodes.
-	self uploadEdges
 ]
 
 { #category : 'private' }

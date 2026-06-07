@@ -70,10 +70,9 @@ SDL3GPUDemoApp >> newColorTargetDescriptions: aSize [
 { #category : 'lifecycle' }
 SDL3GPUDemoApp >> open [
 
-	gpuDevice := sdl
-		newGPUDeviceFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
+	gpuDevice := SDL_GPUDevice
+		unsafeNewFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 		debugMode: true name: nil.
-	gpuDevice assertNotNullReturn.
 
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
 	

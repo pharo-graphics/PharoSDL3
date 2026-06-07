@@ -16,7 +16,8 @@ Class {
 		'deferFlush',
 		'uploadStream',
 		'swapchainWidthHolder',
-		'swapchainHeightHolder'
+		'swapchainHeightHolder',
+		'blitInfo'
 	],
 	#pools : [
 		'SDL3AllEnumerations'
@@ -56,24 +57,21 @@ OSSDL3GPUFormRenderer >> flush [
 	"Process any pending presentation to the screen"
 
 	mutex critical: [
-		| commandBuffer blitInfo |
+		| commandBuffer |
 		needsFlush ifFalse: [ ^ self ].
 		self validate ifFalse: [ ^ self ].
 
 		"Try to Acquire Swapchain texture (Non-blocking)."
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
-		(commandBuffer
-			acquireGPUSwapchainTextureForWindow: backendWindow sdl3Window
+		commandBuffer
+			acquireGPUSwapchainTextureForWindow: backendWindow sdlWindow
 			into: swapchainTextureHolder 
 			width: swapchainWidthHolder 
-			height: swapchainHeightHolder).
+			height: swapchainHeightHolder.
 
 		"If swapchain is not available submit the empty command buffer and retry later"
 		[	swapchainTextureHolder value isNull ifFalse: [ 
 
-				blitInfo := SDL3GPUBlitInfo externalNew.
-				blitInfo autoRelease.
-				
 				blitInfo source 
 					texture: gpuTexture;
 					w: extent x;
@@ -117,14 +115,16 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	uploadStream gpuDevice: gpuDevice.
 	uploadStream resetForExtent: extent.
 
-	"Backing store needs SAMPLER usage for copying/rendering to swapchain"
 	gpuTexture := gpuDevice
 		new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
 		width: extent x 
 		height: extent y.
 
-	"Pre-allocate pooled structures to avoid GC pressure in hot path"
+	"Pre-allocate to avoid GC pressure in hot path"
+	blitInfo := SDL3GPUBlitInfo externalNew.
+	blitInfo autoRelease.
+
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	swapchainWidthHolder := FFIUInt32 newValueHolder.
 	swapchainHeightHolder := FFIUInt32 newValueHolder
@@ -161,7 +161,7 @@ OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 { #category : 'accessing' }
 OSSDL3GPUFormRenderer >> outputExtent [
 	
-	^ backendWindow sdl3Window pixelExtent
+	^ backendWindow sdlWindow pixelExtent
 ]
 
 { #category : 'updating screen' }
@@ -217,7 +217,7 @@ OSSDL3GPUFormRenderer >> validate [
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [
 		"The SDL3GPUDevice is shared among windows"
 		gpuDevice := OSSDL3Driver current gpuDevice.
-		gpuDevice claimWindow: backendWindow sdl3Window ].
+		gpuDevice claimWindow: backendWindow sdlWindow ].
 
 	(gpuTexture isNil or: [ uploadStream isNil or: [ form extent ~= extent ] ])
 		ifTrue: [ self initializeGPUResources ].

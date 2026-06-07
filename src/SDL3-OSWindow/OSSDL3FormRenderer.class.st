@@ -35,7 +35,7 @@ OSSDL3FormRenderer >> copyAndPresentTextureRectangle: rectangle [
 { #category : 'private' }
 OSSDL3FormRenderer >> createRenderer [
 
-	sdlRenderer := backendWindow sdl3Window newRenderer.
+	sdlRenderer := backendWindow sdlWindow newRenderer.
 	sdlRenderer renderVsync: 1
 ]
 
@@ -46,17 +46,16 @@ OSSDL3FormRenderer >> createTexture [
 	"Existing texture released explicitly to avoid memory leak on resize"
 	sdlTexture ifNotNil: [ sdlTexture destroy ].
 
-	pixelExtent := backendWindow sdl3Window pixelExtent.
+	pixelExtent := backendWindow sdlWindow pixelExtent.
 
-	sdlTexture := sdlRenderer
-					 newTextureFormat: SDL_PIXELFORMAT_XRGB8888
-					 access: SDL_TEXTUREACCESS_STREAMING
-					 w: pixelExtent x
-					 h: pixelExtent y.
+	sdlTexture :=
+		sdlRenderer
+			newTextureFormat: SDL_PIXELFORMAT_XRGB8888
+			access: SDL_TEXTUREACCESS_STREAMING
+			w: pixelExtent x
+			h: pixelExtent y.
 
-	extent := form extent.
-	
-"	sdlRenderer renderLogicalPresentationW: extent x h: extent y mode: SDL_LOGICAL_PRESENTATION_STRETCH"
+	extent := form extent
 ]
 
 { #category : 'updating screen' }
@@ -94,21 +93,6 @@ OSSDL3FormRenderer >> initialize [
 	mutex := Mutex new.
 	pitchHolder := FFIInt32 newValueHolder.
 	pixels := ExternalAddress new
-]
-
-{ #category : 'private' }
-OSSDL3FormRenderer >> logicalToPixelRect: aRectangle [
-
-	| window logicalExtent pixelExtent scaleX scaleY |
-	window := backendWindow sdl3Window.
-	logicalExtent := window extent.
-	pixelExtent := window pixelExtent.
-	
-	scaleX := pixelExtent x asFloat / (logicalExtent x max: 1).
-	scaleY := pixelExtent y asFloat / (logicalExtent y max: 1).
-	
-	^ (aRectangle origin x * scaleX) rounded @ (aRectangle origin y * scaleY) rounded 
-		extent: (aRectangle width * scaleX) rounded @ (aRectangle height * scaleY) rounded
 ]
 
 { #category : 'private' }
@@ -150,32 +134,31 @@ OSSDL3FormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 
 		updateUnion := nil.
 		allDamage do: [ :rectangle |
-			intersection := rectangle
-				                intersect: (0 @ 0 extent: extent)
-				                ifNone: [ nil ].
+			intersection :=
+				rectangle intersect: (0 @ 0 extent: extent) ifNone: [ nil ].
 
 			intersection ifNotNil: [
 				sdlRect := SDL3Rect newFrom: intersection.
 				sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
 				pitch := pitchHolder value.
 
-				[
-				externalForm := OSSDL3ExternalForm new
-					                setExtent: intersection extent
-					                depth: 32
-					                pitch: pitch
-					                bits: pixels;
-					                yourself.
-				self
-					primitiveUpdateRectangle: intersection
-					to: 0@0
-					externalForm: externalForm.
-				updateUnion
-					ifNil: [ updateUnion := intersection ]
-					ifNotNil: [ updateUnion := updateUnion merge: intersection ] ]
-					ensure: [
-						sdlTexture unlock.
-						externalForm destroySurface ] ] ].
+				[	externalForm :=
+						OSSDL3ExternalForm new
+							setExtent: intersection extent
+							depth: 32
+							pitch: pitch
+							bits: pixels;
+							yourself.
+					self
+						primitiveUpdateRectangle: intersection
+						to: 0@0
+						externalForm: externalForm.
+					updateUnion
+						ifNil: [ updateUnion := intersection ]
+						ifNotNil: [ updateUnion := updateUnion merge: intersection ]
+				] ensure: [
+					sdlTexture unlock.
+					externalForm destroySurface ] ] ].
 
 		(forceToScreen and: [ updateUnion isNotNil ]) ifTrue: [
 			self copyAndPresentTextureRectangle: updateUnion ] ]
@@ -186,26 +169,27 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 
 	| intersection pitch externalForm sdlRect |
 	mutex critical: [
-		intersection := rectangle
-			                intersect: (0 @ 0 extent: extent)
-			                ifNone: [ ^ self ].
+		intersection :=
+			rectangle intersect: (0 @ 0 extent: extent) ifNone: [ ^ self ].
+
 		self validate ifFalse: [ ^ self ].
 
 		sdlRect := SDL3Rect newFrom: intersection.
 		sdlTexture lockRect: sdlRect pixels: pixels pitch: pitchHolder.
-		pitch := pitchHolder signedLongAt: 1.
+		pitch := pitchHolder value.
 
-		[
-		externalForm := OSSDL3ExternalForm new
-			                setExtent: intersection extent
-			                depth: 32
-			                pitch: pitch
-			                bits: pixels;
-			                yourself.
-		self
-			primitiveUpdateRectangle: intersection
-			to: 0@0
-			externalForm: externalForm ] ensure: [
+		[	externalForm :=
+				OSSDL3ExternalForm new
+					setExtent: intersection extent
+					depth: 32
+					pitch: pitch
+					bits: pixels;
+					yourself.
+			self
+				primitiveUpdateRectangle: intersection
+				to: 0@0
+				externalForm: externalForm
+		] ensure: [
 			sdlTexture unlock.
 			externalForm destroySurface ].
 
@@ -233,7 +217,12 @@ OSSDL3FormRenderer >> useDeferredUpdates [
 OSSDL3FormRenderer >> validate [
 
 	form ifNil: [ ^ false ].
-	(sdlRenderer isNil or: [ sdlRenderer isNull ]) ifTrue: [ self createRenderer ].
-	(sdlTexture isNil or: [ sdlTexture isNull or: [ form extent ~= extent ] ]) ifTrue: [ self createTexture ].
+
+	(sdlRenderer isNil or: [ sdlRenderer isNull ])
+		ifTrue: [ self createRenderer ].
+
+	(sdlTexture isNil or: [ sdlTexture isNull or: [ form extent ~= extent ] ])
+		ifTrue: [ self createTexture ].
+
 	^ true
 ]

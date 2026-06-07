@@ -30,8 +30,7 @@ OSSDL3ExternalForm >> destroySurface [
 
 	bits ifNotNil: [ :surfaceID |
 		bits := nil.
-		self primDestroyManualSurface: surfaceID
-	]
+		self primDestroyManualSurface: surfaceID ]
 ]
 
 { #category : 'scaling, rotation' }
@@ -88,7 +87,7 @@ OSSDL3ExternalForm >> resetExtent: anExtent depth: bitsPerPixel pitch: rowPitch 
 	self setExtent: anExtent depth: bitsPerPixel pitch: rowPitch bits: aPointer
 ]
 
-{ #category : 'initialization' }
+{ #category : 'private' }
 OSSDL3ExternalForm >> setExtent: anExtent depth: bitsPerPixel [
 	"Set the extent and depth of the form, and create the manual surface."
 
@@ -102,7 +101,7 @@ OSSDL3ExternalForm >> setExtent: anExtent depth: bitsPerPixel [
 	bits := self
 		primCreateManualSurfaceWidth: width
 		height: height
-		rowPitch: width * FFIUInt32 externalTypeSize
+		rowPitch: width * 4
 		depth: bitsPerPixel
 		isMSB: true
 ]
