@@ -56,12 +56,13 @@ SDL3GPUSDFRoundedRectDemo >> close [
 { #category : 'rendering' }
 SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
-	| renderPass quadWidthPixels quadHeightPixels |
+	| renderPass quadWidthPixels quadHeightPixels physicalExtent |
 	colorTargetInfos first texture: swapchainTexture.
 
 	"Calculate actual pixel dimensions of the quads based on window size and grid"
-	quadWidthPixels := window width asFloat / columns.
-	quadHeightPixels := window height asFloat / rows.
+	physicalExtent := window pixelExtent.
+	quadWidthPixels := physicalExtent x asFloat / columns.
+	quadHeightPixels := physicalExtent y asFloat / rows.
 
 	sdfUniforms
 		dimX: quadWidthPixels;
