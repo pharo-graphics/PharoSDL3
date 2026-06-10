@@ -213,9 +213,10 @@ SDL3WindowTest >> test05CreateWindowAndRenderer [
 	self deny: renderer isRenderViewportSet.
 
 	"We don't worry about pixel density since we didn't add High-DPI flag"
-	self assert: renderer outputExtent equals: extent.
 	self assert: renderer scale equals: 1.0 @ 1.0.
-	self assert: renderer logicalPresentationRect isNull.
+	self assert: renderer outputExtent equals: extent.
+	self assert: window pixelExtent equals: extent.
+	self assert: window extent equals: extent.
 
 	renderer destroy.
 	window destroy
