@@ -1,9 +1,6 @@
 Class {
 	#name : 'SDL3WindowTest',
 	#superclass : 'SDL3Test',
-	#pools : [
-		'SDL3ZConstants'
-	],
 	#classInstVars : [
 		'waitDuration'
 	],
@@ -191,15 +188,16 @@ SDL3WindowTest >> test04CreateWindowWithPropertyGroup [
 { #category : 'tests' }
 SDL3WindowTest >> test05CreateWindowAndRenderer [
 
-	| windowHolder rendererHolder window renderer success |
+	| windowHolder rendererHolder extent window renderer success |
 	windowHolder := (FFIExternalValueHolder ofType: SDL3Window) new.
 	rendererHolder := (FFIExternalValueHolder ofType: SDL3Renderer) new.
+	extent := 400 @ 300.
 
 	success :=
 		sdl
 			newWindowAndRendererTitle: #test05CreateWindowAndRenderer
-			width: 400
-			height: 300
+			width: extent x
+			height: extent y
 			windowFlags: 0
 			window: windowHolder
 			renderer: rendererHolder.
@@ -210,7 +208,15 @@ SDL3WindowTest >> test05CreateWindowAndRenderer [
 
 	self waitToSee.
 
-	self assert: renderer outputExtent equals: 400@300.
+	self assert: renderer renderTargetOrNil isNil.
+	self deny: renderer isRenderClipEnabled.
+	self deny: renderer isRenderViewportSet.
+
+	"We don't worry about pixel density since we didn't add High-DPI flag"
+	self assert: renderer scale equals: 1.0 @ 1.0.
+	self assert: renderer outputExtent equals: extent.
+	self assert: window pixelExtent equals: extent.
+	self assert: window extent equals: extent.
 
 	renderer destroy.
 	window destroy
@@ -258,7 +264,6 @@ SDL3WindowTest >> test07RenderBasicOperations [
 	renderer := window newRenderer.
 
 	"Clear background with gray color"
-
 	renderer renderDrawColor: Color gray.
 	renderer renderClear.
 
@@ -298,6 +303,7 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 	texture := renderer newTextureFromSurface: surface.
 	self assert: surface extent equals: 256 @ 256.
 	self assert: texture extent equals: 256.0 @ 256.0.
+	self assert: texture paletteOrNil isNil.
 	surface destroy.
 	renderer renderTexture: texture srcrect: nil dstrect: nil.
 	renderer renderPresent.
@@ -458,6 +464,161 @@ SDL3WindowTest >> test13CocoaWindowPointer [
 	self deny: cocoaPointer isNull.
 
 	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test14Utility [
+
+	| window |
+	window :=
+		SDL3Window
+			unsafeNewTitle: #test14Utility
+			w: 400 h: 300 flags: SDL3WindowFlags utility.
+
+	self assert: window isUtility.
+	self waitToSee.
+
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test15AlwaysOnTop [
+
+	| window |
+	window :=
+		SDL3Window
+			unsafeNewTitle: #test15AlwaysOnTop
+			w: 400 h: 300 flags: 0.
+
+	self deny: window isAlwaysOnTop.
+	self waitToSee.
+
+	window alwaysOnTopOnTop: true.
+	self assert: window isAlwaysOnTop.
+	self waitToSee.
+
+	window alwaysOnTopOnTop: false.
+	self deny: window isAlwaysOnTop.
+	self waitToSee.
+
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test16Modal [
+
+	| parent child |
+	parent :=
+		SDL3Window
+			unsafeNewTitle: #test16Modal
+			w: 600 h: 400 flags: 0.
+
+	child :=
+		SDL3Window
+			unsafeNewTitle: #test16ModalChild
+			w: 300 h: 200 flags: 0.
+
+	child parent: parent.
+	self assert: child parentOrNil equals: parent.
+
+	child modal: true.
+	self assert: child isModal.
+	self waitToSee.
+
+	child modal: false.
+	self deny: child isModal.
+	self waitToSee.
+
+	child destroy.
+	parent destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test17Popup [
+
+	| parent popup |
+	parent :=
+		SDL3Window
+			unsafeNewTitle: #test17Popup
+			w: 600 h: 400 flags: 0.
+
+	popup :=
+		SDL3Window
+			unsafeNewPopupParent: parent
+			offsetX: 50
+			offsetY: 50
+			w: 200
+			h: 100
+			flags: SDL3WindowFlags tooltip.
+
+	self assert: popup parentOrNil equals: parent.
+	self assert: popup isTooltip.
+	
+	"Popup position is relative to parent"
+	self assert: popup position equals: 50 @ 50.
+
+	self waitToSee.
+
+	popup destroy.
+	parent destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test18PopupMenu [
+
+	| parent popup |
+	parent :=
+		SDL3Window
+			unsafeNewTitle: #test18PopupMenu
+			w: 600 h: 400 flags: 0.
+
+	popup :=
+		SDL3Window
+			unsafeNewPopupParent: parent
+			offsetX: 100
+			offsetY: 100
+			w: 200
+			h: 150
+			flags: SDL3WindowFlags popupMenu.
+
+	self assert: popup parentOrNil equals: parent.
+	self assert: popup isPopupMenu.
+	
+	self waitToSee.
+
+	popup destroy.
+	parent destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test19Occluded [
+
+	| extent windowA windowB |
+	extent := 400 @ 300.
+	windowA :=
+		SDL3Window
+			unsafeNewTitle: #test19Occluded
+			w: extent x h: extent y flags: 0.
+
+	"Usually a newly created visible window is not occluded, unless it's completely covered by another app"
+	self deny: windowA isOccluded.
+	self waitToSee.
+
+	"B's extent = 2 * A's extent"
+	windowB :=
+		SDL3Window
+			unsafeNewTitle: #test19Occluded
+			w: extent x * 2 h: extent y * 2 flags: 0.
+
+	"Ensure B is positioned to fully occlude A"
+	windowB position: windowA position - (extent x // 4).
+
+	self waitToSee.
+	self deny: windowB isOccluded.
+	self assert: windowA isOccluded.
+
+	windowB destroy.
+	windowA destroy
 ]
 
 { #category : 'private' }

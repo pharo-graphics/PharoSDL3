@@ -107,6 +107,7 @@ SDL3SurfaceTest >> testSaveAndLoadPNG [
 	self assert: loadedSurface pitch equals: surface pitch.
 	self assert: (loadedSurface colorAtX: 5 y: 5) equals: color.
 	self assert: (surface colorAtX: 5 y: 5) equals: color.
+	self assert: loadedSurface paletteOrNil isNil.
 
 	filePathString asFileReference ensureDelete.
 	surface destroy.

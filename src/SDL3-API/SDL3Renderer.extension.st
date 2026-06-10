@@ -490,11 +490,19 @@ SDL3Renderer >> renderScaleX: scaleX scaleY: scaleY [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Renderer >> renderTarget [
+SDL3Renderer >> renderTargetIfPresent: presentBlock ifAbsent: absentBlock [
 
-	^ (self ffiLibrary getRenderTarget: self)
-		  assertNotNullReturn;
-		  yourself
+	| result |
+	result := self ffiLibrary getRenderTarget: self.
+	^ result isNull
+		ifTrue: [ absentBlock value ]
+		ifFalse: [ presentBlock value: result ]
+]
+
+{ #category : '*SDL3-API' }
+SDL3Renderer >> renderTargetOrNil [
+
+	^ self renderTargetIfPresent: [ :t | t ] ifAbsent: [ nil ]
 ]
 
 { #category : '*SDL3-API' }

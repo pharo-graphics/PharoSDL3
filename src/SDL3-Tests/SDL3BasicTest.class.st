@@ -1,9 +1,6 @@
 Class {
 	#name : 'SDL3BasicTest',
 	#superclass : 'SDL3Test',
-	#pools : [
-		'SDL3ZConstants'
-	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
 	#tag : 'Library'

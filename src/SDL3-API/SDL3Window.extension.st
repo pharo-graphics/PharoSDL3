@@ -386,18 +386,26 @@ SDL3Window >> opacity: opacity [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Window >> parent [
-
-	^ (self ffiLibrary getWindowParent: self)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
 SDL3Window >> parent: parent [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary setWindowParentWindow: self parent: parent)
+]
+
+{ #category : '*SDL3-API' }
+SDL3Window >> parentIfPresent: presentBlock ifAbsent: absentBlock [
+
+	| result |
+	result := self ffiLibrary getWindowParent: self.
+	^ result isNull
+		ifTrue: [ absentBlock value ]
+		ifFalse: [ presentBlock value: result ]
+]
+
+{ #category : '*SDL3-API' }
+SDL3Window >> parentOrNil [
+
+	^ self parentIfPresent: [ :p | p ] ifAbsent: [ nil ]
 ]
 
 { #category : '*SDL3-API' }
