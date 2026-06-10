@@ -2,7 +2,6 @@ Class {
 	#name : 'SDL3LogPriority',
 	#superclass : 'SDL3Enumeration',
 	#classVars : [
-		'SDL_LOG_PRIORITY_COUNT',
 		'SDL_LOG_PRIORITY_CRITICAL',
 		'SDL_LOG_PRIORITY_DEBUG',
 		'SDL_LOG_PRIORITY_ERROR',
@@ -16,12 +15,6 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Enumerations'
 }
-
-{ #category : 'accessing enum' }
-SDL3LogPriority class >> count [
-	"This method was automatically generated"
-	^ SDL_LOG_PRIORITY_COUNT
-]
 
 { #category : 'accessing enum' }
 SDL3LogPriority class >> critical [
@@ -47,7 +40,7 @@ SDL3LogPriority class >> enumDecl [
 	SDL_LOG_PRIORITY_WARN 5
 	SDL_LOG_PRIORITY_ERROR 6
 	SDL_LOG_PRIORITY_CRITICAL 7
-	SDL_LOG_PRIORITY_COUNT 8 )
+	)
 ]
 
 { #category : 'accessing enum' }
