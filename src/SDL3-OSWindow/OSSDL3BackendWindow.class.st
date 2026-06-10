@@ -418,6 +418,7 @@ OSSDL3BackendWindow >> title: aString [
 OSSDL3BackendWindow >> updateToNewResolution [
 	"Force the regeneration of the renderer because we have a new resolution"
 
+	renderer ifNil: [ ^ self ].
 	renderer updateToNewResolution
 ]
 
