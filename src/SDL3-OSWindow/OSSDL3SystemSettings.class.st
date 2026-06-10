@@ -27,9 +27,10 @@ OSSDL3SystemSettings class >> availableFormRendererClasses [
 OSSDL3SystemSettings class >> debugEnabled [
 
 	"If defined, the environment variable overrides the class variable."
+	"Any value other than 'false' means enabling debug"
 	OSEnvironment current
 		at: 'OSSDL3_DEBUG'
-		ifPresent: [ :aString | ^ true ].
+		ifPresent: [ :aString | ^ aString ~= 'false' ].
 
 	^ debugEnabled ifNil: [ false ]
 ]
@@ -68,7 +69,7 @@ OSSDL3SystemSettings class >> formRendererClass [
 	"If defined, the environment variable overrides the class variable."
 	OSEnvironment current
 		at: 'OSSDL3_FORM_RENDERER'
-		ifPresent: [ :aString | ^ self environment at: aString ].
+		ifPresent: [ :aString | ^ self environment at: aString asSymbol ].
 
 	^ formRendererClass ifNil: [ OSSDL3FormRenderer ]
 ]
