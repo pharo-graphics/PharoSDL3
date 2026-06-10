@@ -300,12 +300,12 @@ OSSDL3Driver >> startUpEventLoop [
 	Precondition: there is no pre-existing event loop"
 
 	EventLoopProcess ifNotNil: [
-		self error: 'Cannot launch another SDL3 event loop' ].
+		self error: self className, ': Cannot launch another event loop' ].
 
 	EventLoopProcess :=
 		[ self runEventLoop ]
 			forkAt: Processor lowIOPriority
-			named: 'SDL3 event loop'
+			named: self className, ' event loop'
 ]
 
 { #category : 'window registry' }
