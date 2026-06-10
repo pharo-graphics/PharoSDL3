@@ -393,6 +393,16 @@ SDL3Window >> parent: parent [
 ]
 
 { #category : '*SDL3-API' }
+SDL3Window >> parentIfPresent: presentBlock ifAbsent: absentBlock [
+
+	| result |
+	result := self ffiLibrary getWindowParent: self.
+	^ result isNull
+		ifTrue: [ absentBlock value ]
+		ifFalse: [ presentBlock value: result ]
+]
+
+{ #category : '*SDL3-API' }
 SDL3Window >> parentOrNil [
 
 	^ self parentIfPresent: [ :p | p ] ifAbsent: [ nil ]

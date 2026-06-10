@@ -124,6 +124,12 @@ SDL3Window >> isMouseCaptured [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isOccluded [
+
+	^ self flags anyMask: SDL3WindowFlags occluded
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isPopupMenu [
 
 	^ self flags anyMask: SDL3WindowFlags popupMenu

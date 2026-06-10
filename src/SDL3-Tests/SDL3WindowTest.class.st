@@ -581,6 +581,37 @@ SDL3WindowTest >> test18PopupMenu [
 	parent destroy
 ]
 
+{ #category : 'tests' }
+SDL3WindowTest >> test19Occluded [
+
+	| extent windowA windowB |
+	extent := 400 @ 300.
+	windowA :=
+		SDL3Window
+			unsafeNewTitle: #test19Occluded
+			w: extent x h: extent y flags: 0.
+
+	"Usually a newly created visible window is not occluded, unless it's completely covered by another app"
+	self deny: windowA isOccluded.
+	self waitToSee.
+
+	"B's extent = 2 * A's extent"
+	windowB :=
+		SDL3Window
+			unsafeNewTitle: #test19Occluded
+			w: extent x * 2 h: extent y * 2 flags: 0.
+
+	"Ensure B is positioned to fully occlude A"
+	windowB position: windowA position - (extent x // 4).
+
+	self waitToSee.
+	self deny: windowB isOccluded.
+	self assert: windowA isOccluded.
+
+	windowB destroy.
+	windowA destroy
+]
+
 { #category : 'private' }
 SDL3WindowTest >> waitToSee [
 	"Perform a wait to consume events and let user visually check the window"
