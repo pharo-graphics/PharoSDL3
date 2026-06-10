@@ -5,13 +5,15 @@ Class {
 	#name : 'OSSDL3FormRenderer',
 	#superclass : 'OSWindowFormRenderer',
 	#instVars : [
-		'extent',
-		'deferUpdates',
 		'mutex',
 		'sdlRenderer',
 		'sdlTexture',
 		'pitchHolder',
-		'pixels'
+		'sdlLockRectangle',
+		'bitsAddress',
+		'formRectangle',
+		'formExtent',
+		'deferPresent'
 	],
 	#pools : [
 		'SDL3AllEnumerations'
@@ -199,7 +201,7 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 { #category : 'events' }
 OSSDL3FormRenderer >> updateToNewResolution [
 
-	self validate
+	mutex critical: [ self validate ]
 ]
 
 { #category : 'private' }

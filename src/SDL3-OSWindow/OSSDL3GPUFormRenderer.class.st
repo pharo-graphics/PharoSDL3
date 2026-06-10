@@ -206,7 +206,7 @@ OSSDL3GPUFormRenderer >> updateRectangle: rectangle [
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateToNewResolution [
 
-	self validate
+	mutex critical: [ self validate ]
 ]
 
 { #category : 'private' }
