@@ -40,7 +40,7 @@ SDL3TrayTest >> test01EmptyMenu [
 
 	self assert: menu entries isEmpty.
 	
-	self assert: menu parentTray equals: tray
+	self assert: menu parentTrayOrNil equals: tray
 ]
 
 { #category : 'tests' }
@@ -159,8 +159,8 @@ SDL3TrayTest >> test10Submenu [
 
 	self assert: submenuA entries isEmpty.
 	self assert: menu entries size equals: 1.
-	self assert: submenuA parentEntry equals: menu entries first.
-	self assert: submenuA parentTray isNull.
+	self assert: submenuA parentEntryOrNil equals: menu entries first.
+	self assert: submenuA parentTrayOrNil isNil.
 
 	submenuB :=
 		(submenuA
@@ -170,6 +170,6 @@ SDL3TrayTest >> test10Submenu [
 			newSubmenu.
 
 	self assert: submenuA entries size equals: 1.
-	self assert: submenuB parentEntry equals: submenuA entries first.
-	self assert: submenuB parentTray isNull
+	self assert: submenuB parentEntryOrNil equals: submenuA entries first.
+	self assert: submenuB parentTrayOrNil isNil
 ]

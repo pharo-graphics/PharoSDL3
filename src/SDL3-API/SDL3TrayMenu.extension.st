@@ -19,15 +19,33 @@ SDL3TrayMenu >> insertEntryAt: pos label: label flags: flags [
 ]
 
 { #category : '*SDL3-API' }
-SDL3TrayMenu >> parentEntry [
+SDL3TrayMenu >> parentEntryIfPresent: presentBlock ifAbsent: absentBlock [
 
-	^ (self ffiLibrary getTrayMenuParentEntry: self)
-		  assertNotNullReturn;
-		  yourself
+	| result |
+	result := self ffiLibrary getTrayMenuParentEntry: self.
+	^ result isNull
+		ifTrue: [ absentBlock value ]
+		ifFalse: [ presentBlock value: result ]
 ]
 
 { #category : '*SDL3-API' }
-SDL3TrayMenu >> parentTray [
+SDL3TrayMenu >> parentEntryOrNil [
 
-	^ self ffiLibrary getTrayMenuParentTray: self
+	^ self parentEntryIfPresent: [ :e | e ] ifAbsent: [ nil ]
+]
+
+{ #category : '*SDL3-API' }
+SDL3TrayMenu >> parentTrayIfPresent: presentBlock ifAbsent: absentBlock [
+
+	| result |
+	result := self ffiLibrary getTrayMenuParentTray: self.
+	^ result isNull
+		ifTrue: [ absentBlock value ]
+		ifFalse: [ presentBlock value: result ]
+]
+
+{ #category : '*SDL3-API' }
+SDL3TrayMenu >> parentTrayOrNil [
+
+	^ self parentTrayIfPresent: [ :e | e ] ifAbsent: [ nil ]
 ]
