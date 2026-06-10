@@ -255,7 +255,6 @@ SDL3WindowTest >> test07RenderBasicOperations [
 	renderer := window newRenderer.
 
 	"Clear background with gray color"
-
 	renderer renderDrawColor: Color gray.
 	renderer renderClear.
 
@@ -295,6 +294,7 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 	texture := renderer newTextureFromSurface: surface.
 	self assert: surface extent equals: 256 @ 256.
 	self assert: texture extent equals: 256.0 @ 256.0.
+	self assert: texture paletteOrNil isNil.
 	surface destroy.
 	renderer renderTexture: texture srcrect: nil dstrect: nil.
 	renderer renderPresent.

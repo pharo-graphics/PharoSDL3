@@ -357,18 +357,26 @@ SDL3Surface >> newTrayIconTooltip: tooltip [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Surface >> palette [
-
-	^ (self ffiLibrary getSurfacePalette: self)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
 SDL3Surface >> palette: palette [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary setSurfacePaletteSurface: self palette: palette)
+]
+
+{ #category : '*SDL3-API' }
+SDL3Surface >> paletteIfPresent: presentBlock ifAbsent: absentBlock [
+
+	| result |
+	result := self ffiLibrary getSurfacePalette: self.
+	^ result isNull
+		ifTrue: [ absentBlock value ]
+		ifFalse: [ presentBlock value: result ]
+]
+
+{ #category : '*SDL3-API' }
+SDL3Surface >> paletteOrNil [
+
+	^ self paletteIfPresent: [ :p | p ] ifAbsent: [ nil ]
 ]
 
 { #category : '*SDL3-API' }
