@@ -89,8 +89,7 @@ OSSDL3GPUFormRenderer >> flush [
 
 				needsFlush := false ]
 
-			] ensure: [ commandBuffer submit ]
-		]
+			] ensure: [ commandBuffer submit ] ]
 ]
 
 { #category : 'initialization' }
@@ -139,9 +138,10 @@ OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 	allDamage ifEmpty: [ ^ #() ].
 
 	"Filter and sort by top coordinate"
-	sortedRects := allDamage
-		collect: [ :each | each intersect: (0@0 extent: extent) ifNone: [ nil ] ]
-		thenSelect: [ :each | each isNotNil ].
+	sortedRects := OrderedCollection new.
+	allDamage do: [ :each |
+		each intersect: (0@0 extent: extent) ifPresent: [ :intersection |
+			sortedRects add: intersection ] ].
 	
 	sortedRects ifEmpty: [ ^ #() ].
 	sortedRects sort: [ :a :b | a top < b top ].
