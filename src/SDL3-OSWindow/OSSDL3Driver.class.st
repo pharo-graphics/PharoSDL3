@@ -42,18 +42,6 @@ OSSDL3Driver class >> eventLoopProcess [
 	^ EventLoopProcess
 ]
 
-{ #category : 'configuration' }
-OSSDL3Driver class >> formRendererClass [
-
-	^ OSEnvironment current
-		at: 'PHARO_WINDOW_RENDERER'
-		ifPresent: [ :aClass |
-			(self environment hasClassNamed: aClass)
-				ifFalse: [ self error: 'Renderer not found' ].
-			self environment classNamed: aClass ]
-		ifAbsent: [ OSSDL3FormRenderer ]
-]
-
 { #category : 'testing' }
 OSSDL3Driver class >> isSuitable [
 	"Answer true if the SDL3 library is available on the current platform."
@@ -197,12 +185,16 @@ OSSDL3Driver >> initializeGPUDevice [
 		SDL_GPUDevice
 			unsafeNewFormatFlags:
 				SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
-			debugMode: true
+			debugMode: OSSDL3SystemSettings debugEnabled
 			name: nil
 ]
 
 { #category : 'initialization' }
 OSSDL3Driver >> initializeLibrary [
+
+	"Log to stderr, if debug is enabled"
+	OSSDL3SystemSettings debugEnabled ifTrue: [
+		self ffiLibrary setLogPriorities: SDL_LOG_PRIORITY_TRACE ].
 
 	self ffiLibrary
 		setHintName: SDL_HINT_VIDEO_ALLOW_SCREENSAVER value: '1';
