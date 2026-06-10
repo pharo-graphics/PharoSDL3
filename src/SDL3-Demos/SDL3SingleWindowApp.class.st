@@ -74,7 +74,7 @@ SDL3SingleWindowApp >> updatedTitle [
 	^ self className, ' - ESC to quit'
 ]
 
-{ #category : 'hooks' }
+{ #category : 'visiting - concrete' }
 SDL3SingleWindowApp >> visitWindowCloseRequestedEvent: aWindowEvent [
 
 	"Quit if user clicked on main window's close"

@@ -262,7 +262,7 @@ SDL3WindowChildrenDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 	super visitKeyboardDownEvent: aKeyboardDownEvent
 ]
 
-{ #category : 'hooks' }
+{ #category : 'visiting - concrete' }
 SDL3WindowChildrenDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 
 	| windowID |
@@ -281,7 +281,7 @@ SDL3WindowChildrenDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 	super visitMouseButtonDownEvent: aMouseButtonDownEvent
 ]
 
-{ #category : 'hooks' }
+{ #category : 'visiting - concrete' }
 SDL3WindowChildrenDemo >> visitMouseWheelEvent: aMouseWheelEvent [
 
 	| windowID |
@@ -306,7 +306,7 @@ SDL3WindowChildrenDemo >> visitWindowCloseRequestedEvent: aWindowEvent [
 	super visitWindowCloseRequestedEvent: aWindowEvent
 ]
 
-{ #category : 'hooks' }
+{ #category : 'visiting - abstract' }
 SDL3WindowChildrenDemo >> visitWindowIDEvent: aWindowIDEvent [
 
 	| windowID count |
