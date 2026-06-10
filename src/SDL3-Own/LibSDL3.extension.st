@@ -241,6 +241,14 @@ LibSDL3 >> gpuDrivers [
 ]
 
 { #category : '*SDL3-Own' }
+LibSDL3 >> isAvailable [
+
+	^ [ self libraryName. true ]
+		on: Error 
+		do: [ :e | false ]
+]
+
+{ #category : '*SDL3-Own' }
 LibSDL3 >> mousePosition [
 
 	| xHolder yHolder |
