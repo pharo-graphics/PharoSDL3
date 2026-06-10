@@ -64,6 +64,12 @@ SDL3Window >> height [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isAlwaysOnTop [
+
+	^ self flags anyMask: SDL3WindowFlags alwaysOnTop
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isBordered [
 
 	^ self isBorderless not
@@ -106,9 +112,21 @@ SDL3Window >> isMinimized [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isModal [
+
+	^ self flags anyMask: SDL3WindowFlags modal
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isMouseCaptured [
 
 	^ self flags anyMask: SDL3WindowFlags mouseCapture
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> isPopupMenu [
+
+	^ self flags anyMask: SDL3WindowFlags popupMenu
 ]
 
 { #category : '*SDL3-Own' }
@@ -118,9 +136,21 @@ SDL3Window >> isResizable [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Window >> isTooltip [
+
+	^ self flags anyMask: SDL3WindowFlags tooltip
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Window >> isTransparent [
 
 	^ self flags anyMask: SDL3WindowFlags transparent
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> isUtility [
+
+	^ self flags anyMask: SDL3WindowFlags utility
 ]
 
 { #category : '*SDL3-Own' }
@@ -177,7 +207,7 @@ SDL3Window >> position [
 { #category : '*SDL3-Own' }
 SDL3Window >> position: aPoint [
 
-	self ffiLibrary assertSuccess: (self positionX: aPoint x y: aPoint y)
+	self positionX: aPoint x y: aPoint y
 ]
 
 { #category : '*SDL3-Own' }

@@ -1,9 +1,6 @@
 Class {
 	#name : 'SDL3WindowTest',
 	#superclass : 'SDL3Test',
-	#pools : [
-		'SDL3ZConstants'
-	],
 	#classInstVars : [
 		'waitDuration'
 	],
@@ -458,6 +455,130 @@ SDL3WindowTest >> test13CocoaWindowPointer [
 	self deny: cocoaPointer isNull.
 
 	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test14Utility [
+
+	| window |
+	window :=
+		SDL3Window
+			unsafeNewTitle: #test14Utility
+			w: 400 h: 300 flags: SDL3WindowFlags utility.
+
+	self assert: window isUtility.
+	self waitToSee.
+
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test15AlwaysOnTop [
+
+	| window |
+	window :=
+		SDL3Window
+			unsafeNewTitle: #test15AlwaysOnTop
+			w: 400 h: 300 flags: 0.
+
+	self deny: window isAlwaysOnTop.
+	self waitToSee.
+
+	window alwaysOnTopOnTop: true.
+	self assert: window isAlwaysOnTop.
+	self waitToSee.
+
+	window alwaysOnTopOnTop: false.
+	self deny: window isAlwaysOnTop.
+	self waitToSee.
+
+	window destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test16Modal [
+
+	| parent child |
+	parent :=
+		SDL3Window
+			unsafeNewTitle: #test16Modal
+			w: 600 h: 400 flags: 0.
+
+	child :=
+		SDL3Window
+			unsafeNewTitle: #test16ModalChild
+			w: 300 h: 200 flags: 0.
+
+	child parent: parent.
+	self assert: child parentOrNil equals: parent.
+
+	child modal: true.
+	self assert: child isModal.
+	self waitToSee.
+
+	child modal: false.
+	self deny: child isModal.
+	self waitToSee.
+
+	child destroy.
+	parent destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test17Popup [
+
+	| parent popup |
+	parent :=
+		SDL3Window
+			unsafeNewTitle: #test17Popup
+			w: 600 h: 400 flags: 0.
+
+	popup :=
+		SDL3Window
+			unsafeNewPopupParent: parent
+			offsetX: 50
+			offsetY: 50
+			w: 200
+			h: 100
+			flags: SDL3WindowFlags tooltip.
+
+	self assert: popup parentOrNil equals: parent.
+	self assert: popup isTooltip.
+	
+	"Popup position is relative to parent"
+	self assert: popup position equals: 50 @ 50.
+
+	self waitToSee.
+
+	popup destroy.
+	parent destroy
+]
+
+{ #category : 'tests' }
+SDL3WindowTest >> test18PopupMenu [
+
+	| parent popup |
+	parent :=
+		SDL3Window
+			unsafeNewTitle: #test18PopupMenu
+			w: 600 h: 400 flags: 0.
+
+	popup :=
+		SDL3Window
+			unsafeNewPopupParent: parent
+			offsetX: 100
+			offsetY: 100
+			w: 200
+			h: 150
+			flags: SDL3WindowFlags popupMenu.
+
+	self assert: popup parentOrNil equals: parent.
+	self assert: popup isPopupMenu.
+	
+	self waitToSee.
+
+	popup destroy.
+	parent destroy
 ]
 
 { #category : 'private' }
