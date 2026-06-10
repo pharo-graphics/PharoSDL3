@@ -8,6 +8,17 @@ SDL3Renderer >> gpuRenderStateClear [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Renderer >> logicalPresentationRect [
+
+	| rectHolder |
+	rectHolder := (FFIExternalValueHolder ofType: SDL_FRect) new.
+	self getRenderLogicalPresentationRectInto: rectHolder.
+	^ rectHolder value
+
+
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Renderer >> newTextureFromForm: aForm [
 	"Answer a new `SDL_Texture`. The form pixels will be uploaded to the new texture, assuming form depth is 32 bits. Sender is responsible of destroying the texture."
 
@@ -43,4 +54,15 @@ SDL3Renderer >> renderDrawColor: aColor [
 		 g: aColor green
 		 b: aColor blue
 		 a: aColor alpha
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Renderer >> scale [
+	
+	| widthHolder heightHolder |
+	widthHolder := FFIFloat32 newValueHolder.
+	heightHolder := FFIFloat32 newValueHolder.
+
+	self getScaleIntoX: widthHolder y: heightHolder.
+	^ widthHolder value @ heightHolder value
 ]

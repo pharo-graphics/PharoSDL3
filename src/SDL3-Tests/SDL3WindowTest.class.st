@@ -188,15 +188,16 @@ SDL3WindowTest >> test04CreateWindowWithPropertyGroup [
 { #category : 'tests' }
 SDL3WindowTest >> test05CreateWindowAndRenderer [
 
-	| windowHolder rendererHolder window renderer success |
+	| windowHolder rendererHolder extent window renderer success |
 	windowHolder := (FFIExternalValueHolder ofType: SDL3Window) new.
 	rendererHolder := (FFIExternalValueHolder ofType: SDL3Renderer) new.
+	extent := 400 @ 300.
 
 	success :=
 		sdl
 			newWindowAndRendererTitle: #test05CreateWindowAndRenderer
-			width: 400
-			height: 300
+			width: extent x
+			height: extent y
 			windowFlags: 0
 			window: windowHolder
 			renderer: rendererHolder.
@@ -207,7 +208,14 @@ SDL3WindowTest >> test05CreateWindowAndRenderer [
 
 	self waitToSee.
 
-	self assert: renderer outputExtent equals: 400@300.
+	self assert: renderer renderTargetOrNil isNil.
+	self deny: renderer isRenderClipEnabled.
+	self deny: renderer isRenderViewportSet.
+
+	"We don't worry about pixel density since we didn't add High-DPI flag"
+	self assert: renderer outputExtent equals: extent.
+	self assert: renderer scale equals: 1.0 @ 1.0.
+	self assert: renderer logicalPresentationRect isNull.
 
 	renderer destroy.
 	window destroy
