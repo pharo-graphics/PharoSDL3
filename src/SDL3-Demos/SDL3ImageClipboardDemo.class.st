@@ -80,5 +80,5 @@ SDL3ImageClipboardDemo >> visitClipboardEvent: anEvent [
 			form := ImageReadWriter formFromStream: bytes readStream.
 			texture ifNotNil: [ texture destroy ].
 			texture := renderer newTextureFromForm: form ]
-		ifAbsent: [ self log: 'No image found in clipboard' ]
+		ifAbsent: [ console addLine: 'No image found in clipboard' ]
 ]

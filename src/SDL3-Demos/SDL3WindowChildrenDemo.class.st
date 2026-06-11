@@ -24,7 +24,7 @@ Features:
 "
 Class {
 	#name : 'SDL3WindowChildrenDemo',
-	#superclass : 'SDL3ConsoleDemoApp',
+	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'children',
 		'childTypes',

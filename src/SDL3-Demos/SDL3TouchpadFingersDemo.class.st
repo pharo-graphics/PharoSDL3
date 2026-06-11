@@ -42,7 +42,7 @@ SDL3TouchpadFingersDemo >> step [
 	self clearColor: Color black.
 	
 	touchIDs := sdl allTouchIDs.
-	touchIDs ifEmpty: [ self log: 'No touch devices found' ].
+	touchIDs ifEmpty: [ console addLine: 'No touch devices found' ].
 	
 	extent := window pixelExtent.
 	
@@ -73,13 +73,13 @@ SDL3TouchpadFingersDemo >> step [
 { #category : 'visiting - concrete' }
 SDL3TouchpadFingersDemo >> visitTouchFingerDownEvent: anEvent [
 
-	self log: ('Finger DOWN: {1} (Touch:{2})' format: { anEvent fingerID . anEvent touchID })
+	console addLine: ('Finger DOWN: {1} (Touch:{2})' format: { anEvent fingerID . anEvent touchID })
 ]
 
 { #category : 'visiting - concrete' }
 SDL3TouchpadFingersDemo >> visitTouchFingerMotionEvent: anEvent [
 
-	self log: ('Finger MOVE: {1} x:{2} y:{3}' format: { 
+	console addLine: ('Finger MOVE: {1} x:{2} y:{3}' format: { 
 		anEvent fingerID . 
 		anEvent x printShowingDecimalPlaces: 2 . 
 		anEvent y printShowingDecimalPlaces: 2 })
@@ -88,5 +88,5 @@ SDL3TouchpadFingersDemo >> visitTouchFingerMotionEvent: anEvent [
 { #category : 'visiting - concrete' }
 SDL3TouchpadFingersDemo >> visitTouchFingerUpEvent: anEvent [
 
-	self log: ('Finger UP: {1}' format: { anEvent fingerID })
+	console addLine: ('Finger UP: {1}' format: { anEvent fingerID })
 ]

@@ -132,11 +132,15 @@ SDL3App >> subsystemInitFlags [
 { #category : 'hooks' }
 SDL3App >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
-	aKeyboardDownEvent key = SDLK_ESCAPE asInteger ifTrue: [ loop requestQuit ]
+	aKeyboardDownEvent key = SDLK_ESCAPE asInteger ifTrue: [ loop requestQuit ].
+	
+	^ self visitKeyboardEvent: aKeyboardDownEvent
 ]
 
 { #category : 'hooks' }
 SDL3App >> visitQuitEvent: aQuitEvent [
 
-	loop requestQuit
+	loop requestQuit.
+	
+	^ self visitMappedEvent: aQuitEvent
 ]

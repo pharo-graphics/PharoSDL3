@@ -12,26 +12,27 @@ Class {
 { #category : 'hooks' }
 SDL3SystemQueryDemo >> step [
 
-	self console clear.
-	
-	self log: #SYSTEM.
+	self clearColor: Color blue muchDarker.
+	console clear.
+
+	console addLine: #SYSTEM color: Color yellow.
 	#(#allCameraIDs #allKeyboardIDs #allMouseIDs #getBasePath #currentDirectory #getCurrentVideoDriver
 	#getRevision #getSystemPageSize #getSystemTheme
 	#gpuDrivers #renderDrivers #videoDrivers) do: [ :each |
-		self log: each -> (sdl perform: each) ].
+		console addLine: (each -> (sdl perform: each)) ].
 
-	self log: ''.
-	self log: #WINDOW.
+	console addLine.
+	console addLine: #WINDOW color: Color yellow.
 	#(title extent displayID displayScale pixelDensity pixelFormat isKeyboardGrabbed isMouseGrabbed) do: [ :each |
-		self log: each -> (window perform: each) ].
+		console addLine: (each -> (window perform: each)) ].
 
-	self log: ''.
-	self log: #AUDIO.
+	console addLine.
+	console addLine: #AUDIO color: Color yellow.
 	#(getCurrentAudioDriver allAudioDrivers) do: [ :each |
-		self log: each -> (sdl perform: each) ].
-	self log: ''.
+		console addLine: (each -> (sdl perform: each)) ].
+	console addLine.
 	sdl allAudioPlaybackDevices, sdl allAudioRecordingDevices do: [ :eachAudioDevice |
-		self log: (String streamContents: [ :stream |
+		console addLine: (String streamContents: [ :stream |
 			#(id name isPlayback isPhysical formatSpec gain millisecondsBufferSize) do: [ :each |
 				stream
 					nextPutAll: each;
@@ -39,14 +40,13 @@ SDL3SystemQueryDemo >> step [
 					print: (eachAudioDevice perform: each);
 					space ] ]) ].
 
-	self log: ''.
-	self log: #DISPLAYS.
+	console addLine.
+	console addLine: #DISPLAYS color: Color yellow.
 	sdl displays
 		do: [ :eachDisplay |
 			#(id name isPrimary contentScale bounds usableBounds desktopDisplayMode currentDisplayMode fullscreenDisplayModes currentDisplayOrientation naturalDisplayOrientation) do: [ :each |
-				self log: each -> (eachDisplay perform: each) ] ]
-		separatedBy: [ self log: '' ].
+				console addLine: (each -> (eachDisplay perform: each)) ] ]
+		separatedBy: [ console addLine ].
 
-	self clearColor: Color blue muchDarker.
 	self present
 ]

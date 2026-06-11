@@ -3,7 +3,7 @@ I demonstrate the usage of animated cursors in SDL3.
 "
 Class {
 	#name : 'SDL3AnimatedCursorDemo',
-	#superclass : 'SDL3ConsoleDemoApp',
+	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'cursors',
 		'cursorFrames',

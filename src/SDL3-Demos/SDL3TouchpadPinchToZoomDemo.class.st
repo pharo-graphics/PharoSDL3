@@ -54,9 +54,9 @@ SDL3TouchpadPinchToZoomDemo >> step [
 	
 	renderer renderTexture: texture srcrect: nil dstrect: textureRectangle.
 	
-	self console clear.
-	self log: 'Zoom: ', (zoom roundTo: 0.01) asString.
-	self log: 'Pinch to zoom. Use your touchpad!'.
+	console clear.
+	console addLine: 'Zoom: ', (zoom roundTo: 0.01) asString.
+	console addLine: 'Pinch to zoom. Use your touchpad!'.
 	self present
 ]
 

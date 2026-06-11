@@ -3,7 +3,7 @@ I'm a demo of SDL3 recording and playing from/to default audio devices. I'm base
 "
 Class {
 	#name : 'SDL3AudioRecorderDemo',
-	#superclass : 'SDL3ConsoleDemoApp',
+	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'playbackStream',
 		'recordingStream',
