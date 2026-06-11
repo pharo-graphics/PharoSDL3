@@ -244,7 +244,7 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
 
 	^ renderer :=
-		OSSDL3Driver formRendererClass new
+		OSSDL3SystemSettings formRendererClass new
 			form: form;
 			backendWindow: self;
 			yourself
@@ -418,6 +418,7 @@ OSSDL3BackendWindow >> title: aString [
 OSSDL3BackendWindow >> updateToNewResolution [
 	"Force the regeneration of the renderer because we have a new resolution"
 
+	renderer ifNil: [ ^ self ].
 	renderer updateToNewResolution
 ]
 
