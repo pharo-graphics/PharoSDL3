@@ -23,7 +23,7 @@ SDL3OpenFolderDialogDemo >> initialExtent [
 SDL3OpenFolderDialogDemo >> initialize [
 
 	super initialize.
-	self log: 'CLICK TO OPEN DIALOG'
+	console addLine: 'CLICK TO OPEN DIALOG'
 ]
 
 { #category : 'utilities' }
@@ -61,6 +61,6 @@ SDL3OpenFolderDialogDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 	super visitMouseButtonDownEvent: aMouseButtonDownEvent.
 	
 	self showOpenFolderIfSuccess: [ :paths |
-		paths do: [ :path | self log: 'Path selected: ', path ] ]
-	ifError: [ self log: 'Error or cancelled!!!' ]
+		paths do: [ :path | console addLine: 'Path selected: ', path ] ]
+	ifError: [ console addLine: 'Error or cancelled!!!' ]
 ]

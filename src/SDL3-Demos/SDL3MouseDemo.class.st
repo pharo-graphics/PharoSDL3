@@ -12,7 +12,7 @@ I also demonstrate relative mouse mode, cursor visibility, mouse warping, and mo
 "
 Class {
 	#name : 'SDL3MouseDemo',
-	#superclass : 'SDL3ConsoleDemoApp',
+	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'cursorIdGenerator',
 		'cursorId'
@@ -27,7 +27,6 @@ SDL3MouseDemo >> activateNextSystemCursor [
 
 	| cursor |
 	cursorId := cursorIdGenerator next.
-	Stdio stdout << cursorId asString; lf; flush.
 	cursor := SDL3Cursor unsafeNewSystem: cursorId.
 	cursor setActive
 ]

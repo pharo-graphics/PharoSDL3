@@ -33,15 +33,15 @@ SDL3KeyboardStateDemo >> sdlInit [
 SDL3KeyboardStateDemo >> step [
 
 	| modState keyboardState |
-	self console clear.
-	self log: ('K: Keyboard Grabbed: <1p> - (Capture even OS shortcuts e.g. Alt-Tab, if OS allows it)' expandMacrosWith: window isKeyboardGrabbed).
-	self log: ('I: Text Input: <1p> - Is Unicode text input active?' expandMacrosWith: window isTextInputActive).
+	console clear.
+	console addLine: ('K: Keyboard Grabbed: <1p> - (Capture even OS shortcuts e.g. Alt-Tab, if OS allows it)' expandMacrosWith: window isKeyboardGrabbed).
+	console addLine: ('I: Text Input: <1p> - Is Unicode text input active?' expandMacrosWith: window isTextInputActive).
 
 	modState := sdl getModState.
 	keyboardState := sdl getKeyboardState: nil.
 
-	self log: ''.
-	self log: 'Currently pressed keys (scancodes):'.
+	console addLine.
+	console addLine: 'Currently pressed keys (scancodes):' color: Color yellow.
 	SDL3Scancode allValues
 		select: [ :eachScancode | keyboardState boolean8AtOffset: eachScancode value ]
 		thenDo: [ :eachScancode |
@@ -53,22 +53,22 @@ SDL3KeyboardStateDemo >> step [
 			(SDL3Keycode itemAt: keyValue)
 				ifNil: [
 					"For example, when you press Ñ"
-					self log: ('* Scancode: {1} Keycode: ? Name: ?' format: { eachScancode item }) ]
+					console addLine: ('* Scancode: {1} Keycode: ? Name: ?' format: { eachScancode item }) ]
 				ifNotNil: [ :keyCodeItem |
 					| keyCode keyName |
 					keyCode := SDL3Keycode at: keyCodeItem.
 					keyName := sdl getKeyName: keyCode.
-					self log:
-						('* Scancode: {1} Keycode: {2} Name: {3}' format: {
+					console addLine:
+						(('* Scancode: {1} Keycode: {2} Name: {3}' format: {
 							eachScancode item.
 							keyCodeItem.
-							keyName })
+							keyName }))
 			] ].
 
-	self log: ''.
-	self log: 'Pressed modifier keys (e.g. shift, caps lock):'.
+	console addLine.
+	console addLine: 'Pressed modifier keys (e.g. shift, caps lock):' color: Color yellow.
 	(SDL3Keymod allItemsIn: modState) do: [ :each |
-		self log: ('* {1}' format: { each }) ].
+		console addLine: ('* {1}' format: { each }) ].
 
 	self clearColor: Color black.
 	self present

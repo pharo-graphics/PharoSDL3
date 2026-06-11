@@ -50,11 +50,11 @@ SDL3CameraDemo >> chooseCamera [
 	ids := sdl allCameraIDs.
 	
 	ids ifEmpty: [
-		^ self log: 'No available cameras!' ].
+		^ console addLine: 'No available cameras!' ].
 
-	self log: 'Available cameras:'.
+	console addLine: 'Available cameras:'.
 	ids do: [ :each |
-		self log: (self descriptionForCameraId: each) ].
+		console addLine: (self descriptionForCameraId: each) ].
 
 	camera
 		ifNil: [ cameraId := ids first ]
@@ -69,15 +69,15 @@ SDL3CameraDemo >> chooseCamera [
 			camera close.
 			camera := nil ].
 
-	self log: 'Opening camera: ', (self descriptionForCameraId: cameraId).
+	console addLine: 'Opening camera: ', (self descriptionForCameraId: cameraId).
 
 "	specs := sdl allCameraSupportedFormatsOf: cameraId."
 	camera := SDL3Camera unsafeOpenInstanceId: cameraId spec: nil.
 	camera isNull ifTrue: [
-		self log: 'Opening camera ERROR: ', sdl getError asString.
+		console addLine: 'Opening camera ERROR: ', sdl getError asString.
 		^ camera := nil ].
 
-	self log: 'Opening camera SUCCESS'
+	console addLine: 'Opening camera SUCCESS'
 ]
 
 { #category : 'lifecycle' }
@@ -130,7 +130,7 @@ SDL3CameraDemo >> render [
 	renderer renderClear.
 	texture ifNotNil: [
 		renderer renderTexture: texture srcrect: nil dstrect: nil ].
-	self console renderOn: renderer.
+	console renderOn: renderer.
 	renderer renderPresent
 ]
 
@@ -185,7 +185,7 @@ SDL3CameraDemo >> visitCameraDeviceApprovedEvent: aCameraDeviceApprovedEvent [
 
 	super visitCameraDeviceApprovedEvent: aCameraDeviceApprovedEvent.
 
-	self log: 'Camera permission approved: ', (self descriptionForCameraId: aCameraDeviceApprovedEvent which)
+	console addLine: 'Camera permission approved: ', (self descriptionForCameraId: aCameraDeviceApprovedEvent which)
 ]
 
 { #category : 'visiting - concrete' }
@@ -193,7 +193,7 @@ SDL3CameraDemo >> visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent [
 
 	super visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent.
 
-	self log: 'Camera permission denied: ', (self descriptionForCameraId: aCameraDeviceDeniedEvent which)
+	console addLine: 'Camera permission denied: ', (self descriptionForCameraId: aCameraDeviceDeniedEvent which)
 ]
 
 { #category : 'hooks' }

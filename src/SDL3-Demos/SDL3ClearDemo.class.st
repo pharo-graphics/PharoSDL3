@@ -3,7 +3,7 @@ I open a window with a renderer and use it for a simple animation: clear the bac
 "
 Class {
 	#name : 'SDL3ClearDemo',
-	#superclass : 'SDL3ConsoleDemoApp',
+	#superclass : 'SDL3RendererDemoApp',
 	#category : 'SDL3-Demos-API',
 	#package : 'SDL3-Demos',
 	#tag : 'API'

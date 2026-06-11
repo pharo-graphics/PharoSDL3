@@ -1,5 +1,6 @@
 "
 I provide a simple on-screen console for demos to log messages.
+I support multi-colored lines.
 "
 Class {
 	#name : 'SDL3Console',
@@ -14,9 +15,21 @@ Class {
 }
 
 { #category : 'adding' }
+SDL3Console >> addLine [
+
+	self addLine: ''
+]
+
+{ #category : 'adding' }
 SDL3Console >> addLine: aString [
 
-	lines add: aString.
+	self addLine: aString color: Color white
+]
+
+{ #category : 'adding' }
+SDL3Console >> addLine: aString color: aColor [
+
+	lines add: aString asString -> aColor.
 	[ lines size > maxLines ] whileTrue: [ lines removeFirst ]
 ]
 
@@ -38,7 +51,7 @@ SDL3Console >> initialize [
 SDL3Console >> lineHeight [
 	"Answer the line height, assuming the SDL3 debug text has size=8 by default"
 
-	^ 10
+	^ 15
 ]
 
 { #category : 'accessing' }
@@ -65,11 +78,10 @@ SDL3Console >> renderOn: aSDL3Renderer [
 			ifTrue: [ lines last: maxVisible ]
 			ifFalse: [ lines ].
 
-	aSDL3Renderer renderDrawColor: Color white.
-
-	displayLines withIndexDo: [ :each :index | 
+	displayLines withIndexDo: [ :assoc :index | 
+		aSDL3Renderer renderDrawColor: assoc value.
 		aSDL3Renderer
 			renderDebugTextX: 10
 			y: (index - 1) * self lineHeight + 10
-			str: each asString ]
+			str: assoc key ]
 ]

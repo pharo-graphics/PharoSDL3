@@ -10,21 +10,50 @@ Class {
 }
 
 { #category : 'hooks' }
-SDL3LogEventsDemo >> handleEvent: aSDL3MappedEvent [
-
-	self log: aSDL3MappedEvent description.
-	super handleEvent: aSDL3MappedEvent
-]
-
-{ #category : 'accessing' }
-SDL3LogEventsDemo >> initialExtent [
-
-	^ 600 @ 800
-]
-
-{ #category : 'hooks' }
 SDL3LogEventsDemo >> step [
 
-	self clearColor: Color blue muchDarker.
+	self clearColor: Color black.
 	self present
+]
+
+{ #category : 'visiting - abstract' }
+SDL3LogEventsDemo >> visitDisplayEvent: anEvent [
+
+	console addLine: anEvent description color: Color lightRed
+]
+
+{ #category : 'visiting - abstract' }
+SDL3LogEventsDemo >> visitKeyboardEvent: anEvent [
+
+	console addLine: anEvent description color: Color lightCyan
+]
+
+{ #category : 'visiting - root' }
+SDL3LogEventsDemo >> visitMappedEvent: anEvent [
+
+	console addLine: anEvent description color: Color white
+]
+
+{ #category : 'visiting - abstract' }
+SDL3LogEventsDemo >> visitMouseEvent: anEvent [
+
+	console addLine: anEvent description color: Color lightGreen
+]
+
+{ #category : 'visiting - abstract' }
+SDL3LogEventsDemo >> visitTextEvent: anEvent [
+
+	console addLine: anEvent description color: Color lightCyan
+]
+
+{ #category : 'visiting - abstract' }
+SDL3LogEventsDemo >> visitTouchFingerEvent: anEvent [
+
+	console addLine: anEvent description color: Color lightBlue
+]
+
+{ #category : 'visiting - abstract' }
+SDL3LogEventsDemo >> visitWindowEvent: anEvent [
+
+	console addLine: anEvent description color: Color lightYellow
 ]

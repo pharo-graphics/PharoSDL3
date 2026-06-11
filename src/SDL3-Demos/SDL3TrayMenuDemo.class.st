@@ -46,7 +46,7 @@ SDL3TrayMenuDemo >> setupTray [
 			block: [ :userdata :entryHandle |
 				| entry |
 				entry := SDL3TrayEntry fromHandle: entryHandle.
-				self log: 'Click on ', entry label surroundedBySingleQuotes ].
+				console addLine: 'Click on ', entry label surroundedBySingleQuotes ].
 
 	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
 	tray := SDL3Tray unsafeNewIcon: iconSurface tooltip: 'PharoSDL3'.
@@ -94,7 +94,7 @@ SDL3TrayMenuDemo >> setupTray [
 				flags: SDL3TrayEntryFlags checkbox)
 			callback: logEntryLabelCallback userdata: nil ].
 
-	self log: 'Click on the system tray menu with Pharo icon.'
+	console addLine: 'Click on the system tray menu with Pharo icon.'
 ]
 
 { #category : 'hooks' }
