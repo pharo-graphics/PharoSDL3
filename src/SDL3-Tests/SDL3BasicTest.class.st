@@ -7,6 +7,12 @@ Class {
 }
 
 { #category : 'tests' }
+SDL3BasicTest >> test00IsAvailable [
+
+	self assert: sdl isAvailable
+]
+
+{ #category : 'tests' }
 SDL3BasicTest >> test01GetVersion [
 
 	self assert: sdl getVersion >= 3004000.
