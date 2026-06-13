@@ -145,7 +145,7 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 6 * SDL3GPUQuadVertex structureSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: transferBuffer cycle: false.
-	LibC memCopy: vertexData getHandle to: mappedAddress size: 6 * SDL3GPUQuadVertex structureSize.
+	LibC memCopy: vertexData to: mappedAddress size: 6 * SDL3GPUQuadVertex structureSize.
 	gpuDevice unmapGPUTransferBuffer: transferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -282,7 +282,7 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 3 * SDL3TestGraphicsColorVertex structureSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: transferBuffer cycle: false.
-	LibC memCopy: vertexData getHandle to: mappedAddress size: 3 * SDL3TestGraphicsColorVertex structureSize.
+	LibC memCopy: vertexData to: mappedAddress size: 3 * SDL3TestGraphicsColorVertex structureSize.
 	gpuDevice unmapGPUTransferBuffer: transferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -428,7 +428,7 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 3 * SDL3GPUQuadVertex structureSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: transferBuffer cycle: false.
-	LibC memCopy: vertexData getHandle to: mappedAddress size: 3 * SDL3GPUQuadVertex structureSize.
+	LibC memCopy: vertexData to: mappedAddress size: 3 * SDL3GPUQuadVertex structureSize.
 	gpuDevice unmapGPUTransferBuffer: transferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -577,7 +577,7 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 3 * SDL3GPUQuadVertex structureSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: transferBuffer cycle: false.
-	LibC memCopy: vertexData getHandle to: mappedAddress size: 3 * SDL3GPUQuadVertex structureSize.
+	LibC memCopy: vertexData to: mappedAddress size: 3 * SDL3GPUQuadVertex structureSize.
 	gpuDevice unmapGPUTransferBuffer: transferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -724,7 +724,7 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 6 * SDL3GPUQuadVertex structureSize.
 	mappedAddress := gpuDevice mapGPUTransferBuffer: transferBuffer cycle: false.
-	LibC memCopy: vertexData getHandle to: mappedAddress size: 6 * SDL3GPUQuadVertex structureSize.
+	LibC memCopy: vertexData to: mappedAddress size: 6 * SDL3GPUQuadVertex structureSize.
 	gpuDevice unmapGPUTransferBuffer: transferBuffer.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
