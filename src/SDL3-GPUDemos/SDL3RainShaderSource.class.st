@@ -97,37 +97,37 @@ float4 main(PSInput input) : SV_Target
            #else
            float2 hsh = pi;
            #endif
-           
+
            float2 p = pi + hash22(hsh);
 
            float t = frac(0.3 * time + hash12(hsh));
            float2 v = p - uv;
-           
+
            float d = length(v) - (float(MAX_RADIUS) + 1.0) * t;
 
            float h = 1e-3;
            float d1 = d - h;
            float d2 = d + h;
-           
+
            float p1 = sin(31.0 * d1) * smoothstep(-0.6, -0.3, d1) * smoothstep(0.0, -0.3, d1);
            float p2 = sin(31.0 * d2) * smoothstep(-0.6, -0.3, d2) * smoothstep(0.0, -0.3, d2);
-           
+
            circles += 0.5 * normalize(v) * ((p2 - p1) / (2.0 * h) * (1.0 - t) * (1.0 - t));
        }
    }
-   
+
    circles /= float((MAX_RADIUS * 2 + 1) * (MAX_RADIUS * 2 + 1));
 
    float intensity = lerp(0.01, 0.15, smoothstep(0.1, 0.6, abs(frac(0.05 * time + 0.5) * 2.0 - 1.0)));
-   
+
    // Reconstruct Normal Z
    // Added max(0, ...) to prevent NaN if dot product slightly exceeds 1.0 due to float precision
    float3 n = float3(circles, sqrt(max(0.0, 1.0 - dot(circles, circles))));
-   
+
    // Color and Lighting
    float3 lightDir = normalize(float3(1.0, 0.7, 0.5));
    float specular = 5.0 * pow(clamp(dot(n, lightDir), 0.0, 1.0), 6.0);
-   
+
    // Texture Sample with offset
    // Base on input.uv (true [0,1]x[0,1] space) and scale the
    // ripple offset back from rain-space to UV space.

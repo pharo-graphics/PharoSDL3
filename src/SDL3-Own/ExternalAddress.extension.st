@@ -61,3 +61,11 @@ ExternalAddress >> readStructArrayFromPointers: aFFIStructure size: count [
 			stream nextPut: (aFFIStructure fromHandle: (address pointerAt: 1)).
 			address := address + FFIExternalType pointerSize ] ]
 ]
+
+{ #category : '*SDL3-Own' }
+ExternalAddress class >> safeNewArray: anInteger [
+
+	^ (FFIExternalArray externalNewType: self size: anInteger)
+		autoRelease;
+		yourself
+]

@@ -30,33 +30,34 @@ Class {
 { #category : 'lifecycle' }
 SDL3GPUSDFRoundedRectDemo >> close [
 
-	gpuPipeline ifNotNil: [ 
-		gpuDevice releaseGPUGraphicsPipeline: gpuPipeline.
+	gpuPipeline ifNotNil: [
+		gpuPipeline release.
 		gpuPipeline := nil ].
 
-	vertexTransferBuffer ifNotNil: [ 
-		gpuDevice releaseGPUTransferBuffer: vertexTransferBuffer.
+	vertexTransferBuffer ifNotNil: [
+		vertexTransferBuffer release.
 		vertexTransferBuffer := nil ].
-	
-	indexTransferBuffer ifNotNil: [ 
-		gpuDevice releaseGPUTransferBuffer: indexTransferBuffer.
+
+	indexTransferBuffer ifNotNil: [
+		indexTransferBuffer release.
 		indexTransferBuffer := nil ].
 
-	vertexBuffer ifNotNil: [ 
-		gpuDevice releaseGPUBuffer: vertexBuffer.
+	vertexBuffer ifNotNil: [
+		vertexBuffer release.
 		vertexBuffer := nil ].
 
-	indexBuffer ifNotNil: [ 
-		gpuDevice releaseGPUBuffer: indexBuffer.
+	indexBuffer ifNotNil: [
+		indexBuffer release.
 		indexBuffer := nil ].
 
 	super close
 ]
 
 { #category : 'rendering' }
-SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
+SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
-	| renderPass quadWidthPixels quadHeightPixels physicalExtent |
+	| quadWidthPixels quadHeightPixels physicalExtent |
+
 	colorTargetInfos first texture: swapchainTexture.
 
 	"Calculate actual pixel dimensions of the quads based on window size and grid"
@@ -73,33 +74,20 @@ SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: aCommandBu
 		cornerR4: cornerRadiiBase;
 		radius: radius.
 
-	aCommandBuffer
-		pushGPUFragmentUniformDataSlotIndex: 0
-		data: sdfUniforms
-		length: sdfUniforms class structureSize.
+	commandBuffer
+		pushFragmentUniform: sdfUniforms slot: 0.
 
-	renderPass :=
-		aCommandBuffer
-			beginGPURenderPassColorTargetInfos: colorTargetInfos
-			depthStencilTargetInfo: nil.
+	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+		renderPass
+			pipeline: gpuPipeline;
+			vertexBuffers: vertexBufferBindings slot: 0;
+			indexBuffer16Bit: indexBinding;
+			drawIndexedPrimitives: self indicesCount
+			instances: 1
+			firstIndex: 0
+			vertexOffset: 0
+			firstInstance: 0 ]
 
-	renderPass bindGPUGraphicsPipeline: gpuPipeline.
-
-	renderPass
-		bindGPUVertexBuffersFirstSlot: 0
-		bindings: vertexBufferBindings.
-	renderPass
-		bindGPUIndexBufferBinding: indexBinding
-		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-
-	renderPass
-		drawGPUIndexedPrimitivesNumIndices: self indicesCount
-		numInstances: 1
-		firstIndex: 0
-		vertexOffset: 0
-		firstInstance: 0.
-
-	renderPass end
 ]
 
 { #category : 'accessing' }
@@ -121,20 +109,13 @@ SDL3GPUSDFRoundedRectDemo >> initialize [
 	cornerRadiiBase := 20.0.
 	radius := 50.0.
 
-	colorTargetInfos := FFIExternalArray
-							externalNewType: SDL_GPUColorTargetInfo
-							size: 1.
-	colorTargetInfos autoRelease.
+	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
 	colorTargetInfos first
-		storeOp: SDL_GPU_STOREOP_STORE;
-		loadOp: SDL_GPU_LOADOP_CLEAR;
-		updateClearColorFrom: (Color r: 0.1 g: 0.1 b: 0.1).
+		beClear: (Color r: 0.1 g: 0.1 b: 0.1).
 
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
 
-	indexBinding := SDL_GPUBufferBinding externalNew.
-	indexBinding autoRelease.
-	indexBinding offset: 0.
+	indexBinding := SDL_GPUBufferBinding offset: 0.
 
 	sdfUniforms := SDL3GPUSDFRoundedRectUniforms new.
 	sdfUniforms
@@ -151,7 +132,8 @@ SDL3GPUSDFRoundedRectDemo >> initialize [
 { #category : 'initialization' }
 SDL3GPUSDFRoundedRectDemo >> initializePipeline [
 
-	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
+	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
+
 	vertexShader := SDL3GPUQuadVertexShaderSource
 						newShaderAmong: shaderFormats
 						device: gpuDevice.
@@ -162,49 +144,24 @@ SDL3GPUSDFRoundedRectDemo >> initializePipeline [
 	vertexBindings := self newSDFVertexBindings.
 	vertexAttributes := self newSDFVertexAttributes.
 
-	colorTargets := self newColorTargetDescriptions: 1.
+	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState: self newAlphaBlendState.
+		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	pipelineCreateInfo := SDL_GPUGraphicsPipelineCreateInfo new.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: vertexShader;
-		fragmentShader: fragmentShader.
-	pipelineCreateInfo targetInfo
-		colorTargetDescriptions: colorTargets;
-		numColorTargets: colorTargets size.
-	pipelineCreateInfo vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: vertexBindings size;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: vertexAttributes size.
-
-	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
-		              pipelineCreateInfo.
+	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+		info
+			vertex: vertexShader
+			fragment: fragmentShader
+			targets: colorTargets.
+		info vertexInputState
+			attributes: vertexAttributes
+			bindings: vertexBindings ].
 
 	"We can free after pipeline was created"
-	gpuDevice releaseGPUShader: vertexShader.
+	vertexShader release.
 
-	gpuDevice releaseGPUShader: fragmentShader.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
-]
-
-{ #category : 'private' }
-SDL3GPUSDFRoundedRectDemo >> newAlphaBlendState [
-
-	^ SDL_GPUColorTargetBlendState new
-		 enableBlend: true;
-		 srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-		 dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-		 colorBlendOp: SDL_GPU_BLENDOP_ADD;
-		 srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-		 dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-		 alphaBlendOp: SDL_GPU_BLENDOP_ADD;
-		 yourself
+	fragmentShader release
 ]
 
 { #category : 'initialization' }
@@ -229,20 +186,20 @@ SDL3GPUSDFRoundedRectDemo >> newQuadIndices [
 SDL3GPUSDFRoundedRectDemo >> newSDFVertexAttributes [
 
 	| vertexAttributes |
-	vertexAttributes := FFIExternalArray
-							externalNewType: SDL_GPUVertexAttribute
-							size: 2.
-	vertexAttributes autoRelease.
+	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
+
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
 		location: 0;
 		offset: 0.
+
 	vertexAttributes second
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
 		location: 1;
 		offset: 12.
+
 	^ vertexAttributes
 ]
 
@@ -250,15 +207,14 @@ SDL3GPUSDFRoundedRectDemo >> newSDFVertexAttributes [
 SDL3GPUSDFRoundedRectDemo >> newSDFVertexBindings [
 
 	| vertexBindings |
-	vertexBindings := FFIExternalArray
-						 externalNewType: SDL_GPUVertexBufferDescription
-						 size: 1.
-	vertexBindings autoRelease.
+	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
+
 	vertexBindings first
 		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		instanceStepRate: 0;
 		pitch: SDL3GPUQuadVertex structureSize.
+
 	^ vertexBindings
 ]
 
@@ -288,133 +244,95 @@ SDL3GPUSDFRoundedRectDemo >> step [
 { #category : 'initialization' }
 SDL3GPUSDFRoundedRectDemo >> updateIndexBuffer [
 
-	| mappedAddress indices byteSize commandBuffer |
-	
+	| byteSize |
 	byteSize := self indicesCount * 2. "16-bit indices"
 
 	"1. Initialize buffer (or recreate if number of quads changed)"
 	indexBufferSize = byteSize ifFalse: [
-
 		indexBuffer ifNotNil: [
-			gpuDevice releaseGPUBuffer: indexBuffer.
-			gpuDevice releaseGPUTransferBuffer: indexTransferBuffer ].
+			indexBuffer release.
+			indexTransferBuffer release ].
 
 		indexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
 
-		indexBuffer := gpuDevice 
-			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-			size: byteSize.
+		indexBuffer := gpuDevice
+			               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+			               size: byteSize.
 
 		indexBinding buffer: indexBuffer.
 		indexBufferSize := byteSize ].
 
 	"2. Upload new data"
-	mappedAddress := gpuDevice mapGPUTransferBuffer: indexTransferBuffer cycle: true.
-	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
-
-	indices := FFIArray fromHandle: mappedAddress type: FFIUInt16 size: self indicesCount.
-	
-	1 to: numberOfQuads do: [ :i |
-		| baseVertex baseIndex |
-		baseVertex := (i - 1) * self numberOfVerticesPerQuad.
-		baseIndex := (i - 1) * 6.
-		1 to: 6 do: [ :j |
-			indices at: baseIndex + j put: baseVertex + (self newQuadIndices at: j) ] ].
-
-	gpuDevice unmapGPUTransferBuffer: indexTransferBuffer.
-
-	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer beginGPUCopyPass
-		uploadToGPUBufferSource:
-			(SDL_GPUTransferBufferLocation new
-				transferBuffer: indexTransferBuffer;
-				offset: 0;
-				yourself)
-		destination:
-			(SDL_GPUBufferRegion new
-				buffer: indexBuffer;
-				offset: 0;
-				size: byteSize;
-				yourself)
-		cycle: true;
-		end.
-	commandBuffer submit
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			transferBuffer: indexTransferBuffer
+			uploadTo: indexBuffer
+			type: FFIUInt16
+			count: self indicesCount
+			cycle: true
+			fillWith: [ :indices |
+				1 to: numberOfQuads do: [ :i |
+					| baseVertex baseIndex |
+					baseVertex := (i - 1) * self numberOfVerticesPerQuad.
+					baseIndex := (i - 1) * 6.
+					1 to: 6 do: [ :j |
+						indices
+							at: baseIndex + j
+							put: baseVertex + (self newQuadIndices at: j) ] ] ] ]
 ]
 
 { #category : 'initialization' }
 SDL3GPUSDFRoundedRectDemo >> updateVertexBuffer [
 
-	| mappedAddress vertices byteSize commandBuffer quadW quadH padX padY cellW cellH |
-	
+	| byteSize cellW cellH padX padY quadW quadH |
 	cellW := 2.0 / columns.
 	cellH := 2.0 / rows.
-	
+
 	padX := cellW * 0.1.
 	padY := cellH * 0.1.
-	
+
 	quadW := cellW - padX.
 	quadH := cellH - padY.
-	
+
 	byteSize := SDL3GPUQuadVertex structureSize * self verticesCount.
 
 	"2. Initialize buffer (or recreate if number of quads changed)"
 	vertexBufferSize = byteSize ifFalse: [
-
 		vertexBuffer ifNotNil: [
-			gpuDevice releaseGPUBuffer: vertexBuffer.
-			gpuDevice releaseGPUTransferBuffer: vertexTransferBuffer ].
+			vertexBuffer release.
+			vertexTransferBuffer release ].
 
 		vertexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
 
-		vertexBuffer := gpuDevice 
-			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-			size: byteSize.
+		vertexBuffer := gpuDevice
+			               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+			               size: byteSize.
 
 		vertexBufferBindings first buffer: vertexBuffer.
 		vertexBufferSize := byteSize ].
 
 	"3. Upload new data (Using CYCLE: TRUE for animation)"
-	mappedAddress := gpuDevice mapGPUTransferBuffer: vertexTransferBuffer cycle: true.
-	mappedAddress isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
-
-	vertices :=
-		FFIArray
-			fromHandle: mappedAddress
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			transferBuffer: vertexTransferBuffer
+			uploadTo: vertexBuffer
 			type: SDL3GPUQuadVertex
-			size: self verticesCount.
-	
-	1 to: numberOfQuads do: [ :i |
-		| col row x y |
-		row := (i - 1) // columns + 1.
-		col := (i - 1) \\ columns + 1.
-		x := -1.0 + (padX * 0.5) + ((col - 1) * cellW).
-		y := 1.0 - (padY * 0.5) - ((row - 1) * cellH).
-		self
-			writeQuadTo: vertices
-			at: (i - 1) * self numberOfVerticesPerQuad + 1 
-			x: x
-			y: y
-			w: quadW
-			h: quadH ].
-
-	gpuDevice unmapGPUTransferBuffer: vertexTransferBuffer.
-
-	commandBuffer := gpuDevice acquireGPUCommandBuffer.
-	commandBuffer beginGPUCopyPass
-		uploadToGPUBufferSource:
-			(SDL_GPUTransferBufferLocation new
-				transferBuffer: vertexTransferBuffer;
-				offset: 0;
-				yourself)
-		destination:
-			(SDL_GPUBufferRegion new
-				buffer: vertexBuffer;
-				offset: 0;
-				size: byteSize;
-				yourself)
-		cycle: true;
-		end.
-	commandBuffer submit
+			count: self verticesCount
+			cycle: true
+			fillWith: [ :vertices |
+				1 to: numberOfQuads do: [ :i |
+					| col row x y |
+					row := (i - 1) // columns + 1.
+					col := (i - 1) \\ columns + 1.
+					x := -1.0 + (padX * 0.5) + ((col - 1) * cellW).
+					y := 1.0 - (padY * 0.5) - ((row - 1) * cellH).
+					self
+						writeQuadTo: vertices
+						at: (i - 1) * self numberOfVerticesPerQuad + 1
+						x: x
+						y: y
+						w: quadW
+						h: quadH ] ] ]
 ]
 
 { #category : 'accessing' }
@@ -467,7 +385,7 @@ SDL3GPUSDFRoundedRectDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y 
 	| v |
 	"Vertices (NDC): y increases UPWARDS.
 	UVs: y increases DOWNWARDS.
-	
+
 	0: TL: x, y	   UV: 0, 0
 	1: TR: x+w, y	 UV: 1, 0
 	2: BR: x+w, y-h   UV: 1, 1
@@ -485,5 +403,5 @@ SDL3GPUSDFRoundedRectDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y 
 	v x: x + w; y: y - h; z: 0; u: 1; v: 1.
 	"3: BL"
 	v := aVertexArray at: startIndex + 3.
-	v x: x; y: y - h; z: 0; u: 0; v: 1.
+	v x: x; y: y - h; z: 0; u: 0; v: 1
 ]

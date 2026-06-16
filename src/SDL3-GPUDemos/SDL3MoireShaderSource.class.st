@@ -47,7 +47,7 @@ cbuffer Params : register(b0, space3)
 // Random function dependent on time
 float rand(float2 co, float time)
 {
-   return frac(sin(dot(co.xy, float2(92.0, 80.0))) + 
+   return frac(sin(dot(co.xy, float2(92.0, 80.0))) +
                cos(dot(co.xy, float2(cos(time) * 41.0, 62.0))) * 2.1);
 }
 
@@ -61,18 +61,18 @@ float4 main(PSInput input) : SV_Target
 {
    // Amount of jitter
    float amt = cos(time * 5.0) * 0.01;
-   
+
    // Base UV
    float2 uv = input.uv;
-   
+
    // Calculate random offset
-   // Note: The original code calls rand twice with the exact same UVs, 
+   // Note: The original code calls rand twice with the exact same UVs,
    // resulting in a diagonal offset (x == y). Replicated here for accuracy.
    float2 rnd = float2(rand(uv, time), rand(uv, time));
-   
+
    // Sample texture with offset
    float4 color = InputTexture.Sample(InputSampler, uv + rnd * amt);
-   
+
    return color * input.color;
 }
 '

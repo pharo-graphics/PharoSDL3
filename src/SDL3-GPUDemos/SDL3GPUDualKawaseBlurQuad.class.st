@@ -61,13 +61,13 @@ SDL3GPUDualKawaseBlurQuad >> stepIn: anExtent [
 
 	position := position + velocity.
 	rotation := rotation + rotationSpeed.
-	
+
 	"Bounce"
-	(position x < 0 or: [ position x > anExtent x ]) ifTrue: [ 
+	(position x < 0 or: [ position x > anExtent x ]) ifTrue: [
 		velocity := (velocity x negated) @ velocity y.
 		position := (position x min: anExtent x max: 0) @ position y ].
 
-	(position y < 0 or: [ position y > anExtent y ]) ifTrue: [ 
+	(position y < 0 or: [ position y > anExtent y ]) ifTrue: [
 		velocity := velocity x @ (velocity y negated).
 		position := position x @ (position y min: anExtent y max: 0) ].
 ]

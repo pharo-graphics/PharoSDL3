@@ -37,6 +37,20 @@ SDL3GPUColorTargetBlendState class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'instance creation' }
+SDL3GPUColorTargetBlendState class >> newAlphaBlend [
+
+	^ self new
+		  enableBlend: true;
+		  srcColorBlendfactor: SDL3GPUBlendFactor srcAlpha;
+		  dstColorBlendfactor: SDL3GPUBlendFactor oneMinusSrcAlpha;
+		  colorBlendOp: SDL3GPUBlendOp add;
+		  srcAlphaBlendfactor: SDL3GPUBlendFactor srcAlpha;
+		  dstAlphaBlendfactor: SDL3GPUBlendFactor oneMinusSrcAlpha;
+		  alphaBlendOp: SDL3GPUBlendOp add;
+		  yourself
+]
+
 { #category : 'accessing - structure variables' }
 SDL3GPUColorTargetBlendState >> alphaBlendOp [
 	"This method was automatically generated"

@@ -40,7 +40,7 @@ SamplerState InputSampler : register(s0, space2);
 
 cbuffer Params : register(b0, space3)
 {
-   float time;        
+   float time;
    float2 resolution;
 }
 
@@ -60,14 +60,14 @@ struct PSInput
 float4 main(PSInput input) : SV_Target
 {
    float2 texelSize = 1.0 / resolution;
-   
+
    // Generate noise
    float noise = rand(input.uv * resolution + time);
-   
+
    // Distort UVs
    float offsetMagnitude = (noise * 2.0 - 1.0);
    float2 offset = float2(offsetMagnitude, offsetMagnitude) * Strength * texelSize;
-   
+
    // Sample texture with offset
    return InputTexture.Sample(InputSampler, input.uv + offset) * input.color;
 }

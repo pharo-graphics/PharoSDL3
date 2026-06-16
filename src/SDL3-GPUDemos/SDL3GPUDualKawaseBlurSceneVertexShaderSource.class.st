@@ -54,22 +54,22 @@ struct VertexOutput {
 
 VertexOutput main(VertexInput input) {
  VertexOutput output;
- 
+
  float cosR = cos(rotation);
  float sinR = sin(rotation);
- 
+
  float2 pos = input.position * float2(scaleX, scaleY);
  float2 rotatedPos;
  rotatedPos.x = pos.x * cosR - pos.y * sinR;
  rotatedPos.y = pos.x * sinR + pos.y * cosR;
- 
+
  rotatedPos += float2(x, y);
- 
+
  output.position.x = (rotatedPos.x / viewportWidth) * 2.0 - 1.0;
  output.position.y = (rotatedPos.y / viewportHeight) * -2.0 + 1.0;
  output.position.z = 0.0;
  output.position.w = 1.0;
- 
+
  output.uv = input.uv;
  return output;
 }'

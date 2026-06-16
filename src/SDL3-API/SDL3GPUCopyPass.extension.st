@@ -1,7 +1,7 @@
 Extension { #name : 'SDL3GPUCopyPass' }
 
 { #category : '*SDL3-API' }
-SDL3GPUCopyPass >> copyGPUBufferToBufferSource: source destination: destination size: size cycle: cycle [
+SDL3GPUCopyPass >> copyBuffer: source destination: destination size: size cycle: cycle [
 
 	self ffiLibrary
 		copyGPUBufferToBufferCopyPass: self
@@ -12,7 +12,7 @@ SDL3GPUCopyPass >> copyGPUBufferToBufferSource: source destination: destination 
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCopyPass >> copyGPUTextureToTextureSource: source destination: destination w: w h: h d: d cycle: cycle [
+SDL3GPUCopyPass >> copyTexture: source destination: destination w: w h: h d: d cycle: cycle [
 
 	self ffiLibrary
 		copyGPUTextureToTextureCopyPass: self
@@ -25,13 +25,13 @@ SDL3GPUCopyPass >> copyGPUTextureToTextureSource: source destination: destinatio
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCopyPass >> downloadFromGPUBufferSource: source destination: destination [
+SDL3GPUCopyPass >> downloadBuffer: source destination: destination [
 
 	self ffiLibrary downloadFromGPUBufferCopyPass: self source: source destination: destination
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCopyPass >> downloadFromGPUTextureSource: source destination: destination [
+SDL3GPUCopyPass >> downloadTexture: source destination: destination [
 
 	self ffiLibrary downloadFromGPUTextureCopyPass: self source: source destination: destination
 ]
@@ -43,7 +43,14 @@ SDL3GPUCopyPass >> end [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCopyPass >> uploadToGPUBufferSource: source destination: destination cycle: cycle [
+SDL3GPUCopyPass >> releaseFromGPUDevice [
+	"Passes are released when they are ended."
+
+	self end
+]
+
+{ #category : '*SDL3-API' }
+SDL3GPUCopyPass >> uploadBuffer: source destination: destination cycle: cycle [
 
 	self ffiLibrary
 		uploadToGPUBufferCopyPass: self
@@ -53,7 +60,7 @@ SDL3GPUCopyPass >> uploadToGPUBufferSource: source destination: destination cycl
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCopyPass >> uploadToGPUTextureSource: source destination: destination cycle: cycle [
+SDL3GPUCopyPass >> uploadTexture: source destination: destination cycle: cycle [
 
 	self ffiLibrary
 		uploadToGPUTextureCopyPass: self

@@ -50,17 +50,17 @@ Class {
 { #category : 'lifecycle' }
 SDL3GPUMandelbrotTiledMapDemo >> close [
 
-	computePipeline ifNotNil: [ gpuDevice releaseGPUComputePipeline: computePipeline. computePipeline := nil ].
-	quadPipeline ifNotNil: [ gpuDevice releaseGPUGraphicsPipeline: quadPipeline. quadPipeline := nil ].
-	shimmerPipeline ifNotNil: [ gpuDevice releaseGPUGraphicsPipeline: shimmerPipeline. shimmerPipeline := nil ].
-	
-	atlasTexture ifNotNil: [ gpuDevice releaseGPUTexture: atlasTexture. atlasTexture := nil ].
-	sampler ifNotNil: [ gpuDevice releaseGPUSampler: sampler. sampler := nil ].
-	
-	vertexBuffer ifNotNil: [ gpuDevice releaseGPUBuffer: vertexBuffer. vertexBuffer := nil ].
-	indexBuffer ifNotNil: [ gpuDevice releaseGPUBuffer: indexBuffer. indexBuffer := nil ].
-	instanceBuffer ifNotNil: [ gpuDevice releaseGPUBuffer: instanceBuffer. instanceBuffer := nil ].
-	shimmerInstanceBuffer ifNotNil: [ gpuDevice releaseGPUBuffer: shimmerInstanceBuffer. shimmerInstanceBuffer := nil ].
+	computePipeline ifNotNil: [ computePipeline release. computePipeline := nil ].
+	quadPipeline ifNotNil: [ quadPipeline release. quadPipeline := nil ].
+	shimmerPipeline ifNotNil: [ shimmerPipeline release. shimmerPipeline := nil ].
+
+	atlasTexture ifNotNil: [ atlasTexture release. atlasTexture := nil ].
+	sampler ifNotNil: [ sampler release. sampler := nil ].
+
+	vertexBuffer ifNotNil: [ vertexBuffer release. vertexBuffer := nil ].
+	indexBuffer ifNotNil: [ indexBuffer release. indexBuffer := nil ].
+	instanceBuffer ifNotNil: [ instanceBuffer release. instanceBuffer := nil ].
+	shimmerInstanceBuffer ifNotNil: [ shimmerInstanceBuffer release. shimmerInstanceBuffer := nil ].
 
 	super close
 ]
@@ -85,19 +85,19 @@ SDL3GPUMandelbrotTiledMapDemo >> doRenderPassesOn: swapchainTexture with: comman
 
 	self uploadInstanceDataWith: commandBuffer.
 
-	self 
-		executeGraphicsPassOn: swapchainTexture 
-		readyCount: visibleReadyKeys size + visibleFallbackKeys size 
-		loadingCount: visibleLoadingKeys size 
+	self
+		executeGraphicsPassOn: swapchainTexture
+		readyCount: visibleReadyKeys size + visibleFallbackKeys size
+		loadingCount: visibleLoadingKeys size
 		with: commandBuffer
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> evictTilesNotIn: aKeyCollection [
+SDL3GPUMandelbrotTiledMapDemo >> evictTilesNotIn: keys [
 	"Evict tiles that are no longer visible"
 
 	tileStates keys copy do: [ :k |
-		(aKeyCollection includes: k) ifFalse: [
+		(keys includes: k) ifFalse: [
 			tileStates removeKey: k.
 			computedKeys remove: k ifAbsent: [ ].
 			tileToSlotMap at: k ifPresent: [ :slot |
@@ -106,95 +106,96 @@ SDL3GPUMandelbrotTiledMapDemo >> evictTilesNotIn: aKeyCollection [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> executeComputePassFor: aKeyCollection with: aCommandBuffer [
+SDL3GPUMandelbrotTiledMapDemo >> executeComputePassFor: keys with: commandBuffer [
 
-	| computePass |
-	atlasBindings first texture: atlasTexture.
+	atlasBindings first beTexture: atlasTexture.
 
-	computePass := aCommandBuffer
-				  beginGPUComputePassStorageTextureBindings: atlasBindings
-				  storageBufferBindings: #().
-	computePass bindGPUComputePipeline: computePipeline.
+	commandBuffer computePassTextures: atlasBindings computeStorageBuffers: #() do: [ :computePass |
+		computePass pipeline: computePipeline.
 
-	aKeyCollection do: [ :key | 
-		| slot |
-		slot := tileToSlotMap at: key ifAbsent: [ 0 ].
-		self pushTileUniforms: key slot: slot with: aCommandBuffer.
-		computePass
-			dispatchWorkgroupCountX: tileSizePixels + 15 // 16
-			y: tileSizePixels + 15 // 16
-			z: 1 ].
-
-	computePass end
+		keys do: [ :key |
+			| slot |
+			slot := tileToSlotMap at: key ifAbsent: [ 0 ].
+			self pushTileUniforms: key slot: slot with: commandBuffer.
+			computePass
+				dispatchX: tileSizePixels + 15 // 16
+				y: tileSizePixels + 15 // 16
+				z: 1 ] ]
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> executeGraphicsPassOn: swapchainTexture readyCount: aReadyCount loadingCount: aLoadingCount with: aCommandBuffer [
+SDL3GPUMandelbrotTiledMapDemo >> executeGraphicsPassOn: swapchainTexture readyCount: readyCount loadingCount: loadingCount with: commandBuffer [
 
-	| renderPass |
 	colorTargetInfos first texture: swapchainTexture.
-	renderPass := aCommandBuffer beginGPURenderPassColorTargetInfos: colorTargetInfos depthStencilTargetInfo: nil.
+	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+		"Pass A: Ready Tiles (Fractal) - Including Fallbacks"
+		readyCount > 0 ifTrue: [
+			renderPass
+				pipeline: quadPipeline;
+				vertexBuffers: vertexBufferBindings slot: 0;
+				indexBuffer16Bit: indexBufferBinding;
+				fragmentSamplers: samplerBindings slot: 0;
+				drawIndexedPrimitives: 6
+				instances: readyCount
+				firstIndex: 0
+				vertexOffset: 0
+				firstInstance: 0 ].
 
-	"Pass A: Ready Tiles (Fractal) - Including Fallbacks"
-	aReadyCount > 0 ifTrue: [
-		renderPass bindGPUGraphicsPipeline: quadPipeline.
-		renderPass bindGPUVertexBuffersFirstSlot: 0 bindings: vertexBufferBindings.
+		"Pass B: Loading Tiles (Shimmer)"
+		loadingCount > 0 ifTrue: [
+			shimmerUniforms time: Time millisecondClockValue / 1000.0.
+			shimmerUniforms resolutionX: window pixelExtent x; resolutionY: window pixelExtent y.
+			commandBuffer
+				pushVertexUniform: shimmerUniforms slot: 0;
+				pushFragmentUniform: shimmerUniforms slot: 0.
 
-		renderPass bindGPUIndexBufferBinding: indexBufferBinding indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-		renderPass bindGPUFragmentSamplersFirstSlot: 0 textureSamplerBindings: samplerBindings.
-		renderPass drawGPUIndexedPrimitivesNumIndices: 6 numInstances: aReadyCount firstIndex: 0 vertexOffset: 0 firstInstance: 0 ].
-
-	"Pass B: Loading Tiles (Shimmer)"
-	aLoadingCount > 0 ifTrue: [
-		shimmerUniforms time: Time millisecondClockValue / 1000.0.
-		shimmerUniforms resolutionX: window pixelExtent x; resolutionY: window pixelExtent y.
-		aCommandBuffer pushGPUVertexUniformDataSlotIndex: 0 data: shimmerUniforms length: shimmerUniforms class structureSize.
-		aCommandBuffer pushGPUFragmentUniformDataSlotIndex: 0 data: shimmerUniforms length: shimmerUniforms class structureSize.
-		
-		renderPass bindGPUGraphicsPipeline: shimmerPipeline.
-		renderPass bindGPUVertexBuffersFirstSlot: 0 bindings: shimmerVertexBufferBindings.
-		renderPass bindGPUIndexBufferBinding: indexBufferBinding indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-		renderPass drawGPUIndexedPrimitivesNumIndices: 6 numInstances: aLoadingCount firstIndex: 0 vertexOffset: 0 firstInstance: 0 ].
-
-	renderPass end
+			renderPass
+				pipeline: shimmerPipeline;
+				vertexBuffers: shimmerVertexBufferBindings slot: 0;
+				indexBuffer16Bit: indexBufferBinding;
+				drawIndexedPrimitives: 6
+				instances: loadingCount
+				firstIndex: 0
+				vertexOffset: 0
+				firstInstance: 0 ] ]
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> fillInstance: anInstance forKey: aKey slot: aSlotIndex parentKey: aParentKey [
+SDL3GPUMandelbrotTiledMapDemo >> fillInstance: anInstance forKey: key slot: aSlotIndex parentKey: aParentKey [
 
 	| lod fractalTileSize minFractal screenRect atlasRect slotX slotY |
-	lod := aKey third.
+	lod := key third.
 	fractalTileSize := 4.0 / (2 ** lod).
-	minFractal := aKey first * fractalTileSize @ (aKey second * fractalTileSize).
-	
+	minFractal := key first * fractalTileSize @ (key second * fractalTileSize).
+
 	"Map fractal coord back to logical 0..1 based on camera"
 	screenRect := camera fractalToLogicalRect: (minFractal extent: fractalTileSize @ fractalTileSize).
-		
+
 	slotX := aSlotIndex \\ atlasSizeSlots x.
 	slotY := aSlotIndex // atlasSizeSlots x.
-	
+
 	"Base atlas rect for the slot"
-	atlasRect := SDL3FRect new 
-		x: slotX asFloat / atlasSizeSlots x asFloat; 
-		y: slotY asFloat / atlasSizeSlots y asFloat; 
-		w: 1.0 / atlasSizeSlots x asFloat; 
+	atlasRect := SDL3FRect new
+		x: slotX asFloat / atlasSizeSlots x asFloat;
+		y: slotY asFloat / atlasSizeSlots y asFloat;
+		w: 1.0 / atlasSizeSlots x asFloat;
 		h: 1.0 / atlasSizeSlots y asFloat;
 		yourself.
 
 	"If using a parent slot, we must only use a quadrant of it"
 	aParentKey ifNotNil: [ | subX subY |
-		subX := aKey first \\ 2.
-		subY := aKey second \\ 2.
-		atlasRect 
+		subX := key first \\ 2.
+		subY := key second \\ 2.
+		atlasRect
 			x: atlasRect x + (subX * 0.5 * atlasRect w);
 			y: atlasRect y + (subY * 0.5 * atlasRect h);
 			w: atlasRect w * 0.5;
 			h: atlasRect h * 0.5 ].
 
-	anInstance screenRect 
-		x: screenRect left asFloat; 
-		y: screenRect top asFloat; 
-		w: screenRect width asFloat; 
+	anInstance screenRect
+		x: screenRect left asFloat;
+		y: screenRect top asFloat;
+		w: screenRect width asFloat;
 		h: screenRect height asFloat.
 	anInstance atlasRect
 		x: atlasRect x;
@@ -216,63 +217,48 @@ SDL3GPUMandelbrotTiledMapDemo >> initialize [
 
 	tileSizePixels := 512.
 	atlasSizeSlots := 8 @ 8. "4096x4096 atlas"
-	
+
 	camera := SDL3TiledMapCamera new.
-	camera 
+	camera
 		viewportExtent: self initialExtent;
 		center: -0.5 @ 0.0;
 		zoomLevel: 1.5.
-	
+
 	tileManager := SDL3TileManager new.
 	tileManager camera: camera.
 
-	colorTargetInfos := FFIExternalArray
-					externalNewType: SDL_GPUColorTargetInfo
-					size: 1.
-	colorTargetInfos autoRelease.
+	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
 	colorTargetInfos first
-		storeOp: SDL_GPU_STOREOP_STORE;
-		loadOp: SDL_GPU_LOADOP_CLEAR;
-		updateClearColorFrom: (Color r: 0.02 g: 0.02 b: 0.05).
+		beClear: (Color r: 0.02 g: 0.02 b: 0.05).
 
-	atlasBindings := FFIExternalArray
-				externalNewType:
-				SDL_GPUStorageTextureReadWriteBinding
-				size: 1.
-	atlasBindings autoRelease.
-	atlasBindings first cycle: false.
+	atlasBindings := SDL3GPUStorageTextureReadWriteBinding safeNewArray: 1.
+	atlasBindings first beUnbound.
 
-	uniforms := SDL3GPUMandelbrotUniforms externalNew.
-	uniforms autoRelease.
-	
-	shimmerUniforms := SDL3GPUShimmerUniforms externalNew.
-	shimmerUniforms autoRelease.
+	uniforms := SDL3GPUMandelbrotUniforms safeNew.
+
+	shimmerUniforms := SDL3GPUShimmerUniforms safeNew.
 	shimmerUniforms
 		baseColor: (SDL3FColor r: 0.1 g: 0.1 b: 0.15 a: 1.0);
 		highlightColor: (SDL3FColor r: 0.2 g: 0.2 b: 0.3 a: 1.0);
 		effectType: 2; "Angled Sweep"
 		cornerRadius: 0.0. "Perfectly square tiles"
-	
+
 	tileToSlotMap := Dictionary new.
 	freeSlots := (0 to: (atlasSizeSlots x * atlasSizeSlots y - 1)) asOrderedCollection.
-	
-	vertexBufferBindings := FFIExternalArray externalNewType: SDL_GPUBufferBinding size: 2.
-	vertexBufferBindings autoRelease.
 
-	shimmerVertexBufferBindings := FFIExternalArray externalNewType: SDL_GPUBufferBinding size: 2.
-	shimmerVertexBufferBindings autoRelease.
-	
-	indexBufferBinding := SDL_GPUBufferBinding externalNew.
-	indexBufferBinding autoRelease.
-	
-	samplerBindings := FFIExternalArray externalNewType: SDL_GPUTextureSamplerBinding size: 1.
-	samplerBindings autoRelease.
-	
+	vertexBufferBindings := SDL_GPUBufferBinding safeNewArray: 2.
+
+	shimmerVertexBufferBindings := SDL_GPUBufferBinding safeNewArray: 2.
+
+	indexBufferBinding := SDL_GPUBufferBinding offset: 0.
+
+	samplerBindings := SDL_GPUTextureSamplerBinding safeNewArray: 1.
+
 	loadingDelayMillis := 250.
 	tileStates := Dictionary new.
 	loadedKeysQueue := SharedQueue new.
 	computedKeys := Set new.
-	
+
 	visibleReadyKeys := OrderedCollection new.
 	visibleFallbackKeys := OrderedCollection new.
 	visibleLoadingKeys := OrderedCollection new
@@ -281,89 +267,112 @@ SDL3GPUMandelbrotTiledMapDemo >> initialize [
 { #category : 'initialization' }
 SDL3GPUMandelbrotTiledMapDemo >> initializeAtlas [
 
-	| createInfo |
-	createInfo := SDL3GPUTextureCreateInfo externalNew.
-	createInfo
-		type: SDL_GPU_TEXTURETYPE_2D;
-		format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
-		width: atlasSizeSlots x * tileSizePixels;
-		height: atlasSizeSlots y * tileSizePixels;
-		layerCountOrDepth: 1;
-		numLevels: 1;
-		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE.
-	
-	atlasTexture := gpuDevice newGPUTextureCreateinfo: createInfo.
-	createInfo free.
+	atlasTexture := gpuDevice newTexture: [ :info |
+		info
+			type: SDL_GPU_TEXTURETYPE_2D;
+			format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
+			width: atlasSizeSlots x * tileSizePixels;
+			height: atlasSizeSlots y * tileSizePixels;
+			layerCountOrDepth: 1;
+			numLevels: 1;
+			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE ].
 
-	sampler := gpuDevice newGPUSamplerCreateinfo: (SDL3GPUSamplerCreateInfo externalNew
-		minFilter: SDL_GPU_FILTER_LINEAR;
-		magFilter: SDL_GPU_FILTER_LINEAR;
-		mipmapMode: SDL_GPU_SAMPLERMIPMAPMODE_LINEAR;
-		addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-		addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-		addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-		yourself)
+	sampler := gpuDevice newSampler: [ :info |
+		info
+			minFilter: SDL_GPU_FILTER_LINEAR;
+			magFilter: SDL_GPU_FILTER_LINEAR;
+			mipmapMode: SDL_GPU_SAMPLERMIPMAPMODE_LINEAR;
+			addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
+			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
+			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE ]
 ]
 
 { #category : 'initialization' }
 SDL3GPUMandelbrotTiledMapDemo >> initializeGeometry [
 	"Upload a standard 1x1 quad (0..1)."
 
-	| vertices indices vTransfer iTransfer mappedAddress vSize iSize copyCommandBuffer |
+	self
+		initializeQuadBuffers;
+		initializeInstanceBuffers;
+		setupGeometryBindings
+]
 
-	vSize := 4 * SDL3GPUQuadVertex structureSize.
-	vertexBuffer := gpuDevice newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: vSize.
-	vTransfer := gpuDevice newUploadTransferBuffer: vSize.
-	mappedAddress := gpuDevice mapGPUTransferBuffer: vTransfer cycle: false.
-	vertices := FFIArray fromHandle: mappedAddress type: SDL3GPUQuadVertex size: 4.
-	(vertices at: 1) x: 0.0; y: 0.0; z: 0.0; u: 0.0; v: 0.0.
-	(vertices at: 2) x: 1.0; y: 0.0; z: 0.0; u: 1.0; v: 0.0.
-	(vertices at: 3) x: 1.0; y: 1.0; z: 0.0; u: 1.0; v: 1.0.
-	(vertices at: 4) x: 0.0; y: 1.0; z: 0.0; u: 0.0; v: 1.0.
-	gpuDevice unmapGPUTransferBuffer: vTransfer.
-
-	iSize := 6 * 2.
-	indexBuffer := gpuDevice newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: iSize.
-	iTransfer := gpuDevice newUploadTransferBuffer: iSize.
-	mappedAddress := gpuDevice mapGPUTransferBuffer: iTransfer cycle: false.
-	indices := FFIArray fromHandle: mappedAddress type: FFIUInt16 size: 6.
-	indices at: 1 put: 0; at: 2 put: 1; at: 3 put: 2; at: 4 put: 0; at: 5 put: 2; at: 6 put: 3.
-	gpuDevice unmapGPUTransferBuffer: iTransfer.
-
-	copyCommandBuffer := gpuDevice acquireGPUCommandBuffer.
-	copyCommandBuffer beginGPUCopyPass
-		uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new transferBuffer: vTransfer; offset: 0; yourself) destination: (SDL_GPUBufferRegion new buffer: vertexBuffer; offset: 0; size: vSize; yourself) cycle: false;
-		uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new transferBuffer: iTransfer; offset: 0; yourself) destination: (SDL_GPUBufferRegion new buffer: indexBuffer; offset: 0; size: iSize; yourself) cycle: false;
-		end.
-	copyCommandBuffer submit.
-	
-	gpuDevice releaseGPUTransferBuffer: vTransfer.
-	gpuDevice releaseGPUTransferBuffer: iTransfer.
+{ #category : 'initialization' }
+SDL3GPUMandelbrotTiledMapDemo >> initializeInstanceBuffers [
 
 	"Pre-allocate instance buffers for up to 256 tiles"
-	instanceBuffer := gpuDevice 
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX 
-		size: 256 * SDL3GPUTileInstance structureSize.
+	instanceBuffer := gpuDevice
+		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  size: 256 * SDL3GPUTileInstance structureSize.
 
-	shimmerInstanceBuffer := gpuDevice 
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX 
-		size: 256 * SDL3GPUTileInstance structureSize.
+	shimmerInstanceBuffer := gpuDevice
+		                         newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                         size: 256 * SDL3GPUTileInstance structureSize
+]
 
-	vertexBufferBindings first buffer: vertexBuffer; offset: 0.
-	vertexBufferBindings second buffer: instanceBuffer; offset: 0.
+{ #category : 'initialization' }
+SDL3GPUMandelbrotTiledMapDemo >> initializeQuadBuffers [
 
-	shimmerVertexBufferBindings first buffer: vertexBuffer; offset: 0.
-	shimmerVertexBufferBindings second buffer: shimmerInstanceBuffer; offset: 0.
+	vertexBuffer := gpuDevice
+		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                size: 4 * SDL3GPUQuadVertex structureSize.
 
-	indexBufferBinding buffer: indexBuffer; offset: 0.
+	indexBuffer := gpuDevice
+		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               size: 6 * 2.
 
-	samplerBindings first texture: atlasTexture; sampler: sampler
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: vertexBuffer
+			type: SDL3GPUQuadVertex
+			count: 4
+			cycle: false
+			fillWith: [ :vertices |
+				vertices first
+					x: 0.0;
+					y: 0.0;
+					z: 0.0;
+					u: 0.0;
+					v: 0.0.
+				vertices second
+					x: 1.0;
+					y: 0.0;
+					z: 0.0;
+					u: 1.0;
+					v: 0.0.
+				vertices third
+					x: 1.0;
+					y: 1.0;
+					z: 0.0;
+					u: 1.0;
+					v: 1.0.
+				vertices fourth
+					x: 0.0;
+					y: 1.0;
+					z: 0.0;
+					u: 0.0;
+					v: 1.0 ].
+
+		uploader
+			uploadTo: indexBuffer
+			type: FFIUInt16
+			count: 6
+			cycle: false
+			fillWith: [ :indices |
+				indices
+					at: 1 put: 0;
+					at: 2 put: 1;
+					at: 3 put: 2;
+					at: 4 put: 0;
+					at: 5 put: 2;
+					at: 6 put: 3 ] ]
 ]
 
 { #category : 'private' }
 SDL3GPUMandelbrotTiledMapDemo >> initializeQuadPipelineWith: formats colorTargets: colorTargets [
 
-	| quadVertexSource quadFragmentSource vertexBindings vertexAttributes pipelineCreateInfo |
+	| quadVertexSource quadFragmentSource vertexBindings vertexAttributes |
+
 	quadVertexSource := SDL3GPUTiledMapVertexShaderSource
 							newShaderAmong: formats
 							device: gpuDevice.
@@ -376,27 +385,17 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeQuadPipelineWith: formats colorTarget
 	vertexBindings := self newTiledMapVertexBindings.
 	vertexAttributes := self newTiledMapVertexAttributes.
 
-	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew.
-	pipelineCreateInfo autoRelease.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: quadVertexSource;
-		fragmentShader: quadFragmentSource.
-	pipelineCreateInfo targetInfo
-		colorTargetDescriptions: colorTargets;
-		numColorTargets: 1;
-		hasDepthStencilTarget: false.
-	pipelineCreateInfo vertexInputState
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 4;
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 2.
+	quadPipeline := gpuDevice newGraphicsPipeline: [ :info |
+		info
+			vertex: quadVertexSource
+			fragment: quadFragmentSource
+			targets: colorTargets.
+		info vertexInputState
+			attributes: vertexAttributes
+			bindings: vertexBindings ].
 
-	quadPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
-						pipelineCreateInfo.
-
-	gpuDevice releaseGPUShader: quadVertexSource.
-	gpuDevice releaseGPUShader: quadFragmentSource
+	quadVertexSource release.
+	quadFragmentSource release
 ]
 
 { #category : 'initialization' }
@@ -409,7 +408,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeShaders [
 						  newComputePipelineAmong: formats
 						  device: gpuDevice.
 
-	colorTargets := self newColorTargetDescriptions: 1.
+	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
 	colorTargets first format:
 		(gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
 
@@ -420,7 +419,8 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeShaders [
 { #category : 'private' }
 SDL3GPUMandelbrotTiledMapDemo >> initializeShimmerPipelineWith: formats colorTargets: colorTargets [
 
-	| shimmerVertexSource shimmerFragmentSource shimmerVertexBindings shimmerVertexAttributes pipelineCreateInfo |
+	| shimmerVertexSource shimmerFragmentSource shimmerVertexBindings shimmerVertexAttributes |
+
 	shimmerVertexSource := SDL3GPUShimmerVertexShaderSource
 							  newShaderAmong: formats
 							  device: gpuDevice.
@@ -428,50 +428,30 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeShimmerPipelineWith: formats colorTar
 								newShaderAmong: formats
 								device: gpuDevice.
 
-	colorTargets first blendState: (SDL_GPUColorTargetBlendState new
-			enableBlend: true;
-			srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-			dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-			colorBlendOp: SDL_GPU_BLENDOP_ADD;
-			srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE;
-			dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ZERO;
-			alphaBlendOp: SDL_GPU_BLENDOP_ADD;
-			yourself).
+	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
 	shimmerVertexBindings := self newTiledMapVertexBindings.
 	shimmerVertexAttributes := self newTiledMapVertexAttributes.
 
-	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew.
-	pipelineCreateInfo autoRelease.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: shimmerVertexSource;
-		fragmentShader: shimmerFragmentSource.
-	pipelineCreateInfo targetInfo
-		colorTargetDescriptions: colorTargets;
-		numColorTargets: 1;
-		hasDepthStencilTarget: false.
-	pipelineCreateInfo vertexInputState
-		vertexAttributes: shimmerVertexAttributes;
-		numVertexAttributes: 4;
-		vertexBufferDescriptions: shimmerVertexBindings;
-		numVertexBuffers: 2.
+	shimmerPipeline := gpuDevice newGraphicsPipeline: [ :info |
+		info
+			vertex: shimmerVertexSource
+			fragment: shimmerFragmentSource
+			targets: colorTargets.
+		info vertexInputState
+			attributes: shimmerVertexAttributes
+			bindings: shimmerVertexBindings ].
 
-	shimmerPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
-						  pipelineCreateInfo.
-
-	gpuDevice releaseGPUShader: shimmerVertexSource.
-	gpuDevice releaseGPUShader: shimmerFragmentSource
+	shimmerVertexSource release.
+	shimmerFragmentSource release
 ]
 
 { #category : 'private' }
 SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexAttributes [
 
 	| vertexAttributes |
-	vertexAttributes := FFIExternalArray
-							externalNewType: SDL_GPUVertexAttribute
-							size: 4.
-	vertexAttributes autoRelease.
+	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 4.
+
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
@@ -482,16 +462,17 @@ SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexAttributes [
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
 		location: 1;
 		offset: 3 * FFIFloat32 externalTypeSize.
-	(vertexAttributes at: 3)
+	vertexAttributes third
 		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
 		location: 2;
 		offset: 0.
-	(vertexAttributes at: 4)
+	vertexAttributes fourth
 		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
 		location: 3;
 		offset: 4 * FFIFloat32 externalTypeSize.
+
 	^ vertexAttributes
 ]
 
@@ -499,20 +480,20 @@ SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexAttributes [
 SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexBindings [
 
 	| vertexBindings |
-	vertexBindings := FFIExternalArray
-						 externalNewType: SDL_GPUVertexBufferDescription
-						 size: 2.
-	vertexBindings autoRelease.
+	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
+
 	vertexBindings first
 		slot: 0;
 		pitch: SDL3GPUQuadVertex structureSize;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		instanceStepRate: 0.
+
 	vertexBindings second
 		slot: 1;
 		pitch: SDL3GPUTileInstance structureSize;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_INSTANCE;
 		instanceStepRate: 0.
+
 	^ vertexBindings
 ]
 
@@ -532,59 +513,85 @@ SDL3GPUMandelbrotTiledMapDemo >> processLoadedKeysQueue [
 	| toProcess |
 	toProcess := OrderedCollection new.
 	[ loadedKeysQueue isEmpty ] whileFalse: [ toProcess add: loadedKeysQueue next ].
-	
+
 	toProcess do: [ :loadedKey |
 		(tileStates includesKey: loadedKey) ifTrue: [
 			freeSlots ifNotEmpty: [
 				tileToSlotMap at: loadedKey put: freeSlots removeFirst.
-				tileStates at: loadedKey put: #ready.
+				tileStates at: loadedKey put: #ready
 			] ifEmpty: [
-				loadedKeysQueue nextPut: loadedKey.
-			].
-		].
+				loadedKeysQueue nextPut: loadedKey
+			]
+		]
 	]
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> pushTileUniforms: aKey slot: aSlot with: aCommandBuffer [
+SDL3GPUMandelbrotTiledMapDemo >> pushTileUniforms: key slot: slot with: commandBuffer [
 	"Push compute uniforms for a specific tile."
-	
+
 	| lod fractalTileSize minX minY |
-	lod := aKey third.
+	lod := key third.
 	fractalTileSize := 4.0 / (2 ** lod).
-	
-	minX := aKey first * fractalTileSize.
-	minY := aKey second * fractalTileSize.
-	
-	uniforms 
+
+	minX := key first * fractalTileSize.
+	minY := key second * fractalTileSize.
+
+	uniforms
 		x1: minX asFloat;
 		y1: minY asFloat;
 		x2: (minX + fractalTileSize) asFloat;
 		y2: (minY + fractalTileSize) asFloat;
 		maxIterations: 256;
-		atlasSlot: aSlot;
+		atlasSlot: slot;
 		tileSize: tileSizePixels.
-		
-	aCommandBuffer pushGPUComputeUniformDataSlotIndex: 0 data: uniforms length: SDL3GPUMandelbrotUniforms structureSize
+
+	commandBuffer pushComputeUniform: uniforms slot: 0
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> requestTile: aKey [
+SDL3GPUMandelbrotTiledMapDemo >> requestTile: key [
 	"Emulate loading latency with jitter."
-	
+
 	| jitteredDelay |
 	loadingDelayMillis = 0 ifTrue: [
 		freeSlots ifNotEmpty: [
-			tileToSlotMap at: aKey put: freeSlots removeFirst.
-			^ tileStates at: aKey put: #ready ] ].
-	
+			tileToSlotMap at: key put: freeSlots removeFirst.
+			^ tileStates at: key put: #ready ] ].
+
 	"Emulate latency to load tiles (50% to 150% of the base parameter)"
 	jitteredDelay := (loadingDelayMillis * 0.5) +
 		(loadingDelayMillis * SharedRandom globalGenerator next).
 	[	(Delay forMilliseconds: jitteredDelay truncated) wait.
-		loadedKeysQueue nextPut: aKey ] forkAt: Processor activePriority + 1.
-	
-	^ tileStates at: aKey put: #loading
+		loadedKeysQueue nextPut: key ] forkAt: Processor activePriority + 1.
+
+	^ tileStates at: key put: #loading
+]
+
+{ #category : 'initialization' }
+SDL3GPUMandelbrotTiledMapDemo >> setupGeometryBindings [
+
+	vertexBufferBindings first
+		buffer: vertexBuffer;
+		offset: 0.
+	vertexBufferBindings second
+		buffer: instanceBuffer;
+		offset: 0.
+
+	shimmerVertexBufferBindings first
+		buffer: vertexBuffer;
+		offset: 0.
+	shimmerVertexBufferBindings second
+		buffer: shimmerInstanceBuffer;
+		offset: 0.
+
+	indexBufferBinding
+		buffer: indexBuffer;
+		offset: 0.
+
+	samplerBindings first
+		texture: atlasTexture;
+		sampler: sampler
 ]
 
 { #category : 'hooks' }
@@ -602,7 +609,7 @@ SDL3GPUMandelbrotTiledMapDemo >> updateTiles [
 
 	| visibleKeys |
 	visibleKeys := tileManager visibleTileKeys.
-	
+
 	self evictTilesNotIn: visibleKeys.
 	self processLoadedKeysQueue.
 
@@ -618,7 +625,7 @@ SDL3GPUMandelbrotTiledMapDemo >> updateTiles [
 			ifFalse: [
 				"Check for fallback parent"
 				parentKey := { key first // 2. key second // 2. key third - 1 }.
-				(tileStates at: parentKey ifAbsent: [ nil ]) = #ready 
+				(tileStates at: parentKey ifAbsent: [ nil ]) = #ready
 					ifTrue: [ visibleFallbackKeys add: { key . parentKey } ]
 					ifFalse: [ visibleLoadingKeys add: key ]
 			] ]
@@ -627,61 +634,84 @@ SDL3GPUMandelbrotTiledMapDemo >> updateTiles [
 { #category : 'accessing' }
 SDL3GPUMandelbrotTiledMapDemo >> updatedTitle [
 
-	| readyCount loadingCount |
+	| readyCount loadingCount zoomString |
 	readyCount := tileStates values count: [ :each | each = #ready ].
 	loadingCount := tileStates values count: [ :each | each = #loading ].
+	zoomString := camera zoomLevel printShowingDecimalPlaces: 2.
 
-	^ super updatedTitle, (' - Emulated Latency: {1}ms - Zoom: {2} - Tiles: {3} ready, {4} loading' 
-		format: { 
-			loadingDelayMillis. 
-			camera zoomLevel printShowingDecimalPlaces: 2.
-			readyCount.
-			loadingCount })
+	^ String streamContents: [ :stream |
+		  stream
+			  nextPutAll: super updatedTitle;
+			  nextPutAll: ' - Latency: ';
+			  nextPutAll: loadingDelayMillis printString;
+			  nextPutAll: 'ms - Zoom: ';
+			  nextPutAll: zoomString;
+			  nextPutAll: ' - Tiles: ';
+			  nextPutAll: readyCount printString;
+			  nextPutAll: ' ready, ';
+			  nextPutAll: loadingCount printString;
+			  nextPutAll: ' loading' ]
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> uploadInstanceDataWith: aCommandBuffer [
+SDL3GPUMandelbrotTiledMapDemo >> uploadInstanceDataWith: commandBuffer [
 
-	| transfer mapped size idx |
-	
-	"1. Ready and Fallback instances (shared buffer)"
+	self
+		uploadReadyInstanceDataWith: commandBuffer;
+		uploadShimmerInstanceDataWith: commandBuffer
+]
+
+{ #category : 'private' }
+SDL3GPUMandelbrotTiledMapDemo >> uploadReadyInstanceDataWith: commandBuffer [
+
+	| size |
 	size := visibleReadyKeys size + visibleFallbackKeys size.
-	size > 0 ifTrue: [
-		transfer := gpuDevice newUploadTransferBuffer: size * SDL3GPUTileInstance structureSize.
-		mapped := FFIArray fromHandle: (gpuDevice mapGPUTransferBuffer: transfer cycle: false) type: SDL3GPUTileInstance size: size.
-		idx := 1.
-		visibleReadyKeys do: [ :key |
-			self fillInstance: (mapped at: idx) forKey: key slot: (tileToSlotMap at: key) parentKey: nil.
-			idx := idx + 1 ].
-		visibleFallbackKeys do: [ :pair |
-			self fillInstance: (mapped at: idx) forKey: pair first slot: (tileToSlotMap at: pair second) parentKey: pair second.
-			idx := idx + 1 ].
-		gpuDevice unmapGPUTransferBuffer: transfer.
-		[ :copyPass |
-			copyPass uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new transferBuffer: transfer; offset: 0; yourself) 
-				destination: (SDL_GPUBufferRegion new buffer: instanceBuffer; offset: 0; size: size * SDL3GPUTileInstance structureSize; yourself) 
-				cycle: false.
-			copyPass end.
-		] value: aCommandBuffer beginGPUCopyPass.
-		gpuDevice releaseGPUTransferBuffer: transfer ].
+	size = 0 ifTrue: [ ^ self ].
 
-	"2. Loading (Shimmer) instances"
+	commandBuffer uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: instanceBuffer
+			type: SDL3GPUTileInstance
+			count: size
+			cycle: false
+			fillWith: [ :mapped |
+				| idx |
+				idx := 1.
+				visibleReadyKeys do: [ :key |
+					self
+						fillInstance: (mapped at: idx)
+						forKey: key
+						slot: (tileToSlotMap at: key)
+						parentKey: nil.
+					idx := idx + 1 ].
+				visibleFallbackKeys do: [ :pair |
+					self
+						fillInstance: (mapped at: idx)
+						forKey: pair first
+						slot: (tileToSlotMap at: pair second)
+						parentKey: pair second.
+					idx := idx + 1 ] ] ]
+]
+
+{ #category : 'private' }
+SDL3GPUMandelbrotTiledMapDemo >> uploadShimmerInstanceDataWith: commandBuffer [
+
+	| size |
 	size := visibleLoadingKeys size.
-	size > 0 ifTrue: [
-		transfer := gpuDevice newUploadTransferBuffer: size * SDL3GPUTileInstance structureSize.
-		mapped := FFIArray fromHandle: (gpuDevice mapGPUTransferBuffer: transfer cycle: false) type: SDL3GPUTileInstance size: size.
-		idx := 1.
-		visibleLoadingKeys do: [ :key |
-			self fillInstance: (mapped at: idx) forKey: key slot: 0 parentKey: nil.
-			idx := idx + 1 ].
-		gpuDevice unmapGPUTransferBuffer: transfer.
-		[ :copyPass |
-			copyPass uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new transferBuffer: transfer; offset: 0; yourself) 
-				destination: (SDL_GPUBufferRegion new buffer: shimmerInstanceBuffer; offset: 0; size: size * SDL3GPUTileInstance structureSize; yourself) 
-				cycle: false.
-			copyPass end.
-		] value: aCommandBuffer beginGPUCopyPass.
-		gpuDevice releaseGPUTransferBuffer: transfer ]
+	size = 0 ifTrue: [ ^ self ].
+
+	commandBuffer uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: shimmerInstanceBuffer
+			type: SDL3GPUTileInstance
+			count: size
+			cycle: false
+			fillWith: [ :mapped |
+				| idx |
+				idx := 1.
+				visibleLoadingKeys do: [ :key |
+					self fillInstance: (mapped at: idx) forKey: key slot: 0 parentKey: nil.
+					idx := idx + 1 ] ] ]
 ]
 
 { #category : 'hooks' }

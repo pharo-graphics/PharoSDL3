@@ -53,8 +53,8 @@ OSSDL3FormRenderer >> createTexture [
 		sdlRenderer
 			newTextureFormat: SDL_PIXELFORMAT_XRGB8888
 			access: SDL_TEXTUREACCESS_STREAMING
-			w: formExtent x
-			h: formExtent y
+			width: formExtent x
+			height: formExtent y
 ]
 
 { #category : 'morphic integration' }

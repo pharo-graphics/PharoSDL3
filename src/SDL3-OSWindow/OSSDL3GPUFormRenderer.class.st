@@ -16,8 +16,7 @@ Class {
 		'deferFlush',
 		'uploadStream',
 		'swapchainWidthHolder',
-		'swapchainHeightHolder',
-		'blitInfo'
+		'swapchainHeightHolder'
 	],
 	#pools : [
 		'SDL3AllEnumerations'
@@ -43,7 +42,7 @@ OSSDL3GPUFormRenderer >> destroy [
 
 	mutex critical: [
 		gpuTexture ifNotNil: [
-			gpuDevice releaseGPUTexture: gpuTexture.
+			gpuTexture release.
 			gpuTexture := nil ].
 		
 		uploadStream ifNotNil: [ 
@@ -64,28 +63,25 @@ OSSDL3GPUFormRenderer >> flush [
 		"Try to Acquire Swapchain texture (Non-blocking)."
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
 		commandBuffer
-			acquireGPUSwapchainTextureForWindow: backendWindow sdlWindow
-			into: swapchainTextureHolder 
-			width: swapchainWidthHolder 
+			acquireSwapchainTextureForWindow: backendWindow sdlWindow
+			into: swapchainTextureHolder
+			width: swapchainWidthHolder
 			height: swapchainHeightHolder.
 
 		"If swapchain is not available submit the empty command buffer and retry later"
-		[	swapchainTextureHolder value isNull ifFalse: [ 
+		[	swapchainTextureHolder value isNull ifFalse: [
 
-				blitInfo source 
-					texture: gpuTexture;
-					w: extent x;
-					h: extent y.
-					
-				blitInfo destination 
-					texture: swapchainTextureHolder value;
-					w: swapchainWidthHolder value;
-					h: swapchainHeightHolder value.
-					
-				blitInfo loadOp: SDL_GPU_LOADOP_DONT_CARE.
-				blitInfo filter: SDL_GPU_FILTER_LINEAR.
-
-				commandBuffer blitGPUTextureInfo: blitInfo.
+				commandBuffer blitFrom: gpuTexture to: swapchainTextureHolder value do: [ :blitInfo |
+					blitInfo source 
+						w: extent x;
+						h: extent y.
+						
+					blitInfo destination 
+						w: swapchainWidthHolder value;
+						h: swapchainHeightHolder value.
+						
+					blitInfo loadOp: SDL_GPU_LOADOP_DONT_CARE;
+						filter: SDL_GPU_FILTER_LINEAR ].
 
 				needsFlush := false ]
 
@@ -107,7 +103,7 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 
 	extent := form extent.
 
-	gpuTexture ifNotNil: [ gpuDevice releaseGPUTexture: gpuTexture ].
+	gpuTexture ifNotNil: [ gpuTexture release ].
 	
 	uploadStream ifNil: [
 		uploadStream := OSSDL3GPUUploadStream new ].
@@ -121,9 +117,6 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 		height: extent y.
 
 	"Pre-allocate to avoid GC pressure in hot path"
-	blitInfo := SDL3GPUBlitInfo externalNew.
-	blitInfo autoRelease.
-
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	swapchainWidthHolder := FFIUInt32 newValueHolder.
 	swapchainHeightHolder := FFIUInt32 newValueHolder

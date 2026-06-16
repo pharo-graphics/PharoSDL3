@@ -69,19 +69,19 @@ float noise(float2 p)
 {
    const float K1 = 0.366025404; // (sqrt(3)-1)/2;
    const float K2 = 0.211324865; // (3-sqrt(3))/6;
-   
+
    float2 i = floor(p + (p.x + p.y) * K1);
    float2 a = p - i + (i.x + i.y) * K2;
    // HLSL ternary vector selection
    float2 o = (a.x > a.y) ? float2(1.0, 0.0) : float2(0.0, 1.0);
-   
+
    float2 b = a - o + K2;
    float2 c = a - 1.0 + 2.0 * K2;
-   
+
    float3 h = max(0.5 - float3(dot(a, a), dot(b, b), dot(c, c)), 0.0);
-   
+
    float3 n = h * h * h * h * float3(dot(a, hash(i + 0.0)), dot(b, hash(i + o)), dot(c, hash(i + 1.0)));
-   
+
    // In HLSL float3(70.0) constructs a vector where all components are 70.0
    return dot(n, float3(70.0, 70.0, 70.0));
 }
@@ -111,26 +111,26 @@ float4 main(PSInput input) : SV_Target
 {
    // Map input UV to p (0 to 1)
    float2 p = input.uv;
-   
+
    // Correct Aspect Ratio using the resolution uniform
    float2 uv = p * float2(resolution.x / resolution.y, 1.0);
-   
+
    float timeVal = time * speed;
    float q = fbm(uv * cloudscale * 0.5);
-   
+
    // Ridged noise shape
    float r = 0.0;
    uv *= cloudscale;
    uv -= q - timeVal;
    float weight = 0.8;
-   
+
    for (int i = 0; i < 8; i++)
    {
        r += abs(weight * noise(uv));
        uv = mul(uv, m) + timeVal;
        weight *= 0.7;
    }
-   
+
    // Noise shape
    float f = 0.0;
    // Recalculate UV for next pass
@@ -138,16 +138,16 @@ float4 main(PSInput input) : SV_Target
    uv *= cloudscale;
    uv -= q - timeVal;
    weight = 0.7;
-   
+
    for (int j = 0; j < 8; j++)
    {
        f += weight * noise(uv);
        uv = mul(uv, m) + timeVal;
        weight *= 0.6;
    }
-   
+
    f *= r + f;
-   
+
    // Noise colour
    float c = 0.0;
    timeVal = time * speed * 2.0;
@@ -155,14 +155,14 @@ float4 main(PSInput input) : SV_Target
    uv *= cloudscale * 2.0;
    uv -= q - timeVal;
    weight = 0.4;
-   
+
    for (int k = 0; k < 7; k++)
    {
        c += weight * noise(uv);
        uv = mul(uv, m) + timeVal;
        weight *= 0.6;
    }
-   
+
    // Noise ridge colour
    float c1 = 0.0;
    timeVal = time * speed * 3.0;
@@ -170,24 +170,24 @@ float4 main(PSInput input) : SV_Target
    uv *= cloudscale * 3.0;
    uv -= q - timeVal;
    weight = 0.4;
-   
+
    for (int l = 0; l < 7; l++)
    {
        c1 += abs(weight * noise(uv));
        uv = mul(uv, m) + timeVal;
        weight *= 0.6;
    }
-   
+
    c += c1;
-   
+
    // HLSL mix -> lerp
    float3 skycolour = lerp(skycolour2, skycolour1, p.y);
    float3 cloudcolour = float3(1.1, 1.1, 0.9) * clamp((clouddark + cloudlight * c), 0.0, 1.0);
-  
+
    f = cloudcover + cloudalpha * f * r;
-   
+
    float3 result = lerp(skycolour, clamp(skytint * skycolour + cloudcolour, 0.0, 1.0), clamp(f + c, 0.0, 1.0));
-   
+
    //return float4(result, 1.0) * input.color;
    return lerp(float4(result, 1.0) * input.color, (InputTexture.Sample(InputSampler, input.uv) * input.color), 0.5);
 

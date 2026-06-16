@@ -1,15 +1,7 @@
 Extension { #name : 'SDL3GPUComputePass' }
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputePipeline: computePipeline [
-
-	self ffiLibrary
-		bindGPUComputePipelineComputePass: self
-		computePipeline: computePipeline
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputeSamplersFirstSlot: firstSlot textureSamplerBindings: textureSamplerBindings numBindings: numBindings [
+SDL3GPUComputePass >> computeSamplersSlot: firstSlot bindings: textureSamplerBindings count: numBindings [
 
 	self ffiLibrary
 		bindGPUComputeSamplersComputePass: self
@@ -19,7 +11,7 @@ SDL3GPUComputePass >> bindGPUComputeSamplersFirstSlot: firstSlot textureSamplerB
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputeStorageBuffersFirstSlot: firstSlot storageBuffers: storageBuffers numBindings: numBindings [
+SDL3GPUComputePass >> computeStorageBuffersSlot: firstSlot bindings: storageBuffers count: numBindings [
 
 	self ffiLibrary
 		bindGPUComputeStorageBuffersComputePass: self
@@ -29,7 +21,7 @@ SDL3GPUComputePass >> bindGPUComputeStorageBuffersFirstSlot: firstSlot storageBu
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> bindGPUComputeStorageTexturesFirstSlot: firstSlot storageTextures: storageTextures numBindings: numBindings [
+SDL3GPUComputePass >> computeStorageTexturesSlot: firstSlot bindings: storageTextures count: numBindings [
 
 	self ffiLibrary
 		bindGPUComputeStorageTexturesComputePass: self
@@ -39,7 +31,7 @@ SDL3GPUComputePass >> bindGPUComputeStorageTexturesFirstSlot: firstSlot storageT
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> dispatchGPUComputeIndirectBuffer: buffer offset: offset [
+SDL3GPUComputePass >> dispatchIndirectBuffer: buffer offset: offset [
 
 	self ffiLibrary
 		dispatchGPUComputeIndirectComputePass: self
@@ -48,7 +40,7 @@ SDL3GPUComputePass >> dispatchGPUComputeIndirectBuffer: buffer offset: offset [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> dispatchWorkgroupCountX: groupcountX y: groupcountY z: groupcountZ [
+SDL3GPUComputePass >> dispatchX: groupcountX y: groupcountY z: groupcountZ [
 
 	self ffiLibrary
 		dispatchGPUComputeComputePass: self
@@ -61,4 +53,19 @@ SDL3GPUComputePass >> dispatchWorkgroupCountX: groupcountX y: groupcountY z: gro
 SDL3GPUComputePass >> end [
 
 	self ffiLibrary endGPUComputePass: self
+]
+
+{ #category : '*SDL3-API' }
+SDL3GPUComputePass >> pipeline: computePipeline [
+
+	self ffiLibrary
+		bindGPUComputePipelineComputePass: self
+		computePipeline: computePipeline
+]
+
+{ #category : '*SDL3-API' }
+SDL3GPUComputePass >> releaseFromGPUDevice [
+	"Passes are released when they are ended."
+
+	self end
 ]

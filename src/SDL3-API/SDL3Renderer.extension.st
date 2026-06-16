@@ -230,17 +230,7 @@ SDL3Renderer >> name [
 ]
 
 { #category : '*SDL3-API' }
-SDL3Renderer >> newGPURenderStateCreateinfo: createinfo [
-
-	^ (self ffiLibrary
-		   newGPURenderStateRenderer: self
-		   createinfo: createinfo)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
-SDL3Renderer >> newTextureFormat: format access: access w: w h: h [
+SDL3Renderer >> newTextureFormat: format access: access width: w height: h [
 
 	^ (self ffiLibrary
 		   newTextureRenderer: self

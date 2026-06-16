@@ -63,20 +63,20 @@ float4 main(PSInput input) : SV_Target {
    float2 uv = input.uv;
 
    float warp_amount = cos(time);
-   
+
    float2 delta = uv - 0.5;
    float warp_factor = dot(delta, delta) * warp_amount;
    uv += delta * warp_factor;
-   
+
    float scanline = sin(uv.y * resolution.y * PI) * 0.5 + 0.5;
    scanline = lerp(1.0, scanline, scan_line_amount * 0.5);
-   
+
    float grille = fmod(uv.x * resolution.x, 3.0) < 1.5 ? 0.95 : 1.05;
    grille = lerp(1.0, grille, grille_amount * 0.5);
-   
+
    float4 color = InputTexture.Sample(InputSampler, input.uv) * input.color;
    color.rgb *= scanline * grille;
-   
+
    float2 v_uv = uv * (1.0 - uv.xy);
    float vignette = v_uv.x * v_uv.y * 15.0;
    vignette = lerp(1.0, vignette, vignette_amount * 0.7);

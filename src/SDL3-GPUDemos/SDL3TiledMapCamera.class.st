@@ -34,7 +34,7 @@ SDL3TiledMapCamera >> fractalToLogical: aPoint [
 	| fractalWidth fractalHeight relativePos |
 	fractalWidth := 4.0 / zoomLevel.
 	fractalHeight := fractalWidth * (viewportExtent y / viewportExtent x).
-	
+
 	relativePos := (aPoint - center) / (fractalWidth @ fractalHeight).
 	^ relativePos + (0.5 @ 0.5)
 ]
@@ -46,7 +46,7 @@ SDL3TiledMapCamera >> fractalToLogicalRect: aRect [
 	| p1 p2 |
 	p1 := self fractalToLogical: aRect origin.
 	p2 := self fractalToLogical: aRect corner.
-	
+
 	^ Rectangle origin: (p1 min: p2) corner: (p1 max: p2)
 ]
 
@@ -67,7 +67,7 @@ SDL3TiledMapCamera >> logicalToFractal: aPoint [
 	| relativePos fractalWidth fractalHeight |
 	fractalWidth := 4.0 / zoomLevel.
 	fractalHeight := fractalWidth * (viewportExtent y / viewportExtent x).
-	
+
 	"x: 0 (left) -> -0.5, 1 (right) -> 0.5
 	y: 0 (top)  -> 0.5, 1 (bottom) -> -0.5"
 	relativePos := (aPoint x / viewportExtent x - 0.5) @ (0.5 - (aPoint y / viewportExtent y)).
@@ -84,7 +84,7 @@ SDL3TiledMapCamera >> normalizedToFractal: aNormalizedPoint [
 	| relativePos fractalWidth fractalHeight |
 	fractalWidth := 4.0 / zoomLevel.
 	fractalHeight := fractalWidth * (viewportExtent y / viewportExtent x).
-	
+
 	"x: 0 (left) -> -0.5, 1 (right) -> 0.5
 	y: 0 (top)  -> 0.5, 1 (bottom) -> -0.5"
 	relativePos := (aNormalizedPoint x - 0.5) @ (0.5 - aNormalizedPoint y).
@@ -98,11 +98,11 @@ SDL3TiledMapCamera >> panByNormalized: aDeltaNormalized [
 	| fractalWidth fractalHeight dxFractal dyFractal |
 	fractalWidth := 4.0 / zoomLevel.
 	fractalHeight := fractalWidth * (viewportExtent y / viewportExtent x).
-	
+
 	dxFractal := aDeltaNormalized x * fractalWidth.
 	dyFractal := aDeltaNormalized y * fractalHeight.
-	
-	"Standard drag-to-pan: 
+
+	"Standard drag-to-pan:
 	Mouse moves right (+dx) -> Camera moves left (-dx)
 	Mouse moves down (+dy) -> Camera moves up (+dy) since fractal math Y is up"
 	center := center + (dxFractal negated @ dyFractal).

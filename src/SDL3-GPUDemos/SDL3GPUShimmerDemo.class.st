@@ -29,19 +29,19 @@ Class {
 SDL3GPUShimmerDemo >> close [
 
 	gpuPipeline ifNotNil: [
-		gpuDevice releaseGPUGraphicsPipeline: gpuPipeline.
+		gpuPipeline release.
 		gpuPipeline := nil ].
 
 	vertexBuffer ifNotNil: [
-		gpuDevice releaseGPUBuffer: vertexBuffer.
+		vertexBuffer release.
 		vertexBuffer := nil ].
-		
+
 	instanceBuffer ifNotNil: [
-		gpuDevice releaseGPUBuffer: instanceBuffer.
+		instanceBuffer release.
 		instanceBuffer := nil ].
 
 	indexBuffer ifNotNil: [
-		gpuDevice releaseGPUBuffer: indexBuffer.
+		indexBuffer release.
 		indexBuffer := nil ].
 
 	super close
@@ -50,33 +50,21 @@ SDL3GPUShimmerDemo >> close [
 { #category : 'rendering' }
 SDL3GPUShimmerDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
-	| renderPass |
 	colorTargetInfos first texture: swapchainTextureHolder value.
 
-	renderPass := commandBuffer
-					 beginGPURenderPassColorTargetInfos: colorTargetInfos
-					 depthStencilTargetInfo: nil.
+	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+		renderPass
+			pipeline: gpuPipeline;
+			vertexBuffers: vertexBufferBindings slot: 0;
+			indexBuffer16Bit: indexBufferBinding.
 
-	renderPass bindGPUGraphicsPipeline: gpuPipeline.
-	renderPass bindGPUVertexBuffersFirstSlot: 0 bindings: vertexBufferBindings.
-	renderPass bindGPUIndexBufferBinding: indexBufferBinding indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-	
-	"Push Fragment Uniforms (space3 corresponds to Fragment stage per ground truth)"
-	commandBuffer 
-		pushGPUFragmentUniformDataSlotIndex: 0 
-		data: uniforms
-		length: SDL3GPUShimmerUniforms structureSize.
+		"Push Fragment Uniforms (space3 corresponds to Fragment stage per ground truth)"
+		commandBuffer
+			pushFragmentUniform: uniforms slot: 0;
+			pushVertexUniform: uniforms slot: 0.
 
-	"Push Vertex Uniforms (space1 corresponds to Vertex stage)"
-	commandBuffer 
-		pushGPUVertexUniformDataSlotIndex: 0 
-		data: uniforms
-		length: SDL3GPUShimmerUniforms structureSize.
-
-	"Draw 1 quad (6 indices) per instance"
-	renderPass drawGPUIndexedPrimitivesNumIndices: 6 numInstances: numberOfInstances firstIndex: 0 vertexOffset: 0 firstInstance: 0.
-
-	renderPass end
+		"Draw 1 quad (6 indices) per instance"
+		renderPass drawIndexedPrimitives: 6 instances: numberOfInstances firstIndex: 0 vertexOffset: 0 firstInstance: 0 ]
 ]
 
 { #category : 'initialization' }
@@ -88,17 +76,13 @@ SDL3GPUShimmerDemo >> initialize [
 
 	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 2.
 
-	instanceBufferBinding := FFIExternalArray externalNewType: SDL_GPUBufferBinding size: 1.
-	instanceBufferBinding autoRelease.
+	instanceBufferBinding := SDL_GPUBufferBinding safeNewArray: 1.
 
-	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
 	colorTargetInfos first
-		storeOp: SDL_GPU_STOREOP_STORE;
-		loadOp: SDL_GPU_LOADOP_CLEAR.
-	colorTargetInfos first clearColor updateFrom: (Color r: 0.05 g: 0.05 b: 0.1). "Dark theme"
+		beClear: (Color r: 0.05 g: 0.05 b: 0.1). "Dark background"
 
-	uniforms := SDL3GPUShimmerUniforms externalNew.
-	uniforms autoRelease.
+	uniforms := SDL3GPUShimmerUniforms safeNew.
 	uniforms
 		effectType: effectType;
 		time: 0.0;
@@ -119,94 +103,151 @@ SDL3GPUShimmerDemo >> initializeGeometry [
 { #category : 'initialization' }
 SDL3GPUShimmerDemo >> initializePipeline [
 
-	| vertexShader fragmentShader shaderFormats vertexAttributes vertexBindings pipelineCreateInfo colorTargets |
+	| vertexShader fragmentShader shaderFormats vertexAttributes vertexBindings colorTargets |
+
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
 
 	vertexShader := SDL3GPUShimmerVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice.
 	fragmentShader := SDL3GPUShimmerFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice.
 
-	vertexBindings := FFIExternalArray externalNewType: SDL_GPUVertexBufferDescription size: 2.
-	vertexBindings autoRelease.
-	
+	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
+
 	"Binding 0: Quad vertices (per vertex)"
-	(vertexBindings at: 1)
+	vertexBindings first
 		slot: 0;
 		pitch: SDL3GPUQuadVertex structureSize;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		instanceStepRate: 0.
-		
+
 	"Binding 1: Instance Data (per instance)"
-	(vertexBindings at: 2)
+	vertexBindings second
 		slot: 1;
 		pitch: SDL3GPUShimmerInstance structureSize;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_INSTANCE;
 		instanceStepRate: 0.
 
-	vertexAttributes := FFIExternalArray externalNewType: SDL_GPUVertexAttribute size: 4.
-	vertexAttributes autoRelease.
+	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 4.
 
 	"Quad Position (Attribute 0)"
-	(vertexAttributes at: 1)
+	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
 		location: 0;
 		offset: 0.
-		
+
 	"Quad TexCoord (Attribute 1)"
-	(vertexAttributes at: 2)
+	vertexAttributes second
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
 		location: 1;
 		offset: 3 * FFIFloat32 externalTypeSize.
-		
+
 	"Instance Bounds (Attribute 2)"
-	(vertexAttributes at: 3)
+	vertexAttributes third
 		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
 		location: 2;
 		offset: 0.
 
 	"Instance Extra/Radius (Attribute 3)"
-	(vertexAttributes at: 4)
+	vertexAttributes fourth
 		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
 		location: 3;
 		offset: 16.
 
-	colorTargets := FFIExternalArray externalNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets autoRelease.
-	colorTargets first 
+	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
+	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState: (SDL_GPUColorTargetBlendState new
-			enableBlend: true;
-			srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-			dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-			colorBlendOp: SDL_GPU_BLENDOP_ADD;
-			srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-			dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ZERO;
-			alphaBlendOp: SDL_GPU_BLENDOP_ADD;
-			yourself).
+		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew.
-	pipelineCreateInfo autoRelease.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: vertexShader;
-		fragmentShader: fragmentShader.
-	pipelineCreateInfo targetInfo
-		colorTargetDescriptions: colorTargets;
-		numColorTargets: 1;
-		hasDepthStencilTarget: false.
-	pipelineCreateInfo vertexInputState
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 4;
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 2.
+	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+		info
+			vertex: vertexShader
+			fragment: fragmentShader
+			targets: colorTargets.
+		info vertexInputState
+			attributes: vertexAttributes
+			bindings: vertexBindings ].
 
-	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
+	vertexShader release.
+	fragmentShader release
+]
 
-	gpuDevice releaseGPUShader: vertexShader.
-	gpuDevice releaseGPUShader: fragmentShader.
+{ #category : 'initialization' }
+SDL3GPUShimmerDemo >> initializeQuadBuffers: instances [
+
+	vertexBuffer := gpuDevice
+		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                size: 4 * SDL3GPUQuadVertex structureSize.
+
+	indexBuffer := gpuDevice
+		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               size: 6 * 2.
+
+	instanceBuffer := gpuDevice
+		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  size: instances size * SDL3GPUShimmerInstance structureSize.
+
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: vertexBuffer
+			type: SDL3GPUQuadVertex
+			count: 4
+			cycle: false
+			fillWith: [ :vertices |
+				vertices first
+					x: 0.0;
+					y: 0.0;
+					z: 0.0;
+					u: 0.0;
+					v: 0.0.
+				vertices second
+					x: 1.0;
+					y: 0.0;
+					z: 0.0;
+					u: 1.0;
+					v: 0.0.
+				vertices third
+					x: 1.0;
+					y: 1.0;
+					z: 0.0;
+					u: 1.0;
+					v: 1.0.
+				vertices fourth
+					x: 0.0;
+					y: 1.0;
+					z: 0.0;
+					u: 0.0;
+					v: 1.0 ].
+
+		uploader
+			uploadTo: indexBuffer
+			type: FFIUInt16
+			count: 6
+			cycle: false
+			fillWith: [ :indices |
+				indices
+					at: 1 put: 0;
+					at: 2 put: 1;
+					at: 3 put: 2;
+					at: 4 put: 0;
+					at: 5 put: 2;
+					at: 6 put: 3 ].
+
+		uploader
+			uploadTo: instanceBuffer
+			type: SDL3GPUShimmerInstance
+			count: instances size
+			cycle: false
+			fillWith: [ :mappedInstances |
+				instances withIndexDo: [ :inst :idx |
+					(mappedInstances at: idx)
+						x: inst x;
+						y: inst y;
+						w: inst w;
+						h: inst h;
+						radius: inst radius ] ] ]
 ]
 
 { #category : 'initialization' }
@@ -214,7 +255,7 @@ SDL3GPUShimmerDemo >> mockUIPanels [
 	"Create a social network feed loading state."
 	| panels |
 	panels := OrderedCollection new.
-	
+
 	"Post 1"
 	"Avatar (Circle)"
 	panels add: (SDL3GPUShimmerInstance new x: 40/1280.0; y: 40/720.0; w: 60/1280.0; h: 60/720.0; radius: 30.0).
@@ -239,10 +280,25 @@ SDL3GPUShimmerDemo >> open [
 	self initializePipeline
 ]
 
+{ #category : 'initialization' }
+SDL3GPUShimmerDemo >> setupGeometryBindings [
+
+	vertexBufferBindings first
+		buffer: vertexBuffer;
+		offset: 0.
+	vertexBufferBindings second
+		buffer: instanceBuffer;
+		offset: 0.
+
+	indexBufferBinding := SDL_GPUBufferBinding
+		                      buffer: indexBuffer
+		                      offset: 0
+]
+
 { #category : 'hooks' }
 SDL3GPUShimmerDemo >> step [
 
-	uniforms 
+	uniforms
 		time: Time millisecondClockValue / 1000.0;
 		resolutionX: (window extent x max: 1) asFloat;
 		resolutionY: (window extent y max: 1) asFloat.
@@ -265,106 +321,16 @@ SDL3GPUShimmerDemo >> updatedTitle [
 SDL3GPUShimmerDemo >> uploadGeometry: instances [
 	"Upload quad vertices, indices, and instance data (panels)."
 
-	| vertices indices vTransfer iTransfer instTransfer mappedAddress vSize iSize instSize copyCommandBuffer mappedInstances |
-
-	"1. Quad Vertices (Standard 1x1 quad)"
-	vSize := 4 * SDL3GPUQuadVertex structureSize.
-	vertexBuffer := gpuDevice newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: vSize.
-	vTransfer := gpuDevice newUploadTransferBuffer: vSize.
-	mappedAddress := gpuDevice mapGPUTransferBuffer: vTransfer cycle: false.
-	
-	vertices := FFIArray fromHandle: mappedAddress type: SDL3GPUQuadVertex size: 4.
-	(vertices at: 1) x: 0.0; y: 0.0; z: 0.0; u: 0.0; v: 0.0.
-	(vertices at: 2) x: 1.0; y: 0.0; z: 0.0; u: 1.0; v: 0.0.
-	(vertices at: 3) x: 1.0; y: 1.0; z: 0.0; u: 1.0; v: 1.0.
-	(vertices at: 4) x: 0.0; y: 1.0; z: 0.0; u: 0.0; v: 1.0.
-	
-	gpuDevice unmapGPUTransferBuffer: vTransfer.
-
-	"2. Quad Indices"
-	iSize := 6 * 2. "16-bit indices"
-	indexBuffer := gpuDevice newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: iSize.
-	iTransfer := gpuDevice newUploadTransferBuffer: iSize.
-	mappedAddress := gpuDevice mapGPUTransferBuffer: iTransfer cycle: false.
-	
-	indices := FFIArray fromHandle: mappedAddress type: FFIUInt16 size: 6.
-	indices at: 1 put: 0. indices at: 2 put: 1. indices at: 3 put: 2.
-	indices at: 4 put: 0. indices at: 5 put: 2. indices at: 6 put: 3.
-	
-	gpuDevice unmapGPUTransferBuffer: iTransfer.
-
-	"3. Instance Data (Social Network Layout)"
-	instSize := instances size * SDL3GPUShimmerInstance structureSize.
-	instanceBuffer := gpuDevice newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: instSize.
-	instTransfer := gpuDevice newUploadTransferBuffer: instSize.
-	mappedAddress := gpuDevice mapGPUTransferBuffer: instTransfer cycle: false.
-	
-	mappedInstances := FFIArray fromHandle: mappedAddress type: SDL3GPUShimmerInstance size: instances size.
-	instances withIndexDo: [ :inst :idx |
-		(mappedInstances at: idx)
-			x: inst x;
-			y: inst y;
-			w: inst w;
-			h: inst h;
-			radius: inst radius.
-	].
-	gpuDevice unmapGPUTransferBuffer: instTransfer.
-
-	"Upload"
-	copyCommandBuffer := gpuDevice acquireGPUCommandBuffer.
-	[ :copyPass |
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					transferBuffer: vTransfer;
-					offset: 0;
-					yourself)
-			destination: (SDL_GPUBufferRegion new
-					buffer: vertexBuffer;
-					offset: 0;
-					size: vSize;
-					yourself)
-			cycle: false.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					transferBuffer: iTransfer;
-					offset: 0;
-					yourself)
-			destination: (SDL_GPUBufferRegion new
-					buffer: indexBuffer;
-					offset: 0;
-					size: iSize;
-					yourself)
-			cycle: false.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					transferBuffer: instTransfer;
-					offset: 0;
-					yourself)
-			destination: (SDL_GPUBufferRegion new
-					buffer: instanceBuffer;
-					offset: 0;
-					size: instSize;
-					yourself)
-			cycle: false.
-		copyPass end ] value: copyCommandBuffer beginGPUCopyPass.
-	copyCommandBuffer submit.
-
-	gpuDevice releaseGPUTransferBuffer: vTransfer.
-	gpuDevice releaseGPUTransferBuffer: iTransfer.
-	gpuDevice releaseGPUTransferBuffer: instTransfer.
-
-	vertexBufferBindings first buffer: vertexBuffer; offset: 0.
-	vertexBufferBindings second buffer: instanceBuffer; offset: 0.
-	
-	indexBufferBinding := SDL_GPUBufferBinding externalNew buffer: indexBuffer; offset: 0; yourself.
-	indexBufferBinding autoRelease.
+	self
+		initializeQuadBuffers: instances;
+		setupGeometryBindings
 ]
 
 { #category : 'hooks' }
 SDL3GPUShimmerDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
-	
+
 	aKeyboardDownEvent key = SDLK_RIGHT asInteger ifTrue: [
 		effectType := (effectType + 1) \\ 3.
 		uniforms effectType: effectType ].

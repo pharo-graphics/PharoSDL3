@@ -51,34 +51,34 @@ RWTexture2D<float4> Atlas : register(u0, space1);
 void main(uint3 id : SV_DispatchThreadID) {
    uint width, height;
    Atlas.GetDimensions(width, height);
-   
+
    if (id.x >= p.tileSize || id.y >= p.tileSize) return;
 
    uint atlasWidth = width / p.tileSize;
    uint slotX = p.atlasSlot % atlasWidth;
    uint slotY = p.atlasSlot / atlasWidth;
-   
+
    uint pixelX = slotX * p.tileSize + id.x;
    uint pixelY = slotY * p.tileSize + id.y;
 
    float3 colorSum = float3(0, 0, 0);
-   
+
    // 2x2 Super-sampling for high clarity
    for (int i = 0; i < 2; i++) {
        for (int j = 0; j < 2; j++) {
            float dx = (float(i) + 0.5) * 0.5;
            float dy = (float(j) + 0.5) * 0.5;
-           
+
            float u = (float(id.x) + dx) / float(p.tileSize);
            float v = (float(id.y) + dy) / float(p.tileSize);
-           
+
            float x0 = lerp(p.x1, p.x2, u);
            float y0 = lerp(p.y1, p.y2, v);
-           
+
            float x = 0.0;
            float y = 0.0;
            uint iteration = 0;
-           
+
            // Bailout 16.0 for smoother potential function
            while (x*x + y*y <= 16.0 && iteration < p.maxIterations) {
                float xTemp = x*x - y*y + x0;
@@ -86,7 +86,7 @@ void main(uint3 id : SV_DispatchThreadID) {
                x = xTemp;
                iteration++;
            }
-           
+
            if (iteration == p.maxIterations) {
                colorSum += float3(0, 0, 0);
            } else {
@@ -94,13 +94,13 @@ void main(uint3 id : SV_DispatchThreadID) {
                float log_zn = log(x*x + y*y) / 2.0;
                float nu = log(log_zn / log(2.0)) / log(2.0);
                float t = (float(iteration) + 1.0 - nu) / float(p.maxIterations);
-               
+
                // Enhanced cyclic palette
                colorSum += 0.5 + 0.5 * cos(3.0 + t * 15.0 + float3(0.0, 0.6, 1.0));
            }
        }
    }
-   
+
    Atlas[uint2(pixelX, pixelY)] = float4(colorSum / 4.0, 1.0);
 }
 '

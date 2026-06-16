@@ -41,16 +41,16 @@ SDL3TileManager >> visibleTileKeys [
 	| lod fractalTileSize minFractal maxFractal startX startY endX endY keys |
 	lod := self lod.
 	fractalTileSize := 4.0 / (2 ** lod). "Width 4.0 is base scale"
-	
+
 	"Viewport bounds in fractal space"
 	minFractal := camera logicalToFractal: 0 @ 0.
 	maxFractal := camera logicalToFractal: camera viewportExtent.
-	
+
 	startX := ((minFractal x min: maxFractal x) / fractalTileSize) floor.
 	endX := ((minFractal x max: maxFractal x) / fractalTileSize) floor.
 	startY := ((minFractal y min: maxFractal y) / fractalTileSize) floor.
 	endY := ((minFractal y max: maxFractal y) / fractalTileSize) floor.
-	
+
 	keys := OrderedCollection new.
 	startX to: endX do: [ :x |
 		startY to: endY do: [ :y |

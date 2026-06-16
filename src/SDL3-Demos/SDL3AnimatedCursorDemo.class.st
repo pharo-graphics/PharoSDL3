@@ -39,28 +39,6 @@ SDL3AnimatedCursorDemo >> close [
 	super close
 ]
 
-{ #category : 'initialization' }
-SDL3AnimatedCursorDemo >> createAnimatedCursorFromFrames: frames delays: anArray hotspot: h [
-
-	| frameInfos |
-	frameInfos := FFIExternalArray
-		              externalNewType: SDL3CursorFrameInfo
-		              size: frames size.
-	frameInfos autoRelease.
-
-	frames doWithIndex: [ :surface :i | 
-		| info |
-		info := frameInfos at: i.
-		info surface: surface.
-		info duration: (anArray at: i) ].
-
-	^ SDL3Cursor
-		  unsafeNewAnimatedFrames: frameInfos
-		  frameCount: frames size
-		  hotX: h x
-		  hotY: h y
-]
-
 { #category : 'accessing' }
 SDL3AnimatedCursorDemo >> crosshairSize [
 
@@ -324,10 +302,7 @@ SDL3AnimatedCursorDemo >> initialExtent [
 SDL3AnimatedCursorDemo >> newAnimatedCursorFromFrames: frames delays: anArray hotspot: h [
 
 	| frameInfos |
-	frameInfos := FFIExternalArray
-		              externalNewType: SDL3CursorFrameInfo
-		              size: frames size.
-	frameInfos autoRelease.
+	frameInfos := SDL_CursorFrameInfo safeNewArray: frames size.
 
 	frames doWithIndex: [ :surface :i | 
 		| info |

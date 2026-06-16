@@ -56,11 +56,11 @@ float GetDotScreen(float2 uv, float scale)
 {
    // Convert 0..1 UV to Centered Pixel Coordinates
    float2 p = (uv - 0.5f) * resolution;
-   
+
    // Rotate
    // Note: HLSL standard is mul(vector, matrix) for row vectors
    float2 q = p * scale;
-   
+
    return (sin(q.x) * sin(q.y)) * 4.0f;
 }
 
@@ -76,18 +76,18 @@ float4 main(PSInput input) : SV_Target
 {
    // 1. Sample Texture
    float3 col = (InputTexture.Sample(InputSampler, input.uv) * input.color).rgb;
-   
+
    // 2. Grayscale
    float grey = GetGreyScale(col);
-   
+
    // 3. Calculate Parameters
    float scale = 1.0f + 0.3f * sin(time / 10.0f);
-   
+
    // 4. Apply Dot Screen Pattern
    // The original code creates a vec3 where all channels are identical
    float pattern = GetDotScreen(input.uv, scale);
    float finalVal = grey * 10.0f - 5.0f + pattern;
-   
+
    col = float3(finalVal, finalVal, finalVal);
 
    return float4(col, 1.0f);
