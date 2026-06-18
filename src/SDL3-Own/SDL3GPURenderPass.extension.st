@@ -1,64 +1,80 @@
 Extension { #name : 'SDL3GPURenderPass' }
 
 { #category : '*SDL3-Own' }
-SDL3GPURenderPass >> bindGPUFragmentSamplersFirstSlot: firstSlot textureSamplerBindings: textureSamplerBindings [
+SDL3GPURenderPass >> fragmentSamplers: textureSamplerBindings slot: firstSlot [
 
 	^ self
-		 bindGPUFragmentSamplersFirstSlot: firstSlot
-		 textureSamplerBindings: (textureSamplerBindings ifEmpty: [ ExternalAddress null ])
-		 numBindings: textureSamplerBindings size
+		 fragmentSamplersSlot: firstSlot
+		 bindings: (textureSamplerBindings ifEmpty: [ ExternalAddress null ])
+		 count: textureSamplerBindings size
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPURenderPass >> bindGPUFragmentStorageBuffersFirstSlot: firstSlot storageBuffers: storageBuffers [
+SDL3GPURenderPass >> fragmentStorageBuffers: storageBuffers slot: firstSlot [
 
 	^ self
-		 bindGPUFragmentStorageBuffersFirstSlot: firstSlot
-		 storageBuffers: (storageBuffers ifEmpty: [ ExternalAddress null ])
-		 numBindings: storageBuffers size
+		 fragmentStorageBuffersSlot: firstSlot
+		 bindings: (storageBuffers ifEmpty: [ ExternalAddress null ])
+		 count: storageBuffers size
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPURenderPass >> bindGPUFragmentStorageTexturesFirstSlot: firstSlot storageTextures: storageTextures [
+SDL3GPURenderPass >> fragmentStorageTextures: storageTextures slot: firstSlot [
 
 	^ self
-		 bindGPUFragmentStorageTexturesFirstSlot: firstSlot
-		 storageTextures: (storageTextures ifEmpty: [ ExternalAddress null ])
-		 numBindings: storageTextures size
+		 fragmentStorageTexturesSlot: firstSlot
+		 bindings: (storageTextures ifEmpty: [ ExternalAddress null ])
+		 count: storageTextures size
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPURenderPass >> bindGPUVertexBuffersFirstSlot: firstSlot bindings: bindings [
+SDL3GPURenderPass >> indexBuffer16Bit: aBinding [
 
-	^ self
-		 bindGPUVertexBuffersFirstSlot: firstSlot
-		 bindings: (bindings ifEmpty: [ ExternalAddress null ])
-		 numBindings: bindings size
+	self
+		indexBuffer: aBinding
+		elementSize: SDL3GPUIndexElementSize at16bit
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPURenderPass >> bindGPUVertexSamplersFirstSlot: firstSlot textureSamplerBindings: textureSamplerBindings [
+SDL3GPURenderPass >> indexBuffer32Bit: aBinding [
 
-	^ self
-		 bindGPUVertexSamplersFirstSlot: firstSlot
-		 textureSamplerBindings: (textureSamplerBindings ifEmpty: [ ExternalAddress null ])
-		 numBindings: textureSamplerBindings size
+	self
+		indexBuffer: aBinding
+		elementSize: SDL3GPUIndexElementSize at32bit
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPURenderPass >> bindGPUVertexStorageBuffersFirstSlot: firstSlot storageBuffers: storageBuffers [
+SDL3GPURenderPass >> vertexBuffers: anArray slot: firstSlot [
 
 	^ self
-		 bindGPUVertexStorageBuffersFirstSlot: firstSlot
-		 storageBuffers: (storageBuffers ifEmpty: [ ExternalAddress null ])
-		 numBindings: storageBuffers size
+		 vertexBuffersSlot: firstSlot
+		 bindings: (anArray ifEmpty: [ ExternalAddress null ])
+		 count: anArray size
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPURenderPass >> bindGPUVertexStorageTexturesFirstSlot: firstSlot storageTextures: storageTextures [
+SDL3GPURenderPass >> vertexSamplers: textureSamplerBindings slot: firstSlot [
 
 	^ self
-		 bindGPUVertexStorageTexturesFirstSlot: firstSlot
-		 storageTextures: (storageTextures ifEmpty: [ ExternalAddress null ])
-		 numBindings: storageTextures size
+		 vertexSamplersSlot: firstSlot
+		 bindings: (textureSamplerBindings ifEmpty: [ ExternalAddress null ])
+		 count: textureSamplerBindings size
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPURenderPass >> vertexStorageBuffers: storageBuffers slot: firstSlot [
+
+	^ self
+		 vertexStorageBuffersSlot: firstSlot
+		 bindings: (storageBuffers ifEmpty: [ ExternalAddress null ])
+		 count: storageBuffers size
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPURenderPass >> vertexStorageTextures: storageTextures slot: firstSlot [
+
+	^ self
+		 vertexStorageTexturesSlot: firstSlot
+		 bindings: (storageTextures ifEmpty: [ ExternalAddress null ])
+		 count: storageTextures size
 ]

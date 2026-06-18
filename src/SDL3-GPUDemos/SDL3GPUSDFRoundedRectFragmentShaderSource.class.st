@@ -77,7 +77,7 @@ float4 main(PSInput input) : SV_Target {
    float2 dimensions = float2(dimX, dimY);
    float4 cornerRadii = float4(cornerR1, cornerR2, cornerR3, cornerR4);
    float2 p = (input.uv - 0.5) * dimensions;
-   
+
    float d = 0.0;
    if (shapeType == 0) {
        // Circle: radius is clamped to min dimension / 2
@@ -92,19 +92,19 @@ float4 main(PSInput input) : SV_Target {
        f = min(f, dimensions.y / max(0.0001, r.w + r.z)); // Left Edge
        f = min(f, dimensions.y / max(0.0001, r.y + r.x)); // Right Edge
        r *= f;
-       
+
        d = sdRoundedBox(p, dimensions * 0.5, r);
    }
-   
+
    // Anti-aliasing using fwidth or smoothstep
    float aa = fwidth(d) * 0.7071;
-   
+
    // Inside the shape
    float shapeAlpha = 1.0 - smoothstep(-aa, aa, d);
-   
+
    // Stroke distance
    float strokeD = abs(d + strokeSize * 0.5) - strokeSize * 0.5;
-   
+
    // Dashed stroke logic
    float dashAlpha = 1.0;
    if (dashCount > 0.0) {
@@ -115,7 +115,7 @@ float4 main(PSInput input) : SV_Target {
            s = normalizedAngle * dashCount;
        } else {
            float2 b = dimensions * 0.5;
-           
+
            // Re-apply CSS-like scaling to get accurate centers
            float4 r = cornerRadii;
            float f = 1.0;
@@ -130,14 +130,14 @@ float4 main(PSInput input) : SV_Target {
            float2 cBR = float2( b.x - rBR,  b.y - rBR);
            float2 cBL = float2(-b.x + rBL,  b.y - rBL);
            float2 cTL = float2(-b.x + rTL, -b.y + rTL);
-           
+
            float pTop = cTR.x - cTL.x;       float pTR = (PI / 2.0) * rTR;
            float pRight = cBR.y - cTR.y;     float pBR = (PI / 2.0) * rBR;
            float pBottom = cBR.x - cBL.x;    float pBL = (PI / 2.0) * rBL;
            float pLeft = cBL.y - cTL.y;      float pTL = (PI / 2.0) * rTL;
-           
+
            float perimeter = pTop + pTR + pRight + pBR + pBottom + pBL + pLeft + pTL;
-           
+
            if (p.x > cTR.x && p.y < cTR.y) {
                float angle = atan2(p.x - cTR.x, -(p.y - cTR.y));
                s = pTop + angle * rTR;
@@ -155,7 +155,7 @@ float4 main(PSInput input) : SV_Target {
                float dBottom = abs(p.y - b.y);
                float dLeft = abs(p.x - (-b.x));
                float dRight = abs(p.x - b.x);
-               
+
                if (dTop <= dBottom && dTop <= dLeft && dTop <= dRight) {
                    s = p.x - cTL.x;
                } else if (dRight <= dBottom && dRight <= dLeft) {
@@ -171,9 +171,9 @@ float4 main(PSInput input) : SV_Target {
        float dashPattern = fmod(s, 2.0);
        dashAlpha = dashPattern < 1.0 ? 1.0 : 0.0;
    }
-   
+
    float strokeAlpha = (1.0 - smoothstep(-aa, aa, strokeD)) * dashAlpha;
-   
+
    // Gradient fill logic
    float4 currentFillColor = fillColor;
    if (fillType == 1) { // Linear gradient (vertical)
@@ -182,13 +182,13 @@ float4 main(PSInput input) : SV_Target {
        float distFromCenter = length(input.uv - 0.5) * 2.0; // 0 at center, 1 at edge
        currentFillColor = lerp(fillColor, fillColor2, clamp(distFromCenter, 0.0, 1.0));
    }
-   
+
    // Combine fill and stroke
    float4 finalColor = lerp(float4(currentFillColor.rgb, 0.0), currentFillColor, shapeAlpha);
    if (strokeSize > 0.0) {
        finalColor = lerp(finalColor, strokeColor, strokeAlpha);
    }
-   
+
    return finalColor;
 }
 '

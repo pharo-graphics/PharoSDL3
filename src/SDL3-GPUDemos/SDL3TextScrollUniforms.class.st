@@ -78,6 +78,8 @@ Class {
 
 { #category : 'field definition' }
 SDL3TextScrollUniforms class >> fieldsDesc [
+	<script: 'self rebuildFieldAccessors'>
+
 	^ #(
 	float scrollOffsetX;
 	float scrollOffsetY;

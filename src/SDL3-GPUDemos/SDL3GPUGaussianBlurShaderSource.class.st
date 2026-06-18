@@ -62,9 +62,9 @@ void main(uint3 id : SV_DispatchThreadID)
 
    float4 color = float4(0, 0, 0, 0);
    float totalWeight = 0.0;
-   
+
    int radius = (int)ceil(blurRadius * 3.0);
-   
+
    for (int i = -radius; i <= radius; i++) {
        float2 offset;
        if (direction == 0) {
@@ -72,12 +72,12 @@ void main(uint3 id : SV_DispatchThreadID)
        } else {
            offset = float2(0, i) * texelSize * blurSpread;
        }
-       
+
        float weight = exp(-(float(i * i)) / (2.0 * blurRadius * blurRadius + 0.001));
        color += InputTexture.SampleLevel(InputSampler, uv + offset, 0.0) * weight;
        totalWeight += weight;
    }
-   
+
    OutputTexture[id.xy] = (color / totalWeight) * brightness;
 }
 '

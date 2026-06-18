@@ -5,6 +5,7 @@ SDL3GPUDevice >> acquireGPUCommandBuffer [
 
 	^ (self ffiLibrary acquireGPUCommandBuffer: self)
 		  assertNotNullReturn;
+		  device: self;
 		  yourself
 ]
 
@@ -102,71 +103,9 @@ SDL3GPUDevice >> mapGPUTransferBuffer: transferBuffer cycle: cycle [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUDevice >> newGPUBufferCreateinfo: createinfo [
-
-	^ (self ffiLibrary newGPUBufferDevice: self createinfo: createinfo)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> newGPUComputePipelineCreateinfo: createinfo [
-
-	^ (self ffiLibrary
-		   newGPUComputePipelineDevice: self
-		   createinfo: createinfo)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> newGPUGraphicsPipelineCreateinfo: createinfo [
-
-	^ (self ffiLibrary
-		   newGPUGraphicsPipelineDevice: self
-		   createinfo: createinfo)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
 SDL3GPUDevice >> newGPURendererWindow: window [
 
 	^ (self ffiLibrary newGPURendererDevice: self window: window)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> newGPUSamplerCreateinfo: createinfo [
-
-	^ (self ffiLibrary newGPUSamplerDevice: self createinfo: createinfo)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> newGPUShaderCreateinfo: createinfo [
-
-	^ (self ffiLibrary newGPUShaderDevice: self createinfo: createinfo)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> newGPUTextureCreateinfo: createinfo [
-
-	^ (self ffiLibrary newGPUTextureDevice: self createinfo: createinfo)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> newGPUTransferBufferCreateinfo: createinfo [
-
-	^ (self ffiLibrary
-		   newGPUTransferBufferDevice: self
-		   createinfo: createinfo)
 		  assertNotNullReturn;
 		  yourself
 ]
@@ -181,60 +120,6 @@ SDL3GPUDevice >> propertiesID [
 SDL3GPUDevice >> queryGPUFence: fence [
 
 	^ self ffiLibrary queryGPUFenceDevice: self fence: fence
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUBuffer: buffer [
-
-	self ffiLibrary releaseGPUBufferDevice: self buffer: buffer
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUComputePipeline: computePipeline [
-
-	self ffiLibrary
-		releaseGPUComputePipelineDevice: self
-		computePipeline: computePipeline
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUFence: fence [
-
-	self ffiLibrary releaseGPUFenceDevice: self fence: fence
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUGraphicsPipeline: graphicsPipeline [
-
-	self ffiLibrary
-		releaseGPUGraphicsPipelineDevice: self
-		graphicsPipeline: graphicsPipeline
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUSampler: sampler [
-
-	self ffiLibrary releaseGPUSamplerDevice: self sampler: sampler
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUShader: shader [
-
-	self ffiLibrary releaseGPUShaderDevice: self shader: shader
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUTexture: texture [
-
-	self ffiLibrary releaseGPUTextureDevice: self texture: texture
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUDevice >> releaseGPUTransferBuffer: transferBuffer [
-
-	self ffiLibrary
-		releaseGPUTransferBufferDevice: self
-		transferBuffer: transferBuffer
 ]
 
 { #category : '*SDL3-API' }

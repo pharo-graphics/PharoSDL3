@@ -24,7 +24,7 @@ Class {
 SDL3GPURenderStateDemo >> close [
 
 	renderStates do: [ :each | each destroy ].
-	shaders do: [ :each | gpuDevice releaseGPUShader: each ].
+	shaders do: [ :each | each release ].
 
 	foregroundTexture destroy.
 	backgroundTexture destroy.
@@ -52,7 +52,7 @@ SDL3GPURenderStateDemo >> initialize [
 		SDL3CRTEffectShaderSource.
 		SDL3DotsHalftoneShaderSource.
 		SDL3HighlightShaderSource.
-		SDL3MoireShaderSource 
+		SDL3MoireShaderSource
 		}.
 
 	renderStateIndex := 1
@@ -65,12 +65,11 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 	supportedShaderFormats := gpuDevice gpuShaderFormatsAsArray.
 
 	shaderSources do: [ :eachSources |
-		| aShader renderStateInfo aRenderState |
+		| aShader aRenderState |
 		aShader := eachSources newShaderAmong: supportedShaderFormats device: gpuDevice.
 
-		renderStateInfo := SDL_GPURenderStateCreateInfo new.
-		renderStateInfo fragmentShader: aShader.
-		aRenderState := renderer newGPURenderStateCreateinfo: renderStateInfo.
+		aRenderState := renderer newRenderState: [ :info |
+			info fragmentShader: aShader ].
 
 		shaders add: aShader. "Keep a reference to destroy on close"
 		renderStates add: aRenderState "These will be switched with arrow keys" ].
@@ -109,9 +108,9 @@ SDL3GPURenderStateDemo >> open [
 			flags: self initialWindowFlags.
 
 	renderer := window newGPURenderer.
-	
+
 	window startTextInput.
-	
+
 	gpuDevice := renderer gpuDevice.
 
 	self
@@ -144,7 +143,7 @@ SDL3GPURenderStateDemo >> render [
 				origin: (backgroundTexture extent - foregroundTexture extent / 2)
 				extent: foregroundTexture extent).
 
-	"We're done with rendering this frame, so let's present it on the window"	
+	"We're done with rendering this frame, so let's present it on the window"
 	self present
 ]
 
@@ -165,9 +164,8 @@ SDL3GPURenderStateDemo >> updateRenderState: renderState [
 		resolutionY: backgroundTexture h.
 
 	renderState
-		fragmentUniformsSlotIndex: 0
-		data: uniformBuffer
-		length: uniformBuffer byteSize.
+		pushFragmentUniform: uniformBuffer
+		slot: 0.
 
 	renderer gpuRenderState: renderState
 ]
@@ -195,6 +193,6 @@ SDL3GPURenderStateDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		renderStateIndex := renderStateIndex - 1.
 		renderStateIndex < 1 ifTrue: [
 			renderStateIndex := renderStates size ] ].
-	
+
 	self updateTitle
 ]

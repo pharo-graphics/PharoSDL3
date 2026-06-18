@@ -11,3 +11,19 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3Structure class >> safeNew [
+
+	^ self externalNew
+		autoRelease;
+		yourself
+]
+
+{ #category : 'instance creation' }
+SDL3Structure class >> safeNewArray: anInteger [
+
+	^ (FFIExternalArray externalNewType: self size: anInteger)
+		autoRelease;
+		yourself
+]

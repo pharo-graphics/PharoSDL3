@@ -70,13 +70,13 @@ float4 main(PSInput input) : SV_Target
 {
    float4 input_color = InputTexture.Sample(InputSampler, input.uv) * input.color;
    float width = 0.001 * frequency * highlight_width / 2.0;
-	
+
 	// can play with + or - sign for each UV
 	// to control which direction the highlight moves
 	// ex. -UV.x - UV.y makes the highlight go from
 	// top left to bottom right
    float value = floor(sin(frequency * ((input.uv.x - input.uv.y) + time * highlight_speed)) + width);
-	
+
 	// used to control when to use input color vs highlight color
    float highlight = value > 0.5 ? 1.0 : 0.0;
    float3 new_color = input_color.rgb * (1.0 - highlight) + highlight_color.rgb * highlight;

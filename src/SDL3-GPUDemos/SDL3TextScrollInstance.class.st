@@ -19,6 +19,8 @@ Class {
 
 { #category : 'field definition' }
 SDL3TextScrollInstance class >> fieldsDesc [
+	<script: 'self rebuildFieldAccessors'>
+
 	^ #(
 	float posX;
 	float posY;

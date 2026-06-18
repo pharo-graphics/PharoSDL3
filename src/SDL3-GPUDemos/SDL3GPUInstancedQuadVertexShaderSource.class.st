@@ -60,10 +60,10 @@ struct VertexOutput {
 
 VertexOutput main(VertexInput input) {
  VertexOutput output;
- 
+
  float col = fmod((float)input.instanceID, numCols);
  float row = floor((float)input.instanceID / numCols);
- 
+
  float zoom = 1.1;
  float quadW = (2.0 / numCols) * zoom;
  float quadH = (2.0 / numRows) * zoom;
@@ -73,7 +73,7 @@ VertexOutput main(VertexInput input) {
  float y_offset = 1.0 - (row * (2.0 / numRows)) + (cos(p) * 0.05);
 
  float2 pos = input.position;
- 
+
  // Center pos before scale/rotate (pos is 0..1 in x, 0..-1 in y)
  pos.x -= 0.5;
  pos.y += 0.5;
@@ -96,13 +96,13 @@ VertexOutput main(VertexInput input) {
  // Uncenter and scale to final size
  pos.x += 0.5;
  pos.y -= 0.5;
- 
+
  pos.x = (pos.x * quadW) + x_offset;
  pos.y = (pos.y * quadH) + y_offset;
 
  output.position = float4(pos, 0.0, 1.0);
  output.uv = input.uv;
- 
+
  float r = fmod(input.instanceID * 0.13, 1.0);
  float g = fmod(input.instanceID * 0.37, 1.0);
  float b = fmod(input.instanceID * 0.71, 1.0);

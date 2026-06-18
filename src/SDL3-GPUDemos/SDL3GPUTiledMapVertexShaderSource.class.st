@@ -55,13 +55,13 @@ VertexOutput main(VertexInput vIn, InstanceInput iIn) {
    // Position in NDC
    float2 pos = (vIn.Position.xy * iIn.ScreenRect.zw) + iIn.ScreenRect.xy;
    vOut.Position = float4(pos * 2.0 - 1.0, 0.5, 1.0);
-   
+
    // Map local quad UV (0..1) to Atlas region UV
    // Shrink by half-texel to avoid bleeding from neighboring slots
    // 4096.0 assumes an 8x8 grid of 512x512 tiles.
    float2 halfTexel = 0.5 / 4096.0;
    vOut.TexCoord = (vIn.TexCoord * (iIn.AtlasRect.zw - 2.0 * halfTexel)) + iIn.AtlasRect.xy + halfTexel;
-   
+
    return vOut;
 }
 '

@@ -1,28 +1,28 @@
 Extension { #name : 'SDL3GPUComputePass' }
 
 { #category : '*SDL3-Own' }
-SDL3GPUComputePass >> bindGPUComputeSamplersFirstSlot: firstSlot textureSamplerBindings: textureSamplerBindings [
+SDL3GPUComputePass >> computeSamplers: textureSamplerBindings slot: firstSlot [
 
 	^ self
-		 bindGPUComputeSamplersFirstSlot: firstSlot
-		 textureSamplerBindings: (textureSamplerBindings ifEmpty: [ ExternalAddress null ])
-		 numBindings: textureSamplerBindings size
+		 computeSamplersSlot: firstSlot
+		 bindings: (textureSamplerBindings ifEmpty: [ ExternalAddress null ])
+		 count: textureSamplerBindings size
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUComputePass >> bindGPUComputeStorageBuffersFirstSlot: firstSlot storageBuffers: storageBuffers [
+SDL3GPUComputePass >> computeStorageBuffers: storageBuffers slot: firstSlot [
 
 	^ self
-		 bindGPUComputeStorageBuffersFirstSlot: firstSlot
-		 storageBuffers: (storageBuffers ifEmpty: [ ExternalAddress null ])
-		 numBindings: storageBuffers size
+		 computeStorageBuffersSlot: firstSlot
+		 bindings: (storageBuffers ifEmpty: [ ExternalAddress null ])
+		 count: storageBuffers size
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUComputePass >> bindGPUComputeStorageTexturesFirstSlot: firstSlot storageTextures: storageTextures [
+SDL3GPUComputePass >> computeStorageTextures: storageTextures slot: firstSlot [
 
 	^ self
-		 bindGPUComputeStorageTexturesFirstSlot: firstSlot
-		 storageTextures: (storageTextures ifEmpty: [ ExternalAddress null ])
-		 numBindings: storageTextures size
+		 computeStorageTexturesSlot: firstSlot
+		 bindings: (storageTextures ifEmpty: [ ExternalAddress null ])
+		 count: storageTextures size
 ]

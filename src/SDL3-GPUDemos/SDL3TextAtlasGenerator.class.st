@@ -69,15 +69,15 @@ SDL3TextAtlasGenerator >> generateAtlasFor: aCollectionOfCharacters deviceScale:
 
 		aCollectionOfCharacters do: [ :char | | charWidth |
 			charWidth := (font widthOfString: char asString) ceiling.
-			canvas pathTransform 
+			canvas pathTransform
 				loadIdentity;
 				translateX: currentX Y: font getPreciseAscent.
 			canvas drawString: char asString.
 
-			glyphMap at: char put: (Rectangle 
-				left: (currentX * deviceScale x) 
-				right: ((currentX + charWidth) * deviceScale x) 
-				top: 0 
+			glyphMap at: char put: (Rectangle
+				left: (currentX * deviceScale x)
+				right: ((currentX + charWidth) * deviceScale x)
+				top: 0
 				bottom: (font height ceiling * deviceScale y)).
 			currentX := currentX + charWidth + padding.
 		].

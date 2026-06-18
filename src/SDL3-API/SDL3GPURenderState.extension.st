@@ -16,3 +16,10 @@ SDL3GPURenderState >> fragmentUniformsSlotIndex: slotIndex data: data length: le
 			data: data
 			length: length)
 ]
+
+{ #category : '*SDL3-API' }
+SDL3GPURenderState >> releaseFromGPUDevice [
+	"Render states are technically destroyed via the renderer's library handle, but we can treat them as device-owned for consistent API."
+
+	self destroy
+]

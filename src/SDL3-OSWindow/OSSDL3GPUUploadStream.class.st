@@ -86,7 +86,7 @@ OSSDL3GPUUploadStream >> destroy [
 	"Release the GPU transfer buffer and the VM surface"
 
 	transferBuffer ifNotNil: [ 
-		gpuDevice releaseGPUTransferBuffer: transferBuffer.
+		transferBuffer release.
 		transferBuffer := nil ].
 	
 	externalForm ifNotNil: [ 
@@ -105,7 +105,7 @@ OSSDL3GPUUploadStream >> ensureBatchStarted [
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 
-	copyPass := commandBuffer beginGPUCopyPass.
+	copyPass := commandBuffer beginCopyPass.
 	currentOffset := 0
 ]
 
@@ -223,7 +223,7 @@ OSSDL3GPUUploadStream >> uploadForm: aForm region: aRectangle to: aTexture at: a
 		x: aPoint x; y: aPoint y;
 		w: aRectangle width; h: aRectangle height.
 
-	copyPass uploadToGPUTextureSource: transferInfo destination: textureRegion cycle: false.
+	copyPass uploadTexture: transferInfo destination: textureRegion cycle: false.
 
 	"5. Advance offset for next item in the stream"
 	currentOffset := currentOffset + bytesNeeded

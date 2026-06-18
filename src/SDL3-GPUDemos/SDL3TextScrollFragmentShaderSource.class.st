@@ -45,7 +45,7 @@ SamplerState atlasSampler : register(s0, space2);
 float4 main(VertexOutput input) : SV_Target0 {
  // R8 texture stores data in the red channel
  float mask = atlasTexture.Sample(atlasSampler, input.uv);
- 
+
  return lerp(input.bgColor, input.fgColor, mask);
 }'
 ]

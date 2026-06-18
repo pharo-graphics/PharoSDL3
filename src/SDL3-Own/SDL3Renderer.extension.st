@@ -19,6 +19,22 @@ SDL3Renderer >> logicalPresentationRect [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Renderer >> newRenderState: aBlock [
+
+	| info |
+	info := SDL3GPURenderStateCreateInfo externalNew.
+	^ [
+		aBlock value: info. 
+		(self ffiLibrary
+			newGPURenderStateRenderer: self
+			createinfo: info)
+			assertNotNullReturn;
+			device: self gpuDevice;
+			yourself
+		] ensure: [ info free ]
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Renderer >> newTextureFromForm: aForm [
 	"Answer a new `SDL_Texture`. The form pixels will be uploaded to the new texture, assuming form depth is 32 bits. Sender is responsible of destroying the texture."
 

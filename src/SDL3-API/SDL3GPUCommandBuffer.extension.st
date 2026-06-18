@@ -1,7 +1,7 @@
 Extension { #name : 'SDL3GPUCommandBuffer' }
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> acquireGPUSwapchainTextureForWindow: window into: swapchainTexture width: swapchainTextureWidth height: swapchainTextureHeight [
+SDL3GPUCommandBuffer >> acquireSwapchainTextureForWindow: window into: swapchainTexture width: swapchainTextureWidth height: swapchainTextureHeight [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary
@@ -13,7 +13,7 @@ SDL3GPUCommandBuffer >> acquireGPUSwapchainTextureForWindow: window into: swapch
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> beginGPUComputePassStorageTextureBindings: storageTextureBindings numStorageTextureBindings: numStorageTextureBindings storageBufferBindings: storageBufferBindings numStorageBufferBindings: numStorageBufferBindings [
+SDL3GPUCommandBuffer >> beginComputePassTextures: storageTextureBindings count: numStorageTextureBindings storageBuffers: storageBufferBindings count: numStorageBufferBindings [
 
 	^ self ffiLibrary
 		  beginGPUComputePassCommandBuffer: self
@@ -24,13 +24,16 @@ SDL3GPUCommandBuffer >> beginGPUComputePassStorageTextureBindings: storageTextur
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> beginGPUCopyPass [
+SDL3GPUCommandBuffer >> beginCopyPass [
 
-	^ self ffiLibrary beginGPUCopyPass: self
+	^ (self ffiLibrary beginGPUCopyPass: self)
+		  assertNotNullReturn;
+		  device: self device;
+		  yourself
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> beginGPURenderPassColorTargetInfos: colorTargetInfos numColorTargets: numColorTargets depthStencilTargetInfo: depthStencilTargetInfo [
+SDL3GPUCommandBuffer >> beginRenderPassTargets: colorTargetInfos count: numColorTargets depthStencil: depthStencilTargetInfo [
 
 	^ self ffiLibrary
 		  beginGPURenderPassCommandBuffer: self
@@ -40,7 +43,7 @@ SDL3GPUCommandBuffer >> beginGPURenderPassColorTargetInfos: colorTargetInfos num
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> blitGPUTextureInfo: info [
+SDL3GPUCommandBuffer >> blit: info [
 
 	self ffiLibrary blitGPUTextureCommandBuffer: self info: info
 ]
@@ -53,7 +56,7 @@ SDL3GPUCommandBuffer >> cancel [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> generateMipmapsForGPUTexture: texture [
+SDL3GPUCommandBuffer >> generateMipmaps: texture [
 
 	self ffiLibrary
 		generateMipmapsForGPUTextureCommandBuffer: self
@@ -61,19 +64,19 @@ SDL3GPUCommandBuffer >> generateMipmapsForGPUTexture: texture [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> insertGPUDebugLabelText: text [
+SDL3GPUCommandBuffer >> insertDebugLabel: text [
 
 	self ffiLibrary insertGPUDebugLabelCommandBuffer: self text: text
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> popGPUDebugGroup [
+SDL3GPUCommandBuffer >> popDebugGroup [
 
 	self ffiLibrary popGPUDebugGroup: self
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> pushGPUComputeUniformDataSlotIndex: slotIndex data: data length: length [
+SDL3GPUCommandBuffer >> pushComputeUniformSlot: slotIndex data: data length: length [
 
 	self ffiLibrary
 		pushGPUComputeUniformDataCommandBuffer: self
@@ -83,13 +86,13 @@ SDL3GPUCommandBuffer >> pushGPUComputeUniformDataSlotIndex: slotIndex data: data
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> pushGPUDebugGroupName: name [
+SDL3GPUCommandBuffer >> pushDebugGroup: name [
 
 	self ffiLibrary pushGPUDebugGroupCommandBuffer: self name: name
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> pushGPUFragmentUniformDataSlotIndex: slotIndex data: data length: length [
+SDL3GPUCommandBuffer >> pushFragmentUniformSlot: slotIndex data: data length: length [
 
 	self ffiLibrary
 		pushGPUFragmentUniformDataCommandBuffer: self
@@ -99,13 +102,20 @@ SDL3GPUCommandBuffer >> pushGPUFragmentUniformDataSlotIndex: slotIndex data: dat
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> pushGPUVertexUniformDataSlotIndex: slotIndex data: data length: length [
+SDL3GPUCommandBuffer >> pushVertexUniformSlot: slotIndex data: data length: length [
 
 	self ffiLibrary
 		pushGPUVertexUniformDataCommandBuffer: self
 		slotIndex: slotIndex
 		data: data
 		length: length
+]
+
+{ #category : '*SDL3-API' }
+SDL3GPUCommandBuffer >> releaseFromGPUDevice [
+	"Command buffers are released when they are submitted or canceled. Manual release is usually not needed but provided for completeness."
+
+	self cancel
 ]
 
 { #category : '*SDL3-API' }
@@ -120,11 +130,12 @@ SDL3GPUCommandBuffer >> submitAndAcquireFence [
 
 	^ (self ffiLibrary submitGPUCommandBufferAndAcquireFence: self)
 		  assertNotNullReturn;
+		  device: self device;
 		  yourself
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUCommandBuffer >> waitAndAcquireGPUSwapchainTextureForWindow: window into: swapchainTexture width: swapchainTextureWidth height: swapchainTextureHeight [
+SDL3GPUCommandBuffer >> waitAndAcquireSwapchainTextureForWindow: window into: swapchainTexture width: swapchainTextureWidth height: swapchainTextureHeight [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary

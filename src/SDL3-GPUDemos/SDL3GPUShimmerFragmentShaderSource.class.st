@@ -62,57 +62,57 @@ float4 main(FragmentInput input) : SV_Target {
    // p is the coordinate relative to the center of the panel
    float2 p = (input.TexCoord - 0.5) * input.PanelSize;
    float2 halfSize = input.PanelSize * 0.5;
-   float radius = input.Radius; 
-   
+   float radius = input.Radius;
+
    // Ensure radius doesn''t exceed half-dimensions
    radius = min(radius, min(halfSize.x, halfSize.y));
-   
+
    float dist = roundedRectSDF(p, halfSize, radius);
-   
+
    // Antialiased clipping: 0 outside, 1 inside
    // Use fwidth for smooth edges across different zoom/resolutions
    float edgeSoftness = fwidth(dist);
    float alpha = 1.0 - smoothstep(-edgeSoftness, edgeSoftness, dist);
-   
+
    // Early discard if completely outside for performance
    if (alpha <= 0.0) discard;
 
    float shimmer = 0.0;
-   
+
    if (effectType == 0) {
        // 0: Linear Sweep (left to right) - LOCAL COORDINATES
        float normalizedX = input.TexCoord.x;
-       
+
        // Create a sweeping wave based on time
        float wavePosition = frac(time * 0.5) * 2.0 - 0.5;
-       
+
        // Calculate distance from the wave front
        float dist = abs(normalizedX - wavePosition);
-       
+
        // Create a soft gradient peak
        shimmer = smoothstep(0.2, 0.0, dist);
-       
+
    } else if (effectType == 1) {
        // 1: Pulsate
        // Sine wave oscillating between 0.0 and 1.0
        shimmer = (sin(time * 3.0) * 0.5) + 0.5;
-       
+
    } else if (effectType == 2) {
        // 2: Angled Sweep - SCREEN COORDINATES
        // Combine X and Y for a diagonal effect
        float2 normalizedCoord = input.ScreenCoord / float2(resolutionX, resolutionY);
        float angledCoord = (normalizedCoord.x + normalizedCoord.y) * 0.5;
-       
+
        float wavePosition = frac(time * 0.5) * 2.0 - 0.5;
        float dist = abs(angledCoord - wavePosition);
-       
+
        shimmer = smoothstep(0.3, 0.0, dist);
    }
-   
+
    // Blend base and highlight colors based on the shimmer intensity
    float4 finalColor = lerp(baseColor, highlightColor, shimmer);
    finalColor.a *= alpha;
-   
+
    return finalColor;
 }
 '

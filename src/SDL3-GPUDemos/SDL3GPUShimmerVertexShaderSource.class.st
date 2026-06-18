@@ -69,18 +69,18 @@ VertexOutput main(VertexInput vIn, InstanceInput iIn) {
 
    // Convert from 0..1 space to clip space (-1..1)
    float2 clipPos = normPos * 2.0 - 1.0;
-   
+
    vOut.Position = float4(clipPos, 0.5, 1.0);
    vOut.TexCoord = vIn.TexCoord;
-   
+
    // Calculate actual pixel dimensions for the fragment stage SDF
    vOut.PanelSize = iIn.Bounds.zw * float2(resolutionX, resolutionY);
-   
+
    // ScreenCoord for global effects
-   vOut.ScreenCoord = normPos * float2(resolutionX, resolutionY); 
-   
+   vOut.ScreenCoord = normPos * float2(resolutionX, resolutionY);
+
    vOut.Radius = iIn.Extra.x;
-   
+
    return vOut;
 }
 '

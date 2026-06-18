@@ -35,52 +35,48 @@ Class {
 }
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> bindSharedGraphicsResourcesTo: aRenderPass with: aCommandBuffer [
+SDL3GPUNodeForceDemo >> bindSharedGraphicsResourcesTo: renderPass with: commandBuffer [
 
-	aRenderPass bindGPUVertexBuffersFirstSlot: 0 bindings: vertexBufferBindings.
-	aRenderPass
-		bindGPUVertexStorageBuffersFirstSlot: 0
-		storageBuffers: storageBuffers.
-	aRenderPass
-		bindGPUIndexBufferBinding: indexBufferBinding
-		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
+	renderPass
+		vertexBuffers: vertexBufferBindings slot: 0;
+		vertexStorageBuffers: storageBuffers slot: 0;
+		indexBuffer16Bit: indexBufferBinding.
 
-	uniforms aspectRatio: window extent x asFloat / (window extent y max: 1).
-	uniforms selectedNodeIndex: selectedNodeIndex.
-	aCommandBuffer
-		pushGPUVertexUniformDataSlotIndex: 0
-		data: uniforms
-		length: SDL3GPUNodeForceUniforms structureSize
+	uniforms
+		aspectRatio: window extent x asFloat / (window extent y max: 1);
+		selectedNodeIndex: selectedNodeIndex.
+	commandBuffer
+		pushVertexUniform: uniforms slot: 0
 ]
 
 { #category : 'lifecycle' }
 SDL3GPUNodeForceDemo >> close [
 
 	nodesBufferPing ifNotNil: [
-		gpuDevice releaseGPUBuffer: nodesBufferPing.
+		nodesBufferPing release.
 		nodesBufferPing := nil ].
 	nodesBufferPong ifNotNil: [
-		gpuDevice releaseGPUBuffer: nodesBufferPong.
+		nodesBufferPong release.
 		nodesBufferPong := nil ].
 	edgesBuffer ifNotNil: [
-		gpuDevice releaseGPUBuffer: edgesBuffer.
+		edgesBuffer release.
 		edgesBuffer := nil ].
 
 	vertexBuffer ifNotNil: [
-		gpuDevice releaseGPUBuffer: vertexBuffer.
+		vertexBuffer release.
 		vertexBuffer := nil ].
 	indexBuffer ifNotNil: [
-		gpuDevice releaseGPUBuffer: indexBuffer.
+		indexBuffer release.
 		indexBuffer := nil ].
 
 	computePipeline ifNotNil: [
-		gpuDevice releaseGPUComputePipeline: computePipeline.
+		computePipeline release.
 		computePipeline := nil ].
 	nodePipeline ifNotNil: [
-		gpuDevice releaseGPUGraphicsPipeline: nodePipeline.
+		nodePipeline release.
 		nodePipeline := nil ].
 	edgePipeline ifNotNil: [
-		gpuDevice releaseGPUGraphicsPipeline: edgePipeline.
+		edgePipeline release.
 		edgePipeline := nil ].
 
 	super close
@@ -111,48 +107,39 @@ SDL3GPUNodeForceDemo >> computeSimulation [
 ]
 
 { #category : 'rendering' }
-SDL3GPUNodeForceDemo >> doRenderPassesOn: aTexture with: aCommandBuffer [
+SDL3GPUNodeForceDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
-	| renderPass colorTargetInfos |
-	colorTargetInfos := FFIExternalArray externalNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos autoRelease.
+	| colorTargetInfos |
+	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
 	colorTargetInfos first
-		texture: aTexture;
-		storeOp: SDL_GPU_STOREOP_STORE;
-		loadOp: SDL_GPU_LOADOP_CLEAR;
-		updateClearColorFrom: Color black.
+		beClearTexture: swapchainTexture
+		color: Color black.
 
-	renderPass := aCommandBuffer
-					 beginGPURenderPassColorTargetInfos: colorTargetInfos
-					 depthStencilTargetInfo: nil.
-
-	self bindSharedGraphicsResourcesTo: renderPass with: aCommandBuffer.
-	self drawEdgesOn: renderPass.
-	self drawNodesOn: renderPass.
-
-	renderPass end
-
+	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+		self bindSharedGraphicsResourcesTo: renderPass with: commandBuffer.
+		self drawEdgesOn: renderPass.
+		self drawNodesOn: renderPass ]
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> drawEdgesOn: aRenderPass [
+SDL3GPUNodeForceDemo >> drawEdgesOn: renderPass [
 
-	aRenderPass bindGPUGraphicsPipeline: edgePipeline.
-	aRenderPass
-		drawGPUIndexedPrimitivesNumIndices: 6
-		numInstances: numEdges
+	renderPass pipeline: edgePipeline.
+	renderPass
+		drawIndexedPrimitives: 6
+		instances: numEdges
 		firstIndex: 0
 		vertexOffset: 0
 		firstInstance: 0
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> drawNodesOn: aRenderPass [
+SDL3GPUNodeForceDemo >> drawNodesOn: renderPass [
 
-	aRenderPass bindGPUGraphicsPipeline: nodePipeline.
-	aRenderPass
-		drawGPUIndexedPrimitivesNumIndices: 6
-		numInstances: numNodes
+	renderPass pipeline: nodePipeline.
+	renderPass
+		drawIndexedPrimitives: 6
+		instances: numNodes
 		firstIndex: 0
 		vertexOffset: 0
 		firstInstance: 0
@@ -161,55 +148,29 @@ SDL3GPUNodeForceDemo >> drawNodesOn: aRenderPass [
 { #category : 'private' }
 SDL3GPUNodeForceDemo >> executeSimulationComputePassWith: commandBuffer input: inputBuffer output: outputBuffer [
 
-	| computePass |
 	storageBufferBindings first
 		buffer: outputBuffer;
 		cycle: false.
-	computePass := commandBuffer
-					  beginGPUComputePassStorageTextureBindings: #()
-					  storageBufferBindings: storageBufferBindings.
 
-	storageBuffers at: 1 put: currentNodesBuffer getHandle.
-	storageBuffers at: 2 put: edgesBuffer getHandle.
+	commandBuffer computePassTextures: #() computeStorageBuffers: storageBufferBindings do: [ :computePass |
+		storageBuffers
+			at: 1 put: inputBuffer getHandle;
+			at: 2 put: edgesBuffer getHandle.
 
-	computePass
-		bindGPUComputePipeline: computePipeline;
-		bindGPUComputeStorageBuffersFirstSlot: 0
-		storageBuffers: storageBuffers;
-		dispatchWorkgroupCountX: numNodes + 63 // 64
-		y: 1
-		z: 1;
-		end
+		computePass
+			pipeline: computePipeline;
+			computeStorageBuffers: storageBuffers slot: 0;
+			dispatchX: numNodes + 63 // 64
+			y: 1
+			z: 1 ]
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> fillIndexTransfer: aTransfer [
+SDL3GPUNodeForceDemo >> findNodeAtSimulationPosition: point among: nodes [
 
-	| mappedAddress indices |
-	mappedAddress := gpuDevice mapGPUTransferBuffer: aTransfer cycle: false.
-	indices := FFIArray fromHandle: mappedAddress type: #uint16 size: 6.
-	#( 0 1 2 0 2 3 ) withIndexDo: [ :val :idx | indices at: idx put: val ].
-	gpuDevice unmapGPUTransferBuffer: aTransfer
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemo >> fillVertexTransfer: aTransfer [
-
-	| mappedAddress |
-	mappedAddress := gpuDevice mapGPUTransferBuffer: aTransfer cycle: false.
-	#( (0 0) (1 0) (1 1) (0 1) ) withIndexDo: [ :uv :idx |
-		| v |
-		v := SDL3GPUQuadVertex fromHandle: mappedAddress + ((idx - 1) * SDL3GPUQuadVertex structureSize).
-		v x: uv first asFloat; y: uv second asFloat; z: 0.0; u: uv first asFloat; v: uv second asFloat ].
-	gpuDevice unmapGPUTransferBuffer: aTransfer
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemo >> findNodeAtSimulationPosition: aPoint among: aNodeArray [
-
-	aNodeArray withIndexDo: [ :node :i |
+	nodes withIndexDo: [ :node :i |
 		| distance |
-		distance := (node x @ node y) distanceTo: aPoint.
+		distance := (node x @ node y) distanceTo: point.
 		distance < node radius ifTrue: [ ^ i - 1 ] ].
 
 	^ -1
@@ -222,9 +183,9 @@ SDL3GPUNodeForceDemo >> initialize [
 
 	numNodes := 64.
 	numEdges := 128.
-	
+
 	self initializeUniforms.
-	self initializeGPUStateContainers.
+	self initializeGPUStateContainers
 ]
 
 { #category : 'initialization' }
@@ -259,51 +220,24 @@ SDL3GPUNodeForceDemo >> initializeBuffers [
 { #category : 'initialization' }
 SDL3GPUNodeForceDemo >> initializeGPUStateContainers [
 
-	storageBuffers := FFIExternalArray externalNewType: ExternalAddress size: 2.
-	storageBuffers autoRelease.
-	
-	storageBufferBindings := FFIExternalArray externalNewType: SDL_GPUStorageBufferReadWriteBinding size: 1.
-	storageBufferBindings autoRelease.
+	storageBuffers := ExternalAddress safeNewArray: 2.
 
-	vertexBufferBindings := FFIExternalArray externalNewType: SDL_GPUBufferBinding size: 1.
-	vertexBufferBindings autoRelease.
+
+	storageBufferBindings := SDL3GPUStorageBufferReadWriteBinding safeNewArray: 1.
+
+	vertexBufferBindings := SDL_GPUBufferBinding safeNewArray: 1.
 
 	selectedNodeIndex := -1.
 
-	isDragging := false.
+	isDragging := false
 ]
 
 { #category : 'initialization' }
 SDL3GPUNodeForceDemo >> initializeGeometry [
 
-	| vSize iSize vTransfer iTransfer |
-	vSize := 4 * SDL3GPUQuadVertex structureSize.
-	iSize := 6 * 2.
-
-	vertexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-		               size: vSize.
-	indexBuffer := gpuDevice
-		              newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-		              size: iSize.
-
-	vTransfer := gpuDevice newUploadTransferBuffer: vSize.
-	iTransfer := gpuDevice newUploadTransferBuffer: iSize.
-
-	self fillVertexTransfer: vTransfer.
-	self fillIndexTransfer: iTransfer.
-	self uploadVertex: vTransfer index: iTransfer.
-
-	gpuDevice releaseGPUTransferBuffer: vTransfer.
-	gpuDevice releaseGPUTransferBuffer: iTransfer.
-
-	vertexBufferBindings first
-		buffer: vertexBuffer;
-		offset: 0.
-	indexBufferBinding := SDL_GPUBufferBinding externalNew
-		                     buffer: indexBuffer;
-		                     yourself.
-	indexBufferBinding autoRelease
+	self
+		initializeQuadBuffers;
+		setupGeometryBindings
 ]
 
 { #category : 'initialization' }
@@ -311,7 +245,7 @@ SDL3GPUNodeForceDemo >> initializeGraph [
 
 	| random |
 	random := Random seed: 17.
-	
+
 	nodeArray := FFIArray newType: SDL3GPUNode size: numNodes.
 	nodeArray do: [ :node |
 		node x: (random next * 1.0 - 0.5); y: (random next * 1.0 - 0.5).
@@ -319,15 +253,52 @@ SDL3GPUNodeForceDemo >> initializeGraph [
 		node radius: 0.02 + (random next * 0.03).
 		node hue: random next.
 		node isSelected: 0 ].
-		
+
 	edgeArray := FFIArray newType: SDL3GPUEdge size: numEdges.
 	edgeArray do: [ :edge |
 		edge nodeA: (random nextInteger: numNodes) - 1.
 		edge nodeB: (random nextInteger: numNodes) - 1.
 		edge weight: 0.5 + random next.
 		"Avoid self-loops for simplicity"
-		[ edge nodeA = edge nodeB ] whileTrue: [ 
+		[ edge nodeA = edge nodeB ] whileTrue: [
 			edge nodeB: (random nextInteger: numNodes) - 1 ] ]
+]
+
+{ #category : 'initialization' }
+SDL3GPUNodeForceDemo >> initializeQuadBuffers [
+
+	vertexBuffer := gpuDevice
+		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                size: 4 * SDL3GPUQuadVertex structureSize.
+
+	indexBuffer := gpuDevice
+		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               size: 6 * 2.
+
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: vertexBuffer
+			type: SDL3GPUQuadVertex
+			count: 4
+			cycle: false
+			fillWith: [ :vertices |
+				#( (0 0) (1 0) (1 1) (0 1) ) withIndexDo: [ :uv :idx |
+					| v |
+					v := vertices at: idx.
+					v x: uv first asFloat;
+					  y: uv second asFloat;
+					  z: 0.0;
+					  u: uv first asFloat;
+					  v: uv second asFloat ] ].
+
+		uploader
+			uploadTo: indexBuffer
+			type: FFIUInt16
+			count: 6
+			cycle: false
+			fillWith: [ :indices |
+				#( 0 1 2 0 2 3 ) withIndexDo: [ :val :idx |
+					indices at: idx put: val ] ] ]
 ]
 
 { #category : 'initialization' }
@@ -339,7 +310,7 @@ SDL3GPUNodeForceDemo >> initializeShaders [
 						  newComputePipelineAmong: formats
 						  device: gpuDevice.
 
-	colorTargets := self newColorTargetDescriptions: 1.
+	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
 	colorTargets first format:
 		(gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
 
@@ -350,8 +321,7 @@ SDL3GPUNodeForceDemo >> initializeShaders [
 { #category : 'initialization' }
 SDL3GPUNodeForceDemo >> initializeUniforms [
 
-	uniforms := SDL3GPUNodeForceUniforms externalNew.
-	uniforms autoRelease.
+	uniforms := SDL3GPUNodeForceUniforms safeNew.
 	uniforms
 		numNodes: numNodes;
 		numEdges: numEdges;
@@ -369,23 +339,9 @@ SDL3GPUNodeForceDemo >> initializeUniforms [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> newAlphaBlendState [
-
-	^ SDL_GPUColorTargetBlendState new
-		 enableBlend: true;
-		 srcColorBlendfactor: SDL_GPU_BLENDFACTOR_SRC_ALPHA;
-		 dstColorBlendfactor: SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA;
-		 colorBlendOp: SDL_GPU_BLENDOP_ADD;
-		 srcAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ONE;
-		 dstAlphaBlendfactor: SDL_GPU_BLENDFACTOR_ZERO;
-		 alphaBlendOp: SDL_GPU_BLENDOP_ADD;
-		 yourself
-]
-
-{ #category : 'private' }
 SDL3GPUNodeForceDemo >> newEdgePipelineWith: aFormatArray colorTargets: colorTargets [
 
-	| vertexShader fragmentShader pipelineCreateInfo |
+	| vertexShader fragmentShader vertexBindings vertexAttributes |
 	vertexShader := SDL3GPUEdgeVertexShaderSource
 						newShaderAmong: aFormatArray
 						device: gpuDevice.
@@ -393,48 +349,28 @@ SDL3GPUNodeForceDemo >> newEdgePipelineWith: aFormatArray colorTargets: colorTar
 						 newShaderAmong: aFormatArray
 						 device: gpuDevice.
 
-	colorTargets first blendState: self newAlphaBlendState.
+	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	pipelineCreateInfo := self
-							 newGraphicsPipelineCreateInfoFor: vertexShader
-							 colorTargets: colorTargets.
-	pipelineCreateInfo fragmentShader: fragmentShader.
-
-	edgePipeline := gpuDevice newGPUGraphicsPipelineCreateinfo:
-						pipelineCreateInfo.
-	gpuDevice
-		releaseGPUShader: vertexShader;
-		releaseGPUShader: fragmentShader
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemo >> newGraphicsPipelineCreateInfoFor: vertexShader colorTargets: colorTargets [
-
-	| pipelineCreateInfo vertexBindings vertexAttributes |
 	vertexBindings := self newNodeVertexBindings.
 	vertexAttributes := self newNodeVertexAttributes.
 
-	pipelineCreateInfo := SDL3GPUGraphicsPipelineCreateInfo externalNew.
-	pipelineCreateInfo autoRelease.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: vertexShader.
-	pipelineCreateInfo targetInfo
-		colorTargetDescriptions: colorTargets;
-		numColorTargets: 1;
-		hasDepthStencilTarget: false.
-	pipelineCreateInfo vertexInputState
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 2;
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 1.
-	^ pipelineCreateInfo
+	edgePipeline := gpuDevice newGraphicsPipeline: [ :info |
+		info
+			vertex: vertexShader
+			fragment: fragmentShader
+			targets: colorTargets.
+		info vertexInputState
+			attributes: vertexAttributes
+			bindings: vertexBindings ].
+
+	vertexShader release.
+	fragmentShader release
 ]
 
 { #category : 'private' }
 SDL3GPUNodeForceDemo >> newNodePipelineWith: aFormatArray colorTargets: colorTargets [
 
-	| vertexShader fragmentShader pipelineCreateInfo |
+	| vertexShader fragmentShader vertexBindings vertexAttributes |
 	vertexShader := SDL3GPUNodeVertexShaderSource
 						newShaderAmong: aFormatArray
 						device: gpuDevice.
@@ -442,37 +378,42 @@ SDL3GPUNodeForceDemo >> newNodePipelineWith: aFormatArray colorTargets: colorTar
 						 newShaderAmong: aFormatArray
 						 device: gpuDevice.
 
-	colorTargets first blendState: self newAlphaBlendState.
+	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	pipelineCreateInfo := self
-							 newGraphicsPipelineCreateInfoFor: vertexShader
-							 colorTargets: colorTargets.
-	pipelineCreateInfo fragmentShader: fragmentShader.
+	vertexBindings := self newNodeVertexBindings.
+	vertexAttributes := self newNodeVertexAttributes.
 
-	nodePipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-	gpuDevice
-		releaseGPUShader: vertexShader;
-		releaseGPUShader: fragmentShader
+	nodePipeline := gpuDevice newGraphicsPipeline: [ :info |
+		info
+			vertex: vertexShader
+			fragment: fragmentShader
+			targets: colorTargets.
+		info vertexInputState
+			attributes: vertexAttributes
+			bindings: vertexBindings ].
+
+	vertexShader release.
+	fragmentShader release
 ]
 
 { #category : 'private' }
 SDL3GPUNodeForceDemo >> newNodeVertexAttributes [
 
 	| vertexAttributes |
-	vertexAttributes := FFIExternalArray
-							externalNewType: SDL_GPUVertexAttribute
-							size: 2.
-	vertexAttributes autoRelease.
+	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
+
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
 		location: 0;
 		offset: 0.
+
 	vertexAttributes second
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
 		location: 1;
 		offset: 3 * FFIFloat32 externalTypeSize.
+
 	^ vertexAttributes
 ]
 
@@ -480,15 +421,14 @@ SDL3GPUNodeForceDemo >> newNodeVertexAttributes [
 SDL3GPUNodeForceDemo >> newNodeVertexBindings [
 
 	| vertexBindings |
-	vertexBindings := FFIExternalArray
-						 externalNewType: SDL_GPUVertexBufferDescription
-						 size: 1.
-	vertexBindings autoRelease.
+	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
+
 	vertexBindings first
 		slot: 0;
 		pitch: SDL3GPUQuadVertex structureSize;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		instanceStepRate: 0.
+
 	^ vertexBindings
 ]
 
@@ -517,58 +457,43 @@ SDL3GPUNodeForceDemo >> pushSimulationUniformsTo: commandBuffer [
 		isDragging: (isDragging ifTrue: [ 1 ] ifFalse: [ 0 ]).
 
 	commandBuffer
-		pushGPUComputeUniformDataSlotIndex: 0
-		data: uniforms
-		length: SDL3GPUNodeForceUniforms structureSize
+		pushComputeUniform: uniforms slot: 0
 ]
 
 { #category : 'actions' }
-SDL3GPUNodeForceDemo >> selectNodeAtSimulationPosition: aPoint [
+SDL3GPUNodeForceDemo >> selectNodeAtSimulationPosition: point [
 
-	| nodesSize transfer mappedNodes |
-	nodesSize := numNodes * SDL3GPUNode structureSize.
-	transfer := gpuDevice newDownloadTransferBuffer: nodesSize.
+	gpuDevice
+		downloadFrom: currentNodesBuffer
+		type: SDL3GPUNode
+		count: numNodes
+		do: [ :mappedNodes |
+			selectedNodeIndex := self
+				                     findNodeAtSimulationPosition: point
+				                     among: mappedNodes ].
 
-	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
-		| copyPass |
-		copyPass := commandBuffer beginGPUCopyPass.
-		copyPass
-			downloadFromGPUBufferSource: (SDL_GPUBufferRegion new
-					buffer: currentNodesBuffer;
-					offset: 0;
-					size: nodesSize;
-					yourself)
-			destination: (SDL_GPUTransferBufferLocation new
-					transferBuffer: transfer;
-					offset: 0;
-					yourself).
-		copyPass end.
-		commandBuffer submit ].
-
-	gpuDevice waitForGPUIdle.
-
-	mappedNodes := FFIArray
-		              fromHandle:
-		              (gpuDevice mapGPUTransferBuffer: transfer cycle: false)
-		              type: SDL3GPUNode
-		              size: numNodes.
-	selectedNodeIndex := self
-		                    findNodeAtSimulationPosition: aPoint
-		                    among: mappedNodes.
-
-	gpuDevice unmapGPUTransferBuffer: transfer.
-	gpuDevice releaseGPUTransferBuffer: transfer.
 	self updateTitle
 ]
 
+{ #category : 'initialization' }
+SDL3GPUNodeForceDemo >> setupGeometryBindings [
+
+	vertexBufferBindings first
+		buffer: vertexBuffer;
+		offset: 0.
+	indexBufferBinding := SDL_GPUBufferBinding
+		                      buffer: indexBuffer
+		                      offset: 0
+]
+
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> simulationPositionFromWindowPoint: aPoint [
+SDL3GPUNodeForceDemo >> simulationPositionFromWindowPoint: point [
 
 	| nx ny winExtent aspect bx by |
 	winExtent := window extent.
-	nx := aPoint x / (winExtent x max: 1) asFloat.
-	ny := aPoint y / (winExtent y max: 1) asFloat.
-	
+	nx := point x / (winExtent x max: 1) asFloat.
+	ny := point y / (winExtent y max: 1) asFloat.
+
 	aspect := winExtent x asFloat / (winExtent y max: 1).
 	bx := 1.0 max: aspect.
 	by := 1.0 max: (1.0 / aspect).
@@ -588,14 +513,14 @@ SDL3GPUNodeForceDemo >> step [
 SDL3GPUNodeForceDemo >> updatedTitle [
 
 	| selectionInfo dragInfo |
-	selectionInfo := selectedNodeIndex >= 0 
+	selectionInfo := selectedNodeIndex >= 0
 		ifTrue: [ ' | Selected: {1}' format: { selectedNodeIndex } ]
 		ifFalse: [ '' ].
 	dragInfo := isDragging ifTrue: [ ' [DRAGGING]' ] ifFalse: [ '' ].
 
-	^ super updatedTitle, (' - Nodes: {1} Edges: {2} (Spring: {3} Repel: {4} Damp: {5}){6}{7}' format: { 
+	^ super updatedTitle, (' - Nodes: {1} Edges: {2} (Spring: {3} Repel: {4} Damp: {5}){6}{7}' format: {
 		numNodes.
-		numEdges. 
+		numEdges.
 		uniforms springStiffness printShowingDecimalPlaces: 1.
 		uniforms repulsionWeight printShowingDecimalPlaces: 1.
 		uniforms damping printShowingDecimalPlaces: 4.
@@ -606,95 +531,25 @@ SDL3GPUNodeForceDemo >> updatedTitle [
 { #category : 'private' }
 SDL3GPUNodeForceDemo >> uploadEdges [
 
-	| edgesSize transfer mappedAddress |
-	edgesSize := numEdges * SDL3GPUEdge structureSize.
-	transfer := gpuDevice newUploadTransferBuffer: edgesSize.
-
-	mappedAddress := gpuDevice mapGPUTransferBuffer: transfer cycle: false.
-	LibC memCopy: edgeArray getHandle to: mappedAddress size: edgesSize.
-	gpuDevice unmapGPUTransferBuffer: transfer.
-
-	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
-		| copyPass |
-		copyPass := commandBuffer beginGPUCopyPass.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					transferBuffer: transfer;
-					offset: 0;
-					yourself)
-			destination: (SDL_GPUBufferRegion new
-					buffer: edgesBuffer;
-					offset: 0;
-					size: edgesSize;
-					yourself)
-			cycle: false.
-		copyPass end.
-		commandBuffer submit ].
-
-	gpuDevice releaseGPUTransferBuffer: transfer
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: edgesBuffer
+			type: SDL3GPUEdge
+			count: numEdges
+			cycle: false
+			fromPointer: edgeArray getHandle ]
 ]
 
 { #category : 'private' }
 SDL3GPUNodeForceDemo >> uploadNodes [
 
-	| nodesSize transfer mappedAddress |
-	nodesSize := numNodes * SDL3GPUNode structureSize.
-	transfer := gpuDevice newUploadTransferBuffer: nodesSize.
-
-	mappedAddress := gpuDevice mapGPUTransferBuffer: transfer cycle: false.
-	LibC memCopy: nodeArray getHandle to: mappedAddress size: nodesSize.
-	gpuDevice unmapGPUTransferBuffer: transfer.
-
-	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
-		| copyPass |
-		copyPass := commandBuffer beginGPUCopyPass.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					transferBuffer: transfer;
-					offset: 0;
-					yourself)
-			destination: (SDL_GPUBufferRegion new
-					buffer: nodesBufferPing;
-					offset: 0;
-					size: nodesSize;
-					yourself)
-			cycle: false.
-		copyPass end.
-		commandBuffer submit ].
-
-	gpuDevice releaseGPUTransferBuffer: transfer
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemo >> uploadVertex: vTransfer index: iTransfer [
-
-	| copyCB copyPass |
-	copyCB := gpuDevice acquireGPUCommandBuffer.
-	copyPass := copyCB beginGPUCopyPass.
-	copyPass
-		uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-				transferBuffer: vTransfer;
-				offset: 0;
-				yourself)
-		destination: (SDL_GPUBufferRegion new
-				buffer: vertexBuffer;
-				offset: 0;
-				size: 4 * SDL3GPUQuadVertex structureSize;
-				yourself)
-		cycle: false.
-	copyPass
-		uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-				transferBuffer: iTransfer;
-				offset: 0;
-				yourself)
-		destination: (SDL_GPUBufferRegion new
-				buffer: indexBuffer;
-				offset: 0;
-				size: 6 * 2;
-				yourself)
-		cycle: false.
-	copyPass end.
-	copyCB submit
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: nodesBufferPing
+			type: SDL3GPUNode
+			count: numNodes
+			cycle: false
+			fromPointer: nodeArray getHandle ]
 ]
 
 { #category : 'hooks' }
@@ -710,7 +565,7 @@ SDL3GPUNodeForceDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 	key = SDLK_LEFT asInteger ifTrue: [ uniforms repulsionWeight: (uniforms repulsionWeight - 0.1 max: 0.0) ].
 	key = SDLK_PAGEUP asInteger ifTrue: [ uniforms damping: (uniforms damping * 1.5 min: 0.99) ].
 	key = SDLK_PAGEDOWN asInteger ifTrue: [ uniforms damping: (uniforms damping / 1.5 max: 0.00001) ].
-	
+
 	self updateTitle
 ]
 
@@ -745,5 +600,5 @@ SDL3GPUNodeForceDemo >> visitMouseMotionEvent: aMouseMotionEvent [
 
 	simPosition := self simulationPositionFromWindowPoint: aMouseMotionEvent position.
 	uniforms hoverX: simPosition x.
-	uniforms hoverY: simPosition y.
+	uniforms hoverY: simPosition y
 ]

@@ -44,7 +44,7 @@ cbuffer BlurUniforms : register(b0, space3) {
 
 float4 main(float2 uv : TEXCOORD0) : SV_Target {
  float2 offset = texelSize * blurRadius;
- 
+
  float4 sum = tex.Sample(sam, uv + float2(-offset.x * 2.0, 0.0));
  sum += tex.Sample(sam, uv + float2(-offset.x, offset.y)) * 2.0;
  sum += tex.Sample(sam, uv + float2(0.0, offset.y * 2.0));
@@ -53,7 +53,7 @@ float4 main(float2 uv : TEXCOORD0) : SV_Target {
  sum += tex.Sample(sam, uv + float2(offset.x, -offset.y)) * 2.0;
  sum += tex.Sample(sam, uv + float2(0.0, -offset.y * 2.0));
  sum += tex.Sample(sam, uv + float2(-offset.x, -offset.y)) * 2.0;
- 
+
  return sum / 12.0;
 }'
 ]

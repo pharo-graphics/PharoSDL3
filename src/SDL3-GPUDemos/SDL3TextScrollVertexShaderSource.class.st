@@ -32,7 +32,10 @@ SDL3TextScrollVertexShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3TextScrollVertexShaderSource class >> hlslSource [
-	^ 'cbuffer Params : register(b0, space1) {
+	<script: 'self compileBase64CodeFromHLSLSource'>
+
+	^ '
+cbuffer Params : register(b0, space1) {
    float scrollOffsetX;
    float scrollOffsetY;
    float viewportWidth;
@@ -58,22 +61,22 @@ struct VertexOutput {
 
 VertexOutput main(VertexInput input) {
  VertexOutput output;
- 
+
  float2 screenPos = input.instPosition + (float2(input.basePosition.x, -input.basePosition.y) * input.instExtent);
- 
+
  // Apply scroll
  screenPos.x -= scrollOffsetX;
  screenPos.y -= scrollOffsetY;
- 
+
  // Convert to NDC (-1 to 1)
  float ndcX = (screenPos.x / viewportWidth) * 2.0 - 1.0;
  float ndcY = 1.0 - (screenPos.y / viewportHeight) * 2.0;
 
  output.position = float4(ndcX, ndcY, 0.0, 1.0);
- 
+
  // Calculate UV within the atlas
  output.uv = input.instUVBounds.xy + (input.baseUV * input.instUVBounds.zw);
- 
+
  uint fgIdx = input.colorIndices & 0xFFFF;
  uint bgIdx = (input.colorIndices >> 16) & 0xFFFF;
  output.fgColor = colors[fgIdx];

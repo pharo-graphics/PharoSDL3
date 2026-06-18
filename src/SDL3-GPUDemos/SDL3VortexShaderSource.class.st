@@ -58,30 +58,30 @@ float4 main(PSInput input) : SV_Target
 {
    // Center the coordinates (-0.5 to 0.5)
    float2 centeredUV = input.uv - 0.5;
-   
+
    // Calculate distance from center
    float dist = length(centeredUV);
-   
+
    // Calculate rotation angle based on distance and time
    // The distortion decreases at the center (dist) to preserve the focal point
    float angle = (TwistAmount * dist) + time;
-   
+
    // precise sine/cosine for rotation
    float s, c;
    sincos(angle, s, c);
-   
+
    // Rotate the UV coordinates
    float2 rotatedUV = float2(
        centeredUV.x * c - centeredUV.y * s,
        centeredUV.x * s + centeredUV.y * c
    );
-   
+
    // Un-center the coordinates back to 0.0 to 1.0 range
    rotatedUV += 0.5;
-   
+
    // Sample texture
    float4 color = InputTexture.Sample(InputSampler, rotatedUV) * input.color;
-   
+
    return float4(color.rgb, 1.0);
 }
 '

@@ -66,22 +66,22 @@ SDL3TextLayoutEngine >> colorIndicesFor: char inComment: isComment isHeader: isH
 	5: Light Gray (Highlight BG)
 	"
 	bg := 4. "Default transparent"
-	
-	char = $! ifTrue: [ 
+
+	char = $! ifTrue: [
 		bg := 5. "Highlight the ! separator background"
-		^ 3 | (bg << 16) 
+		^ 3 | (bg << 16)
 	].
 
 	isComment ifTrue: [ ^ 1 | (bg << 16) ].
-	
-	isHeader ifTrue: [ 
+
+	isHeader ifTrue: [
 		(':.[ ]()' includes: char) ifTrue: [ ^ 2 | (bg << 16) ].
 		^ 0 | (bg << 16)
 	].
 
 	char isDigit ifTrue: [ ^ 2 | (bg << 16) ].
 	(':.[ ]()' includes: char) ifTrue: [ ^ 3 | (bg << 16) ].
-	
+
 	^ 0 | (bg << 16)
 ]
 
@@ -92,9 +92,9 @@ SDL3TextLayoutEngine >> layoutLine: lineIdx text: aString into: aBuffer glyphCou
 	state := lineStates at: lineIdx.
 	inComment := state first.
 	isHeader := state second.
-	
+
 	endIdx := (lineIdx < lineStarts size) ifTrue: [ (lineStarts at: lineIdx + 1) - 1 ] ifFalse: [ aString size ].
-	
+
 	currentX := 0.
 	currentY := (lineIdx - 1) * lineHeight.
 	glyphCount := startCount.
@@ -103,7 +103,7 @@ SDL3TextLayoutEngine >> layoutLine: lineIdx text: aString into: aBuffer glyphCou
 
 	startIdx to: endIdx do: [ :i | | char |
 		char := aString at: i.
-		
+
 		"Handle Syntax State"
 		char = $" ifTrue: [ inComment := inComment not ].
 
@@ -115,12 +115,12 @@ SDL3TextLayoutEngine >> layoutLine: lineIdx text: aString into: aBuffer glyphCou
 					currentX := currentX + tabWidth.
 				] ifFalse: [ | glyphBounds |
 					glyphBounds := atlas glyphMap at: char ifAbsent: [ nil ].
-					glyphBounds ifNotNil: [ 
+					glyphBounds ifNotNil: [
 						glyphCount := glyphCount + 1.
-						glyphCount <= aBuffer size ifTrue: [ 
-							self writeGlyph: glyphBounds 
-								at: currentX @ currentY 
-								uvScale: atlasWidth @ atlasHeight 
+						glyphCount <= aBuffer size ifTrue: [
+							self writeGlyph: glyphBounds
+								at: currentX @ currentY
+								uvScale: atlasWidth @ atlasHeight
 								colors: (self colorIndicesFor: char inComment: inComment isHeader: isHeader)
 								into: (aBuffer at: glyphCount)
 						].
@@ -130,7 +130,7 @@ SDL3TextLayoutEngine >> layoutLine: lineIdx text: aString into: aBuffer glyphCou
 			].
 		].
 	].
-	
+
 	^ glyphCount
 ]
 
@@ -140,14 +140,14 @@ SDL3TextLayoutEngine >> layoutString: aString [
 	lineStarts := OrderedCollection new.
 	lineStates := OrderedCollection new.
 	lineStarts add: 1.
-	
+
 	inComment := false.
 	isHeader := aString isNotEmpty and: [ (aString at: 1) = $! ].
 	lineStates add: { inComment . isHeader }.
 
 	aString doWithIndex: [ :char :i |
 		char = $" ifTrue: [ inComment := inComment not ].
-		char = Character cr ifTrue: [ 
+		char = Character cr ifTrue: [
 			| nextIsHeader |
 			lineStarts add: i + 1.
 			nextIsHeader := false.
@@ -199,16 +199,15 @@ SDL3TextLayoutEngine >> visibleLineRangeIn: aViewport [
 
 { #category : 'private' }
 SDL3TextLayoutEngine >> writeGlyph: bounds at: pos uvScale: uvScale colors: packedIndices into: struct [
-	"Use direct 1-based byte offsets to avoid class variable offset issues"
-	| h |
-	h := struct getHandle.
-	h floatAt: 1 put: pos x asFloat.
-	h floatAt: 5 put: pos y asFloat.
-	h floatAt: 9 put: bounds width asFloat.
-	h floatAt: 13 put: bounds height asFloat.
-	h floatAt: 17 put: bounds left asFloat / uvScale x.
-	h floatAt: 21 put: bounds top asFloat / uvScale y.
-	h floatAt: 25 put: bounds width asFloat / uvScale x.
-	h floatAt: 29 put: bounds height asFloat / uvScale y.
-	h unsignedLongAt: 33 put: packedIndices.
+
+	struct
+		posX: pos x asFloat;
+		posY: pos y asFloat;
+		extentX: bounds width asFloat;
+		extentY: bounds height asFloat;
+		uvX: bounds left asFloat / uvScale x;
+		uvY: bounds top asFloat / uvScale y;
+		uvWidth: bounds width asFloat / uvScale x;
+		uvHeight: bounds height asFloat / uvScale y;
+		colorIndices: packedIndices
 ]

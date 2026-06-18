@@ -139,9 +139,9 @@ float4 main(PSInput input) : SV_Target
    // Sample texture with warp offset
    float2 warpOffset = W(sp.xy, time) / 8.0;
    float3 texCol = InputTexture.Sample(InputSampler, sp.xy + warpOffset).rgb * input.color.rgb;
-   
+
    texCol *= texCol; // Rough sRGB to linear conversion
-   
+
    // Color processing
    texCol = smoothstep(0.05, 0.75, pow(texCol, float3(0.75, 0.8, 0.85)));
 

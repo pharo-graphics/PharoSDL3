@@ -16,11 +16,7 @@ Class {
 		'indexBuffer',
 		'indexBinding',
 		'writeTexture',
-		'blurRadius',
-		'blurSpread',
-		'brightness',
 		'bufferIndex',
-		'vertexTransferBuffer',
 		'lastExtent',
 		'computePipeline',
 		'intermediateTexture',
@@ -37,77 +33,72 @@ Class {
 { #category : 'lifecycle' }
 SDL3GPUGaussianBlurComputeDemo >> close [
 
-	gpuPipeline ifNotNil: [ 
-		gpuDevice releaseGPUGraphicsPipeline: gpuPipeline.
+	gpuPipeline ifNotNil: [
+		gpuPipeline release.
 		gpuPipeline := nil ].
 
-	computePipeline ifNotNil: [ 
-		gpuDevice releaseGPUComputePipeline: computePipeline.
+	computePipeline ifNotNil: [
+		computePipeline release.
 		computePipeline := nil ].
 
-	vertexBuffer ifNotNil: [ 
-		gpuDevice releaseGPUBuffer: vertexBuffer.
+	vertexBuffer ifNotNil: [
+		vertexBuffer release.
 		vertexBuffer := nil ].
 
-	vertexTransferBuffer ifNotNil: [
-		gpuDevice releaseGPUTransferBuffer: vertexTransferBuffer.
-		vertexTransferBuffer := nil ].
-
-	indexBuffer ifNotNil: [ 
-		gpuDevice releaseGPUBuffer: indexBuffer.
+	indexBuffer ifNotNil: [
+		indexBuffer release.
 		indexBuffer := nil ].
 
-	sampler ifNotNil: [ 
-		gpuDevice releaseGPUSampler: sampler.
+	sampler ifNotNil: [
+		sampler release.
 		sampler := nil ].
 
-	texture ifNotNil: [ 
-		gpuDevice releaseGPUTexture: texture.
+	texture ifNotNil: [
+		texture release.
 		texture := nil ].
 
-	intermediateTexture ifNotNil: [ 
-		gpuDevice releaseGPUTexture: intermediateTexture.
+	intermediateTexture ifNotNil: [
+		intermediateTexture release.
 		intermediateTexture := nil ].
 
-	writeTexture ifNotNil: [ 
-		gpuDevice releaseGPUTexture: writeTexture.
+	writeTexture ifNotNil: [
+		writeTexture release.
 		writeTexture := nil ].
 
 	super close
 ]
 
 { #category : 'rendering' }
-SDL3GPUGaussianBlurComputeDemo >> doRenderPassesOn: swapchainTexture with: aSDL3GPUCommandBuffer [
+SDL3GPUGaussianBlurComputeDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
+	"Pass 1: Horizontal Blur (Force brightness to 1.0)"
 	self
-		executeBlurPassWith: aSDL3GPUCommandBuffer
+		executeBlurPassWith: commandBuffer
 		direction: 0
 		inputTexture: texture
 		outputTexture: intermediateTexture
 		brightness: 1.0.
-		
+
+	"Pass 2: Vertical Blur (Use current state brightness)"
 	self
-		executeBlurPassWith: aSDL3GPUCommandBuffer
+		executeBlurPassWith: commandBuffer
 		direction: 1
 		inputTexture: intermediateTexture
 		outputTexture: writeTexture
-		brightness: brightness.
-		
-	self executeFinalRenderPassOn: swapchainTexture with: aSDL3GPUCommandBuffer
+		brightness: uniforms brightness.
+
+	self executeFinalRenderPassOn: swapchainTexture with: commandBuffer
 ]
 
 { #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> executeBlurPassWith: aSDL3GPUCommandBuffer direction: aDirection inputTexture: inputTexture outputTexture: outputTexture brightness: aBrightness [
+SDL3GPUGaussianBlurComputeDemo >> executeBlurPassWith: commandBuffer direction: direction inputTexture: inputTexture outputTexture: outputTexture brightness: passBrightness [
 
 	uniforms
-		blurRadius: blurRadius;
-		blurSpread: blurSpread;
-		direction: aDirection;
-		brightness: aBrightness.
-	aSDL3GPUCommandBuffer
-		pushGPUComputeUniformDataSlotIndex: 0
-		data: uniforms
-		length: SDL3GPUBlurUniforms structureSize.
+		direction: direction;
+		brightness: passBrightness.
+		
+	commandBuffer
+		pushComputeUniform: uniforms slot: 0.
 
 	storageTextureArray at: 1 put: outputTexture.
 
@@ -119,75 +110,48 @@ SDL3GPUGaussianBlurComputeDemo >> executeBlurPassWith: aSDL3GPUCommandBuffer dir
 		texture: inputTexture;
 		sampler: sampler.
 
-	(aSDL3GPUCommandBuffer
-		beginGPUComputePassStorageTextureBindings: blurStorageBindings
-		storageBufferBindings: #())
-		bindGPUComputePipeline: computePipeline;
-		bindGPUComputeStorageTexturesFirstSlot: 0
-		storageTextures: storageTextureArray;
-		bindGPUComputeSamplersFirstSlot: 0
-		textureSamplerBindings: blurSamplerBindings;
-		dispatchWorkgroupCountX: lastExtent x + 7 // 8
-		y: lastExtent y + 7 // 8
-		z: 1;
-		end
+	commandBuffer computePassTextures: blurStorageBindings computeStorageBuffers: #() do: [ :computePass |
+		computePass
+			pipeline: computePipeline;
+			computeStorageTextures: storageTextureArray slot: 0;
+			computeSamplers: blurSamplerBindings slot: 0;
+			dispatchX: lastExtent x + 7 // 8
+			y: lastExtent y + 7 // 8
+			z: 1 ]
 ]
 
 { #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> executeFinalRenderPassOn: swapchainTexture with: aSDL3GPUCommandBuffer [
+SDL3GPUGaussianBlurComputeDemo >> executeFinalRenderPassOn: swapchainTexture with: commandBuffer [
 
-	| renderPass |
 	colorTargetInfos first texture: swapchainTexture.
-	renderPass := aSDL3GPUCommandBuffer
-				 beginGPURenderPassColorTargetInfos: colorTargetInfos
-				 depthStencilTargetInfo: nil.
-
-	renderPass bindGPUGraphicsPipeline: gpuPipeline.
-
-	vertexBufferBindings first buffer: vertexBuffer.
-	renderPass bindGPUVertexBuffersFirstSlot: 0 bindings: vertexBufferBindings.
-
-	indexBinding buffer: indexBuffer.
-	renderPass
-		bindGPUIndexBufferBinding: indexBinding
-		indexElementSize: SDL_GPU_INDEXELEMENTSIZE_16BIT.
-
 	textureSamplerBindings first
 		texture: writeTexture;
 		sampler: sampler.
-	renderPass
-		bindGPUFragmentSamplersFirstSlot: 0
-		textureSamplerBindings: textureSamplerBindings.
 
-	renderPass
-		drawGPUIndexedPrimitivesNumIndices: 6
-		numInstances: 1
-		firstIndex: 0
-		vertexOffset: 0
-		firstInstance: 0.
+	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+		vertexBufferBindings first buffer: vertexBuffer.
+		indexBinding buffer: indexBuffer.
 
-	renderPass end
-]
-
-{ #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> fillIndexTransferBuffer: iTransfer [
-
-	| mappedAddress indices |
-	mappedAddress := gpuDevice mapGPUTransferBuffer: iTransfer cycle: false.
-	indices := FFIArray fromHandle: mappedAddress type: FFIUInt16 size: 6.
-	#( 1 2 3 1 3 4 ) doWithIndex: [ :val :idx | 
-		indices at: idx put: val - 1 ].
-	gpuDevice unmapGPUTransferBuffer: iTransfer
+		renderPass
+			pipeline: gpuPipeline;
+			vertexBuffers: vertexBufferBindings slot: 0;
+			indexBuffer16Bit: indexBinding;
+			fragmentSamplers: textureSamplerBindings slot: 0;
+			drawIndexedPrimitives: 6
+			instances: 1
+			firstIndex: 0
+			vertexOffset: 0
+			firstInstance: 0 ]
 ]
 
 { #category : 'initialization' }
 SDL3GPUGaussianBlurComputeDemo >> handleResize [
 	"Recreate textures and pipelines based on the new window extent"
 
-	gpuDevice releaseGPUTexture: texture.
-	gpuDevice releaseGPUTexture: intermediateTexture.
-	gpuDevice releaseGPUTexture: writeTexture.
-	
+	texture release.
+	intermediateTexture release.
+	writeTexture release.
+
 	self initializeTexture.
 	self initializeComputeResources
 ]
@@ -197,9 +161,6 @@ SDL3GPUGaussianBlurComputeDemo >> initialize [
 
 	super initialize.
 
-	blurRadius := 0.0.
-	blurSpread := 1.0.
-	brightness := 1.0.
 	bufferIndex := 1.
 
 	colorTargetInfos := FFIArray newType: SDL_GPUColorTargetInfo size: 1.
@@ -212,23 +173,19 @@ SDL3GPUGaussianBlurComputeDemo >> initialize [
 
 	textureSamplerBindings := FFIArray newType: SDL_GPUTextureSamplerBinding size: 1.
 
-	indexBinding := SDL_GPUBufferBinding externalNew.
-	indexBinding autoRelease.
-	indexBinding offset: 0.
+	indexBinding := SDL_GPUBufferBinding offset: 0.
 
-	blurStorageBindings := FFIExternalArray
-					  externalNewType:
-					  SDL_GPUStorageTextureReadWriteBinding
-					  size: 1.
-	blurStorageBindings autoRelease.
+	blurStorageBindings := SDL3GPUStorageTextureReadWriteBinding safeNewArray: 1.
 
-	blurSamplerBindings := FFIExternalArray
-					  externalNewType: SDL_GPUTextureSamplerBinding
-					  size: 1.
-	blurSamplerBindings autoRelease.
+	blurSamplerBindings := SDL3GPUTextureSamplerBinding safeNewArray: 1.
 
 	uniforms := SDL3GPUBlurUniforms new.
-	storageTextureArray := FFIArray newType: SDL_GPUTexture size: 1.
+	uniforms
+		blurRadius: 0.0;
+		blurSpread: 1.0;
+		brightness: 1.0.
+		
+	storageTextureArray := FFIArray newType: SDL_GPUTexture size: 1
 ]
 
 { #category : 'initialization' }
@@ -244,7 +201,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializeComputeResources [
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
 			width: lastExtent x
 			height: lastExtent y.
-			
+
 	intermediateTexture :=
 		gpuDevice
 			new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
@@ -257,29 +214,63 @@ SDL3GPUGaussianBlurComputeDemo >> initializeComputeResources [
 SDL3GPUGaussianBlurComputeDemo >> initializeGeometry [
 	"Initialize a single full-screen quad"
 
-	| iTransfer |
-	vertexTransferBuffer := gpuDevice newUploadTransferBuffer:
-					SDL3GPUQuadVertex structureSize * 4.
 	vertexBuffer := gpuDevice
-				newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-				size: SDL3GPUQuadVertex structureSize * 4.
-
-	iTransfer := gpuDevice newUploadTransferBuffer: 2 * 6. "16-bit indices"
-	self fillIndexTransferBuffer: iTransfer.
+		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                size: SDL3GPUQuadVertex structureSize * 4.
 
 	indexBuffer := gpuDevice
-				  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-				  size: 2 * 6.
+		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               size: 2 * 6.
 
-	self uploadStaticGeometryWithIndexTransfer: iTransfer.
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: vertexBuffer
+			type: SDL3GPUQuadVertex
+			count: 4
+			cycle: false
+			fillWith: [ :vertices |
+				vertices first
+					x: -1.0;
+					y: 1.0;
+					z: 0.0;
+					u: 0.0;
+					v: 0.0.
+				vertices second
+					x: 1.0;
+					y: 1.0;
+					z: 0.0;
+					u: 1.0;
+					v: 0.0.
+				vertices third
+					x: 1.0;
+					y: -1.0;
+					z: 0.0;
+					u: 1.0;
+					v: 1.0.
+				vertices fourth
+					x: -1.0;
+					y: -1.0;
+					z: 0.0;
+					u: 0.0;
+					v: 1.0 ].
 
-	gpuDevice releaseGPUTransferBuffer: iTransfer
+		uploader
+			uploadTo: indexBuffer
+			type: FFIUInt16
+			count: 6
+			cycle: false
+			fillWith: [ :indices |
+				#( 0 1 2 0 2 3 ) doWithIndex: [ :val :idx |
+					indices at: idx put: val ] ] ]
 ]
 
 { #category : 'initialization' }
 SDL3GPUGaussianBlurComputeDemo >> initializePipeline [
 
-	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets pipelineCreateInfo |
+	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
+
+	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
+
 	vertexShader := SDL3GPUQuadVertexShaderSource
 				newShaderAmong: shaderFormats
 				device: gpuDevice.
@@ -291,43 +282,32 @@ SDL3GPUGaussianBlurComputeDemo >> initializePipeline [
 	vertexAttributes := self newVertexAttributeDescriptions.
 	colorTargets := self newColorTargetDescriptions.
 
-	pipelineCreateInfo := SDL_GPUGraphicsPipelineCreateInfo new.
-	pipelineCreateInfo
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: vertexShader;
-		fragmentShader: fragmentShader.
-	pipelineCreateInfo targetInfo
-		colorTargetDescriptions: colorTargets;
-		numColorTargets: colorTargets size.
-	pipelineCreateInfo vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: vertexBindings size;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: vertexAttributes size.
+	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+		info
+			vertex: vertexShader
+			fragment: fragmentShader
+			targets: colorTargets.
+		info vertexInputState
+			attributes: vertexAttributes
+			bindings: vertexBindings ].
 
-	gpuPipeline := gpuDevice newGPUGraphicsPipelineCreateinfo: pipelineCreateInfo.
-
-	gpuDevice releaseGPUShader: vertexShader.
-	gpuDevice releaseGPUShader: fragmentShader.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	vertexShader release.
+	fragmentShader release
 ]
 
 { #category : 'initialization' }
 SDL3GPUGaussianBlurComputeDemo >> initializeSampler [
 
-	sampler := gpuDevice newGPUSamplerCreateinfo: (SDL3GPUSamplerCreateInfo new
-		minFilter: SDL_GPU_FILTER_LINEAR;
+	sampler := gpuDevice newSampler: [ :info |
+		info minFilter: SDL_GPU_FILTER_LINEAR;
 		magFilter: SDL_GPU_FILTER_LINEAR;
 		mipmapMode: SDL_GPU_FILTER_LINEAR;
 		addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 		addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 		addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-		yourself).
+		yourself ].
 
-		textureSamplerBindings first sampler: sampler
-
+	textureSamplerBindings first sampler: sampler
 ]
 
 { #category : 'initialization' }
@@ -337,7 +317,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializeTexture [
 	lastExtent := window pixelExtent.
 
 	"Take a snapshot of a browser to be used as background"
-	browserMorph :=(Object >> #at:put:) browse owner.
+	browserMorph := (Object >> #at:put:) browse owner.
 	form := browserMorph extent: lastExtent; asForm.
 	browserMorph delete.
 
@@ -351,7 +331,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializeTexture [
 SDL3GPUGaussianBlurComputeDemo >> newColorTargetDescriptions [
 
 	| colorTargets |
-	colorTargets := self newColorTargetDescriptions: 1.
+	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState new.
@@ -411,81 +391,9 @@ SDL3GPUGaussianBlurComputeDemo >> updatedTitle [
 	^ super updatedTitle,
 		(' - Radius: {1} (UP/DOWN) - Spread: {2} (LEFT/RIGHT) - Brightness: {3} (W/S)'
 			format: {
-				blurRadius printShowingDecimalPlaces: 1.
-				blurSpread printShowingDecimalPlaces: 1.
-				brightness printShowingDecimalPlaces: 1 })
-]
-
-{ #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> uploadStaticGeometryWithIndexTransfer: iTransfer [
-
-	| mappedAddress |
-	gpuDevice acquireGPUCommandBuffer in: [ :commandBuffer | 
-		| copyPass |
-		mappedAddress := gpuDevice
-					mapGPUTransferBuffer: vertexTransferBuffer
-					cycle: false.
-
-		(FFIArray fromHandle: mappedAddress type: SDL3GPUQuadVertex size: 4)
-			at: 1
-			put: (SDL3GPUQuadVertex new
-					x: -1.0;
-					y: 1.0;
-					z: 0.0;
-					u: 0.0;
-					v: 0.0;
-					yourself);
-			at: 2
-			put: (SDL3GPUQuadVertex new
-					x: 1.0;
-					y: 1.0;
-					z: 0.0;
-					u: 1.0;
-					v: 0.0;
-					yourself);
-			at: 3
-			put: (SDL3GPUQuadVertex new
-					x: 1.0;
-					y: -1.0;
-					z: 0.0;
-					u: 1.0;
-					v: 1.0;
-					yourself);
-			at: 4
-			put: (SDL3GPUQuadVertex new
-					x: -1.0;
-					y: -1.0;
-					z: 0.0;
-					u: 0.0;
-					v: 1.0;
-					yourself).
-		gpuDevice unmapGPUTransferBuffer: vertexTransferBuffer.
-
-		copyPass := commandBuffer beginGPUCopyPass.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					transferBuffer: vertexTransferBuffer;
-					offset: 0;
-					yourself)
-			destination: (SDL_GPUBufferRegion new
-					buffer: vertexBuffer;
-					offset: 0;
-					size: SDL3GPUQuadVertex structureSize * 4;
-					yourself)
-			cycle: false.
-		copyPass
-			uploadToGPUBufferSource: (SDL_GPUTransferBufferLocation new
-					transferBuffer: iTransfer;
-					offset: 0;
-					yourself)
-			destination: (SDL_GPUBufferRegion new
-					buffer: indexBuffer;
-					offset: 0;
-					size: 2 * 6;
-					yourself)
-			cycle: false.
-		copyPass end.
-		commandBuffer submit ]
+				uniforms blurRadius printShowingDecimalPlaces: 1.
+				uniforms blurSpread printShowingDecimalPlaces: 1.
+				uniforms brightness printShowingDecimalPlaces: 1 })
 ]
 
 { #category : 'hooks' }
@@ -494,18 +402,18 @@ SDL3GPUGaussianBlurComputeDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 
 	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		blurRadius := (blurRadius + 0.5) min: 10.0 ].
+		uniforms blurRadius: (uniforms blurRadius + 0.5 min: 10.0) ].
 	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		blurRadius := (blurRadius - 0.5) max: 0.0 ].
+		uniforms blurRadius: (uniforms blurRadius - 0.5 max: 0.0) ].
 	aKeyboardDownEvent key = SDLK_LEFT asInteger ifTrue: [
-		blurSpread := (blurSpread - 0.5) max: 1.0 ].
+		uniforms blurSpread: (uniforms blurSpread - 0.5 max: 1.0) ].
 	aKeyboardDownEvent key = SDLK_RIGHT asInteger ifTrue: [
-		blurSpread := (blurSpread + 0.5) min: 4.0 ].
+		uniforms blurSpread: (uniforms blurSpread + 0.5 min: 4.0) ].
 	aKeyboardDownEvent key = SDLK_W asInteger ifTrue: [
-		brightness := (brightness + 0.1) min: 2.0 ].
+		uniforms brightness: (uniforms brightness + 0.1 min: 2.0) ].
 	aKeyboardDownEvent key = SDLK_S asInteger ifTrue: [
-		brightness := (brightness - 0.1) max: 0.0 ].
-	
+		uniforms brightness: (uniforms brightness - 0.1 max: 0.0) ].
+
 	self updateTitle
 ]
 

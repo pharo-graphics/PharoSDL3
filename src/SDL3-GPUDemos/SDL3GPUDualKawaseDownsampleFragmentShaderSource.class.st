@@ -44,13 +44,13 @@ cbuffer BlurUniforms : register(b0, space3) {
 
 float4 main(float2 uv : TEXCOORD0) : SV_Target {
  float2 offset = texelSize * (blurRadius + 0.5);
- 
+
  float4 sum = tex.Sample(sam, uv) * 4.0;
  sum += tex.Sample(sam, uv - offset);
  sum += tex.Sample(sam, uv + offset);
  sum += tex.Sample(sam, uv + float2(offset.x, -offset.y));
  sum += tex.Sample(sam, uv + float2(-offset.x, offset.y));
- 
+
  return sum / 8.0;
 }'
 ]

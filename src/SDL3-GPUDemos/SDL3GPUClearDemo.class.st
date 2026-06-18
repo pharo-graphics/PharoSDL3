@@ -12,25 +12,18 @@ Class {
 { #category : 'rendering' }
 SDL3GPUClearDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
-	| animatedHue renderPass colorTargetInfos |
+	| animatedHue colorTargetInfos |
+
 	animatedHue := (Time millisecondClockValue / 10.0) \\ 360.
 
-	colorTargetInfos := FFIExternalArray externalNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos autoRelease.
+	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
 	colorTargetInfos first
-		texture: swapchainTexture;
-		storeOp: SDL_GPU_STOREOP_STORE;
-		loadOp: SDL_GPU_LOADOP_CLEAR;
-		updateClearColorFrom: (Color h: animatedHue s: 1.0 v: 1.0).
+		beClearTexture: swapchainTexture
+		color: (Color h: animatedHue s: 1.0 v: 1.0).
 
-	renderPass :=
-		aCommandBuffer
-			beginGPURenderPassColorTargetInfos: colorTargetInfos
-			depthStencilTargetInfo: nil.
-
-	"HERE: use `SDL3GPURenderPass` to draw"
-
-	renderPass end
+	aCommandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+		"HERE: use `SDL3GPURenderPass` to draw"
+	]
 ]
 
 { #category : 'accessing' }
