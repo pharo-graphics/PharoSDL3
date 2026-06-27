@@ -10,7 +10,8 @@ Class {
 	#superclass : 'Object',
 	#classInstVars : [
 		'formRendererClass',
-		'debugEnabled'
+		'debugEnabled',
+		'eventLoopDelay'
 	],
 	#category : 'SDL3-OSWindow-Core',
 	#package : 'SDL3-OSWindow',
@@ -59,8 +60,31 @@ OSSDL3SystemSettings class >> declareOn: aSettingTreeBuilder [
 			(aSettingTreeBuilder setting: #debugEnabled)
 				target: self;
 				label: 'Debug';
-				description: 'Enable debug capabilities for OSWindow SDL3 driver. Warning: It can reduce performance. OSSDL3_DEBUG overrides environment variable overrides this setting at startup.'
+				description: 'Enable debug capabilities for OSWindow SDL3 driver. Warning: It can reduce performance. OSSDL3_DEBUG overrides environment variable overrides this setting at startup.';
+				yourself.
+
+			(aSettingTreeBuilder setting: #eventLoopDelay)
+				target: self;
+				label: 'Event loop delay (ms)';
+				description: 'Delay in milliseconds between event loop iterations when flushing is not active. Override at startup with OSSDL3_EVENT_LOOP_DELAY environment variable.'
 			]
+]
+
+{ #category : 'accessing' }
+OSSDL3SystemSettings class >> eventLoopDelay [
+
+	"If defined, the environment variable overrides the class variable."
+	OSEnvironment current
+		at: 'OSSDL3_EVENT_LOOP_DELAY'
+		ifPresent: [ :aString | ^ aString asInteger ].
+
+	^ eventLoopDelay ifNil: [ 5 ]
+]
+
+{ #category : 'accessing' }
+OSSDL3SystemSettings class >> eventLoopDelay: anInteger [
+
+	eventLoopDelay := anInteger
 ]
 
 { #category : 'accessing' }

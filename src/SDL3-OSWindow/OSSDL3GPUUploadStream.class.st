@@ -29,7 +29,6 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'renderer',
 		'gpuDevice',
 		'transferBuffer',
 		'mappedAddress',
@@ -45,9 +44,9 @@ Class {
 		'MaxBufferSize',
 		'MinBufferSize'
 	],
-	#category : 'SDL3-OSWindow-Support',
+	#category : 'SDL3-OSWindow-GPU',
 	#package : 'SDL3-OSWindow',
-	#tag : 'Support'
+	#tag : 'GPU'
 }
 
 { #category : 'initialization' }

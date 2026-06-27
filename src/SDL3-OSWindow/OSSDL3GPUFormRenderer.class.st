@@ -21,9 +21,9 @@ Class {
 	#pools : [
 		'SDL3AllEnumerations'
 	],
-	#category : 'SDL3-OSWindow-Renderers',
+	#category : 'SDL3-OSWindow-GPU',
 	#package : 'SDL3-OSWindow',
-	#tag : 'Renderers'
+	#tag : 'GPU'
 }
 
 { #category : 'morphic integration' }
@@ -155,6 +155,12 @@ OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 OSSDL3GPUFormRenderer >> outputExtent [
 	
 	^ backendWindow sdlWindow pixelExtent
+]
+
+{ #category : 'testing' }
+OSSDL3GPUFormRenderer >> requiresEventLoopFlush [
+
+	^ true
 ]
 
 { #category : 'updating screen' }

@@ -110,9 +110,8 @@ OSSDL3Driver >> deliverEvent: osEvent windowID: windowID [
 		| backendWindow |
 		backendWindow :=
 			BackendWindowRegistry at: windowID ifAbsent: [ ^ nil ].
-		osEvent window: backendWindow osWindow ].
-
-	osEvent deliver
+		osEvent window: backendWindow osWindow.
+		osEvent deliver ]
 ]
 
 { #category : 'events-processing' }
@@ -140,6 +139,39 @@ OSSDL3Driver >> ensureEventLoop [
 	EventLoopProcess ifNotNil: [ ^ self ].
 
 	self startUpEventLoop
+]
+
+{ #category : 'accessing' }
+OSSDL3Driver >> eventLoopDelay [
+
+	^ OSSDL3SystemSettings eventLoopDelay
+]
+
+{ #category : 'events-processing' }
+OSSDL3Driver >> eventLoopDelayWait: aSession [
+
+	self eventLoopShouldFlush
+		ifTrue: [
+			5 timesRepeat: [
+				aSession == Smalltalk session ifTrue: [
+					self flushRenderers ].
+				(Delay forMilliseconds: 1) wait ] ]
+		ifFalse: [
+			(Delay forMilliseconds: self eventLoopDelay) wait ]
+]
+
+{ #category : 'testing' }
+OSSDL3Driver >> eventLoopShouldFlush [
+
+	^ self class allWindows anySatisfy: [ :win |
+		win renderer ifNotNil: [ :r | r requiresEventLoopFlush ] ifNil: [ false ] ]
+]
+
+{ #category : 'events-processing' }
+OSSDL3Driver >> flushRenderers [
+
+	self class allWindows do: [ :win |
+		win renderer ifNotNil: [ :renderer | renderer flush ] ]
 ]
 
 { #category : 'gpu' }
@@ -252,15 +284,17 @@ OSSDL3Driver >> runEventLoop [
 	session := Smalltalk session.
 
 	[ session == Smalltalk session ] whileTrue: [
-		[ self ffiLibrary pollEvent: sdl3Event ] whileTrue: [
-			self processSDL3Event: sdl3Event ].
-		
-		5 timesRepeat: [
-			"Flush all renderers to ensure screen updates"
-			self class allWindows do: [ :win | 
-				win renderer ifNotNil: [ :renderer | renderer flush ] ].
+		self runEventLoopIteration: sdl3Event session: session.
 
-			(Delay forMilliseconds: 1) wait ]]
+		session == Smalltalk session ifTrue: [
+			self eventLoopDelayWait: session ] ]
+]
+
+{ #category : 'events-processing' }
+OSSDL3Driver >> runEventLoopIteration: sdl3Event session: aSession [
+
+	[ (aSession == Smalltalk session) and: [ self ffiLibrary pollEvent: sdl3Event ] ] whileTrue: [
+		self processSDL3Event: sdl3Event ]
 ]
 
 { #category : 'system startup' }
