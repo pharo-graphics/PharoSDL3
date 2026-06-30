@@ -9,13 +9,6 @@ OSWindowMorphicEventHandler >> visitWindowCloseEvent: anEvent [
 ]
 
 { #category : '*SDL3-OSWindow' }
-OSWindowMorphicEventHandler >> visitWindowExposeEvent: anEvent [
-	"Completely redraw world when visible part of window changes to prevent some graphical glitches"
-
-	morphicWorld defer: [ morphicWorld worldState doFullRepaint ]
-]
-
-{ #category : '*SDL3-OSWindow' }
 OSWindowMorphicEventHandler >> visitWindowResizeEvent: anEvent [
 
 	"window resized"
