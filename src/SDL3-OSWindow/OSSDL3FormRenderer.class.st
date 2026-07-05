@@ -1,5 +1,5 @@
 "
-My instances implement OSWindowFormRenderer interface using SDL2 library
+My instances implement OSWindowFormRenderer interface using SDL3 library
 "
 Class {
 	#name : 'OSSDL3FormRenderer',
@@ -37,7 +37,8 @@ OSSDL3FormRenderer >> copySourceRectangle: rectangle targetOrigin: targetPoint e
 { #category : 'private' }
 OSSDL3FormRenderer >> createRenderer [
 
-	sdlRenderer := backendWindow sdlWindow newRenderer
+	sdlRenderer := backendWindow sdlWindow newRenderer.
+	sdlRenderer renderVsync: 1 "VSYNC is disabled by default"
 ]
 
 { #category : 'private' }
