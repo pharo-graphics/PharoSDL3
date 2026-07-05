@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'eventMap',
 		'eventHandlerChain',
-		'session',
+		'eventLoopSession',
 		'sdl3Event'
 	],
 	#classVars : [
@@ -138,7 +138,7 @@ OSSDL3Driver >> ensureEventLoop [
 { #category : 'events-processing' }
 OSSDL3Driver >> handlePendingSDL3Events [
 
-	[  self isSessionValid and: [
+	[  eventLoopSession == Smalltalk session and: [
 		self ffiLibrary pollEvent: sdl3Event ] ] whileTrue: [
 			[  | mappedEvent |
 				mappedEvent := eventMap value: sdl3Event.
@@ -214,12 +214,6 @@ OSSDL3Driver >> initializeWindowMap [
 	RegistryMutex := Semaphore forMutualExclusion
 ]
 
-{ #category : 'testing' }
-OSSDL3Driver >> isSessionValid [
-
-	^ session == Smalltalk session
-]
-
 { #category : 'accessing' }
 OSSDL3Driver >> newFormRenderer: form backendWindow: aBackendWindow [
 
@@ -240,12 +234,12 @@ OSSDL3Driver >> registerWindow: aBackendWindow [
 OSSDL3Driver >> runEventLoop [
 	"The main loop for polling and handling pending SDL3 events."
 	
-	session := Smalltalk session. "Store which session is valid for us"
+	eventLoopSession := Smalltalk session. "Store which session is valid for us"
 	sdl3Event := SDL3Event new. "Reuse this object along this session"
 	eventMap := SDL3EventMap new. "Maps SDL3Event (a C union) to SDL3MappedEvent"
 
 	[  self handlePendingSDL3Events.
-		self waitUntilNextEventLoopIteration ] doWhileTrue: [ self isSessionValid ]
+		self waitUntilNextEventLoopIteration ] doWhileTrue: [ eventLoopSession == Smalltalk session ]
 ]
 
 { #category : 'window registry' }
