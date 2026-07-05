@@ -243,10 +243,9 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
 
 	^ renderer :=
-		OSSDL3SystemSettings formRendererClass new
-			form: form;
-			backendWindow: self;
-			yourself
+		OSSDL3Driver current
+			newFormRenderer: form
+			backendWindow: self
 ]
 
 { #category : 'accessing' }
@@ -274,6 +273,16 @@ OSSDL3BackendWindow >> raise [
 	"Raise the window to the front."
 
 	sdlWindow raise
+]
+
+{ #category : 'flushing' }
+OSSDL3BackendWindow >> rendererFlush [
+	"Renderer might have some pending action. Answer true iif renderer still needs flush."
+
+	renderer ifNil: [ ^ false ].
+	self isValid ifFalse: [ ^ false ].
+	renderer flush.
+	^ renderer needsFlush
 ]
 
 { #category : 'accessing' }
