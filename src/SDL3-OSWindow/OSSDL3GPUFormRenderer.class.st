@@ -224,11 +224,26 @@ OSSDL3GPUFormRenderer >> updateToNewResolution [
 { #category : 'private' }
 OSSDL3GPUFormRenderer >> validate [
 
+	| activeDevice |
 	form ifNil: [ ^ false ].
 
-	(gpuTexture isNil or: [ gpuTexture isNull or: [ 
-		uploadStream isNil or: [ form extent ~= extent ]] ])
-			ifTrue: [ self initializeGPUResources ].
+	activeDevice := (OSWindowDriver current respondsTo: #gpuDevice)
+		                ifTrue: [ OSWindowDriver current gpuDevice ]
+		                ifFalse: [ nil ].
+
+	gpuDevice == activeDevice ifFalse: [ 
+		self destroy.
+		gpuDevice := activeDevice.
+		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+			gpuDevice claimWindow: backendWindow sdlWindow ] ].
+
+	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ false ].
+
+	(gpuTexture isNil or: [ 
+		 gpuTexture isNull or: [ 
+			 uploadStream isNil or: [ form extent ~= extent ] ] ]) ifTrue: [ 
+		self initializeGPUResources ].
 
 	^ true
 ]
+
