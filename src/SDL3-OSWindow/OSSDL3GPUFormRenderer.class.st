@@ -7,7 +7,6 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'gpuDevice',
 		'gpuTexture',
 		'extent',
 		'mutex',
@@ -16,7 +15,8 @@ Class {
 		'deferFlush',
 		'uploadStream',
 		'swapchainWidthHolder',
-		'swapchainHeightHolder'
+		'swapchainHeightHolder',
+		'gpuDevice'
 	],
 	#pools : [
 		'SDL3AllEnumerations'
@@ -80,7 +80,8 @@ OSSDL3GPUFormRenderer >> flush [
 						w: swapchainWidthHolder value;
 						h: swapchainHeightHolder value.
 						
-					blitInfo loadOp: SDL_GPU_LOADOP_DONT_CARE;
+					blitInfo
+						loadOp: SDL_GPU_LOADOP_DONT_CARE;
 						filter: SDL_GPU_FILTER_LINEAR ].
 
 				needsFlush := false ]

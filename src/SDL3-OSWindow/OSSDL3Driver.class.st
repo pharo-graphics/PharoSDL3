@@ -1,8 +1,10 @@
 "
 A window driver used for running things using SDL3 library.
 
-I am responsible for initializing the SDL3 library, managing the event loop,
-and creating SDL3-based OSWindows.
+I am responsible for:
+- managing the event loop process along sessions
+- initializing the SDL3 library
+- creating SDL3-based OSWindows
 "
 Class {
 	#name : 'OSSDL3Driver',
@@ -10,9 +12,10 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'gpuDevice',
 		'eventMap',
-		'eventHandlerChain'
+		'eventHandlerChain',
+		'session',
+		'sdl3Event'
 	],
 	#classVars : [
 		'BackendWindowRegistry',
@@ -155,8 +158,13 @@ OSSDL3Driver >> initialize [
 
 	super initialize.
 
-	"Maps SDL3Event (a C union) to SDL3MappedEvent"
-	eventMap := SDL3EventMap new.
+	self initializeEventHandlerChain.
+	self initializeWindowMap.
+	self initializeSDL3Library
+]
+
+{ #category : 'initialization' }
+OSSDL3Driver >> initializeEventHandlerChain [
 
 	eventHandlerChain :=
 		OSSDL3InterruptHandler new
@@ -171,10 +179,7 @@ OSSDL3Driver >> initialize [
 									yourself);
 							yourself);
 					yourself)
-			yourself.
-
-	self initializeWindowMap.
-	self initializeLibrary
+			yourself
 ]
 
 { #category : 'gpu' }
@@ -190,7 +195,7 @@ OSSDL3Driver >> initializeGPUDevice [
 ]
 
 { #category : 'initialization' }
-OSSDL3Driver >> initializeLibrary [
+OSSDL3Driver >> initializeSDL3Library [
 
 	"Log to stderr, if debug is enabled"
 	OSSDL3SystemSettings debugEnabled ifTrue: [

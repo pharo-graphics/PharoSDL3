@@ -63,7 +63,7 @@ OSSDL3BackendWindow >> clipboardText [
 OSSDL3BackendWindow >> clipboardText: aString [
 	"Set the system clipboard text to aString."
 
-	LibSDL3 uniqueInstance setClipboardText: aString
+	self ffiLibrary setClipboardText: aString
 ]
 
 { #category : 'private' }
@@ -185,14 +185,13 @@ OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 
 	osWindow := anOSWindow.
 
-	sdlWindow := self ffiLibrary
-		newWindowTitle: attributes title
+	sdlWindow := SDL3Window
+		unsafeNewTitle: attributes title
 		w: attributes width
 		h: attributes height
 		flags: (self windowFlagsFromAttributes: attributes).
 
-		osWindow setJustCreatedHandle: self
-
+	osWindow setJustCreatedHandle: self
 ]
 
 { #category : 'text input' }
