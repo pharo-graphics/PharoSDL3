@@ -249,6 +249,14 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 ]
 
 { #category : 'accessing' }
+OSSDL3BackendWindow >> gpuDevice: aGPUDevice [
+	"Forward the GPU device update to our renderer if we have one."
+
+	renderer ifNotNil: [ 
+		renderer updateGPUDevice: aGPUDevice ]
+]
+
+{ #category : 'accessing' }
 OSSDL3BackendWindow >> platformSpecificHandle [
 	
 	^ OSPlatform current osSDL3Platform platformSpecificHandleOf: self

@@ -47,8 +47,7 @@ OSSDL3GPUDriver >> initializeSDL3Library [
 			name: nil.
 
 	self class allWindows do: [ :each |
-		each renderer ifNotNil: [ :renderer |
-			renderer updateGPUDevice: gpuDevice ] ]
+		each gpuDevice: gpuDevice ]
 ]
 
 { #category : 'accessing' }

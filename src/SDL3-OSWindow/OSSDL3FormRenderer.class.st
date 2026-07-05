@@ -202,6 +202,11 @@ OSSDL3FormRenderer >> updateToNewResolution [
 	mutex critical: [ self validate ]
 ]
 
+{ #category : 'updating' }
+OSSDL3FormRenderer >> updateGPUDevice: aGPUDevice [
+	"No-op. Regular form renderer does not use a GPU device."
+]
+
 { #category : 'private' }
 OSSDL3FormRenderer >> validate [
 
