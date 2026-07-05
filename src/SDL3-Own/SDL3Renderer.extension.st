@@ -73,6 +73,17 @@ SDL3Renderer >> renderDrawColor: aColor [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Renderer >> renderVsync [
+	
+	| intHolder |
+	intHolder := FFIInt32 newValueHolder.
+
+	self getRenderVSyncInto: intHolder.
+
+	^ intHolder value
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Renderer >> scale [
 	
 	| widthHolder heightHolder |

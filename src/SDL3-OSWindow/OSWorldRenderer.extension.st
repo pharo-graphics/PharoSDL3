@@ -1,6 +1,15 @@
 Extension { #name : 'OSWorldRenderer' }
 
 { #category : '*SDL3-OSWindow' }
+OSWorldRenderer >> pickMostSuitableWindowDriver [
+
+	| driverClass |
+	driverClass := OSWindowDriver driverClass.
+	driver := driverClass current.
+	^ driver
+]
+
+{ #category : '*SDL3-OSWindow' }
 OSWorldRenderer class >> restart [
 
 	| oldWindows driverClass |
@@ -17,8 +26,16 @@ OSWorldRenderer class >> restart [
 	UIManager default activate.
 
 	oldWindows
-	select: [ :e | e shouldRegisterAfterRestart ]
-	thenDo: [ :e | driverClass current registerWindow: e ].
+		select: [ :e | e shouldRegisterAfterRestart ]
+		thenDo: [ :e | driverClass current registerWindow: e ].
 
 	InformativeNotification signal: self class name , ' restarted'
+]
+
+{ #category : '*SDL3-OSWindow' }
+OSWorldRenderer >> startUp: resuming [
+
+	super startUp: resuming.
+	driver := self pickMostSuitableWindowDriver.
+	driver startUp: resuming
 ]

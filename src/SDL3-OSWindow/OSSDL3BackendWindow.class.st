@@ -63,7 +63,7 @@ OSSDL3BackendWindow >> clipboardText [
 OSSDL3BackendWindow >> clipboardText: aString [
 	"Set the system clipboard text to aString."
 
-	LibSDL3 uniqueInstance setClipboardText: aString
+	self ffiLibrary setClipboardText: aString
 ]
 
 { #category : 'private' }
@@ -156,6 +156,14 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 	sdlWindow fullscreen: aBoolean
 ]
 
+{ #category : 'accessing' }
+OSSDL3BackendWindow >> gpuDevice: aGPUDevice [
+	"Forward the GPU device update to our renderer if we have one."
+
+	renderer ifNotNil: [ 
+		renderer updateGPUDevice: aGPUDevice ]
+]
+
 { #category : 'testing' }
 OSSDL3BackendWindow >> hasInputFocus [
 	"Answer true if the window has input focus."
@@ -185,14 +193,13 @@ OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 
 	osWindow := anOSWindow.
 
-	sdlWindow := self ffiLibrary
-		newWindowTitle: attributes title
+	sdlWindow := SDL3Window
+		unsafeNewTitle: attributes title
 		w: attributes width
 		h: attributes height
 		flags: (self windowFlagsFromAttributes: attributes).
 
-		osWindow setJustCreatedHandle: self
-
+	osWindow setJustCreatedHandle: self
 ]
 
 { #category : 'text input' }
@@ -244,10 +251,9 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
 
 	^ renderer :=
-		OSSDL3SystemSettings formRendererClass new
-			form: form;
-			backendWindow: self;
-			yourself
+		OSSDL3Driver current
+			newFormRenderer: form
+			backendWindow: self
 ]
 
 { #category : 'accessing' }
@@ -275,6 +281,16 @@ OSSDL3BackendWindow >> raise [
 	"Raise the window to the front."
 
 	sdlWindow raise
+]
+
+{ #category : 'flushing' }
+OSSDL3BackendWindow >> rendererFlush [
+	"Renderer might have some pending action. Answer true iif renderer still needs flush."
+
+	renderer ifNil: [ ^ false ].
+	self isValid ifFalse: [ ^ false ].
+	renderer flush.
+	^ renderer needsFlush
 ]
 
 { #category : 'accessing' }

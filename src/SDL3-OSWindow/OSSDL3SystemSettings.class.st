@@ -2,26 +2,19 @@
 I represent system settings for OSWindow-SDL3 package.
 
 Environment variables overrides my settings, if defined:
-- `OSSDL3_FORM_RENDERER` overrides my `formRendererClass` setting
 - `OSSDL3_DEBUG` overrides my `debugEnabled` setting
 "
 Class {
 	#name : 'OSSDL3SystemSettings',
 	#superclass : 'Object',
 	#classInstVars : [
-		'formRendererClass',
-		'debugEnabled'
+		'debugEnabled',
+		'eventLoopPeriodMS'
 	],
 	#category : 'SDL3-OSWindow-Core',
 	#package : 'SDL3-OSWindow',
 	#tag : 'Core'
 }
-
-{ #category : 'accessing' }
-OSSDL3SystemSettings class >> availableFormRendererClasses [
-
-	^ { OSSDL3FormRenderer. OSSDL3GPUFormRenderer }
-]
 
 { #category : 'accessing' }
 OSSDL3SystemSettings class >> debugEnabled [
@@ -50,32 +43,27 @@ OSSDL3SystemSettings class >> declareOn: aSettingTreeBuilder [
 		label: 'OSWindow-SDL3';
 		description: 'Settings for the OSWindow driver for SDL3.';
 		with: [
-			(aSettingTreeBuilder pickOne: #formRendererClass)
-				target: self;
-				label: 'Form renderer';
-				domainValues: self availableFormRendererClasses;
-				description: 'Preferred OSWindowFormRenderer subclass to be used to create instances when the SDL3 driver is activated. This is the renderer used for the Morphic World. OSSDL3_FORM_RENDERER overrides environment variable overrides this setting at startup.'.
-
 			(aSettingTreeBuilder setting: #debugEnabled)
 				target: self;
 				label: 'Debug';
-				description: 'Enable debug capabilities for OSWindow SDL3 driver. Warning: It can reduce performance. OSSDL3_DEBUG overrides environment variable overrides this setting at startup.'
+				description: 'Enable debug capabilities for OSWindow SDL3 driver. Warning: It can reduce performance. OSSDL3_DEBUG overrides environment variable overrides this setting at startup.'.
+
+			(aSettingTreeBuilder range: #eventLoopPeriodMS)
+				target: self;
+				label: 'Event poll period (ms)';
+				description: 'Period in milliseconds between poll event loop iterations.';
+				range: (3 to: 50)
 			]
 ]
 
 { #category : 'accessing' }
-OSSDL3SystemSettings class >> formRendererClass [
+OSSDL3SystemSettings class >> eventLoopPeriodMS [
 
-	"If defined, the environment variable overrides the class variable."
-	OSEnvironment current
-		at: 'OSSDL3_FORM_RENDERER'
-		ifPresent: [ :aString | ^ self environment at: aString asSymbol ].
-
-	^ formRendererClass ifNil: [ OSSDL3FormRenderer ]
+	^ eventLoopPeriodMS ifNil: [ 5 ]
 ]
 
 { #category : 'accessing' }
-OSSDL3SystemSettings class >> formRendererClass: aClass [
+OSSDL3SystemSettings class >> eventLoopPeriodMS: anInteger [
 
-	formRendererClass := aClass
+	eventLoopPeriodMS := anInteger
 ]

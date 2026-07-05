@@ -621,6 +621,34 @@ SDL3WindowTest >> test19Occluded [
 	windowA destroy
 ]
 
+{ #category : 'tests' }
+SDL3WindowTest >> test20Vsync [
+
+	| extent window renderer |
+	extent := 400 @ 300.
+	window :=
+		SDL3Window
+			unsafeNewTitle: #test20Vsync
+			w: extent x h: extent y flags: 0.
+
+	renderer := window newRenderer.
+
+	"By default it is disabled"
+	self
+		assert: renderer renderVsync
+		equals: SDL_RENDERER_VSYNC_DISABLED.
+
+	renderer renderVsync: 1.
+
+	self
+		assert: renderer renderVsync
+		equals: 1.
+
+	"Tear down"
+	renderer destroy.
+	window destroy
+]
+
 { #category : 'private' }
 SDL3WindowTest >> waitToSee [
 	"Perform a wait to consume events and let user visually check the window"

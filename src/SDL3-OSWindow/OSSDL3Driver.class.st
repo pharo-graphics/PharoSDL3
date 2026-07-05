@@ -1,8 +1,10 @@
 "
 A window driver used for running things using SDL3 library.
 
-I am responsible for initializing the SDL3 library, managing the event loop,
-and creating SDL3-based OSWindows.
+I am responsible for:
+- managing the event loop process along sessions
+- initializing the SDL3 library
+- creating SDL3-based OSWindows
 "
 Class {
 	#name : 'OSSDL3Driver',
@@ -10,9 +12,10 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'gpuDevice',
 		'eventMap',
-		'eventHandlerChain'
+		'eventHandlerChain',
+		'eventLoopSession',
+		'sdl3Event'
 	],
 	#classVars : [
 		'BackendWindowRegistry',
@@ -110,9 +113,8 @@ OSSDL3Driver >> deliverEvent: osEvent windowID: windowID [
 		| backendWindow |
 		backendWindow :=
 			BackendWindowRegistry at: windowID ifAbsent: [ ^ nil ].
-		osEvent window: backendWindow osWindow ].
-
-	osEvent deliver
+		osEvent window: backendWindow osWindow.
+		osEvent deliver ]
 ]
 
 { #category : 'events-processing' }
@@ -124,15 +126,6 @@ OSSDL3Driver >> deliverGlobalEvent: osEvent [
 			window osWindow deliverGlobalEvent: osEvent ] ]
 ]
 
-{ #category : 'gpu' }
-OSSDL3Driver >> destroyGPUDevice [
-	"Release the shared GPU device if it exists."
-
-	gpuDevice ifNotNil: [
-		gpuDevice destroy.
-		gpuDevice := nil ]
-]
-
 { #category : 'system startup' }
 OSSDL3Driver >> ensureEventLoop [
 	"Ensure that the SDL3 event loop process is running."
@@ -142,12 +135,20 @@ OSSDL3Driver >> ensureEventLoop [
 	self startUpEventLoop
 ]
 
-{ #category : 'gpu' }
-OSSDL3Driver >> gpuDevice [
-	"Ensure the shared GPU device is initialized and answer it."
+{ #category : 'events-processing' }
+OSSDL3Driver >> handlePendingSDL3Events [
 
-	gpuDevice ifNil: [ self initializeGPUDevice ].
-	^ gpuDevice
+	[  eventLoopSession == Smalltalk session and: [
+		self ffiLibrary pollEvent: sdl3Event ] ] whileTrue: [
+			[  | mappedEvent |
+				mappedEvent := eventMap value: sdl3Event.
+				eventHandlerChain handle: mappedEvent 
+			] on: UnhandledException
+			  do: [ :exception |
+					"Keep running event handling despite a
+					(hopefully isolated) error."
+					exception freeze.
+					[ exception debug ] fork ] ]
 ]
 
 { #category : 'initialization' }
@@ -155,8 +156,13 @@ OSSDL3Driver >> initialize [
 
 	super initialize.
 
-	"Maps SDL3Event (a C union) to SDL3MappedEvent"
-	eventMap := SDL3EventMap new.
+	self initializeEventHandlerChain.
+	self initializeWindowMap.
+	self initializeSDL3Library
+]
+
+{ #category : 'initialization' }
+OSSDL3Driver >> initializeEventHandlerChain [
 
 	eventHandlerChain :=
 		OSSDL3InterruptHandler new
@@ -171,26 +177,11 @@ OSSDL3Driver >> initialize [
 									yourself);
 							yourself);
 					yourself)
-			yourself.
-
-	self initializeWindowMap.
-	self initializeLibrary
-]
-
-{ #category : 'gpu' }
-OSSDL3Driver >> initializeGPUDevice [
-	"Initialize the shared GPU device."
-
-	gpuDevice :=
-		SDL_GPUDevice
-			unsafeNewFormatFlags:
-				SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
-			debugMode: OSSDL3SystemSettings debugEnabled
-			name: nil
+			yourself
 ]
 
 { #category : 'initialization' }
-OSSDL3Driver >> initializeLibrary [
+OSSDL3Driver >> initializeSDL3Library [
 
 	"Log to stderr, if debug is enabled"
 	OSSDL3SystemSettings debugEnabled ifTrue: [
@@ -223,17 +214,13 @@ OSSDL3Driver >> initializeWindowMap [
 	RegistryMutex := Semaphore forMutualExclusion
 ]
 
-{ #category : 'events-processing' }
-OSSDL3Driver >> processSDL3Event: aSDL3Event [
-	
-	[	| mappedEvent |
-		mappedEvent := eventMap value: aSDL3Event.
-		eventHandlerChain handle: mappedEvent ]
-			on: UnhandledException
-			do: [ :ex |
-				"It is critical that event handling keep running despite errors.
-				Any error in event handling require immediate attention and fixing"
-				ex freeze. [ ex debug ] fork ]
+{ #category : 'accessing' }
+OSSDL3Driver >> newFormRenderer: form backendWindow: aBackendWindow [
+
+	^ OSSDL3FormRenderer new
+		form: form;
+		backendWindow: aBackendWindow;
+		yourself
 ]
 
 { #category : 'window registry' }
@@ -245,22 +232,22 @@ OSSDL3Driver >> registerWindow: aBackendWindow [
 
 { #category : 'events-processing' }
 OSSDL3Driver >> runEventLoop [
-	"The main loop for polling and processing SDL3 events. This method runs in a separate process."
+	"The main loop for polling and handling pending SDL3 events."
+	
+	eventLoopSession := Smalltalk session. "Store which session is valid for us"
+	sdl3Event := SDL3Event new. "Reuse this object along this session"
+	eventMap := SDL3EventMap new. "Maps SDL3Event (a C union) to SDL3MappedEvent"
 
-	| sdl3Event session |
-	sdl3Event := SDL3Event new.
-	session := Smalltalk session.
+	[  self handlePendingSDL3Events.
+		self waitUntilNextEventLoopIteration ] doWhileTrue: [ eventLoopSession == Smalltalk session ]
+]
 
-	[ session == Smalltalk session ] whileTrue: [
-		[ self ffiLibrary pollEvent: sdl3Event ] whileTrue: [
-			self processSDL3Event: sdl3Event ].
-		
-		5 timesRepeat: [
-			"Flush all renderers to ensure screen updates"
-			self class allWindows do: [ :win | 
-				win renderer ifNotNil: [ :renderer | renderer flush ] ].
+{ #category : 'window registry' }
+OSSDL3Driver >> selectWindow: selectBlock thenDo: doBlock [
 
-			(Delay forMilliseconds: 1) wait ]]
+	RegistryMutex critical: [
+		BackendWindowRegistry valuesDo: [ :each |
+			(selectBlock value: each) ifTrue: [ doBlock value: each ] ] ]
 ]
 
 { #category : 'system startup' }
@@ -268,8 +255,7 @@ OSSDL3Driver >> shutDown: quitting [
 	"Reset WindowMap and others, otherwise there will be handlers remaining on restart"
 
 	quitting ifTrue: [
-		BackendWindowRegistry := nil.
-		self destroyGPUDevice ].
+		BackendWindowRegistry := nil ].
 
 	self shutDownEventLoop
 ]
@@ -314,4 +300,10 @@ OSSDL3Driver >> unregisterWindowWithId: aWindowID [
 
 	RegistryMutex critical: [
 		BackendWindowRegistry removeKey: aWindowID ifAbsent: [ ] ]
+]
+
+{ #category : 'events-processing' }
+OSSDL3Driver >> waitUntilNextEventLoopIteration [
+
+	(Delay forMilliseconds: OSSDL3SystemSettings eventLoopPeriodMS) wait
 ]

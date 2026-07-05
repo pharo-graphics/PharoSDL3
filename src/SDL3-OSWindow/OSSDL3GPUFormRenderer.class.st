@@ -7,7 +7,6 @@ Class {
 	#traits : 'LibTSDL3',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
-		'gpuDevice',
 		'gpuTexture',
 		'extent',
 		'mutex',
@@ -16,7 +15,8 @@ Class {
 		'deferFlush',
 		'uploadStream',
 		'swapchainWidthHolder',
-		'swapchainHeightHolder'
+		'swapchainHeightHolder',
+		'gpuDevice'
 	],
 	#pools : [
 		'SDL3AllEnumerations'
@@ -80,12 +80,25 @@ OSSDL3GPUFormRenderer >> flush [
 						w: swapchainWidthHolder value;
 						h: swapchainHeightHolder value.
 						
-					blitInfo loadOp: SDL_GPU_LOADOP_DONT_CARE;
+					blitInfo
+						loadOp: SDL_GPU_LOADOP_DONT_CARE;
 						filter: SDL_GPU_FILTER_LINEAR ].
 
 				needsFlush := false ]
 
 			] ensure: [ commandBuffer submit ] ]
+]
+
+{ #category : 'accessing' }
+OSSDL3GPUFormRenderer >> gpuDevice [
+
+	^ gpuDevice
+]
+
+{ #category : 'accessing' }
+OSSDL3GPUFormRenderer >> gpuDevice: aSDL3GPUDevice [
+
+	gpuDevice := aSDL3GPUDevice
 ]
 
 { #category : 'initialization' }
@@ -105,16 +118,16 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 
 	gpuTexture ifNotNil: [ gpuTexture release ].
 	
-	uploadStream ifNil: [
-		uploadStream := OSSDL3GPUUploadStream new ].
-	uploadStream gpuDevice: gpuDevice.
-	uploadStream resetForExtent: extent.
-
 	gpuTexture := gpuDevice
 		new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
 		width: extent x 
 		height: extent y.
+
+	uploadStream ifNil: [
+		uploadStream := OSSDL3GPUUploadStream new.
+		uploadStream gpuDevice: gpuDevice ].
+	uploadStream resetForExtent: extent.
 
 	"Pre-allocate to avoid GC pressure in hot path"
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
@@ -149,6 +162,12 @@ OSSDL3GPUFormRenderer >> mergedDamage: allDamage do: aBlock [
 				currentSpan := each ] ].
 	
 	aBlock value: currentSpan
+]
+
+{ #category : 'testing' }
+OSSDL3GPUFormRenderer >> needsFlush [
+
+	^ needsFlush
 ]
 
 { #category : 'accessing' }
@@ -189,6 +208,19 @@ OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 	]
 ]
 
+{ #category : 'updating' }
+OSSDL3GPUFormRenderer >> updateGPUDevice: aGPUDevice [
+
+	gpuDevice == aGPUDevice ifTrue: [ ^ self ].
+	mutex critical: [ 
+		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+			gpuDevice releaseWindow: backendWindow sdlWindow ].
+		self destroy.
+		gpuDevice := aGPUDevice.
+		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+			gpuDevice claimWindow: backendWindow sdlWindow ] ]
+]
+
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateRectangle: rectangle [
 	"Use batch update for single rectangle as well"
@@ -207,13 +239,12 @@ OSSDL3GPUFormRenderer >> validate [
 
 	form ifNil: [ ^ false ].
 
-	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [
-		"The SDL3GPUDevice is shared among windows"
-		gpuDevice := OSSDL3Driver current gpuDevice.
-		gpuDevice claimWindow: backendWindow sdlWindow ].
+	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ false ].
 
-	(gpuTexture isNil or: [ uploadStream isNil or: [ form extent ~= extent ] ])
-		ifTrue: [ self initializeGPUResources ].
+	(gpuTexture isNil or: [ 
+		 gpuTexture isNull or: [ 
+			 uploadStream isNil or: [ form extent ~= extent ] ] ]) ifTrue: [ 
+		self initializeGPUResources ].
 
 	^ true
 ]

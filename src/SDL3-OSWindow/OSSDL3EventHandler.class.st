@@ -42,9 +42,9 @@ OSSDL3EventHandler >> nextHandler [
 ]
 
 { #category : 'accessing' }
-OSSDL3EventHandler >> nextHandler: anObject [
+OSSDL3EventHandler >> nextHandler: aOSSDL3EventHandler [
 
-	nextHandler := anObject
+	nextHandler := aOSSDL3EventHandler
 ]
 
 { #category : 'visiting' }
