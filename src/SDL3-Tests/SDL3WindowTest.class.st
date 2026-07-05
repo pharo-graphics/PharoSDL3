@@ -635,12 +635,14 @@ SDL3WindowTest >> test20Vsync [
 
 	"By default it is disabled"
 	self
-		deny: renderer renderVsync
+		assert: renderer renderVsync
 		equals: SDL_RENDERER_VSYNC_DISABLED.
 
 	renderer renderVsync: 1.
 
-	self assert: renderer renderVsync. 
+	self
+		assert: renderer renderVsync
+		equals: 1.
 
 	"Tear down"
 	renderer destroy.
