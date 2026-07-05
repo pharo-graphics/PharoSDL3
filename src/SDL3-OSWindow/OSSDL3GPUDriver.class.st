@@ -75,8 +75,8 @@ OSSDL3GPUDriver >> shutDown: quitting [
 
 	quitting ifTrue: [ 
 		gpuDevice ifNotNil: [
-"			self class allWindows do: [ :each |
-				each isValid ifTrue: [ each releaseWindow: each sdlWindow ] ]."
+			self class allWindows do: [ :each |
+				each gpuDevice: nil ].
 			gpuDevice destroy.
 			gpuDevice := nil ] ].
 
