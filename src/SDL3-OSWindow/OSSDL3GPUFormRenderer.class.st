@@ -101,6 +101,17 @@ OSSDL3GPUFormRenderer >> gpuDevice: aSDL3GPUDevice [
 	gpuDevice := aSDL3GPUDevice
 ]
 
+{ #category : 'updating' }
+OSSDL3GPUFormRenderer >> updateGPUDevice: aGPUDevice [
+
+	gpuDevice == aGPUDevice ifTrue: [ ^ self ].
+	mutex critical: [ 
+		self destroy.
+		gpuDevice := aGPUDevice.
+		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+			gpuDevice claimWindow: backendWindow sdlWindow ] ]
+]
+
 { #category : 'initialization' }
 OSSDL3GPUFormRenderer >> initialize [
 
@@ -224,18 +235,7 @@ OSSDL3GPUFormRenderer >> updateToNewResolution [
 { #category : 'private' }
 OSSDL3GPUFormRenderer >> validate [
 
-	| activeDevice |
 	form ifNil: [ ^ false ].
-
-	activeDevice := (OSWindowDriver current respondsTo: #gpuDevice)
-		                ifTrue: [ OSWindowDriver current gpuDevice ]
-		                ifFalse: [ nil ].
-
-	gpuDevice == activeDevice ifFalse: [ 
-		self destroy.
-		gpuDevice := activeDevice.
-		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
-			gpuDevice claimWindow: backendWindow sdlWindow ] ].
 
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ false ].
 

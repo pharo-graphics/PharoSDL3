@@ -44,7 +44,11 @@ OSSDL3GPUDriver >> initializeSDL3Library [
 			unsafeNewFormatFlags:
 				SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
 			debugMode: OSSDL3SystemSettings debugEnabled
-			name: nil
+			name: nil.
+
+	self class allWindows do: [ :each |
+		each renderer ifNotNil: [ :renderer |
+			renderer updateGPUDevice: gpuDevice ] ]
 ]
 
 { #category : 'accessing' }
