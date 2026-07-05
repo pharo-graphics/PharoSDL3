@@ -101,19 +101,6 @@ OSSDL3GPUFormRenderer >> gpuDevice: aSDL3GPUDevice [
 	gpuDevice := aSDL3GPUDevice
 ]
 
-{ #category : 'updating' }
-OSSDL3GPUFormRenderer >> updateGPUDevice: aGPUDevice [
-
-	gpuDevice == aGPUDevice ifTrue: [ ^ self ].
-	mutex critical: [ 
-		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
-			gpuDevice releaseWindow: backendWindow sdlWindow ].
-		self destroy.
-		gpuDevice := aGPUDevice.
-		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
-			gpuDevice claimWindow: backendWindow sdlWindow ] ]
-]
-
 { #category : 'initialization' }
 OSSDL3GPUFormRenderer >> initialize [
 
@@ -221,6 +208,19 @@ OSSDL3GPUFormRenderer >> updateAreas: allDamage immediate: forceToScreen [
 	]
 ]
 
+{ #category : 'updating' }
+OSSDL3GPUFormRenderer >> updateGPUDevice: aGPUDevice [
+
+	gpuDevice == aGPUDevice ifTrue: [ ^ self ].
+	mutex critical: [ 
+		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+			gpuDevice releaseWindow: backendWindow sdlWindow ].
+		self destroy.
+		gpuDevice := aGPUDevice.
+		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+			gpuDevice claimWindow: backendWindow sdlWindow ] ]
+]
+
 { #category : 'updating screen' }
 OSSDL3GPUFormRenderer >> updateRectangle: rectangle [
 	"Use batch update for single rectangle as well"
@@ -248,4 +248,3 @@ OSSDL3GPUFormRenderer >> validate [
 
 	^ true
 ]
-

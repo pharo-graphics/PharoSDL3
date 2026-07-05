@@ -156,6 +156,14 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 	sdlWindow fullscreen: aBoolean
 ]
 
+{ #category : 'accessing' }
+OSSDL3BackendWindow >> gpuDevice: aGPUDevice [
+	"Forward the GPU device update to our renderer if we have one."
+
+	renderer ifNotNil: [ 
+		renderer updateGPUDevice: aGPUDevice ]
+]
+
 { #category : 'testing' }
 OSSDL3BackendWindow >> hasInputFocus [
 	"Answer true if the window has input focus."
@@ -246,14 +254,6 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 		OSSDL3Driver current
 			newFormRenderer: form
 			backendWindow: self
-]
-
-{ #category : 'accessing' }
-OSSDL3BackendWindow >> gpuDevice: aGPUDevice [
-	"Forward the GPU device update to our renderer if we have one."
-
-	renderer ifNotNil: [ 
-		renderer updateGPUDevice: aGPUDevice ]
 ]
 
 { #category : 'accessing' }

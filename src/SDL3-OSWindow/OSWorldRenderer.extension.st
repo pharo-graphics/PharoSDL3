@@ -1,6 +1,15 @@
 Extension { #name : 'OSWorldRenderer' }
 
 { #category : '*SDL3-OSWindow' }
+OSWorldRenderer >> pickMostSuitableWindowDriver [
+
+	| driverClass |
+	driverClass := OSWindowDriver driverClass.
+	driver := driverClass current.
+	^ driver
+]
+
+{ #category : '*SDL3-OSWindow' }
 OSWorldRenderer class >> restart [
 
 	| oldWindows driverClass |
@@ -24,20 +33,9 @@ OSWorldRenderer class >> restart [
 ]
 
 { #category : '*SDL3-OSWindow' }
-OSWorldRenderer >> pickMostSuitableWindowDriver [
-
-	| driverClass |
-	driverClass := OSWindowDriver driverClass.
-	driver := driverClass current.
-	^ driver
-]
-
-{ #category : '*SDL3-OSWindow' }
 OSWorldRenderer >> startUp: resuming [
 
 	super startUp: resuming.
 	driver := self pickMostSuitableWindowDriver.
 	driver startUp: resuming
 ]
-
-

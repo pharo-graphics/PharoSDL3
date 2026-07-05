@@ -166,6 +166,11 @@ OSSDL3FormRenderer >> updateAreas: allDamage immediate: immediate [
 		(deferPresent or: [ damageUnion isNil ]) ifFalse: [ self presentTexture ] ]
 ]
 
+{ #category : 'updating' }
+OSSDL3FormRenderer >> updateGPUDevice: aGPUDevice [
+	"No-op. Regular form renderer does not use a GPU device."
+]
+
 { #category : 'updating screen' }
 OSSDL3FormRenderer >> updateRectangle: rectangle [
 
@@ -200,11 +205,6 @@ OSSDL3FormRenderer >> updateRectangle: rectangle [
 OSSDL3FormRenderer >> updateToNewResolution [
 
 	mutex critical: [ self validate ]
-]
-
-{ #category : 'updating' }
-OSSDL3FormRenderer >> updateGPUDevice: aGPUDevice [
-	"No-op. Regular form renderer does not use a GPU device."
 ]
 
 { #category : 'private' }
