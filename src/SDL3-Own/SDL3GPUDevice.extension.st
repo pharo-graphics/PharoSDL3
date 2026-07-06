@@ -61,7 +61,7 @@ SDL3GPUDevice >> downloadFrom: sourceBuffer type: ffiClass count: arraySize do: 
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> driver [
+SDL3GPUDevice >> driverName [
 
 	^ self ffiLibrary getGPUDeviceDriver: self
 ]
@@ -352,6 +352,18 @@ SDL3GPUDevice >> newUploadTransferBuffer: size [
 			device: self;
 			yourself
 	] ensure: [ info free ]
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> printOn: aStream [
+
+	super printOn: aStream.
+	self isNull ifTrue: [ ^ self ].
+
+	aStream
+		nextPutAll: ' (';
+		nextPutAll: self driverName;
+		nextPut: $)
 ]
 
 { #category : '*SDL3-Own' }
