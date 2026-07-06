@@ -177,7 +177,7 @@ LibSDL3 >> clipboardMimeTypes [
 	| countValueHolder address array |
 	countValueHolder := FFIInt32 newValueHolder.
 	address := self getClipboardMimeTypes: countValueHolder.
-	array := address arrayOfStringsOfSize: countValueHolder value. 
+	array := address readCStringArrayOfSize: countValueHolder value. 
 	self free: address.
 	^ array
 ]

@@ -1,16 +1,6 @@
 Extension { #name : 'ExternalAddress' }
 
 { #category : '*SDL3-Own' }
-ExternalAddress >> arrayOfStringsOfSize: anInteger [ 
-
-	^ (1 to: anInteger) collect: [ :index |
-		| zeroBasedByteIndex pointerToCString |
-		zeroBasedByteIndex := ((index - 1) * FFIExternalType pointerSize).
-		pointerToCString := self pointerAtOffset: zeroBasedByteIndex.
-		pointerToCString bytesFromCString utf8Decoded ]
-]
-
-{ #category : '*SDL3-Own' }
 ExternalAddress >> bytesFromNext: size [
 
 	^ ByteArray new: size streamContents: [ :aStream |
@@ -49,6 +39,16 @@ ExternalAddress >> readArrayOf: aType size: count [
 		results at: index put: value.
 		address := address + externalType typeSize ].
 	^ results
+]
+
+{ #category : '*SDL3-Own' }
+ExternalAddress >> readCStringArrayOfSize: anInteger [ 
+
+	^ (1 to: anInteger) collect: [ :index |
+		| zeroBasedByteIndex pointerToCString |
+		zeroBasedByteIndex := ((index - 1) * FFIExternalType pointerSize).
+		pointerToCString := self pointerAtOffset: zeroBasedByteIndex.
+		pointerToCString bytesFromCString asString ]
 ]
 
 { #category : '*SDL3-Own' }
