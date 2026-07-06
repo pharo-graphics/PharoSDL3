@@ -50,3 +50,9 @@ VertexOutput main(VertexInput input) {
 }
 '
 ]
+
+{ #category : 'accessing' }
+SDL3GPUBoidsVertexShaderSource class >> metadata [
+
+	^ SDL3GPUVertexShaderMetadata new
+]

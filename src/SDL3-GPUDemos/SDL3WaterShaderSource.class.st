@@ -72,3 +72,14 @@ float4 main(PSInput input) : SV_Target
 }
 '
 ]
+
+{ #category : 'accessing' }
+SDL3WaterShaderSource class >> metadata [
+
+	^ (SDL3GPUFragmentShaderMetadata new
+		samplers: {
+			(SDL3GPUSamplerBinding index: 0 space: 2) };
+		uniformBuffers: {
+			(SDL3GPUUniformBinding index: 0 space: 3) };
+		yourself)
+]

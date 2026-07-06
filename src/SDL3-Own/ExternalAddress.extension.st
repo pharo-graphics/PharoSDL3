@@ -38,14 +38,19 @@ ExternalAddress >> nullTerminatedArrayOfCStrings [
 ExternalAddress >> readArrayOf: aType size: count [
 	"Returns an array of aType of the specified size"
 
-	| externalType address results |
+	| externalType address results isStruct |
 	externalType := FFIExternalType resolveType: aType.
+	isStruct := aType isClass and: [ aType inheritsFrom: FFIExternalStructure ].
 
 	"then build the array"
 	results := Array new: count.
 	address := self.
 	1 to: count do: [ :index |
-		results at: index put: (externalType handle: address at: 1).
+		| value |
+		value := isStruct
+			         ifTrue: [ aType fromHandle: (address bytesFromNext: externalType typeSize) ]
+			         ifFalse: [ externalType handle: address at: 1 ].
+		results at: index put: value.
 		address := address + externalType typeSize ].
 	^ results
 ]
@@ -58,7 +63,9 @@ ExternalAddress >> readStructArrayFromPointers: aFFIStructure size: count [
 		| address |
 		address := self.
 		1 to: count do: [ :index |
-			stream nextPut: (aFFIStructure fromHandle: (address pointerAt: 1)).
+			| pointer |
+			pointer := address pointerAt: 1.
+			stream nextPut: (aFFIStructure fromHandle: (pointer bytesFromNext: aFFIStructure structureSize)).
 			address := address + FFIExternalType pointerSize ] ]
 ]
 

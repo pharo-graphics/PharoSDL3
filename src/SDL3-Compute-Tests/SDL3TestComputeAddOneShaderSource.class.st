@@ -45,16 +45,12 @@ void main(uint3 dtid : SV_DispatchThreadID) {
 ]
 
 { #category : 'accessing' }
-SDL3TestComputeAddOneShaderSource class >> numberOfReadOnlyStorageBuffers [
-	^ 1
-]
+SDL3TestComputeAddOneShaderSource class >> metadata [
 
-{ #category : 'accessing' }
-SDL3TestComputeAddOneShaderSource class >> numberOfReadWriteStorageBuffers [
-	^ 1
-]
-
-{ #category : 'accessing' }
-SDL3TestComputeAddOneShaderSource class >> threadCountX [
-	^ 64
+	^ (SDL3GPUComputeShaderMetadata new
+		threadCountX: 64;
+		storageBuffers: {
+			(SDL3GPUReadOnlyStorageBufferBinding index: 0 space: 0).
+			(SDL3GPUReadWriteStorageBufferBinding index: 0 space: 1) };
+		yourself)
 ]

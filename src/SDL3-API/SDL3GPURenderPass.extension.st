@@ -97,14 +97,6 @@ SDL3GPURenderPass >> indexBuffer: binding elementSize: indexElementSize [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPURenderPass >> pipeline: graphicsPipeline [
-
-	self ffiLibrary
-		bindGPUGraphicsPipelineRenderPass: self
-		graphicsPipeline: graphicsPipeline
-]
-
-{ #category : '*SDL3-API' }
 SDL3GPURenderPass >> releaseFromGPUDevice [
 	"Passes are released when they are ended."
 

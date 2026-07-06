@@ -54,6 +54,10 @@ VertexOutput main(VertexInput input) {
 ]
 
 { #category : 'accessing' }
-SDL3TestGraphicsUniformVertexShaderSource class >> numberOfUniformBuffers [
-	^ 1
+SDL3TestGraphicsUniformVertexShaderSource class >> metadata [
+
+	^ (SDL3GPUVertexShaderMetadata new
+		uniformBuffers: {
+			(SDL3GPUUniformBinding index: 0 space: 1) };
+		yourself)
 ]

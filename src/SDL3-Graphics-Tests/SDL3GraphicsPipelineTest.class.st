@@ -5,9 +5,8 @@ I also serve as a pedagogical reference for developers.
 "
 Class {
 	#name : 'SDL3GraphicsPipelineTest',
-	#superclass : 'SDL3Test',
+	#superclass : 'SDL3GPUTest',
 	#instVars : [
-		'gpuDevice',
 		'shaderFormats'
 	],
 	#pools : [
@@ -23,24 +22,7 @@ SDL3GraphicsPipelineTest >> setUp [
 
 	super setUp.
 
-	self
-		assert: (sdl initSubSystem: SDL_INIT_VIDEO)
-		description: 'Initialize video subsystem'.
-
-	gpuDevice := SDL3GPUDevice
-		unsafeNewFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
-		debugMode: true name: nil.
-
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray
-]
-
-{ #category : 'running' }
-SDL3GraphicsPipelineTest >> tearDown [
-
-	gpuDevice ifNotNil: [ gpuDevice destroy ].
-	gpuDevice := nil.
-
-	super tearDown
 ]
 
 { #category : 'tests' }

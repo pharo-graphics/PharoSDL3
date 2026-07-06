@@ -24,9 +24,9 @@ SDL3FragmentShaderSource class >> isAbstract [
 ]
 
 { #category : 'accessing' }
-SDL3FragmentShaderSource class >> numberOfSamplers [
+SDL3FragmentShaderSource class >> metadata [
 
-	^ 1
+	^ SDL3GPUFragmentShaderMetadata new
 ]
 
 { #category : 'accessing' }

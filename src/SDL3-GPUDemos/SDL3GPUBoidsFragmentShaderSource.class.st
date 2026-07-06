@@ -52,6 +52,7 @@ float4 main(PSInput input) : SV_Target {
 ]
 
 { #category : 'accessing' }
-SDL3GPUBoidsFragmentShaderSource class >> numberOfSamplers [
-	^ 0
+SDL3GPUBoidsFragmentShaderSource class >> metadata [
+
+	^ SDL3GPUFragmentShaderMetadata new
 ]

@@ -40,27 +40,9 @@ SDL3GPUComputePass >> dispatchIndirectBuffer: buffer offset: offset [
 ]
 
 { #category : '*SDL3-API' }
-SDL3GPUComputePass >> dispatchX: groupcountX y: groupcountY z: groupcountZ [
-
-	self ffiLibrary
-		dispatchGPUComputeComputePass: self
-		groupcountX: groupcountX
-		groupcountY: groupcountY
-		groupcountZ: groupcountZ
-]
-
-{ #category : '*SDL3-API' }
 SDL3GPUComputePass >> end [
 
 	self ffiLibrary endGPUComputePass: self
-]
-
-{ #category : '*SDL3-API' }
-SDL3GPUComputePass >> pipeline: computePipeline [
-
-	self ffiLibrary
-		bindGPUComputePipelineComputePass: self
-		computePipeline: computePipeline
 ]
 
 { #category : '*SDL3-API' }

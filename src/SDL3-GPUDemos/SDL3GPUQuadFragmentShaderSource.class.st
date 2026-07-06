@@ -36,11 +36,21 @@ SDL3GPUQuadFragmentShaderSource class >> hlslSource [
 	Matches official SDL_gpu example style."
 	<script: 'self compileBase64CodeFromHLSLSource'>
 
-	^ 'Texture2D<float4> tex : register(t0, space2);
+	^ '
+Texture2D<float4> tex : register(t0, space2);
 SamplerState sam : register(s0, space2);
 
 float4 main(float2 uv : TEXCOORD0) : SV_Target {
    return tex.Sample(sam, uv);
 }
 '
+]
+
+{ #category : 'accessing' }
+SDL3GPUQuadFragmentShaderSource class >> metadata [
+
+	^ (SDL3GPUFragmentShaderMetadata new
+		samplers: {
+			(SDL3GPUSamplerBinding index: 0 space: 2) };
+		yourself)
 ]
