@@ -2,7 +2,7 @@
 I benchmark current OSWindowDriver. I measure how much a Pharo process is blocked during rendering.
 "
 Class {
-	#name : 'OSBackgroundProcessBenchmark',
+	#name : 'OSBenchmarkMorph',
 	#superclass : 'Morph',
 	#instVars : [
 		'measureProcess',
@@ -20,7 +20,7 @@ Class {
 }
 
 { #category : 'convenience' }
-OSBackgroundProcessBenchmark class >> benchAll [
+OSBenchmarkMorph class >> benchAll [
 	<script>
 
 	[(self classSide selectors sorted copyWithout: #benchAll)
@@ -29,28 +29,28 @@ OSBackgroundProcessBenchmark class >> benchAll [
 ]
 
 { #category : 'convenience' }
-OSBackgroundProcessBenchmark class >> benchHorizontal [
+OSBenchmarkMorph class >> benchHorizontal [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 50 asPoint extent: 600@20 }
 ]
 
 { #category : 'convenience' }
-OSBackgroundProcessBenchmark class >> benchLarge [
+OSBenchmarkMorph class >> benchLarge [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 0@0 extent: WindowExtent }
 ]
 
 { #category : 'convenience' }
-OSBackgroundProcessBenchmark class >> benchMedium [
+OSBenchmarkMorph class >> benchMedium [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 50 asPoint extent: 600@600 }
 ]
 
 { #category : 'convenience' }
-OSBackgroundProcessBenchmark class >> benchTwoDistant [
+OSBenchmarkMorph class >> benchTwoDistant [
 	<script>
 
 	^ self measureFor: BenchDuration all: {
@@ -59,14 +59,14 @@ OSBackgroundProcessBenchmark class >> benchTwoDistant [
 ]
 
 { #category : 'convenience' }
-OSBackgroundProcessBenchmark class >> benchVertical [
+OSBenchmarkMorph class >> benchVertical [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 50 asPoint extent: 20@600 }
 ]
 
 { #category : 'class initialization' }
-OSBackgroundProcessBenchmark class >> initialize [
+OSBenchmarkMorph class >> initialize [
 
 	StepTime := 16. "Aim for ~60 FPS"
 	BenchDuration := 5 seconds.
@@ -74,7 +74,7 @@ OSBackgroundProcessBenchmark class >> initialize [
 ]
 
 { #category : 'convenience' }
-OSBackgroundProcessBenchmark class >> measureFor: aDuration all: aCollectionOfRectangles [
+OSBenchmarkMorph class >> measureFor: aDuration all: aCollectionOfRectangles [
 	"Benchmark in a new process. You can send me from UI or from terminal. The answer is a `TKTFuture`, which is can be used in this way:
 	
 	./pharo-ui Pharo.image eval 'OSSDL3GPURenderingBenchmark benchVertical andThen: [ Smalltalk snapshot: false andQuit: true ] future'
@@ -108,27 +108,33 @@ OSBackgroundProcessBenchmark class >> measureFor: aDuration all: aCollectionOfRe
 ]
 
 { #category : 'benchmarking' }
-OSBackgroundProcessBenchmark >> isStarted [
+OSBenchmarkMorph >> measureFor: aDuration to: aCollection [
+	"Run benchmark for the given duration and return the background process throughput."
 
-	^ measureProcess isNotNil
-]
+	stepCount := 0.
+	backgroundCount := 0.
 
-{ #category : 'benchmarking' }
-OSBackgroundProcessBenchmark >> measureFor: aDuration to: aCollection [
-	"Run a benchmark for the given duration and return the background process throughput."
+	self openInWorld.
 
-	self start.
+	countBackgroundProcess := [
+		[ backgroundCount := backgroundCount + 1 ] repeat
+	] forkAt: Processor userBackgroundPriority.
+
 	measureProcess := [
 		aDuration wait.
 		aCollection nextPut: {
 			#stepsPerSecond -> (stepCount/aDuration asSeconds) asInteger.
 			#backgroundCountPerMS -> (backgroundCount/aDuration asMilliSeconds) asInteger }.
-		self stop
+
+		self delete.
+		countBackgroundProcess terminate.
+		countBackgroundProcess := nil.
+		measureProcess := nil 
 	] forkAt: Processor userInterruptPriority
 ]
 
 { #category : 'printing' }
-OSBackgroundProcessBenchmark >> printOn: aStream [
+OSBenchmarkMorph >> printOn: aStream [
 
 	super printOn: aStream.
 	
@@ -138,35 +144,24 @@ OSBackgroundProcessBenchmark >> printOn: aStream [
 ]
 
 { #category : 'stepping and presenter' }
-OSBackgroundProcessBenchmark >> start [
-
-	self assert: self isStarted not.
-
-	stepCount := 0.
-	backgroundCount := 0.
-
-	self openInWorld.
-
-	countBackgroundProcess := [
-		[ backgroundCount := backgroundCount + 1 ] repeat
-	] forkAt: Processor userBackgroundPriority
-]
-
-{ #category : 'stepping and presenter' }
-OSBackgroundProcessBenchmark >> step [
+OSBenchmarkMorph >> step [
 
 	stepCount := stepCount + 1.
-	self color: Color random
+
+	self color:
+		(stepCount even
+			ifTrue: [ Color orange ]
+			ifFalse: [ Color blue ])
 ]
 
 { #category : 'stepping and presenter' }
-OSBackgroundProcessBenchmark >> stepTime [
+OSBenchmarkMorph >> stepTime [
 
 	^ StepTime
 ]
 
 { #category : 'stepping and presenter' }
-OSBackgroundProcessBenchmark >> stop [
+OSBenchmarkMorph >> stop [
 
 	self delete.
 
