@@ -12,9 +12,9 @@ Example: transforms vertex positions, applies skinning
 Class {
 	#name : 'SDL3VertexShaderSource',
 	#superclass : 'SDL3GraphicsShaderSource',
-	#category : 'SDL3-Own-Shaders',
-	#package : 'SDL3-Own',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPU-ShaderSources',
+	#package : 'SDL3-GPU',
+	#tag : 'ShaderSources'
 }
 
 { #category : 'testing' }

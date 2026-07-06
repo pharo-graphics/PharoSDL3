@@ -12,9 +12,9 @@ Example: applies textures, lighting, effects
 Class {
 	#name : 'SDL3FragmentShaderSource',
 	#superclass : 'SDL3GraphicsShaderSource',
-	#category : 'SDL3-Own-Shaders',
-	#package : 'SDL3-Own',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPU-ShaderSources',
+	#package : 'SDL3-GPU',
+	#tag : 'ShaderSources'
 }
 
 { #category : 'testing' }

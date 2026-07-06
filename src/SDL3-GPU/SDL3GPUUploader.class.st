@@ -19,9 +19,9 @@ Class {
 		'SDL3Typedef',
 		'SDL3ZConstants'
 	],
-	#category : 'SDL3-Own-GPU',
-	#package : 'SDL3-Own',
-	#tag : 'GPU'
+	#category : 'SDL3-GPU-Support',
+	#package : 'SDL3-GPU',
+	#tag : 'Support'
 }
 
 { #category : 'instance creation' }

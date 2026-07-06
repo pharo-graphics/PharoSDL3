@@ -4,8 +4,9 @@ I test the SDL3ShaderMetadataScanner.
 Class {
 	#name : 'SDL3ShaderMetadataScannerTest',
 	#superclass : 'TestCase',
-	#category : 'SDL3-ShaderScanner-Tests',
-	#package : 'SDL3-ShaderScanner-Tests'
+	#category : 'SDL3-GPU-Tests-ShaderScanner',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ShaderScanner'
 }
 
 { #category : 'tests' }

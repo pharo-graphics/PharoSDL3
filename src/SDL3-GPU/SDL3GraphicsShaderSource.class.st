@@ -11,9 +11,9 @@ Subclasses represent specific stages of the graphics pipeline.
 Class {
 	#name : 'SDL3GraphicsShaderSource',
 	#superclass : 'SDL3ShaderSource',
-	#category : 'SDL3-Own-Shaders',
-	#package : 'SDL3-Own',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPU-ShaderSources',
+	#package : 'SDL3-GPU',
+	#tag : 'ShaderSources'
 }
 
 { #category : 'testing' }

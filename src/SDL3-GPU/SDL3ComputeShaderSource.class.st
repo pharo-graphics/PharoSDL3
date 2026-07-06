@@ -14,9 +14,9 @@ general-purpose GPU computation (physics, post-processing, etc.)
 Class {
 	#name : 'SDL3ComputeShaderSource',
 	#superclass : 'SDL3ShaderSource',
-	#category : 'SDL3-Own-Shaders',
-	#package : 'SDL3-Own',
-	#tag : 'Shaders'
+	#category : 'SDL3-GPU-ShaderSources',
+	#package : 'SDL3-GPU',
+	#tag : 'ShaderSources'
 }
 
 { #category : 'testing' }
