@@ -10,8 +10,9 @@ Class {
 		'OFFSET_PAD1',
 		'OFFSET_PAD2'
 	],
-	#category : 'SDL3-Compute-Tests',
-	#package : 'SDL3-Compute-Tests'
+	#category : 'SDL3-GPU-Tests-ComputePipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ComputePipeline'
 }
 
 { #category : 'field definition' }

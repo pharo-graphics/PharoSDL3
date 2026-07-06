@@ -4,8 +4,9 @@ I provide a vertex shader for instanced rendering.
 Class {
 	#name : 'SDL3TestGraphicsInstancedVertexShaderSource',
 	#superclass : 'SDL3VertexShaderSource',
-	#category : 'SDL3-Graphics-Tests',
-	#package : 'SDL3-Graphics-Tests'
+	#category : 'SDL3-GPU-Tests-GraphicsPipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'GraphicsPipeline'
 }
 
 { #category : 'accessing' }

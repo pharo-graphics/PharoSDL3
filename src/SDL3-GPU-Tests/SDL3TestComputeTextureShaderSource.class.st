@@ -4,8 +4,9 @@ I provide the compute shader for Case 6: Storage Textures.
 Class {
 	#name : 'SDL3TestComputeTextureShaderSource',
 	#superclass : 'SDL3ComputeShaderSource',
-	#category : 'SDL3-Compute-Tests',
-	#package : 'SDL3-Compute-Tests'
+	#category : 'SDL3-GPU-Tests-ComputePipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ComputePipeline'
 }
 
 { #category : 'accessing' }

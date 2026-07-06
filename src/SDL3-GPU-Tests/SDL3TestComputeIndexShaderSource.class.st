@@ -4,8 +4,9 @@ Minimal compute shader for testing large buffer indexing.
 Class {
 	#name : 'SDL3TestComputeIndexShaderSource',
 	#superclass : 'SDL3ComputeShaderSource',
-	#category : 'SDL3-Compute-Tests',
-	#package : 'SDL3-Compute-Tests'
+	#category : 'SDL3-GPU-Tests-ComputePipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ComputePipeline'
 }
 
 { #category : 'accessing' }

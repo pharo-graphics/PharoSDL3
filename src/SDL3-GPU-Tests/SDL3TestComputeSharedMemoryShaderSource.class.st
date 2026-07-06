@@ -5,8 +5,9 @@ I implement a simple parallel prefix sum or parallel reduction within a workgrou
 Class {
 	#name : 'SDL3TestComputeSharedMemoryShaderSource',
 	#superclass : 'SDL3ComputeShaderSource',
-	#category : 'SDL3-Compute-Tests',
-	#package : 'SDL3-Compute-Tests'
+	#category : 'SDL3-GPU-Tests-ComputePipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ComputePipeline'
 }
 
 { #category : 'accessing' }

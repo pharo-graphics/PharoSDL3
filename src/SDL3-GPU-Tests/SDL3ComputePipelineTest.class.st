@@ -12,8 +12,9 @@ Class {
 		'SDL3AllEnumerations',
 		'SDL3ZConstants'
 	],
-	#category : 'SDL3-Compute-Tests',
-	#package : 'SDL3-Compute-Tests'
+	#category : 'SDL3-GPU-Tests-ComputePipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ComputePipeline'
 }
 
 { #category : 'running' }

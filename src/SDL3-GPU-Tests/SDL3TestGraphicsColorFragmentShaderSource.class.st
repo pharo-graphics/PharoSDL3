@@ -4,8 +4,9 @@ I provide a fragment shader that outputs interpolated vertex colors.
 Class {
 	#name : 'SDL3TestGraphicsColorFragmentShaderSource',
 	#superclass : 'SDL3FragmentShaderSource',
-	#category : 'SDL3-Graphics-Tests',
-	#package : 'SDL3-Graphics-Tests'
+	#category : 'SDL3-GPU-Tests-GraphicsPipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'GraphicsPipeline'
 }
 
 { #category : 'accessing' }

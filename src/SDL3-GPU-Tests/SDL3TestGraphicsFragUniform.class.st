@@ -10,8 +10,9 @@ Class {
 		'OFFSET_G',
 		'OFFSET_R'
 	],
-	#category : 'SDL3-Graphics-Tests',
-	#package : 'SDL3-Graphics-Tests'
+	#category : 'SDL3-GPU-Tests-GraphicsPipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'GraphicsPipeline'
 }
 
 { #category : 'field definition' }

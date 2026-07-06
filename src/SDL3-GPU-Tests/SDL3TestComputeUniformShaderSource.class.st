@@ -4,8 +4,9 @@ Minimal compute shader for testing uniforms.
 Class {
 	#name : 'SDL3TestComputeUniformShaderSource',
 	#superclass : 'SDL3ComputeShaderSource',
-	#category : 'SDL3-Compute-Tests',
-	#package : 'SDL3-Compute-Tests'
+	#category : 'SDL3-GPU-Tests-ComputePipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ComputePipeline'
 }
 
 { #category : 'accessing' }

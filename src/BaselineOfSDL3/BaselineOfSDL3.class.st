@@ -22,11 +22,10 @@ BaselineOfSDL3 >> baseline: spec [
 				package: 'SDL3-OSWindow' with: [ spec requires: #('SDL3' 'SDL3-Own') ];
 
 				package: 'SDL3-Tests' with: [ spec requires: #('SDL3' 'SDL3-Own') ];
-				package: 'SDL3-Graphics-Tests' with: [ spec requires: #('SDL3-Tests') ];
-				package: 'SDL3-Compute-Tests' with: [ spec requires: #('SDL3-Tests') ];
 
 				package: 'SDL3-Demos' with: [ spec requires: #('SDL3' 'SDL3-Own') ];
-				package: 'SDL3-GPUDemos' with: [ spec requires: #('SDL3-Demos') ]
+				package: 'SDL3-GPUDemos' with: [ spec requires: #('SDL3-Demos') ];
+				package: 'SDL3-GPU-Tests' with: [ spec requires: #('SDL3-Tests' 'SDL3-GPUDemos') ]
 			]
 ]
 

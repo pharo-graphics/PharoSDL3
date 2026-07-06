@@ -4,8 +4,9 @@ I provide a basic fragment shader that outputs solid green.
 Class {
 	#name : 'SDL3TestGraphicsQuadFragmentShaderSource',
 	#superclass : 'SDL3FragmentShaderSource',
-	#category : 'SDL3-Graphics-Tests',
-	#package : 'SDL3-Graphics-Tests'
+	#category : 'SDL3-GPU-Tests-GraphicsPipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'GraphicsPipeline'
 }
 
 { #category : 'accessing' }

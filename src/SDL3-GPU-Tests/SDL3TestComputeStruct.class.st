@@ -10,8 +10,9 @@ Class {
 		'OFFSET_Y',
 		'OFFSET_Z'
 	],
-	#category : 'SDL3-Compute-Tests',
-	#package : 'SDL3-Compute-Tests'
+	#category : 'SDL3-GPU-Tests-ComputePipeline',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'ComputePipeline'
 }
 
 { #category : 'field definition' }
