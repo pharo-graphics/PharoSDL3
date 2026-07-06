@@ -1,9 +1,12 @@
 Class {
 	#name : 'SDL3GPUVertexElementFormatTest',
-	#superclass : 'SDL3Test',
-	#category : 'SDL3-Tests-Library',
-	#package : 'SDL3-Tests',
-	#tag : 'Library'
+	#superclass : 'TestCase',
+	#pools : [
+		'SDL3GPUVertexElementFormat'
+	],
+	#category : 'SDL3-GPU-Tests-Basic',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'Basic'
 }
 
 { #category : 'tests' }

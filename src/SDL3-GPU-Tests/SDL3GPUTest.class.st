@@ -5,9 +5,9 @@ Class {
 		'window',
 		'gpuDevice'
 	],
-	#category : 'SDL3-Tests-Library',
-	#package : 'SDL3-Tests',
-	#tag : 'Library'
+	#category : 'SDL3-GPU-Tests-Basic',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'Basic'
 }
 
 { #category : 'testing' }

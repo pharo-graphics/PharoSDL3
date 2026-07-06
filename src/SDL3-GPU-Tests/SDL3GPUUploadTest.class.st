@@ -1,9 +1,9 @@
 Class {
 	#name : 'SDL3GPUUploadTest',
 	#superclass : 'SDL3GPUTest',
-	#category : 'SDL3-Tests-Library',
-	#package : 'SDL3-Tests',
-	#tag : 'Library'
+	#category : 'SDL3-GPU-Tests-Basic',
+	#package : 'SDL3-GPU-Tests',
+	#tag : 'Basic'
 }
 
 { #category : 'tests' }
