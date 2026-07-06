@@ -1,6 +1,12 @@
 Extension { #name : 'SDL3Cursor' }
 
 { #category : '*SDL3-Own' }
+SDL3Cursor >> destroy [
+
+	self ffiLibrary destroyCursor: self
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Cursor class >> hide [
 
 	self ffiLibrary assertSuccess: self ffiLibrary hideCursor
@@ -10,6 +16,12 @@ SDL3Cursor class >> hide [
 SDL3Cursor class >> isVisible [
 
 	^ self ffiLibrary cursorVisible
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Cursor >> setActive [
+
+	self ffiLibrary assertSuccess: (self ffiLibrary setCursor: self)
 ]
 
 { #category : '*SDL3-Own' }
