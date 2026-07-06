@@ -25356,7 +25356,7 @@ LibSDL3 >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdat
 	 * \sa SDL_HasClipboardData
 	 */"
 
-	^ self ffiCall: #(bool SDL_SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup, void* userdata, const char** mime_types, size_t num_mime_types))
+	^ self ffiCall: #(bool SDL_SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup, void* userdata, void* mime_types, size_t num_mime_types))
 ]
 
 { #category : 'public - SDL_clipboard' }
