@@ -1,9 +1,8 @@
 "
-I am a benchmark for the OSSDL3GPUFormRenderer.
-I measure how much a Pharo process is blocked during rendering.
+I benchmark current OSWindowDriver. I measure how much a Pharo process is blocked during rendering.
 "
 Class {
-	#name : 'OSSDL3GPURenderingBenchmark',
+	#name : 'OSBackgroundProcessBenchmark',
 	#superclass : 'Morph',
 	#instVars : [
 		'measureProcess',
@@ -16,13 +15,12 @@ Class {
 		'StepTime',
 		'WindowExtent'
 	],
-	#category : 'SDL3-Tests-OSWindow',
-	#package : 'SDL3-Tests',
-	#tag : 'OSWindow'
+	#category : 'SDL3-OSWindow',
+	#package : 'SDL3-OSWindow'
 }
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> benchAll [
+OSBackgroundProcessBenchmark class >> benchAll [
 	<script>
 
 	[(self classSide selectors sorted copyWithout: #benchAll)
@@ -31,28 +29,28 @@ OSSDL3GPURenderingBenchmark class >> benchAll [
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> benchHorizontal [
+OSBackgroundProcessBenchmark class >> benchHorizontal [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 50 asPoint extent: 600@20 }
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> benchLarge [
+OSBackgroundProcessBenchmark class >> benchLarge [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 0@0 extent: WindowExtent }
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> benchMedium [
+OSBackgroundProcessBenchmark class >> benchMedium [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 50 asPoint extent: 600@600 }
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> benchTwoDistant [
+OSBackgroundProcessBenchmark class >> benchTwoDistant [
 	<script>
 
 	^ self measureFor: BenchDuration all: {
@@ -61,14 +59,14 @@ OSSDL3GPURenderingBenchmark class >> benchTwoDistant [
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> benchVertical [
+OSBackgroundProcessBenchmark class >> benchVertical [
 	<script>
 
 	^ self measureFor: BenchDuration all: { 50 asPoint extent: 20@600 }
 ]
 
 { #category : 'class initialization' }
-OSSDL3GPURenderingBenchmark class >> initialize [
+OSBackgroundProcessBenchmark class >> initialize [
 
 	StepTime := 16. "Aim for ~60 FPS"
 	BenchDuration := 5 seconds.
@@ -76,7 +74,7 @@ OSSDL3GPURenderingBenchmark class >> initialize [
 ]
 
 { #category : 'convenience' }
-OSSDL3GPURenderingBenchmark class >> measureFor: aDuration all: aCollectionOfRectangles [
+OSBackgroundProcessBenchmark class >> measureFor: aDuration all: aCollectionOfRectangles [
 	"Benchmark in a new process. You can send me from UI or from terminal. The answer is a `TKTFuture`, which is can be used in this way:
 	
 	./pharo-ui Pharo.image eval 'OSSDL3GPURenderingBenchmark benchVertical andThen: [ Smalltalk snapshot: false andQuit: true ] future'
@@ -110,13 +108,13 @@ OSSDL3GPURenderingBenchmark class >> measureFor: aDuration all: aCollectionOfRec
 ]
 
 { #category : 'benchmarking' }
-OSSDL3GPURenderingBenchmark >> isStarted [
+OSBackgroundProcessBenchmark >> isStarted [
 
 	^ measureProcess isNotNil
 ]
 
 { #category : 'benchmarking' }
-OSSDL3GPURenderingBenchmark >> measureFor: aDuration to: aCollection [
+OSBackgroundProcessBenchmark >> measureFor: aDuration to: aCollection [
 	"Run a benchmark for the given duration and return the background process throughput."
 
 	self start.
@@ -130,7 +128,7 @@ OSSDL3GPURenderingBenchmark >> measureFor: aDuration to: aCollection [
 ]
 
 { #category : 'printing' }
-OSSDL3GPURenderingBenchmark >> printOn: aStream [
+OSBackgroundProcessBenchmark >> printOn: aStream [
 
 	super printOn: aStream.
 	
@@ -140,7 +138,7 @@ OSSDL3GPURenderingBenchmark >> printOn: aStream [
 ]
 
 { #category : 'stepping and presenter' }
-OSSDL3GPURenderingBenchmark >> start [
+OSBackgroundProcessBenchmark >> start [
 
 	self assert: self isStarted not.
 
@@ -155,20 +153,20 @@ OSSDL3GPURenderingBenchmark >> start [
 ]
 
 { #category : 'stepping and presenter' }
-OSSDL3GPURenderingBenchmark >> step [
+OSBackgroundProcessBenchmark >> step [
 
 	stepCount := stepCount + 1.
 	self color: Color random
 ]
 
 { #category : 'stepping and presenter' }
-OSSDL3GPURenderingBenchmark >> stepTime [
+OSBackgroundProcessBenchmark >> stepTime [
 
 	^ StepTime
 ]
 
 { #category : 'stepping and presenter' }
-OSSDL3GPURenderingBenchmark >> stop [
+OSBackgroundProcessBenchmark >> stop [
 
 	self delete.
 
