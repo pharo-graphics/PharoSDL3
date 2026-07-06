@@ -29053,43 +29053,6 @@ LibSDL3 >> sizeMulCheckOverflowA: a b: b ret: ret [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> snprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like snprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Format a string of up to `maxlen`-1 bytes, converting each '%' item with
-	 * values provided through variable arguments.
-	 *
-	 * While some C runtimes differ on how to deal with too-large strings, this
-	 * function null-terminates the output, by treating the null-terminator as
-	 * part of the `maxlen` count. Note that if `maxlen` is zero, however, no
-	 * bytes will be written at all.
-	 *
-	 * This function returns the number of _bytes_ (not _characters_) that should
-	 * be written, excluding the null-terminator character. If this returns a
-	 * number >= `maxlen`, it means the output string was truncated. A negative
-	 * return value means an error occurred.
-	 *
-	 * Referencing the output string's pointer with a format item is undefined
-	 * behavior.
-	 *
-	 * \param text the buffer to write the string into. Must not be NULL.
-	 * \param maxlen the maximum bytes to write, including the null-terminator.
-	 * \param fmt a printf-style format string. Must not be NULL.
-	 * \param ... a list of values to be used with the format string.
-	 * \returns the number of bytes that should be written, not counting the
-	 *          null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_snprintf(int _Out_z_cap_))
-]
-
-{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sqrt: x [
 	"/**
 	 * Compute the square root of `x`.
@@ -30299,44 +30262,6 @@ LibSDL3 >> swapFloat: x [
 	 */"
 
 	^ self ffiCall: #(int SDL_SwapFloat(float x))
-]
-
-{ #category : 'public - SDL_stdinc' }
-LibSDL3 >> swprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like swprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Format a wide string of up to `maxlen`-1 wchar_t values, converting each
-	 * '%' item with values provided through variable arguments.
-	 *
-	 * While some C runtimes differ on how to deal with too-large strings, this
-	 * function null-terminates the output, by treating the null-terminator as
-	 * part of the `maxlen` count. Note that if `maxlen` is zero, however, no wide
-	 * characters will be written at all.
-	 *
-	 * This function returns the number of _wide characters_ (not _codepoints_)
-	 * that should be written, excluding the null-terminator character. If this
-	 * returns a number >= `maxlen`, it means the output string was truncated. A
-	 * negative return value means an error occurred.
-	 *
-	 * Referencing the output string's pointer with a format item is undefined
-	 * behavior.
-	 *
-	 * \param text the buffer to write the wide string into. Must not be NULL.
-	 * \param maxlen the maximum wchar_t values to write, including the
-	 *               null-terminator.
-	 * \param fmt a printf-style format string. Must not be NULL.
-	 * \param ... a list of values to be used with the format string.
-	 * \returns the number of wide characters that should be written, not counting
-	 *          the null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_swprintf(int _Out_z_cap_))
 ]
 
 { #category : 'public - SDL_video' }
@@ -31583,55 +31508,6 @@ LibSDL3 >> utf8strnlenStr: str bytes: bytes [
 	 */"
 
 	^ self ffiCall: #(size_t SDL_utf8strnlen(const char* str, size_t bytes))
-]
-
-{ #category : 'public - SDL_stdinc' }
-LibSDL3 >> vsnprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like vsnprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Functions identically to SDL_snprintf(), except it takes a `va_list`
-	 * instead of using `...` variable arguments.
-	 *
-	 * \param text the buffer to write the string into. Must not be NULL.
-	 * \param maxlen the maximum bytes to write, including the null-terminator.
-	 * \param fmt a printf-style format string. Must not be NULL.
-	 * \param ap a `va_list` values to be used with the format string.
-	 * \returns the number of bytes that should be written, not counting the
-	 *          null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_vsnprintf(int _Out_z_cap_))
-]
-
-{ #category : 'public - SDL_stdinc' }
-LibSDL3 >> vswprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like vswprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Functions identically to SDL_swprintf(), except it takes a `va_list`
-	 * instead of using `...` variable arguments.
-	 *
-	 * \param text the buffer to write the string into. Must not be NULL.
-	 * \param maxlen the maximum wide characters to write, including the
-	 *               null-terminator.
-	 * \param fmt a printf-style format wide string. Must not be NULL.
-	 * \param ap a `va_list` values to be used with the format string.
-	 * \returns the number of wide characters that should be written, not counting
-	 *          the null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_vswprintf(int _Out_z_cap_))
 ]
 
 { #category : 'public - SDL_gpu' }
