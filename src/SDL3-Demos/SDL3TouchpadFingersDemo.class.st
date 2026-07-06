@@ -15,14 +15,16 @@ Class {
 { #category : 'accessing' }
 SDL3TouchpadFingersDemo >> initialExtent [
 
-	^ 720 @ 720
+	^ 800 @ 600
 ]
 
 { #category : 'initialization' }
 SDL3TouchpadFingersDemo >> initialize [
 
 	super initialize.
-	colorWheel := Color wheel: 20
+
+	console defaultColor: Color gray.
+	colorWheel := Color wheel: 11 "Colors for the fingers"
 ]
 
 { #category : 'lifecycle' }
@@ -32,7 +34,9 @@ SDL3TouchpadFingersDemo >> sdlInit [
 	sdl setHintName: SDL_HINT_TOUCH_MOUSE_EVENTS value: '0'.
 	sdl setHintName: SDL_HINT_TRACKPAD_IS_TOUCH_ONLY value: '1'.
 
-	super sdlInit
+	super sdlInit.
+	
+	SDL3Cursor hide "We draw the fingers instead of the mouse cursor"
 ]
 
 { #category : 'hooks' }
@@ -51,7 +55,7 @@ SDL3TouchpadFingersDemo >> step [
 			| position size rectangle |
 
 			"Color based on finger ID"
-			self color: (colorWheel at: (eachFinger id \\ colorWheel size + 1)).
+			renderer renderDrawColor: (colorWheel atWrap: eachFinger id).
 
 			"Scale size based on pressure (0.0 to 1.0). Minimum size is 30px."
 			position := (eachFinger x * extent x) @ (eachFinger y * extent y).
@@ -59,13 +63,14 @@ SDL3TouchpadFingersDemo >> step [
 			rectangle := Rectangle center: position extent: size @ size.
 			renderer renderFillRect: (SDL_FRect newFrom: rectangle).
 
-			self
-				showText: ('F{1} P:{2}' format: {
-					eachFinger id.
-					eachFinger pressure printShowingDecimalPlaces: 2 })
-				x: position x
+			"Label"
+			renderer renderDrawColor: Color white.
+			renderer
+				renderDebugTextX: position x
 				y: position y
-				color: Color white ] ].
+				str: ('F{1} P:{2}' format: {
+					eachFinger id.
+					eachFinger pressure printShowingDecimalPlaces: 2 }) ] ].
 
 	self present
 ]
@@ -73,15 +78,15 @@ SDL3TouchpadFingersDemo >> step [
 { #category : 'visiting - concrete' }
 SDL3TouchpadFingersDemo >> visitTouchFingerDownEvent: anEvent [
 
-	console addLine: ('Finger DOWN: {1} (Touch:{2})' format: { anEvent fingerID . anEvent touchID })
+	console addLine: ('Finger DOWN: {1} (Touch:{2})' format: { anEvent fingerID. anEvent touchID })
 ]
 
 { #category : 'visiting - concrete' }
 SDL3TouchpadFingersDemo >> visitTouchFingerMotionEvent: anEvent [
 
 	console addLine: ('Finger MOVE: {1} x:{2} y:{3}' format: { 
-		anEvent fingerID . 
-		anEvent x printShowingDecimalPlaces: 2 . 
+		anEvent fingerID. 
+		anEvent x printShowingDecimalPlaces: 2. 
 		anEvent y printShowingDecimalPlaces: 2 })
 ]
 
