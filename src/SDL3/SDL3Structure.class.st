@@ -31,16 +31,17 @@ SDL3Structure class >> safeNew [
 
 { #category : 'instance creation' }
 SDL3Structure class >> safeNewArray: anInteger [
-
-	^ (FFIExternalArray externalNewType: self size: anInteger)
+	| array |
+	array := (FFIExternalArray externalNewType: self size: anInteger)
 		autoRelease;
-		yourself
+		yourself.
+	array zeroMemory.
+	^ array
 ]
 
 { #category : 'initialization' }
 SDL3Structure >> zeroMemory [
 
 	handle ifNotNil: [
-		1 to: self externalTypeSize do: [ :index |
-			handle unsignedByteAt: index put: 0 ] ]
+		LibSDL3 uniqueInstance memsetDst: handle c: 0 len: self externalTypeSize ]
 ]

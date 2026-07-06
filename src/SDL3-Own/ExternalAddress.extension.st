@@ -97,8 +97,10 @@ ExternalAddress >> readStructArrayFromPointers: aFFIStructure size: count [
 
 { #category : '*SDL3-Own' }
 ExternalAddress class >> safeNewArray: anInteger [
-
-	^ (FFIExternalArray externalNewType: self size: anInteger)
+	| array |
+	array := (FFIExternalArray externalNewType: self size: anInteger)
 		autoRelease;
-		yourself
+		yourself.
+	array zeroMemory.
+	^ array
 ]
