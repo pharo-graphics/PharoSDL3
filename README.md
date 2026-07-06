@@ -44,7 +44,7 @@ The project includes automated tests as well as interactive demos. These demos c
 
 Run tests from the terminal:
 ```bash
-./pharo Pharo.image test 'SDL3-Tests' 'SDL3-Graphics-Tests'  'SDL3-Compute-Tests' 
+./pharo Pharo.image test 'SDL3-Tests' 'SDL3-GPU-Tests'
 ```
 ### Demos
 
