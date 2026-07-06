@@ -40,6 +40,7 @@ float4 main() : SV_Target0 {
 ]
 
 { #category : 'accessing' }
-SDL3TestGraphicsInstancedFragmentShaderSource class >> numberOfSamplers [
-	^ 0
+SDL3TestGraphicsInstancedFragmentShaderSource class >> metadata [
+
+	^ SDL3GPUFragmentShaderMetadata new
 ]

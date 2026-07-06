@@ -14,7 +14,7 @@ those 3 floats will have my 3 fields. Note the order in the declaration is essen
 "
 Class {
 	#name : 'SDL3GPURenderStateDemoUniformBuffer',
-	#superclass : 'FFIStructure',
+	#superclass : 'SDL3Structure',
 	#classVars : [
 		'OFFSET_RESOLUTIONX',
 		'OFFSET_RESOLUTIONY',

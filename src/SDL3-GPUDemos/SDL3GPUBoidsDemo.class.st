@@ -107,9 +107,7 @@ SDL3GPUBoidsDemo >> doGeometryPassWith: commandBuffer input: inputBuffer [
 		computePass
 			pipeline: geometryComputePipeline;
 			computeStorageBuffers: storageBuffers slot: 0;
-			dispatchX: numBoids + 63 // 64
-			y: 1
-			z: 1 ]
+			dispatchX: numBoids ]
 ]
 
 { #category : 'rendering' }
@@ -144,9 +142,7 @@ SDL3GPUBoidsDemo >> doPhysicsPassWith: commandBuffer input: inputBuffer output: 
 		computePass
 			pipeline: boidsComputePipeline;
 			computeStorageBuffers: physicsStorageBuffers slot: 0;
-			dispatchX: numBoids + 63 // 64
-			y: 1
-			z: 1 ]
+			dispatchX: numBoids ]
 ]
 
 { #category : 'rendering' }

@@ -26,3 +26,21 @@ SDL3GPUComputePass >> computeStorageTextures: storageTextures slot: firstSlot [
 		 bindings: (storageTextures ifEmpty: [ ExternalAddress null ])
 		 count: storageTextures size
 ]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUComputePass >> dispatchX: x [
+
+	self dispatchX: x y: 1 z: 1
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUComputePass >> dispatchX: x y: y z: z [
+
+	| m |
+	m := self pipeline metadata.
+	self ffiLibrary
+		dispatchGPUComputeComputePass: self
+		groupcountX: (x + m threadCountX - 1 // m threadCountX)
+		groupcountY: (y + m threadCountY - 1 // m threadCountY)
+		groupcountZ: (z + m threadCountZ - 1 // m threadCountZ)
+]

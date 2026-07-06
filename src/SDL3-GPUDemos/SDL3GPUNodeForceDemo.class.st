@@ -160,9 +160,7 @@ SDL3GPUNodeForceDemo >> executeSimulationComputePassWith: commandBuffer input: i
 		computePass
 			pipeline: computePipeline;
 			computeStorageBuffers: storageBuffers slot: 0;
-			dispatchX: numNodes + 63 // 64
-			y: 1
-			z: 1 ]
+			dispatchX: numNodes ]
 ]
 
 { #category : 'private' }
@@ -304,18 +302,17 @@ SDL3GPUNodeForceDemo >> initializeQuadBuffers [
 { #category : 'initialization' }
 SDL3GPUNodeForceDemo >> initializeShaders [
 
-	| formats colorTargets |
-	formats := gpuDevice gpuShaderFormatsAsArray.
+	| colorTargets |
 	computePipeline := SDL3GPUNodeForceComputeShaderSource
-						  newComputePipelineAmong: formats
+						  newComputePipelineAmong: shaderFormats
 						  device: gpuDevice.
 
 	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
 	colorTargets first format:
 		(gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
 
-	self newNodePipelineWith: formats colorTargets: colorTargets.
-	self newEdgePipelineWith: formats colorTargets: colorTargets
+	self newNodePipelineWith: shaderFormats colorTargets: colorTargets.
+	self newEdgePipelineWith: shaderFormats colorTargets: colorTargets
 ]
 
 { #category : 'initialization' }
@@ -481,9 +478,9 @@ SDL3GPUNodeForceDemo >> setupGeometryBindings [
 	vertexBufferBindings first
 		buffer: vertexBuffer;
 		offset: 0.
-	indexBufferBinding := SDL_GPUBufferBinding
-		                      buffer: indexBuffer
-		                      offset: 0
+
+	indexBufferBinding :=
+		SDL_GPUBufferBinding buffer: indexBuffer offset: 0
 ]
 
 { #category : 'private' }

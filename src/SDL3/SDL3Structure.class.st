@@ -13,6 +13,15 @@ Class {
 }
 
 { #category : 'instance creation' }
+SDL3Structure class >> externalNew [
+
+	| instance |
+	instance := super externalNew.
+	instance zeroMemory.
+	^ instance
+]
+
+{ #category : 'instance creation' }
 SDL3Structure class >> safeNew [
 
 	^ self externalNew
@@ -26,4 +35,12 @@ SDL3Structure class >> safeNewArray: anInteger [
 	^ (FFIExternalArray externalNewType: self size: anInteger)
 		autoRelease;
 		yourself
+]
+
+{ #category : 'initialization' }
+SDL3Structure >> zeroMemory [
+
+	handle ifNotNil: [
+		1 to: self externalTypeSize do: [ :index |
+			handle unsignedByteAt: index put: 0 ] ]
 ]

@@ -92,6 +92,32 @@ SDL3ShaderSource class >> compileBase64CodeFromHLSLSourceInAllSubclasses [
 			each compileBase64CodeFromHLSLSource ] ]
 ]
 
+{ #category : 'code generation' }
+SDL3ShaderSource class >> compileMetadataFromHLSLSource [
+
+	| metadata methodSourceCode |
+	metadata := SDL3ShaderMetadataScanner new scan: self hlslSource.
+	methodSourceCode := String streamContents: [ :stream |
+		stream
+			nextPutAll: 'metadata'; cr; cr;
+			tab; nextPutAll: '^ '.
+		metadata storeOn: stream ].
+
+	self classSide
+		compile: methodSourceCode
+		classified: #accessing
+]
+
+{ #category : 'code generation' }
+SDL3ShaderSource class >> compileMetadataFromHLSLSourceInAllSubclasses [
+	<script>
+
+	self allSubclassesDo: [ :each |
+		Stdio stdout << 'Scanning metadata of ' << each name; lf.
+		(each classSide includesSelector: #hlslSource) ifTrue: [ 
+			each compileMetadataFromHLSLSource ] ]
+]
+
 { #category : 'accessing' }
 SDL3ShaderSource class >> hlslSource [
 
@@ -105,39 +131,8 @@ SDL3ShaderSource class >> isAbstract [
 ]
 
 { #category : 'accessing' }
-SDL3ShaderSource class >> numberOfReadOnlyStorageBuffers [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource class >> numberOfReadOnlyStorageTextures [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource class >> numberOfReadWriteStorageBuffers [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource class >> numberOfReadWriteStorageTextures [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource class >> numberOfSamplers [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-SDL3ShaderSource class >> numberOfUniformBuffers [
-
-	^ 0
+SDL3ShaderSource class >> metadata [
+	^ SDL3GPUShaderMetadata new
 ]
 
 { #category : 'private' }
@@ -174,8 +169,8 @@ SDL3ShaderSource class >> withNew: createInfoClass formats: supportedShaderForma
 	| createInfo codeAsBase64 codeAsByteArray codeAsExternalArray |
 	createInfo := createInfoClass new.
 	createInfo
-		numSamplers: self numberOfSamplers;
-		numUniformBuffers: self numberOfUniformBuffers.
+		numSamplers: self metadata samplers size;
+		numUniformBuffers: self metadata uniformBuffers size.
 
 	"Detect the format among the supported ones"
 	(supportedShaderFormats includes: SDL_GPU_SHADERFORMAT_DXIL) ifTrue: [

@@ -3,6 +3,11 @@ Extension { #name : 'SDL3GPURenderPass' }
 { #category : '*SDL3-Own' }
 SDL3GPURenderPass >> fragmentSamplers: textureSamplerBindings slot: firstSlot [
 
+	| m |
+	m := self pipeline fragmentMetadata.
+	m ifNotNil: [ 
+		m validateSamplerCount: textureSamplerBindings size ].
+
 	^ self
 		 fragmentSamplersSlot: firstSlot
 		 bindings: (textureSamplerBindings ifEmpty: [ ExternalAddress null ])

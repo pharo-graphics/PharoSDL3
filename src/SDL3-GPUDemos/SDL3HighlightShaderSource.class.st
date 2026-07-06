@@ -84,3 +84,14 @@ float4 main(PSInput input) : SV_Target
    return float4(new_color, input_color.a);
 }'
 ]
+
+{ #category : 'accessing' }
+SDL3HighlightShaderSource class >> metadata [
+
+	^ (SDL3GPUFragmentShaderMetadata new
+		samplers: {
+			(SDL3GPUSamplerBinding index: 0 space: 2) };
+		uniformBuffers: {
+			(SDL3GPUUniformBinding index: 0 space: 3) };
+		yourself)
+]

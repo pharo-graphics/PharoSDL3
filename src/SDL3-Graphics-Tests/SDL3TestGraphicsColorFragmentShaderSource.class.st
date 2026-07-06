@@ -45,6 +45,7 @@ float4 main(PixelInput input) : SV_Target0 {
 ]
 
 { #category : 'accessing' }
-SDL3TestGraphicsColorFragmentShaderSource class >> numberOfSamplers [
-	^ 0
+SDL3TestGraphicsColorFragmentShaderSource class >> metadata [
+
+	^ SDL3GPUFragmentShaderMetadata new
 ]

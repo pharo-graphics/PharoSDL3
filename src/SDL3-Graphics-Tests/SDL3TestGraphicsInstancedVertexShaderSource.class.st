@@ -51,3 +51,9 @@ VertexOutput main(VertexInput input, uint instanceID : SV_InstanceID) {
 }
 '
 ]
+
+{ #category : 'accessing' }
+SDL3TestGraphicsInstancedVertexShaderSource class >> metadata [
+
+	^ SDL3GPUVertexShaderMetadata new
+]

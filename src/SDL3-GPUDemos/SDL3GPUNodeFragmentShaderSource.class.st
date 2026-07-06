@@ -76,6 +76,7 @@ float4 main(FragmentInput input) : SV_Target {
 ]
 
 { #category : 'accessing' }
-SDL3GPUNodeFragmentShaderSource class >> numberOfSamplers [
-	^ 0
+SDL3GPUNodeFragmentShaderSource class >> metadata [
+
+	^ SDL3GPUFragmentShaderMetadata new
 ]

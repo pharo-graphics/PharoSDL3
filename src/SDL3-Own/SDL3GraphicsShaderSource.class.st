@@ -30,11 +30,12 @@ SDL3GraphicsShaderSource class >> newShaderAmong: supportedShaderFormats device:
 		withNew: SDL3GPUShaderCreateInfo
 		formats: supportedShaderFormats
 		do: [ :createInfo |
-			| shader |
+			| shader m |
+			m := self metadata.
 			createInfo 
 				stage: self shaderStage;
-				numStorageBuffers: self numberOfReadOnlyStorageBuffers + self numberOfReadWriteStorageBuffers;
-				numStorageTextures: self numberOfReadOnlyStorageTextures + self numberOfReadWriteStorageTextures.
+				numStorageBuffers: m storageBuffers size;
+				numStorageTextures: m storageTextures size.
 
 			shader := (aSDL3GPUDevice ffiLibrary
 				newGPUShaderDevice: aSDL3GPUDevice
@@ -42,6 +43,7 @@ SDL3GraphicsShaderSource class >> newShaderAmong: supportedShaderFormats device:
 					assertNotNullReturn;
 					device: aSDL3GPUDevice;
 					yourself.
+			shader metadata: m.
 			^ shader ]
 ]
 

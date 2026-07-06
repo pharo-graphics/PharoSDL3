@@ -4,9 +4,8 @@ I also serve as a pedagogical reference for developers.
 "
 Class {
 	#name : 'SDL3ComputePipelineTest',
-	#superclass : 'SDL3Test',
+	#superclass : 'SDL3GPUTest',
 	#instVars : [
-		'gpuDevice',
 		'shaderFormats'
 	],
 	#pools : [
@@ -22,24 +21,7 @@ SDL3ComputePipelineTest >> setUp [
 
 	super setUp.
 
-	self
-		assert: (sdl initSubSystem: SDL3InitFlags video)
-		description: 'Initialize video subsystem'.
-
-	gpuDevice := SDL3GPUDevice
-		unsafeNewFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
-		debugMode: true name: nil.
-
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray
-]
-
-{ #category : 'running' }
-SDL3ComputePipelineTest >> tearDown [
-
-	gpuDevice ifNotNil: [ gpuDevice destroy ].
-	gpuDevice := nil.
-
-	super tearDown
 ]
 
 { #category : 'tests' }
@@ -94,7 +76,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 		computePass
 			pipeline: computePipeline;
 			computeStorageBuffers: roBindings slot: 0;
-			dispatchX: (SDL3TestComputeMathShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1 ].
+			dispatchX: numElements ].
 	
 	commandBuffer submit.
 
@@ -159,7 +141,7 @@ SDL3ComputePipelineTest >> test02Uniforms [
 
 	commandBuffer computePassTextures: #() computeStorageBuffers: rwBindings do: [ :computePass |
 		computePass pipeline: computePipeline.
-		computePass dispatchX: (SDL3TestComputeUniformShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1 ].
+		computePass dispatchX: numElements ].
 	
 	commandBuffer submit.
 	
@@ -243,7 +225,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 	commandBuffer computePassTextures: #() computeStorageBuffers: rwBindingsA do: [ :computePass |
 		computePass pipeline: computePipeline.
 		computePass computeStorageBuffers: roBindingsA slot: 0.
-		computePass dispatchX: (SDL3TestComputeAddOneShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1 ].
+		computePass dispatchX: numElements ].
 	
 	"D. Dispatch B: B -> C"
 	rwBindingsB := FFIArray newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
@@ -254,7 +236,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 	commandBuffer computePassTextures: #() computeStorageBuffers: rwBindingsB do: [ :computePass |
 		computePass pipeline: computePipeline.
 		computePass computeStorageBuffers: roBindingsB slot: 0.
-		computePass dispatchX: (SDL3TestComputeAddOneShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1 ].
+		computePass dispatchX: numElements ].
 	
 	commandBuffer submit.
 
@@ -336,7 +318,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 	commandBuffer computePassTextures: #() computeStorageBuffers: rwBindings do: [ :computePass |
 		computePass pipeline: computePipeline.
 		computePass computeStorageBuffers: roBindings slot: 0.
-		computePass dispatchX: (SDL3TestComputeStructShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1 ].
+		computePass dispatchX: numElements ].
 	
 	commandBuffer submit.
 	
@@ -397,7 +379,7 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 
 	commandBuffer computePassTextures: #() computeStorageBuffers: rwBindings do: [ :computePass |
 		computePass pipeline: computePipeline.
-		computePass dispatchX: (SDL3TestComputeIndexShaderSource dispatchWorkgroupCountXFor: numElements) y: 1 z: 1 ].
+		computePass dispatchX: numElements ].
 	commandBuffer submit.
 	
 	"3. Download results"
@@ -496,7 +478,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 	numElements numWorkgroups byteSize rwBindings roBindings |
 	
 	numElements := 1024. "16 workgroups of 64 threads each"
-	numWorkgroups := SDL3TestComputeSharedMemoryShaderSource dispatchWorkgroupCountXFor: numElements.
+	numWorkgroups := (numElements + SDL3TestComputeSharedMemoryShaderSource metadata threadCountX - 1) // SDL3TestComputeSharedMemoryShaderSource metadata threadCountX.
 	byteSize := numElements * FFIFloat32 externalTypeSize.
 
 	"1. Prepare data (all 1s, sum of 64 ones = 64)"
@@ -537,7 +519,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 	commandBuffer computePassTextures: #() computeStorageBuffers: rwBindings do: [ :computePass |
 		computePass pipeline: computePipeline.
 		computePass computeStorageBuffers: roBindings slot: 0.
-		computePass dispatchX: numWorkgroups y: 1 z: 1 ].
+		computePass dispatchX: numElements ].
 	
 	commandBuffer submit.
 
@@ -582,7 +564,7 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	"1. Prepare indirect commands"
 	indirectData := FFIArray newType: SDL3GPUIndirectDispatchCommand size: 1.
 	indirectData first
-		groupcountX: (SDL3TestComputeMathShaderSource dispatchWorkgroupCountXFor: numElements);
+		groupcountX: (numElements + SDL3TestComputeMathShaderSource metadata threadCountX - 1) // SDL3TestComputeMathShaderSource metadata threadCountX;
 		groupcountY: 1;
 		groupcountZ: 1.
 

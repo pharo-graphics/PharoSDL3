@@ -59,11 +59,12 @@ float4 main(float2 uv : TEXCOORD0) : SV_Target {
 ]
 
 { #category : 'accessing' }
-SDL3GPUDualKawaseUpsampleFragmentShaderSource class >> numberOfSamplers [
-	^ 1
-]
+SDL3GPUDualKawaseUpsampleFragmentShaderSource class >> metadata [
 
-{ #category : 'accessing' }
-SDL3GPUDualKawaseUpsampleFragmentShaderSource class >> numberOfUniformBuffers [
-	^ 1
+	^ (SDL3GPUFragmentShaderMetadata new
+		samplers: {
+			(SDL3GPUSamplerBinding index: 0 space: 2) };
+		uniformBuffers: {
+			(SDL3GPUUniformBinding index: 0 space: 3) };
+		yourself)
 ]

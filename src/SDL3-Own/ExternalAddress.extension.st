@@ -36,17 +36,48 @@ ExternalAddress >> nullTerminatedArrayOfCStrings [
 
 { #category : '*SDL3-Own' }
 ExternalAddress >> readArrayOf: aType size: count [
-	"Returns an array of aType of the specified size"
+	"Returns an array of primitive FFI types of the specified size"
 
 	| externalType address results |
 	externalType := FFIExternalType resolveType: aType.
 
-	"then build the array"
 	results := Array new: count.
 	address := self.
 	1 to: count do: [ :index |
-		results at: index put: (externalType handle: address at: 1).
+		| value |
+		value := externalType handle: address at: 1.
+		results at: index put: value.
 		address := address + externalType typeSize ].
+	^ results
+]
+
+{ #category : '*SDL3-Own' }
+ExternalAddress >> readPointerArrayOf: aFFIExternalObjectClass size: count [
+	"Return an array of FFIExternalObject (or subclass) instances of the specified size by wrapping each pointer in the array"
+
+	^ Array streamContents: [ :stream |
+		| address |
+		address := self.
+		1 to: count do: [ :index |
+			| pointer |
+			pointer := address pointerAt: 1.
+			stream nextPut: (aFFIExternalObjectClass fromHandle: pointer).
+			address := address + FFIExternalType pointerSize ] ]
+]
+
+{ #category : '*SDL3-Own' }
+ExternalAddress >> readStructArrayByValue: aFFIStructure size: count [
+	"Return a contiguous array of structs (packed by value) of the specified size"
+
+	| results address structSize |
+	structSize := aFFIStructure structureSize.
+	results := Array new: count.
+	address := self.
+	1 to: count do: [ :index |
+		| value |
+		value := aFFIStructure fromHandle: (address bytesFromNext: structSize).
+		results at: index put: value.
+		address := address + structSize ].
 	^ results
 ]
 
@@ -58,7 +89,9 @@ ExternalAddress >> readStructArrayFromPointers: aFFIStructure size: count [
 		| address |
 		address := self.
 		1 to: count do: [ :index |
-			stream nextPut: (aFFIStructure fromHandle: (address pointerAt: 1)).
+			| pointer |
+			pointer := address pointerAt: 1.
+			stream nextPut: (aFFIStructure fromHandle: (pointer bytesFromNext: aFFIStructure structureSize)).
 			address := address + FFIExternalType pointerSize ] ]
 ]
 

@@ -45,16 +45,12 @@ void main(uint3 dtid : SV_DispatchThreadID) {
 ]
 
 { #category : 'accessing' }
-SDL3TestComputeTextureShaderSource class >> numberOfReadWriteStorageTextures [
-	^ 1
-]
+SDL3TestComputeTextureShaderSource class >> metadata [
 
-{ #category : 'accessing' }
-SDL3TestComputeTextureShaderSource class >> threadCountX [
-	^ 16
-]
-
-{ #category : 'accessing' }
-SDL3TestComputeTextureShaderSource class >> threadCountY [
-	^ 16
+	^ (SDL3GPUComputeShaderMetadata new
+		threadCountX: 16;
+		threadCountY: 16;
+		storageTextures: {
+			(SDL3GPUReadWriteStorageTextureBinding index: 0 space: 1) };
+		yourself)
 ]

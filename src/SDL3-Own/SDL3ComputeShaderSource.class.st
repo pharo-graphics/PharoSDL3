@@ -19,28 +19,20 @@ Class {
 	#tag : 'Shaders'
 }
 
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> dispatchWorkgroupCountXFor: totalItems [
-
-	^ (totalItems + self threadCountX - 1) // self threadCountX
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> dispatchWorkgroupCountYFor: totalItems [
-
-	^ (totalItems + self threadCountY - 1) // self threadCountY
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> dispatchWorkgroupCountZFor: totalItems [
-
-	^ (totalItems + self threadCountZ - 1) // self threadCountZ
-]
-
 { #category : 'testing' }
 SDL3ComputeShaderSource class >> isAbstract [
 
 	^ self == SDL3ComputeShaderSource
+]
+
+{ #category : 'accessing' }
+SDL3ComputeShaderSource class >> metadata [
+	| m |
+	m := SDL3GPUComputeShaderMetadata new.
+	m threadCountX: 1.
+	m threadCountY: 1.
+	m threadCountZ: 1.
+	^ m
 ]
 
 { #category : 'building' }
@@ -51,15 +43,17 @@ SDL3ComputeShaderSource class >> newComputePipelineAmong: supportedShaderFormats
 		withNew: SDL3GPUComputePipelineCreateInfo
 		formats: supportedShaderFormats
 		do: [ :createInfo |
-			| computePipeline |
+			| computePipeline m |
+			m := self metadata.
 			createInfo
-				numReadonlyStorageTextures: self numberOfReadOnlyStorageTextures;
-				numReadonlyStorageBuffers: self numberOfReadOnlyStorageBuffers;
-				numReadwriteStorageTextures: self numberOfReadWriteStorageTextures;
-				numReadwriteStorageBuffers: self numberOfReadWriteStorageBuffers;
-				threadcountX: self threadCountX;
-				threadcountY: self threadCountY;
-				threadcountZ: self threadCountZ.
+				metadata: m;
+				numReadonlyStorageTextures: m numberOfReadOnlyStorageTextures;
+				numReadonlyStorageBuffers: m numberOfReadOnlyStorageBuffers;
+				numReadwriteStorageTextures: m numberOfReadWriteStorageTextures;
+				numReadwriteStorageBuffers: m numberOfReadWriteStorageBuffers;
+				threadcountX: m threadCountX;
+				threadcountY: m threadCountY;
+				threadcountZ: m threadCountZ.
 
 			computePipeline := (aSDL3GPUDevice ffiLibrary
 				newGPUComputePipelineDevice: aSDL3GPUDevice
@@ -67,59 +61,12 @@ SDL3ComputeShaderSource class >> newComputePipelineAmong: supportedShaderFormats
 					assertNotNullReturn;
 					device: aSDL3GPUDevice;
 					yourself.
+			computePipeline metadata: m.
 			^ computePipeline ]
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> numberOfReadOnlyStorageBuffers [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> numberOfReadOnlyStorageTextures [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> numberOfReadWriteStorageBuffers [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> numberOfReadWriteStorageTextures [
-
-	^ 0
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> numberOfSamplers [
-
-	^ 0
 ]
 
 { #category : 'accessing' }
 SDL3ComputeShaderSource class >> stageFileExtension [
 
 	^ 'comp'
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> threadCountX [
-
-	^ 1
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> threadCountY [
-
-	^ 1
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> threadCountZ [
-
-	^ 1
 ]

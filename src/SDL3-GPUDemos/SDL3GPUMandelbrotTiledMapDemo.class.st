@@ -118,8 +118,8 @@ SDL3GPUMandelbrotTiledMapDemo >> executeComputePassFor: keys with: commandBuffer
 			slot := tileToSlotMap at: key ifAbsent: [ 0 ].
 			self pushTileUniforms: key slot: slot with: commandBuffer.
 			computePass
-				dispatchX: tileSizePixels + 15 // 16
-				y: tileSizePixels + 15 // 16
+				dispatchX: tileSizePixels
+				y: tileSizePixels
 				z: 1 ] ]
 ]
 
@@ -401,19 +401,17 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeQuadPipelineWith: formats colorTarget
 { #category : 'initialization' }
 SDL3GPUMandelbrotTiledMapDemo >> initializeShaders [
 
-	| formats colorTargets |
-	formats := gpuDevice gpuShaderFormatsAsArray.
-
+	| colorTargets |
 	computePipeline := SDL3GPUMandelbrotComputeShaderSource
-						  newComputePipelineAmong: formats
+						  newComputePipelineAmong: shaderFormats
 						  device: gpuDevice.
 
 	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
 	colorTargets first format:
 		(gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
 
-	self initializeQuadPipelineWith: formats colorTargets: colorTargets.
-	self initializeShimmerPipelineWith: formats colorTargets: colorTargets
+	self initializeQuadPipelineWith: shaderFormats colorTargets: colorTargets.
+	self initializeShimmerPipelineWith: shaderFormats colorTargets: colorTargets
 ]
 
 { #category : 'private' }

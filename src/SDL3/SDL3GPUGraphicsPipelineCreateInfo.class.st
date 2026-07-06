@@ -1,6 +1,10 @@
 Class {
 	#name : 'SDL3GPUGraphicsPipelineCreateInfo',
 	#superclass : 'SDL3Structure',
+	#instVars : [
+		'vertexMetadata',
+		'fragmentMetadata'
+	],
 	#classVars : [
 		'OFFSET_DEPTH_STENCIL_STATE',
 		'OFFSET_FRAGMENT_SHADER',
@@ -43,6 +47,16 @@ SDL3GPUGraphicsPipelineCreateInfo >> depthStencilState [
 SDL3GPUGraphicsPipelineCreateInfo >> depthStencilState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_DEPTH_STENCIL_STATE put: anObject getHandle length: SDL3GPUDepthStencilState byteSize
+]
+
+{ #category : 'accessing' }
+SDL3GPUGraphicsPipelineCreateInfo >> fragmentMetadata [
+	^ fragmentMetadata
+]
+
+{ #category : 'accessing' }
+SDL3GPUGraphicsPipelineCreateInfo >> fragmentMetadata: aMetadata [
+	fragmentMetadata := aMetadata
 ]
 
 { #category : 'accessing - structure variables' }
@@ -127,6 +141,16 @@ SDL3GPUGraphicsPipelineCreateInfo >> vertexInputState [
 SDL3GPUGraphicsPipelineCreateInfo >> vertexInputState: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_VERTEX_INPUT_STATE put: anObject getHandle length: SDL3GPUVertexInputState byteSize
+]
+
+{ #category : 'accessing' }
+SDL3GPUGraphicsPipelineCreateInfo >> vertexMetadata [
+	^ vertexMetadata
+]
+
+{ #category : 'accessing' }
+SDL3GPUGraphicsPipelineCreateInfo >> vertexMetadata: aMetadata [
+	vertexMetadata := aMetadata
 ]
 
 { #category : 'accessing - structure variables' }

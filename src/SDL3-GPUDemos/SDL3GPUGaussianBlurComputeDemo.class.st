@@ -115,8 +115,8 @@ SDL3GPUGaussianBlurComputeDemo >> executeBlurPassWith: commandBuffer direction: 
 			pipeline: computePipeline;
 			computeStorageTextures: storageTextureArray slot: 0;
 			computeSamplers: blurSamplerBindings slot: 0;
-			dispatchX: lastExtent x + 7 // 8
-			y: lastExtent y + 7 // 8
+			dispatchX: lastExtent x
+			y: lastExtent y
 			z: 1 ]
 ]
 

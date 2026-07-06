@@ -34,7 +34,8 @@ SDL3GPUTiledMapVertexShaderSource class >> base64SPVCode [
 SDL3GPUTiledMapVertexShaderSource class >> hlslSource [
 	<script: 'self compileBase64CodeFromHLSLSource'>
 
-	^ 'struct VertexInput {
+	^ '
+struct VertexInput {
    float3 Position : TEXCOORD0;
    float2 TexCoord : TEXCOORD1;
 };
@@ -68,6 +69,7 @@ VertexOutput main(VertexInput vIn, InstanceInput iIn) {
 ]
 
 { #category : 'accessing' }
-SDL3GPUTiledMapVertexShaderSource class >> numberOfUniformBuffers [
-	^ 0
+SDL3GPUTiledMapVertexShaderSource class >> metadata [
+
+	^ SDL3GPUVertexShaderMetadata new
 ]

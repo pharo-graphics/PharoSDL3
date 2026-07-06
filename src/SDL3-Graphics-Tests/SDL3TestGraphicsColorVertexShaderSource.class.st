@@ -51,3 +51,9 @@ VertexOutput main(VertexInput input) {
 }
 '
 ]
+
+{ #category : 'accessing' }
+SDL3TestGraphicsColorVertexShaderSource class >> metadata [
+
+	^ SDL3GPUVertexShaderMetadata new
+]

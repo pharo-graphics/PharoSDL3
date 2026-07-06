@@ -84,7 +84,7 @@ LibSDL3 >> allCameraSupportedFormatsOf: cameraId [
 		getCameraSupportedFormatsInstanceId: cameraId
 		count: countValueHolder) getHandle.
 	array := address
-		readArrayOf: SDL_CameraSpec
+		readStructArrayByValue: SDL_CameraSpec
 		size: countValueHolder value.
 	self free: address.
 	^ array
@@ -152,7 +152,7 @@ LibSDL3 >> allWindows [
 	countValueHolder := FFIInt32 newValueHolder.
 	address := (self getWindows: countValueHolder) getHandle.
 	array := address
-		readArrayOf: SDL_Window
+		readPointerArrayOf: SDL_Window
 		size: countValueHolder value.
 	self free: address.
 	^ array

@@ -20,7 +20,13 @@ SDL3GPURenderStateDemoShaderSource class >> isAbstract [
 ]
 
 { #category : 'accessing' }
-SDL3GPURenderStateDemoShaderSource class >> numberOfUniformBuffers [
-
-	^ 1
+SDL3GPURenderStateDemoShaderSource class >> metadata [
+	^ (SDL3GPUFragmentShaderMetadata new
+		   samplers: (OrderedCollection new
+				    add: (SDL3GPUSamplerBinding index: 0 space: 2);
+				    yourself);
+		   uniformBuffers: (OrderedCollection new
+				    add: (SDL3GPUUniformBinding index: 0 space: 3);
+				    yourself);
+		   yourself)
 ]

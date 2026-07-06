@@ -1,6 +1,9 @@
 Class {
 	#name : 'SDL3GPUComputePipelineCreateInfo',
 	#superclass : 'SDL3Structure',
+	#instVars : [
+		'metadata'
+	],
 	#classVars : [
 		'OFFSET_CODE',
 		'OFFSET_CODE_SIZE',
@@ -89,6 +92,16 @@ SDL3GPUComputePipelineCreateInfo >> format [
 SDL3GPUComputePipelineCreateInfo >> format: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_FORMAT put: anObject
+]
+
+{ #category : 'accessing' }
+SDL3GPUComputePipelineCreateInfo >> metadata [
+	^ metadata
+]
+
+{ #category : 'accessing' }
+SDL3GPUComputePipelineCreateInfo >> metadata: aMetadata [
+	metadata := aMetadata
 ]
 
 { #category : 'accessing - structure variables' }

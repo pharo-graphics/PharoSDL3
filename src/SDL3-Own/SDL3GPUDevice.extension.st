@@ -92,15 +92,18 @@ SDL3GPUDevice >> newBuffer: aBlock [
 { #category : '*SDL3-Own' }
 SDL3GPUDevice >> newComputePipeline: aBlock [
 
-	| createInfo |
+	| createInfo pipeline |
 	createInfo := SDL3GPUComputePipelineCreateInfo externalNew.
-	^ [
-		aBlock value: createInfo.
-		(self ffiLibrary newGPUComputePipelineDevice: self createinfo: createInfo)
-			assertNotNullReturn;
-			device: self;
-			yourself
-	] ensure: [ createInfo free ]
+	^ [ 
+		  aBlock value: createInfo.
+		  pipeline := (self ffiLibrary
+			               newGPUComputePipelineDevice: self
+			               createinfo: createInfo)
+			              assertNotNullReturn;
+			              device: self;
+			              yourself.
+		  pipeline metadata: createInfo metadata.
+		  pipeline ] ensure: [ createInfo free ]
 ]
 
 { #category : '*SDL3-Own' }
@@ -179,15 +182,20 @@ SDL3GPUDevice >> newGPUTextureUploadingForm: aForm usage: aUsage [
 { #category : '*SDL3-Own' }
 SDL3GPUDevice >> newGraphicsPipeline: aBlock [
 
-	| info |
+	| info pipeline |
 	info := SDL3GPUGraphicsPipelineCreateInfo externalNew.
 	^ [ 
-		aBlock value: info.
-		(self ffiLibrary newGPUGraphicsPipelineDevice: self createinfo: info)
-			assertNotNullReturn;
-			device: self;
-			yourself
-	] ensure: [ info free ]
+		  aBlock value: info.
+
+		  pipeline := (self ffiLibrary
+			               newGPUGraphicsPipelineDevice: self
+			               createinfo: info)
+			              assertNotNullReturn;
+			              device: self;
+			              yourself.
+		  pipeline vertexMetadata: info vertexMetadata.
+		  pipeline fragmentMetadata: info fragmentMetadata.
+		  pipeline ] ensure: [ info free ]
 ]
 
 { #category : '*SDL3-Own' }

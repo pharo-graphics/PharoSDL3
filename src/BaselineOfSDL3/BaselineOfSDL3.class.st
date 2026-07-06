@@ -15,7 +15,9 @@ BaselineOfSDL3 >> baseline: spec [
 			spec
 				postLoadDoIt: #postLoad;
 				package: 'SDL3';
-				package: 'SDL3-Own' with: [ spec requires: #('SDL3') ];
+				package: 'SDL3-ShaderScanner';
+				package: 'SDL3-ShaderScanner-Tests' with: [ spec requires: #('SDL3-ShaderScanner') ];
+				package: 'SDL3-Own' with: [ spec requires: #('SDL3' 'SDL3-ShaderScanner'  ) ];
 				package: 'SDL3-API' with: [ spec requires: #('SDL3') ];
 
 				package: 'SDL3-OSWindow' with: [ spec requires: #('SDL3' 'SDL3-Own' 'SDL3-API') ];

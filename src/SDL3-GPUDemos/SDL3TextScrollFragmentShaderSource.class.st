@@ -32,30 +32,31 @@ SDL3TextScrollFragmentShaderSource class >> base64SPVCode [
 
 { #category : 'accessing' }
 SDL3TextScrollFragmentShaderSource class >> hlslSource [
-	^ 'struct VertexOutput {
- float4 position : SV_Position;
- float2 uv : TEXCOORD0;
- nointerpolation float4 fgColor : TEXCOORD1;
- nointerpolation float4 bgColor : TEXCOORD2;
+
+	^ '
+struct VertexOutput {
+	float4 position : SV_Position;
+	float2 uv : TEXCOORD0;
+	nointerpolation float4 fgColor : TEXCOORD1;
+	nointerpolation float4 bgColor : TEXCOORD2;
 };
 
 Texture2D<float> atlasTexture : register(t0, space2);
 SamplerState atlasSampler : register(s0, space2);
 
 float4 main(VertexOutput input) : SV_Target0 {
- // R8 texture stores data in the red channel
- float mask = atlasTexture.Sample(atlasSampler, input.uv);
+	// R8 texture stores data in the red channel
+	float mask = atlasTexture.Sample(atlasSampler, input.uv);
 
- return lerp(input.bgColor, input.fgColor, mask);
+	return lerp(input.bgColor, input.fgColor, mask);
 }'
 ]
 
 { #category : 'accessing' }
-SDL3TextScrollFragmentShaderSource class >> numberOfSamplers [
-	^ 1
-]
+SDL3TextScrollFragmentShaderSource class >> metadata [
 
-{ #category : 'accessing' }
-SDL3TextScrollFragmentShaderSource class >> numberOfUniformBuffers [
-	^ 0
+	^ (SDL3GPUFragmentShaderMetadata new
+		samplers: {
+			(SDL3GPUSamplerBinding index: 0 space: 2) };
+		yourself)
 ]

@@ -8,7 +8,7 @@ SDL3TrayMenu >> entries [
 	valueHolder := FFIInt32 newValueHolder.
 	first := (self getEntriesIntoCount: valueHolder) getHandle.
 	count := valueHolder value.
-	array := first readStructArrayFromPointers: SDL3TrayEntry size: count.
+	array := first readPointerArrayOf: SDL3TrayEntry size: count.
 	"Note: We do not free the returned array because we aren't the owners"
 	^ array
 ]
