@@ -17749,7 +17749,7 @@ LibSDL3 >> memcmpS1: s1 s2: s2 len: len [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memcpy: _Out_bytecap_ [
+LibSDL3 >> memcpyDst: dst src: src len: len [
 	"/**
 	 * Copy non-overlapping memory.
 	 *
@@ -17769,11 +17769,11 @@ LibSDL3 >> memcpy: _Out_bytecap_ [
 	 * \sa SDL_memmove
 	 */"
 
-	^ self ffiCall: #(void* SDL_memcpy(int _Out_bytecap_))
+	^ self ffiCall: #(void* SDL_memcpy(void* dst, const void* src, size_t len))
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memmove: _Out_bytecap_ [
+LibSDL3 >> memmoveDst: dst src: src len: len [
 	"/**
 	 * Copy memory ranges that might overlap.
 	 *
@@ -17792,7 +17792,7 @@ LibSDL3 >> memmove: _Out_bytecap_ [
 	 * \sa SDL_memcpy
 	 */"
 
-	^ self ffiCall: #(void* SDL_memmove(int _Out_bytecap_))
+	^ self ffiCall: #(void* SDL_memmove(void* dst, const void* src, size_t len))
 ]
 
 { #category : 'public - SDL_atomic' }
@@ -17868,7 +17868,7 @@ LibSDL3 >> memset4Dst: dst val: val dwords: dwords [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memset: _Out_bytecap_ [
+LibSDL3 >> memsetDst: dst c: c len: len [
 	"/**
 	 * Initialize all bytes of buffer of memory to a specific value.
 	 *
@@ -17888,7 +17888,7 @@ LibSDL3 >> memset: _Out_bytecap_ [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(void* SDL_memset(int _Out_bytecap_))
+	^ self ffiCall: #(void* SDL_memset(void* dst, int c, size_t len))
 ]
 
 { #category : 'public - SDL_metal' }
@@ -29619,7 +29619,7 @@ LibSDL3 >> strlcat: _Inout_z_cap_ [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strlcpy: _Out_z_cap_ [
+LibSDL3 >> strlcpyDst: dst src: src maxlen: maxlen [
 	"/**
 	 * Copy a string.
 	 *
@@ -29648,7 +29648,7 @@ LibSDL3 >> strlcpy: _Out_z_cap_ [
 	 * \sa SDL_utf8strlcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_strlcpy(int _Out_z_cap_))
+	^ self ffiCall: #(int SDL_strlcpy(char* dst, const char* src, size_t maxlen))
 ]
 
 { #category : 'public - SDL_stdinc' }
@@ -31410,7 +31410,7 @@ LibSDL3 >> uploadToGPUTextureCopyPass: copy_pass source: source destination: des
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> utf8strlcpy: _Out_z_cap_ [
+LibSDL3 >> utf8strlcpyDst: dst src: src dst_bytes: dst_bytes [
 	"/**
 	 * Copy an UTF-8 string.
 	 *
@@ -31438,7 +31438,7 @@ LibSDL3 >> utf8strlcpy: _Out_z_cap_ [
 	 * \sa SDL_strlcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_utf8strlcpy(int _Out_z_cap_))
+	^ self ffiCall: #(int SDL_utf8strlcpy(char* dst, const char* src, size_t dst_bytes))
 ]
 
 { #category : 'public - SDL_stdinc' }
@@ -32106,7 +32106,7 @@ LibSDL3 >> wcslcat: _Inout_z_cap_ [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcslcpy: _Out_z_cap_ [
+LibSDL3 >> wcslcpyDst: dst src: src maxlen: maxlen [
 	"/**
 	 * Copy a wide string.
 	 *
@@ -32133,7 +32133,7 @@ LibSDL3 >> wcslcpy: _Out_z_cap_ [
 	 * \sa SDL_wcslcat
 	 */"
 
-	^ self ffiCall: #(size_t SDL_wcslcpy(int _Out_z_cap_))
+	^ self ffiCall: #(int SDL_wcslcpy(int* dst, const int* src, size_t maxlen))
 ]
 
 { #category : 'public - SDL_stdinc' }
