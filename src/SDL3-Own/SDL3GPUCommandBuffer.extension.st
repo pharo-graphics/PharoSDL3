@@ -231,14 +231,6 @@ SDL3GPUCommandBuffer >> submitAndAcquireFence [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUCommandBuffer >> uploadToGPUDo: aBlock [
-	"Yields an uploader using an already active copy pass on this command buffer."
-
-	self copyPassDo: [ :copyPass |
-		SDL3GPUUploader on: self device copyPass: copyPass do: aBlock ]
-]
-
-{ #category : '*SDL3-Own' }
 SDL3GPUCommandBuffer >> waitAndAcquireSwapchainTextureForWindow: window into: swapchainTexture width: swapchainTextureWidth height: swapchainTextureHeight [
 
 	self ffiLibrary assertSuccess:

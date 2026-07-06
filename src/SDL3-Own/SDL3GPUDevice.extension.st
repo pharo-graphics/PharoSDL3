@@ -406,13 +406,6 @@ SDL3GPUDevice class >> unsafeNewWithProperties: propertiesID [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> uploadToGPUDo: aBlock [
-	"Acquires a command buffer, starts a copy pass, yields an uploader for batching, and submits the commands."
-
-	SDL3GPUUploader on: self do: aBlock
-]
-
-{ #category : '*SDL3-Own' }
 SDL3GPUDevice >> waitForGPUFencesWaitAll: waitAll fences: fences numFences: numFences [
 
 	self ffiLibrary assertSuccess:
