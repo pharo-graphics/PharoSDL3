@@ -17749,7 +17749,7 @@ LibSDL3 >> memcmpS1: s1 s2: s2 len: len [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memcpy: _Out_bytecap_ [
+LibSDL3 >> memcpyDst: dst src: src len: len [
 	"/**
 	 * Copy non-overlapping memory.
 	 *
@@ -17769,11 +17769,11 @@ LibSDL3 >> memcpy: _Out_bytecap_ [
 	 * \sa SDL_memmove
 	 */"
 
-	^ self ffiCall: #(void* SDL_memcpy(int _Out_bytecap_))
+	^ self ffiCall: #(void* SDL_memcpy(void* dst, const void* src, size_t len))
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memmove: _Out_bytecap_ [
+LibSDL3 >> memmoveDst: dst src: src len: len [
 	"/**
 	 * Copy memory ranges that might overlap.
 	 *
@@ -17792,7 +17792,7 @@ LibSDL3 >> memmove: _Out_bytecap_ [
 	 * \sa SDL_memcpy
 	 */"
 
-	^ self ffiCall: #(void* SDL_memmove(int _Out_bytecap_))
+	^ self ffiCall: #(void* SDL_memmove(void* dst, const void* src, size_t len))
 ]
 
 { #category : 'public - SDL_atomic' }
@@ -17868,7 +17868,7 @@ LibSDL3 >> memset4Dst: dst val: val dwords: dwords [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memset: _Out_bytecap_ [
+LibSDL3 >> memsetDst: dst c: c len: len [
 	"/**
 	 * Initialize all bytes of buffer of memory to a specific value.
 	 *
@@ -17888,7 +17888,7 @@ LibSDL3 >> memset: _Out_bytecap_ [
 	 * \since This function is available since SDL 3.2.0.
 	 */"
 
-	^ self ffiCall: #(void* SDL_memset(int _Out_bytecap_))
+	^ self ffiCall: #(void* SDL_memset(void* dst, int c, size_t len))
 ]
 
 { #category : 'public - SDL_metal' }
@@ -29053,43 +29053,6 @@ LibSDL3 >> sizeMulCheckOverflowA: a b: b ret: ret [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> snprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like snprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Format a string of up to `maxlen`-1 bytes, converting each '%' item with
-	 * values provided through variable arguments.
-	 *
-	 * While some C runtimes differ on how to deal with too-large strings, this
-	 * function null-terminates the output, by treating the null-terminator as
-	 * part of the `maxlen` count. Note that if `maxlen` is zero, however, no
-	 * bytes will be written at all.
-	 *
-	 * This function returns the number of _bytes_ (not _characters_) that should
-	 * be written, excluding the null-terminator character. If this returns a
-	 * number >= `maxlen`, it means the output string was truncated. A negative
-	 * return value means an error occurred.
-	 *
-	 * Referencing the output string's pointer with a format item is undefined
-	 * behavior.
-	 *
-	 * \param text the buffer to write the string into. Must not be NULL.
-	 * \param maxlen the maximum bytes to write, including the null-terminator.
-	 * \param fmt a printf-style format string. Must not be NULL.
-	 * \param ... a list of values to be used with the format string.
-	 * \returns the number of bytes that should be written, not counting the
-	 *          null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_snprintf(int _Out_z_cap_))
-]
-
-{ #category : 'public - SDL_stdinc' }
 LibSDL3 >> sqrt: x [
 	"/**
 	 * Compute the square root of `x`.
@@ -29656,7 +29619,7 @@ LibSDL3 >> strlcat: _Inout_z_cap_ [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strlcpy: _Out_z_cap_ [
+LibSDL3 >> strlcpyDst: dst src: src maxlen: maxlen [
 	"/**
 	 * Copy a string.
 	 *
@@ -29685,7 +29648,7 @@ LibSDL3 >> strlcpy: _Out_z_cap_ [
 	 * \sa SDL_utf8strlcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_strlcpy(int _Out_z_cap_))
+	^ self ffiCall: #(int SDL_strlcpy(char* dst, const char* src, size_t maxlen))
 ]
 
 { #category : 'public - SDL_stdinc' }
@@ -30299,44 +30262,6 @@ LibSDL3 >> swapFloat: x [
 	 */"
 
 	^ self ffiCall: #(int SDL_SwapFloat(float x))
-]
-
-{ #category : 'public - SDL_stdinc' }
-LibSDL3 >> swprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like swprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Format a wide string of up to `maxlen`-1 wchar_t values, converting each
-	 * '%' item with values provided through variable arguments.
-	 *
-	 * While some C runtimes differ on how to deal with too-large strings, this
-	 * function null-terminates the output, by treating the null-terminator as
-	 * part of the `maxlen` count. Note that if `maxlen` is zero, however, no wide
-	 * characters will be written at all.
-	 *
-	 * This function returns the number of _wide characters_ (not _codepoints_)
-	 * that should be written, excluding the null-terminator character. If this
-	 * returns a number >= `maxlen`, it means the output string was truncated. A
-	 * negative return value means an error occurred.
-	 *
-	 * Referencing the output string's pointer with a format item is undefined
-	 * behavior.
-	 *
-	 * \param text the buffer to write the wide string into. Must not be NULL.
-	 * \param maxlen the maximum wchar_t values to write, including the
-	 *               null-terminator.
-	 * \param fmt a printf-style format string. Must not be NULL.
-	 * \param ... a list of values to be used with the format string.
-	 * \returns the number of wide characters that should be written, not counting
-	 *          the null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_swprintf(int _Out_z_cap_))
 ]
 
 { #category : 'public - SDL_video' }
@@ -31485,7 +31410,7 @@ LibSDL3 >> uploadToGPUTextureCopyPass: copy_pass source: source destination: des
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> utf8strlcpy: _Out_z_cap_ [
+LibSDL3 >> utf8strlcpyDst: dst src: src dst_bytes: dst_bytes [
 	"/**
 	 * Copy an UTF-8 string.
 	 *
@@ -31513,7 +31438,7 @@ LibSDL3 >> utf8strlcpy: _Out_z_cap_ [
 	 * \sa SDL_strlcpy
 	 */"
 
-	^ self ffiCall: #(size_t SDL_utf8strlcpy(int _Out_z_cap_))
+	^ self ffiCall: #(int SDL_utf8strlcpy(char* dst, const char* src, size_t dst_bytes))
 ]
 
 { #category : 'public - SDL_stdinc' }
@@ -31583,55 +31508,6 @@ LibSDL3 >> utf8strnlenStr: str bytes: bytes [
 	 */"
 
 	^ self ffiCall: #(size_t SDL_utf8strnlen(const char* str, size_t bytes))
-]
-
-{ #category : 'public - SDL_stdinc' }
-LibSDL3 >> vsnprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like vsnprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Functions identically to SDL_snprintf(), except it takes a `va_list`
-	 * instead of using `...` variable arguments.
-	 *
-	 * \param text the buffer to write the string into. Must not be NULL.
-	 * \param maxlen the maximum bytes to write, including the null-terminator.
-	 * \param fmt a printf-style format string. Must not be NULL.
-	 * \param ap a `va_list` values to be used with the format string.
-	 * \returns the number of bytes that should be written, not counting the
-	 *          null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_vsnprintf(int _Out_z_cap_))
-]
-
-{ #category : 'public - SDL_stdinc' }
-LibSDL3 >> vswprintf: _Out_z_cap_ [
-	"/**
-	 * This works exactly like vswprintf() but doesn't require access to a C
-	 * runtime.
-	 *
-	 * Functions identically to SDL_swprintf(), except it takes a `va_list`
-	 * instead of using `...` variable arguments.
-	 *
-	 * \param text the buffer to write the string into. Must not be NULL.
-	 * \param maxlen the maximum wide characters to write, including the
-	 *               null-terminator.
-	 * \param fmt a printf-style format wide string. Must not be NULL.
-	 * \param ap a `va_list` values to be used with the format string.
-	 * \returns the number of wide characters that should be written, not counting
-	 *          the null-terminator char, or a negative value on error.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(int SDL_vswprintf(int _Out_z_cap_))
 ]
 
 { #category : 'public - SDL_gpu' }
@@ -32230,7 +32106,7 @@ LibSDL3 >> wcslcat: _Inout_z_cap_ [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcslcpy: _Out_z_cap_ [
+LibSDL3 >> wcslcpyDst: dst src: src maxlen: maxlen [
 	"/**
 	 * Copy a wide string.
 	 *
@@ -32257,7 +32133,7 @@ LibSDL3 >> wcslcpy: _Out_z_cap_ [
 	 * \sa SDL_wcslcat
 	 */"
 
-	^ self ffiCall: #(size_t SDL_wcslcpy(int _Out_z_cap_))
+	^ self ffiCall: #(int SDL_wcslcpy(int* dst, const int* src, size_t maxlen))
 ]
 
 { #category : 'public - SDL_stdinc' }
