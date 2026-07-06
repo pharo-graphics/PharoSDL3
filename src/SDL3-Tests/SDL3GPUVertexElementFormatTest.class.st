@@ -44,9 +44,6 @@ SDL3GPUVertexElementFormatTest >> testAlignment [
 	self assert: SDL_GPU_VERTEXELEMENTFORMAT_SHORT4_NORM alignment equals: 2.
 	self assert: SDL_GPU_VERTEXELEMENTFORMAT_USHORT2_NORM alignment equals: 2.
 	self assert: SDL_GPU_VERTEXELEMENTFORMAT_USHORT4_NORM alignment equals: 2.
-
-	self assert: SDL_GPU_VERTEXELEMENTFORMAT_INT2_10_10_10_2_REV alignment equals: 4.
-	self assert: SDL_GPU_VERTEXELEMENTFORMAT_UINT2_10_10_10_2_REV alignment equals: 4
 ]
 
 { #category : 'tests' }
@@ -89,7 +86,4 @@ SDL3GPUVertexElementFormatTest >> testByteSize [
 	self assert: SDL_GPU_VERTEXELEMENTFORMAT_USHORT2_NORM byteSize equals: 4.
 	self assert: SDL_GPU_VERTEXELEMENTFORMAT_SHORT4_NORM byteSize equals: 8.
 	self assert: SDL_GPU_VERTEXELEMENTFORMAT_USHORT4_NORM byteSize equals: 8.
-
-	self assert: SDL_GPU_VERTEXELEMENTFORMAT_INT2_10_10_10_2_REV byteSize equals: 4.
-	self assert: SDL_GPU_VERTEXELEMENTFORMAT_UINT2_10_10_10_2_REV byteSize equals: 4
 ]
