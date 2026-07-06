@@ -594,6 +594,8 @@ SDL3WindowTest >> test18PopupMenu [
 SDL3WindowTest >> test19Occluded [
 
 	| extent windowA windowB |
+	OSPlatform current isMacOS ifFalse: [ ^ self skip ].
+
 	extent := 400 @ 300.
 	windowA :=
 		SDL3Window
