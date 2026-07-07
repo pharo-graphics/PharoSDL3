@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AudioSpec`.
+
+Format specifier for audio data.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AudioSpec
+"
 Class {
 	#name : 'SDL3AudioSpec',
 	#superclass : 'SDL3Structure',

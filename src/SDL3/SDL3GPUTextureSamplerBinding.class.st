@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTextureSamplerBinding`.
+
+A structure specifying parameters in a sampler binding call.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTextureSamplerBinding
+"
 Class {
 	#name : 'SDL3GPUTextureSamplerBinding',
 	#superclass : 'SDL3Structure',

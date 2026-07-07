@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TextInputEvent`.
+
+Keyboard text input event structure (event.text.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_TextInputEvent
+"
 Class {
 	#name : 'SDL3TextInputEvent',
 	#superclass : 'SDL3TextEvent',

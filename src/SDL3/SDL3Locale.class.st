@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Locale`.
+
+A struct to provide locale data.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Locale
+"
 Class {
 	#name : 'SDL3Locale',
 	#superclass : 'SDL3Structure',

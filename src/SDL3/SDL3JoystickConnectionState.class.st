@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoystickConnectionState`.
+
+Possible connection states for a joystick device.
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoystickConnectionState
+"
 Class {
 	#name : 'SDL3JoystickConnectionState',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoyBallEvent`.
+
+Joystick trackball motion event structure (event.jball.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoyBallEvent
+"
 Class {
 	#name : 'SDL3JoyBallEvent',
 	#superclass : 'SDL3JoystickEvent',

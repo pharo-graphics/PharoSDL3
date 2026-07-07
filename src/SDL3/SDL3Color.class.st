@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Color`.
+
+A structure that represents a color as RGBA components.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Color
+"
 Class {
 	#name : 'SDL3Color',
 	#superclass : 'SDL3Structure',

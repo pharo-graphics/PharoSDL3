@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MessageBoxColorType`.
+
+An enumeration of indices inside the colors array of SDL_MessageBoxColorScheme.
+
+See: https://wiki.libsdl.org/SDL3/SDL_MessageBoxColorType
+"
 Class {
 	#name : 'SDL3MessageBoxColorType',
 	#superclass : 'SDL3Enumeration',

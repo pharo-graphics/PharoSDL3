@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_LogCategory`.
+
+The predefined log categories
+
+See: https://wiki.libsdl.org/SDL3/SDL_LogCategory
+"
 Class {
 	#name : 'SDL3LogCategory',
 	#superclass : 'SDL3Enumeration',

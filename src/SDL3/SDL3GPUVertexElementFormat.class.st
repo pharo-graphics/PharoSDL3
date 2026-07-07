@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUVertexElementFormat`.
+
+Specifies the format of a vertex attribute.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUVertexElementFormat
+"
 Class {
 	#name : 'SDL3GPUVertexElementFormat',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MouseButtonEvent`.
+
+Mouse button event structure (event.button.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_MouseButtonEvent
+"
 Class {
 	#name : 'SDL3MouseButtonEvent',
 	#superclass : 'SDL3MouseEvent',

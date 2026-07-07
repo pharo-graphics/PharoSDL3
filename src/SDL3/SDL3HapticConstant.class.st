@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HapticConstant`.
+
+A structure containing a template for a Constant effect.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HapticConstant
+"
 Class {
 	#name : 'SDL3HapticConstant',
 	#superclass : 'SDL3Structure',

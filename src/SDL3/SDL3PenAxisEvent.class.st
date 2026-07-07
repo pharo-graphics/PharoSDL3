@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PenAxisEvent`.
+
+Pressure-sensitive pen pressure / angle event structure (event.paxis.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_PenAxisEvent
+"
 Class {
 	#name : 'SDL3PenAxisEvent',
 	#superclass : 'SDL3PenEvent',

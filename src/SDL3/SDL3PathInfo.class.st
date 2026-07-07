@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PathInfo`.
+
+Information about a path on the filesystem.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PathInfo
+"
 Class {
 	#name : 'SDL3PathInfo',
 	#superclass : 'SDL3Structure',

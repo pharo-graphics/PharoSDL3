@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUStorageBufferReadWriteBinding`.
+
+A structure specifying parameters related to binding buffers in a compute pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUStorageBufferReadWriteBinding
+"
 Class {
 	#name : 'SDL3GPUStorageBufferReadWriteBinding',
 	#superclass : 'SDL3Structure',

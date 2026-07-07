@@ -1,3 +1,8 @@
+"
+I am the superclass of all events in SDL3 FFI bindings.
+
+SDL3 originally provides SDL3Event which is a union of all events.
+"
 Class {
 	#name : 'SDL3MappedEvent',
 	#superclass : 'SDL3Structure',

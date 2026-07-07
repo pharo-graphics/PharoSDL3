@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TextureAddressMode`.
+
+The addressing mode for a texture when used in SDL_RenderGeometry().
+
+See: https://wiki.libsdl.org/SDL3/SDL_TextureAddressMode
+"
 Class {
 	#name : 'SDL3TextureAddressMode',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ColorType`.
+
+Colorspace color type.
+
+See: https://wiki.libsdl.org/SDL3/SDL_ColorType
+"
 Class {
 	#name : 'SDL3ColorType',
 	#superclass : 'SDL3Enumeration',

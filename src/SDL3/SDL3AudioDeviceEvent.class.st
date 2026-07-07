@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AudioDeviceEvent`.
+
+Audio device event structure (event.adevice.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_AudioDeviceEvent
+"
 Class {
 	#name : 'SDL3AudioDeviceEvent',
 	#superclass : 'SDL3DeviceEvent',

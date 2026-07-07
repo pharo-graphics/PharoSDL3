@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PackedOrder`.
+
+Packed component order, high bit -> low bit.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PackedOrder
+"
 Class {
 	#name : 'SDL3PackedOrder',
 	#superclass : 'SDL3Enumeration',

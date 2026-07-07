@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUVertexAttribute`.
+
+A structure specifying a vertex attribute.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUVertexAttribute
+"
 Class {
 	#name : 'SDL3GPUVertexAttribute',
 	#superclass : 'SDL3Structure',

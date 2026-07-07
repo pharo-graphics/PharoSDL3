@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TextureAccess`.
+
+The access pattern allowed for a texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_TextureAccess
+"
 Class {
 	#name : 'SDL3TextureAccess',
 	#superclass : 'SDL3Enumeration',

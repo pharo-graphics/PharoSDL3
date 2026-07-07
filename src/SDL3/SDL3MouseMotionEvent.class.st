@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MouseMotionEvent`.
+
+Mouse motion event structure (event.motion.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_MouseMotionEvent
+"
 Class {
 	#name : 'SDL3MouseMotionEvent',
 	#superclass : 'SDL3MouseEvent',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ChromaLocation`.
+
+Colorspace chroma sample location.
+
+See: https://wiki.libsdl.org/SDL3/SDL_ChromaLocation
+"
 Class {
 	#name : 'SDL3ChromaLocation',
 	#superclass : 'SDL3Enumeration',

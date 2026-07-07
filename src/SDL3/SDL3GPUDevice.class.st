@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUDevice`.
+
+An opaque handle representing the SDL_GPU context.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUDevice
+"
 Class {
 	#name : 'SDL3GPUDevice',
 	#superclass : 'SDL3BaseObject',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUStencilOp`.
+
+Specifies what happens to a stored stencil value if stencil tests fail or pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUStencilOp
+"
 Class {
 	#name : 'SDL3GPUStencilOp',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_StorageInterface`.
+
+Function interface for SDL_Storage.
+
+See: https://wiki.libsdl.org/SDL3/SDL_StorageInterface
+"
 Class {
 	#name : 'SDL3StorageInterface',
 	#superclass : 'SDL3Structure',

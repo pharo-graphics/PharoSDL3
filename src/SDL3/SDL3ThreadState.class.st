@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ThreadState`.
+
+The SDL thread state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_ThreadState
+"
 Class {
 	#name : 'SDL3ThreadState',
 	#superclass : 'SDL3Enumeration',

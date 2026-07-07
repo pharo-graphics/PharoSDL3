@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUVulkanOptions`.
+
+A structure specifying additional options when using Vulkan.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUVulkanOptions
+"
 Class {
 	#name : 'SDL3GPUVulkanOptions',
 	#superclass : 'SDL3Structure',

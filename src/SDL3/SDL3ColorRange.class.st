@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ColorRange`.
+
+Colorspace color range, as described by https://www.itu.int/rec/R-REC-BT.2100-2-201807-I/en
+
+See: https://wiki.libsdl.org/SDL3/SDL_ColorRange
+"
 Class {
 	#name : 'SDL3ColorRange',
 	#superclass : 'SDL3Enumeration',

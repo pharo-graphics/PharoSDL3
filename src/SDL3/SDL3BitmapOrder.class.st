@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_BitmapOrder`.
+
+Bitmap pixel order, high bit -> low bit.
+
+See: https://wiki.libsdl.org/SDL3/SDL_BitmapOrder
+"
 Class {
 	#name : 'SDL3BitmapOrder',
 	#superclass : 'SDL3Enumeration',

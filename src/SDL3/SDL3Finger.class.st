@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Finger`.
+
+Data about a single finger in a multitouch event.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Finger
+"
 Class {
 	#name : 'SDL3Finger',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Texture`.
+
+An efficient driver-specific representation of pixel data
+
+See: https://wiki.libsdl.org/SDL3/SDL_Texture
+"
 Class {
 	#name : 'SDL3Texture',
 	#superclass : 'SDL3Structure',

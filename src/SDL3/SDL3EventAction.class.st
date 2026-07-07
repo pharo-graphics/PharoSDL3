@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_EventAction`.
+
+The type of action to request from SDL_PeepEvents().
+
+See: https://wiki.libsdl.org/SDL3/SDL_EventAction
+"
 Class {
 	#name : 'SDL3EventAction',
 	#superclass : 'SDL3Enumeration',

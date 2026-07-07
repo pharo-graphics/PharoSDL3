@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_FlipMode`.
+
+The flip mode.
+
+See: https://wiki.libsdl.org/SDL3/SDL_FlipMode
+"
 Class {
 	#name : 'SDL3FlipMode',
 	#superclass : 'SDL3Enumeration',

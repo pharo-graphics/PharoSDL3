@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadButton`.
+
+The list of buttons available on a gamepad
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadButton
+"
 Class {
 	#name : 'SDL3GamepadButton',
 	#superclass : 'SDL3Enumeration',

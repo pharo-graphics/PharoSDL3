@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MouseDeviceEvent`.
+
+Mouse device event structure (event.mdevice.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_MouseDeviceEvent
+"
 Class {
 	#name : 'SDL3MouseDeviceEvent',
 	#superclass : 'SDL3DeviceEvent',

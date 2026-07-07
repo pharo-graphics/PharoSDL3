@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Vertex`.
+
+Vertex structure.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Vertex
+"
 Class {
 	#name : 'SDL3Vertex',
 	#superclass : 'SDL3Structure',

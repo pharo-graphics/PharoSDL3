@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUDepthStencilTargetInfo`.
+
+A structure specifying the parameters of a depth-stencil target used by a render pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUDepthStencilTargetInfo
+"
 Class {
 	#name : 'SDL3GPUDepthStencilTargetInfo',
 	#superclass : 'SDL3Structure',

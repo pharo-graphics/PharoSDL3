@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ColorPrimaries`.
+
+Colorspace color primaries, as described by https://www.itu.int/rec/T-REC-H.273-201612-S/en
+
+See: https://wiki.libsdl.org/SDL3/SDL_ColorPrimaries
+"
 Class {
 	#name : 'SDL3ColorPrimaries',
 	#superclass : 'SDL3Enumeration',

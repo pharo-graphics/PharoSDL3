@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUCompareOp`.
+
+Specifies a comparison operator for depth, stencil and sampler operations.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUCompareOp
+"
 Class {
 	#name : 'SDL3GPUCompareOp',
 	#superclass : 'SDL3Enumeration',

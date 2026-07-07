@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HapticRamp`.
+
+A structure containing a template for a Ramp effect.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HapticRamp
+"
 Class {
 	#name : 'SDL3HapticRamp',
 	#superclass : 'SDL3Structure',

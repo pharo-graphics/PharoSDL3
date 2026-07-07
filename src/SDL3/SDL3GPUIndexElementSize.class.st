@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUIndexElementSize`.
+
+Specifies the size of elements in an index buffer.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUIndexElementSize
+"
 Class {
 	#name : 'SDL3GPUIndexElementSize',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUFrontFace`.
+
+Specifies the vertex winding that will cause a triangle to be determined to be front-facing.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUFrontFace
+"
 Class {
 	#name : 'SDL3GPUFrontFace',
 	#superclass : 'SDL3Enumeration',

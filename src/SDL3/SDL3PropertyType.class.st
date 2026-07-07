@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PropertyType`.
+
+SDL property type
+
+See: https://wiki.libsdl.org/SDL3/SDL_PropertyType
+"
 Class {
 	#name : 'SDL3PropertyType',
 	#superclass : 'SDL3Enumeration',

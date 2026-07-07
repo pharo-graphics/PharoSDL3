@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PowerState`.
+
+The basic state for the system's power supply.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PowerState
+"
 Class {
 	#name : 'SDL3PowerState',
 	#superclass : 'SDL3Enumeration',

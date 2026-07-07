@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_DisplayOrientation`.
+
+Display orientation values; the way a display is rotated.
+
+See: https://wiki.libsdl.org/SDL3/SDL_DisplayOrientation
+"
 Class {
 	#name : 'SDL3DisplayOrientation',
 	#superclass : 'SDL3Enumeration',

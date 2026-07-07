@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PinchFingerEvent`.
+
+Pinch event structure (event.pinch.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_PinchFingerEvent
+"
 Class {
 	#name : 'SDL3PinchFingerEvent',
 	#superclass : 'SDL3WindowIDEvent',

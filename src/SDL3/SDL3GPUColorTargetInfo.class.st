@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUColorTargetInfo`.
+
+A structure specifying the parameters of a color target used by a render pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUColorTargetInfo
+"
 Class {
 	#name : 'SDL3GPUColorTargetInfo',
 	#superclass : 'SDL3Structure',

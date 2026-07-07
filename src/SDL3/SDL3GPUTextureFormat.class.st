@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTextureFormat`.
+
+Specifies the pixel format of a texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTextureFormat
+"
 Class {
 	#name : 'SDL3GPUTextureFormat',
 	#superclass : 'SDL3Enumeration',

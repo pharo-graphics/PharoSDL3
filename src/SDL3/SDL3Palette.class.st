@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Palette`.
+
+A set of indexed colors representing a palette.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Palette
+"
 Class {
 	#name : 'SDL3Palette',
 	#superclass : 'SDL3Structure',

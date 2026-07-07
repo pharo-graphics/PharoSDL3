@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBlitRegion`.
+
+A structure specifying a region of a texture used in the blit operation.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBlitRegion
+"
 Class {
 	#name : 'SDL3GPUBlitRegion',
 	#superclass : 'SDL3Structure',

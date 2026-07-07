@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUColorTargetBlendState`.
+
+A structure specifying the blend state of a color target.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUColorTargetBlendState
+"
 Class {
 	#name : 'SDL3GPUColorTargetBlendState',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_FPoint`.
+
+The structure that defines a point (using floating point values).
+
+See: https://wiki.libsdl.org/SDL3/SDL_FPoint
+"
 Class {
 	#name : 'SDL3FPoint',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadAxis`.
+
+The list of axes available on a gamepad
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadAxis
+"
 Class {
 	#name : 'SDL3GamepadAxis',
 	#superclass : 'SDL3Enumeration',

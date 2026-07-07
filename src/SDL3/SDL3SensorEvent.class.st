@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_SensorEvent`.
+
+Sensor event structure (event.sensor.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_SensorEvent
+"
 Class {
 	#name : 'SDL3SensorEvent',
 	#superclass : 'SDL3MappedEvent',

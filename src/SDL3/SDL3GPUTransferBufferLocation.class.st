@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTransferBufferLocation`.
+
+A structure specifying a location in a transfer buffer.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTransferBufferLocation
+"
 Class {
 	#name : 'SDL3GPUTransferBufferLocation',
 	#superclass : 'SDL3Structure',

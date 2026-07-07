@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AsyncIOTaskType`.
+
+Types of asynchronous I/O tasks.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AsyncIOTaskType
+"
 Class {
 	#name : 'SDL3AsyncIOTaskType',
 	#superclass : 'SDL3Enumeration',

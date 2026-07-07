@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoyButtonEvent`.
+
+Joystick button event structure (event.jbutton.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoyButtonEvent
+"
 Class {
 	#name : 'SDL3JoyButtonEvent',
 	#superclass : 'SDL3JoystickEvent',

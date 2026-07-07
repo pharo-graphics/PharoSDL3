@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_FileDialogType`.
+
+Various types of file dialogs.
+
+See: https://wiki.libsdl.org/SDL3/SDL_FileDialogType
+"
 Class {
 	#name : 'SDL3FileDialogType',
 	#superclass : 'SDL3Enumeration',

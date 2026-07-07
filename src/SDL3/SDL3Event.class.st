@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Event`.
+
+The structure for all events in SDL.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Event
+"
 Class {
 	#name : 'SDL3Event',
 	#superclass : 'SDL3Union',

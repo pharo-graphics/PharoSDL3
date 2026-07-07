@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AudioStream`.
+
+The opaque handle that represents an audio stream.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AudioStream
+"
 Class {
 	#name : 'SDL3AudioStream',
 	#superclass : 'SDL3BaseObject',

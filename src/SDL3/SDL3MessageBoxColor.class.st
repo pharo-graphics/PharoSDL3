@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MessageBoxColor`.
+
+RGB value used in a message box color scheme
+
+See: https://wiki.libsdl.org/SDL3/SDL_MessageBoxColor
+"
 Class {
 	#name : 'SDL3MessageBoxColor',
 	#superclass : 'SDL3Structure',

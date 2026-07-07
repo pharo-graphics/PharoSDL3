@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GUID`.
+
+An SDL_GUID is a 128-bit identifier for an input device that identifies that device across runs of SDL programs on the same platform.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GUID
+"
 Class {
 	#name : 'SDL3GUID',
 	#superclass : 'SDL3Structure',

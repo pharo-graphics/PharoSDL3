@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoyHatEvent`.
+
+Joystick hat position change event structure (event.jhat.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoyHatEvent
+"
 Class {
 	#name : 'SDL3JoyHatEvent',
 	#superclass : 'SDL3JoystickEvent',

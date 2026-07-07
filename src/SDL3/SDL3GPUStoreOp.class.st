@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUStoreOp`.
+
+Specifies how the contents of a texture attached to a render pass are treated at the end of the render pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUStoreOp
+"
 Class {
 	#name : 'SDL3GPUStoreOp',
 	#superclass : 'SDL3Enumeration',

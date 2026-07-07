@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_DropEvent`.
+
+An event used to drop text or request a file open by the system (event.drop.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_DropEvent
+"
 Class {
 	#name : 'SDL3DropEvent',
 	#superclass : 'SDL3WindowIDEvent',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HitTestResult`.
+
+Possible return values from the SDL_HitTest callback.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HitTestResult
+"
 Class {
 	#name : 'SDL3HitTestResult',
 	#superclass : 'SDL3Enumeration',

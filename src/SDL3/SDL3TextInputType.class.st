@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TextInputType`.
+
+Text input type.
+
+See: https://wiki.libsdl.org/SDL3/SDL_TextInputType
+"
 Class {
 	#name : 'SDL3TextInputType',
 	#superclass : 'SDL3Enumeration',

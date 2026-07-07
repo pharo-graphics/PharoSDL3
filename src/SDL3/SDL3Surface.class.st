@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Surface`.
+
+A collection of pixels used in software blitting.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Surface
+"
 Class {
 	#name : 'SDL3Surface',
 	#superclass : 'SDL3Structure',

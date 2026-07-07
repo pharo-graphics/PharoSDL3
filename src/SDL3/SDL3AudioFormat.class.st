@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AudioFormat`.
+
+Audio format.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AudioFormat
+"
 Class {
 	#name : 'SDL3AudioFormat',
 	#superclass : 'SDL3Enumeration',

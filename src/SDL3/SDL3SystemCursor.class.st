@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_SystemCursor`.
+
+Cursor types for SDL_CreateSystemCursor().
+
+See: https://wiki.libsdl.org/SDL3/SDL_SystemCursor
+"
 Class {
 	#name : 'SDL3SystemCursor',
 	#superclass : 'SDL3Enumeration',

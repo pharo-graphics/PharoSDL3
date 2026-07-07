@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GLAttr`.
+
+An enumeration of OpenGL configuration attributes.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GLAttr
+"
 Class {
 	#name : 'SDL3GLAttr',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPULoadOp`.
+
+Specifies how the contents of a texture attached to a render pass are treated at the beginning of the render pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPULoadOp
+"
 Class {
 	#name : 'SDL3GPULoadOp',
 	#superclass : 'SDL3Enumeration',

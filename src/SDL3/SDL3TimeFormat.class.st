@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TimeFormat`.
+
+The preferred time format of the current system locale.
+
+See: https://wiki.libsdl.org/SDL3/SDL_TimeFormat
+"
 Class {
 	#name : 'SDL3TimeFormat',
 	#superclass : 'SDL3Enumeration',

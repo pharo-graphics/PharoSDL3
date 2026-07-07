@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadTouchpadEvent`.
+
+Gamepad touchpad event structure (event.gtouchpad.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadTouchpadEvent
+"
 Class {
 	#name : 'SDL3GamepadTouchpadEvent',
 	#superclass : 'SDL3GamepadEvent',

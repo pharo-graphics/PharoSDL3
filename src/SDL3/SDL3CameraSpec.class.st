@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_CameraSpec`.
+
+The details of an output format for a camera device.
+
+See: https://wiki.libsdl.org/SDL3/SDL_CameraSpec
+"
 Class {
 	#name : 'SDL3CameraSpec',
 	#superclass : 'SDL3Structure',

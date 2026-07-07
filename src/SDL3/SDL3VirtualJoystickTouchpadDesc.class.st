@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_VirtualJoystickTouchpadDesc`.
+
+The structure that describes a virtual joystick touchpad.
+
+See: https://wiki.libsdl.org/SDL3/SDL_VirtualJoystickTouchpadDesc
+"
 Class {
 	#name : 'SDL3VirtualJoystickTouchpadDesc',
 	#superclass : 'SDL3Structure',

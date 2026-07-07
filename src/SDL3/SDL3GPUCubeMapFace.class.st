@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUCubeMapFace`.
+
+Specifies the face of a cube map.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUCubeMapFace
+"
 Class {
 	#name : 'SDL3GPUCubeMapFace',
 	#superclass : 'SDL3Enumeration',

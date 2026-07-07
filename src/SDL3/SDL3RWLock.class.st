@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_RWLock`.
+
+A mutex that allows read-only threads to run in parallel.
+
+See: https://wiki.libsdl.org/SDL3/SDL_RWLock
+"
 Class {
 	#name : 'SDL3RWLock',
 	#superclass : 'SDL3BaseObject',

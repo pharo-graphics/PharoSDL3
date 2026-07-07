@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PenAxis`.
+
+Pen axis indices.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PenAxis
+"
 Class {
 	#name : 'SDL3PenAxis',
 	#superclass : 'SDL3Enumeration',

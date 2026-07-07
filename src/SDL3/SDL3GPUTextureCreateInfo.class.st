@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTextureCreateInfo`.
+
+A structure specifying the parameters of a texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTextureCreateInfo
+"
 Class {
 	#name : 'SDL3GPUTextureCreateInfo',
 	#superclass : 'SDL3Structure',

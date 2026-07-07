@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_BlendOperation`.
+
+The blend operation used when combining source and destination pixel components.
+
+See: https://wiki.libsdl.org/SDL3/SDL_BlendOperation
+"
 Class {
 	#name : 'SDL3BlendOperation',
 	#superclass : 'SDL3Enumeration',

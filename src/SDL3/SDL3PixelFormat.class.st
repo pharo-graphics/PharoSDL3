@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PixelFormat`.
+
+Pixel format.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PixelFormat
+"
 Class {
 	#name : 'SDL3PixelFormat',
 	#superclass : 'SDL3Enumeration',

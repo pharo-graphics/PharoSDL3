@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Capitalization`.
+
+Auto capitalization type.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Capitalization
+"
 Class {
 	#name : 'SDL3Capitalization',
 	#superclass : 'SDL3Enumeration',

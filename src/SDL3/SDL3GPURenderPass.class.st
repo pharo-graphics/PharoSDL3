@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPURenderPass`.
+
+An opaque handle representing a render pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPURenderPass
+"
 Class {
 	#name : 'SDL3GPURenderPass',
 	#superclass : 'SDL3GPUDeviceObject',

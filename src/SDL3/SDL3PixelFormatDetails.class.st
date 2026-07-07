@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PixelFormatDetails`.
+
+Details about the format of a pixel.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PixelFormatDetails
+"
 Class {
 	#name : 'SDL3PixelFormatDetails',
 	#superclass : 'SDL3Structure',

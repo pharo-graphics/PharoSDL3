@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_SystemTheme`.
+
+System theme.
+
+See: https://wiki.libsdl.org/SDL3/SDL_SystemTheme
+"
 Class {
 	#name : 'SDL3SystemTheme',
 	#superclass : 'SDL3Enumeration',

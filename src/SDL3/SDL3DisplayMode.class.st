@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_DisplayMode`.
+
+The structure that defines a display mode.
+
+See: https://wiki.libsdl.org/SDL3/SDL_DisplayMode
+"
 Class {
 	#name : 'SDL3DisplayMode',
 	#superclass : 'SDL3Structure',

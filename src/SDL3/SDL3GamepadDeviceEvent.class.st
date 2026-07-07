@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadDeviceEvent`.
+
+Gamepad device event structure (event.gdevice.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadDeviceEvent
+"
 Class {
 	#name : 'SDL3GamepadDeviceEvent',
 	#superclass : 'SDL3DeviceEvent',

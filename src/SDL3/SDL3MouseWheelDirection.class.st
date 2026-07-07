@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MouseWheelDirection`.
+
+Scroll direction types for the Scroll event
+
+See: https://wiki.libsdl.org/SDL3/SDL_MouseWheelDirection
+"
 Class {
 	#name : 'SDL3MouseWheelDirection',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Point`.
+
+The structure that defines a point (using integers).
+
+See: https://wiki.libsdl.org/SDL3/SDL_Point
+"
 Class {
 	#name : 'SDL3Point',
 	#superclass : 'SDL3Structure',

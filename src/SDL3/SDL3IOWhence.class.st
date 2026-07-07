@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_IOWhence`.
+
+Possible `whence` values for SDL_IOStream seeking.
+
+See: https://wiki.libsdl.org/SDL3/SDL_IOWhence
+"
 Class {
 	#name : 'SDL3IOWhence',
 	#superclass : 'SDL3Enumeration',

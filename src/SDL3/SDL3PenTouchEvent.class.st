@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PenTouchEvent`.
+
+Pressure-sensitive pen touched event structure (event.ptouch.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_PenTouchEvent
+"
 Class {
 	#name : 'SDL3PenTouchEvent',
 	#superclass : 'SDL3PenEvent',

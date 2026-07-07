@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUSamplerCreateInfo`.
+
+A structure specifying the parameters of a sampler.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUSamplerCreateInfo
+"
 Class {
 	#name : 'SDL3GPUSamplerCreateInfo',
 	#superclass : 'SDL3Structure',

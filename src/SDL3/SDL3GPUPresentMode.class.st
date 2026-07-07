@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUPresentMode`.
+
+Specifies the timing that will be used to present swapchain textures to the OS.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUPresentMode
+"
 Class {
 	#name : 'SDL3GPUPresentMode',
 	#superclass : 'SDL3Enumeration',

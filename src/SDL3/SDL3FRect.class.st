@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_FRect`.
+
+A rectangle stored using floating point values.
+
+See: https://wiki.libsdl.org/SDL3/SDL_FRect
+"
 Class {
 	#name : 'SDL3FRect',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PenDeviceType`.
+
+An enum that describes the type of a pen device.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PenDeviceType
+"
 Class {
 	#name : 'SDL3PenDeviceType',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_DisplayEvent`.
+
+Display state change event data (event.display.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_DisplayEvent
+"
 Class {
 	#name : 'SDL3DisplayEvent',
 	#superclass : 'SDL3MappedEvent',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_InitState`.
+
+A structure used for thread-safe initialization and shutdown.
+
+See: https://wiki.libsdl.org/SDL3/SDL_InitState
+"
 Class {
 	#name : 'SDL3InitState',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TouchFingerEvent`.
+
+Touch finger event structure (event.tfinger.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_TouchFingerEvent
+"
 Class {
 	#name : 'SDL3TouchFingerEvent',
 	#superclass : 'SDL3WindowIDEvent',

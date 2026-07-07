@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AsyncIOResult`.
+
+Possible outcomes of an asynchronous I/O task.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AsyncIOResult
+"
 Class {
 	#name : 'SDL3AsyncIOResult',
 	#superclass : 'SDL3Enumeration',

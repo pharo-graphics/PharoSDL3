@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MessageBoxButtonData`.
+
+Individual button data.
+
+See: https://wiki.libsdl.org/SDL3/SDL_MessageBoxButtonData
+"
 Class {
 	#name : 'SDL3MessageBoxButtonData',
 	#superclass : 'SDL3Structure',

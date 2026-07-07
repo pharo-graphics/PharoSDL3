@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_RendererLogicalPresentation`.
+
+How the logical size is mapped to the output.
+
+See: https://wiki.libsdl.org/SDL3/SDL_RendererLogicalPresentation
+"
 Class {
 	#name : 'SDL3RendererLogicalPresentation',
 	#superclass : 'SDL3Enumeration',

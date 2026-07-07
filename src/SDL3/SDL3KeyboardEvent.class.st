@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_KeyboardEvent`.
+
+Keyboard button event structure (event.key.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_KeyboardEvent
+"
 Class {
 	#name : 'SDL3KeyboardEvent',
 	#superclass : 'SDL3WindowIDEvent',

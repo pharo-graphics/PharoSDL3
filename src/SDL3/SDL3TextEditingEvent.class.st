@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TextEditingEvent`.
+
+Keyboard text editing event structure (event.edit.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_TextEditingEvent
+"
 Class {
 	#name : 'SDL3TextEditingEvent',
 	#superclass : 'SDL3TextEvent',

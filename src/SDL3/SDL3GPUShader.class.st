@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUShader`.
+
+An opaque handle representing a compiled shader object.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUShader
+"
 Class {
 	#name : 'SDL3GPUShader',
 	#superclass : 'SDL3GPUDeviceObject',

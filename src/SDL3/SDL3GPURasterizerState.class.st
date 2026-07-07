@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPURasterizerState`.
+
+A structure specifying the parameters of the graphics pipeline rasterizer state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPURasterizerState
+"
 Class {
 	#name : 'SDL3GPURasterizerState',
 	#superclass : 'SDL3Structure',

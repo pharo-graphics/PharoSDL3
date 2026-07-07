@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TextEditingCandidatesEvent`.
+
+Keyboard IME candidates event structure (event.edit_candidates.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_TextEditingCandidatesEvent
+"
 Class {
 	#name : 'SDL3TextEditingCandidatesEvent',
 	#superclass : 'SDL3TextEvent',

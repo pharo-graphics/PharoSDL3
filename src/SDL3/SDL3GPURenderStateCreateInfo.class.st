@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPURenderStateCreateInfo`.
+
+A structure specifying the parameters of a GPU render state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPURenderStateCreateInfo
+"
 Class {
 	#name : 'SDL3GPURenderStateCreateInfo',
 	#superclass : 'SDL3Structure',

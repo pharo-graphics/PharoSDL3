@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_EnumerationResult`.
+
+Possible results from an enumeration callback.
+
+See: https://wiki.libsdl.org/SDL3/SDL_EnumerationResult
+"
 Class {
 	#name : 'SDL3EnumerationResult',
 	#superclass : 'SDL3Enumeration',

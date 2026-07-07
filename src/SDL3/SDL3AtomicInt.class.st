@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AtomicInt`.
+
+A type representing an atomic integer value.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AtomicInt
+"
 Class {
 	#name : 'SDL3AtomicInt',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUGraphicsPipelineCreateInfo`.
+
+A structure specifying the parameters of a graphics pipeline state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUGraphicsPipelineCreateInfo
+"
 Class {
 	#name : 'SDL3GPUGraphicsPipelineCreateInfo',
 	#superclass : 'SDL3Structure',

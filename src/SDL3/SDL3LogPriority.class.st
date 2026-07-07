@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_LogPriority`.
+
+The predefined log priorities
+
+See: https://wiki.libsdl.org/SDL3/SDL_LogPriority
+"
 Class {
 	#name : 'SDL3LogPriority',
 	#superclass : 'SDL3Enumeration',

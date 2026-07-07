@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_VirtualJoystickDesc`.
+
+The structure that describes a virtual joystick.
+
+See: https://wiki.libsdl.org/SDL3/SDL_VirtualJoystickDesc
+"
 Class {
 	#name : 'SDL3VirtualJoystickDesc',
 	#superclass : 'SDL3Structure',

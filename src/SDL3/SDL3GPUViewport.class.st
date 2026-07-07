@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUViewport`.
+
+A structure specifying a viewport.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUViewport
+"
 Class {
 	#name : 'SDL3GPUViewport',
 	#superclass : 'SDL3Structure',

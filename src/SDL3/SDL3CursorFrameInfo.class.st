@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_CursorFrameInfo`.
+
+Animated cursor frame info.
+
+See: https://wiki.libsdl.org/SDL3/SDL_CursorFrameInfo
+"
 Class {
 	#name : 'SDL3CursorFrameInfo',
 	#superclass : 'SDL3Structure',

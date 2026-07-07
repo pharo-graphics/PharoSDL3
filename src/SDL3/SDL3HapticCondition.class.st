@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HapticCondition`.
+
+A structure containing a template for a Condition effect.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HapticCondition
+"
 Class {
 	#name : 'SDL3HapticCondition',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Rect`.
+
+A rectangle, with the origin at the upper left (using integers).
+
+See: https://wiki.libsdl.org/SDL3/SDL_Rect
+"
 Class {
 	#name : 'SDL3Rect',
 	#superclass : 'SDL3Structure',

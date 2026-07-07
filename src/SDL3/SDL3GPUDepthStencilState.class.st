@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUDepthStencilState`.
+
+A structure specifying the parameters of the graphics pipeline depth stencil state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUDepthStencilState
+"
 Class {
 	#name : 'SDL3GPUDepthStencilState',
 	#superclass : 'SDL3Structure',

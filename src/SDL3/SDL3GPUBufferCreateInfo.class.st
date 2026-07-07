@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBufferCreateInfo`.
+
+A structure specifying the parameters of a buffer.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBufferCreateInfo
+"
 Class {
 	#name : 'SDL3GPUBufferCreateInfo',
 	#superclass : 'SDL3Structure',

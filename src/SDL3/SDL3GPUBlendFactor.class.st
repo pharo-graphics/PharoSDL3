@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBlendFactor`.
+
+Specifies a blending factor to be used when pixels in a render target are blended with existing pixels in the texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBlendFactor
+"
 Class {
 	#name : 'SDL3GPUBlendFactor',
 	#superclass : 'SDL3Enumeration',

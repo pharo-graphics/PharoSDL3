@@ -1,3 +1,8 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTextureType`.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTextureType
+"
 Class {
 	#name : 'SDL3GPUTextureType',
 	#superclass : 'SDL3Enumeration',

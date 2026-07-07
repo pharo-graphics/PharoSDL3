@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoyDeviceEvent`.
+
+Joystick device event structure (event.jdevice.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoyDeviceEvent
+"
 Class {
 	#name : 'SDL3JoyDeviceEvent',
 	#superclass : 'SDL3DeviceEvent',
