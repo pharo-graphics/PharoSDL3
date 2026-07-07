@@ -281,7 +281,7 @@ SDL3Renderer >> newTextureFromForm: aForm [
 	"Answer a new `SDL_Texture`. The form pixels will be uploaded to the new texture, assuming form depth is 32 bits. Sender is responsible of destroying the texture."
 
 	| surface texture |
-	surface := aForm asUnownedNewSDL3Surface.
+	surface := aForm unsafeNewAsSDL3Surface.
 	texture := self newTextureFromSurface: surface.
 	surface destroy.
 	^ texture

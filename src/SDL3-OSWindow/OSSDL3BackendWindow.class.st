@@ -182,7 +182,7 @@ OSSDL3BackendWindow >> icon: aForm [
 	"Set the window icon to aForm."
 
 	| surface |
-	surface := aForm asUnownedNewSDL3Surface.
+	surface := aForm unsafeNewAsSDL3Surface.
 	[ sdlWindow icon: surface ] ensure: [ surface destroy ]
 ]
 
@@ -345,7 +345,7 @@ OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
 	sdlCursor := self lookupSystemCursor: aCursor ifNotFound: [ 
 		scaleToUse := aScale ceiling.
 		scaledForm := self convertCursor: aCursor withMask: aMask andScale: aScale.
-		surface := scaledForm asUnownedNewSDL3Surface.
+		surface := scaledForm unsafeNewAsSDL3Surface.
 		offset := aCursor offset * scaleToUse.
 		[ 
 			LibSDL3 uniqueInstance newColorCursorSurface: surface hotX: offset x negated hotY: offset y negated

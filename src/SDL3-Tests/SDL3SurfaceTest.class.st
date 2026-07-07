@@ -41,7 +41,7 @@ SDL3SurfaceTest >> testFormAsSurface [
 
 	| form surface |
 	form := self newIconForm.
-	surface := form asUnownedNewSDL3Surface.
+	surface := form unsafeNewAsSDL3Surface.
 
 	self assert: surface w equals: form width.
 	self assert: surface h equals: form height.
@@ -66,7 +66,7 @@ SDL3SurfaceTest >> testFormAsSurfaceAsForm [
 
 	| form form2 surface |
 	form := self newIconForm.
-	surface := form asUnownedNewSDL3Surface.
+	surface := form unsafeNewAsSDL3Surface.
 	form2 := surface asForm.
 
 	self assert: form2 width equals: form width.
