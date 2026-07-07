@@ -2,7 +2,7 @@
 I demonstrate boids flocking using a compute-to-vertex-buffer architecture.
 "
 Class {
-	#name : 'SDL3GPUBoidsDemo',
+	#name : 'SDL3GPUBoidsDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'boidsBufferPing',
@@ -30,7 +30,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPUBoidsDemo >> close [
+SDL3GPUBoidsDemoApp >> close [
 
 	boidsBufferPing ifNotNil: [
 		boidsBufferPing release.
@@ -68,7 +68,7 @@ SDL3GPUBoidsDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3GPUBoidsDemo >> computeSimulation [
+SDL3GPUBoidsDemoApp >> computeSimulation [
 
 	| commandBuffer nextBoidsBuffer |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -93,7 +93,7 @@ SDL3GPUBoidsDemo >> computeSimulation [
 ]
 
 { #category : 'rendering' }
-SDL3GPUBoidsDemo >> doGeometryPassWith: commandBuffer input: inputBuffer [
+SDL3GPUBoidsDemoApp >> doGeometryPassWith: commandBuffer input: inputBuffer [
 
 	self pushGeometryUniformsTo: commandBuffer.
 
@@ -111,7 +111,7 @@ SDL3GPUBoidsDemo >> doGeometryPassWith: commandBuffer input: inputBuffer [
 ]
 
 { #category : 'rendering' }
-SDL3GPUBoidsDemo >> doPhysicsPassWith: commandBuffer input: inputBuffer output: outputBuffer [
+SDL3GPUBoidsDemoApp >> doPhysicsPassWith: commandBuffer input: inputBuffer output: outputBuffer [
 
 	| extent |
 	extent := window pixelExtent.
@@ -146,7 +146,7 @@ SDL3GPUBoidsDemo >> doPhysicsPassWith: commandBuffer input: inputBuffer output: 
 ]
 
 { #category : 'rendering' }
-SDL3GPUBoidsDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUBoidsDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	renderColorTargetInfos first texture: swapchainTexture.
 
@@ -163,7 +163,7 @@ SDL3GPUBoidsDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 ]
 
 { #category : 'private' }
-SDL3GPUBoidsDemo >> generateInitialBoids [
+SDL3GPUBoidsDemoApp >> generateInitialBoids [
 
 	| random boids |
 	random := Random seed: 7.
@@ -183,7 +183,7 @@ SDL3GPUBoidsDemo >> generateInitialBoids [
 ]
 
 { #category : 'private' }
-SDL3GPUBoidsDemo >> generateInitialHues [
+SDL3GPUBoidsDemoApp >> generateInitialHues [
 
 	| random hues |
 	random := Random seed: 7.
@@ -193,7 +193,7 @@ SDL3GPUBoidsDemo >> generateInitialHues [
 ]
 
 { #category : 'events' }
-SDL3GPUBoidsDemo >> handleKeyDown: aKeyboardEvent [
+SDL3GPUBoidsDemoApp >> handleKeyDown: aKeyboardEvent [
 
 	| key |
 	key := aKeyboardEvent key.
@@ -218,7 +218,7 @@ SDL3GPUBoidsDemo >> handleKeyDown: aKeyboardEvent [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initialize [
+SDL3GPUBoidsDemoApp >> initialize [
 
 	super initialize.
 
@@ -252,7 +252,7 @@ SDL3GPUBoidsDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeBoidsBuffers [
+SDL3GPUBoidsDemoApp >> initializeBoidsBuffers [
 
 	| boidsSize |
 	boidsSize := numBoids * SDL3GPUBoidsBoid structureSize.
@@ -273,7 +273,7 @@ SDL3GPUBoidsDemo >> initializeBoidsBuffers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeBuffers [
+SDL3GPUBoidsDemoApp >> initializeBuffers [
 
 	self
 		initializeBoidsBuffers;
@@ -283,7 +283,7 @@ SDL3GPUBoidsDemo >> initializeBuffers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeComputeResources [
+SDL3GPUBoidsDemoApp >> initializeComputeResources [
 
 	boidsComputePipeline := SDL3GPUBoidsComputeShaderSource
 		newComputePipelineAmong: shaderFormats
@@ -295,7 +295,7 @@ SDL3GPUBoidsDemo >> initializeComputeResources [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeHuesBuffer [
+SDL3GPUBoidsDemoApp >> initializeHuesBuffer [
 
 	huesBuffer := gpuDevice
 		              newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
@@ -303,7 +303,7 @@ SDL3GPUBoidsDemo >> initializeHuesBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeIndexBuffer [
+SDL3GPUBoidsDemoApp >> initializeIndexBuffer [
 
 	indexBuffer := gpuDevice
 		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
@@ -313,7 +313,7 @@ SDL3GPUBoidsDemo >> initializeIndexBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeRenderPipeline [
+SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 	vertexShader := SDL3GPUBoidsVertexShaderSource
@@ -345,7 +345,7 @@ SDL3GPUBoidsDemo >> initializeRenderPipeline [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> initializeVertexBuffers [
+SDL3GPUBoidsDemoApp >> initializeVertexBuffers [
 
 	vertexBuffer := gpuDevice
 		                newGPUBufferUsage:
@@ -363,7 +363,7 @@ SDL3GPUBoidsDemo >> initializeVertexBuffers [
 ]
 
 { #category : 'private' }
-SDL3GPUBoidsDemo >> newBoidsVertexAttributes [
+SDL3GPUBoidsDemoApp >> newBoidsVertexAttributes [
 
 	| vertexAttributes |
 	vertexAttributes := FFIExternalArray
@@ -383,7 +383,7 @@ SDL3GPUBoidsDemo >> newBoidsVertexAttributes [
 ]
 
 { #category : 'private' }
-SDL3GPUBoidsDemo >> newBoidsVertexBindings [
+SDL3GPUBoidsDemoApp >> newBoidsVertexBindings [
 
 	| vertexBindings |
 	vertexBindings := FFIExternalArray
@@ -398,9 +398,9 @@ SDL3GPUBoidsDemo >> newBoidsVertexBindings [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUBoidsDemo >> open [
+SDL3GPUBoidsDemoApp >> open [
 	"Run headless with:
-	./pharo Pharo.image eval 'SDL3GPUBoidsDemo new run'
+	./pharo Pharo.image eval 'SDL3GPUBoidsDemoApp new run'
 	"
 
 	super open.
@@ -411,7 +411,7 @@ SDL3GPUBoidsDemo >> open [
 ]
 
 { #category : 'private' }
-SDL3GPUBoidsDemo >> pushGeometryUniformsTo: commandBuffer [
+SDL3GPUBoidsDemoApp >> pushGeometryUniformsTo: commandBuffer [
 
 	| extent |
 	extent := window extent.
@@ -434,14 +434,14 @@ SDL3GPUBoidsDemo >> pushGeometryUniformsTo: commandBuffer [
 ]
 
 { #category : 'hooks' }
-SDL3GPUBoidsDemo >> step [
+SDL3GPUBoidsDemoApp >> step [
 
 	self computeSimulation.
 	super step
 ]
 
 { #category : 'accessing' }
-SDL3GPUBoidsDemo >> updatedTitle [
+SDL3GPUBoidsDemoApp >> updatedTitle [
 
 	^ super updatedTitle, (' - Count: {1} | Sep: {2} Ali: {3} Coh: {4} | Rad: {5}/{6} | MaxV: {7}' format: {
 		numBoids.
@@ -455,7 +455,7 @@ SDL3GPUBoidsDemo >> updatedTitle [
 ]
 
 { #category : 'initialization' }
-SDL3GPUBoidsDemo >> uploadInitialData [
+SDL3GPUBoidsDemoApp >> uploadInitialData [
 	"Upload initial nodes, hues, and static index buffer to GPU"
 
 	| boids hues |
@@ -498,7 +498,7 @@ SDL3GPUBoidsDemo >> uploadInitialData [
 ]
 
 { #category : 'hooks' }
-SDL3GPUBoidsDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUBoidsDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 

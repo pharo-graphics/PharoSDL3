@@ -7,7 +7,7 @@ I also monitor the keyboard state, including modifier keys and active keys.
 - Press **ESCAPE** to exit.
 "
 Class {
-	#name : 'SDL3KeyboardStateDemo',
+	#name : 'SDL3KeyboardDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#category : 'SDL3-Demos-API',
 	#package : 'SDL3-Demos',
@@ -15,13 +15,13 @@ Class {
 }
 
 { #category : 'accessing' }
-SDL3KeyboardStateDemo >> initialExtent [
+SDL3KeyboardDemoApp >> initialExtent [
 
 	^ 800 @ 240
 ]
 
 { #category : 'lifecycle' }
-SDL3KeyboardStateDemo >> sdlInit [
+SDL3KeyboardDemoApp >> sdlInit [
 
 	"We want to grab even Alt-Tab! (may not work in all platforms)"
 	sdl setHintName: SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED value: '0'.
@@ -30,7 +30,7 @@ SDL3KeyboardStateDemo >> sdlInit [
 ]
 
 { #category : 'hooks' }
-SDL3KeyboardStateDemo >> step [
+SDL3KeyboardDemoApp >> step [
 
 	| modState keyboardState |
 	console clear.
@@ -75,7 +75,7 @@ SDL3KeyboardStateDemo >> step [
 ]
 
 { #category : 'hooks' }
-SDL3KeyboardStateDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3KeyboardDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	aKeyboardDownEvent key = SDLK_K ifTrue: [ 
 		window keyboardGrabbed: window isKeyboardGrabbed not ].

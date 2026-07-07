@@ -2,7 +2,7 @@
 I demonstrate how to handle multi-touch finger events.
 "
 Class {
-	#name : 'SDL3TouchpadFingersDemo',
+	#name : 'SDL3TouchpadDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'colorWheel'
@@ -13,13 +13,13 @@ Class {
 }
 
 { #category : 'accessing' }
-SDL3TouchpadFingersDemo >> initialExtent [
+SDL3TouchpadDemoApp >> initialExtent [
 
 	^ 800 @ 600
 ]
 
 { #category : 'initialization' }
-SDL3TouchpadFingersDemo >> initialize [
+SDL3TouchpadDemoApp >> initialize [
 
 	super initialize.
 
@@ -28,7 +28,7 @@ SDL3TouchpadFingersDemo >> initialize [
 ]
 
 { #category : 'lifecycle' }
-SDL3TouchpadFingersDemo >> sdlInit [
+SDL3TouchpadDemoApp >> sdlInit [
 
 	"Disable touch-to-mouse emulation and enable trackpad touch"
 	sdl setHintName: SDL_HINT_TOUCH_MOUSE_EVENTS value: '0'.
@@ -40,7 +40,7 @@ SDL3TouchpadFingersDemo >> sdlInit [
 ]
 
 { #category : 'hooks' }
-SDL3TouchpadFingersDemo >> step [
+SDL3TouchpadDemoApp >> step [
 
 	| extent touchIDs |
 	self clearColor: Color black.
@@ -76,13 +76,13 @@ SDL3TouchpadFingersDemo >> step [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3TouchpadFingersDemo >> visitTouchFingerDownEvent: anEvent [
+SDL3TouchpadDemoApp >> visitTouchFingerDownEvent: anEvent [
 
 	console addLine: ('Finger DOWN: {1} (Touch:{2})' format: { anEvent fingerID. anEvent touchID })
 ]
 
 { #category : 'visiting - concrete' }
-SDL3TouchpadFingersDemo >> visitTouchFingerMotionEvent: anEvent [
+SDL3TouchpadDemoApp >> visitTouchFingerMotionEvent: anEvent [
 
 	console addLine: ('Finger MOVE: {1} x:{2} y:{3}' format: { 
 		anEvent fingerID. 
@@ -91,7 +91,7 @@ SDL3TouchpadFingersDemo >> visitTouchFingerMotionEvent: anEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3TouchpadFingersDemo >> visitTouchFingerUpEvent: anEvent [
+SDL3TouchpadDemoApp >> visitTouchFingerUpEvent: anEvent [
 
 	console addLine: ('Finger UP: {1}' format: { anEvent fingerID })
 ]

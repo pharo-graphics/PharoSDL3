@@ -2,7 +2,7 @@
 I demonstrate SDL3's multi-display API capabilities.
 "
 Class {
-	#name : 'SDL3DisplayDemo',
+	#name : 'SDL3DisplayDemoApp',
 	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'windowsByDisplay',
@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : 'private' }
-SDL3DisplayDemo >> checkAndSpawnFrontierBetween: firstDisplay and: secondDisplay [
+SDL3DisplayDemoApp >> checkAndSpawnFrontierBetween: firstDisplay and: secondDisplay [
 
 	| firstRect secondRect color1 color2 |
 	firstRect := firstDisplay bounds asRectangle.
@@ -32,14 +32,14 @@ SDL3DisplayDemo >> checkAndSpawnFrontierBetween: firstDisplay and: secondDisplay
 ]
 
 { #category : 'lifecycle' }
-SDL3DisplayDemo >> close [
+SDL3DisplayDemoApp >> close [
 
 	self destroyChildWindows.
 	super close
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> destroyChildWindows [
+SDL3DisplayDemoApp >> destroyChildWindows [
 
 	windowsByDisplay ifNotNil: [ 
 		windowsByDisplay valuesDo: [ :windows | 
@@ -61,7 +61,7 @@ SDL3DisplayDemo >> destroyChildWindows [
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> drawMinimap: currentDisplays [
+SDL3DisplayDemoApp >> drawMinimap: currentDisplays [
 
 	| minX minY maxX maxY mapWidth mapHeight mapScale mapOffsetX mapOffsetY |
 	currentDisplays ifEmpty: [ ^ self ].
@@ -100,19 +100,19 @@ SDL3DisplayDemo >> drawMinimap: currentDisplays [
 ]
 
 { #category : 'accessing' }
-SDL3DisplayDemo >> initialExtent [
+SDL3DisplayDemoApp >> initialExtent [
 
 	^ 800 @ 600
 ]
 
 { #category : 'accessing' }
-SDL3DisplayDemo >> initialWindowFlags [
+SDL3DisplayDemoApp >> initialWindowFlags [
 
 	^ super initialWindowFlags | SDL_WINDOW_ALWAYS_ON_TOP
 ]
 
 { #category : 'initialization' }
-SDL3DisplayDemo >> initialize [
+SDL3DisplayDemoApp >> initialize [
 
 	super initialize.
 	windowsByDisplay := Dictionary new.
@@ -122,14 +122,14 @@ SDL3DisplayDemo >> initialize [
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> prepareToLoop [
+SDL3DisplayDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 	self updateWindows
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> renderChild: childWindow color: aColor labels: aCollectionOfStrings [
+SDL3DisplayDemoApp >> renderChild: childWindow color: aColor labels: aCollectionOfStrings [
 
 	| currentRenderer |
 	"Safely query renderer from the window object"
@@ -146,7 +146,7 @@ SDL3DisplayDemo >> renderChild: childWindow color: aColor labels: aCollectionOfS
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> renderChildWindows [
+SDL3DisplayDemoApp >> renderChildWindows [
 
 	"Render corner windows"
 	windowsByDisplay keysAndValuesDo: [ :displayID :eachWindowCollection |
@@ -166,7 +166,7 @@ SDL3DisplayDemo >> renderChildWindows [
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> spawnCornerWindowsFor: aDisplay [
+SDL3DisplayDemoApp >> spawnCornerWindowsFor: aDisplay [
 
 	| bounds windowsForDisplay size |
 	size := 150 @ 150.
@@ -188,7 +188,7 @@ SDL3DisplayDemo >> spawnCornerWindowsFor: aDisplay [
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> spawnFrontierAt: edgePos rangeStart: start rangeEnd: end thickness: t vertical: isVertical color1: c1 color2: c2 [
+SDL3DisplayDemoApp >> spawnFrontierAt: edgePos rangeStart: start rangeEnd: end thickness: t vertical: isVertical color1: c1 color2: c2 [
 
 	| length childWindow1 childWindow2 opacity |
 	length := end - start.
@@ -213,7 +213,7 @@ SDL3DisplayDemo >> spawnFrontierAt: edgePos rangeStart: start rangeEnd: end thic
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> spawnFrontierIfAdjacentBetween: r1 and: r2 color1: c1 color2: c2 [
+SDL3DisplayDemoApp >> spawnFrontierIfAdjacentBetween: r1 and: r2 color1: c1 color2: c2 [
 
 	| thickness |
 	thickness := 50.
@@ -244,7 +244,7 @@ SDL3DisplayDemo >> spawnFrontierIfAdjacentBetween: r1 and: r2 color1: c1 color2:
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> spawnFrontierWindows: currentDisplays [
+SDL3DisplayDemoApp >> spawnFrontierWindows: currentDisplays [
 
 	currentDisplays do: [ :firstDisplay |
 		currentDisplays do: [ :secondDisplay |
@@ -253,7 +253,7 @@ SDL3DisplayDemo >> spawnFrontierWindows: currentDisplays [
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> spawnWindowAt: aPoint extent: anExtent [
+SDL3DisplayDemoApp >> spawnWindowAt: aPoint extent: anExtent [
 
 	| childWindow |
 	childWindow := SDL3Window
@@ -268,7 +268,7 @@ SDL3DisplayDemo >> spawnWindowAt: aPoint extent: anExtent [
 ]
 
 { #category : 'hooks' }
-SDL3DisplayDemo >> step [
+SDL3DisplayDemoApp >> step [
 
 	| currentDisplays currentDisplayInfo |
 	self clearColor: Color black.
@@ -307,7 +307,7 @@ SDL3DisplayDemo >> step [
 ]
 
 { #category : 'private' }
-SDL3DisplayDemo >> updateWindows [
+SDL3DisplayDemoApp >> updateWindows [
 
 	| currentDisplays wheel |
 	self destroyChildWindows.

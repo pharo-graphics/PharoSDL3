@@ -2,7 +2,7 @@
 I'm a demo of SDL3 recording and playing from/to default audio devices. I'm based on SDL's `test/testaudiorecording.c`.
 "
 Class {
-	#name : 'SDL3AudioRecorderDemo',
+	#name : 'SDL3AudioRecorderDemoApp',
 	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'playbackStream',
@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3AudioRecorderDemo >> close [
+SDL3AudioRecorderDemoApp >> close [
 
 	recordingStream ifNotNil: [
 		recordingStream destroy.
@@ -30,26 +30,26 @@ SDL3AudioRecorderDemo >> close [
 ]
 
 { #category : 'accessing' }
-SDL3AudioRecorderDemo >> initialExtent [
+SDL3AudioRecorderDemoApp >> initialExtent [
 
 	^ 480 @ 240
 ]
 
 { #category : 'accessing' }
-SDL3AudioRecorderDemo >> initialWindowFlags [
+SDL3AudioRecorderDemoApp >> initialWindowFlags [
 
 	^ 0
 ]
 
 { #category : 'initialization' }
-SDL3AudioRecorderDemo >> initialize [
+SDL3AudioRecorderDemoApp >> initialize [
 
 	super initialize.
 	frequencyRatio := 1.0
 ]
 
 { #category : 'playback' }
-SDL3AudioRecorderDemo >> openPlaybackStream [
+SDL3AudioRecorderDemoApp >> openPlaybackStream [
 	"Open a stream at the the default playback device, with it's default format."
 
 	playbackStream := SDL_AudioStream
@@ -60,7 +60,7 @@ SDL3AudioRecorderDemo >> openPlaybackStream [
 ]
 
 { #category : 'initialization' }
-SDL3AudioRecorderDemo >> openRecordingStream [
+SDL3AudioRecorderDemoApp >> openRecordingStream [
 	"Open a stream at the the default recording device. Use the same format as the playback device"
 
 	recordingStream := SDL_AudioStream
@@ -71,7 +71,7 @@ SDL3AudioRecorderDemo >> openRecordingStream [
 ]
 
 { #category : 'lifecycle' }
-SDL3AudioRecorderDemo >> prepareToLoop [
+SDL3AudioRecorderDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 
@@ -81,7 +81,7 @@ SDL3AudioRecorderDemo >> prepareToLoop [
 ]
 
 { #category : 'recording' }
-SDL3AudioRecorderDemo >> putAllAvailableRecording [
+SDL3AudioRecorderDemoApp >> putAllAvailableRecording [
 
 	[ recordingStream available > 0 ] whileTrue: [
 		| readCount |
@@ -91,7 +91,7 @@ SDL3AudioRecorderDemo >> putAllAvailableRecording [
 ]
 
 { #category : 'lifecycle' }
-SDL3AudioRecorderDemo >> render [
+SDL3AudioRecorderDemoApp >> render [
 
 	(recordingStream isDevicePaused
 		ifFalse: [
@@ -122,20 +122,20 @@ SDL3AudioRecorderDemo >> render [
 ]
 
 { #category : 'hooks' }
-SDL3AudioRecorderDemo >> step [
+SDL3AudioRecorderDemoApp >> step [
 
 	self putAllAvailableRecording.
 	self render
 ]
 
 { #category : 'hooks' }
-SDL3AudioRecorderDemo >> subsystemInitFlags [
+SDL3AudioRecorderDemoApp >> subsystemInitFlags [
 
 	^ super subsystemInitFlags | SDL_INIT_AUDIO
 ]
 
 { #category : 'hooks' }
-SDL3AudioRecorderDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3AudioRecorderDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 	
@@ -156,7 +156,7 @@ SDL3AudioRecorderDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3AudioRecorderDemo >> visitKeyboardUpEvent: aKeyboardUpEvent [
+SDL3AudioRecorderDemoApp >> visitKeyboardUpEvent: aKeyboardUpEvent [
 
 	super visitKeyboardUpEvent: aKeyboardUpEvent.
 	

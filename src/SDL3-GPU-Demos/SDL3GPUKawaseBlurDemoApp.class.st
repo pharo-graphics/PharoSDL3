@@ -9,7 +9,7 @@ Controls:
 - LEFT/RIGHT: Adjust number of blur passes (iterations)
 "
 Class {
-	#name : 'SDL3GPUDualKawaseBlurDemo',
+	#name : 'SDL3GPUKawaseBlurDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'numberOfPasses',
@@ -37,24 +37,24 @@ Class {
 }
 
 { #category : 'accessing' }
-SDL3GPUDualKawaseBlurDemo >> blurRadius [
+SDL3GPUKawaseBlurDemoApp >> blurRadius [
 	^ blurRadius
 ]
 
 { #category : 'accessing' }
-SDL3GPUDualKawaseBlurDemo >> blurRadius: aFloat [
+SDL3GPUKawaseBlurDemoApp >> blurRadius: aFloat [
 	blurRadius := aFloat
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUDualKawaseBlurDemo >> close [
+SDL3GPUKawaseBlurDemoApp >> close [
 
 	self release.
 	super close
 ]
 
 { #category : 'rendering' }
-SDL3GPUDualKawaseBlurDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUKawaseBlurDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 	"Main rendering entry point called by the app loop"
 
 	| lastTexture |
@@ -72,7 +72,7 @@ SDL3GPUDualKawaseBlurDemo >> doRenderPassesOn: swapchainTexture with: commandBuf
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initialize [
+SDL3GPUKawaseBlurDemoApp >> initialize [
 	super initialize.
 	numberOfPasses := 4.
 	blurRadius := 1.0.
@@ -83,7 +83,7 @@ SDL3GPUDualKawaseBlurDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeBlurPipelines [
+SDL3GPUKawaseBlurDemoApp >> initializeBlurPipelines [
 
 	| vertexShader downShader upShader colorTargets vertexBindings vertexAttributes |
 	"We use our custom vertex shader that supports uniforms for full-screen quads"
@@ -145,7 +145,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeBlurPipelines [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeBlurTextures [
+SDL3GPUKawaseBlurDemoApp >> initializeBlurTextures [
 	"Allocates a chain of textures at progressively halved resolutions"
 	| w h |
 
@@ -166,7 +166,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeBlurTextures [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeFFIContainers [
+SDL3GPUKawaseBlurDemoApp >> initializeFFIContainers [
 	"Initialize fixed-size FFI containers used during rendering to avoid allocation in the loop"
 
 	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
@@ -183,7 +183,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeFFIContainers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeGPUResources [
+SDL3GPUKawaseBlurDemoApp >> initializeGPUResources [
 
 	self initializeSceneTexture.
 	self initializePharoTexture.
@@ -195,7 +195,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeGPUResources [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeGeometry [
+SDL3GPUKawaseBlurDemoApp >> initializeGeometry [
 	"Initializes common vertex and index buffers for quads"
 
 	self
@@ -204,13 +204,13 @@ SDL3GPUDualKawaseBlurDemo >> initializeGeometry [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializePharoTexture [
+SDL3GPUKawaseBlurDemoApp >> initializePharoTexture [
 
 	pharoTexture := gpuDevice newGPUTextureUploadingForm: (self iconNamed: #pharoBig) usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeQuadBuffers [
+SDL3GPUKawaseBlurDemoApp >> initializeQuadBuffers [
 
 	| vertexByteSize indexByteSize |
 	vertexByteSize := SDL3GPUQuadVertex structureSize * 4.
@@ -254,7 +254,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeQuadBuffers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeQuads [
+SDL3GPUKawaseBlurDemoApp >> initializeQuads [
 
 	| random extent |
 	random := Random new.
@@ -271,7 +271,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeQuads [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeSampler [
+SDL3GPUKawaseBlurDemoApp >> initializeSampler [
 
 	sampler := gpuDevice newSampler: [ :info |
 		info
@@ -284,7 +284,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeSampler [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeScenePipeline [
+SDL3GPUKawaseBlurDemoApp >> initializeScenePipeline [
 
 	| vertexShader fragmentShader colorTargets vertexBindings vertexAttributes |
 	vertexShader := SDL3GPUDualKawaseBlurSceneVertexShaderSource
@@ -331,7 +331,7 @@ SDL3GPUDualKawaseBlurDemo >> initializeScenePipeline [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> initializeSceneTexture [
+SDL3GPUKawaseBlurDemoApp >> initializeSceneTexture [
 
 	sceneTexture ifNotNil: [ sceneTexture release ].
 
@@ -344,19 +344,19 @@ SDL3GPUDualKawaseBlurDemo >> initializeSceneTexture [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> numberOfPasses [
+SDL3GPUKawaseBlurDemoApp >> numberOfPasses [
 	^ numberOfPasses
 ]
 
 { #category : 'accessing' }
-SDL3GPUDualKawaseBlurDemo >> numberOfPasses: anInteger [
+SDL3GPUKawaseBlurDemoApp >> numberOfPasses: anInteger [
 
 	numberOfPasses := anInteger max: 0.
 	gpuDevice ifNotNil: [ self initializeBlurTextures ]
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUDualKawaseBlurDemo >> open [
+SDL3GPUKawaseBlurDemoApp >> open [
 
 	super open.
 	self initializeQuads.
@@ -364,7 +364,7 @@ SDL3GPUDualKawaseBlurDemo >> open [
 ]
 
 { #category : 'rendering' }
-SDL3GPUDualKawaseBlurDemo >> presentTexture: sourceTexture on: swapchainTexture with: commandBuffer [
+SDL3GPUKawaseBlurDemoApp >> presentTexture: sourceTexture on: swapchainTexture with: commandBuffer [
 	"Blits the final off-screen result to the window swapchain"
 
 	| windowExtent lastExtent |
@@ -389,7 +389,7 @@ SDL3GPUDualKawaseBlurDemo >> presentTexture: sourceTexture on: swapchainTexture 
 ]
 
 { #category : 'private' }
-SDL3GPUDualKawaseBlurDemo >> pushBlurUniformsWith: commandBuffer sourceExtent: sExtent targetExtent: targetExtent [
+SDL3GPUKawaseBlurDemoApp >> pushBlurUniformsWith: commandBuffer sourceExtent: sExtent targetExtent: targetExtent [
 
 	blurUniforms
 		texelSizeX: 1.0 / sExtent x;
@@ -411,7 +411,7 @@ SDL3GPUDualKawaseBlurDemo >> pushBlurUniformsWith: commandBuffer sourceExtent: s
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUDualKawaseBlurDemo >> release [
+SDL3GPUKawaseBlurDemoApp >> release [
 
 	sceneTexture ifNotNil: [ sceneTexture release ].
 	pharoTexture ifNotNil: [ pharoTexture release ].
@@ -426,14 +426,14 @@ SDL3GPUDualKawaseBlurDemo >> release [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUDualKawaseBlurDemo >> releaseBlurTextures [
+SDL3GPUKawaseBlurDemoApp >> releaseBlurTextures [
 
 	blurTextures do: [ :each | each release ].
 	blurTextures removeAll
 ]
 
 { #category : 'rendering' }
-SDL3GPUDualKawaseBlurDemo >> renderBlurWith: commandBuffer [
+SDL3GPUKawaseBlurDemoApp >> renderBlurWith: commandBuffer [
 	"Executes the Dual Kawase blur chain using multiple render passes"
 
 	| currentSource currentExtent |
@@ -468,7 +468,7 @@ SDL3GPUDualKawaseBlurDemo >> renderBlurWith: commandBuffer [
 ]
 
 { #category : 'rendering' }
-SDL3GPUDualKawaseBlurDemo >> renderKawasePassWith: commandBuffer pipeline: pipeline source: source sourceExtent: sExtent target: target [
+SDL3GPUKawaseBlurDemoApp >> renderKawasePassWith: commandBuffer pipeline: pipeline source: source sourceExtent: sExtent target: target [
 	"Executes a single downsample or upsample pass"
 
 	| targetExtent |
@@ -512,7 +512,7 @@ SDL3GPUDualKawaseBlurDemo >> renderKawasePassWith: commandBuffer pipeline: pipel
 ]
 
 { #category : 'private' }
-SDL3GPUDualKawaseBlurDemo >> renderQuad: quad with: commandBuffer on: renderPass [
+SDL3GPUKawaseBlurDemoApp >> renderQuad: quad with: commandBuffer on: renderPass [
 
 	sceneUniforms
 		x: quad position x;
@@ -531,7 +531,7 @@ SDL3GPUDualKawaseBlurDemo >> renderQuad: quad with: commandBuffer on: renderPass
 ]
 
 { #category : 'rendering' }
-SDL3GPUDualKawaseBlurDemo >> renderSceneWith: commandBuffer [
+SDL3GPUKawaseBlurDemoApp >> renderSceneWith: commandBuffer [
 	"Renders the initial bouncing logos scene"
 
 	| extent |
@@ -568,7 +568,7 @@ SDL3GPUDualKawaseBlurDemo >> renderSceneWith: commandBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> setupGeometryBindings [
+SDL3GPUKawaseBlurDemoApp >> setupGeometryBindings [
 
 	vertexBufferBindings first
 		buffer: vertexBuffer;
@@ -579,7 +579,7 @@ SDL3GPUDualKawaseBlurDemo >> setupGeometryBindings [
 ]
 
 { #category : 'initialization' }
-SDL3GPUDualKawaseBlurDemo >> stepQuads [
+SDL3GPUKawaseBlurDemoApp >> stepQuads [
 
 	| extent |
 	extent := window pixelExtent.
@@ -587,7 +587,7 @@ SDL3GPUDualKawaseBlurDemo >> stepQuads [
 ]
 
 { #category : 'private' }
-SDL3GPUDualKawaseBlurDemo >> targetExtentFor: target sourceExtent: sExtent pipeline: pipeline [
+SDL3GPUKawaseBlurDemoApp >> targetExtentFor: target sourceExtent: sExtent pipeline: pipeline [
 
 	^ pipeline == downsamplePipeline
 		 ifTrue: [ (sExtent / 2) floor max: 1 @ 1 ]
@@ -596,7 +596,7 @@ SDL3GPUDualKawaseBlurDemo >> targetExtentFor: target sourceExtent: sExtent pipel
 ]
 
 { #category : 'accessing' }
-SDL3GPUDualKawaseBlurDemo >> updatedTitle [
+SDL3GPUKawaseBlurDemoApp >> updatedTitle [
 
 	^ '{1} - Passes: {2}, Radius: {3}' format: {
 		super updatedTitle.
@@ -606,7 +606,7 @@ SDL3GPUDualKawaseBlurDemo >> updatedTitle [
 ]
 
 { #category : 'hooks' }
-SDL3GPUDualKawaseBlurDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUKawaseBlurDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	| key |
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
@@ -622,7 +622,7 @@ SDL3GPUDualKawaseBlurDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUDualKawaseBlurDemo >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
+SDL3GPUKawaseBlurDemoApp >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
 
 	super visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent.
 

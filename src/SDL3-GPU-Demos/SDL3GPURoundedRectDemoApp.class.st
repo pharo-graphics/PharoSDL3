@@ -2,7 +2,7 @@
 I demonstrate how to render SDF shapes.
 "
 Class {
-	#name : 'SDL3GPUSDFRoundedRectDemo',
+	#name : 'SDL3GPURoundedRectDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'gpuPipeline',
@@ -28,7 +28,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPUSDFRoundedRectDemo >> close [
+SDL3GPURoundedRectDemoApp >> close [
 
 	gpuPipeline ifNotNil: [
 		gpuPipeline release.
@@ -54,7 +54,7 @@ SDL3GPUSDFRoundedRectDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPURoundedRectDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	| quadWidthPixels quadHeightPixels physicalExtent |
 
@@ -91,13 +91,13 @@ SDL3GPUSDFRoundedRectDemo >> doRenderPassesOn: swapchainTexture with: commandBuf
 ]
 
 { #category : 'accessing' }
-SDL3GPUSDFRoundedRectDemo >> indicesCount [
+SDL3GPURoundedRectDemoApp >> indicesCount [
 
 	^ numberOfQuads * 6
 ]
 
 { #category : 'initialization' }
-SDL3GPUSDFRoundedRectDemo >> initialize [
+SDL3GPURoundedRectDemoApp >> initialize [
 
 	super initialize.
 
@@ -130,7 +130,7 @@ SDL3GPUSDFRoundedRectDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUSDFRoundedRectDemo >> initializePipeline [
+SDL3GPURoundedRectDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 
@@ -165,7 +165,7 @@ SDL3GPUSDFRoundedRectDemo >> initializePipeline [
 ]
 
 { #category : 'initialization' }
-SDL3GPUSDFRoundedRectDemo >> newGPUResources [
+SDL3GPURoundedRectDemoApp >> newGPUResources [
 
 	self updateVertexBuffer.
 	self updateIndexBuffer.
@@ -173,7 +173,7 @@ SDL3GPUSDFRoundedRectDemo >> newGPUResources [
 ]
 
 { #category : 'private' }
-SDL3GPUSDFRoundedRectDemo >> newQuadIndices [
+SDL3GPURoundedRectDemoApp >> newQuadIndices [
 	"Standard 16-bit index pattern for a quad:
 	Vertices: 0:TL, 1:TR, 2:BR, 3:BL
 	Triangles: (0,1,2) and (0,2,3)
@@ -183,7 +183,7 @@ SDL3GPUSDFRoundedRectDemo >> newQuadIndices [
 ]
 
 { #category : 'private' }
-SDL3GPUSDFRoundedRectDemo >> newSDFVertexAttributes [
+SDL3GPURoundedRectDemoApp >> newSDFVertexAttributes [
 
 	| vertexAttributes |
 	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
@@ -204,7 +204,7 @@ SDL3GPUSDFRoundedRectDemo >> newSDFVertexAttributes [
 ]
 
 { #category : 'private' }
-SDL3GPUSDFRoundedRectDemo >> newSDFVertexBindings [
+SDL3GPURoundedRectDemoApp >> newSDFVertexBindings [
 
 	| vertexBindings |
 	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
@@ -219,15 +219,15 @@ SDL3GPUSDFRoundedRectDemo >> newSDFVertexBindings [
 ]
 
 { #category : 'accessing' }
-SDL3GPUSDFRoundedRectDemo >> numberOfVerticesPerQuad [
+SDL3GPURoundedRectDemoApp >> numberOfVerticesPerQuad [
 
 	^ 4
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUSDFRoundedRectDemo >> open [
+SDL3GPURoundedRectDemoApp >> open [
 	"Run headless with:
-	./pharo Pharo.image eval 'SDL3GPUSDFRoundedRectDemo new run'
+	./pharo Pharo.image eval 'SDL3GPURoundedRectDemoApp new run'
 	"
 
 	super open.
@@ -235,14 +235,14 @@ SDL3GPUSDFRoundedRectDemo >> open [
 ]
 
 { #category : 'hooks' }
-SDL3GPUSDFRoundedRectDemo >> step [
+SDL3GPURoundedRectDemoApp >> step [
 
 	self updateVertexBuffer.
 	super step
 ]
 
 { #category : 'initialization' }
-SDL3GPUSDFRoundedRectDemo >> updateIndexBuffer [
+SDL3GPURoundedRectDemoApp >> updateIndexBuffer [
 
 	| byteSize |
 	byteSize := self indicesCount * 2. "16-bit indices"
@@ -282,7 +282,7 @@ SDL3GPUSDFRoundedRectDemo >> updateIndexBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3GPUSDFRoundedRectDemo >> updateVertexBuffer [
+SDL3GPURoundedRectDemoApp >> updateVertexBuffer [
 
 	| byteSize cellW cellH padX padY quadW quadH |
 	cellW := 2.0 / columns.
@@ -336,7 +336,7 @@ SDL3GPUSDFRoundedRectDemo >> updateVertexBuffer [
 ]
 
 { #category : 'accessing' }
-SDL3GPUSDFRoundedRectDemo >> updatedTitle [
+SDL3GPURoundedRectDemoApp >> updatedTitle [
 
 	^ super updatedTitle, (' - Count: {1} (UP/DOWN rows/cols) - Radius: {2} (LEFT/RIGHT) - SPACE: Shape - F: Fill - D: Dashes'
 		format: {
@@ -345,13 +345,13 @@ SDL3GPUSDFRoundedRectDemo >> updatedTitle [
 ]
 
 { #category : 'accessing' }
-SDL3GPUSDFRoundedRectDemo >> verticesCount [
+SDL3GPURoundedRectDemoApp >> verticesCount [
 
 	^ self numberOfVerticesPerQuad * numberOfQuads
 ]
 
 { #category : 'hooks' }
-SDL3GPUSDFRoundedRectDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPURoundedRectDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 
@@ -380,7 +380,7 @@ SDL3GPUSDFRoundedRectDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'private' }
-SDL3GPUSDFRoundedRectDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h [
+SDL3GPURoundedRectDemoApp >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h [
 
 	| v |
 	"Vertices (NDC): y increases UPWARDS.

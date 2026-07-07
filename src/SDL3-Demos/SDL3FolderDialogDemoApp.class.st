@@ -3,7 +3,7 @@ I demonstrate how to use the system open folder dialog.
 Click anywhere in the window to open the dialog.
 "
 Class {
-	#name : 'SDL3OpenFolderDialogDemo',
+	#name : 'SDL3FolderDialogDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'dialogFileCallback'
@@ -14,20 +14,20 @@ Class {
 }
 
 { #category : 'accessing' }
-SDL3OpenFolderDialogDemo >> initialExtent [
+SDL3FolderDialogDemoApp >> initialExtent [
 
 	^ 400 @ 300
 ]
 
 { #category : 'initialization' }
-SDL3OpenFolderDialogDemo >> initialize [
+SDL3FolderDialogDemoApp >> initialize [
 
 	super initialize.
 	console addLine: 'CLICK TO OPEN DIALOG'
 ]
 
 { #category : 'utilities' }
-SDL3OpenFolderDialogDemo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
+SDL3FolderDialogDemoApp >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError: errorBlock [
 
 	dialogFileCallback ifNotNil: [ ^ errorBlock value ].
 
@@ -49,14 +49,14 @@ SDL3OpenFolderDialogDemo >> showOpenFolderIfSuccess: acceptOrCancelBlock ifError
 ]
 
 { #category : 'hooks' }
-SDL3OpenFolderDialogDemo >> step [
+SDL3FolderDialogDemoApp >> step [
 
 	self clearColor: Color blue muchDarker.
 	self present
 ]
 
 { #category : 'visiting - concrete' }
-SDL3OpenFolderDialogDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
+SDL3FolderDialogDemoApp >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 
 	super visitMouseButtonDownEvent: aMouseButtonDownEvent.
 	

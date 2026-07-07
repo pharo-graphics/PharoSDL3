@@ -2,7 +2,7 @@
 I demonstrate system queries provided by SDL3.
 "
 Class {
-	#name : 'SDL3SystemQueryDemo',
+	#name : 'SDL3SystemQueryDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#category : 'SDL3-Demos-API',
 	#package : 'SDL3-Demos',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'hooks' }
-SDL3SystemQueryDemo >> step [
+SDL3SystemQueryDemoApp >> step [
 
 	self clearColor: Color blue muchDarker.
 	console clear.

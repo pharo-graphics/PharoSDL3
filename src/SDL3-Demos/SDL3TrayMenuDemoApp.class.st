@@ -2,7 +2,7 @@
 I demonstrate how to use the system tray icon and menu.
 "
 Class {
-	#name : 'SDL3TrayMenuDemo',
+	#name : 'SDL3TrayMenuDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'tray',
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3TrayMenuDemo >> close [
+SDL3TrayMenuDemoApp >> close [
 
 	tray ifNotNil: [ 
 		sdl destroyTray: tray. 
@@ -23,20 +23,20 @@ SDL3TrayMenuDemo >> close [
 ]
 
 { #category : 'accessing' }
-SDL3TrayMenuDemo >> initialExtent [
+SDL3TrayMenuDemoApp >> initialExtent [
 
 	^ 400 @ 300
 ]
 
 { #category : 'lifecycle' }
-SDL3TrayMenuDemo >> prepareToLoop [
+SDL3TrayMenuDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 	self setupTray
 ]
 
 { #category : 'initialization' }
-SDL3TrayMenuDemo >> setupTray [
+SDL3TrayMenuDemoApp >> setupTray [
 
 	| strings iconSurface menu submenu |
 	strings := #('One' 'Two' 'Three' 'Four' 'Five').
@@ -98,7 +98,7 @@ SDL3TrayMenuDemo >> setupTray [
 ]
 
 { #category : 'hooks' }
-SDL3TrayMenuDemo >> step [
+SDL3TrayMenuDemoApp >> step [
 
 	self clearColor: Color blue muchDarker.
 	self present

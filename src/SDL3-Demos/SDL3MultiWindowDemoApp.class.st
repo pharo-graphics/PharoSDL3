@@ -3,7 +3,7 @@ I demonstrate how to manage multiple SDL3 windows within a single application lo
 I perform a scripted sequence of window operations.
 "
 Class {
-	#name : 'SDL3MultipleWindowsDemo',
+	#name : 'SDL3MultiWindowDemoApp',
 	#superclass : 'SDL3App',
 	#instVars : [
 		'windows',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3MultipleWindowsDemo >> close [
+SDL3MultiWindowDemoApp >> close [
 
 	renderers ifNotNil: [ 
 		renderers do: [ :each | each destroy ].
@@ -32,7 +32,7 @@ SDL3MultipleWindowsDemo >> close [
 ]
 
 { #category : 'initialization' }
-SDL3MultipleWindowsDemo >> initialize [
+SDL3MultiWindowDemoApp >> initialize [
 
 	super initialize.
 
@@ -41,13 +41,13 @@ SDL3MultipleWindowsDemo >> initialize [
 ]
 
 { #category : 'accessing' }
-SDL3MultipleWindowsDemo >> millisecondsToWait [
+SDL3MultiWindowDemoApp >> millisecondsToWait [
 
 	^ 500
 ]
 
 { #category : 'lifecycle' }
-SDL3MultipleWindowsDemo >> prepareToLoop [
+SDL3MultiWindowDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 	
@@ -71,7 +71,7 @@ SDL3MultipleWindowsDemo >> prepareToLoop [
 ]
 
 { #category : 'hooks' }
-SDL3MultipleWindowsDemo >> step [
+SDL3MultiWindowDemoApp >> step [
 
 	| currentMS |
 	currentMS := Time millisecondClockValue.
@@ -88,7 +88,7 @@ SDL3MultipleWindowsDemo >> step [
 ]
 
 { #category : 'initialization' }
-SDL3MultipleWindowsDemo >> tasksCollection [
+SDL3MultiWindowDemoApp >> tasksCollection [
 
 	| extent |
 	extent := 200 @ 300.

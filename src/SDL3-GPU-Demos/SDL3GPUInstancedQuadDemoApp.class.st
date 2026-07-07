@@ -2,7 +2,7 @@
 I demonstrate how to render textured quads using the SDL3 GPU API and instanced rendering.
 "
 Class {
-	#name : 'SDL3GPUInstancedQuadDemo',
+	#name : 'SDL3GPUInstancedQuadDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'gpuPipeline',
@@ -30,7 +30,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPUInstancedQuadDemo >> close [
+SDL3GPUInstancedQuadDemoApp >> close [
 
 	gpuPipeline ifNotNil: [
 		gpuPipeline release.
@@ -64,7 +64,7 @@ SDL3GPUInstancedQuadDemo >> close [
 ]
 
 { #category : 'actions' }
-SDL3GPUInstancedQuadDemo >> decrementQuads [
+SDL3GPUInstancedQuadDemoApp >> decrementQuads [
 
 	columns := (columns - 1) max: 1.
 	rows := (rows - 1) max: 1.
@@ -73,7 +73,7 @@ SDL3GPUInstancedQuadDemo >> decrementQuads [
 ]
 
 { #category : 'rendering' }
-SDL3GPUInstancedQuadDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUInstancedQuadDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	colorTargetInfos first texture: swapchainTexture.
 
@@ -103,7 +103,7 @@ SDL3GPUInstancedQuadDemo >> doRenderPassesOn: swapchainTexture with: commandBuff
 ]
 
 { #category : 'actions' }
-SDL3GPUInstancedQuadDemo >> incrementQuads [
+SDL3GPUInstancedQuadDemoApp >> incrementQuads [
 
 	columns := columns + 1.
 	rows := rows + 1.
@@ -112,13 +112,13 @@ SDL3GPUInstancedQuadDemo >> incrementQuads [
 ]
 
 { #category : 'accessing' }
-SDL3GPUInstancedQuadDemo >> initialExtent [
+SDL3GPUInstancedQuadDemoApp >> initialExtent [
 
 	^ 800 @ 600
 ]
 
 { #category : 'initialization' }
-SDL3GPUInstancedQuadDemo >> initialize [
+SDL3GPUInstancedQuadDemoApp >> initialize [
 
 	super initialize.
 
@@ -144,7 +144,7 @@ SDL3GPUInstancedQuadDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUInstancedQuadDemo >> initializeGPUResources [
+SDL3GPUInstancedQuadDemoApp >> initializeGPUResources [
 
 	self initializeTexture.
 	self updateVertexBuffer.
@@ -154,7 +154,7 @@ SDL3GPUInstancedQuadDemo >> initializeGPUResources [
 ]
 
 { #category : 'initialization' }
-SDL3GPUInstancedQuadDemo >> initializePipeline [
+SDL3GPUInstancedQuadDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 
@@ -214,7 +214,7 @@ SDL3GPUInstancedQuadDemo >> initializePipeline [
 ]
 
 { #category : 'initialization' }
-SDL3GPUInstancedQuadDemo >> initializeTexture [
+SDL3GPUInstancedQuadDemoApp >> initializeTexture [
 
 	texture :=
 		gpuDevice
@@ -225,20 +225,20 @@ SDL3GPUInstancedQuadDemo >> initializeTexture [
 ]
 
 { #category : 'testing' }
-SDL3GPUInstancedQuadDemo >> isNearestSamplerFilter [
+SDL3GPUInstancedQuadDemoApp >> isNearestSamplerFilter [
 
 	^ filter = SDL_GPU_FILTER_NEAREST
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUInstancedQuadDemo >> open [
+SDL3GPUInstancedQuadDemoApp >> open [
 
 	super open.
 	self initializeGPUResources
 ]
 
 { #category : 'private' }
-SDL3GPUInstancedQuadDemo >> quadIndices [
+SDL3GPUInstancedQuadDemoApp >> quadIndices [
 	"Standard index pattern for a quad:
 	Vertices: 0:TL, 1:TR, 2:BR, 3:BL
 	Triangles: (0,1,2) and (0,2,3)"
@@ -247,7 +247,7 @@ SDL3GPUInstancedQuadDemo >> quadIndices [
 ]
 
 { #category : 'initialization' }
-SDL3GPUInstancedQuadDemo >> switchSamplerFilter [
+SDL3GPUInstancedQuadDemoApp >> switchSamplerFilter [
 
 	"If needed, switch to the other filter and release current sampler"
 	sampler ifNotNil: [
@@ -271,7 +271,7 @@ SDL3GPUInstancedQuadDemo >> switchSamplerFilter [
 ]
 
 { #category : 'initialization' }
-SDL3GPUInstancedQuadDemo >> updateIndexBuffer [
+SDL3GPUInstancedQuadDemoApp >> updateIndexBuffer [
 
 	| byteSize |
 	byteSize := 6 * 2. "16-bit indices, 6 indices per quad"
@@ -299,7 +299,7 @@ SDL3GPUInstancedQuadDemo >> updateIndexBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3GPUInstancedQuadDemo >> updateVertexBuffer [
+SDL3GPUInstancedQuadDemoApp >> updateVertexBuffer [
 
 	| byteSize |
 	byteSize := SDL3GPUQuadVertex structureSize * 4.
@@ -350,7 +350,7 @@ SDL3GPUInstancedQuadDemo >> updateVertexBuffer [
 ]
 
 { #category : 'accessing' }
-SDL3GPUInstancedQuadDemo >> updatedTitle [
+SDL3GPUInstancedQuadDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
 		(' - Count: {1} (UP/DOWN) - Filter: {2} (F) - Rot: {3} (R) - Scale: {4} (S)'
@@ -362,7 +362,7 @@ SDL3GPUInstancedQuadDemo >> updatedTitle [
 ]
 
 { #category : 'hooks' }
-SDL3GPUInstancedQuadDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUInstancedQuadDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 

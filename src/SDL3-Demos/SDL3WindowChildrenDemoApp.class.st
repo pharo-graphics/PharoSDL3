@@ -23,7 +23,7 @@ Features:
 - Press **ESCAPE** to exit.
 "
 Class {
-	#name : 'SDL3WindowChildrenDemo',
+	#name : 'SDL3WindowChildrenDemoApp',
 	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'children',
@@ -39,7 +39,7 @@ Class {
 }
 
 { #category : 'private' }
-SDL3WindowChildrenDemo >> addChild: aWindow type: aSymbol [
+SDL3WindowChildrenDemoApp >> addChild: aWindow type: aSymbol [
 
 	| id |
 	id := aWindow id.
@@ -49,7 +49,7 @@ SDL3WindowChildrenDemo >> addChild: aWindow type: aSymbol [
 ]
 
 { #category : 'lifecycle' }
-SDL3WindowChildrenDemo >> close [
+SDL3WindowChildrenDemoApp >> close [
 
 	children valuesDo: [ :each |
 		each renderer destroy.
@@ -60,13 +60,13 @@ SDL3WindowChildrenDemo >> close [
 ]
 
 { #category : 'accessing' }
-SDL3WindowChildrenDemo >> initialExtent [
+SDL3WindowChildrenDemoApp >> initialExtent [
 
 	^ 600 @ 300
 ]
 
 { #category : 'initialization' }
-SDL3WindowChildrenDemo >> initialize [
+SDL3WindowChildrenDemoApp >> initialize [
 
 	super initialize.
 	children := Dictionary new.
@@ -82,13 +82,13 @@ SDL3WindowChildrenDemo >> initialize [
 ]
 
 { #category : 'private' }
-SDL3WindowChildrenDemo >> removeChildWithID: aWindowID [
+SDL3WindowChildrenDemoApp >> removeChildWithID: aWindowID [
 
 	self removeChildrenSuchThat: [ :childWindow | childWindow id = aWindowID ]
 ]
 
 { #category : 'private' }
-SDL3WindowChildrenDemo >> removeChildrenSuchThat: aBlock [
+SDL3WindowChildrenDemoApp >> removeChildrenSuchThat: aBlock [
 
 	| toRemove |
 	toRemove := children values select: aBlock.
@@ -101,19 +101,19 @@ SDL3WindowChildrenDemo >> removeChildrenSuchThat: aBlock [
 ]
 
 { #category : 'private' }
-SDL3WindowChildrenDemo >> removePopupMenus [
+SDL3WindowChildrenDemoApp >> removePopupMenus [
 
 	self removeChildrenSuchThat: [ :childWindow | childWindow isPopupMenu ]
 ]
 
 { #category : 'private' }
-SDL3WindowChildrenDemo >> removeTooltips [
+SDL3WindowChildrenDemoApp >> removeTooltips [
 
 	self removeChildrenSuchThat: [ :childWindow | childWindow isTooltip ]
 ]
 
 { #category : 'hooks' }
-SDL3WindowChildrenDemo >> renderChild: childWindow [
+SDL3WindowChildrenDemoApp >> renderChild: childWindow [
 
 	| childRenderer childColor eventCount id childType |
 	id := childWindow id.
@@ -143,7 +143,7 @@ SDL3WindowChildrenDemo >> renderChild: childWindow [
 ]
 
 { #category : 'hooks' }
-SDL3WindowChildrenDemo >> renderParent [
+SDL3WindowChildrenDemoApp >> renderParent [
 
 	| x y |
 	self clearColor: Color black.
@@ -195,7 +195,7 @@ SDL3WindowChildrenDemo >> renderParent [
 ]
 
 { #category : 'hooks' }
-SDL3WindowChildrenDemo >> step [
+SDL3WindowChildrenDemoApp >> step [
 
 	isModalActive := children values anySatisfy: [ :each | each isModal ].
 
@@ -205,7 +205,7 @@ SDL3WindowChildrenDemo >> step [
 ]
 
 { #category : 'hooks' }
-SDL3WindowChildrenDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	| key child |
 	key := aKeyboardDownEvent key.
@@ -263,7 +263,7 @@ SDL3WindowChildrenDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3WindowChildrenDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
+SDL3WindowChildrenDemoApp >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 
 	| windowID |
 	windowID := aMouseButtonDownEvent windowID.
@@ -282,7 +282,7 @@ SDL3WindowChildrenDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3WindowChildrenDemo >> visitMouseWheelEvent: aMouseWheelEvent [
+SDL3WindowChildrenDemoApp >> visitMouseWheelEvent: aMouseWheelEvent [
 
 	| windowID |
 	windowID := aMouseWheelEvent windowID.
@@ -299,7 +299,7 @@ SDL3WindowChildrenDemo >> visitMouseWheelEvent: aMouseWheelEvent [
 ]
 
 { #category : 'hooks' }
-SDL3WindowChildrenDemo >> visitWindowCloseRequestedEvent: aWindowEvent [
+SDL3WindowChildrenDemoApp >> visitWindowCloseRequestedEvent: aWindowEvent [
 
 	self removeChildWithID: aWindowEvent windowID.
 	
@@ -307,7 +307,7 @@ SDL3WindowChildrenDemo >> visitWindowCloseRequestedEvent: aWindowEvent [
 ]
 
 { #category : 'visiting - abstract' }
-SDL3WindowChildrenDemo >> visitWindowIDEvent: aWindowIDEvent [
+SDL3WindowChildrenDemoApp >> visitWindowIDEvent: aWindowIDEvent [
 
 	| windowID count |
 	windowID := aWindowIDEvent windowID.

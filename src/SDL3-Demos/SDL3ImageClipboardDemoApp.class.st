@@ -2,7 +2,7 @@
 I demonstrate how to read images from the system clipboard and render/display them. I also support copying the Pharo logo back to the system clipboard on a mouse click inside the Pharo overlay icon.
 "
 Class {
-	#name : 'SDL3ImageClipboardDemo',
+	#name : 'SDL3ImageClipboardDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'texture',
@@ -20,7 +20,7 @@ Class {
 }
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> checkClipboard [
+SDL3ImageClipboardDemoApp >> checkClipboard [
 
 	| imageMimes |
 	imageMimes := #( 'image/png' 'image/bmp' 'image/tiff' ).
@@ -31,7 +31,7 @@ SDL3ImageClipboardDemo >> checkClipboard [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> checkImageClipboardWithMimeTypes: imageMimes [
+SDL3ImageClipboardDemoApp >> checkImageClipboardWithMimeTypes: imageMimes [
 
 	self
 		clipboardMimeTypeAnyOf: imageMimes
@@ -47,7 +47,7 @@ SDL3ImageClipboardDemo >> checkImageClipboardWithMimeTypes: imageMimes [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> clearClipboardImage [
+SDL3ImageClipboardDemoApp >> clearClipboardImage [
 
 	lastImageBytes := nil.
 	texture ifNotNil: [ 
@@ -56,7 +56,7 @@ SDL3ImageClipboardDemo >> clearClipboardImage [
 ]
 
 { #category : 'utilities' }
-SDL3ImageClipboardDemo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: absentBlock [
+SDL3ImageClipboardDemoApp >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: absentBlock [
 
 	| mimeType |
 	mimeType :=
@@ -79,7 +79,7 @@ SDL3ImageClipboardDemo >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBl
 ]
 
 { #category : 'lifecycle' }
-SDL3ImageClipboardDemo >> close [
+SDL3ImageClipboardDemoApp >> close [
 
 	texture ifNotNil: [ 
 		texture destroy. 
@@ -91,7 +91,7 @@ SDL3ImageClipboardDemo >> close [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> copyPharoLogoToClipboard [
+SDL3ImageClipboardDemoApp >> copyPharoLogoToClipboard [
 
 	| form pngBytes |
 	form := self iconNamed: #pharoBig.
@@ -101,7 +101,7 @@ SDL3ImageClipboardDemo >> copyPharoLogoToClipboard [
 ]
 
 { #category : 'hooks' }
-SDL3ImageClipboardDemo >> drawClipboardTexture [
+SDL3ImageClipboardDemoApp >> drawClipboardTexture [
 
 	| windowExtent textureExtent scale newExtent origin |
 	windowExtent := window extent.
@@ -114,7 +114,7 @@ SDL3ImageClipboardDemo >> drawClipboardTexture [
 ]
 
 { #category : 'hooks' }
-SDL3ImageClipboardDemo >> drawPharoIconOverlay [
+SDL3ImageClipboardDemoApp >> drawPharoIconOverlay [
 
 	| windowExtent iconExtent iconOrigin |
 	pharoIconTexture ifNil: [ 
@@ -128,19 +128,19 @@ SDL3ImageClipboardDemo >> drawPharoIconOverlay [
 ]
 
 { #category : 'accessing' }
-SDL3ImageClipboardDemo >> initialExtent [
+SDL3ImageClipboardDemoApp >> initialExtent [
 
 	^ 500 @ 500
 ]
 
 { #category : 'accessing' }
-SDL3ImageClipboardDemo >> initialWindowFlags [
+SDL3ImageClipboardDemoApp >> initialWindowFlags [
 
 	^ super initialWindowFlags | SDL_WINDOW_ALWAYS_ON_TOP
 ]
 
 { #category : 'initialization' }
-SDL3ImageClipboardDemo >> initialize [
+SDL3ImageClipboardDemoApp >> initialize [
 
 	super initialize.
 	stepCount := 0.
@@ -150,7 +150,7 @@ SDL3ImageClipboardDemo >> initialize [
 ]
 
 { #category : 'lifecycle' }
-SDL3ImageClipboardDemo >> open [
+SDL3ImageClipboardDemoApp >> open [
 
 	super open.
 	console addLine: 'Clipboard Demo started.'.
@@ -160,7 +160,7 @@ SDL3ImageClipboardDemo >> open [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> setClipboardPNGData: pngBytes [
+SDL3ImageClipboardDemoApp >> setClipboardPNGData: pngBytes [
 
 	| pngSize pngPointer cMimeType mimeTypesPtr userdataArray pointerSize |
 	pngSize := pngBytes size.
@@ -195,7 +195,7 @@ SDL3ImageClipboardDemo >> setClipboardPNGData: pngBytes [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> setupClipboardCallbacksForSize: pngSize [
+SDL3ImageClipboardDemoApp >> setupClipboardCallbacksForSize: pngSize [
 
 	| pointerSize |
 	pointerSize := FFIExternalType pointerSize.
@@ -223,7 +223,7 @@ SDL3ImageClipboardDemo >> setupClipboardCallbacksForSize: pngSize [
 ]
 
 { #category : 'hooks' }
-SDL3ImageClipboardDemo >> step [
+SDL3ImageClipboardDemoApp >> step [
 
 	stepCount := stepCount + 1.
 	(stepCount \\ 30 = 0) ifTrue: [ self checkClipboard ].
@@ -235,19 +235,19 @@ SDL3ImageClipboardDemo >> step [
 ]
 
 { #category : 'accessing' }
-SDL3ImageClipboardDemo >> updatedTitle [
+SDL3ImageClipboardDemoApp >> updatedTitle [
 
 	^ super updatedTitle , ' - Copy an image to clipboard'
 ]
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> visitClipboardEvent: anEvent [
+SDL3ImageClipboardDemoApp >> visitClipboardEvent: anEvent [
 
 	self checkClipboard
 ]
 
 { #category : 'visiting - concrete' }
-SDL3ImageClipboardDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
+SDL3ImageClipboardDemoApp >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 
 	| clickPoint iconBounds |
 	super visitMouseButtonDownEvent: aMouseButtonDownEvent.

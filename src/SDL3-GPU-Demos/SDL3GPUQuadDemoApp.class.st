@@ -3,7 +3,7 @@ I demonstrate how to render textured quads using the SDL3 GPU API.
 I use vertex and fragment shaders defined in Pharo.
 "
 Class {
-	#name : 'SDL3GPUQuadDemo',
+	#name : 'SDL3GPUQuadDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'gpuPipeline',
@@ -28,7 +28,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPUQuadDemo >> close [
+SDL3GPUQuadDemoApp >> close [
 
 	gpuPipeline ifNotNil: [
 		gpuPipeline release.
@@ -63,7 +63,7 @@ SDL3GPUQuadDemo >> close [
 ]
 
 { #category : 'actions' }
-SDL3GPUQuadDemo >> decrementQuads [
+SDL3GPUQuadDemoApp >> decrementQuads [
 
 	numberOfQuads := (numberOfQuads - 1) max: 1.
 	self updateVertexBuffer.
@@ -72,7 +72,7 @@ SDL3GPUQuadDemo >> decrementQuads [
 ]
 
 { #category : 'rendering' }
-SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUQuadDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	| animatedHue |
 	colorTargetInfos first texture: swapchainTexture.
@@ -95,7 +95,7 @@ SDL3GPUQuadDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 ]
 
 { #category : 'actions' }
-SDL3GPUQuadDemo >> incrementQuads [
+SDL3GPUQuadDemoApp >> incrementQuads [
 
 	numberOfQuads := numberOfQuads + 1.
 	self updateVertexBuffer.
@@ -104,25 +104,25 @@ SDL3GPUQuadDemo >> incrementQuads [
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> indicesCount [
+SDL3GPUQuadDemoApp >> indicesCount [
 
 	^ numberOfQuads * 6
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> initialExtent [
+SDL3GPUQuadDemoApp >> initialExtent [
 
 	^ 720 @ 720
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> initialWindowFlags [
+SDL3GPUQuadDemoApp >> initialWindowFlags [
 
 	^ SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_HIGH_PIXEL_DENSITY
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> initialize [
+SDL3GPUQuadDemoApp >> initialize [
 
 	super initialize.
 
@@ -143,7 +143,7 @@ SDL3GPUQuadDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> initializeGPUResources [
+SDL3GPUQuadDemoApp >> initializeGPUResources [
 
 	self initializeTexture.
 	self updateVertexBuffer.
@@ -153,7 +153,7 @@ SDL3GPUQuadDemo >> initializeGPUResources [
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> initializePipeline [
+SDL3GPUQuadDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 	vertexShader :=
@@ -220,7 +220,7 @@ SDL3GPUQuadDemo >> initializePipeline [
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> initializeTexture [
+SDL3GPUQuadDemoApp >> initializeTexture [
 
 	texture :=
 		gpuDevice
@@ -231,21 +231,21 @@ SDL3GPUQuadDemo >> initializeTexture [
 ]
 
 { #category : 'testing' }
-SDL3GPUQuadDemo >> isNearestSamplerFilter [
+SDL3GPUQuadDemoApp >> isNearestSamplerFilter [
 
 	^ filter = SDL_GPU_FILTER_NEAREST
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> numberOfVerticesPerQuad [
+SDL3GPUQuadDemoApp >> numberOfVerticesPerQuad [
 
 	^ 4
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUQuadDemo >> open [
+SDL3GPUQuadDemoApp >> open [
 	"Run headless with:
-	./pharo Pharo.image eval 'SDL3GPUQuadDemo new run'
+	./pharo Pharo.image eval 'SDL3GPUQuadDemoApp new run'
 	"
 
 	super open.
@@ -253,7 +253,7 @@ SDL3GPUQuadDemo >> open [
 ]
 
 { #category : 'private' }
-SDL3GPUQuadDemo >> quadIndices [
+SDL3GPUQuadDemoApp >> quadIndices [
 	"Standard index pattern for a quad:
 	Vertices: 0:TL, 1:TR, 2:BR, 3:BL
 	Triangles: (0,1,2) and (0,2,3)"
@@ -262,14 +262,14 @@ SDL3GPUQuadDemo >> quadIndices [
 ]
 
 { #category : 'hooks' }
-SDL3GPUQuadDemo >> step [
+SDL3GPUQuadDemoApp >> step [
 
 	self updateVertexBuffer.
 	super step
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> switchSamplerFilter [
+SDL3GPUQuadDemoApp >> switchSamplerFilter [
 
 	"If needed, switch to the other filter and release current sampler"
 	sampler ifNotNil: [
@@ -295,7 +295,7 @@ SDL3GPUQuadDemo >> switchSamplerFilter [
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> updateIndexBuffer [
+SDL3GPUQuadDemoApp >> updateIndexBuffer [
 
 	| byteSize |
 	byteSize := self indicesCount * 2. "16-bit indices"
@@ -335,7 +335,7 @@ SDL3GPUQuadDemo >> updateIndexBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3GPUQuadDemo >> updateVertexBuffer [
+SDL3GPUQuadDemoApp >> updateVertexBuffer [
 
 	| byteSize cols rows quadW quadH phase zoom |
 	"1. Determine Grid Layout"
@@ -389,7 +389,7 @@ SDL3GPUQuadDemo >> updateVertexBuffer [
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> updatedTitle [
+SDL3GPUQuadDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
 		(' - Count: {1} (UP/DOWN to change) - Filter: {2} (F to switch)'
@@ -399,13 +399,13 @@ SDL3GPUQuadDemo >> updatedTitle [
 ]
 
 { #category : 'accessing' }
-SDL3GPUQuadDemo >> verticesCount [
+SDL3GPUQuadDemoApp >> verticesCount [
 
 	^ self numberOfVerticesPerQuad * numberOfQuads
 ]
 
 { #category : 'hooks' }
-SDL3GPUQuadDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUQuadDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 
@@ -418,7 +418,7 @@ SDL3GPUQuadDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'private' }
-SDL3GPUQuadDemo >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h [
+SDL3GPUQuadDemoApp >> writeQuadTo: aVertexArray at: startIndex x: x y: y w: w h: h [
 
 	| v |
 	"Vertices (NDC): y increases UPWARDS.

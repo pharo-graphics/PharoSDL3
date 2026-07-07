@@ -2,7 +2,7 @@
 I demonstrate a force-directed node graph using a compute-to-vertex-buffer architecture.
 "
 Class {
-	#name : 'SDL3GPUNodeForceDemo',
+	#name : 'SDL3GPUNodeForceDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'nodesBufferPing',
@@ -35,7 +35,7 @@ Class {
 }
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> bindSharedGraphicsResourcesTo: renderPass with: commandBuffer [
+SDL3GPUNodeForceDemoApp >> bindSharedGraphicsResourcesTo: renderPass with: commandBuffer [
 
 	renderPass
 		vertexBuffers: vertexBufferBindings slot: 0;
@@ -50,7 +50,7 @@ SDL3GPUNodeForceDemo >> bindSharedGraphicsResourcesTo: renderPass with: commandB
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUNodeForceDemo >> close [
+SDL3GPUNodeForceDemoApp >> close [
 
 	nodesBufferPing ifNotNil: [
 		nodesBufferPing release.
@@ -83,7 +83,7 @@ SDL3GPUNodeForceDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3GPUNodeForceDemo >> computeSimulation [
+SDL3GPUNodeForceDemoApp >> computeSimulation [
 
 	| nextBuffer commandBuffer |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -107,7 +107,7 @@ SDL3GPUNodeForceDemo >> computeSimulation [
 ]
 
 { #category : 'rendering' }
-SDL3GPUNodeForceDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUNodeForceDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	| colorTargetInfos |
 	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
@@ -122,7 +122,7 @@ SDL3GPUNodeForceDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> drawEdgesOn: renderPass [
+SDL3GPUNodeForceDemoApp >> drawEdgesOn: renderPass [
 
 	renderPass pipeline: edgePipeline.
 	renderPass
@@ -134,7 +134,7 @@ SDL3GPUNodeForceDemo >> drawEdgesOn: renderPass [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> drawNodesOn: renderPass [
+SDL3GPUNodeForceDemoApp >> drawNodesOn: renderPass [
 
 	renderPass pipeline: nodePipeline.
 	renderPass
@@ -146,7 +146,7 @@ SDL3GPUNodeForceDemo >> drawNodesOn: renderPass [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> executeSimulationComputePassWith: commandBuffer input: inputBuffer output: outputBuffer [
+SDL3GPUNodeForceDemoApp >> executeSimulationComputePassWith: commandBuffer input: inputBuffer output: outputBuffer [
 
 	storageBufferBindings first
 		buffer: outputBuffer;
@@ -164,7 +164,7 @@ SDL3GPUNodeForceDemo >> executeSimulationComputePassWith: commandBuffer input: i
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> findNodeAtSimulationPosition: point among: nodes [
+SDL3GPUNodeForceDemoApp >> findNodeAtSimulationPosition: point among: nodes [
 
 	nodes withIndexDo: [ :node :i |
 		| distance |
@@ -175,7 +175,7 @@ SDL3GPUNodeForceDemo >> findNodeAtSimulationPosition: point among: nodes [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initialize [
+SDL3GPUNodeForceDemoApp >> initialize [
 
 	super initialize.
 
@@ -187,7 +187,7 @@ SDL3GPUNodeForceDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initializeBuffers [
+SDL3GPUNodeForceDemoApp >> initializeBuffers [
 
 	| nodesSize edgesSize |
 	nodesSize := numNodes * SDL3GPUNode structureSize.
@@ -216,7 +216,7 @@ SDL3GPUNodeForceDemo >> initializeBuffers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initializeGPUStateContainers [
+SDL3GPUNodeForceDemoApp >> initializeGPUStateContainers [
 
 	storageBuffers := ExternalAddress safeNewArray: 2.
 
@@ -231,7 +231,7 @@ SDL3GPUNodeForceDemo >> initializeGPUStateContainers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initializeGeometry [
+SDL3GPUNodeForceDemoApp >> initializeGeometry [
 
 	self
 		initializeQuadBuffers;
@@ -239,7 +239,7 @@ SDL3GPUNodeForceDemo >> initializeGeometry [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initializeGraph [
+SDL3GPUNodeForceDemoApp >> initializeGraph [
 
 	| random |
 	random := Random seed: 17.
@@ -263,7 +263,7 @@ SDL3GPUNodeForceDemo >> initializeGraph [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initializeQuadBuffers [
+SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 
 	vertexBuffer := gpuDevice
 		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
@@ -300,7 +300,7 @@ SDL3GPUNodeForceDemo >> initializeQuadBuffers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initializeShaders [
+SDL3GPUNodeForceDemoApp >> initializeShaders [
 
 	| colorTargets |
 	computePipeline := SDL3GPUNodeForceComputeShaderSource
@@ -316,7 +316,7 @@ SDL3GPUNodeForceDemo >> initializeShaders [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> initializeUniforms [
+SDL3GPUNodeForceDemoApp >> initializeUniforms [
 
 	uniforms := SDL3GPUNodeForceUniforms safeNew.
 	uniforms
@@ -336,7 +336,7 @@ SDL3GPUNodeForceDemo >> initializeUniforms [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> newEdgePipelineWith: aFormatArray colorTargets: colorTargets [
+SDL3GPUNodeForceDemoApp >> newEdgePipelineWith: aFormatArray colorTargets: colorTargets [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes |
 	vertexShader := SDL3GPUEdgeVertexShaderSource
@@ -365,7 +365,7 @@ SDL3GPUNodeForceDemo >> newEdgePipelineWith: aFormatArray colorTargets: colorTar
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> newNodePipelineWith: aFormatArray colorTargets: colorTargets [
+SDL3GPUNodeForceDemoApp >> newNodePipelineWith: aFormatArray colorTargets: colorTargets [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes |
 	vertexShader := SDL3GPUNodeVertexShaderSource
@@ -394,7 +394,7 @@ SDL3GPUNodeForceDemo >> newNodePipelineWith: aFormatArray colorTargets: colorTar
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> newNodeVertexAttributes [
+SDL3GPUNodeForceDemoApp >> newNodeVertexAttributes [
 
 	| vertexAttributes |
 	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
@@ -415,7 +415,7 @@ SDL3GPUNodeForceDemo >> newNodeVertexAttributes [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> newNodeVertexBindings [
+SDL3GPUNodeForceDemoApp >> newNodeVertexBindings [
 
 	| vertexBindings |
 	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
@@ -430,7 +430,7 @@ SDL3GPUNodeForceDemo >> newNodeVertexBindings [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUNodeForceDemo >> prepareToLoop [
+SDL3GPUNodeForceDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 	self initializeBuffers.
@@ -442,7 +442,7 @@ SDL3GPUNodeForceDemo >> prepareToLoop [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> pushSimulationUniformsTo: commandBuffer [
+SDL3GPUNodeForceDemoApp >> pushSimulationUniformsTo: commandBuffer [
 
 	| aspect |
 	aspect := window extent x asFloat / (window extent y max: 1).
@@ -458,7 +458,7 @@ SDL3GPUNodeForceDemo >> pushSimulationUniformsTo: commandBuffer [
 ]
 
 { #category : 'actions' }
-SDL3GPUNodeForceDemo >> selectNodeAtSimulationPosition: point [
+SDL3GPUNodeForceDemoApp >> selectNodeAtSimulationPosition: point [
 
 	gpuDevice
 		downloadFrom: currentNodesBuffer
@@ -473,7 +473,7 @@ SDL3GPUNodeForceDemo >> selectNodeAtSimulationPosition: point [
 ]
 
 { #category : 'initialization' }
-SDL3GPUNodeForceDemo >> setupGeometryBindings [
+SDL3GPUNodeForceDemoApp >> setupGeometryBindings [
 
 	vertexBufferBindings first
 		buffer: vertexBuffer;
@@ -484,7 +484,7 @@ SDL3GPUNodeForceDemo >> setupGeometryBindings [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> simulationPositionFromWindowPoint: point [
+SDL3GPUNodeForceDemoApp >> simulationPositionFromWindowPoint: point [
 
 	| nx ny winExtent aspect bx by |
 	winExtent := window extent.
@@ -500,14 +500,14 @@ SDL3GPUNodeForceDemo >> simulationPositionFromWindowPoint: point [
 ]
 
 { #category : 'hooks' }
-SDL3GPUNodeForceDemo >> step [
+SDL3GPUNodeForceDemoApp >> step [
 
 	self computeSimulation.
 	super step
 ]
 
 { #category : 'accessing' }
-SDL3GPUNodeForceDemo >> updatedTitle [
+SDL3GPUNodeForceDemoApp >> updatedTitle [
 
 	| selectionInfo dragInfo |
 	selectionInfo := selectedNodeIndex >= 0
@@ -526,7 +526,7 @@ SDL3GPUNodeForceDemo >> updatedTitle [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> uploadEdges [
+SDL3GPUNodeForceDemoApp >> uploadEdges [
 
 	gpuDevice uploadToGPUDo: [ :uploader |
 		uploader
@@ -538,7 +538,7 @@ SDL3GPUNodeForceDemo >> uploadEdges [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemo >> uploadNodes [
+SDL3GPUNodeForceDemoApp >> uploadNodes [
 
 	gpuDevice uploadToGPUDo: [ :uploader |
 		uploader
@@ -550,7 +550,7 @@ SDL3GPUNodeForceDemo >> uploadNodes [
 ]
 
 { #category : 'hooks' }
-SDL3GPUNodeForceDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUNodeForceDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	| key |
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
@@ -567,7 +567,7 @@ SDL3GPUNodeForceDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUNodeForceDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
+SDL3GPUNodeForceDemoApp >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 
 	| position |
 	super visitMouseButtonDownEvent: aMouseButtonDownEvent.
@@ -581,7 +581,7 @@ SDL3GPUNodeForceDemo >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUNodeForceDemo >> visitMouseButtonUpEvent: aMouseButtonUpEvent [
+SDL3GPUNodeForceDemoApp >> visitMouseButtonUpEvent: aMouseButtonUpEvent [
 
 	super visitMouseButtonUpEvent: aMouseButtonUpEvent.
 
@@ -590,7 +590,7 @@ SDL3GPUNodeForceDemo >> visitMouseButtonUpEvent: aMouseButtonUpEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUNodeForceDemo >> visitMouseMotionEvent: aMouseMotionEvent [
+SDL3GPUNodeForceDemoApp >> visitMouseMotionEvent: aMouseMotionEvent [
 
 	| simPosition |
 	super visitMouseMotionEvent: aMouseMotionEvent.

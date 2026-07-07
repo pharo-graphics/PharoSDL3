@@ -2,7 +2,7 @@
 I demonstrate the usage of animated cursors in SDL3.
 "
 Class {
-	#name : 'SDL3AnimatedCursorDemo',
+	#name : 'SDL3AnimatedCursorDemoApp',
 	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'cursors',
@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3AnimatedCursorDemo >> close [
+SDL3AnimatedCursorDemoApp >> close [
 	"Cleanup cursors, textures and surfaces"
 
 	| allSurfaces allTextures |
@@ -40,19 +40,19 @@ SDL3AnimatedCursorDemo >> close [
 ]
 
 { #category : 'accessing' }
-SDL3AnimatedCursorDemo >> crosshairSize [
+SDL3AnimatedCursorDemoApp >> crosshairSize [
 
 	^ 16
 ]
 
 { #category : 'accessing' }
-SDL3AnimatedCursorDemo >> cursorExtent [
+SDL3AnimatedCursorDemoApp >> cursorExtent [
 
 	^ 64 @ 64
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> drawCrosshairOn: surface corner: aSymbol [
+SDL3AnimatedCursorDemoApp >> drawCrosshairOn: surface corner: aSymbol [
 
 	| cSize crosshairColor h |
 	cSize := self crosshairSize.
@@ -75,7 +75,7 @@ SDL3AnimatedCursorDemo >> drawCrosshairOn: surface corner: aSymbol [
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> generateCursorPulsingIcon: iconSurface corner: aSymbol [
+SDL3AnimatedCursorDemoApp >> generateCursorPulsingIcon: iconSurface corner: aSymbol [
 
 	| frames textures baseSurface extent h |
 	extent := self cursorExtent.
@@ -112,7 +112,7 @@ SDL3AnimatedCursorDemo >> generateCursorPulsingIcon: iconSurface corner: aSymbol
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> generateCursorRotatingAndPulsingIcon: iconSurface corner: aSymbol [
+SDL3AnimatedCursorDemoApp >> generateCursorRotatingAndPulsingIcon: iconSurface corner: aSymbol [
 
 	| frames textures baseSurface extent h |
 	extent := self cursorExtent.
@@ -152,7 +152,7 @@ SDL3AnimatedCursorDemo >> generateCursorRotatingAndPulsingIcon: iconSurface corn
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> generateCursorRotatingIcon: iconSurface corner: aSymbol [
+SDL3AnimatedCursorDemoApp >> generateCursorRotatingIcon: iconSurface corner: aSymbol [
 
 	| frames textures baseSurface extent h |
 	extent := self cursorExtent.
@@ -190,7 +190,7 @@ SDL3AnimatedCursorDemo >> generateCursorRotatingIcon: iconSurface corner: aSymbo
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> generateCursorScalingIcon: iconSurface corner: aSymbol [
+SDL3AnimatedCursorDemoApp >> generateCursorScalingIcon: iconSurface corner: aSymbol [
 
 	| frames textures extent h |
 	extent := self cursorExtent.
@@ -226,7 +226,7 @@ SDL3AnimatedCursorDemo >> generateCursorScalingIcon: iconSurface corner: aSymbol
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> generateCursors [
+SDL3AnimatedCursorDemoApp >> generateCursors [
 
 	| iconSurface |
 	cursors := OrderedCollection new.
@@ -252,7 +252,7 @@ SDL3AnimatedCursorDemo >> generateCursors [
 ]
 
 { #category : 'accessing' }
-SDL3AnimatedCursorDemo >> hotspotOffsetForCorner: aSymbol [
+SDL3AnimatedCursorDemoApp >> hotspotOffsetForCorner: aSymbol [
 
 	| extent |
 	extent := self cursorExtent.
@@ -264,7 +264,7 @@ SDL3AnimatedCursorDemo >> hotspotOffsetForCorner: aSymbol [
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> iconRectForCorner: aSymbol rotated: rotated [
+SDL3AnimatedCursorDemoApp >> iconRectForCorner: aSymbol rotated: rotated [
 
 	| extent x y |
 	extent := self cursorExtent.
@@ -293,13 +293,13 @@ SDL3AnimatedCursorDemo >> iconRectForCorner: aSymbol rotated: rotated [
 ]
 
 { #category : 'accessing' }
-SDL3AnimatedCursorDemo >> initialExtent [
+SDL3AnimatedCursorDemoApp >> initialExtent [
 
 	^ 720 @ 720
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemo >> newAnimatedCursorFromFrames: frames delays: anArray hotspot: h [
+SDL3AnimatedCursorDemoApp >> newAnimatedCursorFromFrames: frames delays: anArray hotspot: h [
 
 	| frameInfos |
 	frameInfos := SDL_CursorFrameInfo safeNewArray: frames size.
@@ -318,20 +318,20 @@ SDL3AnimatedCursorDemo >> newAnimatedCursorFromFrames: frames delays: anArray ho
 ]
 
 { #category : 'accessing' }
-SDL3AnimatedCursorDemo >> numberOfFrames [
+SDL3AnimatedCursorDemoApp >> numberOfFrames [
 
 	^ 20
 ]
 
 { #category : 'lifecycle' }
-SDL3AnimatedCursorDemo >> prepareToLoop [
+SDL3AnimatedCursorDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 	self generateCursors
 ]
 
 { #category : 'rendering' }
-SDL3AnimatedCursorDemo >> renderQuadrants [
+SDL3AnimatedCursorDemoApp >> renderQuadrants [
 	"Draw the grid and the source frames for each cursor."
 
 	| extent midX midY frameSize gap framesPerRow |
@@ -367,7 +367,7 @@ SDL3AnimatedCursorDemo >> renderQuadrants [
 ]
 
 { #category : 'hooks' }
-SDL3AnimatedCursorDemo >> step [
+SDL3AnimatedCursorDemoApp >> step [
 
 	renderer
 		renderDrawColor: Color black;
@@ -379,7 +379,7 @@ SDL3AnimatedCursorDemo >> step [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3AnimatedCursorDemo >> visitMouseMotionEvent: aMouseMotionEvent [
+SDL3AnimatedCursorDemoApp >> visitMouseMotionEvent: aMouseMotionEvent [
 
 	| extent midX midY qX qY qIndex |
 	extent := window extent.

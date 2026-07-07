@@ -2,7 +2,7 @@
 I log all received SDL3 events to an on-screen console.
 "
 Class {
-	#name : 'SDL3LogEventsDemo',
+	#name : 'SDL3LogEventsDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#category : 'SDL3-Demos-API',
 	#package : 'SDL3-Demos',
@@ -10,50 +10,50 @@ Class {
 }
 
 { #category : 'hooks' }
-SDL3LogEventsDemo >> step [
+SDL3LogEventsDemoApp >> step [
 
 	self clearColor: Color black.
 	self present
 ]
 
 { #category : 'visiting - abstract' }
-SDL3LogEventsDemo >> visitDisplayEvent: anEvent [
+SDL3LogEventsDemoApp >> visitDisplayEvent: anEvent [
 
 	console addLine: anEvent description color: Color lightRed
 ]
 
 { #category : 'visiting - abstract' }
-SDL3LogEventsDemo >> visitKeyboardEvent: anEvent [
+SDL3LogEventsDemoApp >> visitKeyboardEvent: anEvent [
 
 	console addLine: anEvent description color: Color lightCyan
 ]
 
 { #category : 'visiting - root' }
-SDL3LogEventsDemo >> visitMappedEvent: anEvent [
+SDL3LogEventsDemoApp >> visitMappedEvent: anEvent [
 
 	console addLine: anEvent description color: Color white
 ]
 
 { #category : 'visiting - abstract' }
-SDL3LogEventsDemo >> visitMouseEvent: anEvent [
+SDL3LogEventsDemoApp >> visitMouseEvent: anEvent [
 
 	console addLine: anEvent description color: Color lightGreen
 ]
 
 { #category : 'visiting - abstract' }
-SDL3LogEventsDemo >> visitTextEvent: anEvent [
+SDL3LogEventsDemoApp >> visitTextEvent: anEvent [
 
 	console addLine: anEvent description color: Color lightCyan
 ]
 
 { #category : 'visiting - abstract' }
-SDL3LogEventsDemo >> visitTouchFingerEvent: anEvent [
+SDL3LogEventsDemoApp >> visitTouchFingerEvent: anEvent [
 
 	console addLine: anEvent description color: Color lightBlue
 ]
 
 { #category : 'visiting - abstract' }
-SDL3LogEventsDemo >> visitWindowEvent: anEvent [
+SDL3LogEventsDemoApp >> visitWindowEvent: anEvent [
 
 	console addLine: anEvent description color: Color lightYellow
 ]

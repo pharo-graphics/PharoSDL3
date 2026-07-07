@@ -1,5 +1,5 @@
 "
-I am the uniform buffer that holds input parameters for the fragment shaders used by `SDL3GPURenderStateDemo`.
+I am the uniform buffer that holds input parameters for the fragment shaders used by `SDL3GPURenderStateDemoApp`.
 
 The HLSL code of such shaders declare something like:
 

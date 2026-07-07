@@ -2,7 +2,7 @@
 I'm a simple demo of SDL3 GPU API that clears the window with changing colors, based on SDL's ""test/testgpu_simple_clear.c"".
 "
 Class {
-	#name : 'SDL3GPUClearDemo',
+	#name : 'SDL3GPUClearDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#category : 'SDL3-GPU-Demos-Base',
 	#package : 'SDL3-GPU-Demos',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'rendering' }
-SDL3GPUClearDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
+SDL3GPUClearDemoApp >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
 	| animatedHue colorTargetInfos |
 
@@ -27,7 +27,7 @@ SDL3GPUClearDemo >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 ]
 
 { #category : 'accessing' }
-SDL3GPUClearDemo >> initialExtent [
+SDL3GPUClearDemoApp >> initialExtent [
 
 	^ 400 @ 300
 ]

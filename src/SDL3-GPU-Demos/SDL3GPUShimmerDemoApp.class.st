@@ -2,7 +2,7 @@
 I demonstrate a mock UI with a Shimmer Loading Effect.
 "
 Class {
-	#name : 'SDL3GPUShimmerDemo',
+	#name : 'SDL3GPUShimmerDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'gpuPipeline',
@@ -26,7 +26,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPUShimmerDemo >> close [
+SDL3GPUShimmerDemoApp >> close [
 
 	gpuPipeline ifNotNil: [
 		gpuPipeline release.
@@ -48,7 +48,7 @@ SDL3GPUShimmerDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3GPUShimmerDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUShimmerDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	colorTargetInfos first texture: swapchainTextureHolder value.
 
@@ -68,7 +68,7 @@ SDL3GPUShimmerDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3GPUShimmerDemo >> initialize [
+SDL3GPUShimmerDemoApp >> initialize [
 
 	super initialize.
 
@@ -92,7 +92,7 @@ SDL3GPUShimmerDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUShimmerDemo >> initializeGeometry [
+SDL3GPUShimmerDemoApp >> initializeGeometry [
 
 	| instances |
 	instances := self mockUIPanels.
@@ -101,7 +101,7 @@ SDL3GPUShimmerDemo >> initializeGeometry [
 ]
 
 { #category : 'initialization' }
-SDL3GPUShimmerDemo >> initializePipeline [
+SDL3GPUShimmerDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader shaderFormats vertexAttributes vertexBindings colorTargets |
 
@@ -175,7 +175,7 @@ SDL3GPUShimmerDemo >> initializePipeline [
 ]
 
 { #category : 'initialization' }
-SDL3GPUShimmerDemo >> initializeQuadBuffers: instances [
+SDL3GPUShimmerDemoApp >> initializeQuadBuffers: instances [
 
 	vertexBuffer := gpuDevice
 		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
@@ -251,7 +251,7 @@ SDL3GPUShimmerDemo >> initializeQuadBuffers: instances [
 ]
 
 { #category : 'initialization' }
-SDL3GPUShimmerDemo >> mockUIPanels [
+SDL3GPUShimmerDemoApp >> mockUIPanels [
 	"Create a social network feed loading state."
 	| panels |
 	panels := OrderedCollection new.
@@ -273,7 +273,7 @@ SDL3GPUShimmerDemo >> mockUIPanels [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUShimmerDemo >> open [
+SDL3GPUShimmerDemoApp >> open [
 
 	super open.
 	self initializeGeometry.
@@ -281,7 +281,7 @@ SDL3GPUShimmerDemo >> open [
 ]
 
 { #category : 'initialization' }
-SDL3GPUShimmerDemo >> setupGeometryBindings [
+SDL3GPUShimmerDemoApp >> setupGeometryBindings [
 
 	vertexBufferBindings first
 		buffer: vertexBuffer;
@@ -296,7 +296,7 @@ SDL3GPUShimmerDemo >> setupGeometryBindings [
 ]
 
 { #category : 'hooks' }
-SDL3GPUShimmerDemo >> step [
+SDL3GPUShimmerDemoApp >> step [
 
 	uniforms
 		time: Time millisecondClockValue / 1000.0;
@@ -307,7 +307,7 @@ SDL3GPUShimmerDemo >> step [
 ]
 
 { #category : 'accessing' }
-SDL3GPUShimmerDemo >> updatedTitle [
+SDL3GPUShimmerDemoApp >> updatedTitle [
 
 	| effectName |
 	effectType = 0 ifTrue: [ effectName := 'Linear Sweep' ].
@@ -318,7 +318,7 @@ SDL3GPUShimmerDemo >> updatedTitle [
 ]
 
 { #category : 'initialization' }
-SDL3GPUShimmerDemo >> uploadGeometry: instances [
+SDL3GPUShimmerDemoApp >> uploadGeometry: instances [
 	"Upload quad vertices, indices, and instance data (panels)."
 
 	self
@@ -327,7 +327,7 @@ SDL3GPUShimmerDemo >> uploadGeometry: instances [
 ]
 
 { #category : 'hooks' }
-SDL3GPUShimmerDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUShimmerDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 

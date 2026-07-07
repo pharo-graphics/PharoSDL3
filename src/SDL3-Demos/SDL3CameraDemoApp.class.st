@@ -4,7 +4,7 @@ I demonstrate how to use the SDL3 Camera API in Pharo.
 I capture frames from a connected camera and render them to a texture. I'm a simplified adaptation of SDL3's `test/testcamera.c`.
 "
 Class {
-	#name : 'SDL3CameraDemo',
+	#name : 'SDL3CameraDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'camera',
@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : 'rendering' }
-SDL3CameraDemo >> acquireFrameIfAvailable: aBlock [
+SDL3CameraDemoApp >> acquireFrameIfAvailable: aBlock [
 
 	| acquiredFrame |
 	camera ifNil: [ ^ self ].
@@ -36,7 +36,7 @@ SDL3CameraDemo >> acquireFrameIfAvailable: aBlock [
 ]
 
 { #category : 'rendering' }
-SDL3CameraDemo >> adjustWindowToNewFrameExtent [
+SDL3CameraDemoApp >> adjustWindowToNewFrameExtent [
 
 	window
 		extent: currentFrame extent;
@@ -44,7 +44,7 @@ SDL3CameraDemo >> adjustWindowToNewFrameExtent [
 ]
 
 { #category : 'lifecycle' }
-SDL3CameraDemo >> chooseCamera [
+SDL3CameraDemoApp >> chooseCamera [
 
 	| ids cameraId |
 	ids := sdl allCameraIDs.
@@ -81,7 +81,7 @@ SDL3CameraDemo >> chooseCamera [
 ]
 
 { #category : 'lifecycle' }
-SDL3CameraDemo >> close [
+SDL3CameraDemoApp >> close [
 
 	(currentFrame notNil and: [ currentFrame isNull not ]) ifTrue: [
 		camera releaseFrame: currentFrame ].
@@ -98,25 +98,25 @@ SDL3CameraDemo >> close [
 ]
 
 { #category : 'printing' }
-SDL3CameraDemo >> descriptionForCameraId: cameraId [
+SDL3CameraDemoApp >> descriptionForCameraId: cameraId [
 
 	^ '[{1}] "{2}"' format: { cameraId. sdl getCameraName: cameraId }
 ]
 
 { #category : 'accessing' }
-SDL3CameraDemo >> initialExtent [
+SDL3CameraDemoApp >> initialExtent [
 
 	^ 640 @ 480
 ]
 
 { #category : 'accessing' }
-SDL3CameraDemo >> initialWindowFlags [
+SDL3CameraDemoApp >> initialWindowFlags [
 
 	^ SDL_WINDOW_RESIZABLE
 ]
 
 { #category : 'lifecycle' }
-SDL3CameraDemo >> prepareToLoop [
+SDL3CameraDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 
@@ -124,7 +124,7 @@ SDL3CameraDemo >> prepareToLoop [
 ]
 
 { #category : 'rendering' }
-SDL3CameraDemo >> render [
+SDL3CameraDemoApp >> render [
 	
 	renderer renderDrawColor: Color black.
 	renderer renderClear.
@@ -135,7 +135,7 @@ SDL3CameraDemo >> render [
 ]
 
 { #category : 'hooks' }
-SDL3CameraDemo >> step [
+SDL3CameraDemoApp >> step [
 
 	self acquireFrameIfAvailable: [
 		self updateTextureFromCurrentFrame ].
@@ -143,13 +143,13 @@ SDL3CameraDemo >> step [
 ]
 
 { #category : 'hooks' }
-SDL3CameraDemo >> subsystemInitFlags [
+SDL3CameraDemoApp >> subsystemInitFlags [
 
 	^ super subsystemInitFlags | SDL_INIT_CAMERA
 ]
 
 { #category : 'rendering' }
-SDL3CameraDemo >> updateTextureFromCurrentFrame [
+SDL3CameraDemoApp >> updateTextureFromCurrentFrame [
 
 	"Create texture if it's the first frame or frame extent changed"
 	(texture isNil or: [ texture extent ~= currentFrame extent ]) ifTrue: [
@@ -175,13 +175,13 @@ SDL3CameraDemo >> updateTextureFromCurrentFrame [
 ]
 
 { #category : 'accessing' }
-SDL3CameraDemo >> updatedTitle [
+SDL3CameraDemoApp >> updatedTitle [
 
 	^ super updatedTitle, ' - SPACE to toggle camera'
 ]
 
 { #category : 'visiting - concrete' }
-SDL3CameraDemo >> visitCameraDeviceApprovedEvent: aCameraDeviceApprovedEvent [
+SDL3CameraDemoApp >> visitCameraDeviceApprovedEvent: aCameraDeviceApprovedEvent [
 
 	super visitCameraDeviceApprovedEvent: aCameraDeviceApprovedEvent.
 
@@ -189,7 +189,7 @@ SDL3CameraDemo >> visitCameraDeviceApprovedEvent: aCameraDeviceApprovedEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3CameraDemo >> visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent [
+SDL3CameraDemoApp >> visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent [
 
 	super visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent.
 
@@ -197,7 +197,7 @@ SDL3CameraDemo >> visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent [
 ]
 
 { #category : 'hooks' }
-SDL3CameraDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3CameraDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 

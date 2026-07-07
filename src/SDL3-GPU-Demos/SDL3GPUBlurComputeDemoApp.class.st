@@ -3,7 +3,7 @@ I demonstrate how to process textures using compute shaders in SDL3.
 I apply a Gaussian blur filter in real-time.
 "
 Class {
-	#name : 'SDL3GPUGaussianBlurComputeDemo',
+	#name : 'SDL3GPUBlurComputeDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'gpuPipeline',
@@ -31,7 +31,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPUGaussianBlurComputeDemo >> close [
+SDL3GPUBlurComputeDemoApp >> close [
 
 	gpuPipeline ifNotNil: [
 		gpuPipeline release.
@@ -69,7 +69,7 @@ SDL3GPUGaussianBlurComputeDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3GPUGaussianBlurComputeDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUBlurComputeDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	"Pass 1: Horizontal Blur (Force brightness to 1.0)"
 	self
@@ -91,7 +91,7 @@ SDL3GPUGaussianBlurComputeDemo >> doRenderPassesOn: swapchainTexture with: comma
 ]
 
 { #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> executeBlurPassWith: commandBuffer direction: direction inputTexture: inputTexture outputTexture: outputTexture brightness: passBrightness [
+SDL3GPUBlurComputeDemoApp >> executeBlurPassWith: commandBuffer direction: direction inputTexture: inputTexture outputTexture: outputTexture brightness: passBrightness [
 
 	uniforms
 		direction: direction;
@@ -121,7 +121,7 @@ SDL3GPUGaussianBlurComputeDemo >> executeBlurPassWith: commandBuffer direction: 
 ]
 
 { #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> executeFinalRenderPassOn: swapchainTexture with: commandBuffer [
+SDL3GPUBlurComputeDemoApp >> executeFinalRenderPassOn: swapchainTexture with: commandBuffer [
 
 	colorTargetInfos first texture: swapchainTexture.
 	textureSamplerBindings first
@@ -145,7 +145,7 @@ SDL3GPUGaussianBlurComputeDemo >> executeFinalRenderPassOn: swapchainTexture wit
 ]
 
 { #category : 'initialization' }
-SDL3GPUGaussianBlurComputeDemo >> handleResize [
+SDL3GPUBlurComputeDemoApp >> handleResize [
 	"Recreate textures and pipelines based on the new window extent"
 
 	texture release.
@@ -157,7 +157,7 @@ SDL3GPUGaussianBlurComputeDemo >> handleResize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUGaussianBlurComputeDemo >> initialize [
+SDL3GPUBlurComputeDemoApp >> initialize [
 
 	super initialize.
 
@@ -189,7 +189,7 @@ SDL3GPUGaussianBlurComputeDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUGaussianBlurComputeDemo >> initializeComputeResources [
+SDL3GPUBlurComputeDemoApp >> initializeComputeResources [
 
 	computePipeline := SDL3GPUGaussianBlurShaderSource
 		newComputePipelineAmong: gpuDevice gpuShaderFormatsAsArray
@@ -211,7 +211,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializeComputeResources [
 ]
 
 { #category : 'initialization' }
-SDL3GPUGaussianBlurComputeDemo >> initializeGeometry [
+SDL3GPUBlurComputeDemoApp >> initializeGeometry [
 	"Initialize a single full-screen quad"
 
 	vertexBuffer := gpuDevice
@@ -265,7 +265,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializeGeometry [
 ]
 
 { #category : 'initialization' }
-SDL3GPUGaussianBlurComputeDemo >> initializePipeline [
+SDL3GPUBlurComputeDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 
@@ -296,7 +296,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializePipeline [
 ]
 
 { #category : 'initialization' }
-SDL3GPUGaussianBlurComputeDemo >> initializeSampler [
+SDL3GPUBlurComputeDemoApp >> initializeSampler [
 
 	sampler := gpuDevice newSampler: [ :info |
 		info minFilter: SDL_GPU_FILTER_LINEAR;
@@ -311,7 +311,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializeSampler [
 ]
 
 { #category : 'initialization' }
-SDL3GPUGaussianBlurComputeDemo >> initializeTexture [
+SDL3GPUBlurComputeDemoApp >> initializeTexture [
 
 	| browserMorph form |
 	lastExtent := window pixelExtent.
@@ -328,7 +328,7 @@ SDL3GPUGaussianBlurComputeDemo >> initializeTexture [
 ]
 
 { #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> newColorTargetDescriptions [
+SDL3GPUBlurComputeDemoApp >> newColorTargetDescriptions [
 
 	| colorTargets |
 	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
@@ -339,7 +339,7 @@ SDL3GPUGaussianBlurComputeDemo >> newColorTargetDescriptions [
 ]
 
 { #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> newVertexAttributeDescriptions [
+SDL3GPUBlurComputeDemoApp >> newVertexAttributeDescriptions [
 
 	| vertexAttributes |
 	vertexAttributes := FFIExternalArray
@@ -359,7 +359,7 @@ SDL3GPUGaussianBlurComputeDemo >> newVertexAttributeDescriptions [
 ]
 
 { #category : 'private' }
-SDL3GPUGaussianBlurComputeDemo >> newVertexBufferDescriptions [
+SDL3GPUBlurComputeDemoApp >> newVertexBufferDescriptions [
 
 	| vertexBindings |
 	vertexBindings := FFIExternalArray
@@ -374,7 +374,7 @@ SDL3GPUGaussianBlurComputeDemo >> newVertexBufferDescriptions [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUGaussianBlurComputeDemo >> open [
+SDL3GPUBlurComputeDemoApp >> open [
 
 	super open.
 
@@ -386,7 +386,7 @@ SDL3GPUGaussianBlurComputeDemo >> open [
 ]
 
 { #category : 'accessing' }
-SDL3GPUGaussianBlurComputeDemo >> updatedTitle [
+SDL3GPUBlurComputeDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
 		(' - Radius: {1} (UP/DOWN) - Spread: {2} (LEFT/RIGHT) - Brightness: {3} (W/S)'
@@ -397,7 +397,7 @@ SDL3GPUGaussianBlurComputeDemo >> updatedTitle [
 ]
 
 { #category : 'hooks' }
-SDL3GPUGaussianBlurComputeDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUBlurComputeDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 
@@ -418,7 +418,7 @@ SDL3GPUGaussianBlurComputeDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUGaussianBlurComputeDemo >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
+SDL3GPUBlurComputeDemoApp >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
 
 	super visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent.
 

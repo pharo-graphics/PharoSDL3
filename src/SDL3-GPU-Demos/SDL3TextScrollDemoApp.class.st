@@ -2,7 +2,7 @@
 I demonstrate smooth text scrolling of a large text file using a texture atlas and instanced quad rendering.
 "
 Class {
-	#name : 'SDL3TextScrollDemo',
+	#name : 'SDL3TextScrollDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'text',
@@ -32,12 +32,12 @@ Class {
 }
 
 { #category : 'accessing' }
-SDL3TextScrollDemo >> atlas [
+SDL3TextScrollDemoApp >> atlas [
 	^ atlas
 ]
 
 { #category : 'lifecycle' }
-SDL3TextScrollDemo >> close [
+SDL3TextScrollDemoApp >> close [
 
 	gpuPipeline ifNotNil: [
 		gpuPipeline release.
@@ -71,7 +71,7 @@ SDL3TextScrollDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3TextScrollDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3TextScrollDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	| visibleGlyphCount |
 	"1. Prepare instance data"
@@ -86,7 +86,7 @@ SDL3TextScrollDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 ]
 
 { #category : 'private' }
-SDL3TextScrollDemo >> executeTextRenderPassOn: swapchainTexture with: commandBuffer glyphCount: visibleGlyphCount [
+SDL3TextScrollDemoApp >> executeTextRenderPassOn: swapchainTexture with: commandBuffer glyphCount: visibleGlyphCount [
 
 	colorTargetInfos first texture: swapchainTexture.
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
@@ -117,7 +117,7 @@ SDL3TextScrollDemo >> executeTextRenderPassOn: swapchainTexture with: commandBuf
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initialize [
+SDL3TextScrollDemoApp >> initialize [
 
 	super initialize.
 
@@ -154,7 +154,7 @@ SDL3TextScrollDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initializeAtlas [
+SDL3TextScrollDemoApp >> initializeAtlas [
 
 	| generator scale chars |
 	generator := SDL3TextAtlasGenerator new.
@@ -171,7 +171,7 @@ SDL3TextScrollDemo >> initializeAtlas [
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initializeBaseQuadBuffer [
+SDL3TextScrollDemoApp >> initializeBaseQuadBuffer [
 
 	baseQuadBuffer := gpuDevice
 		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
@@ -192,7 +192,7 @@ SDL3TextScrollDemo >> initializeBaseQuadBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initializeGPUResources [
+SDL3TextScrollDemoApp >> initializeGPUResources [
 
 	self initializeTexture.
 	self initializeSampler.
@@ -202,7 +202,7 @@ SDL3TextScrollDemo >> initializeGPUResources [
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initializeIndexBuffer [
+SDL3TextScrollDemoApp >> initializeIndexBuffer [
 
 	indexBuffer := gpuDevice
 		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
@@ -226,7 +226,7 @@ SDL3TextScrollDemo >> initializeIndexBuffer [
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initializePipeline [
+SDL3TextScrollDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 
@@ -296,7 +296,7 @@ SDL3TextScrollDemo >> initializePipeline [
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initializeSampler [
+SDL3TextScrollDemoApp >> initializeSampler [
 
 	sampler := gpuDevice newSampler: [ :info |
 		info
@@ -311,7 +311,7 @@ SDL3TextScrollDemo >> initializeSampler [
 ]
 
 { #category : 'initialization' }
-SDL3TextScrollDemo >> initializeTexture [
+SDL3TextScrollDemoApp >> initializeTexture [
 
 	atlasTexture := gpuDevice
 		                new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
@@ -333,14 +333,14 @@ SDL3TextScrollDemo >> initializeTexture [
 ]
 
 { #category : 'accessing' }
-SDL3TextScrollDemo >> instanceStride [
+SDL3TextScrollDemoApp >> instanceStride [
 	"Pos (2) + Ext (2) + UV (4) + colorIndices (1 uint32) = 9 units = 36 bytes"
 
 	^ 36
 ]
 
 { #category : 'lifecycle' }
-SDL3TextScrollDemo >> open [
+SDL3TextScrollDemoApp >> open [
 
 	"Load the large text file"
 	[ text := FileLocator changes readStream next: 10e6 ] on: Error do: [ :ex |
@@ -352,7 +352,7 @@ SDL3TextScrollDemo >> open [
 ]
 
 { #category : 'private' }
-SDL3TextScrollDemo >> prepareInstanceBufferWith: commandBuffer [
+SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 
 	| visibleLineRange firstLine lastLine visibleGlyphCount |
 
@@ -411,7 +411,7 @@ SDL3TextScrollDemo >> prepareInstanceBufferWith: commandBuffer [
 ]
 
 { #category : 'hooks' }
-SDL3TextScrollDemo >> step [
+SDL3TextScrollDemoApp >> step [
 
 	| lerpFactor |
 	"Smoothly interpolate current scroll position towards target"
@@ -426,13 +426,13 @@ SDL3TextScrollDemo >> step [
 ]
 
 { #category : 'accessing' }
-SDL3TextScrollDemo >> text [
+SDL3TextScrollDemoApp >> text [
 
 	^ text
 ]
 
 { #category : 'visiting - concrete' }
-SDL3TextScrollDemo >> visitMouseWheelEvent: aMouseWheelEvent [
+SDL3TextScrollDemoApp >> visitMouseWheelEvent: aMouseWheelEvent [
 
 	| scrollSpeed maxScrollY |
 	super visitMouseWheelEvent: aMouseWheelEvent.

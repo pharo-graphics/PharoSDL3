@@ -2,7 +2,7 @@
 I'm a demo of SDL3 GPU renderer API introduced in SDL 3.4.0, that applies a fragment shader post-processing effect on a Pharo Morphic World screenshot, and paints a Pharo logo on top of it, to constrast and emulate a dialog box somehow.
 "
 Class {
-	#name : 'SDL3GPURenderStateDemo',
+	#name : 'SDL3GPURenderStateDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'backgroundTexture',
@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPURenderStateDemo >> close [
+SDL3GPURenderStateDemoApp >> close [
 
 	renderStates do: [ :each | each destroy ].
 	shaders do: [ :each | each release ].
@@ -33,7 +33,7 @@ SDL3GPURenderStateDemo >> close [
 ]
 
 { #category : 'initialization' }
-SDL3GPURenderStateDemo >> initialize [
+SDL3GPURenderStateDemoApp >> initialize [
 
 	super initialize.
 
@@ -59,7 +59,7 @@ SDL3GPURenderStateDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPURenderStateDemo >> initializeGPURenderStates [
+SDL3GPURenderStateDemoApp >> initializeGPURenderStates [
 
 	| supportedShaderFormats |
 	supportedShaderFormats := gpuDevice gpuShaderFormatsAsArray.
@@ -79,13 +79,13 @@ SDL3GPURenderStateDemo >> initializeGPURenderStates [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPURenderStateDemo >> initializeRenderer [
+SDL3GPURenderStateDemoApp >> initializeRenderer [
 
 	renderer := window newGPURenderer
 ]
 
 { #category : 'initialization' }
-SDL3GPURenderStateDemo >> initializeTextures [
+SDL3GPURenderStateDemoApp >> initializeTextures [
 
 	| browserMorph |
 	foregroundTexture := renderer newTextureFromForm: (self iconNamed: #pharoBig).
@@ -98,7 +98,7 @@ SDL3GPURenderStateDemo >> initializeTextures [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPURenderStateDemo >> open [
+SDL3GPURenderStateDemoApp >> open [
 
 	window :=
 		sdl
@@ -119,7 +119,7 @@ SDL3GPURenderStateDemo >> open [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPURenderStateDemo >> render [
+SDL3GPURenderStateDemoApp >> render [
 
 	"Clear window"
 	self clearColor: Color blue.
@@ -148,13 +148,13 @@ SDL3GPURenderStateDemo >> render [
 ]
 
 { #category : 'hooks' }
-SDL3GPURenderStateDemo >> step [
+SDL3GPURenderStateDemoApp >> step [
 
 	self render
 ]
 
 { #category : 'initialization' }
-SDL3GPURenderStateDemo >> updateRenderState: renderState [
+SDL3GPURenderStateDemoApp >> updateRenderState: renderState [
 	"Set updated parameters to shader"
 
 	"See the class-comment of `SDL3GPURenderStateDemoUniformBuffer`"
@@ -171,7 +171,7 @@ SDL3GPURenderStateDemo >> updateRenderState: renderState [
 ]
 
 { #category : 'accessing' }
-SDL3GPURenderStateDemo >> updatedTitle [
+SDL3GPURenderStateDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
 		' - Shader: ',
@@ -180,7 +180,7 @@ SDL3GPURenderStateDemo >> updatedTitle [
 ]
 
 { #category : 'hooks' }
-SDL3GPURenderStateDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPURenderStateDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 

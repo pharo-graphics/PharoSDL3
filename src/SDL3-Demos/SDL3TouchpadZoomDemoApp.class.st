@@ -2,7 +2,7 @@
 I demonstrate how to handle multi-touch pinch-to-zoom events.
 "
 Class {
-	#name : 'SDL3TouchpadPinchToZoomDemo',
+	#name : 'SDL3TouchpadZoomDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'zoom',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3TouchpadPinchToZoomDemo >> close [
+SDL3TouchpadZoomDemoApp >> close [
 
 	texture ifNotNil: [ 
 		texture destroy.
@@ -24,20 +24,20 @@ SDL3TouchpadPinchToZoomDemo >> close [
 ]
 
 { #category : 'accessing' }
-SDL3TouchpadPinchToZoomDemo >> initialExtent [
+SDL3TouchpadZoomDemoApp >> initialExtent [
 
 	^ 600 @ 400
 ]
 
 { #category : 'initialization' }
-SDL3TouchpadPinchToZoomDemo >> initialize [
+SDL3TouchpadZoomDemoApp >> initialize [
 
 	super initialize.
 	zoom := 1.0
 ]
 
 { #category : 'lifecycle' }
-SDL3TouchpadPinchToZoomDemo >> prepareToLoop [
+SDL3TouchpadZoomDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 
@@ -46,7 +46,7 @@ SDL3TouchpadPinchToZoomDemo >> prepareToLoop [
 ]
 
 { #category : 'hooks' }
-SDL3TouchpadPinchToZoomDemo >> step [
+SDL3TouchpadZoomDemoApp >> step [
 
 	self clearColor: Color blue muchDarker.
 	
@@ -61,7 +61,7 @@ SDL3TouchpadPinchToZoomDemo >> step [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3TouchpadPinchToZoomDemo >> visitPinchFingerUpdateEvent: aPinchFingerUpdateEvent [
+SDL3TouchpadZoomDemoApp >> visitPinchFingerUpdateEvent: aPinchFingerUpdateEvent [
 
 	super visitPinchFingerUpdateEvent: aPinchFingerUpdateEvent.
 	

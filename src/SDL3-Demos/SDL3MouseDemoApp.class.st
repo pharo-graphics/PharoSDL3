@@ -11,7 +11,7 @@ I also demonstrate relative mouse mode, cursor visibility, mouse warping, and mo
 - Press **ESCAPE** to exit.
 "
 Class {
-	#name : 'SDL3MouseDemo',
+	#name : 'SDL3MouseDemoApp',
 	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'cursorIdGenerator',
@@ -23,7 +23,7 @@ Class {
 }
 
 { #category : 'private' }
-SDL3MouseDemo >> activateNextSystemCursor [
+SDL3MouseDemoApp >> activateNextSystemCursor [
 
 	| cursor |
 	cursorId := cursorIdGenerator next.
@@ -32,13 +32,13 @@ SDL3MouseDemo >> activateNextSystemCursor [
 ]
 
 { #category : 'accessing' }
-SDL3MouseDemo >> initialExtent [
+SDL3MouseDemoApp >> initialExtent [
 
 	^ 800 @ 240
 ]
 
 { #category : 'lifecycle' }
-SDL3MouseDemo >> prepareToLoop [
+SDL3MouseDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 
@@ -52,7 +52,7 @@ SDL3MouseDemo >> prepareToLoop [
 ]
 
 { #category : 'hooks' }
-SDL3MouseDemo >> step [
+SDL3MouseDemoApp >> step [
 
 	| x y mousePosition globalMousePosition pressedButtons mouseSDLRect isMouseLocked |
 	self clearColor: Color black.
@@ -110,7 +110,7 @@ SDL3MouseDemo >> step [
 ]
 
 { #category : 'private' }
-SDL3MouseDemo >> toggleLockedMouseRectangle [
+SDL3MouseDemoApp >> toggleLockedMouseRectangle [
 
 	window mouseRect isNull
 		ifTrue: [ 
@@ -123,7 +123,7 @@ SDL3MouseDemo >> toggleLockedMouseRectangle [
 ]
 
 { #category : 'hooks' }
-SDL3MouseDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3MouseDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	| key |
 	key := aKeyboardDownEvent key.

@@ -8,7 +8,7 @@ I demonstrate:
 - Asynchronous resource loading mockup with 'Shimmer' effect.
 "
 Class {
-	#name : 'SDL3GPUMandelbrotTiledMapDemo',
+	#name : 'SDL3GPUMandelbrotDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
 		'camera',
@@ -48,7 +48,7 @@ Class {
 }
 
 { #category : 'lifecycle' }
-SDL3GPUMandelbrotTiledMapDemo >> close [
+SDL3GPUMandelbrotDemoApp >> close [
 
 	computePipeline ifNotNil: [ computePipeline release. computePipeline := nil ].
 	quadPipeline ifNotNil: [ quadPipeline release. quadPipeline := nil ].
@@ -66,7 +66,7 @@ SDL3GPUMandelbrotTiledMapDemo >> close [
 ]
 
 { #category : 'rendering' }
-SDL3GPUMandelbrotTiledMapDemo >> computeNewTiles [
+SDL3GPUMandelbrotDemoApp >> computeNewTiles [
 	"Generate fractal bits for newly ready tiles on the GPU."
 
 	| commandBuffer newKeysToCompute |
@@ -81,7 +81,7 @@ SDL3GPUMandelbrotTiledMapDemo >> computeNewTiles [
 ]
 
 { #category : 'rendering' }
-SDL3GPUMandelbrotTiledMapDemo >> doRenderPassesOn: swapchainTexture with: commandBuffer [
+SDL3GPUMandelbrotDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	self uploadInstanceDataWith: commandBuffer.
 
@@ -93,7 +93,7 @@ SDL3GPUMandelbrotTiledMapDemo >> doRenderPassesOn: swapchainTexture with: comman
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> evictTilesNotIn: keys [
+SDL3GPUMandelbrotDemoApp >> evictTilesNotIn: keys [
 	"Evict tiles that are no longer visible"
 
 	tileStates keys copy do: [ :k |
@@ -106,7 +106,7 @@ SDL3GPUMandelbrotTiledMapDemo >> evictTilesNotIn: keys [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> executeComputePassFor: keys with: commandBuffer [
+SDL3GPUMandelbrotDemoApp >> executeComputePassFor: keys with: commandBuffer [
 
 	atlasBindings first beTexture: atlasTexture.
 
@@ -124,7 +124,7 @@ SDL3GPUMandelbrotTiledMapDemo >> executeComputePassFor: keys with: commandBuffer
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> executeGraphicsPassOn: swapchainTexture readyCount: readyCount loadingCount: loadingCount with: commandBuffer [
+SDL3GPUMandelbrotDemoApp >> executeGraphicsPassOn: swapchainTexture readyCount: readyCount loadingCount: loadingCount with: commandBuffer [
 
 	colorTargetInfos first texture: swapchainTexture.
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
@@ -161,7 +161,7 @@ SDL3GPUMandelbrotTiledMapDemo >> executeGraphicsPassOn: swapchainTexture readyCo
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> fillInstance: anInstance forKey: key slot: aSlotIndex parentKey: aParentKey [
+SDL3GPUMandelbrotDemoApp >> fillInstance: anInstance forKey: key slot: aSlotIndex parentKey: aParentKey [
 
 	| lod fractalTileSize minFractal screenRect atlasRect slotX slotY |
 	lod := key third.
@@ -205,13 +205,13 @@ SDL3GPUMandelbrotTiledMapDemo >> fillInstance: anInstance forKey: key slot: aSlo
 ]
 
 { #category : 'accessing' }
-SDL3GPUMandelbrotTiledMapDemo >> initialExtent [
+SDL3GPUMandelbrotDemoApp >> initialExtent [
 
 	^ 720 @ 720
 ]
 
 { #category : 'initialization' }
-SDL3GPUMandelbrotTiledMapDemo >> initialize [
+SDL3GPUMandelbrotDemoApp >> initialize [
 
 	super initialize.
 
@@ -265,7 +265,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initialize [
 ]
 
 { #category : 'initialization' }
-SDL3GPUMandelbrotTiledMapDemo >> initializeAtlas [
+SDL3GPUMandelbrotDemoApp >> initializeAtlas [
 
 	atlasTexture := gpuDevice newTexture: [ :info |
 		info
@@ -288,7 +288,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeAtlas [
 ]
 
 { #category : 'initialization' }
-SDL3GPUMandelbrotTiledMapDemo >> initializeGeometry [
+SDL3GPUMandelbrotDemoApp >> initializeGeometry [
 	"Upload a standard 1x1 quad (0..1)."
 
 	self
@@ -298,7 +298,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeGeometry [
 ]
 
 { #category : 'initialization' }
-SDL3GPUMandelbrotTiledMapDemo >> initializeInstanceBuffers [
+SDL3GPUMandelbrotDemoApp >> initializeInstanceBuffers [
 
 	"Pre-allocate instance buffers for up to 256 tiles"
 	instanceBuffer := gpuDevice
@@ -311,7 +311,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeInstanceBuffers [
 ]
 
 { #category : 'initialization' }
-SDL3GPUMandelbrotTiledMapDemo >> initializeQuadBuffers [
+SDL3GPUMandelbrotDemoApp >> initializeQuadBuffers [
 
 	vertexBuffer := gpuDevice
 		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
@@ -369,7 +369,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeQuadBuffers [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> initializeQuadPipelineWith: formats colorTargets: colorTargets [
+SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineWith: formats colorTargets: colorTargets [
 
 	| quadVertexSource quadFragmentSource vertexBindings vertexAttributes |
 
@@ -399,7 +399,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeQuadPipelineWith: formats colorTarget
 ]
 
 { #category : 'initialization' }
-SDL3GPUMandelbrotTiledMapDemo >> initializeShaders [
+SDL3GPUMandelbrotDemoApp >> initializeShaders [
 
 	| colorTargets |
 	computePipeline := SDL3GPUMandelbrotComputeShaderSource
@@ -415,7 +415,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeShaders [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> initializeShimmerPipelineWith: formats colorTargets: colorTargets [
+SDL3GPUMandelbrotDemoApp >> initializeShimmerPipelineWith: formats colorTargets: colorTargets [
 
 	| shimmerVertexSource shimmerFragmentSource shimmerVertexBindings shimmerVertexAttributes |
 
@@ -445,7 +445,7 @@ SDL3GPUMandelbrotTiledMapDemo >> initializeShimmerPipelineWith: formats colorTar
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexAttributes [
+SDL3GPUMandelbrotDemoApp >> newTiledMapVertexAttributes [
 
 	| vertexAttributes |
 	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 4.
@@ -475,7 +475,7 @@ SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexAttributes [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexBindings [
+SDL3GPUMandelbrotDemoApp >> newTiledMapVertexBindings [
 
 	| vertexBindings |
 	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
@@ -496,7 +496,7 @@ SDL3GPUMandelbrotTiledMapDemo >> newTiledMapVertexBindings [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUMandelbrotTiledMapDemo >> prepareToLoop [
+SDL3GPUMandelbrotDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 	self initializeAtlas.
@@ -505,7 +505,7 @@ SDL3GPUMandelbrotTiledMapDemo >> prepareToLoop [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> processLoadedKeysQueue [
+SDL3GPUMandelbrotDemoApp >> processLoadedKeysQueue [
 	"Process loaded keys from the background thread"
 
 	| toProcess |
@@ -525,7 +525,7 @@ SDL3GPUMandelbrotTiledMapDemo >> processLoadedKeysQueue [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> pushTileUniforms: key slot: slot with: commandBuffer [
+SDL3GPUMandelbrotDemoApp >> pushTileUniforms: key slot: slot with: commandBuffer [
 	"Push compute uniforms for a specific tile."
 
 	| lod fractalTileSize minX minY |
@@ -548,7 +548,7 @@ SDL3GPUMandelbrotTiledMapDemo >> pushTileUniforms: key slot: slot with: commandB
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> requestTile: key [
+SDL3GPUMandelbrotDemoApp >> requestTile: key [
 	"Emulate loading latency with jitter."
 
 	| jitteredDelay |
@@ -567,7 +567,7 @@ SDL3GPUMandelbrotTiledMapDemo >> requestTile: key [
 ]
 
 { #category : 'initialization' }
-SDL3GPUMandelbrotTiledMapDemo >> setupGeometryBindings [
+SDL3GPUMandelbrotDemoApp >> setupGeometryBindings [
 
 	vertexBufferBindings first
 		buffer: vertexBuffer;
@@ -593,7 +593,7 @@ SDL3GPUMandelbrotTiledMapDemo >> setupGeometryBindings [
 ]
 
 { #category : 'hooks' }
-SDL3GPUMandelbrotTiledMapDemo >> step [
+SDL3GPUMandelbrotDemoApp >> step [
 
 	self updateTiles.
 	self computeNewTiles.
@@ -602,7 +602,7 @@ SDL3GPUMandelbrotTiledMapDemo >> step [
 ]
 
 { #category : 'rendering' }
-SDL3GPUMandelbrotTiledMapDemo >> updateTiles [
+SDL3GPUMandelbrotDemoApp >> updateTiles [
 	"Identify visible tiles and sort them by state."
 
 	| visibleKeys |
@@ -630,7 +630,7 @@ SDL3GPUMandelbrotTiledMapDemo >> updateTiles [
 ]
 
 { #category : 'accessing' }
-SDL3GPUMandelbrotTiledMapDemo >> updatedTitle [
+SDL3GPUMandelbrotDemoApp >> updatedTitle [
 
 	| readyCount loadingCount zoomString |
 	readyCount := tileStates values count: [ :each | each = #ready ].
@@ -652,7 +652,7 @@ SDL3GPUMandelbrotTiledMapDemo >> updatedTitle [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> uploadInstanceDataWith: commandBuffer [
+SDL3GPUMandelbrotDemoApp >> uploadInstanceDataWith: commandBuffer [
 
 	self
 		uploadReadyInstanceDataWith: commandBuffer;
@@ -660,7 +660,7 @@ SDL3GPUMandelbrotTiledMapDemo >> uploadInstanceDataWith: commandBuffer [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> uploadReadyInstanceDataWith: commandBuffer [
+SDL3GPUMandelbrotDemoApp >> uploadReadyInstanceDataWith: commandBuffer [
 
 	| size |
 	size := visibleReadyKeys size + visibleFallbackKeys size.
@@ -692,7 +692,7 @@ SDL3GPUMandelbrotTiledMapDemo >> uploadReadyInstanceDataWith: commandBuffer [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotTiledMapDemo >> uploadShimmerInstanceDataWith: commandBuffer [
+SDL3GPUMandelbrotDemoApp >> uploadShimmerInstanceDataWith: commandBuffer [
 
 	| size |
 	size := visibleLoadingKeys size.
@@ -713,7 +713,7 @@ SDL3GPUMandelbrotTiledMapDemo >> uploadShimmerInstanceDataWith: commandBuffer [
 ]
 
 { #category : 'hooks' }
-SDL3GPUMandelbrotTiledMapDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
+SDL3GPUMandelbrotDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
 
@@ -727,7 +727,7 @@ SDL3GPUMandelbrotTiledMapDemo >> visitKeyboardDownEvent: aKeyboardDownEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUMandelbrotTiledMapDemo >> visitMouseMotionEvent: aMouseMotionEvent [
+SDL3GPUMandelbrotDemoApp >> visitMouseMotionEvent: aMouseMotionEvent [
 
 	| winExtent nx ny |
 	super visitMouseMotionEvent: aMouseMotionEvent.
@@ -741,7 +741,7 @@ SDL3GPUMandelbrotTiledMapDemo >> visitMouseMotionEvent: aMouseMotionEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUMandelbrotTiledMapDemo >> visitMouseWheelEvent: aMouseWheelEvent [
+SDL3GPUMandelbrotDemoApp >> visitMouseWheelEvent: aMouseWheelEvent [
 
 	| factor winExtent nx ny |
 	super visitMouseWheelEvent: aMouseWheelEvent.
@@ -755,7 +755,7 @@ SDL3GPUMandelbrotTiledMapDemo >> visitMouseWheelEvent: aMouseWheelEvent [
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUMandelbrotTiledMapDemo >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
+SDL3GPUMandelbrotDemoApp >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
 
 	super visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent.
 
@@ -764,7 +764,7 @@ SDL3GPUMandelbrotTiledMapDemo >> visitWindowPixelSizeChangedEvent: aWindowPixelS
 ]
 
 { #category : 'visiting - concrete' }
-SDL3GPUMandelbrotTiledMapDemo >> visitWindowResizedEvent: aWindowResizedEvent [
+SDL3GPUMandelbrotDemoApp >> visitWindowResizedEvent: aWindowResizedEvent [
 
 	super visitWindowResizedEvent: aWindowResizedEvent.
 
