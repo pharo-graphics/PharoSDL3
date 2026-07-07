@@ -479,7 +479,9 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 	numElements numWorkgroups byteSize rwBindings roBindings |
 	
 	numElements := 1024. "16 workgroups of 64 threads each"
-	numWorkgroups := (numElements + SDL3TestComputeSharedMemoryShaderSource metadata threadCountX - 1) // SDL3TestComputeSharedMemoryShaderSource metadata threadCountX.
+	numWorkgroups := (numElements
+		+ SDL3TestComputeSharedMemoryShaderSource metadata threadCountX - 1)
+		// SDL3TestComputeSharedMemoryShaderSource metadata threadCountX.
 	byteSize := numElements * FFIFloat32 externalTypeSize.
 
 	"1. Prepare data (all 1s, sum of 64 ones = 64)"
@@ -530,8 +532,15 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			downloadBuffer: (SDL_GPUBufferRegion new buffer: resultBuffer; offset: 0; size: numWorkgroups * FFIFloat32 externalTypeSize; yourself)
-			destination: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself) ].
+			downloadBuffer: (SDL_GPUBufferRegion new
+				buffer: resultBuffer;
+				offset: 0;
+				size: numWorkgroups * FFIFloat32 externalTypeSize;
+				yourself)
+			destination: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself) ].
 	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
@@ -565,7 +574,9 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	"1. Prepare indirect commands"
 	indirectData := FFIArray newType: SDL3GPUIndirectDispatchCommand size: 1.
 	indirectData first
-		groupcountX: (numElements + SDL3TestComputeMathShaderSource metadata threadCountX - 1) // SDL3TestComputeMathShaderSource metadata threadCountX;
+		groupcountX: (numElements
+			+ SDL3TestComputeMathShaderSource metadata threadCountX - 1)
+			// SDL3TestComputeMathShaderSource metadata threadCountX;
 		groupcountY: 1;
 		groupcountZ: 1.
 
@@ -595,11 +606,25 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			uploadBuffer: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: indirectBuffer; offset: 0; size: SDL3GPUIndirectDispatchCommand structureSize; yourself)
+			uploadBuffer: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself)
+			destination: (SDL_GPUBufferRegion new
+				buffer: indirectBuffer;
+				offset: 0;
+				size: SDL3GPUIndirectDispatchCommand structureSize;
+				yourself)
 			cycle: false;
-			uploadBuffer: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: SDL3GPUIndirectDispatchCommand structureSize; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: inputBuffer; offset: 0; size: byteSize; yourself)
+			uploadBuffer: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: SDL3GPUIndirectDispatchCommand structureSize;
+				yourself)
+			destination: (SDL_GPUBufferRegion new
+				buffer: inputBuffer;
+				offset: 0;
+				size: byteSize;
+				yourself)
 			cycle: false ].
 
 	"5. Compute"

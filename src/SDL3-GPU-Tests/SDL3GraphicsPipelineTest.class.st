@@ -32,10 +32,8 @@ SDL3GraphicsPipelineTest >> test01ClearTarget [
 	Begin a render pass on an off-screen texture with SDL_GPU_LOADOP_CLEAR and a specific clear color.
 	Assert that the texture is correctly cleared."
 
-	| colorTarget commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos |
-
-
-	
+	| colorTarget commandBuffer transferBuffer resultData
+	  texWidth texHeight byteSize colorTargetInfos |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize. "R8G8B8A8"
@@ -66,8 +64,16 @@ SDL3GraphicsPipelineTest >> test01ClearTarget [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			downloadTexture: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
-			destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself) ].
+			downloadTexture: (SDL3GPUTextureRegion new
+				texture: colorTarget;
+				w: texWidth;
+				h: texHeight;
+				d: 1;
+				yourself)
+			destination: (SDL3GPUTextureTransferInfo new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself) ].
 	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
@@ -93,10 +99,10 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 	"Case 2: Fullscreen Quad
 	Draws a solid green quad covering the whole screen using explicit vertices."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertexBufferBindings |
-
-
-	
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer
+	  transferBuffer resultData texWidth texHeight byteSize
+	  colorTargetInfos vertexData vertexBindings vertexAttributes
+	  colorTargetDescriptions vertexBufferBindings |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -131,8 +137,15 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			uploadBuffer: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: vertexBuffer; offset: 0; size: 6 * SDL3GPUQuadVertex structureSize; yourself)
+			uploadBuffer: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself)
+			destination: (SDL_GPUBufferRegion new
+				buffer: vertexBuffer;
+				offset: 0;
+				size: 6 * SDL3GPUQuadVertex structureSize;
+				yourself)
 			cycle: false ].
 
 	"2. Create Pipeline"
@@ -157,20 +170,23 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 
 	graphicsPipeline := gpuDevice newGraphicsPipeline: [ :info |
 		info
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: (SDL3TestGraphicsQuadVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice);
-		fragmentShader: (SDL3TestGraphicsQuadFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice).
+			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+			vertexShader: (SDL3TestGraphicsQuadVertexShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice);
+			fragmentShader: (SDL3TestGraphicsQuadFragmentShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice).
 		
 		info vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 1;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 1.
+			vertexBufferDescriptions: vertexBindings;
+			numVertexBuffers: 1;
+			vertexAttributes: vertexAttributes;
+			numVertexAttributes: 1.
 		
 		info targetInfo
-		colorTargetDescriptions: colorTargetDescriptions;
-		numColorTargets: 1.
-		
+			colorTargetDescriptions: colorTargetDescriptions;
+			numColorTargets: 1.
 	].
 
 	"3. Render"
@@ -198,8 +214,16 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			downloadTexture: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
-			destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself) ].
+			downloadTexture: (SDL3GPUTextureRegion new
+				texture: colorTarget;
+				w: texWidth;
+				h: texHeight;
+				d: 1;
+				yourself)
+			destination: (SDL3GPUTextureTransferInfo new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself) ].
 	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
@@ -226,10 +250,10 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 	"Case 3: Vertex Attributes & Interpolation
 	Draws a triangle with Red, Green, Blue vertices and verifies interpolated colors."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertexBufferBindings topIdx centerIdx |
-
-
-	
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer
+	  transferBuffer resultData texWidth texHeight byteSize
+	  colorTargetInfos vertexData vertexBindings vertexAttributes
+	  colorTargetDescriptions vertexBufferBindings topIdx centerIdx |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -262,8 +286,15 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			uploadBuffer: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: vertexBuffer; offset: 0; size: 3 * SDL3TestGraphicsColorVertex structureSize; yourself)
+			uploadBuffer: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself)
+			destination: (SDL_GPUBufferRegion new
+				buffer: vertexBuffer;
+				offset: 0;
+				size: 3 * SDL3TestGraphicsColorVertex structureSize;
+				yourself)
 			cycle: false ].
 
 	"2. Create Pipeline"
@@ -295,20 +326,23 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 
 	graphicsPipeline := gpuDevice newGraphicsPipeline: [ :info |
 		info
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: (SDL3TestGraphicsColorVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice);
-		fragmentShader: (SDL3TestGraphicsColorFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice).
+			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+			vertexShader: (SDL3TestGraphicsColorVertexShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice);
+			fragmentShader: (SDL3TestGraphicsColorFragmentShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice).
 		
 		info vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 1;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 2.
+			vertexBufferDescriptions: vertexBindings;
+			numVertexBuffers: 1;
+			vertexAttributes: vertexAttributes;
+			numVertexAttributes: 2.
 		
 		info targetInfo
-		colorTargetDescriptions: colorTargetDescriptions;
-		numColorTargets: 1.
-		
+			colorTargetDescriptions: colorTargetDescriptions;
+			numColorTargets: 1.
 	].
 
 	"3. Render"
@@ -336,8 +370,16 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			downloadTexture: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
-			destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself) ].
+			downloadTexture: (SDL3GPUTextureRegion new
+				texture: colorTarget;
+				w: texWidth;
+				h: texHeight;
+				d: 1;
+				yourself)
+			destination: (SDL3GPUTextureTransferInfo new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself) ].
 	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
@@ -369,10 +411,11 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 	"Case 4: Uniforms
 	Draws a primitive offset by a vertex uniform with color from a fragment uniform."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertUniforms fragUniforms vertexBufferBindings trIdx |
-
-
-	
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer
+	  transferBuffer resultData texWidth texHeight byteSize
+	  colorTargetInfos vertexData vertexBindings vertexAttributes
+	  colorTargetDescriptions vertUniforms fragUniforms
+	  vertexBufferBindings trIdx |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -401,9 +444,17 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
-		copyPass uploadBuffer: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself)
-		destination: (SDL_GPUBufferRegion new buffer: vertexBuffer; offset: 0; size: 3 * SDL3GPUQuadVertex structureSize; yourself)
-		cycle: false ].
+		copyPass
+			uploadBuffer: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself)
+			destination: (SDL_GPUBufferRegion new
+				buffer: vertexBuffer;
+				offset: 0;
+				size: 3 * SDL3GPUQuadVertex structureSize;
+				yourself)
+			cycle: false ].
 
 	"2. Create Pipeline"
 	vertexBindings := FFIExternalArray externalNewType: SDL_GPUVertexBufferDescription size: 1.
@@ -427,20 +478,23 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 
 	graphicsPipeline := gpuDevice newGraphicsPipeline: [ :info |
 		info
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: (SDL3TestGraphicsUniformVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice);
-		fragmentShader: (SDL3TestGraphicsUniformFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice).
+			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+			vertexShader: (SDL3TestGraphicsUniformVertexShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice);
+			fragmentShader: (SDL3TestGraphicsUniformFragmentShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice).
 		
 		info vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 1;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 1.
+			vertexBufferDescriptions: vertexBindings;
+			numVertexBuffers: 1;
+			vertexAttributes: vertexAttributes;
+			numVertexAttributes: 1.
 		
 		info targetInfo
-		colorTargetDescriptions: colorTargetDescriptions;
-		numColorTargets: 1.
-		
+			colorTargetDescriptions: colorTargetDescriptions;
+			numColorTargets: 1.
 	].
 
 	"3. Prepare Uniforms"
@@ -479,8 +533,17 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
-		copyPass downloadTexture: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
-		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself) ].
+		copyPass
+			downloadTexture: (SDL3GPUTextureRegion new
+				texture: colorTarget;
+				w: texWidth;
+				h: texHeight;
+				d: 1;
+				yourself)
+			destination: (SDL3GPUTextureTransferInfo new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself) ].
 	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
@@ -509,10 +572,10 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 	"Case 5: Instancing
 	Draws 4 instances of a triangle using SV_InstanceID for positioning."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertexBufferBindings |
-
-
-	
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer
+	  transferBuffer resultData texWidth texHeight byteSize
+	  colorTargetInfos vertexData vertexBindings vertexAttributes
+	  colorTargetDescriptions vertexBufferBindings |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -541,9 +604,17 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
-		copyPass uploadBuffer: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself)
-		destination: (SDL_GPUBufferRegion new buffer: vertexBuffer; offset: 0; size: 3 * SDL3GPUQuadVertex structureSize; yourself)
-		cycle: false ].
+		copyPass
+			uploadBuffer: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself)
+			destination: (SDL_GPUBufferRegion new
+				buffer: vertexBuffer;
+				offset: 0;
+				size: 3 * SDL3GPUQuadVertex structureSize;
+				yourself)
+			cycle: false ].
 
 	"2. Create Pipeline"
 	vertexBindings := FFIExternalArray externalNewType: SDL_GPUVertexBufferDescription size: 1.
@@ -567,20 +638,23 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 
 	graphicsPipeline := gpuDevice newGraphicsPipeline: [ :info |
 		info
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: (SDL3TestGraphicsInstancedVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice);
-		fragmentShader: (SDL3TestGraphicsInstancedFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice).
+			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+			vertexShader: (SDL3TestGraphicsInstancedVertexShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice);
+			fragmentShader: (SDL3TestGraphicsInstancedFragmentShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice).
 		
 		info vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 1;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 1.
+			vertexBufferDescriptions: vertexBindings;
+			numVertexBuffers: 1;
+			vertexAttributes: vertexAttributes;
+			numVertexAttributes: 1.
 		
 		info targetInfo
-		colorTargetDescriptions: colorTargetDescriptions;
-		numColorTargets: 1.
-		
+			colorTargetDescriptions: colorTargetDescriptions;
+			numColorTargets: 1.
 	].
 
 	"3. Render 4 instances"
@@ -608,8 +682,16 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			downloadTexture: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
-			destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself) ].
+			downloadTexture: (SDL3GPUTextureRegion new
+				texture: colorTarget;
+				w: texWidth;
+				h: texHeight;
+				d: 1;
+				yourself)
+			destination: (SDL3GPUTextureTransferInfo new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself) ].
 	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
@@ -640,10 +722,11 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	Draws a near Blue quad first, then a far Red quad.
 	With depth testing enabled (LESS), the Red quad should be rejected."
 
-	| colorTarget depthTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions blueUniforms redUniforms depthStencilTargetInfo vertexBufferBindings |
-
-
-	
+	| colorTarget depthTarget vertexBuffer graphicsPipeline
+	  commandBuffer transferBuffer resultData texWidth texHeight
+	  byteSize colorTargetInfos vertexData vertexBindings
+	  vertexAttributes colorTargetDescriptions blueUniforms
+	  redUniforms depthStencilTargetInfo vertexBufferBindings |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -682,8 +765,15 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
-			uploadBuffer: (SDL_GPUTransferBufferLocation new transferBuffer: transferBuffer; offset: 0; yourself)
-			destination: (SDL_GPUBufferRegion new buffer: vertexBuffer; offset: 0; size: 6 * SDL3GPUQuadVertex structureSize; yourself)
+			uploadBuffer: (SDL_GPUTransferBufferLocation new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself)
+			destination: (SDL_GPUBufferRegion new
+				buffer: vertexBuffer;
+				offset: 0;
+				size: 6 * SDL3GPUQuadVertex structureSize;
+				yourself)
 			cycle: false ].
 
 	"2. Create Pipeline with Depth Testing"
@@ -708,28 +798,31 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 
 	graphicsPipeline := gpuDevice newGraphicsPipeline: [ :info |
 		info
-		primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-		vertexShader: (SDL3TestGraphicsDepthVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice);
-		fragmentShader: (SDL3TestGraphicsDepthFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice).
+			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+			vertexShader: (SDL3TestGraphicsDepthVertexShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice);
+			fragmentShader: (SDL3TestGraphicsDepthFragmentShaderSource
+				newShaderAmong: shaderFormats
+				device: gpuDevice).
 		
 		info vertexInputState
-		vertexBufferDescriptions: vertexBindings;
-		numVertexBuffers: 1;
-		vertexAttributes: vertexAttributes;
-		numVertexAttributes: 1.
+			vertexBufferDescriptions: vertexBindings;
+			numVertexBuffers: 1;
+			vertexAttributes: vertexAttributes;
+			numVertexAttributes: 1.
 		
 		info targetInfo
-		colorTargetDescriptions: colorTargetDescriptions;
-		numColorTargets: 1;
-		depthStencilFormat: SDL_GPU_TEXTUREFORMAT_D16_UNORM;
-		hasDepthStencilTarget: true.
+			colorTargetDescriptions: colorTargetDescriptions;
+			numColorTargets: 1;
+			depthStencilFormat: SDL_GPU_TEXTUREFORMAT_D16_UNORM;
+			hasDepthStencilTarget: true.
 		
 		info depthStencilState: (SDL_GPUDepthStencilState new 
 			enableDepthTest: true;
 			enableDepthWrite: true;
 			compareOp: SDL_GPU_COMPAREOP_LESS;
 			yourself).
-		
 	].
 
 	"3. Prepare Uniforms"
@@ -776,8 +869,17 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
-		copyPass downloadTexture: (SDL3GPUTextureRegion new texture: colorTarget; w: texWidth; h: texHeight; d: 1; yourself)
-		destination: (SDL3GPUTextureTransferInfo new transferBuffer: transferBuffer; offset: 0; yourself) ].
+		copyPass
+			downloadTexture: (SDL3GPUTextureRegion new
+				texture: colorTarget;
+				w: texWidth;
+				h: texHeight;
+				d: 1;
+				yourself)
+			destination: (SDL3GPUTextureTransferInfo new
+				transferBuffer: transferBuffer;
+				offset: 0;
+				yourself) ].
 	commandBuffer submit.
 
 	gpuDevice waitForGPUIdle.
