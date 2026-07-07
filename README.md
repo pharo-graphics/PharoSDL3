@@ -51,30 +51,30 @@ Run tests from the terminal:
 You can run any of the following demos by evaluating `./pharo Pharo.image eval '<ClassName> new run'` from terminal. They are listed below from simplest to most advanced:
 
 #### Core API Demos
-- `SDL3ClearDemo`: The basic "Hello World" of window management and clearing.
-- `SDL3LogEventsDemo`: Real-time logging of the SDL3 event stream (mouse, keyboard, window) to a console.
-- `SDL3SystemQueryDemo`: Displays current system and device properties like display modes, audio drivers, and video drivers.
-- `SDL3DisplayDemo`: Visualizes logical displays (screens) layout, hardware specs, and frontiers between multiple displays (where the cursor jumps from a display to another).
-- `SDL3MouseDemo`: Demonstrates mouse-related functions including grabbing, relative mode, sub-rectangle confinement (locking), warping, and system cursor cycling.
-- `SDL3KeyboardStateDemo`: Shows low-level keyboard state monitoring (scancodes, keycodes, modifiers) and Unicode text input mode.
-- `SDL3WindowChildrenDemo`: Demonstrates parent/child window relationships including Utility, Tooltip, Popup Menu, and Modal behaviors.
-- `SDL3AnimatedCursorDemo`: Demonstrates how to create and use custom animated cursors from image frames.
-- `SDL3MultipleWindowsDemo`: Demonstrates managing and updating multiple top-level windows simultaneously.
-- `SDL3TouchpadFingersDemo`: Visualizes multi-touch finger tracking on modern touchpads.
-- `SDL3TouchpadPinchToZoomDemo`: Implements smooth zooming gestures by handling complex touchpad pinch events.
-- `SDL3AudioRecorderDemo`: Captures audio from the system's default microphone and plays the recording.
-- `SDL3CameraDemo`: Acquires live frames from a system camera and renders them with rotation support.
-- `SDL3TrayMenuDemo`: Shows system tray integration, including icon management and contextual menus.
-- `SDL3ImageClipboardDemo`: Demonstrates system clipboard integration for copying and pasting image data.
-- `SDL3OpenFolderDialogDemo`: Shows how to trigger and handle native system file/folder selection dialogs.
+- `SDL3ClearDemoApp`: The basic "Hello World" of window management and clearing.
+- `SDL3LogEventsDemoApp`: Real-time logging of the SDL3 event stream (mouse, keyboard, window) to a console.
+- `SDL3SystemQueryDemoApp`: Displays current system and device properties like display modes, audio drivers, and video drivers.
+- `SDL3DisplayDemoApp`: Visualizes logical displays (screens) layout, hardware specs, and frontiers between multiple displays (where the cursor jumps from a display to another).
+- `SDL3MouseDemoApp`: Demonstrates mouse-related functions including grabbing, relative mode, sub-rectangle confinement (locking), warping, and system cursor cycling.
+- `SDL3KeyboardDemoApp`: Shows low-level keyboard state monitoring (scancodes, keycodes, modifiers) and Unicode text input mode.
+- `SDL3WindowChildrenDemoApp`: Demonstrates parent/child window relationships including Utility, Tooltip, Popup Menu, and Modal behaviors.
+- `SDL3AnimatedCursorDemoApp`: Demonstrates how to create and use custom animated cursors from image frames.
+- `SDL3MultiWindowDemoApp`: Demonstrates managing and updating multiple top-level windows simultaneously.
+- `SDL3TouchpadDemoApp`: Visualizes multi-touch finger tracking on modern touchpads.
+- `SDL3TouchpadZoomDemoApp`: Implements smooth zooming gestures by handling complex touchpad pinch events.
+- `SDL3AudioRecorderDemoApp`: Captures audio from the system's default microphone and plays the recording.
+- `SDL3CameraDemoApp`: Acquires live frames from a system camera and renders them with rotation support.
+- `SDL3TrayMenuDemoApp`: Shows system tray integration, including icon management and contextual menus.
+- `SDL3ImageClipboardDemoApp`: Demonstrates system clipboard integration for copying and pasting image data.
+- `SDL3FolderDialogDemoApp`: Shows how to trigger and handle native system file/folder selection dialogs.
 
 #### GPU API Demos (Advanced Graphics)
-- `SDL3GPUClearDemo`: The simplest entry point to the new hardware-accelerated GPU API.
-- `SDL3GPUQuadDemo`: Foundations of geometry: Rendering a single textured quad using a graphics pipeline.
-- `SDL3GPURenderStateDemo`: Shows simplified use of the graphics pipeline via `SDL_Renderer` API. ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
-- `SDL3GPUInstancedQuadDemo`: High-performance rendering of thousands of objects using hardware instancing.
-- `SDL3GPUSDFRoundedRectDemo`: Renders perfectly anti-aliased procedural shapes using Signed Distance Fields (SDF).
-- `SDL3GPUBoidsDemo`: A high-performance flocking simulation utilizing a Compute-to-Vertex-Buffer architecture.
+- `SDL3GPUClearDemoApp`: The simplest entry point to the new hardware-accelerated GPU API.
+- `SDL3GPUQuadDemoApp`: Foundations of geometry: Rendering a single textured quad using a graphics pipeline.
+- `SDL3GPURenderStateDemoApp`: Shows simplified use of the graphics pipeline via `SDL_Renderer` API. ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
+- `SDL3GPUInstancedQuadDemoApp`: High-performance rendering of thousands of objects using hardware instancing.
+- `SDL3GPURoundedRectDemoApp`: Renders perfectly anti-aliased procedural shapes using Signed Distance Fields (SDF).
+- `SDL3GPUBoidsDemoApp`: A high-performance flocking simulation utilizing a Compute-to-Vertex-Buffer architecture.
 
 
 ## OSWindow backend
