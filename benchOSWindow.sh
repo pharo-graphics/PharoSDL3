@@ -15,6 +15,6 @@ DRIVERS=(
 
 for bench in "${BENCHES[@]}"; do
     for driver in "${DRIVERS[@]}"; do
-        PHARO_WINDOW_DRIVER=$driver ./pharo-ui Pharo.image eval "OSSDL3GPURenderingBenchmark $bench andThen: [ Smalltalk snapshot: false andQuit: true ] future. #$bench"
+        PHARO_WINDOW_DRIVER=$driver ./pharo-ui Pharo.image eval "OSBenchmarkMorph $bench andThen: [ Smalltalk snapshot: false andQuit: true ] future. #$bench"
     done
 done | tee -a results.txt
