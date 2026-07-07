@@ -129,10 +129,35 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 		uploadStream gpuDevice: gpuDevice ].
 	uploadStream resetForExtent: extent.
 
+	self initializeSwapchainParameters.
+
 	"Pre-allocate to avoid GC pressure in hot path"
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	swapchainWidthHolder := FFIUInt32 newValueHolder.
 	swapchainHeightHolder := FFIUInt32 newValueHolder
+]
+
+{ #category : 'private' }
+OSSDL3GPUFormRenderer >> initializeSwapchainParameters [
+
+	| targetMode |
+	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ self ].
+	targetMode := SDL3GPUPresentMode fromInteger: OSSDL3SystemSettings gpuPresentMode.
+
+	"Graceful fallback if the selected present mode is unsupported by the platform/driver"
+	(gpuDevice windowSupportsGPUPresentModeWindow: backendWindow sdlWindow presentMode: targetMode) ifFalse: [ 
+		| fallbackMode |
+		fallbackMode := (gpuDevice windowSupportsGPUPresentModeWindow: backendWindow sdlWindow presentMode: SDL3GPUPresentMode vsync)
+			                 ifTrue: [ SDL3GPUPresentMode vsync ]
+			                 ifFalse: [ SDL3GPUPresentMode immediate ].
+		self traceCr: ('{1}: Present mode {2} is unsupported. Falling back to {3}.'
+			format: { self class name . targetMode printString . fallbackMode printString }).
+		targetMode := fallbackMode ].
+
+	gpuDevice
+		gpuSwapchainParametersWindow: backendWindow sdlWindow
+		swapchainComposition: SDL3GPUSwapchainComposition sdr
+		presentMode: targetMode
 ]
 
 { #category : 'private' }
@@ -218,7 +243,8 @@ OSSDL3GPUFormRenderer >> updateGPUDevice: aGPUDevice [
 		self destroy.
 		gpuDevice := aGPUDevice.
 		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
-			gpuDevice claimWindow: backendWindow sdlWindow ] ]
+			gpuDevice claimWindow: backendWindow sdlWindow.
+			self initializeSwapchainParameters ] ]
 ]
 
 { #category : 'updating screen' }

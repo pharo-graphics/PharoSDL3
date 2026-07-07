@@ -9,7 +9,9 @@ Class {
 	#superclass : 'Object',
 	#classInstVars : [
 		'debugEnabled',
-		'eventLoopPeriodMS'
+		'eventLoopPeriodMS',
+		'rendererVsync',
+		'gpuPresentMode'
 	],
 	#category : 'SDL3-OSWindow-Core',
 	#package : 'SDL3-OSWindow',
@@ -52,7 +54,25 @@ OSSDL3SystemSettings class >> declareOn: aSettingTreeBuilder [
 				target: self;
 				label: 'Event poll period (ms)';
 				description: 'Period in milliseconds between poll event loop iterations.';
-				range: (3 to: 50)
+				range: (3 to: 50).
+
+			(aSettingTreeBuilder pickOne: #rendererVsync)
+				target: self;
+				label: 'Renderer VSync Mode';
+				description: 'Configure vertical synchronization for standard SDL3 renderer. Requires window re-creation / image reload to take effect.';
+				domainValues: { 
+					'Disabled' -> 0.
+					'Enabled' -> 1.
+					'Adaptive' -> -1 }.
+
+			(aSettingTreeBuilder pickOne: #gpuPresentMode)
+				target: self;
+				label: 'GPU Swapchain Present Mode';
+				description: 'Configure swapchain present mode for SDL3 GPU driver. Requires window re-creation / image reload to take effect.';
+				domainValues: { 
+					'VSync' -> 0.
+					'Immediate' -> 1.
+					'Mailbox' -> 2 }
 			]
 ]
 
@@ -66,4 +86,28 @@ OSSDL3SystemSettings class >> eventLoopPeriodMS [
 OSSDL3SystemSettings class >> eventLoopPeriodMS: anInteger [
 
 	eventLoopPeriodMS := anInteger
+]
+
+{ #category : 'accessing' }
+OSSDL3SystemSettings class >> gpuPresentMode [
+
+	^ gpuPresentMode ifNil: [ 0 ]
+]
+
+{ #category : 'accessing' }
+OSSDL3SystemSettings class >> gpuPresentMode: anInteger [
+
+	gpuPresentMode := anInteger
+]
+
+{ #category : 'accessing' }
+OSSDL3SystemSettings class >> rendererVsync [
+
+	^ rendererVsync ifNil: [ 1 ]
+]
+
+{ #category : 'accessing' }
+OSSDL3SystemSettings class >> rendererVsync: anInteger [
+
+	rendererVsync := anInteger
 ]
