@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadType`.
+
+Standard gamepad types.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadType
+"
 Class {
 	#name : 'SDL3GamepadType',
 	#superclass : 'SDL3Enumeration',

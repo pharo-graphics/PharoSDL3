@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HapticEffect`.
+
+The generic template for any haptic effect.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HapticEffect
+"
 Class {
 	#name : 'SDL3HapticEffect',
 	#superclass : 'SDL3Union',

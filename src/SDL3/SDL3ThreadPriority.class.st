@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ThreadPriority`.
+
+The SDL thread priority.
+
+See: https://wiki.libsdl.org/SDL3/SDL_ThreadPriority
+"
 Class {
 	#name : 'SDL3ThreadPriority',
 	#superclass : 'SDL3Enumeration',

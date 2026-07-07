@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_FColor`.
+
+The bits of this structure can be directly reinterpreted as a float-packed color which uses the SDL_PIXELFORMAT_RGBA128_FLOAT format
+
+See: https://wiki.libsdl.org/SDL3/SDL_FColor
+"
 Class {
 	#name : 'SDL3FColor',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoystickType`.
+
+An enum of some common joystick types.
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoystickType
+"
 Class {
 	#name : 'SDL3JoystickType',
 	#superclass : 'SDL3Enumeration',

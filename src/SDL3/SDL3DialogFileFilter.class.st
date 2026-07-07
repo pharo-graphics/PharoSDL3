@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_DialogFileFilter`.
+
+An entry for filters for file dialogs.
+
+See: https://wiki.libsdl.org/SDL3/SDL_DialogFileFilter
+"
 Class {
 	#name : 'SDL3DialogFileFilter',
 	#superclass : 'SDL3Structure',

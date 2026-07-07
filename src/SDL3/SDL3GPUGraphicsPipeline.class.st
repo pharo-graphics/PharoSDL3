@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUGraphicsPipeline`.
+
+An opaque handle representing a graphics pipeline.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUGraphicsPipeline
+"
 Class {
 	#name : 'SDL3GPUGraphicsPipeline',
 	#superclass : 'SDL3GPUDeviceObject',

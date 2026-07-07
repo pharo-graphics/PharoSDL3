@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_FlashOperation`.
+
+Window flash operation.
+
+See: https://wiki.libsdl.org/SDL3/SDL_FlashOperation
+"
 Class {
 	#name : 'SDL3FlashOperation',
 	#superclass : 'SDL3Enumeration',

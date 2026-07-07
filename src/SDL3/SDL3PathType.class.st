@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PathType`.
+
+Types of filesystem entries.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PathType
+"
 Class {
 	#name : 'SDL3PathType',
 	#superclass : 'SDL3Enumeration',

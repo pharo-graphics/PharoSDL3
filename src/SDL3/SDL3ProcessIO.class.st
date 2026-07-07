@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ProcessIO`.
+
+Description of where standard I/O should be directed when creating a process.
+
+See: https://wiki.libsdl.org/SDL3/SDL_ProcessIO
+"
 Class {
 	#name : 'SDL3ProcessIO',
 	#superclass : 'SDL3Enumeration',

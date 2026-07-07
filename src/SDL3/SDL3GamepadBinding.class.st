@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadBinding`.
+
+A mapping between one joystick input to a gamepad control.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadBinding
+"
 Class {
 	#name : 'SDL3GamepadBinding',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadAxisEvent`.
+
+Gamepad axis motion event structure (event.gaxis.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadAxisEvent
+"
 Class {
 	#name : 'SDL3GamepadAxisEvent',
 	#superclass : 'SDL3GamepadEvent',

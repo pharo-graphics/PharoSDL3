@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_EventType`.
+
+The types of events that can be delivered.
+
+See: https://wiki.libsdl.org/SDL3/SDL_EventType
+"
 Class {
 	#name : 'SDL3EventType',
 	#superclass : 'SDL3Enumeration',

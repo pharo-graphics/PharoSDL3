@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUSamplerAddressMode`.
+
+Specifies behavior of texture sampling when the coordinates exceed the 0-1 range.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUSamplerAddressMode
+"
 Class {
 	#name : 'SDL3GPUSamplerAddressMode',
 	#superclass : 'SDL3Enumeration',

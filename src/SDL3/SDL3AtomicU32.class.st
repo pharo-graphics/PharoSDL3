@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AtomicU32`.
+
+A type representing an atomic unsigned 32-bit value.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AtomicU32
+"
 Class {
 	#name : 'SDL3AtomicU32',
 	#superclass : 'SDL3Structure',

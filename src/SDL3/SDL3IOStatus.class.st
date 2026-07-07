@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_IOStatus`.
+
+SDL_IOStream status, set by a read or write operation.
+
+See: https://wiki.libsdl.org/SDL3/SDL_IOStatus
+"
 Class {
 	#name : 'SDL3IOStatus',
 	#superclass : 'SDL3Enumeration',

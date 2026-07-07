@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUComputePipelineCreateInfo`.
+
+A structure specifying the parameters of a compute pipeline state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUComputePipelineCreateInfo
+"
 Class {
 	#name : 'SDL3GPUComputePipelineCreateInfo',
 	#superclass : 'SDL3Structure',

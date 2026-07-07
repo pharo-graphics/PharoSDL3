@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_CameraPermissionState`.
+
+The current state of a request for camera access.
+
+See: https://wiki.libsdl.org/SDL3/SDL_CameraPermissionState
+"
 Class {
 	#name : 'SDL3CameraPermissionState',
 	#superclass : 'SDL3Enumeration',

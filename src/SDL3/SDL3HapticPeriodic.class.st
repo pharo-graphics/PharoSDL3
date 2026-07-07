@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HapticPeriodic`.
+
+A structure containing a template for a Periodic effect.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HapticPeriodic
+"
 Class {
 	#name : 'SDL3HapticPeriodic',
 	#superclass : 'SDL3Structure',

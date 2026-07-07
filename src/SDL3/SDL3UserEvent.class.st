@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_UserEvent`.
+
+A user-defined event type (event.user.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_UserEvent
+"
 Class {
 	#name : 'SDL3UserEvent',
 	#superclass : 'SDL3WindowIDEvent',

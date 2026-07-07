@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HintPriority`.
+
+An enumeration of hint priorities.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HintPriority
+"
 Class {
 	#name : 'SDL3HintPriority',
 	#superclass : 'SDL3Enumeration',

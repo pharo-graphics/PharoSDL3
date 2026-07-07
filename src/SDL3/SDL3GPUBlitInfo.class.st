@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBlitInfo`.
+
+A structure containing parameters for a blit command.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBlitInfo
+"
 Class {
 	#name : 'SDL3GPUBlitInfo',
 	#superclass : 'SDL3Structure',

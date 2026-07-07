@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUGraphicsPipelineTargetInfo`.
+
+A structure specifying the descriptions of render targets used in a graphics pipeline.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUGraphicsPipelineTargetInfo
+"
 Class {
 	#name : 'SDL3GPUGraphicsPipelineTargetInfo',
 	#superclass : 'SDL3Structure',

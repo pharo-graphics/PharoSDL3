@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTextureLocation`.
+
+A structure specifying a location in a texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTextureLocation
+"
 Class {
 	#name : 'SDL3GPUTextureLocation',
 	#superclass : 'SDL3Structure',

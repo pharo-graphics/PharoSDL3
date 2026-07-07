@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_TouchDeviceType`.
+
+An enum that describes the type of a touch device.
+
+See: https://wiki.libsdl.org/SDL3/SDL_TouchDeviceType
+"
 Class {
 	#name : 'SDL3TouchDeviceType',
 	#superclass : 'SDL3Enumeration',

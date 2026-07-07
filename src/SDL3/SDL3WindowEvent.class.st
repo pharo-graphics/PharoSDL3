@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_WindowEvent`.
+
+Window state change event data (event.window.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_WindowEvent
+"
 Class {
 	#name : 'SDL3WindowEvent',
 	#superclass : 'SDL3WindowIDEvent',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUSwapchainComposition`.
+
+Specifies the texture format and colorspace of the swapchain textures.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUSwapchainComposition
+"
 Class {
 	#name : 'SDL3GPUSwapchainComposition',
 	#superclass : 'SDL3Enumeration',

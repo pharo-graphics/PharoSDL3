@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUSamplerMipmapMode`.
+
+Specifies a mipmap mode used by a sampler.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUSamplerMipmapMode
+"
 Class {
 	#name : 'SDL3GPUSamplerMipmapMode',
 	#superclass : 'SDL3Enumeration',

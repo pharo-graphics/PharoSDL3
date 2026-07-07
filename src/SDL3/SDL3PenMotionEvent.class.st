@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PenMotionEvent`.
+
+Pressure-sensitive pen motion event structure (event.pmotion.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_PenMotionEvent
+"
 Class {
 	#name : 'SDL3PenMotionEvent',
 	#superclass : 'SDL3PenEvent',

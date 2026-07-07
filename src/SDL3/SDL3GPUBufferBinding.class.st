@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBufferBinding`.
+
+A structure specifying parameters in a buffer binding call.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBufferBinding
+"
 Class {
 	#name : 'SDL3GPUBufferBinding',
 	#superclass : 'SDL3Structure',

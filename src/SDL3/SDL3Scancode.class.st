@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Scancode`.
+
+The SDL keyboard scancode representation.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Scancode
+"
 Class {
 	#name : 'SDL3Scancode',
 	#superclass : 'SDL3Enumeration',

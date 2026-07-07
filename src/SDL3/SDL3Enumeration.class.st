@@ -1,3 +1,6 @@
+"
+I am the superclass of all the enums in SDL3 FFI bindings.
+"
 Class {
 	#name : 'SDL3Enumeration',
 	#superclass : 'FFIEnumeration',

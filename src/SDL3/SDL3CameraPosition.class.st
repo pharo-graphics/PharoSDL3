@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_CameraPosition`.
+
+The position of camera in relation to system device.
+
+See: https://wiki.libsdl.org/SDL3/SDL_CameraPosition
+"
 Class {
 	#name : 'SDL3CameraPosition',
 	#superclass : 'SDL3Enumeration',

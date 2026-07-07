@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MatrixCoefficients`.
+
+Colorspace matrix coefficients.
+
+See: https://wiki.libsdl.org/SDL3/SDL_MatrixCoefficients
+"
 Class {
 	#name : 'SDL3MatrixCoefficients',
 	#superclass : 'SDL3Enumeration',

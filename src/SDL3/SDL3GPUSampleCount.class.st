@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUSampleCount`.
+
+Specifies the sample count of a texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUSampleCount
+"
 Class {
 	#name : 'SDL3GPUSampleCount',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ClipboardEvent`.
+
+An event triggered when the clipboard contents have changed (event.clipboard.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_ClipboardEvent
+"
 Class {
 	#name : 'SDL3ClipboardEvent',
 	#superclass : 'SDL3MappedEvent',

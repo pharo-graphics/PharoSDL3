@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_DateFormat`.
+
+The preferred date format of the current system locale.
+
+See: https://wiki.libsdl.org/SDL3/SDL_DateFormat
+"
 Class {
 	#name : 'SDL3DateFormat',
 	#superclass : 'SDL3Enumeration',

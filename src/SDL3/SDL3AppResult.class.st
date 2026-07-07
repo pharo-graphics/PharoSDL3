@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AppResult`.
+
+Return values for optional main callbacks.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AppResult
+"
 Class {
 	#name : 'SDL3AppResult',
 	#superclass : 'SDL3Enumeration',

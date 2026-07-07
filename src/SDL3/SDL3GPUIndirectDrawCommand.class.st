@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUIndirectDrawCommand`.
+
+A structure specifying the parameters of an indirect draw command.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUIndirectDrawCommand
+"
 Class {
 	#name : 'SDL3GPUIndirectDrawCommand',
 	#superclass : 'SDL3Structure',

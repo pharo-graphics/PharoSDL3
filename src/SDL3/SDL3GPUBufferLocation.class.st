@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBufferLocation`.
+
+A structure specifying a location in a buffer.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBufferLocation
+"
 Class {
 	#name : 'SDL3GPUBufferLocation',
 	#superclass : 'SDL3Structure',

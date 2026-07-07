@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_RenderEvent`.
+
+Renderer event structure (event.render.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_RenderEvent
+"
 Class {
 	#name : 'SDL3RenderEvent',
 	#superclass : 'SDL3WindowIDEvent',

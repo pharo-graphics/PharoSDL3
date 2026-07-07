@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUCullMode`.
+
+Specifies the facing direction in which triangle faces will be culled.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUCullMode
+"
 Class {
 	#name : 'SDL3GPUCullMode',
 	#superclass : 'SDL3Enumeration',

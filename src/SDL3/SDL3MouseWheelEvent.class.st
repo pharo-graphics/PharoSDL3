@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MouseWheelEvent`.
+
+Mouse wheel event structure (event.wheel.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_MouseWheelEvent
+"
 Class {
 	#name : 'SDL3MouseWheelEvent',
 	#superclass : 'SDL3MouseEvent',

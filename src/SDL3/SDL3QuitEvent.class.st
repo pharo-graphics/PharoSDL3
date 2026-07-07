@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_QuitEvent`.
+
+The ""quit requested"" event
+
+See: https://wiki.libsdl.org/SDL3/SDL_QuitEvent
+"
 Class {
 	#name : 'SDL3QuitEvent',
 	#superclass : 'SDL3MappedEvent',

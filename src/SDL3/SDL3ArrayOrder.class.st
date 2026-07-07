@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ArrayOrder`.
+
+Array component order, low byte -> high byte.
+
+See: https://wiki.libsdl.org/SDL3/SDL_ArrayOrder
+"
 Class {
 	#name : 'SDL3ArrayOrder',
 	#superclass : 'SDL3Enumeration',

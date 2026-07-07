@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUStencilOpState`.
+
+A structure specifying the stencil operation state of a graphics pipeline.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUStencilOpState
+"
 Class {
 	#name : 'SDL3GPUStencilOpState',
 	#superclass : 'SDL3Structure',

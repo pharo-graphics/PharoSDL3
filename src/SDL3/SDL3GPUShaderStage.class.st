@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUShaderStage`.
+
+Specifies which stage a shader program corresponds to.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUShaderStage
+"
 Class {
 	#name : 'SDL3GPUShaderStage',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoyAxisEvent`.
+
+Joystick axis motion event structure (event.jaxis.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoyAxisEvent
+"
 Class {
 	#name : 'SDL3JoyAxisEvent',
 	#superclass : 'SDL3JoystickEvent',

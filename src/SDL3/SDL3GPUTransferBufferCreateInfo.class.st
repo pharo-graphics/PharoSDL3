@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTransferBufferCreateInfo`.
+
+A structure specifying the parameters of a transfer buffer.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTransferBufferCreateInfo
+"
 Class {
 	#name : 'SDL3GPUTransferBufferCreateInfo',
 	#superclass : 'SDL3Structure',

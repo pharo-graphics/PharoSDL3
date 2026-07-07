@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PixelType`.
+
+Pixel type.
+
+See: https://wiki.libsdl.org/SDL3/SDL_PixelType
+"
 Class {
 	#name : 'SDL3PixelType',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTextureRegion`.
+
+A structure specifying a region of a texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTextureRegion
+"
 Class {
 	#name : 'SDL3GPUTextureRegion',
 	#superclass : 'SDL3Structure',

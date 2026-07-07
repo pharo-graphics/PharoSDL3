@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GamepadButtonEvent`.
+
+Gamepad button event structure (event.gbutton.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_GamepadButtonEvent
+"
 Class {
 	#name : 'SDL3GamepadButtonEvent',
 	#superclass : 'SDL3GamepadEvent',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUVertexBufferDescription`.
+
+A structure specifying the parameters of vertex buffers used in a graphics pipeline.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUVertexBufferDescription
+"
 Class {
 	#name : 'SDL3GPUVertexBufferDescription',
 	#superclass : 'SDL3Structure',

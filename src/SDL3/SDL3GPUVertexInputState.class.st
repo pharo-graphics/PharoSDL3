@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUVertexInputState`.
+
+A structure specifying the parameters of a graphics pipeline vertex input state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUVertexInputState
+"
 Class {
 	#name : 'SDL3GPUVertexInputState',
 	#superclass : 'SDL3Structure',

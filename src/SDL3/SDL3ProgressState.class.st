@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_ProgressState`.
+
+Window progress state
+
+See: https://wiki.libsdl.org/SDL3/SDL_ProgressState
+"
 Class {
 	#name : 'SDL3ProgressState',
 	#superclass : 'SDL3Enumeration',

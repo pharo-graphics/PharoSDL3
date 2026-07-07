@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_BlendFactor`.
+
+The normalized factor used to multiply pixel components.
+
+See: https://wiki.libsdl.org/SDL3/SDL_BlendFactor
+"
 Class {
 	#name : 'SDL3BlendFactor',
 	#superclass : 'SDL3Enumeration',

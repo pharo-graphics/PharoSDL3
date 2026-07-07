@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_MessageBoxData`.
+
+MessageBox structure containing title, text, window, etc.
+
+See: https://wiki.libsdl.org/SDL3/SDL_MessageBoxData
+"
 Class {
 	#name : 'SDL3MessageBoxData',
 	#superclass : 'SDL3Structure',

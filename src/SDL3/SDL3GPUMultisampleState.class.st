@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUMultisampleState`.
+
+A structure specifying the parameters of the graphics pipeline multisample state.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUMultisampleState
+"
 Class {
 	#name : 'SDL3GPUMultisampleState',
 	#superclass : 'SDL3Structure',

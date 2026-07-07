@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBlendOp`.
+
+Specifies the operator to be used when pixels in a render target are blended with existing pixels in the texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBlendOp
+"
 Class {
 	#name : 'SDL3GPUBlendOp',
 	#superclass : 'SDL3Enumeration',

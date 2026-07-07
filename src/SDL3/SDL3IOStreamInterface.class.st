@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_IOStreamInterface`.
+
+The function pointers that drive an SDL_IOStream.
+
+See: https://wiki.libsdl.org/SDL3/SDL_IOStreamInterface
+"
 Class {
 	#name : 'SDL3IOStreamInterface',
 	#superclass : 'SDL3Structure',

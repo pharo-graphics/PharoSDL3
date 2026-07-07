@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Folder`.
+
+The type of the OS-provided default folder for a specific purpose.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Folder
+"
 Class {
 	#name : 'SDL3Folder',
 	#superclass : 'SDL3Enumeration',

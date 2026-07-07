@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HapticLeftRight`.
+
+A structure containing a template for a Left/Right effect.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HapticLeftRight
+"
 Class {
 	#name : 'SDL3HapticLeftRight',
 	#superclass : 'SDL3Structure',

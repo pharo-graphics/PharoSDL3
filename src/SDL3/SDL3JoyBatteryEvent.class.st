@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_JoyBatteryEvent`.
+
+Joystick battery level change event structure (event.jbattery.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_JoyBatteryEvent
+"
 Class {
 	#name : 'SDL3JoyBatteryEvent',
 	#superclass : 'SDL3JoystickEvent',

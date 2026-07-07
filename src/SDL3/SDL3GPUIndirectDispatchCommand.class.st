@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUIndirectDispatchCommand`.
+
+A structure specifying the parameters of an indexed dispatch command.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUIndirectDispatchCommand
+"
 Class {
 	#name : 'SDL3GPUIndirectDispatchCommand',
 	#superclass : 'SDL3Structure',

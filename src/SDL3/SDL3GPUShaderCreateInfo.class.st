@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUShaderCreateInfo`.
+
+A structure specifying code and metadata for creating a shader object.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUShaderCreateInfo
+"
 Class {
 	#name : 'SDL3GPUShaderCreateInfo',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUVertexInputRate`.
+
+Specifies the rate at which vertex attributes are pulled from buffers.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUVertexInputRate
+"
 Class {
 	#name : 'SDL3GPUVertexInputRate',
 	#superclass : 'SDL3Enumeration',

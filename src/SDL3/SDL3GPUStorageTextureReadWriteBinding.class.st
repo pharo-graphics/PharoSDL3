@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUStorageTextureReadWriteBinding`.
+
+A structure specifying parameters related to binding textures in a compute pass.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUStorageTextureReadWriteBinding
+"
 Class {
 	#name : 'SDL3GPUStorageTextureReadWriteBinding',
 	#superclass : 'SDL3Structure',

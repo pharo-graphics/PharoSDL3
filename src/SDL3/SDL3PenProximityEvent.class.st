@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_PenProximityEvent`.
+
+Pressure-sensitive pen proximity event structure (event.pproximity.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_PenProximityEvent
+"
 Class {
 	#name : 'SDL3PenProximityEvent',
 	#superclass : 'SDL3PenEvent',

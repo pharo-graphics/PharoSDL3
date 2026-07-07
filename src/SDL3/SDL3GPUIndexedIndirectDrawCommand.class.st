@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUIndexedIndirectDrawCommand`.
+
+A structure specifying the parameters of an indexed indirect draw command.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUIndexedIndirectDrawCommand
+"
 Class {
 	#name : 'SDL3GPUIndexedIndirectDrawCommand',
 	#superclass : 'SDL3Structure',

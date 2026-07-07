@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTransferBufferUsage`.
+
+Specifies how a transfer buffer is intended to be used by the client.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTransferBufferUsage
+"
 Class {
 	#name : 'SDL3GPUTransferBufferUsage',
 	#superclass : 'SDL3Enumeration',

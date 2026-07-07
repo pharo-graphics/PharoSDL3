@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUBufferRegion`.
+
+A structure specifying a region of a buffer.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUBufferRegion
+"
 Class {
 	#name : 'SDL3GPUBufferRegion',
 	#superclass : 'SDL3Structure',

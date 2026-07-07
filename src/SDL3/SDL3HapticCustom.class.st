@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_HapticCustom`.
+
+A structure containing a template for the SDL_HAPTIC_CUSTOM effect.
+
+See: https://wiki.libsdl.org/SDL3/SDL_HapticCustom
+"
 Class {
 	#name : 'SDL3HapticCustom',
 	#superclass : 'SDL3Structure',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_Sandbox`.
+
+Application sandbox environment.
+
+See: https://wiki.libsdl.org/SDL3/SDL_Sandbox
+"
 Class {
 	#name : 'SDL3Sandbox',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_GPUTextureTransferInfo`.
+
+A structure specifying parameters related to transferring data to or from a texture.
+
+See: https://wiki.libsdl.org/SDL3/SDL_GPUTextureTransferInfo
+"
 Class {
 	#name : 'SDL3GPUTextureTransferInfo',
 	#superclass : 'SDL3Structure',

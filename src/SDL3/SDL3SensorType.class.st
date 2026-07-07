@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_SensorType`.
+
+The different sensors defined by SDL.
+
+See: https://wiki.libsdl.org/SDL3/SDL_SensorType
+"
 Class {
 	#name : 'SDL3SensorType',
 	#superclass : 'SDL3Enumeration',

@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_DateTime`.
+
+A structure holding a calendar date and time broken down into its components.
+
+See: https://wiki.libsdl.org/SDL3/SDL_DateTime
+"
 Class {
 	#name : 'SDL3DateTime',
 	#superclass : 'SDL3Structure',

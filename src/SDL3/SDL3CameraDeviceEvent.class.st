@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_CameraDeviceEvent`.
+
+Camera device event structure (event.cdevice.*)
+
+See: https://wiki.libsdl.org/SDL3/SDL_CameraDeviceEvent
+"
 Class {
 	#name : 'SDL3CameraDeviceEvent',
 	#superclass : 'SDL3DeviceEvent',

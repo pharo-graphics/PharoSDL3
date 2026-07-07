@@ -1,3 +1,10 @@
+"
+I am a SDL3 FFI binding for `SDL_AsyncIOOutcome`.
+
+Information about a completed asynchronous I/O request.
+
+See: https://wiki.libsdl.org/SDL3/SDL_AsyncIOOutcome
+"
 Class {
 	#name : 'SDL3AsyncIOOutcome',
 	#superclass : 'SDL3Structure',
