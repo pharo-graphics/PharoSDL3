@@ -7,7 +7,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'lines',
-		'maxLines'
+		'defaultColor'
 	],
 	#category : 'SDL3-Demos-Base',
 	#package : 'SDL3-Demos',
@@ -23,14 +23,14 @@ SDL3Console >> addLine [
 { #category : 'adding' }
 SDL3Console >> addLine: aString [
 
-	self addLine: aString color: Color white
+	self addLine: aString color: self defaultColor
 ]
 
 { #category : 'adding' }
 SDL3Console >> addLine: aString color: aColor [
 
 	lines add: aString asString -> aColor.
-	[ lines size > maxLines ] whileTrue: [ lines removeFirst ]
+	[ lines size > self maxLines ] whileTrue: [ lines removeFirst ]
 ]
 
 { #category : 'lifecycle' }
@@ -39,12 +39,24 @@ SDL3Console >> clear [
 	lines := OrderedCollection new
 ]
 
+{ #category : 'accessing' }
+SDL3Console >> defaultColor [
+
+	^ defaultColor
+]
+
+{ #category : 'accessing' }
+SDL3Console >> defaultColor: aColor [
+
+	defaultColor := aColor
+]
+
 { #category : 'initialization' }
 SDL3Console >> initialize [
 
 	super initialize.
 	lines := OrderedCollection new.
-	maxLines := 200
+	defaultColor := Color white
 ]
 
 { #category : 'accessing' }
@@ -57,13 +69,7 @@ SDL3Console >> lineHeight [
 { #category : 'accessing' }
 SDL3Console >> maxLines [
 
-	^ maxLines
-]
-
-{ #category : 'accessing' }
-SDL3Console >> maxLines: anInteger [
-
-	maxLines := anInteger
+	^ 200
 ]
 
 { #category : 'rendering' }
@@ -81,7 +87,13 @@ SDL3Console >> renderOn: aSDL3Renderer [
 	displayLines withIndexDo: [ :assoc :index | 
 		aSDL3Renderer renderDrawColor: assoc value.
 		aSDL3Renderer
-			renderDebugTextX: 10
-			y: (index - 1) * self lineHeight + 10
+			renderDebugTextX: self topLeftPosition x
+			y: (index - 1) * self lineHeight + self topLeftPosition y
 			str: assoc key ]
+]
+
+{ #category : 'accessing' }
+SDL3Console >> topLeftPosition [
+
+	^ 10 @ 10
 ]
