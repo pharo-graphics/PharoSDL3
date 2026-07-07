@@ -289,7 +289,7 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 	"Render and present a texture created from a surface created from a Form"
 
 	form := self iconNamed: #pharoBig.
-	surface := form asUnownedNewSDL3Surface.
+	surface := form unsafeNewAsSDL3Surface.
 	texture := renderer newTextureFromSurface: surface.
 	self assert: surface extent equals: 256 @ 256.
 	self assert: texture extent equals: 256.0 @ 256.0.
@@ -407,7 +407,7 @@ SDL3WindowTest >> test12ShapedWindow [
 	shapeForm getCanvas
 		fillColor: Color transparent;
 		fillOval: (0@0 corner: extent) color: Color blue.
-	surface := shapeForm asUnownedNewSDL3Surface.
+	surface := shapeForm unsafeNewAsSDL3Surface.
 	window shape: surface.
 	"Surface can be destroyed, as it was copied by SDL"
 	surface destroy.
@@ -425,7 +425,7 @@ SDL3WindowTest >> test12ShapedWindow [
 
 	"Change shape and render the icon"
 	shapeForm := self iconNamed: #pharoBig.
-	surface := shapeForm asUnownedNewSDL3Surface.
+	surface := shapeForm unsafeNewAsSDL3Surface.
 	texture := renderer newTextureFromSurface: surface.
 	window shape: surface.
 	surface destroy.

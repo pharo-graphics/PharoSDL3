@@ -234,7 +234,7 @@ SDL3AnimatedCursorDemoApp >> generateCursors [
 	cursorTextures := OrderedCollection new.
 	hotspots := OrderedCollection new.
 
-	iconSurface := (self iconNamed: #pharoBig) asUnownedNewSDL3Surface.
+	iconSurface := (self iconNamed: #pharoBig) unsafeNewAsSDL3Surface.
 
 	"1. Top-Left: Rotating"
 	self generateCursorRotatingIcon: iconSurface corner: #TL.
