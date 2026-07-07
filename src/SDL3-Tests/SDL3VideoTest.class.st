@@ -1,20 +1,10 @@
 Class {
 	#name : 'SDL3VideoTest',
-	#superclass : 'SDL3Test',
+	#superclass : 'SDL3SubsystemTest',
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',
 	#tag : 'Library'
 }
-
-{ #category : 'running' }
-SDL3VideoTest >> setUp [
-
-	super setUp.
-
-	self
-		assert: (sdl initSubSystem: SDL3InitFlags video)
-		description: 'Initialize video subsystem'
-]
 
 { #category : 'tests' }
 SDL3VideoTest >> test01ClipboardAPI [

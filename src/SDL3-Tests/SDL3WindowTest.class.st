@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3WindowTest',
-	#superclass : 'SDL3Test',
+	#superclass : 'SDL3SubsystemTest',
 	#classInstVars : [
 		'waitDuration'
 	],
@@ -40,16 +40,6 @@ SDL3WindowTest class >> waitDuration: aDuration [
 SDL3WindowTest >> consumeEvents [
 
 	[ sdl pollEvent: SDL3Event new ] whileTrue
-]
-
-{ #category : 'running' }
-SDL3WindowTest >> setUp [
-
-	super setUp.
-
-	self
-		assert: (sdl initSubSystem: SDL3InitFlags video)
-		description: 'Initialize video subsystem'
 ]
 
 { #category : 'tests' }

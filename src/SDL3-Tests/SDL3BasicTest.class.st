@@ -162,37 +162,40 @@ SDL3BasicTest >> test07SubsystemLifecycle [
 	"Note: This test initializes and quits events subsystem independently if it was already initialized"
 
 	self
-		assert: (sdl initSubSystem: SDL3InitFlags events)
-		description: 'Initialize event subsystem'.
+		assert: (sdl initSubSystem: SDL_INIT_HAPTIC)
+		description: 'Initialize subsystem'.
 
 	self
-		assert: (sdl wasInit: SDL3InitFlags events)
-		equals: SDL3InitFlags events value.
+		assert: (sdl wasInit: SDL_INIT_HAPTIC)
+		equals: SDL_INIT_HAPTIC asInteger.
 
-	sdl quitSubSystem: SDL3InitFlags events.
+	sdl quitSubSystem: SDL_INIT_HAPTIC.
 
 	self
-		assert: (sdl wasInit: SDL3InitFlags events)
+		assert: (sdl wasInit: SDL_INIT_HAPTIC)
 		equals: 0
 ]
 
 { #category : 'tests' }
 SDL3BasicTest >> test08Hints [
 
+	| hintName |
+	hintName := 'PHARO_SDL3_TEST_CUSTOM_HINT'.
+
 	self
-		assert: (sdl getHint: SDL_HINT_NO_SIGNAL_HANDLERS)
+		assert: (sdl getHint: hintName)
 		equals: ''. "Default"
 
-	sdl assertSuccess: (sdl setHintName: SDL_HINT_NO_SIGNAL_HANDLERS value: '1').
+	sdl assertSuccess: (sdl setHintName: hintName value: '1').
 
 	self
-		assert: (sdl getHint: SDL_HINT_NO_SIGNAL_HANDLERS)
+		assert: (sdl getHint: hintName)
 		equals: '1'.
 
-	sdl resetHints.
+	sdl resetHint: hintName.
 
 	self
-		assert: (sdl getHint: SDL_HINT_NO_SIGNAL_HANDLERS)
-		equals: ''. "Default"
+		assert: (sdl getHint: hintName)
+		equals: '' "Default"
 
 ]

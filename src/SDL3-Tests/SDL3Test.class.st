@@ -29,11 +29,3 @@ SDL3Test >> setUp [
 
 	sdl := LibSDL3 uniqueInstance
 ]
-
-{ #category : 'running' }
-SDL3Test >> tearDown [
-
-	sdl quit.
-
-	super tearDown
-]

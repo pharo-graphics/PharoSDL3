@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUTest',
-	#superclass : 'SDL3Test',
+	#superclass : 'SDL3SubsystemTest',
 	#instVars : [
 		'window',
 		'gpuDevice'
@@ -20,8 +20,7 @@ SDL3GPUTest class >> isAbstract [
 SDL3GPUTest >> setUp [
 
 	super setUp.
-	sdl := LibSDL3 uniqueInstance.
-	sdl init: SDL_INIT_VIDEO.
+
 	window := SDL3Window
 		         unsafeNewTitle: 'GPU Test'
 		         w: 640

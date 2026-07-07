@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TrayTest',
-	#superclass : 'SDL3Test',
+	#superclass : 'SDL3SubsystemTest',
 	#instVars : [
 		'iconSurface',
 		'tray'
@@ -15,10 +15,6 @@ SDL3TrayTest >> setUp [
 
 	super setUp.
 
-	self
-		assert: (sdl initSubSystem: SDL3InitFlags video)
-		description: 'Initialize video subsystem'.
-	
 	iconSurface := (self iconNamed: #pharo) asUnownedNewSDL3Surface.
 	tray := SDL3Tray unsafeNewIcon: iconSurface tooltip: 'Test tooltip'
 ]
