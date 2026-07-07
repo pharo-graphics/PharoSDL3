@@ -1,8 +1,8 @@
 # PharoSDL3
 
-Pharo Smalltalk bindings for [SDL3 (Simple DirectMedia Layer)](https://github.com/libsdl-org/SDL).
+Pharo Smalltalk bindings for [SDL (Simple DirectMedia Layer)](https://github.com/libsdl-org/SDL) version 3.0.
 
-SDL3 is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware. It is used by video playback software, emulators, and games.
+SDL is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware. It is used by video playback software, emulators, and games.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Test](https://github.com/pharo-graphics/PharoSDL3/actions/workflows/test.yml/badge.svg)](https://github.com/pharo-graphics/PharoSDL3/actions/workflows/test.yml)
@@ -22,13 +22,13 @@ Metacello new
 
 Alternatively, from your terminal:
 ```bash
-curl https://get.pharo.org/140+vm | bash
+curl https://get.pharo.org/140+vmLatest | bash
 ./pharo Pharo.image metacello install --save github://tinchodias/PharoSDL3:dev/src SDL3
 ```
 
-### 2. Install the SDL3 library
+### 2. Ensure SDL3 library is available
 
-Ensure the SDL3 library is available on your system so Pharo's FFI can find it.
+Since end of June/2026, the Pharo 14 **"latest"** VM ships SDL3 for Mac and Windows (not Linux yet). Find below other options to ensure the SDL3 library is available on your system so Pharo's FFI can find it.
 - **MacOS:** `brew install sdl3`
 - **Linux:** Build from [source](https://github.com/libsdl-org/SDL/blob/main/INSTALL.md) or use your package manager.
 - **Windows:** Download the DLL from [SDL releases](https://github.com/libsdl-org/SDL/releases) and place it in the same folder as your Pharo image.
@@ -80,11 +80,14 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 ## OSWindow backend
 
 It can be test by:
-1. Download Pharo 14 via zeroconf script: `curl https://get.pharo.org/140+vm | bash`
+1. Download Pharo 14 via zeroconf script: `curl https://get.pharo.org/140+vmLatest | bash`
 2. Load this project's baseline
 3. Save and Close
 4. Run in terminal: `PHARO_WINDOW_DRIVER=OSSDL3Driver ./pharo-ui Pharo.image`
 5. Verify that `OSWindowDriver current` answers a `OSSDL3Driver`
+
+There is also an experimental "OSSDL3GPUDriver".
+You can also use System Settings to establish the current OSWindow driver. Search for "OSWindow".
 
 
 ## Mapping SDL3 Functions to Pharo Methods
