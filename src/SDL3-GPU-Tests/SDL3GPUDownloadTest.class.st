@@ -37,7 +37,7 @@ SDL3GPUDownloadTest >> test01DownloadFromGPUDeviceExtension [
 			type: FFIFloat32
 			count: count do: [ :downloadedArray |
 				resultData := FFIArray newType: FFIFloat32 size: count.
-				LibC memCopy: downloadedArray to: resultData size: byteSize ].
+				sdl memcpyDst: resultData src: downloadedArray len: byteSize].
 	] ensure: [ targetBuffer release ].
 
 	1 to: count do: [ :i | self assert: (resultData at: i) equals: i asFloat ]

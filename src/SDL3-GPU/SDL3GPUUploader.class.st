@@ -96,7 +96,7 @@ SDL3GPUUploader >> transferBuffer: aTransferBuffer uploadTo: targetBuffer type: 
 	byteSize := ffiClass externalTypeSize * arraySize.
 	
 	gpuDevice mapTransferBuffer: aTransferBuffer cycle: cycleBoolean do: [ :mappedAddress |
-		LibC memCopy: sourceAddress to: mappedAddress size: byteSize ].
+		LibSDL3 uniqueInstance memcpyDst: mappedAddress src: sourceAddress len: byteSize].
 
 	copyPass
 		uploadBuffer:
@@ -121,7 +121,7 @@ SDL3GPUUploader >> uploadTexture: aGPUTexture fromPointer: sourceAddress byteSiz
 	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
 	[
 		gpuDevice mapTransferBuffer: transferBuffer cycle: cycleBoolean do: [ :mappedAddress |
-			LibC memCopy: sourceAddress to: mappedAddress size: byteSize ].
+			LibSDL3 uniqueInstance memcpyDst: mappedAddress src: sourceAddress len: byteSize].
 
 		copyPass
 			uploadTexture:
@@ -180,7 +180,7 @@ SDL3GPUUploader >> uploadTo: targetBuffer type: ffiClass count: arraySize cycle:
 	
 	[
 		gpuDevice mapTransferBuffer: transferBuffer cycle: cycleBoolean do: [ :mappedAddress |
-			LibC memCopy: sourceAddress to: mappedAddress size: byteSize ].
+			LibSDL3 uniqueInstance memcpyDst: mappedAddress src: sourceAddress len: byteSize].
 
 		copyPass
 			uploadBuffer:

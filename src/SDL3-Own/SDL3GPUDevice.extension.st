@@ -264,7 +264,7 @@ SDL3GPUDevice >> newGPUTextureUploadingForm: aForm usage: aUsage [
 	transferBuffer := self newUploadTransferBuffer: aForm bits byteSize.
 	self mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 		"Copy from surface pixels handle to mappedAddress handle"
-		LibC memCopy: aForm bits to: mappedAddress size: aForm bits byteSize ].
+		LibSDL3 uniqueInstance memcpyDst: mappedAddress src: aForm bits len: aForm bits byteSize].
 
 	commandBuffer := self acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |

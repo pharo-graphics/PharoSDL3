@@ -52,7 +52,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 
 	"3. Upload input data"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: inputData to: mappedAddress size: byteSize. ].
+		sdl memcpyDst: mappedAddress src: inputData len: byteSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	
@@ -201,7 +201,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 
 	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: inputData to: mappedAddress size: byteSize. ].
+		sdl memcpyDst: mappedAddress src: inputData len: byteSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	
@@ -295,7 +295,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 
 	"3. Upload"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: inputData to: mappedAddress size: byteSize. ].
+		sdl memcpyDst: mappedAddress src: inputData len: byteSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	
@@ -498,7 +498,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 
 	"3. Upload input data"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: inputData to: mappedAddress size: byteSize. ].
+		sdl memcpyDst: mappedAddress src: inputData len: byteSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	
@@ -588,9 +588,9 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	transferBuffer := gpuDevice newUploadTransferBuffer: SDL3GPUIndirectDispatchCommand structureSize + byteSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 		"Upload indirect command at offset 0"
-		LibC memCopy: indirectData to: mappedAddress size: SDL3GPUIndirectDispatchCommand structureSize.
+		sdl memcpyDst: mappedAddress src: indirectData len: SDL3GPUIndirectDispatchCommand structureSize.
 		"Upload input data at offset after indirect struct"
-		LibC memCopy: inputData to: mappedAddress + SDL3GPUIndirectDispatchCommand structureSize size: byteSize. ].
+		sdl memcpyDst: mappedAddress + SDL3GPUIndirectDispatchCommand structureSize src: inputData len: byteSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |

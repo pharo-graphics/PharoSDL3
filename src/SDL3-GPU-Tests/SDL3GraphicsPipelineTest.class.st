@@ -126,7 +126,7 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 6 * SDL3GPUQuadVertex structureSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: vertexData to: mappedAddress size: 6 * SDL3GPUQuadVertex structureSize. ].
+		sdl memcpyDst: mappedAddress src: vertexData len: 6 * SDL3GPUQuadVertex structureSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
@@ -257,7 +257,7 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 3 * SDL3TestGraphicsColorVertex structureSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: vertexData to: mappedAddress size: 3 * SDL3TestGraphicsColorVertex structureSize. ].
+		sdl memcpyDst: mappedAddress src: vertexData len: 3 * SDL3TestGraphicsColorVertex structureSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
@@ -397,7 +397,7 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 3 * SDL3GPUQuadVertex structureSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: vertexData to: mappedAddress size: 3 * SDL3GPUQuadVertex structureSize. ].
+		sdl memcpyDst: mappedAddress src: vertexData len: 3 * SDL3GPUQuadVertex structureSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
@@ -537,7 +537,7 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 3 * SDL3GPUQuadVertex structureSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: vertexData to: mappedAddress size: 3 * SDL3GPUQuadVertex structureSize. ].
+		sdl memcpyDst: mappedAddress src: vertexData len: 3 * SDL3GPUQuadVertex structureSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
@@ -677,7 +677,7 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	"Upload vertex data"
 	transferBuffer := gpuDevice newUploadTransferBuffer: 6 * SDL3GPUQuadVertex structureSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
-		LibC memCopy: vertexData to: mappedAddress size: 6 * SDL3GPUQuadVertex structureSize. ].
+		sdl memcpyDst: mappedAddress src: vertexData len: 6 * SDL3GPUQuadVertex structureSize. ].
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |

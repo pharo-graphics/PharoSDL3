@@ -190,7 +190,7 @@ SDL3ShaderSource class >> withNew: createInfoClass formats: supportedShaderForma
 		FFIArray
 			externalNewType: FFICharacterType
 			size: codeAsByteArray size.	
-	LibC memCopy: codeAsByteArray to: codeAsExternalArray size: codeAsByteArray size.
+	LibSDL3 uniqueInstance memcpyDst: codeAsExternalArray src: codeAsByteArray len: codeAsByteArray size.
 	createInfo
 		code: codeAsExternalArray;
 		codeSize: codeAsExternalArray size.
