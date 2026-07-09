@@ -36,7 +36,7 @@ Since end of June/2026, the Pharo 14 **"latest"** VM ships SDL3 for Mac and Wind
 
 ## New OSWindow Drivers
 
-The System Settings to establish the current OSWindow driver. Search for "OSWindow":
+The System Settings provide an option to establish the OSWindow driver. Search for "OSWindow":
 ![System Settings](./SystemSettings.png)
 
 You can force the driver from an environment variable, from terminal:
@@ -45,6 +45,8 @@ You can force the driver from an environment variable, from terminal:
 3. Save and Close
 4. Run in terminal: `PHARO_WINDOW_DRIVER=OSSDL3Driver ./pharo-ui Pharo.image`
 5. Verify that `OSWindowDriver current` answers a `OSSDL3Driver`
+
+Other options define the strategy for refreshing the window & VSYNC. The `OSBenchmarkMorph` can show metrics and visuals related to such options.
 
 
 ## Demos & Tests
