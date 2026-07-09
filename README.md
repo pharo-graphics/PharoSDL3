@@ -79,15 +79,16 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 
 ## OSWindow backend
 
-It can be test by:
-1. Download Pharo 14 via zeroconf script: `curl https://get.pharo.org/140+vmLatest | bash`
+The System Settings to establish the current OSWindow driver. Search for "OSWindow":
+![System Settings](./SystemSettings.png)
+
+You can force the driver from an environment variable, from terminal:
+1. Download Pharo 14 via zeroconf script as described above
 2. Load this project's baseline
 3. Save and Close
 4. Run in terminal: `PHARO_WINDOW_DRIVER=OSSDL3Driver ./pharo-ui Pharo.image`
 5. Verify that `OSWindowDriver current` answers a `OSSDL3Driver`
 
-There is also an experimental "OSSDL3GPUDriver".
-You can also use System Settings to establish the current OSWindow driver. Search for "OSWindow".
 
 
 ## Mapping SDL3 Functions to Pharo Methods
@@ -130,6 +131,25 @@ Independent root classes provide class-side methods for creating or opening reso
 - `SDL3Window unsafeNewTitle: 'title' w: 800 h: 600 flags: 0`
 - `SDL3Joystick unsafeOpen: 0`
 - `SDL3PropertyGroup unsafeNew`
+
+
+### 4. GPU Block-Based API (Automatic Lifecycle)
+
+The GPU stack provides specialized methods that use Block Closures to manage the lifecycle of transient resources (like passes, mapping addresses, or configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are correctly closed, unmapped, or freed, even if an error occurs.
+
+- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:do:`, and `copyPassDo:` automatically call the underlying `EndGPU...Pass` functions when the block finishes.
+- **Safe Resource Creation:** Methods like `newGraphicsPipeline:`, `newSamplerDo:`, and `newBufferDo:` provide a temporary `CreateInfo` struct to the block and automatically free it once the resource is created.
+- **Memory Mapping:** `mapTransferBuffer:cycle:do: [ :mappedAddress | ... ]` automatically unmaps the transfer buffer when the block terminates.
+
+**Example:**
+```smalltalk
+commandBuffer renderPassTargets: targets do: [ :renderPass |
+	renderPass
+		pipeline: myPipeline;
+		drawPrimitives: 3 instances: 1 firstVertex: 0 firstInstance: 0
+].
+The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass](https://wiki.libsdl.org/SDL3/SDL_BeginGPURenderPass) and ended with a FFI call to [SDL_EndGPURenderPass](https://wiki.libsdl.org/SDL3/SDL_EndGPURenderPass)
+```
 
 
 ## Success Assertions
