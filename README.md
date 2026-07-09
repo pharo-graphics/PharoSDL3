@@ -34,6 +34,19 @@ Since end of June/2026, the Pharo 14 **"latest"** VM ships SDL3 for Mac and Wind
 - **Windows:** Download the DLL from [SDL releases](https://github.com/libsdl-org/SDL/releases) and place it in the same folder as your Pharo image.
 
 
+## New OSWindow Drivers
+
+The System Settings to establish the current OSWindow driver. Search for "OSWindow":
+![System Settings](./SystemSettings.png)
+
+You can force the driver from an environment variable, from terminal:
+1. Download Pharo 14 via zeroconf script as described above
+2. Load this project's baseline
+3. Save and Close
+4. Run in terminal: `PHARO_WINDOW_DRIVER=OSSDL3Driver ./pharo-ui Pharo.image`
+5. Verify that `OSWindowDriver current` answers a `OSSDL3Driver`
+
+
 ## Demos & Tests
 
 The project includes automated tests as well as interactive demos. These demos complement automated testing by allowing for human verification of visual rendering and event handling.
@@ -75,19 +88,6 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3GPUInstancedQuadDemoApp`: High-performance rendering of thousands of objects using hardware instancing.
 - `SDL3GPURoundedRectDemoApp`: Renders perfectly anti-aliased procedural shapes using Signed Distance Fields (SDF).
 - `SDL3GPUBoidsDemoApp`: A high-performance flocking simulation utilizing a Compute-to-Vertex-Buffer architecture.
-
-
-## OSWindow backend
-
-The System Settings to establish the current OSWindow driver. Search for "OSWindow":
-![System Settings](./SystemSettings.png)
-
-You can force the driver from an environment variable, from terminal:
-1. Download Pharo 14 via zeroconf script as described above
-2. Load this project's baseline
-3. Save and Close
-4. Run in terminal: `PHARO_WINDOW_DRIVER=OSSDL3Driver ./pharo-ui Pharo.image`
-5. Verify that `OSWindowDriver current` answers a `OSSDL3Driver`
 
 
 
