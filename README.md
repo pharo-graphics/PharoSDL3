@@ -78,7 +78,7 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3WindowChildrenDemoApp`: Parent/child window relationships including **utility**, **tooltip**, **popup menu**, and **modal** behaviors.
 - `SDL3AnimatedCursorDemoApp`: Creation and usage of custom **animated cursors** from image frames ([Video](https://youtube.com/shorts/r7KVAxjZ70w?feature=share)).
 - `SDL3MultiWindowDemoApp`: Management and update loops for multiple top-level windows simultaneously.
-- `SDL3TouchpadDemoApp`: **Multi-touch** finger tracking on modern touchpads.
+- `SDL3TouchpadDemoApp`: **Multi-touch** finger tracking ([Video](https://youtube.com/shorts/xlDduwDMxZw?feature=share)).
 - `SDL3TouchpadZoomDemoApp`: Smooth zooming gestures utilizing complex **touchpad pinch events**.
 - `SDL3AudioRecorderDemoApp`: **Audio capture** from the system's default microphone and playback.
 - `SDL3CameraDemoApp`: Live frame acquisition from a camera with horizontal mirror support.
@@ -90,15 +90,15 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3GPUClearDemoApp`: The simplest entry point to the hardware-accelerated GPU API, showing basic **render pass** and **clear color** setup.
 - `SDL3GPURenderStateDemoApp`: Simplified use of the **graphics pipeline** via the `SDL_Renderer` API. ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
 - `SDL3GPUQuadDemoApp`: Foundations of geometry: rendering a textured quad using **vertex buffers**, **index buffers**, and **UV mapping** ([Video](https://youtube.com/shorts/j4yIu-TdR0o?feature=share)).
-- `SDL3GPURoundedRectDemoApp`: Perfectly anti-aliased procedural shapes using **Signed Distance Fields (SDF)** and **fragment shaders**.
-- `SDL3GPUShimmerDemoApp`: Mock UI with a loading effect utilizing **time uniforms** and **procedural shader generation**.
+- `SDL3GPURoundedRectDemoApp`: Perfectly anti-aliased procedural shapes using **Signed Distance Fields (SDF)** and **fragment shaders** ([Video](https://youtube.com/shorts/fpLCFB_mvW8?feature=share)).
+- `SDL3GPUShimmerDemoApp`: Mock UI with a loading effect utilizing **time uniforms** and **procedural shader generation** ([Video](https://youtu.be/GNoRRP7irXs)).
 - `SDL3GPUInstancedQuadDemoApp`: High-performance rendering of thousands of objects using **hardware instancing** and **instance buffers**.
 - `SDL3GPUInstancingDemoApp`: Massive amounts of geometric shapes rendered via **GPU instancing** and **Shader Storage Buffer Objects (SSBO)**.
 - `SDL3TextScrollDemoApp`: Smooth text scrolling of a large file utilizing a **texture atlas** and **instanced quad rendering**.
 - `SDL3GPUBlurComputeDemoApp`: Real-time image processing utilizing **compute shaders**, **storage textures**, and a **Gaussian blur** algorithm.
 - `SDL3GPUKawaseBlurDemoApp`: Multi-pass **post-processing** effect demonstrating **ping-pong buffers**, **downsampling/upsampling**, and a **Dual Kawase Blur** ([Video](https://youtu.be/t0MlKdq3KHs)).
 - `SDL3GPUBoidsDemoApp`: High-performance **particle system** using a **compute-to-vertex-buffer** architecture for a flocking simulation ([Video](https://www.youtube.com/watch?v=-6wztetR5qg)).
-- `SDL3GPUNodeForceDemoApp`: Force-directed graph simulation utilizing **N-body physics** in a **compute shader**.
+- `SDL3GPUNodeForceDemoApp`: Force-directed graph simulation utilizing **N-body physics** in a **compute shader** ([Video](https://youtube.com/shorts/hl3kqMp0tao?feature=share)).
 - `SDL3GPUMandelbrotDemoApp`: Background GPU fractal generation showcasing **tiled rendering**, **level-of-detail (LOD)**, and **asynchronous GPU resource loading** ([Video](https://youtube.com/shorts/4OAt9lT9HfM?feature=share)).
 
 
