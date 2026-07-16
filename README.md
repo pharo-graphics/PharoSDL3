@@ -107,7 +107,9 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 
 The bindings follow a consistent naming convention to map C functions to Pharo methods.
 
-### 1. Low-level API (LibSDL3)
+GENERAL TIP: Given a SDL3 C name (e.g. `SDL_` function, struct or constant, in Pharo you can select the string -> open context menu -> "**Code search**" -> "**Method source with it**", and you should find where in the project 
+
+### 1. Raw API
 The `LibSDL3` class provides direct access to the C API.
 - **Prefix Removal:** The `SDL_` prefix is removed.
 - **CamelCase:** The first letter of the function name is lowercased.
@@ -120,8 +122,9 @@ You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki w
 - `SDL_Init(flags)` maps to `LibSDL3 >> init: flags`
 - `SDL_CreateWindow(title, w, h, flags)` maps to `LibSDL3 >> newWindowTitle:w:h:flags:`
 
-### 2. High-level API (Convenience Methods)
-Object-oriented classes like `SDL3Window` and `SDL3Renderer` provide more idiomatic Smalltalk methods.
+### 2. Convenience API (Instance-Side mehods in SDL3Window and others)
+
+Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "Independenct root objects") provide more idiomatic Smalltalk methods.
 
 - **Accessors:** Getter and setter functions are converted to Smalltalk-style accessors by omitting the `Get` and `Set` prefixes.
   - `SDL_GetWindowFlags(window)` maps to `SDL3Window >> flags`
@@ -129,14 +132,16 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` provide more idioma
 - **Output Parameters (Into):** When a function returns values via pointers (output parameters), the Pharo method typically uses the `Into` keyword in the selector.
   - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW:w h:h`
   - `SDL_GetRenderClipRect(renderer, &rect)` maps to `SDL3Renderer >> getRenderClipRectInto: rect`
-- **Argument Naming:** Just like in the low-level API, all arguments use `camelCase`.
+- **Argument Naming:** Just like in the raw API, all arguments use `camelCase`.
+- **Internal Assertions:** These methods internally perform success assertions, and signal `SDL3Error` if something was wrong in a SDL3 C function call.
 
-You can explore all available functions in the `LibSDL3` class or by browsing the object classes. The tables in [our wiki page](../../wiki/High%E2%80%90level-API) can help, as well.
+You can explore all available functions in the `LibSDL3` class or by browsing the object classes.
 
-### 3. Instance Creation (Class-side Methods)
+### 3. Convenience API for Instance Creation ("Unsafe" Methods)
+
 Independent root classes provide class-side methods for creating or opening resources.
 
-- **Explicit Ownership:** These methods are prefixed with `unsafeNew` (for creation) or `unsafeOpen` (for opening peripherals). This naming convention explicitly signals that the **caller is responsible** for manual memory management (e.g., calling `destroy`, `close`, or `release`).
+- **Explicit Ownership:** These methods are prefixed with `unsafeNew` (for creation) or `unsafeOpen` (for opening peripherals). This naming convention explicitly signals that the **sender is responsible** for manual memory management (e.g., calling `destroy`, `close`, or `release`). At the moment, PharoSDL3 doesn't provide a `autoRelease`-like way to automatically free the SDL3 external resources, so it is the sender who is responsible of doing it.
 - **Internal Assertions:** These methods internally perform success assertions (typically using `assertNotNullReturn`).
 
 **Examples:**
@@ -147,7 +152,7 @@ Independent root classes provide class-side methods for creating or opening reso
 
 ### 4. GPU Block-Based API (Automatic Lifecycle)
 
-The GPU stack provides specialized methods that use Block Closures to manage the lifecycle of transient resources (like passes, mapping addresses, or configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are correctly closed, unmapped, or freed, even if an error occurs.
+The GPU stack provides specialized methods that use BlockClosures to manage the lifecycle of transient resources (like passes, mapping addresses, or configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are correctly closed, unmapped, or freed, even if an error occurs.
 
 - **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:do:`, and `copyPassDo:` automatically call the underlying `EndGPU...Pass` functions when the block finishes.
 - **Safe Resource Creation:** Methods like `newGraphicsPipeline:`, `newSamplerDo:`, and `newBufferDo:` provide a temporary `CreateInfo` struct to the block and automatically free it once the resource is created.
@@ -157,18 +162,18 @@ The GPU stack provides specialized methods that use Block Closures to manage the
 ```smalltalk
 commandBuffer renderPassTargets: targets do: [ :renderPass |
 	renderPass
-		pipeline: myPipeline;
+		pipeline: aPipeline;
 		drawPrimitives: 3 instances: 1 firstVertex: 0 firstInstance: 0
 ].
-The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass](https://wiki.libsdl.org/SDL3/SDL_BeginGPURenderPass) and ended with a FFI call to [SDL_EndGPURenderPass](https://wiki.libsdl.org/SDL3/SDL_EndGPURenderPass)
+The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_BeginGPURenderPass) and ended with a FFI call to [SDL_EndGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_EndGPURenderPass)
 ```
 
 
 ## Success Assertions
 
-To provide a more idiomatic and safe experience, many wrapper methods in the High-level API handle error checking internally:
+To provide a more idiomatic and safe experience, many wrapper methods in the Convenience API handle error checking internally:
 
-- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered`) use `assertSuccess:` internally. If the call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
+- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
 - **Pointer Results:** Methods that create or return SDL3 objects (e.g., `newRendererFor:`) use `assertNotNullReturn` internally. If the returned pointer is NULL, an `SDL3Error` is raised.
 - **Void Returns:** Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
 - **Query Methods:** Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.
