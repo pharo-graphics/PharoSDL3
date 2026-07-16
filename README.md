@@ -107,7 +107,7 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 
 The bindings follow a consistent naming convention to map C functions to Pharo methods.
 
-GENERAL TIP: Given a SDL3 C name (e.g. `SDL_` function, struct or constant, in Pharo you can select the string -> open context menu -> "**Code search**" -> "**Method source with it**", and you should find where in the project 
+GENERAL TIP: Given a SDL3 C name (e.g. `SDL_` function, struct or constant), in Pharo you can select the string -> open context menu -> "**Code search**" -> "**Method source with it**", and you should find where in the project it is used or defined.
 
 ### 1. Raw API
 The `LibSDL3` class provides direct access to the C API.
@@ -122,9 +122,9 @@ You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki w
 - `SDL_Init(flags)` maps to `LibSDL3 >> init: flags`
 - `SDL_CreateWindow(title, w, h, flags)` maps to `LibSDL3 >> newWindowTitle:w:h:flags:`
 
-### 2. Convenience API (Instance-Side mehods in SDL3Window and others)
+### 2. Convenience API (Instance-Side methods in SDL3Window and others)
 
-Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "Independenct root objects") provide more idiomatic Smalltalk methods.
+Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "Independent root objects") provide more idiomatic Smalltalk methods.
 
 - **Accessors:** Getter and setter functions are converted to Smalltalk-style accessors by omitting the `Get` and `Set` prefixes.
   - `SDL_GetWindowFlags(window)` maps to `SDL3Window >> flags`
@@ -165,8 +165,8 @@ commandBuffer renderPassTargets: targets do: [ :renderPass |
 		pipeline: aPipeline;
 		drawPrimitives: 3 instances: 1 firstVertex: 0 firstInstance: 0
 ].
-The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_BeginGPURenderPass) and ended with a FFI call to [SDL_EndGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_EndGPURenderPass)
 ```
+The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_BeginGPURenderPass) and ended with a FFI call to [SDL_EndGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_EndGPURenderPass).
 
 
 ## Success Assertions
