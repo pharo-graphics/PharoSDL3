@@ -76,7 +76,7 @@ SDL3PropertyGroup >> floatAt: name put: value [
 			value: value)
 ]
 
-{ #category : 'accessing' }
+{ #category : 'testing' }
 SDL3PropertyGroup >> includesKey: name [
 
 	^ self ffiLibrary hasPropertyProps: id name: name

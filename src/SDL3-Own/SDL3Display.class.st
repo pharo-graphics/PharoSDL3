@@ -112,7 +112,7 @@ SDL3Display >> getDXGIOutputInfoIntoAdapterIndex: adapterIndex outputIndex: outp
 			outputIndex: outputIndex)
 ]
 
-{ #category : 'accessing' }
+{ #category : 'testing' }
 SDL3Display >> isPrimary [
 
 	^ id = self class primaryDisplayID
@@ -150,7 +150,7 @@ SDL3Display >> propertiesID [
 	^ self ffiLibrary getDisplayProperties: id
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3Display >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID
