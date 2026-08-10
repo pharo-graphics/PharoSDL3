@@ -1,10 +1,10 @@
 "
-I represent a SDL3 object that is identified by an integer ID, which contrasts with typical SDL3 objects that are identified by their external address.
+I represent a SDL3 object that is identified by an unsigned integer ID, which contrasts with typical SDL3 objects that are identified by their external address. SDL3 represents a failure with ID zero.
 "
 Class {
 	#name : 'SDL3BaseIDObject',
 	#superclass : 'Object',
-	#traits : 'LibTSDL3',
+	#traits : 'LibTSDL3 - {#assertNotNullReturn}',
 	#classTraits : 'LibTSDL3 classTrait',
 	#instVars : [
 		'id'
