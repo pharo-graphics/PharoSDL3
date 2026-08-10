@@ -35,6 +35,12 @@ SDL3BaseIDObject >> = anObject [
 	^ id = anObject id
 ]
 
+{ #category : 'converting' }
+SDL3BaseIDObject >> asInteger [
+
+	^ id
+]
+
 { #category : 'comparing' }
 SDL3BaseIDObject >> hash [
 	"Answer an integer value that is related to the identity of the receiver."

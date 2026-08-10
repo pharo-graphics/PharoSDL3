@@ -15,12 +15,6 @@ SDL3PropertyGroup class >> unsafeNew [
 	^ self ffiLibrary newPropertyGroup
 ]
 
-{ #category : 'converting' }
-SDL3PropertyGroup >> asInteger [
-
-	^ id
-]
-
 { #category : 'accessing' }
 SDL3PropertyGroup >> booleanAt: name ifAbsent: defaultValue [
 
