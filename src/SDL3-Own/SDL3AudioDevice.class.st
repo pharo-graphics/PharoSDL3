@@ -219,13 +219,7 @@ SDL3AudioDevice >> pause [
 ]
 
 { #category : 'printing' }
-SDL3AudioDevice >> printOn: aStream [
-
-	super printOn: aStream.
-
-	aStream
-		nextPutAll: '(id: ';
-		print: id.
+SDL3AudioDevice >> printPropertiesOn: aStream [
 
 	self isPlayback
 		ifTrue: [ aStream nextPutAll: ' playback' ]
@@ -240,9 +234,7 @@ SDL3AudioDevice >> printOn: aStream [
 
 	aStream
 		nextPutAll: ' name: ';
-		print: self name.
-
-	aStream nextPut: $)
+		print: self name
 ]
 
 { #category : 'accessing - generated' }

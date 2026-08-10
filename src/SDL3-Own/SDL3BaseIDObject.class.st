@@ -60,3 +60,21 @@ SDL3BaseIDObject >> initializeWithID: anInteger [
 	self initialize.
 	id := anInteger
 ]
+
+{ #category : 'printing' }
+SDL3BaseIDObject >> printOn: aStream [
+
+	super printOn: aStream.
+
+	aStream
+		nextPutAll: '(id: ';
+		print: id.
+
+	self printPropertiesOn: aStream.
+
+	aStream nextPut: $)
+]
+
+{ #category : 'printing' }
+SDL3BaseIDObject >> printPropertiesOn: aStream [
+]
