@@ -37,3 +37,24 @@ jobs:
         env:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin
         shell: bash
+      - name: Smoke test demos
+        run: |
+          PHARO=".smalltalkci/build/pharo"
+          IMAGE=".smalltalkci/build/TravisCI.image"
+          
+          DEMOS=$("$PHARO" "$IMAGE" eval \
+            "String streamContents: [ :s |
+              (SDL3App allSubclasses reject: #isAbstract)
+                do: [ :each | s nextPutAll: each name ]
+                separatedBy: [ s nextPut: Character lf ] ]")
+          
+          echo "$DEMOS" | while IFS= read -r demo; do
+            [ -z "$demo" ] && continue
+            echo "=== Smoke testing: $demo ==="
+            "$PHARO" "$IMAGE" eval "$demo new runForSeconds: 5" \
+              || { echo "FAILED: $demo"; exit 1; }
+          done
+        env:
+          LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
+          PATH: ${{ steps.sdl.outputs.prefix }}/bin:${{ env.PATH }}
+        shell: bash
