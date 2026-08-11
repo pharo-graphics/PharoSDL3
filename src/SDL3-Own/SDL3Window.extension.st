@@ -57,7 +57,14 @@ SDL3Window >> display [
 { #category : '*SDL3-Own' }
 SDL3Window >> displayID [
 
-	^ self ffiLibrary getDisplayForWindow: self
+	| id |
+	"Returns the instance ID of the display containing the center of
+	the window on success or 0 on failure; call SDL_GetError() for more information."
+	id := self ffiLibrary getDisplayForWindow: self.
+	
+	self ffiLibrary assertSuccess: id > 0.
+	
+	^ id
 ]
 
 { #category : '*SDL3-Own' }
