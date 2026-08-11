@@ -45,7 +45,7 @@ jobs:
             "String streamContents: [ :s |
               (SDL3App allSubclasses reject: #isAbstract)
                 do: [ :each | s nextPutAll: each name ]
-                separatedBy: [ s nextPut: Character lf ] ]")
+                separatedBy: [ s nextPut: Character lf ] ]" | tr -d "'")
 
           echo "$DEMOS" | while IFS= read -r demo; do
             [ -z "$demo" ] && continue
