@@ -29,6 +29,12 @@ jobs:
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
       - run: |
+          echo "The VM path is: $SMALLTALK_CI_VM"
+          echo "The Image path is: $SMALLTALK_CI_IMAGE"
+          echo "The VM path is: ${SMALLTALK_CI_VM}"
+          echo "The Image path is: ${SMALLTALK_CI_IMAGE}"
+          echo "The VM path is: ${{ env.SMALLTALK_CI_VM }}"
+          echo "The Image path is: ${{ env.SMALLTALK_CI_IMAGE }}"
           smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
           $GITHUB_WORKSPACE/.github/test-demos.sh
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
@@ -36,6 +42,12 @@ jobs:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
         shell: bash
       - run: |
+          echo "The VM path is: $SMALLTALK_CI_VM"
+          echo "The Image path is: $SMALLTALK_CI_IMAGE"
+          echo "The VM path is: ${SMALLTALK_CI_VM}"
+          echo "The Image path is: ${SMALLTALK_CI_IMAGE}"
+          echo "The VM path is: ${{ env.SMALLTALK_CI_VM }}"
+          echo "The Image path is: ${{ env.SMALLTALK_CI_IMAGE }}"
           smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
           $GITHUB_WORKSPACE/.github/test-demos.sh
         if: ${{ runner.os == 'Windows' }}
