@@ -25,6 +25,7 @@ jobs:
           # install-linux-dependencies: true
       - uses: actions/checkout@v7
       - uses: hpi-swa/setup-smalltalkCI@v1
+        id: smalltalkci
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
       - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
@@ -63,5 +64,7 @@ jobs:
               || { echo "FAILED: $demo"; exit 1; }
           done
         env:
+          SMALLTALK_CI_VM: ${{ steps.smalltalkci.outputs.vm }}
+          SMALLTALK_CI_IMAGE: ${{ steps.smalltalkci.outputs.image }}
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
         shell: bash
