@@ -39,19 +39,16 @@ jobs:
         shell: bash
       - name: Smoke test demos
         run: |
-          PHARO="${SMALLTALK_CI_VM}"
-          IMAGE="${SMALLTALK_CI_IMAGE}"
-          
-          DEMOS=$("$PHARO" "$IMAGE" eval \
+          DEMOS=$("$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval \
             "String streamContents: [ :s |
               (SDL3App allSubclasses reject: #isAbstract)
                 do: [ :each | s nextPutAll: each name ]
                 separatedBy: [ s nextPut: Character lf ] ]")
-          
+
           echo "$DEMOS" | while IFS= read -r demo; do
             [ -z "$demo" ] && continue
             echo "=== Smoke testing: $demo ==="
-            "$PHARO" "$IMAGE" eval "$demo new runForSeconds: 5" \
+            "$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval "$demo new runForSeconds: 5" \
               || { echo "FAILED: $demo"; exit 1; }
           done
         env:
