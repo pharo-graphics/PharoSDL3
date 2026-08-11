@@ -28,12 +28,16 @@ jobs:
         id: smalltalkci
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston & $GITHUB_WORKSPACE/.github/test-demos.sh
+      - run: |
+          smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
+          $GITHUB_WORKSPACE/.github/test-demos.sh
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
         shell: bash
-      - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston &  $GITHUB_WORKSPACE/.github/test-demos.sh
+      - run: |
+          smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
+          $GITHUB_WORKSPACE/.github/test-demos.sh
         if: ${{ runner.os == 'Windows' }}
         env:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin

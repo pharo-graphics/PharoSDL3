@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo
 
 DEMOS=$("$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval \
   "String streamContents: [ :s |
