@@ -112,7 +112,7 @@ SDL3Display >> getDXGIOutputInfoIntoAdapterIndex: adapterIndex outputIndex: outp
 			outputIndex: outputIndex)
 ]
 
-{ #category : 'accessing' }
+{ #category : 'testing' }
 SDL3Display >> isPrimary [
 
 	^ id = self class primaryDisplayID
@@ -131,22 +131,17 @@ SDL3Display >> naturalDisplayOrientation [
 ]
 
 { #category : 'printing' }
-SDL3Display >> printOn: aStream [
+SDL3Display >> printPropertiesOn: aStream [
 
-	super printOn: aStream.
 	aStream
-		nextPutAll: '(id: ';
-		print: id.
-	aStream
-		nextPutAll: 'name: ';
+		nextPutAll: ' name: ';
 		print: self name.
 	aStream
-		nextPutAll: 'isPrimary: ';
+		nextPutAll: ' isPrimary: ';
 		print: self isPrimary.
 	aStream
-		nextPutAll: 'bounds: ';
-		print: self bounds;
-		nextPut: $)
+		nextPutAll: ' bounds: ';
+		print: self bounds
 ]
 
 { #category : 'accessing' }
@@ -155,7 +150,7 @@ SDL3Display >> propertiesID [
 	^ self ffiLibrary getDisplayProperties: id
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SDL3Display >> propertyGroup [
 
 	^ SDL3PropertyGroup id: self propertiesID

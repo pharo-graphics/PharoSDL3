@@ -75,7 +75,7 @@ SDL3AudioDevice class >> unsafeOpenDevid: devid spec: spec [
 	^ self ffiLibrary openAudioDeviceDevid: devid spec: spec
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> audioPostmixCallback: callback userdata: userdata [
 
 	self ffiLibrary assertSuccess:
@@ -85,14 +85,14 @@ SDL3AudioDevice >> audioPostmixCallback: callback userdata: userdata [
 			userdata: userdata)
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> bindAudioStream: stream [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary bindAudioStreamDevid: id stream: stream)
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> bindAudioStreams: streams numStreams: numStreams [
 
 	self ffiLibrary assertSuccess:
@@ -102,7 +102,7 @@ SDL3AudioDevice >> bindAudioStreams: streams numStreams: numStreams [
 			numStreams: numStreams)
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> close [
 	"Close an opened device. This may block while pending audio data is played by the
 	hardware, so that applications don't drop the last buffer of data they supplied if
@@ -123,26 +123,26 @@ SDL3AudioDevice >> formatSpec [
 	^ spec
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> gain [
 
 	^ self ffiLibrary getAudioDeviceGain: id
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> gain: gain [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary setAudioDeviceGainDevid: id gain: gain)
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> getChannelMapIntoCount: count [
 
 	^ self ffiLibrary getAudioDeviceChannelMapDevid: id count: count
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> getFormatIntoSpec: spec sampleFrames: sampleFrames [
 
 	self ffiLibrary assertSuccess:
@@ -152,20 +152,20 @@ SDL3AudioDevice >> getFormatIntoSpec: spec sampleFrames: sampleFrames [
 			sampleFrames: sampleFrames)
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'testing' }
 SDL3AudioDevice >> isPaused [
 	"Answer whether this audio device is paused. This query only applies to logical devices (non-physical)."
 
 	^ self ffiLibrary audioDevicePaused: id
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'testing' }
 SDL3AudioDevice >> isPhysical [
 
 	^ self ffiLibrary isAudioDevicePhysical: id
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'testing' }
 SDL3AudioDevice >> isPlayback [
 
 	^ self ffiLibrary isAudioDevicePlayback: id
@@ -188,19 +188,19 @@ SDL3AudioDevice >> millisecondsBufferSize [
 	^ (valueHolder value * 1000) // spec freq
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> name [
 
 	^ self ffiLibrary getAudioDeviceName: id
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> openSpec: spec [
 
 	^ self ffiLibrary openAudioDeviceDevid: id spec: spec
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'accessing' }
 SDL3AudioDevice >> openStreamSpec: spec callback: callback userdata: userdata [
 
 	^ (self ffiLibrary
@@ -212,20 +212,14 @@ SDL3AudioDevice >> openStreamSpec: spec callback: callback userdata: userdata [
 		  yourself
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'playback' }
 SDL3AudioDevice >> pause [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary pauseAudioDevice: id)
 ]
 
 { #category : 'printing' }
-SDL3AudioDevice >> printOn: aStream [
-
-	super printOn: aStream.
-
-	aStream
-		nextPutAll: '(id: ';
-		print: id.
+SDL3AudioDevice >> printPropertiesOn: aStream [
 
 	self isPlayback
 		ifTrue: [ aStream nextPutAll: ' playback' ]
@@ -240,12 +234,10 @@ SDL3AudioDevice >> printOn: aStream [
 
 	aStream
 		nextPutAll: ' name: ';
-		print: self name.
-
-	aStream nextPut: $)
+		print: self name
 ]
 
-{ #category : 'accessing - generated' }
+{ #category : 'playback' }
 SDL3AudioDevice >> resume [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary resumeAudioDevice: id)
