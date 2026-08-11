@@ -39,6 +39,17 @@ jobs:
         shell: bash
       - name: Smoke test demos
         run: |
+          # Debug: show VM and image paths
+          echo "SMALLTALK_CI_VM=$SMALLTALK_CI_VM"
+          echo "SMALLTALK_CI_IMAGE=$SMALLTALK_CI_IMAGE"
+          ls -la "$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" 2>&1 || true
+          echo "--- VM wrapper contents ---"
+          cat -v "$SMALLTALK_CI_VM" 2>&1 || true
+          echo "---"
+
+          # Fix potential Windows \r in VM wrapper
+          sed -i 's/\r$//' "$SMALLTALK_CI_VM" 2>/dev/null || true
+          
           DEMOS=$("$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval \
             "String streamContents: [ :s |
               (SDL3App allSubclasses reject: #isAbstract)
