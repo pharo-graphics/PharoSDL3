@@ -9,8 +9,9 @@ Class {
 	#instVars : [
 		'device'
 	],
-	#category : 'SDL3',
-	#package : 'SDL3'
+	#category : 'SDL3-Base',
+	#package : 'SDL3',
+	#tag : 'Base'
 }
 
 { #category : 'accessing' }
