@@ -39,8 +39,6 @@ jobs:
         shell: bash
       - name: Smoke test demos
         run: |
-          export PATH="${{ steps.sdl.outputs.prefix }}/bin:$PATH"
-
           DEMOS=$("$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval \
             "String streamContents: [ :s |
               (SDL3App allSubclasses reject: #isAbstract)
