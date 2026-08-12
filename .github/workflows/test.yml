@@ -46,6 +46,7 @@ jobs:
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
+          SDL_AUDIO_DRIVER: dummy
         shell: bash
       - name: Smoke test demos (Windows)
         run: |
@@ -54,4 +55,5 @@ jobs:
         if: ${{ runner.os == 'Windows' }}
         env:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin
+          SDL_AUDIO_DRIVER: dummy
         shell: bash
