@@ -27,7 +27,7 @@ jobs:
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - name: Unit tests (MacOS/Linux)
+      - name: Unit tests (Unix)
         run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         env:
@@ -39,9 +39,19 @@ jobs:
         env:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin
         shell: bash
-      - name: Smoke test demos
-        run: $GITHUB_WORKSPACE/.github/test-demos.sh
+      - name: Smoke test demos (Unix)
+        run: |
+          export PATH="${{ steps.sdl.outputs.prefix }}/bin:$PATH"
+          $GITHUB_WORKSPACE/.github/test-demos.sh
+        if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
+        shell: bash
+      - name: Smoke test demos (Windows)
+        run: |
+          export PATH="${{ steps.sdl.outputs.prefix }}/bin:$PATH"
+          $GITHUB_WORKSPACE/.github/test-demos.sh
+        if: ${{ runner.os == 'Windows' }}
+        env:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin
         shell: bash
