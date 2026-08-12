@@ -9,8 +9,7 @@ if [[ -z "${SMALLTALK_CI_VM:-}" ]]; then
 fi
 
 DEMOS=$("$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval \
-  "(SDL3App allSubclasses reject: #isAbstract) collect: #name" \
-  | sed "s/['\r]//g" | tr -d '#' | tr -d '()' | tr ',' '\n')
+  "(' ' join: ((SDL3App allSubclasses reject: #isAbstract) collect: #name)) displayString")
 
 for demo in $DEMOS; do
   [ -z "$demo" ] && continue
