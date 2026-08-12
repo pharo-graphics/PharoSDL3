@@ -21,4 +21,4 @@ for bench in "${BENCHES[@]}"; do
     for driver in "${DRIVERS[@]}"; do
         PHARO_WINDOW_DRIVER=$driver $PHARO_EVAL eval "OSBenchmarkMorph $bench andThen: [ Smalltalk snapshot: false andQuit: true ] future. #$bench"
     done
-done
+done # | tee -a results.txt
