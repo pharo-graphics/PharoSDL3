@@ -23,12 +23,17 @@ if [[ -z "$DEMOS" ]]; then
   exit 0
 fi
 
+TOTAL_COUNT=0
+for demo in $DEMOS; do
+  [ -n "$demo" ] && TOTAL_COUNT=$((TOTAL_COUNT + 1))
+done
+
+CURRENT_INDEX=0
 for demo in $DEMOS; do
   [ -z "$demo" ] && continue
+  CURRENT_INDEX=$((CURRENT_INDEX + 1))
   echo ""
-  echo "=========================================="
-  echo "=== Smoke testing: $demo (5s) ==="
-  echo "=========================================="
+  echo "# [$CURRENT_INDEX/$TOTAL_COUNT] Smoke testing: $demo (5s)..."
   
   if "$VM" "$IMAGE" eval "$demo new runForSeconds: 5"; then
     PASSED_COUNT=$((PASSED_COUNT + 1))
