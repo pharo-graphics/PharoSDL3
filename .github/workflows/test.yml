@@ -27,13 +27,13 @@ jobs:
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - name: Unit tests (Unix)
+      - name: Load project and run tests (Unix)
         run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
         shell: bash
-      - name: Unit tests (Windows)
+      - name: Load project and run tests (Windows)
         run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         if: ${{ runner.os == 'Windows' }}
         env:
