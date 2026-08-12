@@ -22,7 +22,7 @@ DEMOS=$($PHARO_EVAL eval "$DEMO_QUERY" | tr -d "'")
 for demo in $DEMOS; do
   [ -z "$demo" ] && continue
   echo ""
-  echo "# Smoke testing: $demo..."
+  echo "# Smoke testing: $demo"
   
   if $PHARO_EVAL eval "$demo new runForSeconds: 5"; then
     PASSED_COUNT=$((PASSED_COUNT + 1))
@@ -36,12 +36,15 @@ echo ""
 echo "# Smoke Test Summary"
 echo "Passed: ${PASSED_COUNT}"
 echo "Failed: ${#FAILED_DEMOS[@]}"
+echo ""
 
 if [ ${#FAILED_DEMOS[@]} -gt 0 ]; then
-  echo ""
-  echo "Failed demos:"
+  echo "FAILURES:"
   for failed in "${FAILED_DEMOS[@]}"; do
     echo "  - $failed"
   done
   exit 1
+else
+  echo "SUCCESS: Demos were ran without errors"
+  exit 0
 fi

@@ -98,11 +98,13 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3GPUKawaseBlurDemoApp`: Multi-pass **post-processing** effect demonstrating **ping-pong buffers**, **downsampling/upsampling**, and a **Dual Kawase Blur** ([Video](https://youtu.be/t0MlKdq3KHs)).
 - `SDL3GPUBoidsDemoApp`: High-performance **particle system** using a **compute-to-vertex-buffer** architecture for a flocking simulation ([Video](https://www.youtube.com/watch?v=-6wztetR5qg)).
 - `SDL3GPUNodeForceDemoApp`: Force-directed graph simulation utilizing **N-body physics** in a **compute shader** ([Video](https://youtube.com/shorts/hl3kqMp0tao?feature=share)).
+
+
 ### Helper Scripts
 
-The project includes shell scripts in `scripts/` to automate demo testing and performance benchmarking:
+The project includes shell scripts in `scripts/`:
 
-- **`scripts/smokeTestDemos.sh`**: Runs each demo sequentially for 5 seconds to verify startup, execution, and clean shutdown without throwing errors or crashing. Collects all results and reports a summary.
+- **`scripts/smokeTestDemos.sh`**: Runs each demo sequentially for few seconds to verify startup, execution, and clean shutdown without throwing errors or crashing. Collects all results and reports a summary.
   ```bash
   # Run all demos (defaults to ./pharo Pharo.image)
   ./scripts/smokeTestDemos.sh
@@ -114,7 +116,7 @@ The project includes shell scripts in `scripts/` to automate demo testing and pe
   ./scripts/smokeTestDemos.sh GPU "./pharo Pharo.image"
   ```
 
-- **`scripts/benchOSWindow.sh`**: Runs `OSBenchmarkMorph` against all OSWindow drivers (`OSSDL2Driver`, `OSSDL3Driver`, `OSSDL3GPUDriver`) to collect windowing benchmarks.
+- **`scripts/benchOSWindow.sh`**: Runs `OSBenchmarkMorph` against multiple OSWindow drivers to collect windowing benchmarks.
   ```bash
   # Run benchmarks with default ./pharo-ui Pharo.image
   ./scripts/benchOSWindow.sh
@@ -125,8 +127,6 @@ The project includes shell scripts in `scripts/` to automate demo testing and pe
   # Custom Pharo launcher and image
   ./scripts/benchOSWindow.sh "./pharo-ui MyImage.image" | tee -a results.txt
   ```
-
-
 
 ## Mapping SDL3 Functions to Pharo Methods
 
