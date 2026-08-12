@@ -1,18 +1,21 @@
 #!/bin/bash
 set -u
 
-PHARO_EVAL="${1:-./pharo Pharo.image}"
-PATTERN="${2:-}"
+# Trap SIGINT / SIGTERM to ensure Ctrl+C aborts the whole script immediately
+trap "echo -e '\nInterrupted.'; exit 130" INT TERM
+
+PATTERN="${1:-}"
+PHARO_EVAL="${2:-./pharo Pharo.image}"
 
 FAILED_DEMOS=()
 PASSED_COUNT=0
 
 echo "Using Pharo: $PHARO_EVAL"
-
-DEMO_QUERY="(' ' join: ((SDL3App allSubclasses reject: #isAbstract) collect: #name)) displayString"
 if [[ -n "$PATTERN" ]]; then
-  DEMO_QUERY="(' ' join: (((SDL3App allSubclasses reject: #isAbstract) select: [ :each | '*${PATTERN}*' match: each name ]) collect: #name)) displayString"
+  echo "Filter:      $PATTERN"
 fi
+
+DEMO_QUERY="(' ' join: (((SDL3App allSubclasses reject: #isAbstract) select: [ :each | '*${PATTERN}*' match: each name ]) collect: #name)) displayString"
 
 DEMOS=$($PHARO_EVAL eval "$DEMO_QUERY" | tr -d "'")
 
