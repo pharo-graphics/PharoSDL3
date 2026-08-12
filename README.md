@@ -98,7 +98,33 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3GPUKawaseBlurDemoApp`: Multi-pass **post-processing** effect demonstrating **ping-pong buffers**, **downsampling/upsampling**, and a **Dual Kawase Blur** ([Video](https://youtu.be/t0MlKdq3KHs)).
 - `SDL3GPUBoidsDemoApp`: High-performance **particle system** using a **compute-to-vertex-buffer** architecture for a flocking simulation ([Video](https://www.youtube.com/watch?v=-6wztetR5qg)).
 - `SDL3GPUNodeForceDemoApp`: Force-directed graph simulation utilizing **N-body physics** in a **compute shader** ([Video](https://youtube.com/shorts/hl3kqMp0tao?feature=share)).
-- `SDL3GPUMandelbrotDemoApp`: Background GPU fractal generation showcasing **tiled rendering**, **level-of-detail (LOD)**, and **asynchronous GPU resource loading** ([Video](https://youtube.com/shorts/4OAt9lT9HfM?feature=share)).
+### Helper Scripts
+
+The project includes shell scripts in `scripts/` to automate demo testing and performance benchmarking:
+
+- **`scripts/smokeTestDemos.sh`**: Runs each demo sequentially for 5 seconds to verify startup, execution, and clean shutdown without throwing errors or crashing. Collects all results and reports a summary.
+  ```bash
+  # Run all demos (defaults to ./pharo Pharo.image)
+  ./scripts/smokeTestDemos.sh
+
+  # Filter demos by substring (e.g. GPU demos)
+  ./scripts/smokeTestDemos.sh GPU
+
+  # Custom Pharo VM/Image path
+  ./scripts/smokeTestDemos.sh GPU "./pharo Pharo.image"
+  ```
+
+- **`scripts/benchOSWindow.sh`**: Runs `OSBenchmarkMorph` against all OSWindow drivers (`OSSDL2Driver`, `OSSDL3Driver`, `OSSDL3GPUDriver`) to collect windowing benchmarks.
+  ```bash
+  # Run benchmarks with default ./pharo-ui Pharo.image
+  ./scripts/benchOSWindow.sh
+
+  # Run and record results to a file for comparison
+  ./scripts/benchOSWindow.sh | tee -a results.txt
+
+  # Custom Pharo launcher and image
+  ./scripts/benchOSWindow.sh "./pharo-ui MyImage.image" | tee -a results.txt
+  ```
 
 
 
