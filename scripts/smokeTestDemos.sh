@@ -4,25 +4,20 @@ set -u
 # Trap SIGINT / SIGTERM to ensure Ctrl+C aborts the whole script immediately
 trap "echo -e '\nInterrupted.'; exit 130" INT TERM
 
-PATTERN="${1:-}"
+SUBSTRING="${1:-}"
 PHARO_EVAL="${2:-./pharo Pharo.image}"
 
 FAILED_DEMOS=()
 PASSED_COUNT=0
 
-echo "Using Pharo: $PHARO_EVAL"
-if [[ -n "$PATTERN" ]]; then
-  echo "Filter:      $PATTERN"
+echo "Pharo command: $PHARO_EVAL"
+if [[ -n "$SUBSTRING" ]]; then
+  echo "Substring filter: $SUBSTRING"
 fi
 
-DEMO_QUERY="(' ' join: (((SDL3App allSubclasses reject: #isAbstract) select: [ :each | '*${PATTERN}*' match: each name ]) collect: #name)) displayString"
+DEMO_QUERY="' ' join: ((SDL3App allSubclasses reject: #isAbstract) collect: #name thenSelect: [ :each | '*${SUBSTRING}*' match: each ])"
 
 DEMOS=$($PHARO_EVAL eval "$DEMO_QUERY" | tr -d "'")
-
-if [[ -z "$DEMOS" ]]; then
-  echo "No matching demos found."
-  exit 0
-fi
 
 for demo in $DEMOS; do
   [ -z "$demo" ] && continue
@@ -49,8 +44,4 @@ if [ ${#FAILED_DEMOS[@]} -gt 0 ]; then
     echo "  - $failed"
   done
   exit 1
-else
-  echo ""
-  echo "All demos passed successfully!"
-  exit 0
 fi
