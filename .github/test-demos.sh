@@ -9,12 +9,10 @@ if [[ -z "${SMALLTALK_CI_VM:-}" ]]; then
 fi
 
 DEMOS=$("$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval \
-  "String streamContents: [ :s |
-    (SDL3App allSubclasses reject: #isAbstract)
-      do: [ :each | s nextPutAll: each name ]
-      separatedBy: [ s nextPut: Character lf ] ]" | tr -d "'")
+  "(SDL3App allSubclasses reject: #isAbstract) collect: #name" \
+  | sed "s/['\r]//g" | tr -d '#' | tr -d '()' | tr ',' '\n')
 
-echo "$DEMOS" | while IFS= read -r demo; do
+for demo in $DEMOS; do
   [ -z "$demo" ] && continue
   echo "=== Smoke testing: $demo ==="
   "$SMALLTALK_CI_VM" "$SMALLTALK_CI_IMAGE" eval "$demo new runForSeconds: 5" \
