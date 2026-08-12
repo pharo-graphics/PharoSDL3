@@ -23,17 +23,38 @@ jobs:
         with:
           version: 3-latest
           # install-linux-dependencies: true
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
+      - name: Load project and run tests (Unix)
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
         shell: bash
-      - run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
+      - name: Load project and run tests (Windows)
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         if: ${{ runner.os == 'Windows' }}
         env:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin
+        shell: bash
+      - name: Smoke test demos (Unix)
+        run: |
+          export PATH="${{ steps.sdl.outputs.prefix }}/bin:$PATH"
+          $GITHUB_WORKSPACE/scripts/smokeTestDemos.sh "" "$SMALLTALK_CI_VM $SMALLTALK_CI_IMAGE"
+        if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
+        env:
+          LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
+          SDL_AUDIO_DRIVER: dummy
+        shell: bash
+      - name: Smoke test demos (Windows)
+        run: |
+          export PATH="${{ steps.sdl.outputs.prefix }}/bin:$PATH"
+          source "$HOME/.smalltalkCI/env_vars"
+          $GITHUB_WORKSPACE/scripts/smokeTestDemos.sh "" "$SMALLTALK_CI_VM $SMALLTALK_CI_IMAGE"
+        if: ${{ runner.os == 'Windows' }}
+        env:
+          PATH: ${{ steps.sdl.outputs.prefix }}/bin
+          SDL_AUDIO_DRIVER: dummy
         shell: bash

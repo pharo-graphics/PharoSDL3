@@ -106,6 +106,17 @@ SDL3App >> run [
 ]
 
 { #category : 'lifecycle' }
+SDL3App >> runForSeconds: aNumber [
+	"Run the app and automatically quit after a number of seconds.
+	Useful for CI smoke testing where no user interaction is available."
+
+	[(Delay forSeconds: aNumber) wait. loop requestQuit ]
+		forkAt: Processor userInterruptPriority.
+
+	self run
+]
+
+{ #category : 'lifecycle' }
 SDL3App >> sdlInit [
 
 	sdl setLogPriorities: SDL_LOG_PRIORITY_TRACE.

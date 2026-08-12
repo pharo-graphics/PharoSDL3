@@ -95,7 +95,7 @@ SDL3TextScrollDemoApp >> executeTextRenderPassOn: swapchainTexture with: command
 
 		renderPass
 			pipeline: gpuPipeline;
-			vertexBuffers: vertexBufferBindings slot: 2;
+			vertexBuffers: vertexBufferBindings slot: 0;
 			indexBuffer16Bit: indexBinding;
 			fragmentSamplers: textureSamplerBindings slot: 0.
 
@@ -235,44 +235,44 @@ SDL3TextScrollDemoApp >> initializePipeline [
 
 	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
 	vertexBindings first
-		slot: 2;
+		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		instanceStepRate: 0;
 		pitch: SDL3GPUQuadVertex structureSize.
 	vertexBindings second
-		slot: 3;
+		slot: 1;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_INSTANCE;
 		instanceStepRate: 0;
 		pitch: SDL3TextScrollInstance structureSize.
 
 	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 6.
 	vertexAttributes first
-		bufferSlot: 2;
+		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
 		location: 0;
 		offset: 0.
 	vertexAttributes second
-		bufferSlot: 2;
+		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
 		location: 1;
 		offset: 12.
 	vertexAttributes third
-		bufferSlot: 3;
+		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
 		location: 2;
 		offset: 0.
 	vertexAttributes fourth
-		bufferSlot: 3;
+		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
 		location: 3;
 		offset: 8.
 	vertexAttributes fifth
-		bufferSlot: 3;
+		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
 		location: 4;
 		offset: 16.
 	vertexAttributes sixth
-		bufferSlot: 3;
+		bufferSlot: 1;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_UINT;
 		location: 5;
 		offset: 32.
