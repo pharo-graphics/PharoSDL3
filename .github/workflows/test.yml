@@ -25,32 +25,24 @@ jobs:
           # install-linux-dependencies: true
       - uses: actions/checkout@v7
       - uses: hpi-swa/setup-smalltalkCI@v1
-        id: smalltalkci
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - run: |
-          echo "The VM path is: $SMALLTALK_CI_VM"
-          echo "The Image path is: $SMALLTALK_CI_IMAGE"
-          echo "The VM path is: ${SMALLTALK_CI_VM}"
-          echo "The Image path is: ${SMALLTALK_CI_IMAGE}"
-          echo "The VM path is: ${{ env.SMALLTALK_CI_VM }}"
-          echo "The Image path is: ${{ env.SMALLTALK_CI_IMAGE }}"
-          smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
-          $GITHUB_WORKSPACE/.github/test-demos.sh
+      - name: Unit tests (MacOS/Linux)
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
         shell: bash
-      - run: |
-          echo "The VM path is: $SMALLTALK_CI_VM"
-          echo "The Image path is: $SMALLTALK_CI_IMAGE"
-          echo "The VM path is: ${SMALLTALK_CI_VM}"
-          echo "The Image path is: ${SMALLTALK_CI_IMAGE}"
-          echo "The VM path is: ${{ env.SMALLTALK_CI_VM }}"
-          echo "The Image path is: ${{ env.SMALLTALK_CI_IMAGE }}"
-          smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
-          $GITHUB_WORKSPACE/.github/test-demos.sh
+      - name: Unit tests (Windows)
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         if: ${{ runner.os == 'Windows' }}
         env:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin
+        shell: bash
+      - name: Smoke test demos
+        run: |
+          export PATH="${{ steps.sdl.outputs.prefix }}/bin:$PATH"
+          $GITHUB_WORKSPACE/.github/test-demos.sh
+        env:
+          LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
         shell: bash
