@@ -40,9 +40,8 @@ jobs:
           PATH: ${{ steps.sdl.outputs.prefix }}/bin
         shell: bash
       - name: Smoke test demos
-        run: |
-          export PATH="${{ steps.sdl.outputs.prefix }}/bin:$PATH"
-          $GITHUB_WORKSPACE/.github/test-demos.sh
+        run: $GITHUB_WORKSPACE/.github/test-demos.sh
         env:
           LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib
+          PATH: ${{ steps.sdl.outputs.prefix }}/bin
         shell: bash
