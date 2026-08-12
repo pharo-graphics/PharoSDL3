@@ -39,7 +39,7 @@ echo "Failed: ${#FAILED_DEMOS[@]}"
 
 if [ ${#FAILED_DEMOS[@]} -gt 0 ]; then
   echo ""
-  echo "The following demo(s) failed:"
+  echo "Failed demos:"
   for failed in "${FAILED_DEMOS[@]}"; do
     echo "  - $failed"
   done
