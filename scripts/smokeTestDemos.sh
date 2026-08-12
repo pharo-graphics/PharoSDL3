@@ -1,22 +1,20 @@
 #!/bin/bash
 set -u
 
-VM="${1:-./pharo}"
-IMAGE="${2:-Pharo.image}"
-PATTERN="${3:-}"
+PHARO_EVAL="${1:-./pharo Pharo.image}"
+PATTERN="${2:-}"
 
 FAILED_DEMOS=()
 PASSED_COUNT=0
 
-echo "Using VM:    $VM"
-echo "Using Image: $IMAGE"
+echo "Using Pharo: $PHARO_EVAL"
 
 DEMO_QUERY="(' ' join: ((SDL3App allSubclasses reject: #isAbstract) collect: #name)) displayString"
 if [[ -n "$PATTERN" ]]; then
   DEMO_QUERY="(' ' join: (((SDL3App allSubclasses reject: #isAbstract) select: [ :each | '*${PATTERN}*' match: each name ]) collect: #name)) displayString"
 fi
 
-DEMOS=$("$VM" "$IMAGE" eval "$DEMO_QUERY" | tr -d "'")
+DEMOS=$($PHARO_EVAL eval "$DEMO_QUERY" | tr -d "'")
 
 if [[ -z "$DEMOS" ]]; then
   echo "No matching demos found."
@@ -28,7 +26,7 @@ for demo in $DEMOS; do
   echo ""
   echo "# Smoke testing: $demo..."
   
-  if "$VM" "$IMAGE" eval "$demo new runForSeconds: 5"; then
+  if $PHARO_EVAL eval "$demo new runForSeconds: 5"; then
     PASSED_COUNT=$((PASSED_COUNT + 1))
   else
     echo ">>> FAILED: $demo"
