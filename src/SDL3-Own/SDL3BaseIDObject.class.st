@@ -10,8 +10,8 @@ Class {
 		'id'
 	],
 	#pools : [
-		'SDL3Typedef',
-		'SDL3ZConstants'
+		'SDL3Aliases',
+		'SDL3Constants'
 	],
 	#category : 'SDL3-Own-IDObjects',
 	#package : 'SDL3-Own',

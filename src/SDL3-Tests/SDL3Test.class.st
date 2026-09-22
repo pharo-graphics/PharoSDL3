@@ -9,7 +9,7 @@ Class {
 	],
 	#pools : [
 		'SDL3AllEnumerations',
-		'SDL3ZConstants'
+		'SDL3Constants'
 	],
 	#category : 'SDL3-Tests-Library',
 	#package : 'SDL3-Tests',

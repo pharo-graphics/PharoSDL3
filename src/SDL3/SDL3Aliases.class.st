@@ -1,5 +1,5 @@
 Class {
-	#name : 'SDL3Typedef',
+	#name : 'SDL3Aliases',
 	#superclass : 'SharedPool',
 	#classVars : [
 		'MSG',
@@ -391,7 +391,7 @@ Class {
 }
 
 { #category : 'class initialization' }
-SDL3Typedef class >> initialize [
+SDL3Aliases class >> initialize [
 
 	uint16_t := #uint16.
 	uint64_t := #uint64.

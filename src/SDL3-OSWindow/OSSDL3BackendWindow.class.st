@@ -15,8 +15,8 @@ Class {
 		'sdlWindow'
 	],
 	#pools : [
-		'SDL3SystemCursor',
-		'SDL3Typedef'
+		'SDL3Aliases',
+		'SDL3SystemCursor'
 	],
 	#category : 'SDL3-OSWindow-Core',
 	#package : 'SDL3-OSWindow',

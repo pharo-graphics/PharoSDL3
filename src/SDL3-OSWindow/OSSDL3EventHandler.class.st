@@ -13,7 +13,7 @@ Class {
 	],
 	#pools : [
 		'SDL3AllEnumerations',
-		'SDL3ZConstants'
+		'SDL3Constants'
 	],
 	#category : 'SDL3-OSWindow-Events',
 	#package : 'SDL3-OSWindow',

@@ -5,7 +5,7 @@ Class {
 	#name : 'OSSDL3Platform',
 	#superclass : 'Object',
 	#pools : [
-		'SDL3ZConstants'
+		'SDL3Constants'
 	],
 	#category : 'SDL3-OSWindow-Platforms',
 	#package : 'SDL3-OSWindow',

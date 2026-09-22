@@ -4,8 +4,8 @@ Class {
 	#traits : 'TSDL3Library',
 	#classTraits : 'TSDL3Library classTrait',
 	#pools : [
-		'SDL3Typedef',
-		'SDL3ZConstants'
+		'SDL3Aliases',
+		'SDL3Constants'
 	],
 	#category : 'SDL3-Base',
 	#package : 'SDL3',
