@@ -101,7 +101,7 @@ SDL3SurfaceTest >> testSaveAndLoadPNG [
 	surface savePNGFile: filePathString.
 	self assert: filePathString asFileReference exists.
 
-	loadedSurface := LibSDL3 uniqueInstance loadPNG: filePathString.
+	loadedSurface := SDL3Library uniqueInstance loadPNG: filePathString.
 
 	self assert: loadedSurface extent equals: surface extent.
 	self assert: loadedSurface pitch equals: surface pitch.

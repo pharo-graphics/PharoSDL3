@@ -36,7 +36,7 @@ OSSDL3MacOSXPlatform >> initPlatformSpecific [
 	SDLOSXPharoMenu uniqueInstance installInOSXWindow.
 
 	"Enable AppleMomentumScrollSupported"
-	LibSDL3 uniqueInstance setHintName: SDL_HINT_MAC_SCROLL_MOMENTUM value: '1'
+	SDL3Library uniqueInstance setHintName: SDL_HINT_MAC_SCROLL_MOMENTUM value: '1'
 
 ]
 

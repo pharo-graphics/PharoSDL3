@@ -27,5 +27,5 @@ SDL3Test >> setUp [
 
 	super setUp.
 
-	sdl := LibSDL3 uniqueInstance
+	sdl := SDL3Library uniqueInstance
 ]

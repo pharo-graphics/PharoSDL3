@@ -7,8 +7,8 @@ attributes (title, icon, extent, position, modes), and event dispatching.
 Class {
 	#name : 'OSSDL3BackendWindow',
 	#superclass : 'OSBackendWindow',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
+	#traits : 'TSDL3Library',
+	#classTraits : 'TSDL3Library classTrait',
 	#instVars : [
 		'currentCursor',
 		'currentDraggableCallback',
@@ -231,7 +231,7 @@ OSSDL3BackendWindow >> lookupSystemCursor: aCursor ifNotFound: aBlock [
 			at: aCursor
 			ifAbsent: [ ^ aBlock value ].
 
-	^ LibSDL3 uniqueInstance newSystemCursor: cursorID
+	^ SDL3Library uniqueInstance newSystemCursor: cursorID
 ]
 
 { #category : 'accessing' }
@@ -348,7 +348,7 @@ OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
 		surface := scaledForm unsafeNewAsSDL3Surface.
 		offset := aCursor offset * scaleToUse.
 		[ 
-			LibSDL3 uniqueInstance newColorCursorSurface: surface hotX: offset x negated hotY: offset y negated
+			SDL3Library uniqueInstance newColorCursorSurface: surface hotX: offset x negated hotY: offset y negated
 		] ensure: [ surface destroy ]
 	].
 

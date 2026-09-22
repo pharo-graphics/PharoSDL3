@@ -1,18 +1,18 @@
 Trait {
-	#name : 'LibTSDL3',
+	#name : 'TSDL3Library',
 	#category : 'SDL3-Library',
 	#package : 'SDL3',
 	#tag : 'Library'
 }
 
 { #category : 'library path' }
-LibTSDL3 classSide >> ffiLibraryName [
+TSDL3Library classSide >> ffiLibraryName [
 
-	^ LibSDL3
+	^ SDL3Library
 ]
 
 { #category : 'library path' }
-LibTSDL3 >> ffiLibraryName [
+TSDL3Library >> ffiLibraryName [
 
-	^ LibSDL3
+	^ SDL3Library
 ]

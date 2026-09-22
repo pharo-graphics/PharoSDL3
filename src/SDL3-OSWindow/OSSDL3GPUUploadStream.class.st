@@ -26,8 +26,8 @@ stream := OSSDL3GPUUploadStream on: renderer.
 Class {
 	#name : 'OSSDL3GPUUploadStream',
 	#superclass : 'Object',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
+	#traits : 'TSDL3Library',
+	#classTraits : 'TSDL3Library classTrait',
 	#instVars : [
 		'gpuDevice',
 		'transferBuffer',

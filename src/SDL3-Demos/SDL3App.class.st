@@ -70,7 +70,7 @@ SDL3App >> initialize [
 
 	super initialize.
 
-	sdl := LibSDL3 uniqueInstance.
+	sdl := SDL3Library uniqueInstance.
 	eventMap := SDL3EventMap new.
 	event := SDL_Event new.
 

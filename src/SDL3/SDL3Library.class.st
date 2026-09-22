@@ -1,5 +1,5 @@
 Class {
-	#name : 'LibSDL3',
+	#name : 'SDL3Library',
 	#superclass : 'FFILibrary',
 	#pools : [
 		'SDL3Typedef',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> abs: x [
+SDL3Library >> abs: x [
 	"/**
 	 * Compute the absolute value of `x`.
 	 *
@@ -27,7 +27,7 @@ LibSDL3 >> abs: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> acos: x [
+SDL3Library >> acos: x [
 	"/**
 	 * Compute the arc cosine of `x`.
 	 *
@@ -61,7 +61,7 @@ LibSDL3 >> acos: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> acosf: x [
+SDL3Library >> acosf: x [
 	"/**
 	 * Compute the arc cosine of `x`.
 	 *
@@ -95,7 +95,7 @@ LibSDL3 >> acosf: x [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> acquireCameraFrameCamera: camera timestampNS: timestampNS [
+SDL3Library >> acquireCameraFrameCamera: camera timestampNS: timestampNS [
 	"/**
 	 * Acquire a frame.
 	 *
@@ -142,7 +142,7 @@ LibSDL3 >> acquireCameraFrameCamera: camera timestampNS: timestampNS [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> acquireGPUCommandBuffer: device [
+SDL3Library >> acquireGPUCommandBuffer: device [
 	"/**
 	 * Acquire a command buffer.
 	 *
@@ -172,7 +172,7 @@ LibSDL3 >> acquireGPUCommandBuffer: device [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> acquireGPUSwapchainTextureCommandBuffer: command_buffer window: window swapchainTexture: swapchain_texture swapchainTextureWidth: swapchain_texture_width swapchainTextureHeight: swapchain_texture_height [
+SDL3Library >> acquireGPUSwapchainTextureCommandBuffer: command_buffer window: window swapchainTexture: swapchain_texture swapchainTextureWidth: swapchain_texture_width swapchainTextureHeight: swapchain_texture_height [
 	"/**
 	 * Acquire a texture to use in presentation.
 	 *
@@ -226,7 +226,7 @@ LibSDL3 >> acquireGPUSwapchainTextureCommandBuffer: command_buffer window: windo
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> addAtomicIntA: a v: v [
+SDL3Library >> addAtomicIntA: a v: v [
 	"/**
 	 * Add to an atomic variable.
 	 *
@@ -251,7 +251,7 @@ LibSDL3 >> addAtomicIntA: a v: v [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> addAtomicU32A: a v: v [
+SDL3Library >> addAtomicU32A: a v: v [
 	"/**
 	 * Add to an atomic variable.
 	 *
@@ -273,7 +273,7 @@ LibSDL3 >> addAtomicU32A: a v: v [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> addEventWatchFilter: filter userdata: userdata [
+SDL3Library >> addEventWatchFilter: filter userdata: userdata [
 	"/**
 	 * Add a callback to be triggered when an event is added to the event queue.
 	 *
@@ -309,7 +309,7 @@ LibSDL3 >> addEventWatchFilter: filter userdata: userdata [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> addGamepadMapping: mapping [
+SDL3Library >> addGamepadMapping: mapping [
 	"/**
 	 * Add support for gamepads that SDL is unaware of or change the binding of an
 	 * existing gamepad.
@@ -356,7 +356,7 @@ LibSDL3 >> addGamepadMapping: mapping [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> addGamepadMappingsFromFile: file [
+SDL3Library >> addGamepadMappingsFromFile: file [
 	"/**
 	 * Load a set of gamepad mappings from a file.
 	 *
@@ -394,7 +394,7 @@ LibSDL3 >> addGamepadMappingsFromFile: file [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> addGamepadMappingsFromIOSrc: src closeio: closeio [
+SDL3Library >> addGamepadMappingsFromIOSrc: src closeio: closeio [
 	"/**
 	 * Load a set of gamepad mappings from an SDL_IOStream.
 	 *
@@ -438,7 +438,7 @@ LibSDL3 >> addGamepadMappingsFromIOSrc: src closeio: closeio [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> addHintCallbackName: name callback: callback userdata: userdata [
+SDL3Library >> addHintCallbackName: name callback: callback userdata: userdata [
 	"/**
 	 * Add a function to watch a particular hint.
 	 *
@@ -463,7 +463,7 @@ LibSDL3 >> addHintCallbackName: name callback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> addSurfaceAlternateImageSurface: surface image: image [
+SDL3Library >> addSurfaceAlternateImageSurface: surface image: image [
 	"/**
 	 * Add an alternate version of a surface.
 	 *
@@ -495,7 +495,7 @@ LibSDL3 >> addSurfaceAlternateImageSurface: surface image: image [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> addTimerInterval: interval callback: callback userdata: userdata [
+SDL3Library >> addTimerInterval: interval callback: callback userdata: userdata [
 	"/**
 	 * Call a callback function at a future time.
 	 *
@@ -535,7 +535,7 @@ LibSDL3 >> addTimerInterval: interval callback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> addTimerNSInterval: interval callback: callback userdata: userdata [
+SDL3Library >> addTimerNSInterval: interval callback: callback userdata: userdata [
 	"/**
 	 * Call a callback function at a future time.
 	 *
@@ -575,7 +575,7 @@ LibSDL3 >> addTimerNSInterval: interval callback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> addVulkanRenderSemaphoresRenderer: renderer waitStageMask: wait_stage_mask waitSemaphore: wait_semaphore signalSemaphore: signal_semaphore [
+SDL3Library >> addVulkanRenderSemaphoresRenderer: renderer waitStageMask: wait_stage_mask waitSemaphore: wait_semaphore signalSemaphore: signal_semaphore [
 	"/**
 	 * Add a set of synchronization semaphores for the current frame.
 	 *
@@ -609,7 +609,7 @@ LibSDL3 >> addVulkanRenderSemaphoresRenderer: renderer waitStageMask: wait_stage
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> alignedAllocAlignment: alignment size: size [
+SDL3Library >> alignedAllocAlignment: alignment size: size [
 	"/**
 	 * Allocate memory aligned to a specific alignment.
 	 *
@@ -637,7 +637,7 @@ LibSDL3 >> alignedAllocAlignment: alignment size: size [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> alignedFree: mem [
+SDL3Library >> alignedFree: mem [
 	"/**
 	 * Free memory allocated by SDL_aligned_alloc().
 	 *
@@ -659,7 +659,7 @@ LibSDL3 >> alignedFree: mem [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> asin: x [
+SDL3Library >> asin: x [
 	"/**
 	 * Compute the arc sine of `x`.
 	 *
@@ -693,7 +693,7 @@ LibSDL3 >> asin: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> asinf: x [
+SDL3Library >> asinf: x [
 	"/**
 	 * Compute the arc sine of `x`.
 	 *
@@ -727,7 +727,7 @@ LibSDL3 >> asinf: x [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> asyncIOFromFile: file mode: mode [
+SDL3Library >> asyncIOFromFile: file mode: mode [
 	"/**
 	 * Use this function to create a new SDL_AsyncIO object for reading from
 	 * and/or writing to a named file.
@@ -770,7 +770,7 @@ LibSDL3 >> asyncIOFromFile: file mode: mode [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> atan2Y: y x: x [
+SDL3Library >> atan2Y: y x: x [
 	"/**
 	 * Compute the arc tangent of `y / x`, using the signs of x and y to adjust
 	 * the result's quadrant.
@@ -810,7 +810,7 @@ LibSDL3 >> atan2Y: y x: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> atan2fY: y x: x [
+SDL3Library >> atan2fY: y x: x [
 	"/**
 	 * Compute the arc tangent of `y / x`, using the signs of x and y to adjust
 	 * the result's quadrant.
@@ -850,7 +850,7 @@ LibSDL3 >> atan2fY: y x: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> atan: x [
+SDL3Library >> atan: x [
 	"/**
 	 * Compute the arc tangent of `x`.
 	 *
@@ -886,7 +886,7 @@ LibSDL3 >> atan: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> atanf: x [
+SDL3Library >> atanf: x [
 	"/**
 	 * Compute the arc tangent of `x`.
 	 *
@@ -922,7 +922,7 @@ LibSDL3 >> atanf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> atof: str [
+SDL3Library >> atof: str [
 	"/**
 	 * Parse a `double` from a string.
 	 *
@@ -948,7 +948,7 @@ LibSDL3 >> atof: str [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> atoi: str [
+SDL3Library >> atoi: str [
 	"/**
 	 * Parse an `int` from a string.
 	 *
@@ -975,7 +975,7 @@ LibSDL3 >> atoi: str [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> attachVirtualJoystick: desc [
+SDL3Library >> attachVirtualJoystick: desc [
 	"/**
 	 * Attach a new virtual joystick.
 	 *
@@ -1012,7 +1012,7 @@ LibSDL3 >> attachVirtualJoystick: desc [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> audioDevicePaused: devid [
+SDL3Library >> audioDevicePaused: devid [
 	"/**
 	 * Use this function to query if an audio device is paused.
 	 *
@@ -1038,7 +1038,7 @@ LibSDL3 >> audioDevicePaused: devid [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> audioStreamDevicePaused: stream [
+SDL3Library >> audioStreamDevicePaused: stream [
 	"/**
 	 * Use this function to query if an audio device associated with a stream is
 	 * paused.
@@ -1061,7 +1061,7 @@ LibSDL3 >> audioStreamDevicePaused: stream [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> beginGPUComputePassCommandBuffer: command_buffer storageTextureBindings: storage_texture_bindings numStorageTextureBindings: num_storage_texture_bindings storageBufferBindings: storage_buffer_bindings numStorageBufferBindings: num_storage_buffer_bindings [
+SDL3Library >> beginGPUComputePassCommandBuffer: command_buffer storageTextureBindings: storage_texture_bindings numStorageTextureBindings: num_storage_texture_bindings storageBufferBindings: storage_buffer_bindings numStorageBufferBindings: num_storage_buffer_bindings [
 	"/**
 	 * Begins a compute pass on a command buffer.
 	 *
@@ -1104,7 +1104,7 @@ LibSDL3 >> beginGPUComputePassCommandBuffer: command_buffer storageTextureBindin
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> beginGPUCopyPass: command_buffer [
+SDL3Library >> beginGPUCopyPass: command_buffer [
 	"/**
 	 * Begins a copy pass on a command buffer.
 	 *
@@ -1124,7 +1124,7 @@ LibSDL3 >> beginGPUCopyPass: command_buffer [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> beginGPURenderPassCommandBuffer: command_buffer colorTargetInfos: color_target_infos numColorTargets: num_color_targets depthStencilTargetInfo: depth_stencil_target_info [
+SDL3Library >> beginGPURenderPassCommandBuffer: command_buffer colorTargetInfos: color_target_infos numColorTargets: num_color_targets depthStencilTargetInfo: depth_stencil_target_info [
 	"/**
 	 * Begins a render pass on a command buffer.
 	 *
@@ -1163,7 +1163,7 @@ LibSDL3 >> beginGPURenderPassCommandBuffer: command_buffer colorTargetInfos: col
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> bindAudioStreamDevid: devid stream: stream [
+SDL3Library >> bindAudioStreamDevid: devid stream: stream [
 	"/**
 	 * Bind a single audio stream to an audio device.
 	 *
@@ -1188,7 +1188,7 @@ LibSDL3 >> bindAudioStreamDevid: devid stream: stream [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> bindAudioStreamsDevid: devid streams: streams numStreams: num_streams [
+SDL3Library >> bindAudioStreamsDevid: devid streams: streams numStreams: num_streams [
 	"/**
 	 * Bind a list of audio streams to an audio device.
 	 *
@@ -1232,7 +1232,7 @@ LibSDL3 >> bindAudioStreamsDevid: devid streams: streams numStreams: num_streams
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUComputePipelineComputePass: compute_pass computePipeline: compute_pipeline [
+SDL3Library >> bindGPUComputePipelineComputePass: compute_pass computePipeline: compute_pipeline [
 	"/**
 	 * Binds a compute pipeline on a command buffer for use in compute dispatch.
 	 *
@@ -1246,7 +1246,7 @@ LibSDL3 >> bindGPUComputePipelineComputePass: compute_pass computePipeline: comp
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUComputeSamplersComputePass: compute_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
+SDL3Library >> bindGPUComputeSamplersComputePass: compute_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
 	"/**
 	 * Binds texture-sampler pairs for use on the compute shader.
 	 *
@@ -1271,7 +1271,7 @@ LibSDL3 >> bindGPUComputeSamplersComputePass: compute_pass firstSlot: first_slot
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUComputeStorageBuffersComputePass: compute_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
+SDL3Library >> bindGPUComputeStorageBuffersComputePass: compute_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
 	"/**
 	 * Binds storage buffers as readonly for use on the compute pipeline.
 	 *
@@ -1295,7 +1295,7 @@ LibSDL3 >> bindGPUComputeStorageBuffersComputePass: compute_pass firstSlot: firs
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUComputeStorageTexturesComputePass: compute_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
+SDL3Library >> bindGPUComputeStorageTexturesComputePass: compute_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
 	"/**
 	 * Binds storage textures as readonly for use on the compute pipeline.
 	 *
@@ -1319,7 +1319,7 @@ LibSDL3 >> bindGPUComputeStorageTexturesComputePass: compute_pass firstSlot: fir
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUFragmentSamplersRenderPass: render_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
+SDL3Library >> bindGPUFragmentSamplersRenderPass: render_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
 	"/**
 	 * Binds texture-sampler pairs for use on the fragment shader.
 	 *
@@ -1344,7 +1344,7 @@ LibSDL3 >> bindGPUFragmentSamplersRenderPass: render_pass firstSlot: first_slot 
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUFragmentStorageBuffersRenderPass: render_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
+SDL3Library >> bindGPUFragmentStorageBuffersRenderPass: render_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
 	"/**
 	 * Binds storage buffers for use on the fragment shader.
 	 *
@@ -1368,7 +1368,7 @@ LibSDL3 >> bindGPUFragmentStorageBuffersRenderPass: render_pass firstSlot: first
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUFragmentStorageTexturesRenderPass: render_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
+SDL3Library >> bindGPUFragmentStorageTexturesRenderPass: render_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
 	"/**
 	 * Binds storage textures for use on the fragment shader.
 	 *
@@ -1392,7 +1392,7 @@ LibSDL3 >> bindGPUFragmentStorageTexturesRenderPass: render_pass firstSlot: firs
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUGraphicsPipelineRenderPass: render_pass graphicsPipeline: graphics_pipeline [
+SDL3Library >> bindGPUGraphicsPipelineRenderPass: render_pass graphicsPipeline: graphics_pipeline [
 	"/**
 	 * Binds a graphics pipeline on a render pass to be used in rendering.
 	 *
@@ -1408,7 +1408,7 @@ LibSDL3 >> bindGPUGraphicsPipelineRenderPass: render_pass graphicsPipeline: grap
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUIndexBufferRenderPass: render_pass binding: binding indexElementSize: index_element_size [
+SDL3Library >> bindGPUIndexBufferRenderPass: render_pass binding: binding indexElementSize: index_element_size [
 	"/**
 	 * Binds an index buffer on a command buffer for use with subsequent draw
 	 * calls.
@@ -1425,7 +1425,7 @@ LibSDL3 >> bindGPUIndexBufferRenderPass: render_pass binding: binding indexEleme
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUVertexBuffersRenderPass: render_pass firstSlot: first_slot bindings: bindings numBindings: num_bindings [
+SDL3Library >> bindGPUVertexBuffersRenderPass: render_pass firstSlot: first_slot bindings: bindings numBindings: num_bindings [
 	"/**
 	 * Binds vertex buffers on a command buffer for use with subsequent draw
 	 * calls.
@@ -1443,7 +1443,7 @@ LibSDL3 >> bindGPUVertexBuffersRenderPass: render_pass firstSlot: first_slot bin
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUVertexSamplersRenderPass: render_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
+SDL3Library >> bindGPUVertexSamplersRenderPass: render_pass firstSlot: first_slot textureSamplerBindings: texture_sampler_bindings numBindings: num_bindings [
 	"/**
 	 * Binds texture-sampler pairs for use on the vertex shader.
 	 *
@@ -1468,7 +1468,7 @@ LibSDL3 >> bindGPUVertexSamplersRenderPass: render_pass firstSlot: first_slot te
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUVertexStorageBuffersRenderPass: render_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
+SDL3Library >> bindGPUVertexStorageBuffersRenderPass: render_pass firstSlot: first_slot storageBuffers: storage_buffers numBindings: num_bindings [
 	"/**
 	 * Binds storage buffers for use on the vertex shader.
 	 *
@@ -1492,7 +1492,7 @@ LibSDL3 >> bindGPUVertexStorageBuffersRenderPass: render_pass firstSlot: first_s
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> bindGPUVertexStorageTexturesRenderPass: render_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
+SDL3Library >> bindGPUVertexStorageTexturesRenderPass: render_pass firstSlot: first_slot storageTextures: storage_textures numBindings: num_bindings [
 	"/**
 	 * Binds storage textures for use on the vertex shader.
 	 *
@@ -1516,7 +1516,7 @@ LibSDL3 >> bindGPUVertexStorageTexturesRenderPass: render_pass firstSlot: first_
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> blitGPUTextureCommandBuffer: command_buffer info: info [
+SDL3Library >> blitGPUTextureCommandBuffer: command_buffer info: info [
 	"/**
 	 * Blits from a source texture region to a destination texture region.
 	 *
@@ -1532,7 +1532,7 @@ LibSDL3 >> blitGPUTextureCommandBuffer: command_buffer info: info [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> blitSurface9GridSrc: src srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
+SDL3Library >> blitSurface9GridSrc: src srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
 	"/**
 	 * Perform a scaled blit using the 9-grid algorithm to a destination surface,
 	 * which may be of a different format.
@@ -1572,7 +1572,7 @@ LibSDL3 >> blitSurface9GridSrc: src srcrect: srcrect leftWidth: left_width right
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> blitSurfaceScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
+SDL3Library >> blitSurfaceScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 	"/**
 	 * Perform a scaled blit to a destination surface, which may be of a different
 	 * format.
@@ -1600,7 +1600,7 @@ LibSDL3 >> blitSurfaceScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect 
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> blitSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
+SDL3Library >> blitSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	"/**
 	 * Performs a fast blit from the source surface to the destination surface
 	 * with clipping.
@@ -1677,7 +1677,7 @@ LibSDL3 >> blitSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> blitSurfaceTiledSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
+SDL3Library >> blitSurfaceTiledSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	"/**
 	 * Perform a tiled blit to a destination surface, which may be of a different
 	 * format.
@@ -1706,7 +1706,7 @@ LibSDL3 >> blitSurfaceTiledSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> blitSurfaceTiledWithScaleSrc: src srcrect: srcrect scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
+SDL3Library >> blitSurfaceTiledWithScaleSrc: src srcrect: srcrect scale: scale scaleMode: scaleMode dst: dst dstrect: dstrect [
 	"/**
 	 * Perform a scaled and tiled blit to a destination surface, which may be of a
 	 * different format.
@@ -1739,7 +1739,7 @@ LibSDL3 >> blitSurfaceTiledWithScaleSrc: src srcrect: srcrect scale: scale scale
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> blitSurfaceUncheckedScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
+SDL3Library >> blitSurfaceUncheckedScaledSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 	"/**
 	 * Perform low-level surface scaled blitting only.
 	 *
@@ -1768,7 +1768,7 @@ LibSDL3 >> blitSurfaceUncheckedScaledSrc: src srcrect: srcrect dst: dst dstrect:
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> blitSurfaceUncheckedSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
+SDL3Library >> blitSurfaceUncheckedSrc: src srcrect: srcrect dst: dst dstrect: dstrect [
 	"/**
 	 * Perform low-level surface blitting only.
 	 *
@@ -1796,7 +1796,7 @@ LibSDL3 >> blitSurfaceUncheckedSrc: src srcrect: srcrect dst: dst dstrect: dstre
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> broadcastCondition: cond [
+SDL3Library >> broadcastCondition: cond [
 	"/**
 	 * Restart all threads that are waiting on the condition variable.
 	 *
@@ -1815,7 +1815,7 @@ LibSDL3 >> broadcastCondition: cond [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> bsearchKey: key base: base nmemb: nmemb size: size compare: compare [
+SDL3Library >> bsearchKey: key base: base nmemb: nmemb size: size compare: compare [
 	"/**
 	 * Perform a binary search on a previously sorted array.
 	 *
@@ -1869,7 +1869,7 @@ LibSDL3 >> bsearchKey: key base: base nmemb: nmemb size: size compare: compare [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> bsearchRKey: key base: base nmemb: nmemb size: size compare: compare userdata: userdata [
+SDL3Library >> bsearchRKey: key base: base nmemb: nmemb size: size compare: compare userdata: userdata [
 	"/**
 	 * Perform a binary search on a previously sorted array, passing a userdata
 	 * pointer to the compare function.
@@ -1931,7 +1931,7 @@ LibSDL3 >> bsearchRKey: key base: base nmemb: nmemb size: size compare: compare 
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> calculateGPUTextureFormatSizeFormat: format width: width height: height depthOrLayerCount: depth_or_layer_count [
+SDL3Library >> calculateGPUTextureFormatSizeFormat: format width: width height: height depthOrLayerCount: depth_or_layer_count [
 	"/**
 	 * Calculate the size in bytes of a texture format with dimensions.
 	 *
@@ -1948,7 +1948,7 @@ LibSDL3 >> calculateGPUTextureFormatSizeFormat: format width: width height: heig
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> callocNmemb: nmemb size: size [
+SDL3Library >> callocNmemb: nmemb size: size [
 	"/**
 	 * Allocate a zero-initialized array.
 	 *
@@ -1977,7 +1977,7 @@ LibSDL3 >> callocNmemb: nmemb size: size [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> cancelGPUCommandBuffer: command_buffer [
+SDL3Library >> cancelGPUCommandBuffer: command_buffer [
 	"/**
 	 * Cancels a command buffer.
 	 *
@@ -2005,7 +2005,7 @@ LibSDL3 >> cancelGPUCommandBuffer: command_buffer [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> captureMouse: enabled [
+SDL3Library >> captureMouse: enabled [
 	"/**
 	 * Capture the mouse and to track input outside an SDL window.
 	 *
@@ -2057,7 +2057,7 @@ LibSDL3 >> captureMouse: enabled [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> ceil: x [
+SDL3Library >> ceil: x [
 	"/**
 	 * Compute the ceiling of `x`.
 	 *
@@ -2089,7 +2089,7 @@ LibSDL3 >> ceil: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> ceilf: x [
+SDL3Library >> ceilf: x [
 	"/**
 	 * Compute the ceiling of `x`.
 	 *
@@ -2121,7 +2121,7 @@ LibSDL3 >> ceilf: x [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> claimWindowForGPUDevice: device window: window [
+SDL3Library >> claimWindowForGPUDevice: device window: window [
 	"/**
 	 * Claims a window, creating a swapchain structure for it.
 	 *
@@ -2154,7 +2154,7 @@ LibSDL3 >> claimWindowForGPUDevice: device window: window [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> cleanupTLS [
+SDL3Library >> cleanupTLS [
 	"/**
 	 * Cleanup all TLS data for this thread.
 	 *
@@ -2171,7 +2171,7 @@ LibSDL3 >> cleanupTLS [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> clearAudioStream: stream [
+SDL3Library >> clearAudioStream: stream [
 	"/**
 	 * Clear any pending data in the stream.
 	 *
@@ -2196,7 +2196,7 @@ LibSDL3 >> clearAudioStream: stream [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> clearClipboardData [
+SDL3Library >> clearClipboardData [
 	"/**
 	 * Clear the clipboard data.
 	 *
@@ -2214,7 +2214,7 @@ LibSDL3 >> clearClipboardData [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> clearComposition: window [
+SDL3Library >> clearComposition: window [
 	"/**
 	 * Dismiss the composition window/IME without disabling the subsystem.
 	 *
@@ -2234,7 +2234,7 @@ LibSDL3 >> clearComposition: window [
 ]
 
 { #category : 'public - SDL_error' }
-LibSDL3 >> clearError [
+SDL3Library >> clearError [
 	"/**
 	 * Clear any previous error message for this thread.
 	 *
@@ -2252,7 +2252,7 @@ LibSDL3 >> clearError [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> clearPropertyProps: props name: name [
+SDL3Library >> clearPropertyProps: props name: name [
 	"/**
 	 * Clear a property from a group of properties.
 	 *
@@ -2270,7 +2270,7 @@ LibSDL3 >> clearPropertyProps: props name: name [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> clearSurface: surface r: r g: g b: b a: a [
+SDL3Library >> clearSurface: surface r: r g: g b: b a: a [
 	"/**
 	 * Clear a surface with a specific color, with floating point precision.
 	 *
@@ -2297,7 +2297,7 @@ LibSDL3 >> clearSurface: surface r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> clickTrayEntry: entry [
+SDL3Library >> clickTrayEntry: entry [
 	"/**
 	 * Simulate a click on a tray entry.
 	 *
@@ -2313,7 +2313,7 @@ LibSDL3 >> clickTrayEntry: entry [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> closeAsyncIO: asyncio flush: flush queue: queue userdata: userdata [
+SDL3Library >> closeAsyncIO: asyncio flush: flush queue: queue userdata: userdata [
 	"/**
 	 * Close and free any allocated resources for an async I/O object.
 	 *
@@ -2366,7 +2366,7 @@ LibSDL3 >> closeAsyncIO: asyncio flush: flush queue: queue userdata: userdata [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> closeAudioDevice: devid [
+SDL3Library >> closeAudioDevice: devid [
 	"/**
 	 * Close a previously-opened audio device.
 	 *
@@ -2391,7 +2391,7 @@ LibSDL3 >> closeAudioDevice: devid [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> closeCamera: camera [
+SDL3Library >> closeCamera: camera [
 	"/**
 	 * Use this function to shut down camera processing and close the camera
 	 * device.
@@ -2410,7 +2410,7 @@ LibSDL3 >> closeCamera: camera [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> closeGamepad: gamepad [
+SDL3Library >> closeGamepad: gamepad [
 	"/**
 	 * Close a gamepad previously opened with SDL_OpenGamepad().
 	 *
@@ -2428,7 +2428,7 @@ LibSDL3 >> closeGamepad: gamepad [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> closeHaptic: haptic [
+SDL3Library >> closeHaptic: haptic [
 	"/**
 	 * Close a haptic device previously opened with SDL_OpenHaptic().
 	 *
@@ -2443,7 +2443,7 @@ LibSDL3 >> closeHaptic: haptic [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> closeIO: context [
+SDL3Library >> closeIO: context [
 	"/**
 	 * Close and free an allocated SDL_IOStream structure.
 	 *
@@ -2479,7 +2479,7 @@ LibSDL3 >> closeIO: context [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> closeJoystick: joystick [
+SDL3Library >> closeJoystick: joystick [
 	"/**
 	 * Close a joystick previously opened with SDL_OpenJoystick().
 	 *
@@ -2496,7 +2496,7 @@ LibSDL3 >> closeJoystick: joystick [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> closeSensor: sensor [
+SDL3Library >> closeSensor: sensor [
 	"/**
 	 * Close a sensor previously opened with SDL_OpenSensor().
 	 *
@@ -2509,7 +2509,7 @@ LibSDL3 >> closeSensor: sensor [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> closeStorage: storage [
+SDL3Library >> closeStorage: storage [
 	"/**
 	 * Closes and frees a storage container.
 	 *
@@ -2531,7 +2531,7 @@ LibSDL3 >> closeStorage: storage [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> compareAndSwapAtomicIntA: a oldval: oldval newval: newval [
+SDL3Library >> compareAndSwapAtomicIntA: a oldval: oldval newval: newval [
 	"/**
 	 * Set an atomic variable to a new value if it is currently an old value.
 	 *
@@ -2555,7 +2555,7 @@ LibSDL3 >> compareAndSwapAtomicIntA: a oldval: oldval newval: newval [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> compareAndSwapAtomicPointerA: a oldval: oldval newval: newval [
+SDL3Library >> compareAndSwapAtomicPointerA: a oldval: oldval newval: newval [
 	"/**
 	 * Set a pointer to a new value if it is currently an old value.
 	 *
@@ -2580,7 +2580,7 @@ LibSDL3 >> compareAndSwapAtomicPointerA: a oldval: oldval newval: newval [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> compareAndSwapAtomicU32A: a oldval: oldval newval: newval [
+SDL3Library >> compareAndSwapAtomicU32A: a oldval: oldval newval: newval [
 	"/**
 	 * Set an atomic variable to a new value if it is currently an old value.
 	 *
@@ -2604,7 +2604,7 @@ LibSDL3 >> compareAndSwapAtomicU32A: a oldval: oldval newval: newval [
 ]
 
 { #category : 'public - SDL_blendmode' }
-LibSDL3 >> composeCustomBlendModeSrcColorFactor: srcColorFactor dstColorFactor: dstColorFactor colorOperation: colorOperation srcAlphaFactor: srcAlphaFactor dstAlphaFactor: dstAlphaFactor alphaOperation: alphaOperation [
+SDL3Library >> composeCustomBlendModeSrcColorFactor: srcColorFactor dstColorFactor: dstColorFactor colorOperation: colorOperation srcAlphaFactor: srcAlphaFactor dstAlphaFactor: dstAlphaFactor alphaOperation: alphaOperation [
 	"/**
 	 * Compose a custom blend mode for renderers.
 	 *
@@ -2697,7 +2697,7 @@ LibSDL3 >> composeCustomBlendModeSrcColorFactor: srcColorFactor dstColorFactor: 
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> convertAudioSamplesSrcSpec: src_spec srcData: src_data srcLen: src_len dstSpec: dst_spec dstData: dst_data dstLen: dst_len [
+SDL3Library >> convertAudioSamplesSrcSpec: src_spec srcData: src_data srcLen: src_len dstSpec: dst_spec dstData: dst_data dstLen: dst_len [
 	"/**
 	 * Convert some audio data of one format to another format.
 	 *
@@ -2731,7 +2731,7 @@ LibSDL3 >> convertAudioSamplesSrcSpec: src_spec srcData: src_data srcLen: src_le
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> convertEventToRenderCoordinatesRenderer: renderer event: event [
+SDL3Library >> convertEventToRenderCoordinatesRenderer: renderer event: event [
 	"/**
 	 * Convert the coordinates in an event to render coordinates.
 	 *
@@ -2771,7 +2771,7 @@ LibSDL3 >> convertEventToRenderCoordinatesRenderer: renderer event: event [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> convertPixelsAndColorspaceWidth: width height: height srcFormat: src_format srcColorspace: src_colorspace srcProperties: src_properties src: src srcPitch: src_pitch dstFormat: dst_format dstColorspace: dst_colorspace dstProperties: dst_properties dst: dst dstPitch: dst_pitch [
+SDL3Library >> convertPixelsAndColorspaceWidth: width height: height srcFormat: src_format srcColorspace: src_colorspace srcProperties: src_properties src: src srcPitch: src_pitch dstFormat: dst_format dstColorspace: dst_colorspace dstProperties: dst_properties dst: dst dstPitch: dst_pitch [
 	"/**
 	 * Copy a block of pixels of one format and colorspace to another format and
 	 * colorspace.
@@ -2808,7 +2808,7 @@ LibSDL3 >> convertPixelsAndColorspaceWidth: width height: height srcFormat: src_
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> convertPixelsWidth: width height: height srcFormat: src_format src: src srcPitch: src_pitch dstFormat: dst_format dst: dst dstPitch: dst_pitch [
+SDL3Library >> convertPixelsWidth: width height: height srcFormat: src_format src: src srcPitch: src_pitch dstFormat: dst_format dst: dst dstPitch: dst_pitch [
 	"/**
 	 * Copy a block of pixels of one format to another format.
 	 *
@@ -2836,7 +2836,7 @@ LibSDL3 >> convertPixelsWidth: width height: height srcFormat: src_format src: s
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> convertSurface: surface format: format [
+SDL3Library >> convertSurface: surface format: format [
 	"/**
 	 * Copy an existing surface to a new surface of the specified format.
 	 *
@@ -2869,7 +2869,7 @@ LibSDL3 >> convertSurface: surface format: format [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> convertSurfaceAndColorspaceSurface: surface format: format palette: palette colorspace: colorspace props: props [
+SDL3Library >> convertSurfaceAndColorspaceSurface: surface format: format palette: palette colorspace: colorspace props: props [
 	"/**
 	 * Copy an existing surface to a new surface of the specified format and
 	 * colorspace.
@@ -2902,7 +2902,7 @@ LibSDL3 >> convertSurfaceAndColorspaceSurface: surface format: format palette: p
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> copyFileOldpath: oldpath newpath: newpath [
+SDL3Library >> copyFileOldpath: oldpath newpath: newpath [
 	"/**
 	 * Copy a file.
 	 *
@@ -2950,7 +2950,7 @@ LibSDL3 >> copyFileOldpath: oldpath newpath: newpath [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> copyGPUBufferToBufferCopyPass: copy_pass source: source destination: destination size: size cycle: cycle [
+SDL3Library >> copyGPUBufferToBufferCopyPass: copy_pass source: source destination: destination size: size cycle: cycle [
 	"/**
 	 * Performs a buffer-to-buffer copy.
 	 *
@@ -2971,7 +2971,7 @@ LibSDL3 >> copyGPUBufferToBufferCopyPass: copy_pass source: source destination: 
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> copyGPUTextureToTextureCopyPass: copy_pass source: source destination: destination w: w h: h d: d cycle: cycle [
+SDL3Library >> copyGPUTextureToTextureCopyPass: copy_pass source: source destination: destination w: w h: h d: d cycle: cycle [
 	"/**
 	 * Performs a texture-to-texture copy.
 	 *
@@ -2998,7 +2998,7 @@ LibSDL3 >> copyGPUTextureToTextureCopyPass: copy_pass source: source destination
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> copyPropertiesSrc: src dst: dst [
+SDL3Library >> copyPropertiesSrc: src dst: dst [
 	"/**
 	 * Copy a group of properties.
 	 *
@@ -3023,7 +3023,7 @@ LibSDL3 >> copyPropertiesSrc: src dst: dst [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> copyStorageFileStorage: storage oldpath: oldpath newpath: newpath [
+SDL3Library >> copyStorageFileStorage: storage oldpath: oldpath newpath: newpath [
 	"/**
 	 * Copy a file in a writable storage container.
 	 *
@@ -3042,7 +3042,7 @@ LibSDL3 >> copyStorageFileStorage: storage oldpath: oldpath newpath: newpath [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> copysignX: x y: y [
+SDL3Library >> copysignX: x y: y [
 	"/**
 	 * Copy the sign of one floating-point value to another.
 	 *
@@ -3072,7 +3072,7 @@ LibSDL3 >> copysignX: x y: y [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> copysignfX: x y: y [
+SDL3Library >> copysignfX: x y: y [
 	"/**
 	 * Copy the sign of one floating-point value to another.
 	 *
@@ -3102,7 +3102,7 @@ LibSDL3 >> copysignfX: x y: y [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> cos: x [
+SDL3Library >> cos: x [
 	"/**
 	 * Compute the cosine of `x`.
 	 *
@@ -3134,7 +3134,7 @@ LibSDL3 >> cos: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> cosf: x [
+SDL3Library >> cosf: x [
 	"/**
 	 * Compute the cosine of `x`.
 	 *
@@ -3166,7 +3166,7 @@ LibSDL3 >> cosf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> crc16Crc: crc data: data len: len [
+SDL3Library >> crc16Crc: crc data: data len: len [
 	"/**
 	 * Calculate a CRC-16 value.
 	 *
@@ -3191,7 +3191,7 @@ LibSDL3 >> crc16Crc: crc data: data len: len [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> crc32Crc: crc data: data len: len [
+SDL3Library >> crc32Crc: crc data: data len: len [
 	"/**
 	 * Calculate a CRC-32 value.
 	 *
@@ -3216,7 +3216,7 @@ LibSDL3 >> crc32Crc: crc data: data len: len [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> cursorVisible [
+SDL3Library >> cursorVisible [
 	"/**
 	 * Return whether the cursor is currently being shown.
 	 *
@@ -3235,7 +3235,7 @@ LibSDL3 >> cursorVisible [
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> dateTimeToTimeDt: dt ticks: ticks [
+SDL3Library >> dateTimeToTimeDt: dt ticks: ticks [
 	"/**
 	 * Converts a calendar time to an SDL_Time in nanoseconds since the epoch.
 	 *
@@ -3254,7 +3254,7 @@ LibSDL3 >> dateTimeToTimeDt: dt ticks: ticks [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> delay: ms [
+SDL3Library >> delay: ms [
 	"/**
 	 * Wait a specified number of milliseconds before returning.
 	 *
@@ -3276,7 +3276,7 @@ LibSDL3 >> delay: ms [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> delayNS: ns [
+SDL3Library >> delayNS: ns [
 	"/**
 	 * Wait a specified number of nanoseconds before returning.
 	 *
@@ -3298,7 +3298,7 @@ LibSDL3 >> delayNS: ns [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> delayPrecise: ns [
+SDL3Library >> delayPrecise: ns [
 	"/**
 	 * Wait a specified number of nanoseconds before returning.
 	 *
@@ -3320,7 +3320,7 @@ LibSDL3 >> delayPrecise: ns [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> desclspec: arg1 [
+SDL3Library >> desclspec: arg1 [
 	"/**
 	 * Allocate uninitialized memory.
 	 *
@@ -3352,7 +3352,7 @@ LibSDL3 >> desclspec: arg1 [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> destroyAsyncIOQueue: queue [
+SDL3Library >> destroyAsyncIOQueue: queue [
 	"/**
 	 * Destroy a previously-created async I/O task queue.
 	 *
@@ -3386,7 +3386,7 @@ LibSDL3 >> destroyAsyncIOQueue: queue [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> destroyAudioStream: stream [
+SDL3Library >> destroyAudioStream: stream [
 	"/**
 	 * Free an audio stream.
 	 *
@@ -3411,7 +3411,7 @@ LibSDL3 >> destroyAudioStream: stream [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> destroyCondition: cond [
+SDL3Library >> destroyCondition: cond [
 	"/**
 	 * Destroy a condition variable.
 	 *
@@ -3426,7 +3426,7 @@ LibSDL3 >> destroyCondition: cond [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> destroyCursor: cursor [
+SDL3Library >> destroyCursor: cursor [
 	"/**
 	 * Free a previously-created cursor.
 	 *
@@ -3449,7 +3449,7 @@ LibSDL3 >> destroyCursor: cursor [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> destroyEnvironment: env [
+SDL3Library >> destroyEnvironment: env [
 	"/**
 	 * Destroy a set of environment variables.
 	 *
@@ -3467,7 +3467,7 @@ LibSDL3 >> destroyEnvironment: env [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> destroyGPUDevice: device [
+SDL3Library >> destroyGPUDevice: device [
 	"/**
 	 * Destroys a GPU context previously returned by SDL_CreateGPUDevice.
 	 *
@@ -3482,7 +3482,7 @@ LibSDL3 >> destroyGPUDevice: device [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> destroyGPURenderState: state [
+SDL3Library >> destroyGPURenderState: state [
 	"/**
 	 * Destroy custom GPU render state.
 	 *
@@ -3500,7 +3500,7 @@ LibSDL3 >> destroyGPURenderState: state [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> destroyHapticEffectHaptic: haptic effect: effect [
+SDL3Library >> destroyHapticEffectHaptic: haptic effect: effect [
 	"/**
 	 * Destroy a haptic effect on the device.
 	 *
@@ -3519,7 +3519,7 @@ LibSDL3 >> destroyHapticEffectHaptic: haptic effect: effect [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> destroyMutex: mutex [
+SDL3Library >> destroyMutex: mutex [
 	"/**
 	 * Destroy a mutex created with SDL_CreateMutex().
 	 *
@@ -3540,7 +3540,7 @@ LibSDL3 >> destroyMutex: mutex [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> destroyPalette: palette [
+SDL3Library >> destroyPalette: palette [
 	"/**
 	 * Free a palette created with SDL_CreatePalette().
 	 *
@@ -3558,7 +3558,7 @@ LibSDL3 >> destroyPalette: palette [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> destroyProcess: process [
+SDL3Library >> destroyProcess: process [
 	"/**
 	 * Destroy a previously created process object.
 	 *
@@ -3581,7 +3581,7 @@ LibSDL3 >> destroyProcess: process [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> destroyProperties: props [
+SDL3Library >> destroyProperties: props [
 	"/**
 	 * Destroy a group of properties.
 	 *
@@ -3603,7 +3603,7 @@ LibSDL3 >> destroyProperties: props [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> destroyRWLock: rwlock [
+SDL3Library >> destroyRWLock: rwlock [
 	"/**
 	 * Destroy a read/write lock created with SDL_CreateRWLock().
 	 *
@@ -3624,7 +3624,7 @@ LibSDL3 >> destroyRWLock: rwlock [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> destroyRenderer: renderer [
+SDL3Library >> destroyRenderer: renderer [
 	"/**
 	 * Destroy the rendering context for a window and free all associated
 	 * textures.
@@ -3644,7 +3644,7 @@ LibSDL3 >> destroyRenderer: renderer [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> destroySemaphore: sem [
+SDL3Library >> destroySemaphore: sem [
 	"/**
 	 * Destroy a semaphore.
 	 *
@@ -3662,7 +3662,7 @@ LibSDL3 >> destroySemaphore: sem [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> destroySurface: surface [
+SDL3Library >> destroySurface: surface [
 	"/**
 	 * Free a surface.
 	 *
@@ -3682,7 +3682,7 @@ LibSDL3 >> destroySurface: surface [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> destroyTexture: texture [
+SDL3Library >> destroyTexture: texture [
 	"/**
 	 * Destroy the specified texture.
 	 *
@@ -3703,7 +3703,7 @@ LibSDL3 >> destroyTexture: texture [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> destroyTray: tray [
+SDL3Library >> destroyTray: tray [
 	"/**
 	 * Destroys a tray object.
 	 *
@@ -3723,7 +3723,7 @@ LibSDL3 >> destroyTray: tray [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> destroyWindow: window [
+SDL3Library >> destroyWindow: window [
 	"/**
 	 * Destroy a window.
 	 *
@@ -3749,7 +3749,7 @@ LibSDL3 >> destroyWindow: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> destroyWindowSurface: window [
+SDL3Library >> destroyWindowSurface: window [
 	"/**
 	 * Destroy the surface associated with the window.
 	 *
@@ -3769,7 +3769,7 @@ LibSDL3 >> destroyWindowSurface: window [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> detachThread: thread [
+SDL3Library >> detachThread: thread [
 	"/**
 	 * Let a thread clean up on exit without intervention.
 	 *
@@ -3809,7 +3809,7 @@ LibSDL3 >> detachThread: thread [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> detachVirtualJoystick: instance_id [
+SDL3Library >> detachVirtualJoystick: instance_id [
 	"/**
 	 * Detach a virtual joystick.
 	 *
@@ -3829,7 +3829,7 @@ LibSDL3 >> detachVirtualJoystick: instance_id [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> disableScreenSaver [
+SDL3Library >> disableScreenSaver [
 	"/**
 	 * Prevent the screen from being blanked by a screen saver.
 	 *
@@ -3854,7 +3854,7 @@ LibSDL3 >> disableScreenSaver [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> dispatchGPUComputeComputePass: compute_pass groupcountX: groupcount_x groupcountY: groupcount_y groupcountZ: groupcount_z [
+SDL3Library >> dispatchGPUComputeComputePass: compute_pass groupcountX: groupcount_x groupcountY: groupcount_y groupcountZ: groupcount_z [
 	"/**
 	 * Dispatches compute work.
 	 *
@@ -3880,7 +3880,7 @@ LibSDL3 >> dispatchGPUComputeComputePass: compute_pass groupcountX: groupcount_x
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> dispatchGPUComputeIndirectComputePass: compute_pass buffer: buffer offset: offset [
+SDL3Library >> dispatchGPUComputeIndirectComputePass: compute_pass buffer: buffer offset: offset [
 	"/**
 	 * Dispatches compute work with parameters set from a buffer.
 	 *
@@ -3904,7 +3904,7 @@ LibSDL3 >> dispatchGPUComputeIndirectComputePass: compute_pass buffer: buffer of
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> downloadFromGPUBufferCopyPass: copy_pass source: source destination: destination [
+SDL3Library >> downloadFromGPUBufferCopyPass: copy_pass source: source destination: destination [
 	"/**
 	 * Copies data from a buffer to a transfer buffer on the GPU timeline.
 	 *
@@ -3922,7 +3922,7 @@ LibSDL3 >> downloadFromGPUBufferCopyPass: copy_pass source: source destination: 
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> downloadFromGPUTextureCopyPass: copy_pass source: source destination: destination [
+SDL3Library >> downloadFromGPUTextureCopyPass: copy_pass source: source destination: destination [
 	"/**
 	 * Copies data from a texture to a transfer buffer on the GPU timeline.
 	 *
@@ -3941,7 +3941,7 @@ LibSDL3 >> downloadFromGPUTextureCopyPass: copy_pass source: source destination:
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> drawGPUIndexedPrimitivesIndirectRenderPass: render_pass buffer: buffer offset: offset drawCount: draw_count [
+SDL3Library >> drawGPUIndexedPrimitivesIndirectRenderPass: render_pass buffer: buffer offset: offset drawCount: draw_count [
 	"/**
 	 * Draws data using bound graphics state with an index buffer enabled and with
 	 * draw parameters set from a buffer.
@@ -3963,7 +3963,7 @@ LibSDL3 >> drawGPUIndexedPrimitivesIndirectRenderPass: render_pass buffer: buffe
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> drawGPUIndexedPrimitivesRenderPass: render_pass numIndices: num_indices numInstances: num_instances firstIndex: first_index vertexOffset: vertex_offset firstInstance: first_instance [
+SDL3Library >> drawGPUIndexedPrimitivesRenderPass: render_pass numIndices: num_indices numInstances: num_instances firstIndex: first_index vertexOffset: vertex_offset firstInstance: first_instance [
 	"/**
 	 * Draws data using bound graphics state with an index buffer and instancing
 	 * enabled.
@@ -3992,7 +3992,7 @@ LibSDL3 >> drawGPUIndexedPrimitivesRenderPass: render_pass numIndices: num_indic
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> drawGPUPrimitivesIndirectRenderPass: render_pass buffer: buffer offset: offset drawCount: draw_count [
+SDL3Library >> drawGPUPrimitivesIndirectRenderPass: render_pass buffer: buffer offset: offset drawCount: draw_count [
 	"/**
 	 * Draws data using bound graphics state and with draw parameters set from a
 	 * buffer.
@@ -4014,7 +4014,7 @@ LibSDL3 >> drawGPUPrimitivesIndirectRenderPass: render_pass buffer: buffer offse
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> drawGPUPrimitivesRenderPass: render_pass numVertices: num_vertices numInstances: num_instances firstVertex: first_vertex firstInstance: first_instance [
+SDL3Library >> drawGPUPrimitivesRenderPass: render_pass numVertices: num_vertices numInstances: num_instances firstVertex: first_vertex firstInstance: first_instance [
 	"/**
 	 * Draws data using bound graphics state.
 	 *
@@ -4040,7 +4040,7 @@ LibSDL3 >> drawGPUPrimitivesRenderPass: render_pass numVertices: num_vertices nu
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> duplicateSurface: surface [
+SDL3Library >> duplicateSurface: surface [
 	"/**
 	 * Creates a new surface identical to the existing surface.
 	 *
@@ -4065,7 +4065,7 @@ LibSDL3 >> duplicateSurface: surface [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> eglGetCurrentConfig [
+SDL3Library >> eglGetCurrentConfig [
 	"/**
 	 * Get the currently active EGL config.
 	 *
@@ -4081,7 +4081,7 @@ LibSDL3 >> eglGetCurrentConfig [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> eglGetCurrentDisplay [
+SDL3Library >> eglGetCurrentDisplay [
 	"/**
 	 * Get the currently active EGL display.
 	 *
@@ -4097,7 +4097,7 @@ LibSDL3 >> eglGetCurrentDisplay [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> eglGetProcAddress: proc [
+SDL3Library >> eglGetProcAddress: proc [
 	"/**
 	 * Get an EGL library function by name.
 	 *
@@ -4120,7 +4120,7 @@ LibSDL3 >> eglGetProcAddress: proc [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> eglGetWindowSurface: window [
+SDL3Library >> eglGetWindowSurface: window [
 	"/**
 	 * Get the EGL surface associated with the window.
 	 *
@@ -4137,7 +4137,7 @@ LibSDL3 >> eglGetWindowSurface: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> eglSetAttributeCallbacksPlatformAttribCallback: platformAttribCallback surfaceAttribCallback: surfaceAttribCallback contextAttribCallback: contextAttribCallback userdata: userdata [
+SDL3Library >> eglSetAttributeCallbacksPlatformAttribCallback: platformAttribCallback surfaceAttribCallback: surfaceAttribCallback contextAttribCallback: contextAttribCallback userdata: userdata [
 	"/**
 	 * Sets the callbacks for defining custom EGLAttrib arrays for EGL
 	 * initialization.
@@ -4163,7 +4163,7 @@ LibSDL3 >> eglSetAttributeCallbacksPlatformAttribCallback: platformAttribCallbac
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> enableScreenSaver [
+SDL3Library >> enableScreenSaver [
 	"/**
 	 * Allow the screen to be blanked by a screen saver.
 	 *
@@ -4182,7 +4182,7 @@ LibSDL3 >> enableScreenSaver [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> endGPUComputePass: compute_pass [
+SDL3Library >> endGPUComputePass: compute_pass [
 	"/**
 	 * Ends the current compute pass.
 	 *
@@ -4198,7 +4198,7 @@ LibSDL3 >> endGPUComputePass: compute_pass [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> endGPUCopyPass: copy_pass [
+SDL3Library >> endGPUCopyPass: copy_pass [
 	"/**
 	 * Ends the current copy pass.
 	 *
@@ -4211,7 +4211,7 @@ LibSDL3 >> endGPUCopyPass: copy_pass [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> endGPURenderPass: render_pass [
+SDL3Library >> endGPURenderPass: render_pass [
 	"/**
 	 * Ends the given render pass.
 	 *
@@ -4227,7 +4227,7 @@ LibSDL3 >> endGPURenderPass: render_pass [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> enumerateDirectoryPath: path callback: callback userdata: userdata [
+SDL3Library >> enumerateDirectoryPath: path callback: callback userdata: userdata [
 	"/**
 	 * Enumerate a directory through a callback function.
 	 *
@@ -4256,7 +4256,7 @@ LibSDL3 >> enumerateDirectoryPath: path callback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> enumeratePropertiesProps: props callback: callback userdata: userdata [
+SDL3Library >> enumeratePropertiesProps: props callback: callback userdata: userdata [
 	"/**
 	 * Enumerate the properties contained in a group of properties.
 	 *
@@ -4278,7 +4278,7 @@ LibSDL3 >> enumeratePropertiesProps: props callback: callback userdata: userdata
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> enumerateStorageDirectoryStorage: storage path: path callback: callback userdata: userdata [
+SDL3Library >> enumerateStorageDirectoryStorage: storage path: path callback: callback userdata: userdata [
 	"/**
 	 * Enumerate a directory in a storage container through a callback function.
 	 *
@@ -4311,7 +4311,7 @@ LibSDL3 >> enumerateStorageDirectoryStorage: storage path: path callback: callba
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> eventEnabled: type [
+SDL3Library >> eventEnabled: type [
 	"/**
 	 * Query the state of processing events by type.
 	 *
@@ -4329,7 +4329,7 @@ LibSDL3 >> eventEnabled: type [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> exp: x [
+SDL3Library >> exp: x [
 	"/**
 	 * Compute the exponential of `x`.
 	 *
@@ -4365,7 +4365,7 @@ LibSDL3 >> exp: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> expf: x [
+SDL3Library >> expf: x [
 	"/**
 	 * Compute the exponential of `x`.
 	 *
@@ -4401,7 +4401,7 @@ LibSDL3 >> expf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> fabs: x [
+SDL3Library >> fabs: x [
 	"/**
 	 * Compute the absolute value of `x`
 	 *
@@ -4426,7 +4426,7 @@ LibSDL3 >> fabs: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> fabsf: x [
+SDL3Library >> fabsf: x [
 	"/**
 	 * Compute the absolute value of `x`
 	 *
@@ -4451,7 +4451,7 @@ LibSDL3 >> fabsf: x [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> failToCompileIfXIsFalse: arg1 [
+SDL3Library >> failToCompileIfXIsFalse: arg1 [
 	"/* Check the size of SDL_IOStreamInterface
 	 *
 	 * If this assert fails, either the compiler is padding to an unexpected size,
@@ -4463,7 +4463,7 @@ LibSDL3 >> failToCompileIfXIsFalse: arg1 [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> fillSurfaceRectDst: dst rect: rect color: color [
+SDL3Library >> fillSurfaceRectDst: dst rect: rect color: color [
 	"/**
 	 * Perform a fast fill of a rectangle with a specific color.
 	 *
@@ -4495,7 +4495,7 @@ LibSDL3 >> fillSurfaceRectDst: dst rect: rect color: color [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> fillSurfaceRectsDst: dst rects: rects count: count color: color [
+SDL3Library >> fillSurfaceRectsDst: dst rects: rects count: count color: color [
 	"/**
 	 * Perform a fast fill of a set of rectangles with a specific color.
 	 *
@@ -4527,7 +4527,7 @@ LibSDL3 >> fillSurfaceRectsDst: dst rects: rects count: count color: color [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> filterEventsFilter: filter userdata: userdata [
+SDL3Library >> filterEventsFilter: filter userdata: userdata [
 	"/**
 	 * Run a specific filter function on the current event queue, removing any
 	 * events for which the filter returns false.
@@ -4551,7 +4551,7 @@ LibSDL3 >> filterEventsFilter: filter userdata: userdata [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> flashWindow: window operation: operation [
+SDL3Library >> flashWindow: window operation: operation [
 	"/**
 	 * Request a window to demand attention from the user.
 	 *
@@ -4569,7 +4569,7 @@ LibSDL3 >> flashWindow: window operation: operation [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> flipSurface: surface flip: flip [
+SDL3Library >> flipSurface: surface flip: flip [
 	"/**
 	 * Flip a surface vertically or horizontally.
 	 *
@@ -4588,7 +4588,7 @@ LibSDL3 >> flipSurface: surface flip: flip [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> floor: x [
+SDL3Library >> floor: x [
 	"/**
 	 * Compute the floor of `x`.
 	 *
@@ -4620,7 +4620,7 @@ LibSDL3 >> floor: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> floorf: x [
+SDL3Library >> floorf: x [
 	"/**
 	 * Compute the floor of `x`.
 	 *
@@ -4652,7 +4652,7 @@ LibSDL3 >> floorf: x [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> flushAudioStream: stream [
+SDL3Library >> flushAudioStream: stream [
 	"/**
 	 * Tell the stream that you're done sending data, and anything being buffered
 	 * should be converted/resampled and made available immediately.
@@ -4676,7 +4676,7 @@ LibSDL3 >> flushAudioStream: stream [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> flushEvent: type [
+SDL3Library >> flushEvent: type [
 	"/**
 	 * Clear events of a specific type from the event queue.
 	 *
@@ -4708,7 +4708,7 @@ LibSDL3 >> flushEvent: type [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> flushEventsMinType: minType maxType: maxType [
+SDL3Library >> flushEventsMinType: minType maxType: maxType [
 	"/**
 	 * Clear events of a range of types from the event queue.
 	 *
@@ -4739,7 +4739,7 @@ LibSDL3 >> flushEventsMinType: minType maxType: maxType [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> flushIO: context [
+SDL3Library >> flushIO: context [
 	"/**
 	 * Flush any buffered data in the stream.
 	 *
@@ -4763,7 +4763,7 @@ LibSDL3 >> flushIO: context [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> flushRenderer: renderer [
+SDL3Library >> flushRenderer: renderer [
 	"/**
 	 * Force the rendering context to flush any pending commands and state.
 	 *
@@ -4800,7 +4800,7 @@ LibSDL3 >> flushRenderer: renderer [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> fmodX: x y: y [
+SDL3Library >> fmodX: x y: y [
 	"/**
 	 * Return the floating-point remainder of `x / y`
 	 *
@@ -4834,7 +4834,7 @@ LibSDL3 >> fmodX: x y: y [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> fmodfX: x y: y [
+SDL3Library >> fmodfX: x y: y [
 	"/**
 	 * Return the floating-point remainder of `x / y`
 	 *
@@ -4868,7 +4868,7 @@ LibSDL3 >> fmodfX: x y: y [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> free: mem [
+SDL3Library >> free: mem [
 	"/**
 	 * Free allocated memory.
 	 *
@@ -4892,7 +4892,7 @@ LibSDL3 >> free: mem [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> gamepadConnected: gamepad [
+SDL3Library >> gamepadConnected: gamepad [
 	"/**
 	 * Check if a gamepad has been opened and is currently connected.
 	 *
@@ -4910,7 +4910,7 @@ LibSDL3 >> gamepadConnected: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> gamepadEventsEnabled [
+SDL3Library >> gamepadEventsEnabled [
 	"/**
 	 * Query the state of gamepad event processing.
 	 *
@@ -4930,7 +4930,7 @@ LibSDL3 >> gamepadEventsEnabled [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> gamepadHasAxisGamepad: gamepad axis: axis [
+SDL3Library >> gamepadHasAxisGamepad: gamepad axis: axis [
 	"/**
 	 * Query whether a gamepad has a given axis.
 	 *
@@ -4953,7 +4953,7 @@ LibSDL3 >> gamepadHasAxisGamepad: gamepad axis: axis [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> gamepadHasButtonGamepad: gamepad button: button [
+SDL3Library >> gamepadHasButtonGamepad: gamepad button: button [
 	"/**
 	 * Query whether a gamepad has a given button.
 	 *
@@ -4975,7 +4975,7 @@ LibSDL3 >> gamepadHasButtonGamepad: gamepad button: button [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> gamepadHasSensorGamepad: gamepad type: type [
+SDL3Library >> gamepadHasSensorGamepad: gamepad type: type [
 	"/**
 	 * Return whether a gamepad has a particular sensor.
 	 *
@@ -4996,7 +4996,7 @@ LibSDL3 >> gamepadHasSensorGamepad: gamepad type: type [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> gamepadSensorEnabledGamepad: gamepad type: type [
+SDL3Library >> gamepadSensorEnabledGamepad: gamepad type: type [
 	"/**
 	 * Query whether sensor data reporting is enabled for a gamepad.
 	 *
@@ -5015,7 +5015,7 @@ LibSDL3 >> gamepadSensorEnabledGamepad: gamepad type: type [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> generateMipmapsForGPUTextureCommandBuffer: command_buffer texture: texture [
+SDL3Library >> generateMipmapsForGPUTextureCommandBuffer: command_buffer texture: texture [
 	"/**
 	 * Generates mipmaps for the given texture.
 	 *
@@ -5031,7 +5031,7 @@ LibSDL3 >> generateMipmapsForGPUTextureCommandBuffer: command_buffer texture: te
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> getAppMetadataProperty: name [
+SDL3Library >> getAppMetadataProperty: name [
 	"/**
 	 * Get metadata about your app.
 	 *
@@ -5058,7 +5058,7 @@ LibSDL3 >> getAppMetadataProperty: name [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> getAsyncIOResultQueue: queue outcome: outcome [
+SDL3Library >> getAsyncIOResultQueue: queue outcome: outcome [
 	"/**
 	 * Query an async I/O task queue for completed tasks.
 	 *
@@ -5088,7 +5088,7 @@ LibSDL3 >> getAsyncIOResultQueue: queue outcome: outcome [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> getAsyncIOSize: asyncio [
+SDL3Library >> getAsyncIOSize: asyncio [
 	"/**
 	 * Use this function to get the size of the data stream in an SDL_AsyncIO.
 	 *
@@ -5109,7 +5109,7 @@ LibSDL3 >> getAsyncIOSize: asyncio [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> getAtomicInt: a [
+SDL3Library >> getAtomicInt: a [
 	"/**
 	 * Get the value of an atomic variable.
 	 *
@@ -5130,7 +5130,7 @@ LibSDL3 >> getAtomicInt: a [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> getAtomicPointer: a [
+SDL3Library >> getAtomicPointer: a [
 	"/**
 	 * Get the value of a pointer atomically.
 	 *
@@ -5152,7 +5152,7 @@ LibSDL3 >> getAtomicPointer: a [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> getAtomicU32: a [
+SDL3Library >> getAtomicU32: a [
 	"/**
 	 * Get the value of an atomic variable.
 	 *
@@ -5173,7 +5173,7 @@ LibSDL3 >> getAtomicU32: a [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioDeviceChannelMapDevid: devid count: count [
+SDL3Library >> getAudioDeviceChannelMapDevid: devid count: count [
 	"/**
 	 * Get the current channel map of an audio device.
 	 *
@@ -5200,7 +5200,7 @@ LibSDL3 >> getAudioDeviceChannelMapDevid: devid count: count [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioDeviceFormatDevid: devid spec: spec sampleFrames: sample_frames [
+SDL3Library >> getAudioDeviceFormatDevid: devid spec: spec sampleFrames: sample_frames [
 	"/**
 	 * Get the current audio format of a specific audio device.
 	 *
@@ -5239,7 +5239,7 @@ LibSDL3 >> getAudioDeviceFormatDevid: devid spec: spec sampleFrames: sample_fram
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioDeviceGain: devid [
+SDL3Library >> getAudioDeviceGain: devid [
 	"/**
 	 * Get the gain of an audio device.
 	 *
@@ -5266,7 +5266,7 @@ LibSDL3 >> getAudioDeviceGain: devid [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioDeviceName: devid [
+SDL3Library >> getAudioDeviceName: devid [
 	"/**
 	 * Get the human-readable name of a specific audio device.
 	 *
@@ -5295,7 +5295,7 @@ LibSDL3 >> getAudioDeviceName: devid [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioDriver: index [
+SDL3Library >> getAudioDriver: index [
 	"/**
 	 * Use this function to get the name of a built in audio driver.
 	 *
@@ -5323,7 +5323,7 @@ LibSDL3 >> getAudioDriver: index [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioFormatName: format [
+SDL3Library >> getAudioFormatName: format [
 	"/**
 	 * Get the human readable name of an audio format.
 	 *
@@ -5340,7 +5340,7 @@ LibSDL3 >> getAudioFormatName: format [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioPlaybackDevices: count [
+SDL3Library >> getAudioPlaybackDevices: count [
 	"/**
 	 * Get a list of currently-connected audio playback devices.
 	 *
@@ -5373,7 +5373,7 @@ LibSDL3 >> getAudioPlaybackDevices: count [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioRecordingDevices: count [
+SDL3Library >> getAudioRecordingDevices: count [
 	"/**
 	 * Get a list of currently-connected audio recording devices.
 	 *
@@ -5406,7 +5406,7 @@ LibSDL3 >> getAudioRecordingDevices: count [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamAvailable: stream [
+SDL3Library >> getAudioStreamAvailable: stream [
 	"/**
 	 * Get the number of converted/resampled bytes available.
 	 *
@@ -5436,7 +5436,7 @@ LibSDL3 >> getAudioStreamAvailable: stream [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamDataStream: stream buf: buf len: len [
+SDL3Library >> getAudioStreamDataStream: stream buf: buf len: len [
 	"/**
 	 * Get converted/resampled data from the stream.
 	 *
@@ -5470,7 +5470,7 @@ LibSDL3 >> getAudioStreamDataStream: stream buf: buf len: len [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamDevice: stream [
+SDL3Library >> getAudioStreamDevice: stream [
 	"/**
 	 * Query an audio stream for its currently-bound device.
 	 *
@@ -5495,7 +5495,7 @@ LibSDL3 >> getAudioStreamDevice: stream [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spec [
+SDL3Library >> getAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spec [
 	"/**
 	 * Query the current format of an audio stream.
 	 *
@@ -5517,7 +5517,7 @@ LibSDL3 >> getAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spe
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamFrequencyRatio: stream [
+SDL3Library >> getAudioStreamFrequencyRatio: stream [
 	"/**
 	 * Get the frequency ratio of an audio stream.
 	 *
@@ -5537,7 +5537,7 @@ LibSDL3 >> getAudioStreamFrequencyRatio: stream [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamGain: stream [
+SDL3Library >> getAudioStreamGain: stream [
 	"/**
 	 * Get the gain of an audio stream.
 	 *
@@ -5562,7 +5562,7 @@ LibSDL3 >> getAudioStreamGain: stream [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamInputChannelMapStream: stream count: count [
+SDL3Library >> getAudioStreamInputChannelMapStream: stream count: count [
 	"/**
 	 * Get the current input channel map of an audio stream.
 	 *
@@ -5590,7 +5590,7 @@ LibSDL3 >> getAudioStreamInputChannelMapStream: stream count: count [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamOutputChannelMapStream: stream count: count [
+SDL3Library >> getAudioStreamOutputChannelMapStream: stream count: count [
 	"/**
 	 * Get the current output channel map of an audio stream.
 	 *
@@ -5618,7 +5618,7 @@ LibSDL3 >> getAudioStreamOutputChannelMapStream: stream count: count [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamProperties: stream [
+SDL3Library >> getAudioStreamProperties: stream [
 	"/**
 	 * Get the properties associated with an audio stream.
 	 *
@@ -5646,7 +5646,7 @@ LibSDL3 >> getAudioStreamProperties: stream [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getAudioStreamQueued: stream [
+SDL3Library >> getAudioStreamQueued: stream [
 	"/**
 	 * Get the number of bytes currently queued.
 	 *
@@ -5688,7 +5688,7 @@ LibSDL3 >> getAudioStreamQueued: stream [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> getBasePath [
+SDL3Library >> getBasePath [
 	"/**
 	 * Get the directory where the application was run from.
 	 *
@@ -5738,7 +5738,7 @@ LibSDL3 >> getBasePath [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> getBooleanPropertyProps: props name: name defaultValue: default_value [
+SDL3Library >> getBooleanPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a boolean property from a group of properties.
 	 *
@@ -5764,7 +5764,7 @@ LibSDL3 >> getBooleanPropertyProps: props name: name defaultValue: default_value
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> getCPUCacheLineSize [
+SDL3Library >> getCPUCacheLineSize [
 	"/**
 	 * Determine the L1 cache line size of the CPU.
 	 *
@@ -5782,7 +5782,7 @@ LibSDL3 >> getCPUCacheLineSize [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraDriver: index [
+SDL3Library >> getCameraDriver: index [
 	"/**
 	 * Use this function to get the name of a built in camera driver.
 	 *
@@ -5810,7 +5810,7 @@ LibSDL3 >> getCameraDriver: index [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraFormatCamera: camera spec: spec [
+SDL3Library >> getCameraFormatCamera: camera spec: spec [
 	"/**
 	 * Get the spec that a camera is using when generating images.
 	 *
@@ -5840,7 +5840,7 @@ LibSDL3 >> getCameraFormatCamera: camera spec: spec [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraID: camera [
+SDL3Library >> getCameraID: camera [
 	"/**
 	 * Get the instance ID of an opened camera.
 	 *
@@ -5859,7 +5859,7 @@ LibSDL3 >> getCameraID: camera [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraName: instance_id [
+SDL3Library >> getCameraName: instance_id [
 	"/**
 	 * Get the human-readable device name for a camera.
 	 *
@@ -5878,7 +5878,7 @@ LibSDL3 >> getCameraName: instance_id [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraPermissionState: camera [
+SDL3Library >> getCameraPermissionState: camera [
 	"/**
 	 * Query if camera access has been approved by the user.
 	 *
@@ -5917,7 +5917,7 @@ LibSDL3 >> getCameraPermissionState: camera [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraPosition: instance_id [
+SDL3Library >> getCameraPosition: instance_id [
 	"/**
 	 * Get the position of the camera in relation to the system.
 	 *
@@ -5940,7 +5940,7 @@ LibSDL3 >> getCameraPosition: instance_id [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraProperties: camera [
+SDL3Library >> getCameraProperties: camera [
 	"/**
 	 * Get the properties associated with an opened camera.
 	 *
@@ -5957,7 +5957,7 @@ LibSDL3 >> getCameraProperties: camera [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameraSupportedFormatsInstanceId: instance_id count: count [
+SDL3Library >> getCameraSupportedFormatsInstanceId: instance_id count: count [
 	"/**
 	 * Get the list of native formats/sizes a camera supports.
 	 *
@@ -6000,7 +6000,7 @@ LibSDL3 >> getCameraSupportedFormatsInstanceId: instance_id count: count [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCameras: count [
+SDL3Library >> getCameras: count [
 	"/**
 	 * Get a list of currently connected camera devices.
 	 *
@@ -6021,7 +6021,7 @@ LibSDL3 >> getCameras: count [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> getClipboardDataMimeType: mime_type size: size [
+SDL3Library >> getClipboardDataMimeType: mime_type size: size [
 	"/**
 	 * Get the data from the clipboard for a given mime type.
 	 *
@@ -6046,7 +6046,7 @@ LibSDL3 >> getClipboardDataMimeType: mime_type size: size [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> getClipboardMimeTypes: num_mime_types [
+SDL3Library >> getClipboardMimeTypes: num_mime_types [
 	"/**
 	 * Retrieve the list of mime types available in the clipboard.
 	 *
@@ -6067,7 +6067,7 @@ LibSDL3 >> getClipboardMimeTypes: num_mime_types [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> getClipboardText [
+SDL3Library >> getClipboardText [
 	"/**
 	 * Get UTF-8 text from the clipboard.
 	 *
@@ -6090,7 +6090,7 @@ LibSDL3 >> getClipboardText [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refreshRate: refresh_rate includeHighDensityModes: include_high_density_modes closest: closest [
+SDL3Library >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refreshRate: refresh_rate includeHighDensityModes: include_high_density_modes closest: closest [
 	"/**
 	 * Get the closest match to the requested display mode.
 	 *
@@ -6125,7 +6125,7 @@ LibSDL3 >> getClosestFullscreenDisplayModeDisplayID: displayID w: w h: h refresh
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getCurrentAudioDriver [
+SDL3Library >> getCurrentAudioDriver [
 	"/**
 	 * Get the name of the current audio driver.
 	 *
@@ -6145,7 +6145,7 @@ LibSDL3 >> getCurrentAudioDriver [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getCurrentCameraDriver [
+SDL3Library >> getCurrentCameraDriver [
 	"/**
 	 * Get the name of the current camera driver.
 	 *
@@ -6165,7 +6165,7 @@ LibSDL3 >> getCurrentCameraDriver [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> getCurrentDirectory [
+SDL3Library >> getCurrentDirectory [
 	"/**
 	 * Get what the system believes is the ""current working directory.""
 	 *
@@ -6192,7 +6192,7 @@ LibSDL3 >> getCurrentDirectory [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getCurrentDisplayMode: displayID [
+SDL3Library >> getCurrentDisplayMode: displayID [
 	"/**
 	 * Get information about the current display mode.
 	 *
@@ -6217,7 +6217,7 @@ LibSDL3 >> getCurrentDisplayMode: displayID [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getCurrentDisplayOrientation: displayID [
+SDL3Library >> getCurrentDisplayOrientation: displayID [
 	"/**
 	 * Get the orientation of a display.
 	 *
@@ -6236,7 +6236,7 @@ LibSDL3 >> getCurrentDisplayOrientation: displayID [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getCurrentRenderOutputSizeRenderer: renderer w: w h: h [
+SDL3Library >> getCurrentRenderOutputSizeRenderer: renderer w: w h: h [
 	"/**
 	 * Get the current output size in pixels of a rendering context.
 	 *
@@ -6263,7 +6263,7 @@ LibSDL3 >> getCurrentRenderOutputSizeRenderer: renderer w: w h: h [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> getCurrentThreadID [
+SDL3Library >> getCurrentThreadID [
 	"/**
 	 * Get the thread identifier for the current thread.
 	 *
@@ -6285,7 +6285,7 @@ LibSDL3 >> getCurrentThreadID [
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> getCurrentTime: ticks [
+SDL3Library >> getCurrentTime: ticks [
 	"/**
 	 * Gets the current value of the system realtime clock in nanoseconds since
 	 * Jan 1, 1970 in Universal Coordinated Time (UTC).
@@ -6301,7 +6301,7 @@ LibSDL3 >> getCurrentTime: ticks [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getCurrentVideoDriver [
+SDL3Library >> getCurrentVideoDriver [
 	"/**
 	 * Get the name of the currently initialized video driver.
 	 *
@@ -6324,7 +6324,7 @@ LibSDL3 >> getCurrentVideoDriver [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getCursor [
+SDL3Library >> getCursor [
 	"/**
 	 * Get the active cursor.
 	 *
@@ -6344,7 +6344,7 @@ LibSDL3 >> getCursor [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> getDXGIOutputInfoDisplayID: displayID adapterIndex: adapterIndex outputIndex: outputIndex [
+SDL3Library >> getDXGIOutputInfoDisplayID: displayID adapterIndex: adapterIndex outputIndex: outputIndex [
 	"/**
 	 * Get the DXGI Adapter and Output indices for the specified display.
 	 *
@@ -6365,7 +6365,7 @@ LibSDL3 >> getDXGIOutputInfoDisplayID: displayID adapterIndex: adapterIndex outp
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> getDateTimeLocalePreferencesDateFormat: dateFormat timeFormat: timeFormat [
+SDL3Library >> getDateTimeLocalePreferencesDateFormat: dateFormat timeFormat: timeFormat [
 	"/**
 	 * Gets the current preferred date and time format for the system locale.
 	 *
@@ -6388,7 +6388,7 @@ LibSDL3 >> getDateTimeLocalePreferencesDateFormat: dateFormat timeFormat: timeFo
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> getDayOfWeekYear: year month: month day: day [
+SDL3Library >> getDayOfWeekYear: year month: month day: day [
 	"/**
 	 * Get the day of week for a calendar date.
 	 *
@@ -6405,7 +6405,7 @@ LibSDL3 >> getDayOfWeekYear: year month: month day: day [
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> getDayOfYear: year month: month day: day [
+SDL3Library >> getDayOfYear: year month: month day: day [
 	"/**
 	 * Get the day of year for a calendar date.
 	 *
@@ -6422,7 +6422,7 @@ LibSDL3 >> getDayOfYear: year month: month day: day [
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> getDaysInMonthYear: year month: month [
+SDL3Library >> getDaysInMonthYear: year month: month [
 	"/**
 	 * Get the number of days in a month for a given year.
 	 *
@@ -6438,7 +6438,7 @@ LibSDL3 >> getDaysInMonthYear: year month: month [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getDefaultCursor [
+SDL3Library >> getDefaultCursor [
 	"/**
 	 * Get the default cursor.
 	 *
@@ -6457,7 +6457,7 @@ LibSDL3 >> getDefaultCursor [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> getDefaultLogOutputFunction [
+SDL3Library >> getDefaultLogOutputFunction [
 	"/**
 	 * Get the default log output function.
 	 *
@@ -6475,7 +6475,7 @@ LibSDL3 >> getDefaultLogOutputFunction [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
+SDL3Library >> getDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 	"/**
 	 * Get default texture scale mode of the given renderer.
 	 *
@@ -6497,7 +6497,7 @@ LibSDL3 >> getDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDesktopDisplayMode: displayID [
+SDL3Library >> getDesktopDisplayMode: displayID [
 	"/**
 	 * Get information about the desktop's display mode.
 	 *
@@ -6522,7 +6522,7 @@ LibSDL3 >> getDesktopDisplayMode: displayID [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> getDirect3D9AdapterIndex: displayID [
+SDL3Library >> getDirect3D9AdapterIndex: displayID [
 	"/**
 	 * Get the D3D9 adapter index that matches the specified display.
 	 *
@@ -6540,7 +6540,7 @@ LibSDL3 >> getDirect3D9AdapterIndex: displayID [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayBoundsDisplayID: displayID rect: rect [
+SDL3Library >> getDisplayBoundsDisplayID: displayID rect: rect [
 	"/**
 	 * Get the desktop area represented by a display.
 	 *
@@ -6564,7 +6564,7 @@ LibSDL3 >> getDisplayBoundsDisplayID: displayID rect: rect [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayContentScale: displayID [
+SDL3Library >> getDisplayContentScale: displayID [
 	"/**
 	 * Get the content scale of a display.
 	 *
@@ -6595,7 +6595,7 @@ LibSDL3 >> getDisplayContentScale: displayID [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayForPoint: point [
+SDL3Library >> getDisplayForPoint: point [
 	"/**
 	 * Get the display containing a point.
 	 *
@@ -6615,7 +6615,7 @@ LibSDL3 >> getDisplayForPoint: point [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayForRect: rect [
+SDL3Library >> getDisplayForRect: rect [
 	"/**
 	 * Get the display primarily containing a rect.
 	 *
@@ -6636,7 +6636,7 @@ LibSDL3 >> getDisplayForRect: rect [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayForWindow: window [
+SDL3Library >> getDisplayForWindow: window [
 	"/**
 	 * Get the display associated with a window.
 	 *
@@ -6657,7 +6657,7 @@ LibSDL3 >> getDisplayForWindow: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayName: displayID [
+SDL3Library >> getDisplayName: displayID [
 	"/**
 	 * Get the name of a display in UTF-8 encoding.
 	 *
@@ -6676,7 +6676,7 @@ LibSDL3 >> getDisplayName: displayID [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayProperties: displayID [
+SDL3Library >> getDisplayProperties: displayID [
 	"/**
 	 * Get the properties associated with a display.
 	 *
@@ -6718,7 +6718,7 @@ LibSDL3 >> getDisplayProperties: displayID [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplayUsableBoundsDisplayID: displayID rect: rect [
+SDL3Library >> getDisplayUsableBoundsDisplayID: displayID rect: rect [
 	"/**
 	 * Get the usable desktop area represented by a display, in screen
 	 * coordinates.
@@ -6748,7 +6748,7 @@ LibSDL3 >> getDisplayUsableBoundsDisplayID: displayID rect: rect [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getDisplays: count [
+SDL3Library >> getDisplays: count [
 	"/**
 	 * Get a list of currently connected displays.
 	 *
@@ -6767,7 +6767,7 @@ LibSDL3 >> getDisplays: count [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getEnvironment [
+SDL3Library >> getEnvironment [
 	"/**
 	 * Get the process environment.
 	 *
@@ -6794,7 +6794,7 @@ LibSDL3 >> getEnvironment [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getEnvironmentVariableEnv: env name: name [
+SDL3Library >> getEnvironmentVariableEnv: env name: name [
 	"/**
 	 * Get the value of a variable in the environment.
 	 *
@@ -6818,7 +6818,7 @@ LibSDL3 >> getEnvironmentVariableEnv: env name: name [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getEnvironmentVariables: env [
+SDL3Library >> getEnvironmentVariables: env [
 	"/**
 	 * Get all variables in the environment.
 	 *
@@ -6843,7 +6843,7 @@ LibSDL3 >> getEnvironmentVariables: env [
 ]
 
 { #category : 'public - SDL_error' }
-LibSDL3 >> getError [
+SDL3Library >> getError [
 	"/**
 	 * Retrieve a message about the last error that occurred on the current
 	 * thread.
@@ -6884,7 +6884,7 @@ LibSDL3 >> getError [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> getEventDescriptionEvent: event buf: buf buflen: buflen [
+SDL3Library >> getEventDescriptionEvent: event buf: buf buflen: buflen [
 	"/**
 	 * Generate an English description of an event.
 	 *
@@ -6920,7 +6920,7 @@ LibSDL3 >> getEventDescriptionEvent: event buf: buf buflen: buflen [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> getEventFilter: filter userdata: userdata [
+SDL3Library >> getEventFilter: filter userdata: userdata [
 	"/**
 	 * Query the current event filter.
 	 *
@@ -6943,7 +6943,7 @@ LibSDL3 >> getEventFilter: filter userdata: userdata [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> getFloatPropertyProps: props name: name defaultValue: default_value [
+SDL3Library >> getFloatPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a floating point property from a group of properties.
 	 *
@@ -6969,7 +6969,7 @@ LibSDL3 >> getFloatPropertyProps: props name: name defaultValue: default_value [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getFullscreenDisplayModesDisplayID: displayID count: count [
+SDL3Library >> getFullscreenDisplayModesDisplayID: displayID count: count [
 	"/**
 	 * Get a list of fullscreen display modes available on a display.
 	 *
@@ -7001,7 +7001,7 @@ LibSDL3 >> getFullscreenDisplayModesDisplayID: displayID count: count [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getGPUDeviceDriver: device [
+SDL3Library >> getGPUDeviceDriver: device [
 	"/**
 	 * Returns the name of the backend used to create this GPU context.
 	 *
@@ -7015,7 +7015,7 @@ LibSDL3 >> getGPUDeviceDriver: device [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getGPUDeviceProperties: device [
+SDL3Library >> getGPUDeviceProperties: device [
 	"/**
 	 * Get the properties associated with a GPU device.
 	 *
@@ -7123,7 +7123,7 @@ LibSDL3 >> getGPUDeviceProperties: device [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getGPUDriver: index [
+SDL3Library >> getGPUDriver: index [
 	"/**
 	 * Get the name of a built in GPU driver.
 	 *
@@ -7146,7 +7146,7 @@ LibSDL3 >> getGPUDriver: index [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getGPURendererDevice: renderer [
+SDL3Library >> getGPURendererDevice: renderer [
 	"/**
 	 * Return the GPU device used by a renderer.
 	 *
@@ -7163,7 +7163,7 @@ LibSDL3 >> getGPURendererDevice: renderer [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getGPUShaderFormats: device [
+SDL3Library >> getGPUShaderFormats: device [
 	"/**
 	 * Returns the supported shader formats for this GPU context.
 	 *
@@ -7178,7 +7178,7 @@ LibSDL3 >> getGPUShaderFormats: device [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getGPUSwapchainTextureFormatDevice: device window: window [
+SDL3Library >> getGPUSwapchainTextureFormatDevice: device window: window [
 	"/**
 	 * Obtains the texture format of the swapchain for the given window.
 	 *
@@ -7195,7 +7195,7 @@ LibSDL3 >> getGPUSwapchainTextureFormatDevice: device window: window [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getGPUTextureFormatFromPixelFormat: format [
+SDL3Library >> getGPUTextureFormatFromPixelFormat: format [
 	"/**
 	 * Get the GPU texture format corresponding to an SDL pixel format.
 	 *
@@ -7211,7 +7211,7 @@ LibSDL3 >> getGPUTextureFormatFromPixelFormat: format [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadAppleSFSymbolsNameForAxisGamepad: gamepad axis: axis [
+SDL3Library >> getGamepadAppleSFSymbolsNameForAxisGamepad: gamepad axis: axis [
 	"/**
 	 * Return the sfSymbolsName for a given axis on a gamepad on Apple platforms.
 	 *
@@ -7230,7 +7230,7 @@ LibSDL3 >> getGamepadAppleSFSymbolsNameForAxisGamepad: gamepad axis: axis [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadAppleSFSymbolsNameForButtonGamepad: gamepad button: button [
+SDL3Library >> getGamepadAppleSFSymbolsNameForButtonGamepad: gamepad button: button [
 	"/**
 	 * Return the sfSymbolsName for a given button on a gamepad on Apple
 	 * platforms.
@@ -7250,7 +7250,7 @@ LibSDL3 >> getGamepadAppleSFSymbolsNameForButtonGamepad: gamepad button: button 
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadAxisFromString: str [
+SDL3Library >> getGamepadAxisFromString: str [
 	"/**
 	 * Convert a string into SDL_GamepadAxis enum.
 	 *
@@ -7278,7 +7278,7 @@ LibSDL3 >> getGamepadAxisFromString: str [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadAxisGamepad: gamepad axis: axis [
+SDL3Library >> getGamepadAxisGamepad: gamepad axis: axis [
 	"/**
 	 * Get the current state of an axis control on a gamepad.
 	 *
@@ -7310,7 +7310,7 @@ LibSDL3 >> getGamepadAxisGamepad: gamepad axis: axis [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadBindingsGamepad: gamepad count: count [
+SDL3Library >> getGamepadBindingsGamepad: gamepad count: count [
 	"/**
 	 * Get the SDL joystick layer bindings for a gamepad.
 	 *
@@ -7330,7 +7330,7 @@ LibSDL3 >> getGamepadBindingsGamepad: gamepad count: count [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadButtonFromString: str [
+SDL3Library >> getGamepadButtonFromString: str [
 	"/**
 	 * Convert a string into an SDL_GamepadButton enum.
 	 *
@@ -7354,7 +7354,7 @@ LibSDL3 >> getGamepadButtonFromString: str [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadButtonGamepad: gamepad button: button [
+SDL3Library >> getGamepadButtonGamepad: gamepad button: button [
 	"/**
 	 * Get the current state of a button on a gamepad.
 	 *
@@ -7374,7 +7374,7 @@ LibSDL3 >> getGamepadButtonGamepad: gamepad button: button [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadButtonLabelForType: type button: button [
+SDL3Library >> getGamepadButtonLabelForType: type button: button [
 	"/**
 	 * Get the label of a button on a gamepad.
 	 *
@@ -7393,7 +7393,7 @@ LibSDL3 >> getGamepadButtonLabelForType: type button: button [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadButtonLabelGamepad: gamepad button: button [
+SDL3Library >> getGamepadButtonLabelGamepad: gamepad button: button [
 	"/**
 	 * Get the label of a button on a gamepad.
 	 *
@@ -7412,7 +7412,7 @@ LibSDL3 >> getGamepadButtonLabelGamepad: gamepad button: button [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadConnectionState: gamepad [
+SDL3Library >> getGamepadConnectionState: gamepad [
 	"/**
 	 * Get the connection state of a gamepad.
 	 *
@@ -7430,7 +7430,7 @@ LibSDL3 >> getGamepadConnectionState: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadFirmwareVersion: gamepad [
+SDL3Library >> getGamepadFirmwareVersion: gamepad [
 	"/**
 	 * Get the firmware version of an opened gamepad, if available.
 	 *
@@ -7448,7 +7448,7 @@ LibSDL3 >> getGamepadFirmwareVersion: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadFromID: instance_id [
+SDL3Library >> getGamepadFromID: instance_id [
 	"/**
 	 * Get the SDL_Gamepad associated with a joystick instance ID, if it has been
 	 * opened.
@@ -7466,7 +7466,7 @@ LibSDL3 >> getGamepadFromID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadFromPlayerIndex: player_index [
+SDL3Library >> getGamepadFromPlayerIndex: player_index [
 	"/**
 	 * Get the SDL_Gamepad associated with a player index.
 	 *
@@ -7485,7 +7485,7 @@ LibSDL3 >> getGamepadFromPlayerIndex: player_index [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadGUIDForID: instance_id [
+SDL3Library >> getGamepadGUIDForID: instance_id [
 	"/**
 	 * Get the implementation-dependent GUID of a gamepad.
 	 *
@@ -7507,7 +7507,7 @@ LibSDL3 >> getGamepadGUIDForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadID: gamepad [
+SDL3Library >> getGamepadID: gamepad [
 	"/**
 	 * Get the instance ID of an opened gamepad.
 	 *
@@ -7525,7 +7525,7 @@ LibSDL3 >> getGamepadID: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadJoystick: gamepad [
+SDL3Library >> getGamepadJoystick: gamepad [
 	"/**
 	 * Get the underlying joystick from a gamepad.
 	 *
@@ -7551,7 +7551,7 @@ LibSDL3 >> getGamepadJoystick: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadMapping: gamepad [
+SDL3Library >> getGamepadMapping: gamepad [
 	"/**
 	 * Get the current mapping of a gamepad.
 	 *
@@ -7576,7 +7576,7 @@ LibSDL3 >> getGamepadMapping: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadMappingForGUID: guid [
+SDL3Library >> getGamepadMappingForGUID: guid [
 	"/**
 	 * Get the gamepad mapping string for a given GUID.
 	 *
@@ -7597,7 +7597,7 @@ LibSDL3 >> getGamepadMappingForGUID: guid [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadMappingForID: instance_id [
+SDL3Library >> getGamepadMappingForID: instance_id [
 	"/**
 	 * Get the mapping of a gamepad.
 	 *
@@ -7619,7 +7619,7 @@ LibSDL3 >> getGamepadMappingForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadMappings: count [
+SDL3Library >> getGamepadMappings: count [
 	"/**
 	 * Get the current gamepad mappings.
 	 *
@@ -7639,7 +7639,7 @@ LibSDL3 >> getGamepadMappings: count [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadName: gamepad [
+SDL3Library >> getGamepadName: gamepad [
 	"/**
 	 * Get the implementation-dependent name for an opened gamepad.
 	 *
@@ -7659,7 +7659,7 @@ LibSDL3 >> getGamepadName: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadNameForID: instance_id [
+SDL3Library >> getGamepadNameForID: instance_id [
 	"/**
 	 * Get the implementation dependent name of a gamepad.
 	 *
@@ -7681,7 +7681,7 @@ LibSDL3 >> getGamepadNameForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadPath: gamepad [
+SDL3Library >> getGamepadPath: gamepad [
 	"/**
 	 * Get the implementation-dependent path for an opened gamepad.
 	 *
@@ -7701,7 +7701,7 @@ LibSDL3 >> getGamepadPath: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadPathForID: instance_id [
+SDL3Library >> getGamepadPathForID: instance_id [
 	"/**
 	 * Get the implementation dependent path of a gamepad.
 	 *
@@ -7723,7 +7723,7 @@ LibSDL3 >> getGamepadPathForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadPlayerIndex: gamepad [
+SDL3Library >> getGamepadPlayerIndex: gamepad [
 	"/**
 	 * Get the player index of an opened gamepad.
 	 *
@@ -7743,7 +7743,7 @@ LibSDL3 >> getGamepadPlayerIndex: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadPlayerIndexForID: instance_id [
+SDL3Library >> getGamepadPlayerIndexForID: instance_id [
 	"/**
 	 * Get the player index of a gamepad.
 	 *
@@ -7764,7 +7764,7 @@ LibSDL3 >> getGamepadPlayerIndexForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadPowerInfoGamepad: gamepad percent: percent [
+SDL3Library >> getGamepadPowerInfoGamepad: gamepad percent: percent [
 	"/**
 	 * Get the battery state of a gamepad.
 	 *
@@ -7790,7 +7790,7 @@ LibSDL3 >> getGamepadPowerInfoGamepad: gamepad percent: percent [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadProduct: gamepad [
+SDL3Library >> getGamepadProduct: gamepad [
 	"/**
 	 * Get the USB product ID of an opened gamepad, if available.
 	 *
@@ -7810,7 +7810,7 @@ LibSDL3 >> getGamepadProduct: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadProductForID: instance_id [
+SDL3Library >> getGamepadProductForID: instance_id [
 	"/**
 	 * Get the USB product ID of a gamepad, if available.
 	 *
@@ -7833,7 +7833,7 @@ LibSDL3 >> getGamepadProductForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadProductVersion: gamepad [
+SDL3Library >> getGamepadProductVersion: gamepad [
 	"/**
 	 * Get the product version of an opened gamepad, if available.
 	 *
@@ -7853,7 +7853,7 @@ LibSDL3 >> getGamepadProductVersion: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadProductVersionForID: instance_id [
+SDL3Library >> getGamepadProductVersionForID: instance_id [
 	"/**
 	 * Get the product version of a gamepad, if available.
 	 *
@@ -7876,7 +7876,7 @@ LibSDL3 >> getGamepadProductVersionForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadProperties: gamepad [
+SDL3Library >> getGamepadProperties: gamepad [
 	"/**
 	 * Get the properties associated with an opened gamepad.
 	 *
@@ -7909,7 +7909,7 @@ LibSDL3 >> getGamepadProperties: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadSensorDataGamepad: gamepad type: type data: data numValues: num_values [
+SDL3Library >> getGamepadSensorDataGamepad: gamepad type: type data: data numValues: num_values [
 	"/**
 	 * Get the current state of a gamepad sensor.
 	 *
@@ -7932,7 +7932,7 @@ LibSDL3 >> getGamepadSensorDataGamepad: gamepad type: type data: data numValues:
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadSensorDataRateGamepad: gamepad type: type [
+SDL3Library >> getGamepadSensorDataRateGamepad: gamepad type: type [
 	"/**
 	 * Get the data rate (number of events per second) of a gamepad sensor.
 	 *
@@ -7949,7 +7949,7 @@ LibSDL3 >> getGamepadSensorDataRateGamepad: gamepad type: type [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadSerial: gamepad [
+SDL3Library >> getGamepadSerial: gamepad [
 	"/**
 	 * Get the serial number of an opened gamepad, if available.
 	 *
@@ -7967,7 +7967,7 @@ LibSDL3 >> getGamepadSerial: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadSteamHandle: gamepad [
+SDL3Library >> getGamepadSteamHandle: gamepad [
 	"/**
 	 * Get the Steam Input handle of an opened gamepad, if available.
 	 *
@@ -7986,7 +7986,7 @@ LibSDL3 >> getGamepadSteamHandle: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadStringForAxis: axis [
+SDL3Library >> getGamepadStringForAxis: axis [
 	"/**
 	 * Convert from an SDL_GamepadAxis enum to a string.
 	 *
@@ -8006,7 +8006,7 @@ LibSDL3 >> getGamepadStringForAxis: axis [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadStringForButton: button [
+SDL3Library >> getGamepadStringForButton: button [
 	"/**
 	 * Convert from an SDL_GamepadButton enum to a string.
 	 *
@@ -8026,7 +8026,7 @@ LibSDL3 >> getGamepadStringForButton: button [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadStringForType: type [
+SDL3Library >> getGamepadStringForType: type [
 	"/**
 	 * Convert from an SDL_GamepadType enum to a string.
 	 *
@@ -8046,7 +8046,7 @@ LibSDL3 >> getGamepadStringForType: type [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadTouchpadFingerGamepad: gamepad touchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
+SDL3Library >> getGamepadTouchpadFingerGamepad: gamepad touchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
 	"/**
 	 * Get the current state of a finger on a touchpad on a gamepad.
 	 *
@@ -8074,7 +8074,7 @@ LibSDL3 >> getGamepadTouchpadFingerGamepad: gamepad touchpad: touchpad finger: f
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadType: gamepad [
+SDL3Library >> getGamepadType: gamepad [
 	"/**
 	 * Get the type of an opened gamepad.
 	 *
@@ -8093,7 +8093,7 @@ LibSDL3 >> getGamepadType: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadTypeForID: instance_id [
+SDL3Library >> getGamepadTypeForID: instance_id [
 	"/**
 	 * Get the type of a gamepad.
 	 *
@@ -8115,7 +8115,7 @@ LibSDL3 >> getGamepadTypeForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadTypeFromString: str [
+SDL3Library >> getGamepadTypeFromString: str [
 	"/**
 	 * Convert a string into SDL_GamepadType enum.
 	 *
@@ -8139,7 +8139,7 @@ LibSDL3 >> getGamepadTypeFromString: str [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadVendor: gamepad [
+SDL3Library >> getGamepadVendor: gamepad [
 	"/**
 	 * Get the USB vendor ID of an opened gamepad, if available.
 	 *
@@ -8159,7 +8159,7 @@ LibSDL3 >> getGamepadVendor: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepadVendorForID: instance_id [
+SDL3Library >> getGamepadVendorForID: instance_id [
 	"/**
 	 * Get the USB vendor ID of a gamepad, if available.
 	 *
@@ -8182,7 +8182,7 @@ LibSDL3 >> getGamepadVendorForID: instance_id [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getGamepads: count [
+SDL3Library >> getGamepads: count [
 	"/**
 	 * Get a list of currently connected gamepads.
 	 *
@@ -8204,7 +8204,7 @@ LibSDL3 >> getGamepads: count [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getGlobalMouseStateX: x y: y [
+SDL3Library >> getGlobalMouseStateX: x y: y [
 	"/**
 	 * Query the platform for the asynchronous mouse button state and the
 	 * desktop-relative platform-cursor position.
@@ -8245,7 +8245,7 @@ LibSDL3 >> getGlobalMouseStateX: x y: y [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> getGlobalProperties [
+SDL3Library >> getGlobalProperties [
 	"/**
 	 * Get the global SDL properties.
 	 *
@@ -8259,7 +8259,7 @@ LibSDL3 >> getGlobalProperties [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getGrabbedWindow [
+SDL3Library >> getGrabbedWindow [
 	"/**
 	 * Get the window that currently has an input grab enabled.
 	 *
@@ -8277,7 +8277,7 @@ LibSDL3 >> getGrabbedWindow [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getHapticEffectStatusHaptic: haptic effect: effect [
+SDL3Library >> getHapticEffectStatusHaptic: haptic effect: effect [
 	"/**
 	 * Get the status of the current effect on the specified haptic device.
 	 *
@@ -8297,7 +8297,7 @@ LibSDL3 >> getHapticEffectStatusHaptic: haptic effect: effect [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getHapticFeatures: haptic [
+SDL3Library >> getHapticFeatures: haptic [
 	"/**
 	 * Get the haptic device's supported features in bitwise manner.
 	 *
@@ -8315,7 +8315,7 @@ LibSDL3 >> getHapticFeatures: haptic [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getHapticFromID: instance_id [
+SDL3Library >> getHapticFromID: instance_id [
 	"/**
 	 * Get the SDL_Haptic associated with an instance ID, if it has been opened.
 	 *
@@ -8330,7 +8330,7 @@ LibSDL3 >> getHapticFromID: instance_id [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getHapticID: haptic [
+SDL3Library >> getHapticID: haptic [
 	"/**
 	 * Get the instance ID of an opened haptic device.
 	 *
@@ -8345,7 +8345,7 @@ LibSDL3 >> getHapticID: haptic [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getHapticName: haptic [
+SDL3Library >> getHapticName: haptic [
 	"/**
 	 * Get the implementation dependent name of a haptic device.
 	 *
@@ -8363,7 +8363,7 @@ LibSDL3 >> getHapticName: haptic [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getHapticNameForID: instance_id [
+SDL3Library >> getHapticNameForID: instance_id [
 	"/**
 	 * Get the implementation dependent name of a haptic device.
 	 *
@@ -8384,7 +8384,7 @@ LibSDL3 >> getHapticNameForID: instance_id [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getHaptics: count [
+SDL3Library >> getHaptics: count [
 	"/**
 	 * Get a list of currently connected haptic devices.
 	 *
@@ -8403,7 +8403,7 @@ LibSDL3 >> getHaptics: count [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> getHint: name [
+SDL3Library >> getHint: name [
 	"/**
 	 * Get the value of a hint.
 	 *
@@ -8422,7 +8422,7 @@ LibSDL3 >> getHint: name [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> getHintBooleanName: name defaultValue: default_value [
+SDL3Library >> getHintBooleanName: name defaultValue: default_value [
 	"/**
 	 * Get the boolean value of a hint variable.
 	 *
@@ -8443,7 +8443,7 @@ LibSDL3 >> getHintBooleanName: name defaultValue: default_value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> getIOProperties: context [
+SDL3Library >> getIOProperties: context [
 	"/**
 	 * Get the properties associated with an SDL_IOStream.
 	 *
@@ -8460,7 +8460,7 @@ LibSDL3 >> getIOProperties: context [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> getIOSize: context [
+SDL3Library >> getIOSize: context [
 	"/**
 	 * Use this function to get the size of the data stream in an SDL_IOStream.
 	 *
@@ -8478,7 +8478,7 @@ LibSDL3 >> getIOSize: context [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> getIOStatus: context [
+SDL3Library >> getIOStatus: context [
 	"/**
 	 * Query the stream status of an SDL_IOStream.
 	 *
@@ -8502,7 +8502,7 @@ LibSDL3 >> getIOStatus: context [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickAxisInitialStateJoystick: joystick axis: axis state: state [
+SDL3Library >> getJoystickAxisInitialStateJoystick: joystick axis: axis state: state [
 	"/**
 	 * Get the initial state of an axis control on a joystick.
 	 *
@@ -8524,7 +8524,7 @@ LibSDL3 >> getJoystickAxisInitialStateJoystick: joystick axis: axis state: state
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickAxisJoystick: joystick axis: axis [
+SDL3Library >> getJoystickAxisJoystick: joystick axis: axis [
 	"/**
 	 * Get the current state of an axis control on a joystick.
 	 *
@@ -8554,7 +8554,7 @@ LibSDL3 >> getJoystickAxisJoystick: joystick axis: axis [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickBallJoystick: joystick ball: ball dx: dx dy: dy [
+SDL3Library >> getJoystickBallJoystick: joystick ball: ball dx: dx dy: dy [
 	"/**
 	 * Get the ball axis change since the last poll.
 	 *
@@ -8581,7 +8581,7 @@ LibSDL3 >> getJoystickBallJoystick: joystick ball: ball dx: dx dy: dy [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickButtonJoystick: joystick button: button [
+SDL3Library >> getJoystickButtonJoystick: joystick button: button [
 	"/**
 	 * Get the current state of a button on a joystick.
 	 *
@@ -8601,7 +8601,7 @@ LibSDL3 >> getJoystickButtonJoystick: joystick button: button [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickConnectionState: joystick [
+SDL3Library >> getJoystickConnectionState: joystick [
 	"/**
 	 * Get the connection state of a joystick.
 	 *
@@ -8619,7 +8619,7 @@ LibSDL3 >> getJoystickConnectionState: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickFirmwareVersion: joystick [
+SDL3Library >> getJoystickFirmwareVersion: joystick [
 	"/**
 	 * Get the firmware version of an opened joystick, if available.
 	 *
@@ -8638,7 +8638,7 @@ LibSDL3 >> getJoystickFirmwareVersion: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickFromID: instance_id [
+SDL3Library >> getJoystickFromID: instance_id [
 	"/**
 	 * Get the SDL_Joystick associated with an instance ID, if it has been opened.
 	 *
@@ -8655,7 +8655,7 @@ LibSDL3 >> getJoystickFromID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickFromPlayerIndex: player_index [
+SDL3Library >> getJoystickFromPlayerIndex: player_index [
 	"/**
 	 * Get the SDL_Joystick associated with a player index.
 	 *
@@ -8675,7 +8675,7 @@ LibSDL3 >> getJoystickFromPlayerIndex: player_index [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickGUID: joystick [
+SDL3Library >> getJoystickGUID: joystick [
 	"/**
 	 * Get the implementation-dependent GUID for the joystick.
 	 *
@@ -8698,7 +8698,7 @@ LibSDL3 >> getJoystickGUID: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickGUIDForID: instance_id [
+SDL3Library >> getJoystickGUIDForID: instance_id [
 	"/**
 	 * Get the implementation-dependent GUID of a joystick.
 	 *
@@ -8720,7 +8720,7 @@ LibSDL3 >> getJoystickGUIDForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickGUIDInfoGuid: guid vendor: vendor product: product version: version crc16: crc16 [
+SDL3Library >> getJoystickGUIDInfoGuid: guid vendor: vendor product: product version: version crc16: crc16 [
 	"/**
 	 * Get the device information encoded in a SDL_GUID structure.
 	 *
@@ -8745,7 +8745,7 @@ LibSDL3 >> getJoystickGUIDInfoGuid: guid vendor: vendor product: product version
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickHatJoystick: joystick hat: hat [
+SDL3Library >> getJoystickHatJoystick: joystick hat: hat [
 	"/**
 	 * Get the current state of a POV hat on a joystick.
 	 *
@@ -8766,7 +8766,7 @@ LibSDL3 >> getJoystickHatJoystick: joystick hat: hat [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickID: joystick [
+SDL3Library >> getJoystickID: joystick [
 	"/**
 	 * Get the instance ID of an opened joystick.
 	 *
@@ -8783,7 +8783,7 @@ LibSDL3 >> getJoystickID: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickName: joystick [
+SDL3Library >> getJoystickName: joystick [
 	"/**
 	 * Get the implementation dependent name of a joystick.
 	 *
@@ -8802,7 +8802,7 @@ LibSDL3 >> getJoystickName: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickNameForID: instance_id [
+SDL3Library >> getJoystickNameForID: instance_id [
 	"/**
 	 * Get the implementation dependent name of a joystick.
 	 *
@@ -8824,7 +8824,7 @@ LibSDL3 >> getJoystickNameForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickPath: joystick [
+SDL3Library >> getJoystickPath: joystick [
 	"/**
 	 * Get the implementation dependent path of a joystick.
 	 *
@@ -8843,7 +8843,7 @@ LibSDL3 >> getJoystickPath: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickPathForID: instance_id [
+SDL3Library >> getJoystickPathForID: instance_id [
 	"/**
 	 * Get the implementation dependent path of a joystick.
 	 *
@@ -8865,7 +8865,7 @@ LibSDL3 >> getJoystickPathForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickPlayerIndex: joystick [
+SDL3Library >> getJoystickPlayerIndex: joystick [
 	"/**
 	 * Get the player index of an opened joystick.
 	 *
@@ -8886,7 +8886,7 @@ LibSDL3 >> getJoystickPlayerIndex: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickPlayerIndexForID: instance_id [
+SDL3Library >> getJoystickPlayerIndexForID: instance_id [
 	"/**
 	 * Get the player index of a joystick.
 	 *
@@ -8907,7 +8907,7 @@ LibSDL3 >> getJoystickPlayerIndexForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickPowerInfoJoystick: joystick percent: percent [
+SDL3Library >> getJoystickPowerInfoJoystick: joystick percent: percent [
 	"/**
 	 * Get the battery state of a joystick.
 	 *
@@ -8934,7 +8934,7 @@ LibSDL3 >> getJoystickPowerInfoJoystick: joystick percent: percent [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickProduct: joystick [
+SDL3Library >> getJoystickProduct: joystick [
 	"/**
 	 * Get the USB product ID of an opened joystick, if available.
 	 *
@@ -8954,7 +8954,7 @@ LibSDL3 >> getJoystickProduct: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickProductForID: instance_id [
+SDL3Library >> getJoystickProductForID: instance_id [
 	"/**
 	 * Get the USB product ID of a joystick, if available.
 	 *
@@ -8977,7 +8977,7 @@ LibSDL3 >> getJoystickProductForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickProductVersion: joystick [
+SDL3Library >> getJoystickProductVersion: joystick [
 	"/**
 	 * Get the product version of an opened joystick, if available.
 	 *
@@ -8997,7 +8997,7 @@ LibSDL3 >> getJoystickProductVersion: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickProductVersionForID: instance_id [
+SDL3Library >> getJoystickProductVersionForID: instance_id [
 	"/**
 	 * Get the product version of a joystick, if available.
 	 *
@@ -9020,7 +9020,7 @@ LibSDL3 >> getJoystickProductVersionForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickProperties: joystick [
+SDL3Library >> getJoystickProperties: joystick [
 	"/**
 	 * Get the properties associated with a joystick.
 	 *
@@ -9050,7 +9050,7 @@ LibSDL3 >> getJoystickProperties: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickSerial: joystick [
+SDL3Library >> getJoystickSerial: joystick [
 	"/**
 	 * Get the serial number of an opened joystick, if available.
 	 *
@@ -9069,7 +9069,7 @@ LibSDL3 >> getJoystickSerial: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickType: joystick [
+SDL3Library >> getJoystickType: joystick [
 	"/**
 	 * Get the type of an opened joystick.
 	 *
@@ -9087,7 +9087,7 @@ LibSDL3 >> getJoystickType: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickTypeForID: instance_id [
+SDL3Library >> getJoystickTypeForID: instance_id [
 	"/**
 	 * Get the type of a joystick, if available.
 	 *
@@ -9110,7 +9110,7 @@ LibSDL3 >> getJoystickTypeForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickVendor: joystick [
+SDL3Library >> getJoystickVendor: joystick [
 	"/**
 	 * Get the USB vendor ID of an opened joystick, if available.
 	 *
@@ -9130,7 +9130,7 @@ LibSDL3 >> getJoystickVendor: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoystickVendorForID: instance_id [
+SDL3Library >> getJoystickVendorForID: instance_id [
 	"/**
 	 * Get the USB vendor ID of a joystick, if available.
 	 *
@@ -9153,7 +9153,7 @@ LibSDL3 >> getJoystickVendorForID: instance_id [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getJoysticks: count [
+SDL3Library >> getJoysticks: count [
 	"/**
 	 * Get a list of currently connected joysticks.
 	 *
@@ -9175,7 +9175,7 @@ LibSDL3 >> getJoysticks: count [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getKeyFromName: name [
+SDL3Library >> getKeyFromName: name [
 	"/**
 	 * Get a key code from a human-readable name.
 	 *
@@ -9196,7 +9196,7 @@ LibSDL3 >> getKeyFromName: name [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getKeyFromScancode: scancode modstate: modstate keyEvent: key_event [
+SDL3Library >> getKeyFromScancode: scancode modstate: modstate keyEvent: key_event [
 	"/**
 	 * Get the key code corresponding to the given scancode according to the
 	 * current keyboard layout.
@@ -9224,7 +9224,7 @@ LibSDL3 >> getKeyFromScancode: scancode modstate: modstate keyEvent: key_event [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getKeyName: key [
+SDL3Library >> getKeyName: key [
 	"/**
 	 * Get a human-readable name for a key.
 	 *
@@ -9248,7 +9248,7 @@ LibSDL3 >> getKeyName: key [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getKeyboardFocus [
+SDL3Library >> getKeyboardFocus [
 	"/**
 	 * Query the window which currently has keyboard focus.
 	 *
@@ -9263,7 +9263,7 @@ LibSDL3 >> getKeyboardFocus [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getKeyboardNameForID: instance_id [
+SDL3Library >> getKeyboardNameForID: instance_id [
 	"/**
 	 * Get the name of a keyboard.
 	 *
@@ -9284,7 +9284,7 @@ LibSDL3 >> getKeyboardNameForID: instance_id [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getKeyboardState: numkeys [
+SDL3Library >> getKeyboardState: numkeys [
 	"/**
 	 * Get a snapshot of the current state of the keyboard.
 	 *
@@ -9321,7 +9321,7 @@ LibSDL3 >> getKeyboardState: numkeys [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getKeyboards: count [
+SDL3Library >> getKeyboards: count [
 	"/**
 	 * Get a list of currently connected keyboards.
 	 *
@@ -9348,7 +9348,7 @@ LibSDL3 >> getKeyboards: count [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> getLogOutputFunctionCallback: callback userdata: userdata [
+SDL3Library >> getLogOutputFunctionCallback: callback userdata: userdata [
 	"/**
 	 * Get the current log output function.
 	 *
@@ -9369,7 +9369,7 @@ LibSDL3 >> getLogOutputFunctionCallback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> getLogPriority: category [
+SDL3Library >> getLogPriority: category [
 	"/**
 	 * Get the priority of a particular log category.
 	 *
@@ -9387,7 +9387,7 @@ LibSDL3 >> getLogPriority: category [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> getMasksForPixelFormat: format bpp: bpp rmask: Rmask gmask: Gmask bmask: Bmask amask: Amask [
+SDL3Library >> getMasksForPixelFormat: format bpp: bpp rmask: Rmask gmask: Gmask bmask: Bmask amask: Amask [
 	"/**
 	 * Convert one of the enumerated pixel formats to a bpp value and RGBA masks.
 	 *
@@ -9411,7 +9411,7 @@ LibSDL3 >> getMasksForPixelFormat: format bpp: bpp rmask: Rmask gmask: Gmask bma
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getMaxHapticEffects: haptic [
+SDL3Library >> getMaxHapticEffects: haptic [
 	"/**
 	 * Get the number of effects a haptic device can store.
 	 *
@@ -9433,7 +9433,7 @@ LibSDL3 >> getMaxHapticEffects: haptic [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getMaxHapticEffectsPlaying: haptic [
+SDL3Library >> getMaxHapticEffectsPlaying: haptic [
 	"/**
 	 * Get the number of effects a haptic device can play at the same time.
 	 *
@@ -9453,7 +9453,7 @@ LibSDL3 >> getMaxHapticEffectsPlaying: haptic [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
+SDL3Library >> getMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
 	"/**
 	 * Get the current set of SDL memory functions.
 	 *
@@ -9476,7 +9476,7 @@ LibSDL3 >> getMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func rea
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getMice: count [
+SDL3Library >> getMice: count [
 	"/**
 	 * Get a list of currently connected mice.
 	 *
@@ -9503,7 +9503,7 @@ LibSDL3 >> getMice: count [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getModState [
+SDL3Library >> getModState [
 	"/**
 	 * Get the current key modifier state for the keyboard.
 	 *
@@ -9521,7 +9521,7 @@ LibSDL3 >> getModState [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getMouseFocus [
+SDL3Library >> getMouseFocus [
 	"/**
 	 * Get the window which currently has mouse focus.
 	 *
@@ -9536,7 +9536,7 @@ LibSDL3 >> getMouseFocus [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getMouseNameForID: instance_id [
+SDL3Library >> getMouseNameForID: instance_id [
 	"/**
 	 * Get the name of a mouse.
 	 *
@@ -9557,7 +9557,7 @@ LibSDL3 >> getMouseNameForID: instance_id [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getMouseStateX: x y: y [
+SDL3Library >> getMouseStateX: x y: y [
 	"/**
 	 * Query SDL's cache for the synchronous mouse button state and the
 	 * window-relative SDL-cursor position.
@@ -9594,7 +9594,7 @@ LibSDL3 >> getMouseStateX: x y: y [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getNaturalDisplayOrientation: displayID [
+SDL3Library >> getNaturalDisplayOrientation: displayID [
 	"/**
 	 * Get the orientation of a display when it is unrotated.
 	 *
@@ -9613,7 +9613,7 @@ LibSDL3 >> getNaturalDisplayOrientation: displayID [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getNumAllocations [
+SDL3Library >> getNumAllocations [
 	"/**
 	 * Get the number of outstanding (unfreed) allocations.
 	 *
@@ -9629,7 +9629,7 @@ LibSDL3 >> getNumAllocations [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getNumAudioDrivers [
+SDL3Library >> getNumAudioDrivers [
 	"/**
 	 * Use this function to get the number of built-in audio drivers.
 	 *
@@ -9656,7 +9656,7 @@ LibSDL3 >> getNumAudioDrivers [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> getNumCameraDrivers [
+SDL3Library >> getNumCameraDrivers [
 	"/**
 	 * Use this function to get the number of built-in camera drivers.
 	 *
@@ -9683,7 +9683,7 @@ LibSDL3 >> getNumCameraDrivers [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getNumGPUDrivers [
+SDL3Library >> getNumGPUDrivers [
 	"/**
 	 * Get the number of GPU drivers compiled into SDL.
 	 *
@@ -9698,7 +9698,7 @@ LibSDL3 >> getNumGPUDrivers [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getNumGamepadTouchpadFingersGamepad: gamepad touchpad: touchpad [
+SDL3Library >> getNumGamepadTouchpadFingersGamepad: gamepad touchpad: touchpad [
 	"/**
 	 * Get the number of supported simultaneous fingers on a touchpad on a game
 	 * gamepad.
@@ -9719,7 +9719,7 @@ LibSDL3 >> getNumGamepadTouchpadFingersGamepad: gamepad touchpad: touchpad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getNumGamepadTouchpads: gamepad [
+SDL3Library >> getNumGamepadTouchpads: gamepad [
 	"/**
 	 * Get the number of touchpads on a gamepad.
 	 *
@@ -9737,7 +9737,7 @@ LibSDL3 >> getNumGamepadTouchpads: gamepad [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> getNumHapticAxes: haptic [
+SDL3Library >> getNumHapticAxes: haptic [
 	"/**
 	 * Get the number of haptic axes the device has.
 	 *
@@ -9755,7 +9755,7 @@ LibSDL3 >> getNumHapticAxes: haptic [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getNumJoystickAxes: joystick [
+SDL3Library >> getNumJoystickAxes: joystick [
 	"/**
 	 * Get the number of general axis controls on a joystick.
 	 *
@@ -9781,7 +9781,7 @@ LibSDL3 >> getNumJoystickAxes: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getNumJoystickBalls: joystick [
+SDL3Library >> getNumJoystickBalls: joystick [
 	"/**
 	 * Get the number of trackballs on a joystick.
 	 *
@@ -9808,7 +9808,7 @@ LibSDL3 >> getNumJoystickBalls: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getNumJoystickButtons: joystick [
+SDL3Library >> getNumJoystickButtons: joystick [
 	"/**
 	 * Get the number of buttons on a joystick.
 	 *
@@ -9830,7 +9830,7 @@ LibSDL3 >> getNumJoystickButtons: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> getNumJoystickHats: joystick [
+SDL3Library >> getNumJoystickHats: joystick [
 	"/**
 	 * Get the number of POV hats on a joystick.
 	 *
@@ -9852,7 +9852,7 @@ LibSDL3 >> getNumJoystickHats: joystick [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> getNumLogicalCPUCores [
+SDL3Library >> getNumLogicalCPUCores [
 	"/**
 	 * Get the number of logical CPU cores available.
 	 *
@@ -9869,7 +9869,7 @@ LibSDL3 >> getNumLogicalCPUCores [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getNumRenderDrivers [
+SDL3Library >> getNumRenderDrivers [
 	"/**
 	 * Get the number of 2D rendering drivers available for the current display.
 	 *
@@ -9893,7 +9893,7 @@ LibSDL3 >> getNumRenderDrivers [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getNumVideoDrivers [
+SDL3Library >> getNumVideoDrivers [
 	"/**
 	 * Get the number of video drivers compiled into SDL.
 	 *
@@ -9910,7 +9910,7 @@ LibSDL3 >> getNumVideoDrivers [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> getNumberPropertyProps: props name: name defaultValue: default_value [
+SDL3Library >> getNumberPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a number property from a group of properties.
 	 *
@@ -9936,7 +9936,7 @@ LibSDL3 >> getNumberPropertyProps: props name: name defaultValue: default_value 
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getOriginalMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
+SDL3Library >> getOriginalMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
 	"/**
 	 * Get the original set of SDL memory functions.
 	 *
@@ -9959,7 +9959,7 @@ LibSDL3 >> getOriginalMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> getPathInfoPath: path info: info [
+SDL3Library >> getPathInfoPath: path info: info [
 	"/**
 	 * Get information about a filesystem path.
 	 *
@@ -9978,7 +9978,7 @@ LibSDL3 >> getPathInfoPath: path info: info [
 ]
 
 { #category : 'public - SDL_pen' }
-LibSDL3 >> getPenDeviceType: instance_id [
+SDL3Library >> getPenDeviceType: instance_id [
 	"/**
 	 * Get the device type of the given pen.
 	 *
@@ -9998,7 +9998,7 @@ LibSDL3 >> getPenDeviceType: instance_id [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> getPerformanceCounter [
+SDL3Library >> getPerformanceCounter [
 	"/**
 	 * Get the current value of the high resolution counter.
 	 *
@@ -10021,7 +10021,7 @@ LibSDL3 >> getPerformanceCounter [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> getPerformanceFrequency [
+SDL3Library >> getPerformanceFrequency [
 	"/**
 	 * Get the count per second of the high resolution counter.
 	 *
@@ -10038,7 +10038,7 @@ LibSDL3 >> getPerformanceFrequency [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> getPixelFormatDetails: format [
+SDL3Library >> getPixelFormatDetails: format [
 	"/**
 	 * Create an SDL_PixelFormatDetails structure corresponding to a pixel format.
 	 *
@@ -10059,7 +10059,7 @@ LibSDL3 >> getPixelFormatDetails: format [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> getPixelFormatForMasksBpp: bpp rmask: Rmask gmask: Gmask bmask: Bmask amask: Amask [
+SDL3Library >> getPixelFormatForMasksBpp: bpp rmask: Rmask gmask: Gmask bmask: Bmask amask: Amask [
 	"/**
 	 * Convert a bpp value and RGBA masks to an enumerated pixel format.
 	 *
@@ -10085,7 +10085,7 @@ LibSDL3 >> getPixelFormatForMasksBpp: bpp rmask: Rmask gmask: Gmask bmask: Bmask
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> getPixelFormatFromGPUTextureFormat: format [
+SDL3Library >> getPixelFormatFromGPUTextureFormat: format [
 	"/**
 	 * Get the SDL pixel format corresponding to a GPU texture format.
 	 *
@@ -10100,7 +10100,7 @@ LibSDL3 >> getPixelFormatFromGPUTextureFormat: format [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> getPixelFormatName: format [
+SDL3Library >> getPixelFormatName: format [
 	"/**
 	 * Get the human readable name of a pixel format.
 	 *
@@ -10117,7 +10117,7 @@ LibSDL3 >> getPixelFormatName: format [
 ]
 
 { #category : 'public - SDL_platform' }
-LibSDL3 >> getPlatform [
+SDL3Library >> getPlatform [
 	"/**
 	 * Get the name of the platform.
 	 *
@@ -10139,7 +10139,7 @@ LibSDL3 >> getPlatform [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> getPointerPropertyProps: props name: name defaultValue: default_value [
+SDL3Library >> getPointerPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a pointer property from a group of properties.
 	 *
@@ -10176,7 +10176,7 @@ LibSDL3 >> getPointerPropertyProps: props name: name defaultValue: default_value
 ]
 
 { #category : 'public - SDL_power' }
-LibSDL3 >> getPowerInfoSeconds: seconds percent: percent [
+SDL3Library >> getPowerInfoSeconds: seconds percent: percent [
 	"/**
 	 * Get the current power supply details.
 	 *
@@ -10214,7 +10214,7 @@ LibSDL3 >> getPowerInfoSeconds: seconds percent: percent [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> getPrefPathOrg: org app: app [
+SDL3Library >> getPrefPathOrg: org app: app [
 	"/**
 	 * Get the user-and-app-specific path where files can be written.
 	 *
@@ -10281,7 +10281,7 @@ LibSDL3 >> getPrefPathOrg: org app: app [
 ]
 
 { #category : 'public - SDL_locale' }
-LibSDL3 >> getPreferredLocales: count [
+SDL3Library >> getPreferredLocales: count [
 	"/**
 	 * Report the user's preferred locale.
 	 *
@@ -10328,7 +10328,7 @@ LibSDL3 >> getPreferredLocales: count [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getPrimaryDisplay [
+SDL3Library >> getPrimaryDisplay [
 	"/**
 	 * Return the primary display.
 	 *
@@ -10346,7 +10346,7 @@ LibSDL3 >> getPrimaryDisplay [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> getPrimarySelectionText [
+SDL3Library >> getPrimarySelectionText [
 	"/**
 	 * Get UTF-8 text from the primary selection.
 	 *
@@ -10369,7 +10369,7 @@ LibSDL3 >> getPrimarySelectionText [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> getProcessInput: process [
+SDL3Library >> getProcessInput: process [
 	"/**
 	 * Get the SDL_IOStream associated with process standard input.
 	 *
@@ -10399,7 +10399,7 @@ LibSDL3 >> getProcessInput: process [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> getProcessOutput: process [
+SDL3Library >> getProcessOutput: process [
 	"/**
 	 * Get the SDL_IOStream associated with process standard output.
 	 *
@@ -10427,7 +10427,7 @@ LibSDL3 >> getProcessOutput: process [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> getProcessProperties: process [
+SDL3Library >> getProcessProperties: process [
 	"/**
 	 * Get the properties associated with a process.
 	 *
@@ -10462,7 +10462,7 @@ LibSDL3 >> getProcessProperties: process [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> getPropertyTypeProps: props name: name [
+SDL3Library >> getPropertyTypeProps: props name: name [
 	"/**
 	 * Get the type of a property in a group of properties.
 	 *
@@ -10482,7 +10482,7 @@ LibSDL3 >> getPropertyTypeProps: props name: name [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> getRGBAPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b a: a [
+SDL3Library >> getRGBAPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b a: a [
 	"/**
 	 * Get RGBA values from a pixel in the specified format.
 	 *
@@ -10518,7 +10518,7 @@ LibSDL3 >> getRGBAPixelvalue: pixelvalue format: format palette: palette r: r g:
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> getRGBPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b [
+SDL3Library >> getRGBPixelvalue: pixelvalue format: format palette: palette r: r g: g b: b [
 	"/**
 	 * Get RGB values from a pixel in the specified format.
 	 *
@@ -10550,7 +10550,7 @@ LibSDL3 >> getRGBPixelvalue: pixelvalue format: format palette: palette r: r g: 
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getRealGamepadType: gamepad [
+SDL3Library >> getRealGamepadType: gamepad [
 	"/**
 	 * Get the type of an opened gamepad, ignoring any mapping override.
 	 *
@@ -10569,7 +10569,7 @@ LibSDL3 >> getRealGamepadType: gamepad [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> getRealGamepadTypeForID: instance_id [
+SDL3Library >> getRealGamepadTypeForID: instance_id [
 	"/**
 	 * Get the type of a gamepad, ignoring any mapping override.
 	 *
@@ -10591,7 +10591,7 @@ LibSDL3 >> getRealGamepadTypeForID: instance_id [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectAndLineIntersectionFloatRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2 [
+SDL3Library >> getRectAndLineIntersectionFloatRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2 [
 	"/**
 	 * Calculate the intersection of a rectangle and line segment with float
 	 * precision.
@@ -10616,7 +10616,7 @@ LibSDL3 >> getRectAndLineIntersectionFloatRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectAndLineIntersectionRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2 [
+SDL3Library >> getRectAndLineIntersectionRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2 [
 	"/**
 	 * Calculate the intersection of a rectangle and line segment.
 	 *
@@ -10640,7 +10640,7 @@ LibSDL3 >> getRectAndLineIntersectionRect: rect x1: X1 y1: Y1 x2: X2 y2: Y2 [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectEnclosingPoints: points count: count clip: clip result: result [
+SDL3Library >> getRectEnclosingPoints: points count: count clip: clip result: result [
 	"/**
 	 * Calculate a minimal rectangle enclosing a set of points.
 	 *
@@ -10663,7 +10663,7 @@ LibSDL3 >> getRectEnclosingPoints: points count: count clip: clip result: result
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectEnclosingPointsFloatPoints: points count: count clip: clip result: result [
+SDL3Library >> getRectEnclosingPointsFloatPoints: points count: count clip: clip result: result [
 	"/**
 	 * Calculate a minimal rectangle enclosing a set of points with float
 	 * precision.
@@ -10687,7 +10687,7 @@ LibSDL3 >> getRectEnclosingPointsFloatPoints: points count: count clip: clip res
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectIntersectionA: A b: B result: result [
+SDL3Library >> getRectIntersectionA: A b: B result: result [
 	"/**
 	 * Calculate the intersection of two rectangles.
 	 *
@@ -10708,7 +10708,7 @@ LibSDL3 >> getRectIntersectionA: A b: B result: result [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectIntersectionFloatA: A b: B result: result [
+SDL3Library >> getRectIntersectionFloatA: A b: B result: result [
 	"/**
 	 * Calculate the intersection of two rectangles with float precision.
 	 *
@@ -10729,7 +10729,7 @@ LibSDL3 >> getRectIntersectionFloatA: A b: B result: result [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectUnionA: A b: B result: result [
+SDL3Library >> getRectUnionA: A b: B result: result [
 	"/**
 	 * Calculate the union of two rectangles.
 	 *
@@ -10747,7 +10747,7 @@ LibSDL3 >> getRectUnionA: A b: B result: result [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> getRectUnionFloatA: A b: B result: result [
+SDL3Library >> getRectUnionFloatA: A b: B result: result [
 	"/**
 	 * Calculate the union of two rectangles with float precision.
 	 *
@@ -10765,7 +10765,7 @@ LibSDL3 >> getRectUnionFloatA: A b: B result: result [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getRelativeMouseStateX: x y: y [
+SDL3Library >> getRelativeMouseStateX: x y: y [
 	"/**
 	 * Query SDL's cache for the synchronous mouse button state and accumulated
 	 * mouse delta since last call.
@@ -10804,7 +10804,7 @@ LibSDL3 >> getRelativeMouseStateX: x y: y [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderClipRectRenderer: renderer rect: rect [
+SDL3Library >> getRenderClipRectRenderer: renderer rect: rect [
 	"/**
 	 * Get the clip rectangle for the current target.
 	 *
@@ -10829,7 +10829,7 @@ LibSDL3 >> getRenderClipRectRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderColorScaleRenderer: renderer scale: scale [
+SDL3Library >> getRenderColorScaleRenderer: renderer scale: scale [
 	"/**
 	 * Get the color scale used for render operations.
 	 *
@@ -10849,7 +10849,7 @@ LibSDL3 >> getRenderColorScaleRenderer: renderer scale: scale [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
+SDL3Library >> getRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 	"/**
 	 * Get the blend mode used for drawing operations.
 	 *
@@ -10869,7 +10869,7 @@ LibSDL3 >> getRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
+SDL3Library >> getRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Get the color used for drawing operations (Rect, Line and Clear).
 	 *
@@ -10897,7 +10897,7 @@ LibSDL3 >> getRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
+SDL3Library >> getRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Get the color used for drawing operations (Rect, Line and Clear).
 	 *
@@ -10925,7 +10925,7 @@ LibSDL3 >> getRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderDriver: index [
+SDL3Library >> getRenderDriver: index [
 	"/**
 	 * Use this function to get the name of a built in 2D rendering driver.
 	 *
@@ -10953,7 +10953,7 @@ LibSDL3 >> getRenderDriver: index [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderLogicalPresentationRectRenderer: renderer rect: rect [
+SDL3Library >> getRenderLogicalPresentationRectRenderer: renderer rect: rect [
 	"/**
 	 * Get the final presentation rectangle for rendering.
 	 *
@@ -10982,7 +10982,7 @@ LibSDL3 >> getRenderLogicalPresentationRectRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
+SDL3Library >> getRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	"/**
 	 * Get device independent resolution and presentation mode for rendering.
 	 *
@@ -11011,7 +11011,7 @@ LibSDL3 >> getRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderMetalCommandEncoder: renderer [
+SDL3Library >> getRenderMetalCommandEncoder: renderer [
 	"/**
 	 * Get the Metal command encoder for the current frame.
 	 *
@@ -11038,7 +11038,7 @@ LibSDL3 >> getRenderMetalCommandEncoder: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderMetalLayer: renderer [
+SDL3Library >> getRenderMetalLayer: renderer [
 	"/**
 	 * Get the CAMetalLayer associated with the given Metal renderer.
 	 *
@@ -11060,7 +11060,7 @@ LibSDL3 >> getRenderMetalLayer: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderOutputSizeRenderer: renderer w: w h: h [
+SDL3Library >> getRenderOutputSizeRenderer: renderer w: w h: h [
 	"/**
 	 * Get the output size in pixels of a rendering context.
 	 *
@@ -11087,7 +11087,7 @@ LibSDL3 >> getRenderOutputSizeRenderer: renderer w: w h: h [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderSafeAreaRenderer: renderer rect: rect [
+SDL3Library >> getRenderSafeAreaRenderer: renderer rect: rect [
 	"/**
 	 * Get the safe area for rendering within the current viewport.
 	 *
@@ -11113,7 +11113,7 @@ LibSDL3 >> getRenderSafeAreaRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
+SDL3Library >> getRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 	"/**
 	 * Get the drawing scale for the current target.
 	 *
@@ -11137,7 +11137,7 @@ LibSDL3 >> getRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderTarget: renderer [
+SDL3Library >> getRenderTarget: renderer [
 	"/**
 	 * Get the current render target.
 	 *
@@ -11158,7 +11158,7 @@ LibSDL3 >> getRenderTarget: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
+SDL3Library >> getRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
 	"/**
 	 * Get the texture addressing mode used in SDL_RenderGeometry().
 	 *
@@ -11181,7 +11181,7 @@ LibSDL3 >> getRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderVSyncRenderer: renderer vsync: vsync [
+SDL3Library >> getRenderVSyncRenderer: renderer vsync: vsync [
 	"/**
 	 * Get VSync of the given renderer.
 	 *
@@ -11202,7 +11202,7 @@ LibSDL3 >> getRenderVSyncRenderer: renderer vsync: vsync [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderViewportRenderer: renderer rect: rect [
+SDL3Library >> getRenderViewportRenderer: renderer rect: rect [
 	"/**
 	 * Get the drawing area for the current target.
 	 *
@@ -11226,7 +11226,7 @@ LibSDL3 >> getRenderViewportRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderWindow: renderer [
+SDL3Library >> getRenderWindow: renderer [
 	"/**
 	 * Get the window associated with a renderer.
 	 *
@@ -11243,7 +11243,7 @@ LibSDL3 >> getRenderWindow: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRenderer: window [
+SDL3Library >> getRenderer: window [
 	"/**
 	 * Get the renderer associated with a window.
 	 *
@@ -11260,7 +11260,7 @@ LibSDL3 >> getRenderer: window [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRendererFromTexture: texture [
+SDL3Library >> getRendererFromTexture: texture [
 	"/**
 	 * Get the renderer that created an SDL_Texture.
 	 *
@@ -11277,7 +11277,7 @@ LibSDL3 >> getRendererFromTexture: texture [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRendererName: renderer [
+SDL3Library >> getRendererName: renderer [
 	"/**
 	 * Get the name of a renderer.
 	 *
@@ -11297,7 +11297,7 @@ LibSDL3 >> getRendererName: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getRendererProperties: renderer [
+SDL3Library >> getRendererProperties: renderer [
 	"/**
 	 * Get the properties associated with a renderer.
 	 *
@@ -11389,7 +11389,7 @@ LibSDL3 >> getRendererProperties: renderer [
 ]
 
 { #category : 'public - SDL_version' }
-LibSDL3 >> getRevision [
+SDL3Library >> getRevision [
 	"/**
 	 * Get the code revision of the SDL library that is linked against your
 	 * program.
@@ -11420,7 +11420,7 @@ LibSDL3 >> getRevision [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> getSIMDAlignment [
+SDL3Library >> getSIMDAlignment [
 	"/**
 	 * Report the alignment this system needs for SIMD allocations.
 	 *
@@ -11448,7 +11448,7 @@ LibSDL3 >> getSIMDAlignment [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> getSandbox [
+SDL3Library >> getSandbox [
 	"/**
 	 * Get the application sandbox environment, if any.
 	 *
@@ -11462,7 +11462,7 @@ LibSDL3 >> getSandbox [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getScancodeFromKey: key modstate: modstate [
+SDL3Library >> getScancodeFromKey: key modstate: modstate [
 	"/**
 	 * Get the scancode corresponding to the given key code according to the
 	 * current keyboard layout.
@@ -11487,7 +11487,7 @@ LibSDL3 >> getScancodeFromKey: key modstate: modstate [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getScancodeFromName: name [
+SDL3Library >> getScancodeFromName: name [
 	"/**
 	 * Get a scancode from a human-readable name.
 	 *
@@ -11508,7 +11508,7 @@ LibSDL3 >> getScancodeFromName: name [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getScancodeName: scancode [
+SDL3Library >> getScancodeName: scancode [
 	"/**
 	 * Get a human-readable name for a scancode.
 	 *
@@ -11538,7 +11538,7 @@ LibSDL3 >> getScancodeName: scancode [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> getSemaphoreValue: sem [
+SDL3Library >> getSemaphoreValue: sem [
 	"/**
 	 * Get the current value of a semaphore.
 	 *
@@ -11552,7 +11552,7 @@ LibSDL3 >> getSemaphoreValue: sem [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorDataSensor: sensor data: data numValues: num_values [
+SDL3Library >> getSensorDataSensor: sensor data: data numValues: num_values [
 	"/**
 	 * Get the current state of an opened sensor.
 	 *
@@ -11571,7 +11571,7 @@ LibSDL3 >> getSensorDataSensor: sensor data: data numValues: num_values [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorFromID: instance_id [
+SDL3Library >> getSensorFromID: instance_id [
 	"/**
 	 * Return the SDL_Sensor associated with an instance ID.
 	 *
@@ -11586,7 +11586,7 @@ LibSDL3 >> getSensorFromID: instance_id [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorID: sensor [
+SDL3Library >> getSensorID: sensor [
 	"/**
 	 * Get the instance ID of a sensor.
 	 *
@@ -11601,7 +11601,7 @@ LibSDL3 >> getSensorID: sensor [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorName: sensor [
+SDL3Library >> getSensorName: sensor [
 	"/**
 	 * Get the implementation dependent name of a sensor.
 	 *
@@ -11616,7 +11616,7 @@ LibSDL3 >> getSensorName: sensor [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorNameForID: instance_id [
+SDL3Library >> getSensorNameForID: instance_id [
 	"/**
 	 * Get the implementation dependent name of a sensor.
 	 *
@@ -11632,7 +11632,7 @@ LibSDL3 >> getSensorNameForID: instance_id [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorNonPortableType: sensor [
+SDL3Library >> getSensorNonPortableType: sensor [
 	"/**
 	 * Get the platform dependent type of a sensor.
 	 *
@@ -11646,7 +11646,7 @@ LibSDL3 >> getSensorNonPortableType: sensor [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorNonPortableTypeForID: instance_id [
+SDL3Library >> getSensorNonPortableTypeForID: instance_id [
 	"/**
 	 * Get the platform dependent type of a sensor.
 	 *
@@ -11663,7 +11663,7 @@ LibSDL3 >> getSensorNonPortableTypeForID: instance_id [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorProperties: sensor [
+SDL3Library >> getSensorProperties: sensor [
 	"/**
 	 * Get the properties associated with a sensor.
 	 *
@@ -11678,7 +11678,7 @@ LibSDL3 >> getSensorProperties: sensor [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorType: sensor [
+SDL3Library >> getSensorType: sensor [
 	"/**
 	 * Get the type of a sensor.
 	 *
@@ -11693,7 +11693,7 @@ LibSDL3 >> getSensorType: sensor [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensorTypeForID: instance_id [
+SDL3Library >> getSensorTypeForID: instance_id [
 	"/**
 	 * Get the type of a sensor.
 	 *
@@ -11710,7 +11710,7 @@ LibSDL3 >> getSensorTypeForID: instance_id [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> getSensors: count [
+SDL3Library >> getSensors: count [
 	"/**
 	 * Get a list of currently connected sensors.
 	 *
@@ -11727,7 +11727,7 @@ LibSDL3 >> getSensors: count [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> getSilenceValueForFormat: format [
+SDL3Library >> getSilenceValueForFormat: format [
 	"/**
 	 * Get the appropriate memset value for silencing an audio format.
 	 *
@@ -11747,7 +11747,7 @@ LibSDL3 >> getSilenceValueForFormat: format [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> getStorageFileSizeStorage: storage path: path length: length [
+SDL3Library >> getStorageFileSizeStorage: storage path: path length: length [
 	"/**
 	 * Query the size of a file within a storage container.
 	 *
@@ -11767,7 +11767,7 @@ LibSDL3 >> getStorageFileSizeStorage: storage path: path length: length [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> getStoragePathInfoStorage: storage path: path info: info [
+SDL3Library >> getStoragePathInfoStorage: storage path: path info: info [
 	"/**
 	 * Get information about a filesystem path in a storage container.
 	 *
@@ -11787,7 +11787,7 @@ LibSDL3 >> getStoragePathInfoStorage: storage path: path info: info [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> getStorageSpaceRemaining: storage [
+SDL3Library >> getStorageSpaceRemaining: storage [
 	"/**
 	 * Queries the remaining space in a storage container.
 	 *
@@ -11804,7 +11804,7 @@ LibSDL3 >> getStorageSpaceRemaining: storage [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> getStringPropertyProps: props name: name defaultValue: default_value [
+SDL3Library >> getStringPropertyProps: props name: name defaultValue: default_value [
 	"/**
 	 * Get a string property from a group of properties.
 	 *
@@ -11832,7 +11832,7 @@ LibSDL3 >> getStringPropertyProps: props name: name defaultValue: default_value 
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceAlphaModSurface: surface alpha: alpha [
+SDL3Library >> getSurfaceAlphaModSurface: surface alpha: alpha [
 	"/**
 	 * Get the additional alpha value used in blit operations.
 	 *
@@ -11853,7 +11853,7 @@ LibSDL3 >> getSurfaceAlphaModSurface: surface alpha: alpha [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceBlendModeSurface: surface blendMode: blendMode [
+SDL3Library >> getSurfaceBlendModeSurface: surface blendMode: blendMode [
 	"/**
 	 * Get the blend mode used for blit operations.
 	 *
@@ -11873,7 +11873,7 @@ LibSDL3 >> getSurfaceBlendModeSurface: surface blendMode: blendMode [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceClipRectSurface: surface rect: rect [
+SDL3Library >> getSurfaceClipRectSurface: surface rect: rect [
 	"/**
 	 * Get the clipping rectangle for a surface.
 	 *
@@ -11899,7 +11899,7 @@ LibSDL3 >> getSurfaceClipRectSurface: surface rect: rect [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceColorKeySurface: surface key: key [
+SDL3Library >> getSurfaceColorKeySurface: surface key: key [
 	"/**
 	 * Get the color key (transparent pixel) for a surface.
 	 *
@@ -11925,7 +11925,7 @@ LibSDL3 >> getSurfaceColorKeySurface: surface key: key [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceColorModSurface: surface r: r g: g b: b [
+SDL3Library >> getSurfaceColorModSurface: surface r: r g: g b: b [
 	"/**
 	 * Get the additional color value multiplied into blit operations.
 	 *
@@ -11949,7 +11949,7 @@ LibSDL3 >> getSurfaceColorModSurface: surface r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceColorspace: surface [
+SDL3Library >> getSurfaceColorspace: surface [
 	"/**
 	 * Get the colorspace used by a surface.
 	 *
@@ -11973,7 +11973,7 @@ LibSDL3 >> getSurfaceColorspace: surface [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceImagesSurface: surface count: count [
+SDL3Library >> getSurfaceImagesSurface: surface count: count [
 	"/**
 	 * Get an array including all versions of a surface.
 	 *
@@ -12005,7 +12005,7 @@ LibSDL3 >> getSurfaceImagesSurface: surface count: count [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfacePalette: surface [
+SDL3Library >> getSurfacePalette: surface [
 	"/**
 	 * Get the palette used by a surface.
 	 *
@@ -12024,7 +12024,7 @@ LibSDL3 >> getSurfacePalette: surface [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> getSurfaceProperties: surface [
+SDL3Library >> getSurfaceProperties: surface [
 	"/**
 	 * Get the properties associated with a surface.
 	 *
@@ -12068,7 +12068,7 @@ LibSDL3 >> getSurfaceProperties: surface [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> getSystemPageSize [
+SDL3Library >> getSystemPageSize [
 	"/**
 	 * Report the size of a page of memory.
 	 *
@@ -12093,7 +12093,7 @@ LibSDL3 >> getSystemPageSize [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> getSystemRAM [
+SDL3Library >> getSystemRAM [
 	"/**
 	 * Get the amount of RAM configured in the system.
 	 *
@@ -12108,7 +12108,7 @@ LibSDL3 >> getSystemRAM [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getSystemTheme [
+SDL3Library >> getSystemTheme [
 	"/**
 	 * Get the current system theme.
 	 *
@@ -12123,7 +12123,7 @@ LibSDL3 >> getSystemTheme [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> getTLS: id [
+SDL3Library >> getTLS: id [
 	"/**
 	 * Get the current thread's value associated with a thread local storage ID.
 	 *
@@ -12142,7 +12142,7 @@ LibSDL3 >> getTLS: id [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> getTextInputAreaWindow: window rect: rect cursor: cursor [
+SDL3Library >> getTextInputAreaWindow: window rect: rect cursor: cursor [
 	"/**
 	 * Get the area used to type Unicode text input.
 	 *
@@ -12167,7 +12167,7 @@ LibSDL3 >> getTextInputAreaWindow: window rect: rect cursor: cursor [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureAlphaModFloatTexture: texture alpha: alpha [
+SDL3Library >> getTextureAlphaModFloatTexture: texture alpha: alpha [
 	"/**
 	 * Get the additional alpha value multiplied into render copy operations.
 	 *
@@ -12189,7 +12189,7 @@ LibSDL3 >> getTextureAlphaModFloatTexture: texture alpha: alpha [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureAlphaModTexture: texture alpha: alpha [
+SDL3Library >> getTextureAlphaModTexture: texture alpha: alpha [
 	"/**
 	 * Get the additional alpha value multiplied into render copy operations.
 	 *
@@ -12211,7 +12211,7 @@ LibSDL3 >> getTextureAlphaModTexture: texture alpha: alpha [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureBlendModeTexture: texture blendMode: blendMode [
+SDL3Library >> getTextureBlendModeTexture: texture blendMode: blendMode [
 	"/**
 	 * Get the blend mode used for texture copy operations.
 	 *
@@ -12231,7 +12231,7 @@ LibSDL3 >> getTextureBlendModeTexture: texture blendMode: blendMode [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureColorModFloatTexture: texture r: r g: g b: b [
+SDL3Library >> getTextureColorModFloatTexture: texture r: r g: g b: b [
 	"/**
 	 * Get the additional color value multiplied into render copy operations.
 	 *
@@ -12255,7 +12255,7 @@ LibSDL3 >> getTextureColorModFloatTexture: texture r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureColorModTexture: texture r: r g: g b: b [
+SDL3Library >> getTextureColorModTexture: texture r: r g: g b: b [
 	"/**
 	 * Get the additional color value multiplied into render copy operations.
 	 *
@@ -12279,7 +12279,7 @@ LibSDL3 >> getTextureColorModTexture: texture r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTexturePalette: texture [
+SDL3Library >> getTexturePalette: texture [
 	"/**
 	 * Get the palette used by a texture.
 	 *
@@ -12298,7 +12298,7 @@ LibSDL3 >> getTexturePalette: texture [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureProperties: texture [
+SDL3Library >> getTextureProperties: texture [
 	"/**
 	 * Get the properties associated with a texture.
 	 *
@@ -12401,7 +12401,7 @@ LibSDL3 >> getTextureProperties: texture [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureScaleModeTexture: texture scaleMode: scaleMode [
+SDL3Library >> getTextureScaleModeTexture: texture scaleMode: scaleMode [
 	"/**
 	 * Get the scale mode used for texture scale operations.
 	 *
@@ -12421,7 +12421,7 @@ LibSDL3 >> getTextureScaleModeTexture: texture scaleMode: scaleMode [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> getTextureSizeTexture: texture w: w h: h [
+SDL3Library >> getTextureSizeTexture: texture w: w h: h [
 	"/**
 	 * Get the size of a texture, as floating point values.
 	 *
@@ -12442,7 +12442,7 @@ LibSDL3 >> getTextureSizeTexture: texture w: w h: h [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> getThreadID: thread [
+SDL3Library >> getThreadID: thread [
 	"/**
 	 * Get the thread identifier for the specified thread.
 	 *
@@ -12463,7 +12463,7 @@ LibSDL3 >> getThreadID: thread [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> getThreadName: thread [
+SDL3Library >> getThreadName: thread [
 	"/**
 	 * Get the thread name as it was specified in SDL_CreateThread().
 	 *
@@ -12478,7 +12478,7 @@ LibSDL3 >> getThreadName: thread [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> getThreadState: thread [
+SDL3Library >> getThreadState: thread [
 	"/**
 	 * Get the current state of a thread.
 	 *
@@ -12495,7 +12495,7 @@ LibSDL3 >> getThreadState: thread [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> getTicks [
+SDL3Library >> getTicks [
 	"/**
 	 * Get the number of milliseconds that have elapsed since the SDL library
 	 * initialization.
@@ -12515,7 +12515,7 @@ LibSDL3 >> getTicks [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> getTicksNS [
+SDL3Library >> getTicksNS [
 	"/**
 	 * Get the number of nanoseconds since SDL library initialization.
 	 *
@@ -12531,7 +12531,7 @@ LibSDL3 >> getTicksNS [
 ]
 
 { #category : 'public - SDL_touch' }
-LibSDL3 >> getTouchDeviceName: touchID [
+SDL3Library >> getTouchDeviceName: touchID [
 	"/**
 	 * Get the touch device name as reported from the driver.
 	 *
@@ -12546,7 +12546,7 @@ LibSDL3 >> getTouchDeviceName: touchID [
 ]
 
 { #category : 'public - SDL_touch' }
-LibSDL3 >> getTouchDeviceType: touchID [
+SDL3Library >> getTouchDeviceType: touchID [
 	"/**
 	 * Get the type of the given touch device.
 	 *
@@ -12560,7 +12560,7 @@ LibSDL3 >> getTouchDeviceType: touchID [
 ]
 
 { #category : 'public - SDL_touch' }
-LibSDL3 >> getTouchDevices: count [
+SDL3Library >> getTouchDevices: count [
 	"/**
 	 * Get a list of registered touch devices.
 	 *
@@ -12581,7 +12581,7 @@ LibSDL3 >> getTouchDevices: count [
 ]
 
 { #category : 'public - SDL_touch' }
-LibSDL3 >> getTouchFingersTouchID: touchID count: count [
+SDL3Library >> getTouchFingersTouchID: touchID count: count [
 	"/**
 	 * Get a list of active fingers for a given touch device.
 	 *
@@ -12600,7 +12600,7 @@ LibSDL3 >> getTouchFingersTouchID: touchID count: count [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayEntriesMenu: menu count: count [
+SDL3Library >> getTrayEntriesMenu: menu count: count [
 	"/**
 	 * Returns a list of entries in the menu, in order.
 	 *
@@ -12624,7 +12624,7 @@ LibSDL3 >> getTrayEntriesMenu: menu count: count [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayEntryChecked: entry [
+SDL3Library >> getTrayEntryChecked: entry [
 	"/**
 	 * Gets whether or not an entry is checked.
 	 *
@@ -12647,7 +12647,7 @@ LibSDL3 >> getTrayEntryChecked: entry [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayEntryEnabled: entry [
+SDL3Library >> getTrayEntryEnabled: entry [
 	"/**
 	 * Gets whether or not an entry is enabled.
 	 *
@@ -12668,7 +12668,7 @@ LibSDL3 >> getTrayEntryEnabled: entry [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayEntryLabel: entry [
+SDL3Library >> getTrayEntryLabel: entry [
 	"/**
 	 * Gets the label of an entry.
 	 *
@@ -12691,7 +12691,7 @@ LibSDL3 >> getTrayEntryLabel: entry [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayEntryParent: entry [
+SDL3Library >> getTrayEntryParent: entry [
 	"/**
 	 * Gets the menu containing a certain tray entry.
 	 *
@@ -12710,7 +12710,7 @@ LibSDL3 >> getTrayEntryParent: entry [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayMenu: tray [
+SDL3Library >> getTrayMenu: tray [
 	"/**
 	 * Gets a previously created tray menu.
 	 *
@@ -12738,7 +12738,7 @@ LibSDL3 >> getTrayMenu: tray [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayMenuParentEntry: menu [
+SDL3Library >> getTrayMenuParentEntry: menu [
 	"/**
 	 * Gets the entry for which the menu is a submenu, if the current menu is a
 	 * submenu.
@@ -12762,7 +12762,7 @@ LibSDL3 >> getTrayMenuParentEntry: menu [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTrayMenuParentTray: menu [
+SDL3Library >> getTrayMenuParentTray: menu [
 	"/**
 	 * Gets the tray for which this menu is the first-level menu, if the current
 	 * menu isn't a submenu.
@@ -12786,7 +12786,7 @@ LibSDL3 >> getTrayMenuParentTray: menu [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> getTraySubmenu: entry [
+SDL3Library >> getTraySubmenu: entry [
 	"/**
 	 * Gets a previously created tray entry submenu.
 	 *
@@ -12814,7 +12814,7 @@ LibSDL3 >> getTraySubmenu: entry [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> getUserFolder: folder [
+SDL3Library >> getUserFolder: folder [
 	"/**
 	 * Finds the most suitable user folder for a specific purpose.
 	 *
@@ -12845,7 +12845,7 @@ LibSDL3 >> getUserFolder: folder [
 ]
 
 { #category : 'public - SDL_version' }
-LibSDL3 >> getVersion [
+SDL3Library >> getVersion [
 	"/**
 	 * Get the version of SDL that is linked against your program.
 	 *
@@ -12867,7 +12867,7 @@ LibSDL3 >> getVersion [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getVideoDriver: index [
+SDL3Library >> getVideoDriver: index [
 	"/**
 	 * Get the name of a built in video driver.
 	 *
@@ -12893,7 +12893,7 @@ LibSDL3 >> getVideoDriver: index [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: max_aspect [
+SDL3Library >> getWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: max_aspect [
 	"/**
 	 * Get the aspect ratio of a window's client area.
 	 *
@@ -12916,7 +12916,7 @@ LibSDL3 >> getWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: m
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowBordersSizeWindow: window top: top left: left bottom: bottom right: right [
+SDL3Library >> getWindowBordersSizeWindow: window top: top left: left bottom: bottom right: right [
 	"/**
 	 * Get the size of a window's borders (decorations) around the client area.
 	 *
@@ -12957,7 +12957,7 @@ LibSDL3 >> getWindowBordersSizeWindow: window top: top left: left bottom: bottom
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowDisplayScale: window [
+SDL3Library >> getWindowDisplayScale: window [
 	"/**
 	 * Get the content display scale relative to a window's pixel size.
 	 *
@@ -12985,7 +12985,7 @@ LibSDL3 >> getWindowDisplayScale: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowFlags: window [
+SDL3Library >> getWindowFlags: window [
 	"/**
 	 * Get the window flags.
 	 *
@@ -13010,7 +13010,7 @@ LibSDL3 >> getWindowFlags: window [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> getWindowFromEvent: event [
+SDL3Library >> getWindowFromEvent: event [
 	"/**
 	 * Get window associated with an event.
 	 *
@@ -13030,7 +13030,7 @@ LibSDL3 >> getWindowFromEvent: event [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowFromID: id [
+SDL3Library >> getWindowFromID: id [
 	"/**
 	 * Get a window from a stored ID.
 	 *
@@ -13052,7 +13052,7 @@ LibSDL3 >> getWindowFromID: id [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowFullscreenMode: window [
+SDL3Library >> getWindowFullscreenMode: window [
 	"/**
 	 * Query the display mode to use when a window is visible at fullscreen.
 	 *
@@ -13072,7 +13072,7 @@ LibSDL3 >> getWindowFullscreenMode: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowICCProfileWindow: window size: size [
+SDL3Library >> getWindowICCProfileWindow: window size: size [
 	"/**
 	 * Get the raw ICC profile data for the screen the window is currently on.
 	 *
@@ -13091,7 +13091,7 @@ LibSDL3 >> getWindowICCProfileWindow: window size: size [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowID: window [
+SDL3Library >> getWindowID: window [
 	"/**
 	 * Get the numeric ID of a window.
 	 *
@@ -13113,7 +13113,7 @@ LibSDL3 >> getWindowID: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowKeyboardGrab: window [
+SDL3Library >> getWindowKeyboardGrab: window [
 	"/**
 	 * Get a window's keyboard grab mode.
 	 *
@@ -13131,7 +13131,7 @@ LibSDL3 >> getWindowKeyboardGrab: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowMaximumSizeWindow: window w: w h: h [
+SDL3Library >> getWindowMaximumSizeWindow: window w: w h: h [
 	"/**
 	 * Get the maximum size of a window's client area.
 	 *
@@ -13155,7 +13155,7 @@ LibSDL3 >> getWindowMaximumSizeWindow: window w: w h: h [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowMinimumSizeWindow: window w: w h: h [
+SDL3Library >> getWindowMinimumSizeWindow: window w: w h: h [
 	"/**
 	 * Get the minimum size of a window's client area.
 	 *
@@ -13179,7 +13179,7 @@ LibSDL3 >> getWindowMinimumSizeWindow: window w: w h: h [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowMouseGrab: window [
+SDL3Library >> getWindowMouseGrab: window [
 	"/**
 	 * Get a window's mouse grab mode.
 	 *
@@ -13200,7 +13200,7 @@ LibSDL3 >> getWindowMouseGrab: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowMouseRect: window [
+SDL3Library >> getWindowMouseRect: window [
 	"/**
 	 * Get the mouse confinement rectangle of a window.
 	 *
@@ -13221,7 +13221,7 @@ LibSDL3 >> getWindowMouseRect: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowOpacity: window [
+SDL3Library >> getWindowOpacity: window [
 	"/**
 	 * Get the opacity of a window.
 	 *
@@ -13243,7 +13243,7 @@ LibSDL3 >> getWindowOpacity: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowParent: window [
+SDL3Library >> getWindowParent: window [
 	"/**
 	 * Get parent of a window.
 	 *
@@ -13262,7 +13262,7 @@ LibSDL3 >> getWindowParent: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowPixelDensity: window [
+SDL3Library >> getWindowPixelDensity: window [
 	"/**
 	 * Get the pixel density of a window.
 	 *
@@ -13285,7 +13285,7 @@ LibSDL3 >> getWindowPixelDensity: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowPixelFormat: window [
+SDL3Library >> getWindowPixelFormat: window [
 	"/**
 	 * Get the pixel format associated with the window.
 	 *
@@ -13303,7 +13303,7 @@ LibSDL3 >> getWindowPixelFormat: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowPositionWindow: window x: x y: y [
+SDL3Library >> getWindowPositionWindow: window x: x y: y [
 	"/**
 	 * Get the position of a window.
 	 *
@@ -13332,7 +13332,7 @@ LibSDL3 >> getWindowPositionWindow: window x: x y: y [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowProgressState: window [
+SDL3Library >> getWindowProgressState: window [
 	"/**
 	 * Get the state of the progress bar for the given window’s taskbar icon.
 	 *
@@ -13349,7 +13349,7 @@ LibSDL3 >> getWindowProgressState: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowProgressValue: window [
+SDL3Library >> getWindowProgressValue: window [
 	"/**
 	 * Get the value of the progress bar for the given window’s taskbar icon.
 	 *
@@ -13366,7 +13366,7 @@ LibSDL3 >> getWindowProgressValue: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowProperties: window [
+SDL3Library >> getWindowProperties: window [
 	"/**
 	 * Get the properties associated with a window.
 	 *
@@ -13499,7 +13499,7 @@ LibSDL3 >> getWindowProperties: window [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> getWindowRelativeMouseMode: window [
+SDL3Library >> getWindowRelativeMouseMode: window [
 	"/**
 	 * Query whether relative mouse mode is enabled for a window.
 	 *
@@ -13517,7 +13517,7 @@ LibSDL3 >> getWindowRelativeMouseMode: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowSafeAreaWindow: window rect: rect [
+SDL3Library >> getWindowSafeAreaWindow: window rect: rect [
 	"/**
 	 * Get the safe area for this window.
 	 *
@@ -13543,7 +13543,7 @@ LibSDL3 >> getWindowSafeAreaWindow: window rect: rect [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowSizeInPixelsWindow: window w: w h: h [
+SDL3Library >> getWindowSizeInPixelsWindow: window w: w h: h [
 	"/**
 	 * Get the size of a window's client area, in pixels.
 	 *
@@ -13567,7 +13567,7 @@ LibSDL3 >> getWindowSizeInPixelsWindow: window w: w h: h [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowSizeWindow: window w: w h: h [
+SDL3Library >> getWindowSizeWindow: window w: w h: h [
 	"/**
 	 * Get the size of a window's client area.
 	 *
@@ -13595,7 +13595,7 @@ LibSDL3 >> getWindowSizeWindow: window w: w h: h [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowSurface: window [
+SDL3Library >> getWindowSurface: window [
 	"/**
 	 * Get the SDL surface associated with the window.
 	 *
@@ -13628,7 +13628,7 @@ LibSDL3 >> getWindowSurface: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowSurfaceVSyncWindow: window vsync: vsync [
+SDL3Library >> getWindowSurfaceVSyncWindow: window vsync: vsync [
 	"/**
 	 * Get VSync for the window surface.
 	 *
@@ -13649,7 +13649,7 @@ LibSDL3 >> getWindowSurfaceVSyncWindow: window vsync: vsync [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindowTitle: window [
+SDL3Library >> getWindowTitle: window [
 	"/**
 	 * Get the title of a window.
 	 *
@@ -13668,7 +13668,7 @@ LibSDL3 >> getWindowTitle: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> getWindows: count [
+SDL3Library >> getWindows: count [
 	"/**
 	 * Get a list of valid windows.
 	 *
@@ -13688,7 +13688,7 @@ LibSDL3 >> getWindows: count [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getenv: name [
+SDL3Library >> getenv: name [
 	"/**
 	 * Get the value of a variable in the environment.
 	 *
@@ -13707,7 +13707,7 @@ LibSDL3 >> getenv: name [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> getenvUnsafe: name [
+SDL3Library >> getenvUnsafe: name [
 	"/**
 	 * Get the value of a variable in the environment.
 	 *
@@ -13730,7 +13730,7 @@ LibSDL3 >> getenvUnsafe: name [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glCreateContext: window [
+SDL3Library >> glCreateContext: window [
 	"/**
 	 * Create an OpenGL context for an OpenGL window, and make it current.
 	 *
@@ -13764,7 +13764,7 @@ LibSDL3 >> glCreateContext: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glDestroyContext: context [
+SDL3Library >> glDestroyContext: context [
 	"/**
 	 * Delete an OpenGL context.
 	 *
@@ -13783,7 +13783,7 @@ LibSDL3 >> glDestroyContext: context [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glExtensionSupported: extension [
+SDL3Library >> glExtensionSupported: extension [
 	"/**
 	 * Check if an OpenGL extension is supported for the current context.
 	 *
@@ -13810,7 +13810,7 @@ LibSDL3 >> glExtensionSupported: extension [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glGetAttributeAttr: attr value: value [
+SDL3Library >> glGetAttributeAttr: attr value: value [
 	"/**
 	 * Get the actual value for an attribute from the current context.
 	 *
@@ -13832,7 +13832,7 @@ LibSDL3 >> glGetAttributeAttr: attr value: value [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glGetCurrentContext [
+SDL3Library >> glGetCurrentContext [
 	"/**
 	 * Get the currently active OpenGL context.
 	 *
@@ -13850,7 +13850,7 @@ LibSDL3 >> glGetCurrentContext [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glGetCurrentWindow [
+SDL3Library >> glGetCurrentWindow [
 	"/**
 	 * Get the currently active OpenGL window.
 	 *
@@ -13866,7 +13866,7 @@ LibSDL3 >> glGetCurrentWindow [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glGetProcAddress: proc [
+SDL3Library >> glGetProcAddress: proc [
 	"/**
 	 * Get an OpenGL function by name.
 	 *
@@ -13925,7 +13925,7 @@ LibSDL3 >> glGetProcAddress: proc [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glGetSwapInterval: interval [
+SDL3Library >> glGetSwapInterval: interval [
 	"/**
 	 * Get the swap interval for the current OpenGL context.
 	 *
@@ -13950,7 +13950,7 @@ LibSDL3 >> glGetSwapInterval: interval [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glLoadLibrary: path [
+SDL3Library >> glLoadLibrary: path [
 	"/**
 	 * Dynamically load an OpenGL library.
 	 *
@@ -13978,7 +13978,7 @@ LibSDL3 >> glLoadLibrary: path [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glMakeCurrentWindow: window context: context [
+SDL3Library >> glMakeCurrentWindow: window context: context [
 	"/**
 	 * Set up an OpenGL context for rendering into an OpenGL window.
 	 *
@@ -14000,7 +14000,7 @@ LibSDL3 >> glMakeCurrentWindow: window context: context [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glResetAttributes [
+SDL3Library >> glResetAttributes [
 	"/**
 	 * Reset all previously set OpenGL context attributes to their default values.
 	 *
@@ -14016,7 +14016,7 @@ LibSDL3 >> glResetAttributes [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glSetAttributeAttr: attr value: value [
+SDL3Library >> glSetAttributeAttr: attr value: value [
 	"/**
 	 * Set an OpenGL window attribute before window creation.
 	 *
@@ -14043,7 +14043,7 @@ LibSDL3 >> glSetAttributeAttr: attr value: value [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glSetSwapInterval: interval [
+SDL3Library >> glSetSwapInterval: interval [
 	"/**
 	 * Set the swap interval for the current OpenGL context.
 	 *
@@ -14078,7 +14078,7 @@ LibSDL3 >> glSetSwapInterval: interval [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glSwapWindow: window [
+SDL3Library >> glSwapWindow: window [
 	"/**
 	 * Update a window with OpenGL rendering.
 	 *
@@ -14102,7 +14102,7 @@ LibSDL3 >> glSwapWindow: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> glUnloadLibrary [
+SDL3Library >> glUnloadLibrary [
 	"/**
 	 * Unload the OpenGL library previously loaded by SDL_GL_LoadLibrary().
 	 *
@@ -14117,7 +14117,7 @@ LibSDL3 >> glUnloadLibrary [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> globDirectoryPath: path pattern: pattern flags: flags count: count [
+SDL3Library >> globDirectoryPath: path pattern: pattern flags: flags count: count [
 	"/**
 	 * Enumerate a directory tree, filtered by pattern, and return a list.
 	 *
@@ -14154,7 +14154,7 @@ LibSDL3 >> globDirectoryPath: path pattern: pattern flags: flags count: count [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> globStorageDirectoryStorage: storage path: path pattern: pattern flags: flags count: count [
+SDL3Library >> globStorageDirectoryStorage: storage path: path pattern: pattern flags: flags count: count [
 	"/**
 	 * Enumerate a directory tree, filtered by pattern, and return a list.
 	 *
@@ -14198,7 +14198,7 @@ LibSDL3 >> globStorageDirectoryStorage: storage path: path pattern: pattern flag
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> gpuSupportsProperties: props [
+SDL3Library >> gpuSupportsProperties: props [
 	"/**
 	 * Checks for GPU runtime support.
 	 *
@@ -14214,7 +14214,7 @@ LibSDL3 >> gpuSupportsProperties: props [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> gpuSupportsShaderFormatsFormatFlags: format_flags name: name [
+SDL3Library >> gpuSupportsShaderFormatsFormatFlags: format_flags name: name [
 	"/**
 	 * Checks for GPU runtime support.
 	 *
@@ -14233,7 +14233,7 @@ LibSDL3 >> gpuSupportsShaderFormatsFormatFlags: format_flags name: name [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> gpuTextureFormatTexelBlockSize: format [
+SDL3Library >> gpuTextureFormatTexelBlockSize: format [
 	"/**
 	 * Obtains the texel block size for a texture format.
 	 *
@@ -14249,7 +14249,7 @@ LibSDL3 >> gpuTextureFormatTexelBlockSize: format [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> gpuTextureSupportsFormatDevice: device format: format type: type usage: usage [
+SDL3Library >> gpuTextureSupportsFormatDevice: device format: format type: type usage: usage [
 	"/**
 	 * Determines whether a texture format is supported for a given type and
 	 * usage.
@@ -14267,7 +14267,7 @@ LibSDL3 >> gpuTextureSupportsFormatDevice: device format: format type: type usag
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> gpuTextureSupportsSampleCountDevice: device format: format sampleCount: sample_count [
+SDL3Library >> gpuTextureSupportsSampleCountDevice: device format: format sampleCount: sample_count [
 	"/**
 	 * Determines if a sample count for a texture format is supported.
 	 *
@@ -14283,7 +14283,7 @@ LibSDL3 >> gpuTextureSupportsSampleCountDevice: device format: format sampleCoun
 ]
 
 { #category : 'public - SDL_guid' }
-LibSDL3 >> guidToStringGuid: guid pszGUID: pszGUID cbGUID: cbGUID [
+SDL3Library >> guidToStringGuid: guid pszGUID: pszGUID cbGUID: cbGUID [
 	"/**
 	 * Get an ASCII string representation for a given SDL_GUID.
 	 *
@@ -14302,7 +14302,7 @@ LibSDL3 >> guidToStringGuid: guid pszGUID: pszGUID cbGUID: cbGUID [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> hapticEffectSupportedHaptic: haptic effect: effect [
+SDL3Library >> hapticEffectSupportedHaptic: haptic effect: effect [
 	"/**
 	 * Check to see if an effect is supported by a haptic device.
 	 *
@@ -14320,7 +14320,7 @@ LibSDL3 >> hapticEffectSupportedHaptic: haptic effect: effect [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> hapticRumbleSupported: haptic [
+SDL3Library >> hapticRumbleSupported: haptic [
 	"/**
 	 * Check whether rumble is supported on a haptic device.
 	 *
@@ -14336,7 +14336,7 @@ LibSDL3 >> hapticRumbleSupported: haptic [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasARMSIMD [
+SDL3Library >> hasARMSIMD [
 	"/**
 	 * Determine whether the CPU has ARM SIMD (ARMv6) features.
 	 *
@@ -14357,7 +14357,7 @@ LibSDL3 >> hasARMSIMD [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasAVX [
+SDL3Library >> hasAVX [
 	"/**
 	 * Determine whether the CPU has AVX features.
 	 *
@@ -14377,7 +14377,7 @@ LibSDL3 >> hasAVX [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasAVX2 [
+SDL3Library >> hasAVX2 [
 	"/**
 	 * Determine whether the CPU has AVX2 features.
 	 *
@@ -14397,7 +14397,7 @@ LibSDL3 >> hasAVX2 [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasAVX512F [
+SDL3Library >> hasAVX512F [
 	"/**
 	 * Determine whether the CPU has AVX-512F (foundation) features.
 	 *
@@ -14417,7 +14417,7 @@ LibSDL3 >> hasAVX512F [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasAltiVec [
+SDL3Library >> hasAltiVec [
 	"/**
 	 * Determine whether the CPU has AltiVec features.
 	 *
@@ -14435,7 +14435,7 @@ LibSDL3 >> hasAltiVec [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> hasClipboardData: mime_type [
+SDL3Library >> hasClipboardData: mime_type [
 	"/**
 	 * Query whether there is data in the clipboard for the provided mime type.
 	 *
@@ -14455,7 +14455,7 @@ LibSDL3 >> hasClipboardData: mime_type [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> hasClipboardText [
+SDL3Library >> hasClipboardText [
 	"/**
 	 * Query whether the clipboard exists and contains a non-empty text string.
 	 *
@@ -14473,7 +14473,7 @@ LibSDL3 >> hasClipboardText [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> hasEvent: type [
+SDL3Library >> hasEvent: type [
 	"/**
 	 * Check for the existence of a certain event type in the event queue.
 	 *
@@ -14495,7 +14495,7 @@ LibSDL3 >> hasEvent: type [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> hasEventsMinType: minType maxType: maxType [
+SDL3Library >> hasEventsMinType: minType maxType: maxType [
 	"/**
 	 * Check for the existence of certain event types in the event queue.
 	 *
@@ -14519,7 +14519,7 @@ LibSDL3 >> hasEventsMinType: minType maxType: maxType [
 ]
 
 { #category : 'public - SDL_bits' }
-LibSDL3 >> hasExactlyOneBitSet32: x [
+SDL3Library >> hasExactlyOneBitSet32: x [
 	"/**
 	 * Determine if a unsigned 32-bit value has exactly one bit set.
 	 *
@@ -14543,7 +14543,7 @@ LibSDL3 >> hasExactlyOneBitSet32: x [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> hasGamepad [
+SDL3Library >> hasGamepad [
 	"/**
 	 * Return whether a gamepad is currently connected.
 	 *
@@ -14560,7 +14560,7 @@ LibSDL3 >> hasGamepad [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> hasJoystick [
+SDL3Library >> hasJoystick [
 	"/**
 	 * Return whether a joystick is currently connected.
 	 *
@@ -14577,7 +14577,7 @@ LibSDL3 >> hasJoystick [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> hasKeyboard [
+SDL3Library >> hasKeyboard [
 	"/**
 	 * Return whether a keyboard is currently connected.
 	 *
@@ -14594,7 +14594,7 @@ LibSDL3 >> hasKeyboard [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasLASX [
+SDL3Library >> hasLASX [
 	"/**
 	 * Determine whether the CPU has LASX (LOONGARCH SIMD) features.
 	 *
@@ -14612,7 +14612,7 @@ LibSDL3 >> hasLASX [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasLSX [
+SDL3Library >> hasLSX [
 	"/**
 	 * Determine whether the CPU has LSX (LOONGARCH SIMD) features.
 	 *
@@ -14630,7 +14630,7 @@ LibSDL3 >> hasLSX [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasMMX [
+SDL3Library >> hasMMX [
 	"/**
 	 * Determine whether the CPU has MMX features.
 	 *
@@ -14647,7 +14647,7 @@ LibSDL3 >> hasMMX [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> hasMouse [
+SDL3Library >> hasMouse [
 	"/**
 	 * Return whether a mouse is currently connected.
 	 *
@@ -14664,7 +14664,7 @@ LibSDL3 >> hasMouse [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasNEON [
+SDL3Library >> hasNEON [
 	"/**
 	 * Determine whether the CPU has NEON (ARM SIMD) features.
 	 *
@@ -14681,7 +14681,7 @@ LibSDL3 >> hasNEON [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> hasPrimarySelectionText [
+SDL3Library >> hasPrimarySelectionText [
 	"/**
 	 * Query whether the primary selection exists and contains a non-empty text
 	 * string.
@@ -14700,7 +14700,7 @@ LibSDL3 >> hasPrimarySelectionText [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> hasPropertyProps: props name: name [
+SDL3Library >> hasPropertyProps: props name: name [
 	"/**
 	 * Return whether a property exists in a group of properties.
 	 *
@@ -14719,7 +14719,7 @@ LibSDL3 >> hasPropertyProps: props name: name [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> hasRectIntersectionA: A b: B [
+SDL3Library >> hasRectIntersectionA: A b: B [
 	"/**
 	 * Determine whether two rectangles intersect.
 	 *
@@ -14740,7 +14740,7 @@ LibSDL3 >> hasRectIntersectionA: A b: B [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> hasRectIntersectionFloatA: A b: B [
+SDL3Library >> hasRectIntersectionFloatA: A b: B [
 	"/**
 	 * Determine whether two rectangles intersect with float precision.
 	 *
@@ -14759,7 +14759,7 @@ LibSDL3 >> hasRectIntersectionFloatA: A b: B [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasSSE [
+SDL3Library >> hasSSE [
 	"/**
 	 * Determine whether the CPU has SSE features.
 	 *
@@ -14781,7 +14781,7 @@ LibSDL3 >> hasSSE [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasSSE2 [
+SDL3Library >> hasSSE2 [
 	"/**
 	 * Determine whether the CPU has SSE2 features.
 	 *
@@ -14803,7 +14803,7 @@ LibSDL3 >> hasSSE2 [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasSSE3 [
+SDL3Library >> hasSSE3 [
 	"/**
 	 * Determine whether the CPU has SSE3 features.
 	 *
@@ -14825,7 +14825,7 @@ LibSDL3 >> hasSSE3 [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasSSE41 [
+SDL3Library >> hasSSE41 [
 	"/**
 	 * Determine whether the CPU has SSE4.1 features.
 	 *
@@ -14847,7 +14847,7 @@ LibSDL3 >> hasSSE41 [
 ]
 
 { #category : 'public - SDL_cpuinfo' }
-LibSDL3 >> hasSSE42 [
+SDL3Library >> hasSSE42 [
 	"/**
 	 * Determine whether the CPU has SSE4.2 features.
 	 *
@@ -14869,7 +14869,7 @@ LibSDL3 >> hasSSE42 [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> hasScreenKeyboardSupport [
+SDL3Library >> hasScreenKeyboardSupport [
 	"/**
 	 * Check whether the platform has screen keyboard support.
 	 *
@@ -14888,7 +14888,7 @@ LibSDL3 >> hasScreenKeyboardSupport [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidBleScan: active [
+SDL3Library >> hidBleScan: active [
 	"/**
 	 * Start or stop a BLE scan on iOS and tvOS to pair Steam Controllers.
 	 *
@@ -14901,7 +14901,7 @@ LibSDL3 >> hidBleScan: active [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidClose: dev [
+SDL3Library >> hidClose: dev [
 	"/**
 	 * Close a HID device.
 	 *
@@ -14916,7 +14916,7 @@ LibSDL3 >> hidClose: dev [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidDeviceChangeCount [
+SDL3Library >> hidDeviceChangeCount [
 	"/**
 	 * Check to see if devices may have been added or removed.
 	 *
@@ -14941,7 +14941,7 @@ LibSDL3 >> hidDeviceChangeCount [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidEnumerateVendorId: vendor_id productId: product_id [
+SDL3Library >> hidEnumerateVendorId: vendor_id productId: product_id [
 	"/**
 	 * Enumerate the HID Devices.
 	 *
@@ -14973,7 +14973,7 @@ LibSDL3 >> hidEnumerateVendorId: vendor_id productId: product_id [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidExit [
+SDL3Library >> hidExit [
 	"/**
 	 * Finalize the HIDAPI library.
 	 *
@@ -14992,7 +14992,7 @@ LibSDL3 >> hidExit [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidFreeEnumeration: devs [
+SDL3Library >> hidFreeEnumeration: devs [
 	"/**
 	 * Free an enumeration linked list.
 	 *
@@ -15008,7 +15008,7 @@ LibSDL3 >> hidFreeEnumeration: devs [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetDeviceInfo: dev [
+SDL3Library >> hidGetDeviceInfo: dev [
 	"/**
 	 * Get the device info from a HID device.
 	 *
@@ -15024,7 +15024,7 @@ LibSDL3 >> hidGetDeviceInfo: dev [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetFeatureReportDev: dev data: data length: length [
+SDL3Library >> hidGetFeatureReportDev: dev data: data length: length [
 	"/**
 	 * Get a feature report from a HID device.
 	 *
@@ -15051,7 +15051,7 @@ LibSDL3 >> hidGetFeatureReportDev: dev data: data length: length [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetIndexedStringDev: dev stringIndex: string_index string: string maxlen: maxlen [
+SDL3Library >> hidGetIndexedStringDev: dev stringIndex: string_index string: string maxlen: maxlen [
 	"/**
 	 * Get a string from a HID device, based on its string index.
 	 *
@@ -15069,7 +15069,7 @@ LibSDL3 >> hidGetIndexedStringDev: dev stringIndex: string_index string: string 
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetInputReportDev: dev data: data length: length [
+SDL3Library >> hidGetInputReportDev: dev data: data length: length [
 	"/**
 	 * Get an input report from a HID device.
 	 *
@@ -15096,7 +15096,7 @@ LibSDL3 >> hidGetInputReportDev: dev data: data length: length [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetManufacturerStringDev: dev string: string maxlen: maxlen [
+SDL3Library >> hidGetManufacturerStringDev: dev string: string maxlen: maxlen [
 	"/**
 	 * Get The Manufacturer String from a HID device.
 	 *
@@ -15113,7 +15113,7 @@ LibSDL3 >> hidGetManufacturerStringDev: dev string: string maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetProductStringDev: dev string: string maxlen: maxlen [
+SDL3Library >> hidGetProductStringDev: dev string: string maxlen: maxlen [
 	"/**
 	 * Get The Product String from a HID device.
 	 *
@@ -15130,7 +15130,7 @@ LibSDL3 >> hidGetProductStringDev: dev string: string maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetProperties: dev [
+SDL3Library >> hidGetProperties: dev [
 	"/**
 	 * Get the properties associated with an SDL_hid_device.
 	 *
@@ -15150,7 +15150,7 @@ LibSDL3 >> hidGetProperties: dev [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetReportDescriptorDev: dev buf: buf bufSize: buf_size [
+SDL3Library >> hidGetReportDescriptorDev: dev buf: buf bufSize: buf_size [
 	"/**
 	 * Get a report descriptor from a HID device.
 	 *
@@ -15170,7 +15170,7 @@ LibSDL3 >> hidGetReportDescriptorDev: dev buf: buf bufSize: buf_size [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidGetSerialNumberStringDev: dev string: string maxlen: maxlen [
+SDL3Library >> hidGetSerialNumberStringDev: dev string: string maxlen: maxlen [
 	"/**
 	 * Get The Serial Number String from a HID device.
 	 *
@@ -15187,7 +15187,7 @@ LibSDL3 >> hidGetSerialNumberStringDev: dev string: string maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidInit [
+SDL3Library >> hidInit [
 	"/**
 	 * Initialize the HIDAPI library.
 	 *
@@ -15211,7 +15211,7 @@ LibSDL3 >> hidInit [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidOpenPath: path [
+SDL3Library >> hidOpenPath: path [
 	"/**
 	 * Open a HID device by its path name.
 	 *
@@ -15229,7 +15229,7 @@ LibSDL3 >> hidOpenPath: path [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidOpenVendorId: vendor_id productId: product_id serialNumber: serial_number [
+SDL3Library >> hidOpenVendorId: vendor_id productId: product_id serialNumber: serial_number [
 	"/**
 	 * Open a HID device using a Vendor ID (VID), Product ID (PID) and optionally
 	 * a serial number.
@@ -15251,7 +15251,7 @@ LibSDL3 >> hidOpenVendorId: vendor_id productId: product_id serialNumber: serial
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidReadDev: dev data: data length: length [
+SDL3Library >> hidReadDev: dev data: data length: length [
 	"/**
 	 * Read an Input report from a HID device.
 	 *
@@ -15276,7 +15276,7 @@ LibSDL3 >> hidReadDev: dev data: data length: length [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidReadTimeoutDev: dev data: data length: length milliseconds: milliseconds [
+SDL3Library >> hidReadTimeoutDev: dev data: data length: length milliseconds: milliseconds [
 	"/**
 	 * Read an Input report from a HID device with timeout.
 	 *
@@ -15301,7 +15301,7 @@ LibSDL3 >> hidReadTimeoutDev: dev data: data length: length milliseconds: millis
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidSendFeatureReportDev: dev data: data length: length [
+SDL3Library >> hidSendFeatureReportDev: dev data: data length: length [
 	"/**
 	 * Send a Feature report to the device.
 	 *
@@ -15330,7 +15330,7 @@ LibSDL3 >> hidSendFeatureReportDev: dev data: data length: length [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidSetNonblockingDev: dev nonblock: nonblock [
+SDL3Library >> hidSetNonblockingDev: dev nonblock: nonblock [
 	"/**
 	 * Set the device handle to be non-blocking.
 	 *
@@ -15353,7 +15353,7 @@ LibSDL3 >> hidSetNonblockingDev: dev nonblock: nonblock [
 ]
 
 { #category : 'public - SDL_hidapi' }
-LibSDL3 >> hidWriteDev: dev data: data length: length [
+SDL3Library >> hidWriteDev: dev data: data length: length [
 	"/**
 	 * Write an Output report to a HID device.
 	 *
@@ -15384,7 +15384,7 @@ LibSDL3 >> hidWriteDev: dev data: data length: length [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> hideCursor [
+SDL3Library >> hideCursor [
 	"/**
 	 * Hide the cursor.
 	 *
@@ -15403,7 +15403,7 @@ LibSDL3 >> hideCursor [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> hideWindow: window [
+SDL3Library >> hideWindow: window [
 	"/**
 	 * Hide a window.
 	 *
@@ -15423,7 +15423,7 @@ LibSDL3 >> hideWindow: window [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> iconvCd: cd inbuf: inbuf inbytesleft: inbytesleft outbuf: outbuf outbytesleft: outbytesleft [
+SDL3Library >> iconvCd: cd inbuf: inbuf inbytesleft: inbytesleft outbuf: outbuf outbytesleft: outbytesleft [
 	"/**
 	 * This function converts text between encodings, reading from and writing to
 	 * a buffer.
@@ -15465,7 +15465,7 @@ LibSDL3 >> iconvCd: cd inbuf: inbuf inbytesleft: inbytesleft outbuf: outbuf outb
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> iconvClose: cd [
+SDL3Library >> iconvClose: cd [
 	"/**
 	 * This function frees a context used for character set conversion.
 	 *
@@ -15483,7 +15483,7 @@ LibSDL3 >> iconvClose: cd [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> iconvOpenTocode: tocode fromcode: fromcode [
+SDL3Library >> iconvOpenTocode: tocode fromcode: fromcode [
 	"/**
 	 * This function allocates a context for the specified character set
 	 * conversion.
@@ -15504,7 +15504,7 @@ LibSDL3 >> iconvOpenTocode: tocode fromcode: fromcode [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> iconvStringTocode: tocode fromcode: fromcode inbuf: inbuf inbytesleft: inbytesleft [
+SDL3Library >> iconvStringTocode: tocode fromcode: fromcode inbuf: inbuf inbytesleft: inbytesleft [
 	"/**
 	 * Helper function to convert a string's encoding in one call.
 	 *
@@ -15535,7 +15535,7 @@ LibSDL3 >> iconvStringTocode: tocode fromcode: fromcode inbuf: inbuf inbytesleft
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> init: flags [
+SDL3Library >> init: flags [
 	"/**
 	 * Initialize the SDL library.
 	 *
@@ -15596,7 +15596,7 @@ LibSDL3 >> init: flags [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> initHapticRumble: haptic [
+SDL3Library >> initHapticRumble: haptic [
 	"/**
 	 * Initialize a haptic device for simple rumble playback.
 	 *
@@ -15615,7 +15615,7 @@ LibSDL3 >> initHapticRumble: haptic [
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> initSubSystem: flags [
+SDL3Library >> initSubSystem: flags [
 	"/**
 	 * Compatibility function to initialize the SDL library.
 	 *
@@ -15636,7 +15636,7 @@ LibSDL3 >> initSubSystem: flags [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> insertGPUDebugLabelCommandBuffer: command_buffer text: text [
+SDL3Library >> insertGPUDebugLabelCommandBuffer: command_buffer text: text [
 	"/**
 	 * Inserts an arbitrary string label into the command buffer callstream.
 	 *
@@ -15658,7 +15658,7 @@ LibSDL3 >> insertGPUDebugLabelCommandBuffer: command_buffer text: text [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> insertTrayEntryAtMenu: menu pos: pos label: label flags: flags [
+SDL3Library >> insertTrayEntryAtMenu: menu pos: pos label: label flags: flags [
 	"/**
 	 * Insert a tray entry at a given position.
 	 *
@@ -15690,7 +15690,7 @@ LibSDL3 >> insertTrayEntryAtMenu: menu pos: pos label: label flags: flags [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> ioFromConstMem: mem size: size [
+SDL3Library >> ioFromConstMem: mem size: size [
 	"/**
 	 * Use this function to prepare a read-only memory buffer for use with
 	 * SDL_IOStream.
@@ -15741,7 +15741,7 @@ LibSDL3 >> ioFromConstMem: mem size: size [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> ioFromDynamicMem [
+SDL3Library >> ioFromDynamicMem [
 	"/**
 	 * Use this function to create an SDL_IOStream that is backed by dynamically
 	 * allocated memory.
@@ -15775,7 +15775,7 @@ LibSDL3 >> ioFromDynamicMem [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> ioFromFile: file mode: mode [
+SDL3Library >> ioFromFile: file mode: mode [
 	"/**
 	 * Use this function to create a new SDL_IOStream structure for reading from
 	 * and/or writing to a named file.
@@ -15867,7 +15867,7 @@ LibSDL3 >> ioFromFile: file mode: mode [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> ioFromMem: mem size: size [
+SDL3Library >> ioFromMem: mem size: size [
 	"/**
 	 * Use this function to prepare a read-write memory buffer for use with
 	 * SDL_IOStream.
@@ -15918,7 +15918,7 @@ LibSDL3 >> ioFromMem: mem size: size [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> isAudioDevicePhysical: devid [
+SDL3Library >> isAudioDevicePhysical: devid [
 	"/**
 	 * Determine if an audio device is physical (instead of logical).
 	 *
@@ -15947,7 +15947,7 @@ LibSDL3 >> isAudioDevicePhysical: devid [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> isAudioDevicePlayback: devid [
+SDL3Library >> isAudioDevicePlayback: devid [
 	"/**
 	 * Determine if an audio device is a playback device (instead of recording).
 	 *
@@ -15965,7 +15965,7 @@ LibSDL3 >> isAudioDevicePlayback: devid [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> isGamepad: instance_id [
+SDL3Library >> isGamepad: instance_id [
 	"/**
 	 * Check if the given joystick is supported by the gamepad interface.
 	 *
@@ -15985,7 +15985,7 @@ LibSDL3 >> isGamepad: instance_id [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> isJoystickHaptic: joystick [
+SDL3Library >> isJoystickHaptic: joystick [
 	"/**
 	 * Query if a joystick has haptic features.
 	 *
@@ -16001,7 +16001,7 @@ LibSDL3 >> isJoystickHaptic: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> isJoystickVirtual: instance_id [
+SDL3Library >> isJoystickVirtual: instance_id [
 	"/**
 	 * Query whether or not a joystick is virtual.
 	 *
@@ -16017,7 +16017,7 @@ LibSDL3 >> isJoystickVirtual: instance_id [
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> isMainThread [
+SDL3Library >> isMainThread [
 	"/**
 	 * Return whether this is the main thread.
 	 *
@@ -16041,7 +16041,7 @@ LibSDL3 >> isMainThread [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> isMouseHaptic [
+SDL3Library >> isMouseHaptic [
 	"/**
 	 * Query whether or not the current mouse has haptic capabilities.
 	 *
@@ -16056,7 +16056,7 @@ LibSDL3 >> isMouseHaptic [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> isTV [
+SDL3Library >> isTV [
 	"/**
 	 * Query if the current device is a TV.
 	 *
@@ -16071,7 +16071,7 @@ LibSDL3 >> isTV [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> isTablet [
+SDL3Library >> isTablet [
 	"/**
 	 * Query if the current device is a tablet.
 	 *
@@ -16086,7 +16086,7 @@ LibSDL3 >> isTablet [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isalnum: x [
+SDL3Library >> isalnum: x [
 	"/**
 	 * Query if a character is alphabetic (a letter) or a number.
 	 *
@@ -16105,7 +16105,7 @@ LibSDL3 >> isalnum: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isalpha: x [
+SDL3Library >> isalpha: x [
 	"/**
 	 * Query if a character is alphabetic (a letter).
 	 *
@@ -16124,7 +16124,7 @@ LibSDL3 >> isalpha: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isblank: x [
+SDL3Library >> isblank: x [
 	"/**
 	 * Report if a character is blank (a space or tab).
 	 *
@@ -16143,7 +16143,7 @@ LibSDL3 >> isblank: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> iscntrl: x [
+SDL3Library >> iscntrl: x [
 	"/**
 	 * Report if a character is a control character.
 	 *
@@ -16162,7 +16162,7 @@ LibSDL3 >> iscntrl: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isdigit: x [
+SDL3Library >> isdigit: x [
 	"/**
 	 * Report if a character is a numeric digit.
 	 *
@@ -16181,7 +16181,7 @@ LibSDL3 >> isdigit: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isgraph: x [
+SDL3Library >> isgraph: x [
 	"/**
 	 * Report if a character is any ""printable"" except space.
 	 *
@@ -16206,7 +16206,7 @@ LibSDL3 >> isgraph: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isinf: x [
+SDL3Library >> isinf: x [
 	"/**
 	 * Return whether the value is infinity.
 	 *
@@ -16224,7 +16224,7 @@ LibSDL3 >> isinf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isinff: x [
+SDL3Library >> isinff: x [
 	"/**
 	 * Return whether the value is infinity.
 	 *
@@ -16242,7 +16242,7 @@ LibSDL3 >> isinff: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> islower: x [
+SDL3Library >> islower: x [
 	"/**
 	 * Report if a character is lower case.
 	 *
@@ -16261,7 +16261,7 @@ LibSDL3 >> islower: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isnan: x [
+SDL3Library >> isnan: x [
 	"/**
 	 * Return whether the value is NaN.
 	 *
@@ -16279,7 +16279,7 @@ LibSDL3 >> isnan: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isnanf: x [
+SDL3Library >> isnanf: x [
 	"/**
 	 * Return whether the value is NaN.
 	 *
@@ -16297,7 +16297,7 @@ LibSDL3 >> isnanf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isprint: x [
+SDL3Library >> isprint: x [
 	"/**
 	 * Report if a character is ""printable"".
 	 *
@@ -16320,7 +16320,7 @@ LibSDL3 >> isprint: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> ispunct: x [
+SDL3Library >> ispunct: x [
 	"/**
 	 * Report if a character is a punctuation mark.
 	 *
@@ -16342,7 +16342,7 @@ LibSDL3 >> ispunct: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isspace: x [
+SDL3Library >> isspace: x [
 	"/**
 	 * Report if a character is whitespace.
 	 *
@@ -16368,7 +16368,7 @@ LibSDL3 >> isspace: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isupper: x [
+SDL3Library >> isupper: x [
 	"/**
 	 * Report if a character is upper case.
 	 *
@@ -16387,7 +16387,7 @@ LibSDL3 >> isupper: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> isxdigit: x [
+SDL3Library >> isxdigit: x [
 	"/**
 	 * Report if a character is a hexadecimal digit.
 	 *
@@ -16406,7 +16406,7 @@ LibSDL3 >> isxdigit: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> itoaValue: value str: str radix: radix [
+SDL3Library >> itoaValue: value str: str radix: radix [
 	"/**
 	 * Convert an integer into a string.
 	 *
@@ -16438,7 +16438,7 @@ LibSDL3 >> itoaValue: value str: str radix: radix [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> joystickConnected: joystick [
+SDL3Library >> joystickConnected: joystick [
 	"/**
 	 * Get the status of a specified joystick.
 	 *
@@ -16455,7 +16455,7 @@ LibSDL3 >> joystickConnected: joystick [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> joystickEventsEnabled [
+SDL3Library >> joystickEventsEnabled [
 	"/**
 	 * Query the state of joystick event processing.
 	 *
@@ -16476,7 +16476,7 @@ LibSDL3 >> joystickEventsEnabled [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> killProcess: process force: force [
+SDL3Library >> killProcess: process force: force [
 	"/**
 	 * Stop a process.
 	 *
@@ -16503,7 +16503,7 @@ LibSDL3 >> killProcess: process force: force [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> loadBMP: file [
+SDL3Library >> loadBMP: file [
 	"/**
 	 * Load a BMP image from a file.
 	 *
@@ -16527,7 +16527,7 @@ LibSDL3 >> loadBMP: file [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> loadBMPIOSrc: src closeio: closeio [
+SDL3Library >> loadBMPIOSrc: src closeio: closeio [
 	"/**
 	 * Load a BMP image from a seekable SDL data stream.
 	 *
@@ -16553,7 +16553,7 @@ LibSDL3 >> loadBMPIOSrc: src closeio: closeio [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> loadFile: file datasize: datasize [
+SDL3Library >> loadFile: file datasize: datasize [
 	"/**
 	 * Load all the data from a file path.
 	 *
@@ -16580,7 +16580,7 @@ LibSDL3 >> loadFile: file datasize: datasize [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> loadFileAsyncFile: file queue: queue userdata: userdata [
+SDL3Library >> loadFileAsyncFile: file queue: queue userdata: userdata [
 	"/**
 	 * Load all the data from a file path, asynchronously.
 	 *
@@ -16616,7 +16616,7 @@ LibSDL3 >> loadFileAsyncFile: file queue: queue userdata: userdata [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> loadFileIOSrc: src datasize: datasize closeio: closeio [
+SDL3Library >> loadFileIOSrc: src datasize: datasize closeio: closeio [
 	"/**
 	 * Load all the data from an SDL data stream.
 	 *
@@ -16646,7 +16646,7 @@ LibSDL3 >> loadFileIOSrc: src datasize: datasize closeio: closeio [
 ]
 
 { #category : 'public - SDL_loadso' }
-LibSDL3 >> loadFunctionHandle: handle name: name [
+SDL3Library >> loadFunctionHandle: handle name: name [
 	"/**
 	 * Look up the address of the named function in a shared object.
 	 *
@@ -16678,7 +16678,7 @@ LibSDL3 >> loadFunctionHandle: handle name: name [
 ]
 
 { #category : 'public - SDL_loadso' }
-LibSDL3 >> loadObject: sofile [
+SDL3Library >> loadObject: sofile [
 	"/**
 	 * Dynamically load a shared object.
 	 *
@@ -16698,7 +16698,7 @@ LibSDL3 >> loadObject: sofile [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> loadPNG: file [
+SDL3Library >> loadPNG: file [
 	"/**
 	 * Load a PNG image from a file.
 	 *
@@ -16726,7 +16726,7 @@ LibSDL3 >> loadPNG: file [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
+SDL3Library >> loadPNGIOSrc: src closeio: closeio [
 	"/**
 	 * Load a PNG image from a seekable SDL data stream.
 	 *
@@ -16756,7 +16756,7 @@ LibSDL3 >> loadPNGIOSrc: src closeio: closeio [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> loadSurface: file [
+SDL3Library >> loadSurface: file [
 	"/**
 	 * Load a BMP or PNG image from a file.
 	 *
@@ -16779,7 +16779,7 @@ LibSDL3 >> loadSurface: file [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> loadSurfaceIOSrc: src closeio: closeio [
+SDL3Library >> loadSurfaceIOSrc: src closeio: closeio [
 	"/**
 	 * Load a BMP or PNG image from a seekable SDL data stream.
 	 *
@@ -16804,7 +16804,7 @@ LibSDL3 >> loadSurfaceIOSrc: src closeio: closeio [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> loadWAVIOSrc: src closeio: closeio spec: spec audioBuf: audio_buf audioLen: audio_len [
+SDL3Library >> loadWAVIOSrc: src closeio: closeio spec: spec audioBuf: audio_buf audioLen: audio_len [
 	"/**
 	 * Load the audio data of a WAVE file into memory.
 	 *
@@ -16888,7 +16888,7 @@ LibSDL3 >> loadWAVIOSrc: src closeio: closeio spec: spec audioBuf: audio_buf aud
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> loadWAVPath: path spec: spec audioBuf: audio_buf audioLen: audio_len [
+SDL3Library >> loadWAVPath: path spec: spec audioBuf: audio_buf audioLen: audio_len [
 	"/**
 	 * Loads a WAV from a file path.
 	 *
@@ -16928,7 +16928,7 @@ LibSDL3 >> loadWAVPath: path spec: spec audioBuf: audio_buf audioLen: audio_len 
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> lockAudioStream: stream [
+SDL3Library >> lockAudioStream: stream [
 	"/**
 	 * Lock an audio stream for serialized access.
 	 *
@@ -16960,7 +16960,7 @@ LibSDL3 >> lockAudioStream: stream [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> lockJoysticks [
+SDL3Library >> lockJoysticks [
 	"/**
 	 * Locking for atomic access to the joystick API.
 	 *
@@ -16977,7 +16977,7 @@ LibSDL3 >> lockJoysticks [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> lockMutex: mutex [
+SDL3Library >> lockMutex: mutex [
 	"/**
 	 * Lock the mutex.
 	 *
@@ -17005,7 +17005,7 @@ LibSDL3 >> lockMutex: mutex [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> lockProperties: props [
+SDL3Library >> lockProperties: props [
 	"/**
 	 * Lock a group of properties.
 	 *
@@ -17033,7 +17033,7 @@ LibSDL3 >> lockProperties: props [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> lockRWLockForReading: rwlock [
+SDL3Library >> lockRWLockForReading: rwlock [
 	"/**
 	 * Lock the read/write lock for _read only_ operations.
 	 *
@@ -17074,7 +17074,7 @@ LibSDL3 >> lockRWLockForReading: rwlock [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> lockRWLockForWriting: rwlock [
+SDL3Library >> lockRWLockForWriting: rwlock [
 	"/**
 	 * Lock the read/write lock for _write_ operations.
 	 *
@@ -17109,7 +17109,7 @@ LibSDL3 >> lockRWLockForWriting: rwlock [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> lockSpinlock: lock [
+SDL3Library >> lockSpinlock: lock [
 	"/**
 	 * Lock a spin lock by setting it to a non-zero value.
 	 *
@@ -17130,7 +17130,7 @@ LibSDL3 >> lockSpinlock: lock [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> lockSurface: surface [
+SDL3Library >> lockSurface: surface [
 	"/**
 	 * Set up a surface for directly accessing the pixels.
 	 *
@@ -17162,7 +17162,7 @@ LibSDL3 >> lockSurface: surface [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> lockTexture: texture rect: rect pixels: pixels pitch: pitch [
+SDL3Library >> lockTexture: texture rect: rect pixels: pixels pitch: pitch [
 	"/**
 	 * Lock a portion of the texture for **write-only** pixel access.
 	 *
@@ -17198,7 +17198,7 @@ LibSDL3 >> lockTexture: texture rect: rect pixels: pixels pitch: pitch [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> lockTextureToSurfaceTexture: texture rect: rect surface: surface [
+SDL3Library >> lockTextureToSurfaceTexture: texture rect: rect surface: surface [
 	"/**
 	 * Lock a portion of the texture for **write-only** pixel access, and expose
 	 * it as a SDL surface.
@@ -17238,7 +17238,7 @@ LibSDL3 >> lockTextureToSurfaceTexture: texture rect: rect surface: surface [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> log10: x [
+SDL3Library >> log10: x [
 	"/**
 	 * Compute the base-10 logarithm of `x`.
 	 *
@@ -17272,7 +17272,7 @@ LibSDL3 >> log10: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> log10f: x [
+SDL3Library >> log10f: x [
 	"/**
 	 * Compute the base-10 logarithm of `x`.
 	 *
@@ -17306,7 +17306,7 @@ LibSDL3 >> log10f: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> log: x [
+SDL3Library >> log: x [
 	"/**
 	 * Compute the natural logarithm of `x`.
 	 *
@@ -17340,7 +17340,7 @@ LibSDL3 >> log: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> logf: x [
+SDL3Library >> logf: x [
 	"/**
 	 * Compute the natural logarithm of `x`.
 	 *
@@ -17373,7 +17373,7 @@ LibSDL3 >> logf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> lround: x [
+SDL3Library >> lround: x [
 	"/**
 	 * Round `x` to the nearest integer representable as a long
 	 *
@@ -17406,7 +17406,7 @@ LibSDL3 >> lround: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> lroundf: x [
+SDL3Library >> lroundf: x [
 	"/**
 	 * Round `x` to the nearest integer representable as a long
 	 *
@@ -17439,7 +17439,7 @@ LibSDL3 >> lroundf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> ltoaValue: value str: str radix: radix [
+SDL3Library >> ltoaValue: value str: str radix: radix [
 	"/**
 	 * Convert a long integer into a string.
 	 *
@@ -17471,14 +17471,14 @@ LibSDL3 >> ltoaValue: value str: str radix: radix [
 ]
 
 { #category : 'accessing - platform' }
-LibSDL3 >> macLibraryName [
+SDL3Library >> macLibraryName [
 
 	^ FFIMacLibraryFinder new
 		findAnyLibrary: #('libSDL3.dylib' 'libSDL3.0.dylib')
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> malloc: size [
+SDL3Library >> malloc: size [
 	"/**
 	 * Allocate uninitialized memory.
 	 *
@@ -17510,7 +17510,7 @@ LibSDL3 >> malloc: size [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> mapGPUTransferBufferDevice: device transferBuffer: transfer_buffer cycle: cycle [
+SDL3Library >> mapGPUTransferBufferDevice: device transferBuffer: transfer_buffer cycle: cycle [
 	"/**
 	 * Maps a transfer buffer into application address space.
 	 *
@@ -17531,7 +17531,7 @@ LibSDL3 >> mapGPUTransferBufferDevice: device transferBuffer: transfer_buffer cy
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> mapRGBAFormat: format palette: palette r: r g: g b: b a: a [
+SDL3Library >> mapRGBAFormat: format palette: palette r: r g: g b: b a: a [
 	"/**
 	 * Map an RGBA quadruple to a pixel value for a given pixel format.
 	 *
@@ -17574,7 +17574,7 @@ LibSDL3 >> mapRGBAFormat: format palette: palette r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> mapRGBFormat: format palette: palette r: r g: g b: b [
+SDL3Library >> mapRGBFormat: format palette: palette r: r g: g b: b [
 	"/**
 	 * Map an RGB triple to an opaque pixel value for a given pixel format.
 	 *
@@ -17616,7 +17616,7 @@ LibSDL3 >> mapRGBFormat: format palette: palette r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> mapSurfaceRGBASurface: surface r: r g: g b: b a: a [
+SDL3Library >> mapSurfaceRGBASurface: surface r: r g: g b: b a: a [
 	"/**
 	 * Map an RGBA quadruple to a pixel value for a surface.
 	 *
@@ -17654,7 +17654,7 @@ LibSDL3 >> mapSurfaceRGBASurface: surface r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> mapSurfaceRGBSurface: surface r: r g: g b: b [
+SDL3Library >> mapSurfaceRGBSurface: surface r: r g: g b: b [
 	"/**
 	 * Map an RGB triple to an opaque pixel value for a surface.
 	 *
@@ -17691,7 +17691,7 @@ LibSDL3 >> mapSurfaceRGBSurface: surface r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> maximizeWindow: window [
+SDL3Library >> maximizeWindow: window [
 	"/**
 	 * Request that the window be made as large as possible.
 	 *
@@ -17729,7 +17729,7 @@ LibSDL3 >> maximizeWindow: window [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memcmpS1: s1 s2: s2 len: len [
+SDL3Library >> memcmpS1: s1 s2: s2 len: len [
 	"/**
 	 * Compare two buffers of memory.
 	 *
@@ -17749,7 +17749,7 @@ LibSDL3 >> memcmpS1: s1 s2: s2 len: len [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memcpyDst: dst src: src len: len [
+SDL3Library >> memcpyDst: dst src: src len: len [
 	"/**
 	 * Copy non-overlapping memory.
 	 *
@@ -17773,7 +17773,7 @@ LibSDL3 >> memcpyDst: dst src: src len: len [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memmoveDst: dst src: src len: len [
+SDL3Library >> memmoveDst: dst src: src len: len [
 	"/**
 	 * Copy memory ranges that might overlap.
 	 *
@@ -17796,7 +17796,7 @@ LibSDL3 >> memmoveDst: dst src: src len: len [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> memoryBarrierAcquireFunction [
+SDL3Library >> memoryBarrierAcquireFunction [
 	"/**
 	 * Insert a memory acquire barrier (function version).
 	 *
@@ -17820,7 +17820,7 @@ LibSDL3 >> memoryBarrierAcquireFunction [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> memoryBarrierReleaseFunction [
+SDL3Library >> memoryBarrierReleaseFunction [
 	"/**
 	 * Insert a memory release barrier (function version).
 	 *
@@ -17844,7 +17844,7 @@ LibSDL3 >> memoryBarrierReleaseFunction [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memset4Dst: dst val: val dwords: dwords [
+SDL3Library >> memset4Dst: dst val: val dwords: dwords [
 	"/**
 	 * Initialize all 32-bit words of buffer of memory to a specific value.
 	 *
@@ -17868,7 +17868,7 @@ LibSDL3 >> memset4Dst: dst val: val dwords: dwords [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> memsetDst: dst c: c len: len [
+SDL3Library >> memsetDst: dst c: c len: len [
 	"/**
 	 * Initialize all bytes of buffer of memory to a specific value.
 	 *
@@ -17892,7 +17892,7 @@ LibSDL3 >> memsetDst: dst c: c len: len [
 ]
 
 { #category : 'public - SDL_metal' }
-LibSDL3 >> metalCreateView: window [
+SDL3Library >> metalCreateView: window [
 	"/**
 	 * Create a CAMetalLayer-backed NSView/UIView and attach it to the specified
 	 * window.
@@ -17916,7 +17916,7 @@ LibSDL3 >> metalCreateView: window [
 ]
 
 { #category : 'public - SDL_metal' }
-LibSDL3 >> metalDestroyView: view [
+SDL3Library >> metalDestroyView: view [
 	"/**
 	 * Destroy an existing SDL_MetalView object.
 	 *
@@ -17934,7 +17934,7 @@ LibSDL3 >> metalDestroyView: view [
 ]
 
 { #category : 'public - SDL_metal' }
-LibSDL3 >> metalGetLayer: view [
+SDL3Library >> metalGetLayer: view [
 	"/**
 	 * Get a pointer to the backing CAMetalLayer for the given view.
 	 *
@@ -17948,7 +17948,7 @@ LibSDL3 >> metalGetLayer: view [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> minimizeWindow: window [
+SDL3Library >> minimizeWindow: window [
 	"/**
 	 * Request that the window be minimized to an iconic representation.
 	 *
@@ -17981,7 +17981,7 @@ LibSDL3 >> minimizeWindow: window [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> mixAudioDst: dst src: src format: format len: len volume: volume [
+SDL3Library >> mixAudioDst: dst src: src format: format len: len volume: volume [
 	"/**
 	 * Mix audio data in a specified format.
 	 *
@@ -18021,7 +18021,7 @@ LibSDL3 >> mixAudioDst: dst src: src format: format len: len volume: volume [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> modfX: x y: y [
+SDL3Library >> modfX: x y: y [
 	"/**
 	 * Split `x` into integer and fractional parts
 	 *
@@ -18045,7 +18045,7 @@ LibSDL3 >> modfX: x y: y [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> modffX: x y: y [
+SDL3Library >> modffX: x y: y [
 	"/**
 	 * Split `x` into integer and fractional parts
 	 *
@@ -18069,7 +18069,7 @@ LibSDL3 >> modffX: x y: y [
 ]
 
 { #category : 'public - SDL_bits' }
-LibSDL3 >> mostSignificantBitIndex32: x [
+SDL3Library >> mostSignificantBitIndex32: x [
 	"/**
 	 * Get the index of the most significant (set) bit in a 32-bit number.
 	 *
@@ -18093,7 +18093,7 @@ LibSDL3 >> mostSignificantBitIndex32: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> murmur332Data: data len: len seed: seed [
+SDL3Library >> murmur332Data: data len: len seed: seed [
 	"/**
 	 * Calculate a 32-bit MurmurHash3 value for a block of data.
 	 *
@@ -18123,7 +18123,7 @@ LibSDL3 >> murmur332Data: data len: len seed: seed [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> newAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x hotY: hot_y [
+SDL3Library >> newAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x hotY: hot_y [
 	"/**
 	 * Create an animated color cursor.
 	 *
@@ -18175,7 +18175,7 @@ LibSDL3 >> newAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x h
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> newAsyncIOQueue [
+SDL3Library >> newAsyncIOQueue [
 	"/**
 	 * Create a task queue for tracking multiple I/O operations.
 	 *
@@ -18198,7 +18198,7 @@ LibSDL3 >> newAsyncIOQueue [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> newAudioStreamSrcSpec: src_spec dstSpec: dst_spec [
+SDL3Library >> newAudioStreamSrcSpec: src_spec dstSpec: dst_spec [
 	"/**
 	 * Create a new audio stream.
 	 *
@@ -18224,7 +18224,7 @@ LibSDL3 >> newAudioStreamSrcSpec: src_spec dstSpec: dst_spec [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
+SDL3Library >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
 	"/**
 	 * Create a color cursor.
 	 *
@@ -18262,7 +18262,7 @@ LibSDL3 >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> newCondition [
+SDL3Library >> newCondition [
 	"/**
 	 * Create a condition variable.
 	 *
@@ -18282,7 +18282,7 @@ LibSDL3 >> newCondition [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> newCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
+SDL3Library >> newCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
 	"/**
 	 * Create a cursor using the specified bitmap data and mask (in MSB format).
 	 *
@@ -18333,7 +18333,7 @@ LibSDL3 >> newCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> newDirectory: path [
+SDL3Library >> newDirectory: path [
 	"/**
 	 * Create a directory, and any missing parent directories.
 	 *
@@ -18355,7 +18355,7 @@ LibSDL3 >> newDirectory: path [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> newEnvironment: populated [
+SDL3Library >> newEnvironment: populated [
 	"/**
 	 * Create a set of environment variables
 	 *
@@ -18381,7 +18381,7 @@ LibSDL3 >> newEnvironment: populated [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUBufferDevice: device createinfo: createinfo [
+SDL3Library >> newGPUBufferDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a buffer object to be used in graphics or compute workflows.
 	 *
@@ -18431,7 +18431,7 @@ LibSDL3 >> newGPUBufferDevice: device createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUComputePipelineDevice: device createinfo: createinfo [
+SDL3Library >> newGPUComputePipelineDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a pipeline object to be used in a compute workflow.
 	 *
@@ -18482,7 +18482,7 @@ LibSDL3 >> newGPUComputePipelineDevice: device createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: name [
+SDL3Library >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: name [
 	"/**
 	 * Creates a GPU context.
 	 *
@@ -18514,7 +18514,7 @@ LibSDL3 >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: nam
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUDeviceWithProperties: props [
+SDL3Library >> newGPUDeviceWithProperties: props [
 	"/**
 	 * Creates a GPU context.
 	 *
@@ -18608,7 +18608,7 @@ LibSDL3 >> newGPUDeviceWithProperties: props [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUGraphicsPipelineDevice: device createinfo: createinfo [
+SDL3Library >> newGPUGraphicsPipelineDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a pipeline object to be used in a graphics workflow.
 	 *
@@ -18635,7 +18635,7 @@ LibSDL3 >> newGPUGraphicsPipelineDevice: device createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newGPURenderStateRenderer: renderer createinfo: createinfo [
+SDL3Library >> newGPURenderStateRenderer: renderer createinfo: createinfo [
 	"/**
 	 * Create custom GPU render state.
 	 *
@@ -18658,7 +18658,7 @@ LibSDL3 >> newGPURenderStateRenderer: renderer createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newGPURendererDevice: device window: window [
+SDL3Library >> newGPURendererDevice: device window: window [
 	"/**
 	 * Create a 2D GPU rendering context.
 	 *
@@ -18696,7 +18696,7 @@ LibSDL3 >> newGPURendererDevice: device window: window [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUSamplerDevice: device createinfo: createinfo [
+SDL3Library >> newGPUSamplerDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a sampler object to be used when binding textures in a graphics
 	 * workflow.
@@ -18723,7 +18723,7 @@ LibSDL3 >> newGPUSamplerDevice: device createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUShaderDevice: device createinfo: createinfo [
+SDL3Library >> newGPUShaderDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a shader to be used when creating a graphics pipeline.
 	 *
@@ -18802,7 +18802,7 @@ LibSDL3 >> newGPUShaderDevice: device createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUTextureDevice: device createinfo: createinfo [
+SDL3Library >> newGPUTextureDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a texture object to be used in graphics or compute workflows.
 	 *
@@ -18866,7 +18866,7 @@ LibSDL3 >> newGPUTextureDevice: device createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> newGPUTransferBufferDevice: device createinfo: createinfo [
+SDL3Library >> newGPUTransferBufferDevice: device createinfo: createinfo [
 	"/**
 	 * Creates a transfer buffer to be used when uploading to or downloading from
 	 * graphics resources.
@@ -18899,7 +18899,7 @@ LibSDL3 >> newGPUTransferBufferDevice: device createinfo: createinfo [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> newHapticEffectHaptic: haptic effect: effect [
+SDL3Library >> newHapticEffectHaptic: haptic effect: effect [
 	"/**
 	 * Create a new haptic effect on a specified device.
 	 *
@@ -18920,7 +18920,7 @@ LibSDL3 >> newHapticEffectHaptic: haptic effect: effect [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> newMutex [
+SDL3Library >> newMutex [
 	"/**
 	 * Create a new mutex.
 	 *
@@ -18946,7 +18946,7 @@ LibSDL3 >> newMutex [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> newPalette: ncolors [
+SDL3Library >> newPalette: ncolors [
 	"/**
 	 * Create a palette structure with the specified number of color entries.
 	 *
@@ -18970,7 +18970,7 @@ LibSDL3 >> newPalette: ncolors [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w h: h flags: flags [
+SDL3Library >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w h: h flags: flags [
 	"/**
 	 * Create a child popup window of the specified parent window.
 	 *
@@ -19050,7 +19050,7 @@ LibSDL3 >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> newProcessArgs: args pipeStdio: pipe_stdio [
+SDL3Library >> newProcessArgs: args pipeStdio: pipe_stdio [
 	"/**
 	 * Create a new process.
 	 *
@@ -19096,7 +19096,7 @@ LibSDL3 >> newProcessArgs: args pipeStdio: pipe_stdio [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> newProcessWithProperties: props [
+SDL3Library >> newProcessWithProperties: props [
 	"/**
 	 * Create a new process with the specified properties.
 	 *
@@ -19171,7 +19171,7 @@ LibSDL3 >> newProcessWithProperties: props [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> newProperties [
+SDL3Library >> newProperties [
 	"/**
 	 * Create a group of properties.
 	 *
@@ -19191,7 +19191,7 @@ LibSDL3 >> newProperties [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> newRWLock [
+SDL3Library >> newRWLock [
 	"/**
 	 * Create a new read/write lock.
 	 *
@@ -19237,7 +19237,7 @@ LibSDL3 >> newRWLock [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newRendererWindow: window name: name [
+SDL3Library >> newRendererWindow: window name: name [
 	"/**
 	 * Create a 2D rendering context for a window.
 	 *
@@ -19276,7 +19276,7 @@ LibSDL3 >> newRendererWindow: window name: name [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newRendererWithProperties: props [
+SDL3Library >> newRendererWithProperties: props [
 	"/**
 	 * Create a 2D rendering context for a window, with the specified properties.
 	 *
@@ -19344,7 +19344,7 @@ LibSDL3 >> newRendererWithProperties: props [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> newSemaphore: initial_value [
+SDL3Library >> newSemaphore: initial_value [
 	"/**
 	 * Create a semaphore.
 	 *
@@ -19372,7 +19372,7 @@ LibSDL3 >> newSemaphore: initial_value [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newSoftwareRenderer: surface [
+SDL3Library >> newSoftwareRenderer: surface [
 	"/**
 	 * Create a 2D software rendering context for a surface.
 	 *
@@ -19397,7 +19397,7 @@ LibSDL3 >> newSoftwareRenderer: surface [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> newStorageDirectoryStorage: storage path: path [
+SDL3Library >> newStorageDirectoryStorage: storage path: path [
 	"/**
 	 * Create a directory in a writable storage container.
 	 *
@@ -19415,7 +19415,7 @@ LibSDL3 >> newStorageDirectoryStorage: storage path: path [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> newSurfaceFromWidth: width height: height format: format pixels: pixels pitch: pitch [
+SDL3Library >> newSurfaceFromWidth: width height: height format: format pixels: pixels pitch: pitch [
 	"/**
 	 * Allocate a new surface with a specific pixel format and existing pixel
 	 * data.
@@ -19449,7 +19449,7 @@ LibSDL3 >> newSurfaceFromWidth: width height: height format: format pixels: pixe
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> newSurfacePalette: surface [
+SDL3Library >> newSurfacePalette: surface [
 	"/**
 	 * Create a palette and associate it with a surface.
 	 *
@@ -19484,7 +19484,7 @@ LibSDL3 >> newSurfacePalette: surface [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> newSurfaceWidth: width height: height format: format [
+SDL3Library >> newSurfaceWidth: width height: height format: format [
 	"/**
 	 * Allocate a new surface with a specific pixel format.
 	 *
@@ -19508,7 +19508,7 @@ LibSDL3 >> newSurfaceWidth: width height: height format: format [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> newSystemCursor: id [
+SDL3Library >> newSystemCursor: id [
 	"/**
 	 * Create a system cursor.
 	 *
@@ -19527,7 +19527,7 @@ LibSDL3 >> newSystemCursor: id [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newTextureFromSurfaceRenderer: renderer surface: surface [
+SDL3Library >> newTextureFromSurfaceRenderer: renderer surface: surface [
 	"/**
 	 * Create a texture from an existing surface.
 	 *
@@ -19559,7 +19559,7 @@ LibSDL3 >> newTextureFromSurfaceRenderer: renderer surface: surface [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newTextureRenderer: renderer format: format access: access w: w h: h [
+SDL3Library >> newTextureRenderer: renderer format: format access: access w: w h: h [
 	"/**
 	 * Create a texture for a rendering context.
 	 *
@@ -19588,7 +19588,7 @@ LibSDL3 >> newTextureRenderer: renderer format: format access: access w: w h: h 
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newTextureWithPropertiesRenderer: renderer props: props [
+SDL3Library >> newTextureWithPropertiesRenderer: renderer props: props [
 	"/**
 	 * Create a texture for a rendering context with the specified properties.
 	 *
@@ -19722,7 +19722,7 @@ LibSDL3 >> newTextureWithPropertiesRenderer: renderer props: props [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> newThreadFn: fn name: name data: data [
+SDL3Library >> newThreadFn: fn name: name data: data [
 	"/**
 	 * Create a new thread with a default stack size.
 	 *
@@ -19759,7 +19759,7 @@ LibSDL3 >> newThreadFn: fn name: name data: data [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> newThreadWithProperties: props [
+SDL3Library >> newThreadWithProperties: props [
 	"/**
 	 * Create a new thread with with the specified properties.
 	 *
@@ -19829,7 +19829,7 @@ LibSDL3 >> newThreadWithProperties: props [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> newTrayIcon: icon tooltip: tooltip [
+SDL3Library >> newTrayIcon: icon tooltip: tooltip [
 	"/**
 	 * Create an icon to be placed in the operating system's tray, or equivalent.
 	 *
@@ -19857,7 +19857,7 @@ LibSDL3 >> newTrayIcon: icon tooltip: tooltip [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> newTrayMenu: tray [
+SDL3Library >> newTrayMenu: tray [
 	"/**
 	 * Create a menu for a system tray.
 	 *
@@ -19885,7 +19885,7 @@ LibSDL3 >> newTrayMenu: tray [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> newTraySubmenu: entry [
+SDL3Library >> newTraySubmenu: entry [
 	"/**
 	 * Create a submenu for a system tray entry.
 	 *
@@ -19913,7 +19913,7 @@ LibSDL3 >> newTraySubmenu: entry [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> newWindowAndRendererTitle: title width: width height: height windowFlags: window_flags window: window renderer: renderer [
+SDL3Library >> newWindowAndRendererTitle: title width: width height: height windowFlags: window_flags window: window renderer: renderer [
 	"/**
 	 * Create a window and default renderer.
 	 *
@@ -19939,7 +19939,7 @@ LibSDL3 >> newWindowAndRendererTitle: title width: width height: height windowFl
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> newWindowTitle: title w: w h: h flags: flags [
+SDL3Library >> newWindowTitle: title w: w h: h flags: flags [
 	"/**
 	 * Create a window with the specified dimensions and flags.
 	 *
@@ -20032,7 +20032,7 @@ LibSDL3 >> newWindowTitle: title w: w h: h flags: flags [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> newWindowWithProperties: props [
+SDL3Library >> newWindowWithProperties: props [
 	"/**
 	 * Create a window with the specified properties.
 	 *
@@ -20185,7 +20185,7 @@ LibSDL3 >> newWindowWithProperties: props [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> onApplicationDidChangeStatusBarOrientation [
+SDL3Library >> onApplicationDidChangeStatusBarOrientation [
 	"/**
 	 * Let iOS apps with external event handling report
 	 * onApplicationDidChangeStatusBarOrientation.
@@ -20206,7 +20206,7 @@ LibSDL3 >> onApplicationDidChangeStatusBarOrientation [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> onApplicationDidEnterBackground [
+SDL3Library >> onApplicationDidEnterBackground [
 	"/**
 	 * Let iOS apps with external event handling report
 	 * onApplicationDidEnterBackground.
@@ -20227,7 +20227,7 @@ LibSDL3 >> onApplicationDidEnterBackground [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> onApplicationDidEnterForeground [
+SDL3Library >> onApplicationDidEnterForeground [
 	"/**
 	 * Let iOS apps with external event handling report
 	 * onApplicationDidBecomeActive.
@@ -20248,7 +20248,7 @@ LibSDL3 >> onApplicationDidEnterForeground [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> onApplicationDidReceiveMemoryWarning [
+SDL3Library >> onApplicationDidReceiveMemoryWarning [
 	"/**
 	 * Let iOS apps with external event handling report
 	 * onApplicationDidReceiveMemoryWarning.
@@ -20269,7 +20269,7 @@ LibSDL3 >> onApplicationDidReceiveMemoryWarning [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> onApplicationWillEnterBackground [
+SDL3Library >> onApplicationWillEnterBackground [
 	"/**
 	 * Let iOS apps with external event handling report
 	 * onApplicationWillResignActive.
@@ -20290,7 +20290,7 @@ LibSDL3 >> onApplicationWillEnterBackground [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> onApplicationWillEnterForeground [
+SDL3Library >> onApplicationWillEnterForeground [
 	"/**
 	 * Let iOS apps with external event handling report
 	 * onApplicationWillEnterForeground.
@@ -20311,7 +20311,7 @@ LibSDL3 >> onApplicationWillEnterForeground [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> onApplicationWillTerminate [
+SDL3Library >> onApplicationWillTerminate [
 	"/**
 	 * Let iOS apps with external event handling report
 	 * onApplicationWillTerminate.
@@ -20332,7 +20332,7 @@ LibSDL3 >> onApplicationWillTerminate [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> openAudioDeviceDevid: devid spec: spec [
+SDL3Library >> openAudioDeviceDevid: devid spec: spec [
 	"/**
 	 * Open a specific audio device.
 	 *
@@ -20412,7 +20412,7 @@ LibSDL3 >> openAudioDeviceDevid: devid spec: spec [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> openAudioDeviceStreamDevid: devid spec: spec callback: callback userdata: userdata [
+SDL3Library >> openAudioDeviceStreamDevid: devid spec: spec callback: callback userdata: userdata [
 	"/**
 	 * Convenience function for straightforward audio init for the common case.
 	 *
@@ -20478,7 +20478,7 @@ LibSDL3 >> openAudioDeviceStreamDevid: devid spec: spec callback: callback userd
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> openCameraInstanceId: instance_id spec: spec [
+SDL3Library >> openCameraInstanceId: instance_id spec: spec [
 	"/**
 	 * Open a video recording device (a ""camera"").
 	 *
@@ -20529,7 +20529,7 @@ LibSDL3 >> openCameraInstanceId: instance_id spec: spec [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> openFileStorage: path [
+SDL3Library >> openFileStorage: path [
 	"/**
 	 * Opens up a container for local filesystem storage.
 	 *
@@ -20557,7 +20557,7 @@ LibSDL3 >> openFileStorage: path [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> openGamepad: instance_id [
+SDL3Library >> openGamepad: instance_id [
 	"/**
 	 * Open a gamepad for use.
 	 *
@@ -20577,7 +20577,7 @@ LibSDL3 >> openGamepad: instance_id [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> openHaptic: instance_id [
+SDL3Library >> openHaptic: instance_id [
 	"/**
 	 * Open a haptic device for use.
 	 *
@@ -20606,7 +20606,7 @@ LibSDL3 >> openHaptic: instance_id [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> openHapticFromJoystick: joystick [
+SDL3Library >> openHapticFromJoystick: joystick [
 	"/**
 	 * Open a haptic device for use from a joystick device.
 	 *
@@ -20632,7 +20632,7 @@ LibSDL3 >> openHapticFromJoystick: joystick [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> openHapticFromMouse [
+SDL3Library >> openHapticFromMouse [
 	"/**
 	 * Try to open a haptic device from the current mouse.
 	 *
@@ -20649,7 +20649,7 @@ LibSDL3 >> openHapticFromMouse [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> openIOIface: iface userdata: userdata [
+SDL3Library >> openIOIface: iface userdata: userdata [
 	"/**
 	 * Create a custom SDL_IOStream.
 	 *
@@ -20682,7 +20682,7 @@ LibSDL3 >> openIOIface: iface userdata: userdata [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> openJoystick: instance_id [
+SDL3Library >> openJoystick: instance_id [
 	"/**
 	 * Open a joystick for use.
 	 *
@@ -20704,7 +20704,7 @@ LibSDL3 >> openJoystick: instance_id [
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> openSensor: instance_id [
+SDL3Library >> openSensor: instance_id [
 	"/**
 	 * Open a sensor for use.
 	 *
@@ -20719,7 +20719,7 @@ LibSDL3 >> openSensor: instance_id [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> openStorageIface: iface userdata: userdata [
+SDL3Library >> openStorageIface: iface userdata: userdata [
 	"/**
 	 * Opens up a container using a client-provided storage interface.
 	 *
@@ -20752,7 +20752,7 @@ LibSDL3 >> openStorageIface: iface userdata: userdata [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> openTitleStorageOverride: override props: props [
+SDL3Library >> openTitleStorageOverride: override props: props [
 	"/**
 	 * Opens up a read-only container for the application's filesystem.
 	 *
@@ -20777,7 +20777,7 @@ LibSDL3 >> openTitleStorageOverride: override props: props [
 ]
 
 { #category : 'public - SDL_misc' }
-LibSDL3 >> openURL: url [
+SDL3Library >> openURL: url [
 	"/**
 	 * Open a URL/URI in the browser or other appropriate external application.
 	 *
@@ -20812,7 +20812,7 @@ LibSDL3 >> openURL: url [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> openUserStorageOrg: org app: app props: props [
+SDL3Library >> openUserStorageOrg: org app: app props: props [
 	"/**
 	 * Opens up a container for a user's unique read/write filesystem.
 	 *
@@ -20842,7 +20842,7 @@ LibSDL3 >> openUserStorageOrg: org app: app props: props [
 ]
 
 { #category : 'public - SDL_error' }
-LibSDL3 >> outOfMemory [
+SDL3Library >> outOfMemory [
 	"/**
 	 * Set an error indicating that memory allocation failed.
 	 *
@@ -20859,7 +20859,7 @@ LibSDL3 >> outOfMemory [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> pauseAudioDevice: devid [
+SDL3Library >> pauseAudioDevice: devid [
 	"/**
 	 * Use this function to pause audio playback on a specified device.
 	 *
@@ -20894,7 +20894,7 @@ LibSDL3 >> pauseAudioDevice: devid [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> pauseAudioStreamDevice: stream [
+SDL3Library >> pauseAudioStreamDevice: stream [
 	"/**
 	 * Use this function to pause audio playback on the audio device associated
 	 * with an audio stream.
@@ -20922,7 +20922,7 @@ LibSDL3 >> pauseAudioStreamDevice: stream [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> pauseHaptic: haptic [
+SDL3Library >> pauseHaptic: haptic [
 	"/**
 	 * Pause a haptic device.
 	 *
@@ -20945,7 +20945,7 @@ LibSDL3 >> pauseHaptic: haptic [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> peepEvents: events numevents: numevents action: action minType: minType maxType: maxType [
+SDL3Library >> peepEvents: events numevents: numevents action: action minType: minType maxType: maxType [
 	"/**
 	 * Check the event queue for messages and optionally return them.
 	 *
@@ -20993,7 +20993,7 @@ LibSDL3 >> peepEvents: events numevents: numevents action: action minType: minTy
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> playHapticRumbleHaptic: haptic strength: strength length: length [
+SDL3Library >> playHapticRumbleHaptic: haptic strength: strength length: length [
 	"/**
 	 * Run a simple rumble effect on a haptic device.
 	 *
@@ -21013,7 +21013,7 @@ LibSDL3 >> playHapticRumbleHaptic: haptic strength: strength length: length [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> pointInRectFloatP: p r: r [
+SDL3Library >> pointInRectFloatP: p r: r [
 	"/**
 	 * Determine whether a point resides inside a floating point rectangle.
 	 *
@@ -21040,7 +21040,7 @@ LibSDL3 >> pointInRectFloatP: p r: r [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> pointInRectP: p r: r [
+SDL3Library >> pointInRectP: p r: r [
 	"/**
 	 * Determine whether a point resides inside a rectangle.
 	 *
@@ -21067,7 +21067,7 @@ LibSDL3 >> pointInRectP: p r: r [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> pollEvent: event [
+SDL3Library >> pollEvent: event [
 	"/**
 	 * Poll for currently pending events.
 	 *
@@ -21124,7 +21124,7 @@ LibSDL3 >> pollEvent: event [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> popGPUDebugGroup: command_buffer [
+SDL3Library >> popGPUDebugGroup: command_buffer [
 	"/**
 	 * Ends the most-recently pushed debug group.
 	 *
@@ -21144,7 +21144,7 @@ LibSDL3 >> popGPUDebugGroup: command_buffer [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> powX: x y: y [
+SDL3Library >> powX: x y: y [
 	"/**
 	 * Raise `x` to the power `y`
 	 *
@@ -21180,7 +21180,7 @@ LibSDL3 >> powX: x y: y [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> powfX: x y: y [
+SDL3Library >> powfX: x y: y [
 	"/**
 	 * Raise `x` to the power `y`
 	 *
@@ -21216,7 +21216,7 @@ LibSDL3 >> powfX: x y: y [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> premultiplyAlphaWidth: width height: height srcFormat: src_format src: src srcPitch: src_pitch dstFormat: dst_format dst: dst dstPitch: dst_pitch linear: linear [
+SDL3Library >> premultiplyAlphaWidth: width height: height srcFormat: src_format src: src srcPitch: src_pitch dstFormat: dst_format dst: dst dstPitch: dst_pitch linear: linear [
 	"/**
 	 * Premultiply the alpha on a block of pixels.
 	 *
@@ -21246,7 +21246,7 @@ LibSDL3 >> premultiplyAlphaWidth: width height: height srcFormat: src_format src
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> premultiplySurfaceAlphaSurface: surface linear: linear [
+SDL3Library >> premultiplySurfaceAlphaSurface: surface linear: linear [
 	"/**
 	 * Premultiply the alpha in a surface.
 	 *
@@ -21268,7 +21268,7 @@ LibSDL3 >> premultiplySurfaceAlphaSurface: surface linear: linear [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> pumpEvents [
+SDL3Library >> pumpEvents [
 	"/**
 	 * Pump the event loop, gathering events from the input devices.
 	 *
@@ -21294,7 +21294,7 @@ LibSDL3 >> pumpEvents [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> pushEvent: event [
+SDL3Library >> pushEvent: event [
 	"/**
 	 * Add an event to the event queue.
 	 *
@@ -21332,7 +21332,7 @@ LibSDL3 >> pushEvent: event [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> pushGPUComputeUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
+SDL3Library >> pushGPUComputeUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
 	"/**
 	 * Pushes data to a uniform slot on the command buffer.
 	 *
@@ -21354,7 +21354,7 @@ LibSDL3 >> pushGPUComputeUniformDataCommandBuffer: command_buffer slotIndex: slo
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> pushGPUDebugGroupCommandBuffer: command_buffer name: name [
+SDL3Library >> pushGPUDebugGroupCommandBuffer: command_buffer name: name [
 	"/**
 	 * Begins a debug group with an arbitrary name.
 	 *
@@ -21386,7 +21386,7 @@ LibSDL3 >> pushGPUDebugGroupCommandBuffer: command_buffer name: name [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> pushGPUFragmentUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
+SDL3Library >> pushGPUFragmentUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
 	"/**
 	 * Pushes data to a fragment uniform slot on the command buffer.
 	 *
@@ -21408,7 +21408,7 @@ LibSDL3 >> pushGPUFragmentUniformDataCommandBuffer: command_buffer slotIndex: sl
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
+SDL3Library >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot_index data: data length: length [
 	"/**
 	 * Pushes data to a vertex uniform slot on the command buffer.
 	 *
@@ -21433,7 +21433,7 @@ LibSDL3 >> pushGPUVertexUniformDataCommandBuffer: command_buffer slotIndex: slot
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> putAudioStreamDataNoCopyStream: stream buf: buf len: len callback: callback userdata: userdata [
+SDL3Library >> putAudioStreamDataNoCopyStream: stream buf: buf len: len callback: callback userdata: userdata [
 	"/**
 	 * Add external data to an audio stream without copying it.
 	 *
@@ -21484,7 +21484,7 @@ LibSDL3 >> putAudioStreamDataNoCopyStream: stream buf: buf len: len callback: ca
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> putAudioStreamDataStream: stream buf: buf len: len [
+SDL3Library >> putAudioStreamDataStream: stream buf: buf len: len [
 	"/**
 	 * Add data to the stream.
 	 *
@@ -21518,7 +21518,7 @@ LibSDL3 >> putAudioStreamDataStream: stream buf: buf len: len [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> putAudioStreamPlanarDataStream: stream channelBuffers: channel_buffers numChannels: num_channels numSamples: num_samples [
+SDL3Library >> putAudioStreamPlanarDataStream: stream channelBuffers: channel_buffers numChannels: num_channels numSamples: num_samples [
 	"/**
 	 * Add data to the stream with each channel in a separate array.
 	 *
@@ -21575,7 +21575,7 @@ LibSDL3 >> putAudioStreamPlanarDataStream: stream channelBuffers: channel_buffer
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> qsortBase: base nmemb: nmemb size: size compare: compare [
+SDL3Library >> qsortBase: base nmemb: nmemb size: size compare: compare [
 	"/**
 	 * Sort an array.
 	 *
@@ -21625,7 +21625,7 @@ LibSDL3 >> qsortBase: base nmemb: nmemb size: size compare: compare [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> qsortRBase: base nmemb: nmemb size: size compare: compare userdata: userdata [
+SDL3Library >> qsortRBase: base nmemb: nmemb size: size compare: compare userdata: userdata [
 	"/**
 	 * Sort an array, passing a userdata pointer to the compare function.
 	 *
@@ -21682,7 +21682,7 @@ LibSDL3 >> qsortRBase: base nmemb: nmemb size: size compare: compare userdata: u
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> queryGPUFenceDevice: device fence: fence [
+SDL3Library >> queryGPUFenceDevice: device fence: fence [
 	"/**
 	 * Checks the status of a fence.
 	 *
@@ -21699,7 +21699,7 @@ LibSDL3 >> queryGPUFenceDevice: device fence: fence [
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> quit [
+SDL3Library >> quit [
 	"/**
 	 * Clean up all initialized subsystems.
 	 *
@@ -21721,7 +21721,7 @@ LibSDL3 >> quit [
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> quitSubSystem: flags [
+SDL3Library >> quitSubSystem: flags [
 	"/**
 	 * Shut down specific SDL subsystems.
 	 *
@@ -21740,7 +21740,7 @@ LibSDL3 >> quitSubSystem: flags [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> raiseWindow: window [
+SDL3Library >> raiseWindow: window [
 	"/**
 	 * Request that a window be raised above other windows and gain the input
 	 * focus.
@@ -21764,7 +21764,7 @@ LibSDL3 >> raiseWindow: window [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> rand: n [
+SDL3Library >> rand: n [
 	"/**
 	 * Generate a pseudo-random number less than n for positive n
 	 *
@@ -21802,7 +21802,7 @@ LibSDL3 >> rand: n [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> randBits [
+SDL3Library >> randBits [
 	"/**
 	 * Generate 32 pseudo-random bits.
 	 *
@@ -21829,7 +21829,7 @@ LibSDL3 >> randBits [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> randBitsR: state [
+SDL3Library >> randBitsR: state [
 	"/**
 	 * Generate 32 pseudo-random bits.
 	 *
@@ -21858,7 +21858,7 @@ LibSDL3 >> randBitsR: state [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> randRState: state n: n [
+SDL3Library >> randRState: state n: n [
 	"/**
 	 * Generate a pseudo-random number less than n for positive n
 	 *
@@ -21897,7 +21897,7 @@ LibSDL3 >> randRState: state n: n [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> randf [
+SDL3Library >> randf [
 	"/**
 	 * Generate a uniform pseudo-random floating point number less than 1.0
 	 *
@@ -21924,7 +21924,7 @@ LibSDL3 >> randf [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> randfR: state [
+SDL3Library >> randfR: state [
 	"/**
 	 * Generate a uniform pseudo-random floating point number less than 1.0
 	 *
@@ -21955,7 +21955,7 @@ LibSDL3 >> randfR: state [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> readAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
+SDL3Library >> readAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
 	"/**
 	 * Start an async read.
 	 *
@@ -21997,7 +21997,7 @@ LibSDL3 >> readAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue 
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readIOContext: context ptr: ptr size: size [
+SDL3Library >> readIOContext: context ptr: ptr size: size [
 	"/**
 	 * Read from a data source.
 	 *
@@ -22031,7 +22031,7 @@ LibSDL3 >> readIOContext: context ptr: ptr size: size [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> readProcess: process datasize: datasize exitcode: exitcode [
+SDL3Library >> readProcess: process datasize: datasize exitcode: exitcode [
 	"/**
 	 * Read all the output from a process.
 	 *
@@ -22066,7 +22066,7 @@ LibSDL3 >> readProcess: process datasize: datasize exitcode: exitcode [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readS16BESrc: src value: value [
+SDL3Library >> readS16BESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of big-endian data from an SDL_IOStream
 	 * and return in native format.
@@ -22093,7 +22093,7 @@ LibSDL3 >> readS16BESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readS16LESrc: src value: value [
+SDL3Library >> readS16LESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of little-endian data from an
 	 * SDL_IOStream and return in native format.
@@ -22120,7 +22120,7 @@ LibSDL3 >> readS16LESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readS32BESrc: src value: value [
+SDL3Library >> readS32BESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of big-endian data from an SDL_IOStream
 	 * and return in native format.
@@ -22147,7 +22147,7 @@ LibSDL3 >> readS32BESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readS32LESrc: src value: value [
+SDL3Library >> readS32LESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of little-endian data from an
 	 * SDL_IOStream and return in native format.
@@ -22174,7 +22174,7 @@ LibSDL3 >> readS32LESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readS64BESrc: src value: value [
+SDL3Library >> readS64BESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of big-endian data from an SDL_IOStream
 	 * and return in native format.
@@ -22201,7 +22201,7 @@ LibSDL3 >> readS64BESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readS64LESrc: src value: value [
+SDL3Library >> readS64LESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of little-endian data from an
 	 * SDL_IOStream and return in native format.
@@ -22228,7 +22228,7 @@ LibSDL3 >> readS64LESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readS8Src: src value: value [
+SDL3Library >> readS8Src: src value: value [
 	"/**
 	 * Use this function to read a signed byte from an SDL_IOStream.
 	 *
@@ -22251,7 +22251,7 @@ LibSDL3 >> readS8Src: src value: value [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> readStorageFileStorage: storage path: path destination: destination length: length [
+SDL3Library >> readStorageFileStorage: storage path: path destination: destination length: length [
 	"/**
 	 * Synchronously read a file from a storage container into a client-provided
 	 * buffer.
@@ -22278,7 +22278,7 @@ LibSDL3 >> readStorageFileStorage: storage path: path destination: destination l
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> readSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
+SDL3Library >> readSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Retrieves a single pixel from a surface.
 	 *
@@ -22309,7 +22309,7 @@ LibSDL3 >> readSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> readSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
+SDL3Library >> readSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Retrieves a single pixel from a surface.
 	 *
@@ -22343,7 +22343,7 @@ LibSDL3 >> readSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readU16BESrc: src value: value [
+SDL3Library >> readU16BESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of big-endian data from an SDL_IOStream
 	 * and return in native format.
@@ -22370,7 +22370,7 @@ LibSDL3 >> readU16BESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readU16LESrc: src value: value [
+SDL3Library >> readU16LESrc: src value: value [
 	"/**
 	 * Use this function to read 16 bits of little-endian data from an
 	 * SDL_IOStream and return in native format.
@@ -22397,7 +22397,7 @@ LibSDL3 >> readU16LESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readU32BESrc: src value: value [
+SDL3Library >> readU32BESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of big-endian data from an SDL_IOStream
 	 * and return in native format.
@@ -22424,7 +22424,7 @@ LibSDL3 >> readU32BESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readU32LESrc: src value: value [
+SDL3Library >> readU32LESrc: src value: value [
 	"/**
 	 * Use this function to read 32 bits of little-endian data from an
 	 * SDL_IOStream and return in native format.
@@ -22451,7 +22451,7 @@ LibSDL3 >> readU32LESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readU64BESrc: src value: value [
+SDL3Library >> readU64BESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of big-endian data from an SDL_IOStream
 	 * and return in native format.
@@ -22478,7 +22478,7 @@ LibSDL3 >> readU64BESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readU64LESrc: src value: value [
+SDL3Library >> readU64LESrc: src value: value [
 	"/**
 	 * Use this function to read 64 bits of little-endian data from an
 	 * SDL_IOStream and return in native format.
@@ -22505,7 +22505,7 @@ LibSDL3 >> readU64LESrc: src value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> readU8Src: src value: value [
+SDL3Library >> readU8Src: src value: value [
 	"/**
 	 * Use this function to read a byte from an SDL_IOStream.
 	 *
@@ -22528,7 +22528,7 @@ LibSDL3 >> readU8Src: src value: value [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> reallocMem: mem size: size [
+SDL3Library >> reallocMem: mem size: size [
 	"/**
 	 * Change the size of allocated memory.
 	 *
@@ -22572,7 +22572,7 @@ LibSDL3 >> reallocMem: mem size: size [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> rectEmpty: r [
+SDL3Library >> rectEmpty: r [
 	"/**
 	 * Determine whether a rectangle has no area.
 	 *
@@ -22596,7 +22596,7 @@ LibSDL3 >> rectEmpty: r [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> rectEmptyFloat: r [
+SDL3Library >> rectEmptyFloat: r [
 	"/**
 	 * Determine whether a floating point rectangle takes no space.
 	 *
@@ -22620,7 +22620,7 @@ LibSDL3 >> rectEmptyFloat: r [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> rectToFRect: rect frect: frect [
+SDL3Library >> rectToFRect: rect frect: frect [
 	"/**
 	 * Convert an SDL_Rect to SDL_FRect
 	 *
@@ -22637,7 +22637,7 @@ LibSDL3 >> rectToFRect: rect frect: frect [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> rectsEqualA: a b: b [
+SDL3Library >> rectsEqualA: a b: b [
 	"/**
 	 * Determine whether two rectangles are equal.
 	 *
@@ -22662,7 +22662,7 @@ LibSDL3 >> rectsEqualA: a b: b [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> rectsEqualEpsilonA: a b: b epsilon: epsilon [
+SDL3Library >> rectsEqualEpsilonA: a b: b epsilon: epsilon [
 	"/**
 	 * Determine whether two floating point rectangles are equal, within some
 	 * given epsilon.
@@ -22693,7 +22693,7 @@ LibSDL3 >> rectsEqualEpsilonA: a b: b epsilon: epsilon [
 ]
 
 { #category : 'public - SDL_rect' }
-LibSDL3 >> rectsEqualFloatA: a b: b [
+SDL3Library >> rectsEqualFloatA: a b: b [
 	"/**
 	 * Determine whether two floating point rectangles are equal, within a default
 	 * epsilon.
@@ -22724,7 +22724,7 @@ LibSDL3 >> rectsEqualFloatA: a b: b [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> registerEvents: numevents [
+SDL3Library >> registerEvents: numevents [
 	"/**
 	 * Allocate a set of user-defined events, and return the beginning event
 	 * number for that set of events.
@@ -22744,7 +22744,7 @@ LibSDL3 >> registerEvents: numevents [
 ]
 
 { #category : 'public - SDL_camera' }
-LibSDL3 >> releaseCameraFrameCamera: camera frame: frame [
+SDL3Library >> releaseCameraFrameCamera: camera frame: frame [
 	"/**
 	 * Release a frame of video acquired from a camera.
 	 *
@@ -22776,7 +22776,7 @@ LibSDL3 >> releaseCameraFrameCamera: camera frame: frame [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUBufferDevice: device buffer: buffer [
+SDL3Library >> releaseGPUBufferDevice: device buffer: buffer [
 	"/**
 	 * Frees the given buffer as soon as it is safe to do so.
 	 *
@@ -22792,7 +22792,7 @@ LibSDL3 >> releaseGPUBufferDevice: device buffer: buffer [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUComputePipelineDevice: device computePipeline: compute_pipeline [
+SDL3Library >> releaseGPUComputePipelineDevice: device computePipeline: compute_pipeline [
 	"/**
 	 * Frees the given compute pipeline as soon as it is safe to do so.
 	 *
@@ -22808,7 +22808,7 @@ LibSDL3 >> releaseGPUComputePipelineDevice: device computePipeline: compute_pipe
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUFenceDevice: device fence: fence [
+SDL3Library >> releaseGPUFenceDevice: device fence: fence [
 	"/**
 	 * Releases a fence obtained from SDL_SubmitGPUCommandBufferAndAcquireFence.
 	 *
@@ -22826,7 +22826,7 @@ LibSDL3 >> releaseGPUFenceDevice: device fence: fence [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUGraphicsPipelineDevice: device graphicsPipeline: graphics_pipeline [
+SDL3Library >> releaseGPUGraphicsPipelineDevice: device graphicsPipeline: graphics_pipeline [
 	"/**
 	 * Frees the given graphics pipeline as soon as it is safe to do so.
 	 *
@@ -22842,7 +22842,7 @@ LibSDL3 >> releaseGPUGraphicsPipelineDevice: device graphicsPipeline: graphics_p
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUSamplerDevice: device sampler: sampler [
+SDL3Library >> releaseGPUSamplerDevice: device sampler: sampler [
 	"/**
 	 * Frees the given sampler as soon as it is safe to do so.
 	 *
@@ -22858,7 +22858,7 @@ LibSDL3 >> releaseGPUSamplerDevice: device sampler: sampler [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUShaderDevice: device shader: shader [
+SDL3Library >> releaseGPUShaderDevice: device shader: shader [
 	"/**
 	 * Frees the given shader as soon as it is safe to do so.
 	 *
@@ -22874,7 +22874,7 @@ LibSDL3 >> releaseGPUShaderDevice: device shader: shader [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUTextureDevice: device texture: texture [
+SDL3Library >> releaseGPUTextureDevice: device texture: texture [
 	"/**
 	 * Frees the given texture as soon as it is safe to do so.
 	 *
@@ -22890,7 +22890,7 @@ LibSDL3 >> releaseGPUTextureDevice: device texture: texture [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseGPUTransferBufferDevice: device transferBuffer: transfer_buffer [
+SDL3Library >> releaseGPUTransferBufferDevice: device transferBuffer: transfer_buffer [
 	"/**
 	 * Frees the given transfer buffer as soon as it is safe to do so.
 	 *
@@ -22906,7 +22906,7 @@ LibSDL3 >> releaseGPUTransferBufferDevice: device transferBuffer: transfer_buffe
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> releaseWindowFromGPUDevice: device window: window [
+SDL3Library >> releaseWindowFromGPUDevice: device window: window [
 	"/**
 	 * Unclaims a window, destroying its swapchain structure.
 	 *
@@ -22922,7 +22922,7 @@ LibSDL3 >> releaseWindowFromGPUDevice: device window: window [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> reloadGamepadMappings [
+SDL3Library >> reloadGamepadMappings [
 	"/**
 	 * Reinitialize the SDL mapping database to its initial state.
 	 *
@@ -22940,7 +22940,7 @@ LibSDL3 >> reloadGamepadMappings [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> removeEventWatchFilter: filter userdata: userdata [
+SDL3Library >> removeEventWatchFilter: filter userdata: userdata [
 	"/**
 	 * Remove an event watch callback added with SDL_AddEventWatch().
 	 *
@@ -22961,7 +22961,7 @@ LibSDL3 >> removeEventWatchFilter: filter userdata: userdata [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> removeHintCallbackName: name callback: callback userdata: userdata [
+SDL3Library >> removeHintCallbackName: name callback: callback userdata: userdata [
 	"/**
 	 * Remove a function watching a particular hint.
 	 *
@@ -22981,7 +22981,7 @@ LibSDL3 >> removeHintCallbackName: name callback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> removePath: path [
+SDL3Library >> removePath: path [
 	"/**
 	 * Remove a file or an empty directory.
 	 *
@@ -23001,7 +23001,7 @@ LibSDL3 >> removePath: path [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> removeStoragePathStorage: storage path: path [
+SDL3Library >> removeStoragePathStorage: storage path: path [
 	"/**
 	 * Remove a file or an empty directory in a writable storage container.
 	 *
@@ -23019,7 +23019,7 @@ LibSDL3 >> removeStoragePathStorage: storage path: path [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> removeSurfaceAlternateImages: surface [
+SDL3Library >> removeSurfaceAlternateImages: surface [
 	"/**
 	 * Remove all alternate versions of a surface.
 	 *
@@ -23042,7 +23042,7 @@ LibSDL3 >> removeSurfaceAlternateImages: surface [
 ]
 
 { #category : 'public - SDL_timer' }
-LibSDL3 >> removeTimer: id [
+SDL3Library >> removeTimer: id [
 	"/**
 	 * Remove a timer created with SDL_AddTimer().
 	 *
@@ -23061,7 +23061,7 @@ LibSDL3 >> removeTimer: id [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> removeTrayEntry: entry [
+SDL3Library >> removeTrayEntry: entry [
 	"/**
 	 * Removes a tray entry.
 	 *
@@ -23080,7 +23080,7 @@ LibSDL3 >> removeTrayEntry: entry [
 ]
 
 { #category : 'public - SDL_filesystem' }
-LibSDL3 >> renamePathOldpath: oldpath newpath: newpath [
+SDL3Library >> renamePathOldpath: oldpath newpath: newpath [
 	"/**
 	 * Rename a file or directory.
 	 *
@@ -23109,7 +23109,7 @@ LibSDL3 >> renamePathOldpath: oldpath newpath: newpath [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> renameStoragePathStorage: storage oldpath: oldpath newpath: newpath [
+SDL3Library >> renameStoragePathStorage: storage oldpath: oldpath newpath: newpath [
 	"/**
 	 * Rename a file or directory in a writable storage container.
 	 *
@@ -23128,7 +23128,7 @@ LibSDL3 >> renameStoragePathStorage: storage oldpath: oldpath newpath: newpath [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderClear: renderer [
+SDL3Library >> renderClear: renderer [
 	"/**
 	 * Clear the current rendering target with the drawing color.
 	 *
@@ -23152,7 +23152,7 @@ LibSDL3 >> renderClear: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderClipEnabled: renderer [
+SDL3Library >> renderClipEnabled: renderer [
 	"/**
 	 * Get whether clipping is enabled on the given render target.
 	 *
@@ -23175,7 +23175,7 @@ LibSDL3 >> renderClipEnabled: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderCoordinatesFromWindowRenderer: renderer windowX: window_x windowY: window_y x: x y: y [
+SDL3Library >> renderCoordinatesFromWindowRenderer: renderer windowX: window_x windowY: window_y x: x y: y [
 	"/**
 	 * Get a point in render coordinates when given a point in window coordinates.
 	 *
@@ -23206,7 +23206,7 @@ LibSDL3 >> renderCoordinatesFromWindowRenderer: renderer windowX: window_x windo
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderCoordinatesToWindowRenderer: renderer x: x y: y windowX: window_x windowY: window_y [
+SDL3Library >> renderCoordinatesToWindowRenderer: renderer x: x y: y windowX: window_x windowY: window_y [
 	"/**
 	 * Get a point in window coordinates when given a point in render coordinates.
 	 *
@@ -23240,7 +23240,7 @@ LibSDL3 >> renderCoordinatesToWindowRenderer: renderer x: x y: y windowX: window
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderDebugTextRenderer: renderer x: x y: y str: str [
+SDL3Library >> renderDebugTextRenderer: renderer x: x y: y str: str [
 	"/**
 	 * Draw debug text to an SDL_Renderer.
 	 *
@@ -23285,7 +23285,7 @@ LibSDL3 >> renderDebugTextRenderer: renderer x: x y: y str: str [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderFillRectRenderer: renderer rect: rect [
+SDL3Library >> renderFillRectRenderer: renderer rect: rect [
 	"/**
 	 * Fill a rectangle on the current rendering target with the drawing color at
 	 * subpixel precision.
@@ -23307,7 +23307,7 @@ LibSDL3 >> renderFillRectRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderFillRectsRenderer: renderer rects: rects count: count [
+SDL3Library >> renderFillRectsRenderer: renderer rects: rects count: count [
 	"/**
 	 * Fill some number of rectangles on the current rendering target with the
 	 * drawing color at subpixel precision.
@@ -23329,7 +23329,7 @@ LibSDL3 >> renderFillRectsRenderer: renderer rects: rects count: count [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderGeometryRawRenderer: renderer texture: texture xy: xy xyStride: xy_stride color: color colorStride: color_stride uv: uv uvStride: uv_stride numVertices: num_vertices indices: indices numIndices: num_indices sizeIndices: size_indices [
+SDL3Library >> renderGeometryRawRenderer: renderer texture: texture xy: xy xyStride: xy_stride color: color colorStride: color_stride uv: uv uvStride: uv_stride numVertices: num_vertices indices: indices numIndices: num_indices sizeIndices: size_indices [
 	"/**
 	 * Render a list of triangles, optionally using a texture and indices into the
 	 * vertex arrays Color and alpha modulation is done per vertex
@@ -23363,7 +23363,7 @@ LibSDL3 >> renderGeometryRawRenderer: renderer texture: texture xy: xy xyStride:
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderGeometryRenderer: renderer texture: texture vertices: vertices numVertices: num_vertices indices: indices numIndices: num_indices [
+SDL3Library >> renderGeometryRenderer: renderer texture: texture vertices: vertices numVertices: num_vertices indices: indices numIndices: num_indices [
 	"/**
 	 * Render a list of triangles, optionally using a texture and indices into the
 	 * vertex array Color and alpha modulation is done per vertex
@@ -23392,7 +23392,7 @@ LibSDL3 >> renderGeometryRenderer: renderer texture: texture vertices: vertices 
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderLineRenderer: renderer x1: x1 y1: y1 x2: x2 y2: y2 [
+SDL3Library >> renderLineRenderer: renderer x1: x1 y1: y1 x2: x2 y2: y2 [
 	"/**
 	 * Draw a line on the current rendering target at subpixel precision.
 	 *
@@ -23415,7 +23415,7 @@ LibSDL3 >> renderLineRenderer: renderer x1: x1 y1: y1 x2: x2 y2: y2 [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderLinesRenderer: renderer points: points count: count [
+SDL3Library >> renderLinesRenderer: renderer points: points count: count [
 	"/**
 	 * Draw a series of connected lines on the current rendering target at
 	 * subpixel precision.
@@ -23437,7 +23437,7 @@ LibSDL3 >> renderLinesRenderer: renderer points: points count: count [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderPointRenderer: renderer x: x y: y [
+SDL3Library >> renderPointRenderer: renderer x: x y: y [
 	"/**
 	 * Draw a point on the current rendering target at subpixel precision.
 	 *
@@ -23458,7 +23458,7 @@ LibSDL3 >> renderPointRenderer: renderer x: x y: y [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderPointsRenderer: renderer points: points count: count [
+SDL3Library >> renderPointsRenderer: renderer points: points count: count [
 	"/**
 	 * Draw multiple points on the current rendering target at subpixel precision.
 	 *
@@ -23479,7 +23479,7 @@ LibSDL3 >> renderPointsRenderer: renderer points: points count: count [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderPresent: renderer [
+SDL3Library >> renderPresent: renderer [
 	"/**
 	 * Update the screen with any rendering performed since the previous call.
 	 *
@@ -23532,7 +23532,7 @@ LibSDL3 >> renderPresent: renderer [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderReadPixelsRenderer: renderer rect: rect [
+SDL3Library >> renderReadPixelsRenderer: renderer rect: rect [
 	"/**
 	 * Read pixels from the current rendering target.
 	 *
@@ -23563,7 +23563,7 @@ LibSDL3 >> renderReadPixelsRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderRectRenderer: renderer rect: rect [
+SDL3Library >> renderRectRenderer: renderer rect: rect [
 	"/**
 	 * Draw a rectangle on the current rendering target at subpixel precision.
 	 *
@@ -23584,7 +23584,7 @@ LibSDL3 >> renderRectRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderRectsRenderer: renderer rects: rects count: count [
+SDL3Library >> renderRectsRenderer: renderer rects: rects count: count [
 	"/**
 	 * Draw some number of rectangles on the current rendering target at subpixel
 	 * precision.
@@ -23606,7 +23606,7 @@ LibSDL3 >> renderRectsRenderer: renderer rects: rects count: count [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderTexture9GridRenderer: renderer texture: texture srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale dstrect: dstrect [
+SDL3Library >> renderTexture9GridRenderer: renderer texture: texture srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale dstrect: dstrect [
 	"/**
 	 * Perform a scaled copy using the 9-grid algorithm to the current rendering
 	 * target at subpixel precision.
@@ -23645,7 +23645,7 @@ LibSDL3 >> renderTexture9GridRenderer: renderer texture: texture srcrect: srcrec
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderTexture9GridTiledRenderer: renderer texture: texture srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale dstrect: dstrect tileScale: tileScale [
+SDL3Library >> renderTexture9GridTiledRenderer: renderer texture: texture srcrect: srcrect leftWidth: left_width rightWidth: right_width topHeight: top_height bottomHeight: bottom_height scale: scale dstrect: dstrect tileScale: tileScale [
 	"/**
 	 * Perform a scaled copy using the 9-grid algorithm to the current rendering
 	 * target at subpixel precision.
@@ -23687,7 +23687,7 @@ LibSDL3 >> renderTexture9GridTiledRenderer: renderer texture: texture srcrect: s
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderTextureAffineRenderer: renderer texture: texture srcrect: srcrect origin: origin right: right down: down [
+SDL3Library >> renderTextureAffineRenderer: renderer texture: texture srcrect: srcrect origin: origin right: right down: down [
 	"/**
 	 * Copy a portion of the source texture to the current rendering target, with
 	 * affine transform, at subpixel precision.
@@ -23719,7 +23719,7 @@ LibSDL3 >> renderTextureAffineRenderer: renderer texture: texture srcrect: srcre
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderTextureRenderer: renderer texture: texture srcrect: srcrect dstrect: dstrect [
+SDL3Library >> renderTextureRenderer: renderer texture: texture srcrect: srcrect dstrect: dstrect [
 	"/**
 	 * Copy a portion of the texture to the current rendering target at subpixel
 	 * precision.
@@ -23745,7 +23745,7 @@ LibSDL3 >> renderTextureRenderer: renderer texture: texture srcrect: srcrect dst
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderTextureRotatedRenderer: renderer texture: texture srcrect: srcrect dstrect: dstrect angle: angle center: center flip: flip [
+SDL3Library >> renderTextureRotatedRenderer: renderer texture: texture srcrect: srcrect dstrect: dstrect angle: angle center: center flip: flip [
 	"/**
 	 * Copy a portion of the source texture to the current rendering target, with
 	 * rotation and flipping, at subpixel precision.
@@ -23777,7 +23777,7 @@ LibSDL3 >> renderTextureRotatedRenderer: renderer texture: texture srcrect: srcr
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderTextureTiledRenderer: renderer texture: texture srcrect: srcrect scale: scale dstrect: dstrect [
+SDL3Library >> renderTextureTiledRenderer: renderer texture: texture srcrect: srcrect scale: scale dstrect: dstrect [
 	"/**
 	 * Tile a portion of the texture to the current rendering target at subpixel
 	 * precision.
@@ -23808,7 +23808,7 @@ LibSDL3 >> renderTextureTiledRenderer: renderer texture: texture srcrect: srcrec
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> renderViewportSet: renderer [
+SDL3Library >> renderViewportSet: renderer [
 	"/**
 	 * Return whether an explicit rectangle was set as the viewport.
 	 *
@@ -23834,7 +23834,7 @@ LibSDL3 >> renderViewportSet: renderer [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> resetHint: name [
+SDL3Library >> resetHint: name [
 	"/**
 	 * Reset a hint to the default value.
 	 *
@@ -23858,7 +23858,7 @@ LibSDL3 >> resetHint: name [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> resetHints [
+SDL3Library >> resetHints [
 	"/**
 	 * Reset all hints to the default values.
 	 *
@@ -23877,7 +23877,7 @@ LibSDL3 >> resetHints [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> resetKeyboard [
+SDL3Library >> resetKeyboard [
 	"/**
 	 * Clear the state of the keyboard.
 	 *
@@ -23894,7 +23894,7 @@ LibSDL3 >> resetKeyboard [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> resetLogPriorities [
+SDL3Library >> resetLogPriorities [
 	"/**
 	 * Reset all priorities to default.
 	 *
@@ -23912,7 +23912,7 @@ LibSDL3 >> resetLogPriorities [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> restoreWindow: window [
+SDL3Library >> restoreWindow: window [
 	"/**
 	 * Request that the size and position of a minimized or maximized window be
 	 * restored.
@@ -23946,7 +23946,7 @@ LibSDL3 >> restoreWindow: window [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> resumeAudioDevice: devid [
+SDL3Library >> resumeAudioDevice: devid [
 	"/**
 	 * Use this function to unpause audio playback on a specified device.
 	 *
@@ -23978,7 +23978,7 @@ LibSDL3 >> resumeAudioDevice: devid [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> resumeAudioStreamDevice: stream [
+SDL3Library >> resumeAudioStreamDevice: stream [
 	"/**
 	 * Use this function to unpause audio playback on the audio device associated
 	 * with an audio stream.
@@ -24005,7 +24005,7 @@ LibSDL3 >> resumeAudioStreamDevice: stream [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> resumeHaptic: haptic [
+SDL3Library >> resumeHaptic: haptic [
 	"/**
 	 * Resume a haptic device.
 	 *
@@ -24024,7 +24024,7 @@ LibSDL3 >> resumeHaptic: haptic [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> rotateSurface: surface angle: angle [
+SDL3Library >> rotateSurface: surface angle: angle [
 	"/**
 	 * Return a copy of a surface rotated clockwise a number of degrees.
 	 *
@@ -24057,7 +24057,7 @@ LibSDL3 >> rotateSurface: surface angle: angle [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> round: x [
+SDL3Library >> round: x [
 	"/**
 	 * Round `x` to the nearest integer.
 	 *
@@ -24090,7 +24090,7 @@ LibSDL3 >> round: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> roundf: x [
+SDL3Library >> roundf: x [
 	"/**
 	 * Round `x` to the nearest integer.
 	 *
@@ -24123,7 +24123,7 @@ LibSDL3 >> roundf: x [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> rumbleGamepad: gamepad lowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
+SDL3Library >> rumbleGamepad: gamepad lowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
 	"/**
 	 * Start a rumble effect on a gamepad.
 	 *
@@ -24151,7 +24151,7 @@ LibSDL3 >> rumbleGamepad: gamepad lowFrequencyRumble: low_frequency_rumble highF
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> rumbleGamepadTriggersGamepad: gamepad leftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
+SDL3Library >> rumbleGamepadTriggersGamepad: gamepad leftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
 	"/**
 	 * Start a rumble effect in the gamepad's triggers.
 	 *
@@ -24185,7 +24185,7 @@ LibSDL3 >> rumbleGamepadTriggersGamepad: gamepad leftRumble: left_rumble rightRu
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> rumbleJoystick: joystick lowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
+SDL3Library >> rumbleJoystick: joystick lowFrequencyRumble: low_frequency_rumble highFrequencyRumble: high_frequency_rumble durationMs: duration_ms [
 	"/**
 	 * Start a rumble effect.
 	 *
@@ -24212,7 +24212,7 @@ LibSDL3 >> rumbleJoystick: joystick lowFrequencyRumble: low_frequency_rumble hig
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> rumbleJoystickTriggersJoystick: joystick leftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
+SDL3Library >> rumbleJoystickTriggersJoystick: joystick leftRumble: left_rumble rightRumble: right_rumble durationMs: duration_ms [
 	"/**
 	 * Start a rumble effect in the joystick's triggers.
 	 *
@@ -24247,7 +24247,7 @@ LibSDL3 >> rumbleJoystickTriggersJoystick: joystick leftRumble: left_rumble righ
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> runHapticEffectHaptic: haptic effect: effect iterations: iterations [
+SDL3Library >> runHapticEffectHaptic: haptic effect: effect iterations: iterations [
 	"/**
 	 * Run the haptic effect on its associated haptic device.
 	 *
@@ -24275,7 +24275,7 @@ LibSDL3 >> runHapticEffectHaptic: haptic effect: effect iterations: iterations [
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> runOnMainThreadCallback: callback userdata: userdata waitComplete: wait_complete [
+SDL3Library >> runOnMainThreadCallback: callback userdata: userdata waitComplete: wait_complete [
 	"/**
 	 * Call a function on the main thread during event processing.
 	 *
@@ -24305,7 +24305,7 @@ LibSDL3 >> runOnMainThreadCallback: callback userdata: userdata waitComplete: wa
 ]
 
 { #category : 'accessing' }
-LibSDL3 >> runner [
+SDL3Library >> runner [
 	
 	^ TFProcessLocalWorker new 
 		defaultWorker: TFSameThreadRunner uniqueInstance;
@@ -24313,7 +24313,7 @@ LibSDL3 >> runner [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> saveBMPIOSurface: surface dst: dst closeio: closeio [
+SDL3Library >> saveBMPIOSurface: surface dst: dst closeio: closeio [
 	"/**
 	 * Save a surface to a seekable SDL data stream in BMP format.
 	 *
@@ -24343,7 +24343,7 @@ LibSDL3 >> saveBMPIOSurface: surface dst: dst closeio: closeio [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> saveBMPSurface: surface file: file [
+SDL3Library >> saveBMPSurface: surface file: file [
 	"/**
 	 * Save a surface to a file in BMP format.
 	 *
@@ -24371,7 +24371,7 @@ LibSDL3 >> saveBMPSurface: surface file: file [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> saveFile: file data: data datasize: datasize [
+SDL3Library >> saveFile: file data: data datasize: datasize [
 	"/**
 	 * Save all the data into a file path.
 	 *
@@ -24394,7 +24394,7 @@ LibSDL3 >> saveFile: file data: data datasize: datasize [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
+SDL3Library >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
 	"/**
 	 * Save all the data into an SDL data stream.
 	 *
@@ -24419,7 +24419,7 @@ LibSDL3 >> saveFileIOSrc: src data: data datasize: datasize closeio: closeio [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> savePNGIOSurface: surface dst: dst closeio: closeio [
+SDL3Library >> savePNGIOSurface: surface dst: dst closeio: closeio [
 	"/**
 	 * Save a surface to a seekable SDL data stream in PNG format.
 	 *
@@ -24443,7 +24443,7 @@ LibSDL3 >> savePNGIOSurface: surface dst: dst closeio: closeio [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> savePNGSurface: surface file: file [
+SDL3Library >> savePNGSurface: surface file: file [
 	"/**
 	 * Save a surface to a file in PNG format.
 	 *
@@ -24465,7 +24465,7 @@ LibSDL3 >> savePNGSurface: surface file: file [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> scalbnX: x n: n [
+SDL3Library >> scalbnX: x n: n [
 	"/**
 	 * Scale `x` by an integer power of two.
 	 *
@@ -24494,7 +24494,7 @@ LibSDL3 >> scalbnX: x n: n [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> scalbnfX: x n: n [
+SDL3Library >> scalbnfX: x n: n [
 	"/**
 	 * Scale `x` by an integer power of two.
 	 *
@@ -24523,7 +24523,7 @@ LibSDL3 >> scalbnfX: x n: n [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> scaleSurface: surface width: width height: height scaleMode: scaleMode [
+SDL3Library >> scaleSurface: surface width: width height: height scaleMode: scaleMode [
 	"/**
 	 * Creates a new surface identical to the existing surface, scaled to the
 	 * desired size.
@@ -24549,7 +24549,7 @@ LibSDL3 >> scaleSurface: surface width: width height: height scaleMode: scaleMod
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> screenKeyboardShown: window [
+SDL3Library >> screenKeyboardShown: window [
 	"/**
 	 * Check whether the screen keyboard is shown for given window.
 	 *
@@ -24567,7 +24567,7 @@ LibSDL3 >> screenKeyboardShown: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> screenSaverEnabled [
+SDL3Library >> screenSaverEnabled [
 	"/**
 	 * Check whether the screensaver is currently enabled.
 	 *
@@ -24589,7 +24589,7 @@ LibSDL3 >> screenSaverEnabled [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> seekIOContext: context offset: offset whence: whence [
+SDL3Library >> seekIOContext: context offset: offset whence: whence [
 	"/**
 	 * Seek within an SDL_IOStream data stream.
 	 *
@@ -24622,7 +24622,7 @@ LibSDL3 >> seekIOContext: context offset: offset whence: whence [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> sendGamepadEffectGamepad: gamepad data: data size: size [
+SDL3Library >> sendGamepadEffectGamepad: gamepad data: data size: size [
 	"/**
 	 * Send a gamepad specific effect packet.
 	 *
@@ -24641,7 +24641,7 @@ LibSDL3 >> sendGamepadEffectGamepad: gamepad data: data size: size [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> sendJoystickEffectJoystick: joystick data: data size: size [
+SDL3Library >> sendJoystickEffectJoystick: joystick data: data size: size [
 	"/**
 	 * Send a joystick specific effect packet.
 	 *
@@ -24660,7 +24660,7 @@ LibSDL3 >> sendJoystickEffectJoystick: joystick data: data size: size [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> sendJoystickVirtualSensorDataJoystick: joystick type: type sensorTimestamp: sensor_timestamp data: data numValues: num_values [
+SDL3Library >> sendJoystickVirtualSensorDataJoystick: joystick type: type sensorTimestamp: sensor_timestamp data: data numValues: num_values [
 	"/**
 	 * Send a sensor update for an opened virtual joystick.
 	 *
@@ -24694,7 +24694,7 @@ LibSDL3 >> sendJoystickVirtualSensorDataJoystick: joystick type: type sensorTime
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> setAppMetadataAppname: appname appversion: appversion appidentifier: appidentifier [
+SDL3Library >> setAppMetadataAppname: appname appversion: appversion appidentifier: appidentifier [
 	"/**
 	 * Specify basic metadata about your app.
 	 *
@@ -24736,7 +24736,7 @@ LibSDL3 >> setAppMetadataAppname: appname appversion: appversion appidentifier: 
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> setAppMetadataPropertyName: name value: value [
+SDL3Library >> setAppMetadataPropertyName: name value: value [
 	"/**
 	 * Specify metadata about your app through a set of properties.
 	 *
@@ -24803,7 +24803,7 @@ LibSDL3 >> setAppMetadataPropertyName: name value: value [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> setAtomicIntA: a v: v [
+SDL3Library >> setAtomicIntA: a v: v [
 	"/**
 	 * Set an atomic variable to a value.
 	 *
@@ -24827,7 +24827,7 @@ LibSDL3 >> setAtomicIntA: a v: v [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> setAtomicPointerA: a v: v [
+SDL3Library >> setAtomicPointerA: a v: v [
 	"/**
 	 * Set a pointer to a value atomically.
 	 *
@@ -24850,7 +24850,7 @@ LibSDL3 >> setAtomicPointerA: a v: v [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> setAtomicU32A: a v: v [
+SDL3Library >> setAtomicU32A: a v: v [
 	"/**
 	 * Set an atomic variable to a value.
 	 *
@@ -24874,7 +24874,7 @@ LibSDL3 >> setAtomicU32A: a v: v [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioDeviceGainDevid: devid gain: gain [
+SDL3Library >> setAudioDeviceGainDevid: devid gain: gain [
 	"/**
 	 * Change the gain of an audio device.
 	 *
@@ -24913,7 +24913,7 @@ LibSDL3 >> setAudioDeviceGainDevid: devid gain: gain [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioPostmixCallbackDevid: devid callback: callback userdata: userdata [
+SDL3Library >> setAudioPostmixCallbackDevid: devid callback: callback userdata: userdata [
 	"/**
 	 * Set a callback that fires when data is about to be fed to an audio device.
 	 *
@@ -24971,7 +24971,7 @@ LibSDL3 >> setAudioPostmixCallbackDevid: devid callback: callback userdata: user
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spec [
+SDL3Library >> setAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spec [
 	"/**
 	 * Change the input and output formats of an audio stream.
 	 *
@@ -25012,7 +25012,7 @@ LibSDL3 >> setAudioStreamFormatStream: stream srcSpec: src_spec dstSpec: dst_spe
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioStreamFrequencyRatioStream: stream ratio: ratio [
+SDL3Library >> setAudioStreamFrequencyRatioStream: stream ratio: ratio [
 	"/**
 	 * Change the frequency ratio of an audio stream.
 	 *
@@ -25044,7 +25044,7 @@ LibSDL3 >> setAudioStreamFrequencyRatioStream: stream ratio: ratio [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioStreamGainStream: stream gain: gain [
+SDL3Library >> setAudioStreamGainStream: stream gain: gain [
 	"/**
 	 * Change the gain of an audio stream.
 	 *
@@ -25073,7 +25073,7 @@ LibSDL3 >> setAudioStreamGainStream: stream gain: gain [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioStreamGetCallbackStream: stream callback: callback userdata: userdata [
+SDL3Library >> setAudioStreamGetCallbackStream: stream callback: callback userdata: userdata [
 	"/**
 	 * Set a callback that runs when data is requested from an audio stream.
 	 *
@@ -25123,7 +25123,7 @@ LibSDL3 >> setAudioStreamGetCallbackStream: stream callback: callback userdata: 
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioStreamInputChannelMapStream: stream chmap: chmap count: count [
+SDL3Library >> setAudioStreamInputChannelMapStream: stream chmap: chmap count: count [
 	"/**
 	 * Set the current input channel map of an audio stream.
 	 *
@@ -25187,7 +25187,7 @@ LibSDL3 >> setAudioStreamInputChannelMapStream: stream chmap: chmap count: count
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioStreamOutputChannelMapStream: stream chmap: chmap count: count [
+SDL3Library >> setAudioStreamOutputChannelMapStream: stream chmap: chmap count: count [
 	"/**
 	 * Set the current output channel map of an audio stream.
 	 *
@@ -25249,7 +25249,7 @@ LibSDL3 >> setAudioStreamOutputChannelMapStream: stream chmap: chmap count: coun
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> setAudioStreamPutCallbackStream: stream callback: callback userdata: userdata [
+SDL3Library >> setAudioStreamPutCallbackStream: stream callback: callback userdata: userdata [
 	"/**
 	 * Set a callback that runs when data is added to an audio stream.
 	 *
@@ -25302,7 +25302,7 @@ LibSDL3 >> setAudioStreamPutCallbackStream: stream callback: callback userdata: 
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> setBooleanPropertyProps: props name: name value: value [
+SDL3Library >> setBooleanPropertyProps: props name: name value: value [
 	"/**
 	 * Set a boolean property in a group of properties.
 	 *
@@ -25323,7 +25323,7 @@ LibSDL3 >> setBooleanPropertyProps: props name: name value: value [
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdata mimeTypes: mime_types numMimeTypes: num_mime_types [
+SDL3Library >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdata mimeTypes: mime_types numMimeTypes: num_mime_types [
 	"/**
 	 * Offer clipboard data to the OS.
 	 *
@@ -25360,7 +25360,7 @@ LibSDL3 >> setClipboardDataCallback: callback cleanup: cleanup userdata: userdat
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> setClipboardText: text [
+SDL3Library >> setClipboardText: text [
 	"/**
 	 * Put UTF-8 text into the clipboard.
 	 *
@@ -25380,7 +25380,7 @@ LibSDL3 >> setClipboardText: text [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> setCurrentThreadPriority: priority [
+SDL3Library >> setCurrentThreadPriority: priority [
 	"/**
 	 * Set the priority for the current thread.
 	 *
@@ -25399,7 +25399,7 @@ LibSDL3 >> setCurrentThreadPriority: priority [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> setCursor: cursor [
+SDL3Library >> setCursor: cursor [
 	"/**
 	 * Set the active cursor.
 	 *
@@ -25423,7 +25423,7 @@ LibSDL3 >> setCursor: cursor [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
+SDL3Library >> setDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 	"/**
 	 * Set default scale mode for new textures for given renderer.
 	 *
@@ -25445,7 +25445,7 @@ LibSDL3 >> setDefaultTextureScaleModeRenderer: renderer scaleMode: scale_mode [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> setEnvironmentVariableEnv: env name: name value: value overwrite: overwrite [
+SDL3Library >> setEnvironmentVariableEnv: env name: name value: value overwrite: overwrite [
 	"/**
 	 * Set the value of a variable in the environment.
 	 *
@@ -25473,7 +25473,7 @@ LibSDL3 >> setEnvironmentVariableEnv: env name: name value: value overwrite: ove
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> setEventEnabledType: type enabled: enabled [
+SDL3Library >> setEventEnabledType: type enabled: enabled [
 	"/**
 	 * Set the state of processing events by type.
 	 *
@@ -25491,7 +25491,7 @@ LibSDL3 >> setEventEnabledType: type enabled: enabled [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> setEventFilter: filter userdata: userdata [
+SDL3Library >> setEventFilter: filter userdata: userdata [
 	"/**
 	 * Set up a filter to process all events before they are added to the internal
 	 * event queue.
@@ -25539,7 +25539,7 @@ LibSDL3 >> setEventFilter: filter userdata: userdata [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> setFloatPropertyProps: props name: name value: value [
+SDL3Library >> setFloatPropertyProps: props name: name value: value [
 	"/**
 	 * Set a floating point property in a group of properties.
 	 *
@@ -25560,7 +25560,7 @@ LibSDL3 >> setFloatPropertyProps: props name: name value: value [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUAllowedFramesInFlightDevice: device allowedFramesInFlight: allowed_frames_in_flight [
+SDL3Library >> setGPUAllowedFramesInFlightDevice: device allowedFramesInFlight: allowed_frames_in_flight [
 	"/**
 	 * Configures the maximum allowed number of frames in flight.
 	 *
@@ -25591,7 +25591,7 @@ LibSDL3 >> setGPUAllowedFramesInFlightDevice: device allowedFramesInFlight: allo
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUBlendConstantsRenderPass: render_pass blendConstants: blend_constants [
+SDL3Library >> setGPUBlendConstantsRenderPass: render_pass blendConstants: blend_constants [
 	"/**
 	 * Sets the current blend constants on a command buffer.
 	 *
@@ -25608,7 +25608,7 @@ LibSDL3 >> setGPUBlendConstantsRenderPass: render_pass blendConstants: blend_con
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUBufferNameDevice: device buffer: buffer text: text [
+SDL3Library >> setGPUBufferNameDevice: device buffer: buffer text: text [
 	"/**
 	 * Sets an arbitrary string constant to label a buffer.
 	 *
@@ -25631,7 +25631,7 @@ LibSDL3 >> setGPUBufferNameDevice: device buffer: buffer text: text [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setGPURenderStateFragmentUniformsState: state slotIndex: slot_index data: data length: length [
+SDL3Library >> setGPURenderStateFragmentUniformsState: state slotIndex: slot_index data: data length: length [
 	"/**
 	 * Set fragment shader uniform variables in a custom GPU render state.
 	 *
@@ -25655,7 +25655,7 @@ LibSDL3 >> setGPURenderStateFragmentUniformsState: state slotIndex: slot_index d
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setGPURenderStateRenderer: renderer state: state [
+SDL3Library >> setGPURenderStateRenderer: renderer state: state [
 	"/**
 	 * Set custom GPU render state.
 	 *
@@ -25677,7 +25677,7 @@ LibSDL3 >> setGPURenderStateRenderer: renderer state: state [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUScissorRenderPass: render_pass scissor: scissor [
+SDL3Library >> setGPUScissorRenderPass: render_pass scissor: scissor [
 	"/**
 	 * Sets the current scissor state on a command buffer.
 	 *
@@ -25691,7 +25691,7 @@ LibSDL3 >> setGPUScissorRenderPass: render_pass scissor: scissor [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUStencilReferenceRenderPass: render_pass reference: reference [
+SDL3Library >> setGPUStencilReferenceRenderPass: render_pass reference: reference [
 	"/**
 	 * Sets the current stencil reference value on a command buffer.
 	 *
@@ -25705,7 +25705,7 @@ LibSDL3 >> setGPUStencilReferenceRenderPass: render_pass reference: reference [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUSwapchainParametersDevice: device window: window swapchainComposition: swapchain_composition presentMode: present_mode [
+SDL3Library >> setGPUSwapchainParametersDevice: device window: window swapchainComposition: swapchain_composition presentMode: present_mode [
 	"/**
 	 * Changes the swapchain parameters for the given claimed window.
 	 *
@@ -25734,7 +25734,7 @@ LibSDL3 >> setGPUSwapchainParametersDevice: device window: window swapchainCompo
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUTextureNameDevice: device texture: texture text: text [
+SDL3Library >> setGPUTextureNameDevice: device texture: texture text: text [
 	"/**
 	 * Sets an arbitrary string constant to label a texture.
 	 *
@@ -25758,7 +25758,7 @@ LibSDL3 >> setGPUTextureNameDevice: device texture: texture text: text [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> setGPUViewportRenderPass: render_pass viewport: viewport [
+SDL3Library >> setGPUViewportRenderPass: render_pass viewport: viewport [
 	"/**
 	 * Sets the current viewport state on a command buffer.
 	 *
@@ -25772,7 +25772,7 @@ LibSDL3 >> setGPUViewportRenderPass: render_pass viewport: viewport [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> setGamepadEventsEnabled: enabled [
+SDL3Library >> setGamepadEventsEnabled: enabled [
 	"/**
 	 * Set the state of gamepad event processing.
 	 *
@@ -25793,7 +25793,7 @@ LibSDL3 >> setGamepadEventsEnabled: enabled [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> setGamepadLEDGamepad: gamepad red: red green: green blue: blue [
+SDL3Library >> setGamepadLEDGamepad: gamepad red: red green: green blue: blue [
 	"/**
 	 * Update a gamepad's LED color.
 	 *
@@ -25819,7 +25819,7 @@ LibSDL3 >> setGamepadLEDGamepad: gamepad red: red green: green blue: blue [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> setGamepadMappingInstanceId: instance_id mapping: mapping [
+SDL3Library >> setGamepadMappingInstanceId: instance_id mapping: mapping [
 	"/**
 	 * Set the current mapping of a joystick or gamepad.
 	 *
@@ -25843,7 +25843,7 @@ LibSDL3 >> setGamepadMappingInstanceId: instance_id mapping: mapping [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> setGamepadPlayerIndexGamepad: gamepad playerIndex: player_index [
+SDL3Library >> setGamepadPlayerIndexGamepad: gamepad playerIndex: player_index [
 	"/**
 	 * Set the player index of an opened gamepad.
 	 *
@@ -25864,7 +25864,7 @@ LibSDL3 >> setGamepadPlayerIndexGamepad: gamepad playerIndex: player_index [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> setGamepadSensorEnabledGamepad: gamepad type: type enabled: enabled [
+SDL3Library >> setGamepadSensorEnabledGamepad: gamepad type: type enabled: enabled [
 	"/**
 	 * Set whether data reporting for a gamepad sensor is enabled.
 	 *
@@ -25886,7 +25886,7 @@ LibSDL3 >> setGamepadSensorEnabledGamepad: gamepad type: type enabled: enabled [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> setHapticAutocenterHaptic: haptic autocenter: autocenter [
+SDL3Library >> setHapticAutocenterHaptic: haptic autocenter: autocenter [
 	"/**
 	 * Set the global autocenter of the device.
 	 *
@@ -25909,7 +25909,7 @@ LibSDL3 >> setHapticAutocenterHaptic: haptic autocenter: autocenter [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> setHapticGainHaptic: haptic gain: gain [
+SDL3Library >> setHapticGainHaptic: haptic gain: gain [
 	"/**
 	 * Set the global gain of the specified haptic device.
 	 *
@@ -25935,7 +25935,7 @@ LibSDL3 >> setHapticGainHaptic: haptic gain: gain [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> setHintName: name value: value [
+SDL3Library >> setHintName: name value: value [
 	"/**
 	 * Set a hint with normal priority.
 	 *
@@ -25961,7 +25961,7 @@ LibSDL3 >> setHintName: name value: value [
 ]
 
 { #category : 'public - SDL_hints' }
-LibSDL3 >> setHintWithPriorityName: name value: value priority: priority [
+SDL3Library >> setHintWithPriorityName: name value: value priority: priority [
 	"/**
 	 * Set a hint with a specific priority.
 	 *
@@ -25988,7 +25988,7 @@ LibSDL3 >> setHintWithPriorityName: name value: value priority: priority [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> setInitializedState: state initialized: initialized [
+SDL3Library >> setInitializedState: state initialized: initialized [
 	"/**
 	 * Finish an initialization state transition.
 	 *
@@ -26011,7 +26011,7 @@ LibSDL3 >> setInitializedState: state initialized: initialized [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickEventsEnabled: enabled [
+SDL3Library >> setJoystickEventsEnabled: enabled [
 	"/**
 	 * Set the state of joystick event processing.
 	 *
@@ -26033,7 +26033,7 @@ LibSDL3 >> setJoystickEventsEnabled: enabled [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickLEDJoystick: joystick red: red green: green blue: blue [
+SDL3Library >> setJoystickLEDJoystick: joystick red: red green: green blue: blue [
 	"/**
 	 * Update a joystick's LED color.
 	 *
@@ -26059,7 +26059,7 @@ LibSDL3 >> setJoystickLEDJoystick: joystick red: red green: green blue: blue [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickPlayerIndexJoystick: joystick playerIndex: player_index [
+SDL3Library >> setJoystickPlayerIndexJoystick: joystick playerIndex: player_index [
 	"/**
 	 * Set the player index of an opened joystick.
 	 *
@@ -26080,7 +26080,7 @@ LibSDL3 >> setJoystickPlayerIndexJoystick: joystick playerIndex: player_index [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickVirtualAxisJoystick: joystick axis: axis value: value [
+SDL3Library >> setJoystickVirtualAxisJoystick: joystick axis: axis value: value [
 	"/**
 	 * Set the state of an axis on an opened virtual joystick.
 	 *
@@ -26115,7 +26115,7 @@ LibSDL3 >> setJoystickVirtualAxisJoystick: joystick axis: axis value: value [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickVirtualBallJoystick: joystick ball: ball xrel: xrel yrel: yrel [
+SDL3Library >> setJoystickVirtualBallJoystick: joystick ball: ball xrel: xrel yrel: yrel [
 	"/**
 	 * Generate ball motion on an opened virtual joystick.
 	 *
@@ -26147,7 +26147,7 @@ LibSDL3 >> setJoystickVirtualBallJoystick: joystick ball: ball xrel: xrel yrel: 
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickVirtualButtonJoystick: joystick button: button down: down [
+SDL3Library >> setJoystickVirtualButtonJoystick: joystick button: button down: down [
 	"/**
 	 * Set the state of a button on an opened virtual joystick.
 	 *
@@ -26178,7 +26178,7 @@ LibSDL3 >> setJoystickVirtualButtonJoystick: joystick button: button down: down 
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickVirtualHatJoystick: joystick hat: hat value: value [
+SDL3Library >> setJoystickVirtualHatJoystick: joystick hat: hat value: value [
 	"/**
 	 * Set the state of a hat on an opened virtual joystick.
 	 *
@@ -26209,7 +26209,7 @@ LibSDL3 >> setJoystickVirtualHatJoystick: joystick hat: hat value: value [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> setJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
+SDL3Library >> setJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad finger: finger down: down x: x y: y pressure: pressure [
 	"/**
 	 * Set touchpad finger state on an opened virtual joystick.
 	 *
@@ -26247,7 +26247,7 @@ LibSDL3 >> setJoystickVirtualTouchpadJoystick: joystick touchpad: touchpad finge
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> setLinuxThreadPriorityAndPolicyThreadID: threadID sdlPriority: sdlPriority schedPolicy: schedPolicy [
+SDL3Library >> setLinuxThreadPriorityAndPolicyThreadID: threadID sdlPriority: sdlPriority schedPolicy: schedPolicy [
 	"/**
 	 * Sets the priority (not nice level) and scheduling policy for a thread.
 	 *
@@ -26267,7 +26267,7 @@ LibSDL3 >> setLinuxThreadPriorityAndPolicyThreadID: threadID sdlPriority: sdlPri
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> setLinuxThreadPriorityThreadID: threadID priority: priority [
+SDL3Library >> setLinuxThreadPriorityThreadID: threadID priority: priority [
 	"/**
 	 * Sets the UNIX nice value for a thread.
 	 *
@@ -26285,7 +26285,7 @@ LibSDL3 >> setLinuxThreadPriorityThreadID: threadID priority: priority [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> setLogOutputFunctionCallback: callback userdata: userdata [
+SDL3Library >> setLogOutputFunctionCallback: callback userdata: userdata [
 	"/**
 	 * Replace the default log output function with one of your own.
 	 *
@@ -26304,7 +26304,7 @@ LibSDL3 >> setLogOutputFunctionCallback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> setLogPriorities: priority [
+SDL3Library >> setLogPriorities: priority [
 	"/**
 	 * Set the priority of all log categories.
 	 *
@@ -26322,7 +26322,7 @@ LibSDL3 >> setLogPriorities: priority [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> setLogPriorityCategory: category priority: priority [
+SDL3Library >> setLogPriorityCategory: category priority: priority [
 	"/**
 	 * Set the priority of a particular log category.
 	 *
@@ -26342,7 +26342,7 @@ LibSDL3 >> setLogPriorityCategory: category priority: priority [
 ]
 
 { #category : 'public - SDL_log' }
-LibSDL3 >> setLogPriorityPrefixPriority: priority prefix: prefix [
+SDL3Library >> setLogPriorityPrefixPriority: priority prefix: prefix [
 	"/**
 	 * Set the text prepended to log messages of a given priority.
 	 *
@@ -26371,7 +26371,7 @@ LibSDL3 >> setLogPriorityPrefixPriority: priority prefix: prefix [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> setMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
+SDL3Library >> setMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func reallocFunc: realloc_func freeFunc: free_func [
 	"/**
 	 * Replace SDL's memory allocation functions with a custom set.
 	 *
@@ -26403,7 +26403,7 @@ LibSDL3 >> setMemoryFunctionsMallocFunc: malloc_func callocFunc: calloc_func rea
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> setModState: modstate [
+SDL3Library >> setModState: modstate [
 	"/**
 	 * Set the current key modifier state for the keyboard.
 	 *
@@ -26428,7 +26428,7 @@ LibSDL3 >> setModState: modstate [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> setNumberPropertyProps: props name: name value: value [
+SDL3Library >> setNumberPropertyProps: props name: name value: value [
 	"/**
 	 * Set an integer property in a group of properties.
 	 *
@@ -26449,7 +26449,7 @@ LibSDL3 >> setNumberPropertyProps: props name: name value: value [
 ]
 
 { #category : 'public - SDL_pixels' }
-LibSDL3 >> setPaletteColorsPalette: palette colors: colors firstcolor: firstcolor ncolors: ncolors [
+SDL3Library >> setPaletteColorsPalette: palette colors: colors firstcolor: firstcolor ncolors: ncolors [
 	"/**
 	 * Set a range of colors in a palette.
 	 *
@@ -26470,7 +26470,7 @@ LibSDL3 >> setPaletteColorsPalette: palette colors: colors firstcolor: firstcolo
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> setPointerPropertyProps: props name: name value: value [
+SDL3Library >> setPointerPropertyProps: props name: name value: value [
 	"/**
 	 * Set a pointer property in a group of properties.
 	 *
@@ -26497,7 +26497,7 @@ LibSDL3 >> setPointerPropertyProps: props name: name value: value [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> setPointerPropertyWithCleanupProps: props name: name value: value cleanup: cleanup userdata: userdata [
+SDL3Library >> setPointerPropertyWithCleanupProps: props name: name value: value cleanup: cleanup userdata: userdata [
 	"/**
 	 * Set a pointer property in a group of properties with a cleanup function
 	 * that is called when the property is deleted.
@@ -26532,7 +26532,7 @@ LibSDL3 >> setPointerPropertyWithCleanupProps: props name: name value: value cle
 ]
 
 { #category : 'public - SDL_clipboard' }
-LibSDL3 >> setPrimarySelectionText: text [
+SDL3Library >> setPrimarySelectionText: text [
 	"/**
 	 * Put UTF-8 text into the primary selection.
 	 *
@@ -26552,7 +26552,7 @@ LibSDL3 >> setPrimarySelectionText: text [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> setRelativeMouseTransformCallback: callback userdata: userdata [
+SDL3Library >> setRelativeMouseTransformCallback: callback userdata: userdata [
 	"/**
 	 * Set a user-defined function by which to transform relative mouse inputs.
 	 *
@@ -26574,7 +26574,7 @@ LibSDL3 >> setRelativeMouseTransformCallback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderClipRectRenderer: renderer rect: rect [
+SDL3Library >> setRenderClipRectRenderer: renderer rect: rect [
 	"/**
 	 * Set the clip rectangle for rendering on the specified target.
 	 *
@@ -26599,7 +26599,7 @@ LibSDL3 >> setRenderClipRectRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderColorScaleRenderer: renderer scale: scale [
+SDL3Library >> setRenderColorScaleRenderer: renderer scale: scale [
 	"/**
 	 * Set the color scale used for render operations.
 	 *
@@ -26627,7 +26627,7 @@ LibSDL3 >> setRenderColorScaleRenderer: renderer scale: scale [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
+SDL3Library >> setRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 	"/**
 	 * Set the blend mode used for drawing operations (Fill and Line).
 	 *
@@ -26649,7 +26649,7 @@ LibSDL3 >> setRenderDrawBlendModeRenderer: renderer blendMode: blendMode [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
+SDL3Library >> setRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Set the color used for drawing operations (Rect, Line and Clear).
 	 *
@@ -26678,7 +26678,7 @@ LibSDL3 >> setRenderDrawColorFloatRenderer: renderer r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
+SDL3Library >> setRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 	"/**
 	 * Set the color used for drawing operations.
 	 *
@@ -26707,7 +26707,7 @@ LibSDL3 >> setRenderDrawColorRenderer: renderer r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
+SDL3Library >> setRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 	"/**
 	 * Set a device-independent resolution and presentation mode for rendering.
 	 *
@@ -26758,7 +26758,7 @@ LibSDL3 >> setRenderLogicalPresentationRenderer: renderer w: w h: h mode: mode [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
+SDL3Library >> setRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 	"/**
 	 * Set the drawing scale for rendering on the current target.
 	 *
@@ -26790,7 +26790,7 @@ LibSDL3 >> setRenderScaleRenderer: renderer scaleX: scaleX scaleY: scaleY [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderTargetRenderer: renderer texture: texture [
+SDL3Library >> setRenderTargetRenderer: renderer texture: texture [
 	"/**
 	 * Set a texture as the current rendering target.
 	 *
@@ -26821,7 +26821,7 @@ LibSDL3 >> setRenderTargetRenderer: renderer texture: texture [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
+SDL3Library >> setRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_mode [
 	"/**
 	 * Set the texture addressing mode used in SDL_RenderGeometry().
 	 *
@@ -26844,7 +26844,7 @@ LibSDL3 >> setRenderTextureAddressModeRenderer: renderer uMode: u_mode vMode: v_
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderVSyncRenderer: renderer vsync: vsync [
+SDL3Library >> setRenderVSyncRenderer: renderer vsync: vsync [
 	"/**
 	 * Toggle VSync of the given renderer.
 	 *
@@ -26873,7 +26873,7 @@ LibSDL3 >> setRenderVSyncRenderer: renderer vsync: vsync [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setRenderViewportRenderer: renderer rect: rect [
+SDL3Library >> setRenderViewportRenderer: renderer rect: rect [
 	"/**
 	 * Set the drawing area for rendering on the current target.
 	 *
@@ -26904,7 +26904,7 @@ LibSDL3 >> setRenderViewportRenderer: renderer rect: rect [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> setScancodeNameScancode: scancode name: name [
+SDL3Library >> setScancodeNameScancode: scancode name: name [
 	"/**
 	 * Set a human-readable name for a scancode.
 	 *
@@ -26926,7 +26926,7 @@ LibSDL3 >> setScancodeNameScancode: scancode name: name [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> setStringPropertyProps: props name: name value: value [
+SDL3Library >> setStringPropertyProps: props name: name value: value [
 	"/**
 	 * Set a string property in a group of properties.
 	 *
@@ -26950,7 +26950,7 @@ LibSDL3 >> setStringPropertyProps: props name: name value: value [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfaceAlphaModSurface: surface alpha: alpha [
+SDL3Library >> setSurfaceAlphaModSurface: surface alpha: alpha [
 	"/**
 	 * Set an additional alpha value used in blit operations.
 	 *
@@ -26977,7 +26977,7 @@ LibSDL3 >> setSurfaceAlphaModSurface: surface alpha: alpha [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfaceBlendModeSurface: surface blendMode: blendMode [
+SDL3Library >> setSurfaceBlendModeSurface: surface blendMode: blendMode [
 	"/**
 	 * Set the blend mode used for blit operations.
 	 *
@@ -27002,7 +27002,7 @@ LibSDL3 >> setSurfaceBlendModeSurface: surface blendMode: blendMode [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfaceClipRectSurface: surface rect: rect [
+SDL3Library >> setSurfaceClipRectSurface: surface rect: rect [
 	"/**
 	 * Set the clipping rectangle for a surface.
 	 *
@@ -27030,7 +27030,7 @@ LibSDL3 >> setSurfaceClipRectSurface: surface rect: rect [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfaceColorKeySurface: surface enabled: enabled key: key [
+SDL3Library >> setSurfaceColorKeySurface: surface enabled: enabled key: key [
 	"/**
 	 * Set the color key (transparent pixel) in a surface.
 	 *
@@ -27061,7 +27061,7 @@ LibSDL3 >> setSurfaceColorKeySurface: surface enabled: enabled key: key [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfaceColorModSurface: surface r: r g: g b: b [
+SDL3Library >> setSurfaceColorModSurface: surface r: r g: g b: b [
 	"/**
 	 * Set an additional color value multiplied into blit operations.
 	 *
@@ -27091,7 +27091,7 @@ LibSDL3 >> setSurfaceColorModSurface: surface r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfaceColorspaceSurface: surface colorspace: colorspace [
+SDL3Library >> setSurfaceColorspaceSurface: surface colorspace: colorspace [
 	"/**
 	 * Set the colorspace used by a surface.
 	 *
@@ -27116,7 +27116,7 @@ LibSDL3 >> setSurfaceColorspaceSurface: surface colorspace: colorspace [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfacePaletteSurface: surface palette: palette [
+SDL3Library >> setSurfacePaletteSurface: surface palette: palette [
 	"/**
 	 * Set the palette used by a surface.
 	 *
@@ -27143,7 +27143,7 @@ LibSDL3 >> setSurfacePaletteSurface: surface palette: palette [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> setSurfaceRLESurface: surface enabled: enabled [
+SDL3Library >> setSurfaceRLESurface: surface enabled: enabled [
 	"/**
 	 * Set the RLE acceleration hint for a surface.
 	 *
@@ -27169,7 +27169,7 @@ LibSDL3 >> setSurfaceRLESurface: surface enabled: enabled [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> setTLSId: id value: value destructor: destructor [
+SDL3Library >> setTLSId: id value: value destructor: destructor [
 	"/**
 	 * Set the current thread's value associated with a thread local storage ID.
 	 *
@@ -27201,7 +27201,7 @@ LibSDL3 >> setTLSId: id value: value destructor: destructor [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> setTextInputAreaWindow: window rect: rect cursor: cursor [
+SDL3Library >> setTextInputAreaWindow: window rect: rect cursor: cursor [
 	"/**
 	 * Set the area used to type Unicode text input.
 	 *
@@ -27228,7 +27228,7 @@ LibSDL3 >> setTextInputAreaWindow: window rect: rect cursor: cursor [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setTextureAlphaModFloatTexture: texture alpha: alpha [
+SDL3Library >> setTextureAlphaModFloatTexture: texture alpha: alpha [
 	"/**
 	 * Set an additional alpha value multiplied into render copy operations.
 	 *
@@ -27258,7 +27258,7 @@ LibSDL3 >> setTextureAlphaModFloatTexture: texture alpha: alpha [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setTextureAlphaModTexture: texture alpha: alpha [
+SDL3Library >> setTextureAlphaModTexture: texture alpha: alpha [
 	"/**
 	 * Set an additional alpha value multiplied into render copy operations.
 	 *
@@ -27288,7 +27288,7 @@ LibSDL3 >> setTextureAlphaModTexture: texture alpha: alpha [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setTextureBlendModeTexture: texture blendMode: blendMode [
+SDL3Library >> setTextureBlendModeTexture: texture blendMode: blendMode [
 	"/**
 	 * Set the blend mode for a texture, used by SDL_RenderTexture().
 	 *
@@ -27311,7 +27311,7 @@ LibSDL3 >> setTextureBlendModeTexture: texture blendMode: blendMode [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setTextureColorModFloatTexture: texture r: r g: g b: b [
+SDL3Library >> setTextureColorModFloatTexture: texture r: r g: g b: b [
 	"/**
 	 * Set an additional color value multiplied into render copy operations.
 	 *
@@ -27344,7 +27344,7 @@ LibSDL3 >> setTextureColorModFloatTexture: texture r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setTextureColorModTexture: texture r: r g: g b: b [
+SDL3Library >> setTextureColorModTexture: texture r: r g: g b: b [
 	"/**
 	 * Set an additional color value multiplied into render copy operations.
 	 *
@@ -27377,7 +27377,7 @@ LibSDL3 >> setTextureColorModTexture: texture r: r g: g b: b [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setTexturePaletteTexture: texture palette: palette [
+SDL3Library >> setTexturePaletteTexture: texture palette: palette [
 	"/**
 	 * Set the palette used by a texture.
 	 *
@@ -27403,7 +27403,7 @@ LibSDL3 >> setTexturePaletteTexture: texture palette: palette [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> setTextureScaleModeTexture: texture scaleMode: scaleMode [
+SDL3Library >> setTextureScaleModeTexture: texture scaleMode: scaleMode [
 	"/**
 	 * Set the scale mode used for texture scale operations.
 	 *
@@ -27427,7 +27427,7 @@ LibSDL3 >> setTextureScaleModeTexture: texture scaleMode: scaleMode [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> setTrayEntryCallbackEntry: entry callback: callback userdata: userdata [
+SDL3Library >> setTrayEntryCallbackEntry: entry callback: callback userdata: userdata [
 	"/**
 	 * Sets a callback to be invoked when the entry is selected.
 	 *
@@ -27449,7 +27449,7 @@ LibSDL3 >> setTrayEntryCallbackEntry: entry callback: callback userdata: userdat
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> setTrayEntryCheckedEntry: entry checked: checked [
+SDL3Library >> setTrayEntryCheckedEntry: entry checked: checked [
 	"/**
 	 * Sets whether or not an entry is checked.
 	 *
@@ -27472,7 +27472,7 @@ LibSDL3 >> setTrayEntryCheckedEntry: entry checked: checked [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> setTrayEntryEnabledEntry: entry enabled: enabled [
+SDL3Library >> setTrayEntryEnabledEntry: entry enabled: enabled [
 	"/**
 	 * Sets whether or not an entry is enabled.
 	 *
@@ -27493,7 +27493,7 @@ LibSDL3 >> setTrayEntryEnabledEntry: entry enabled: enabled [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> setTrayEntryLabelEntry: entry label: label [
+SDL3Library >> setTrayEntryLabelEntry: entry label: label [
 	"/**
 	 * Sets the label of an entry.
 	 *
@@ -27519,7 +27519,7 @@ LibSDL3 >> setTrayEntryLabelEntry: entry label: label [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> setTrayIconTray: tray icon: icon [
+SDL3Library >> setTrayIconTray: tray icon: icon [
 	"/**
 	 * Updates the system tray icon's icon.
 	 *
@@ -27538,7 +27538,7 @@ LibSDL3 >> setTrayIconTray: tray icon: icon [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> setTrayTooltipTray: tray tooltip: tooltip [
+SDL3Library >> setTrayTooltipTray: tray tooltip: tooltip [
 	"/**
 	 * Updates the system tray icon's tooltip.
 	 *
@@ -27557,7 +27557,7 @@ LibSDL3 >> setTrayTooltipTray: tray tooltip: tooltip [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowAlwaysOnTopWindow: window onTop: on_top [
+SDL3Library >> setWindowAlwaysOnTopWindow: window onTop: on_top [
 	"/**
 	 * Set the window to always be above the others.
 	 *
@@ -27580,7 +27580,7 @@ LibSDL3 >> setWindowAlwaysOnTopWindow: window onTop: on_top [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: max_aspect [
+SDL3Library >> setWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: max_aspect [
 	"/**
 	 * Request that the aspect ratio of a window's client area be set.
 	 *
@@ -27625,7 +27625,7 @@ LibSDL3 >> setWindowAspectRatioWindow: window minAspect: min_aspect maxAspect: m
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowBorderedWindow: window bordered: bordered [
+SDL3Library >> setWindowBorderedWindow: window bordered: bordered [
 	"/**
 	 * Set the border state of a window.
 	 *
@@ -27651,7 +27651,7 @@ LibSDL3 >> setWindowBorderedWindow: window bordered: bordered [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowFillDocumentWindow: window fill: fill [
+SDL3Library >> setWindowFillDocumentWindow: window fill: fill [
 	"/**
 	 * Set the window to fill the current document space (Emscripten only).
 	 *
@@ -27686,7 +27686,7 @@ LibSDL3 >> setWindowFillDocumentWindow: window fill: fill [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowFocusableWindow: window focusable: focusable [
+SDL3Library >> setWindowFocusableWindow: window focusable: focusable [
 	"/**
 	 * Set whether the window may have input focus.
 	 *
@@ -27704,7 +27704,7 @@ LibSDL3 >> setWindowFocusableWindow: window focusable: focusable [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowFullscreenModeWindow: window mode: mode [
+SDL3Library >> setWindowFullscreenModeWindow: window mode: mode [
 	"/**
 	 * Set the display mode to use when a window is visible and fullscreen.
 	 *
@@ -27743,7 +27743,7 @@ LibSDL3 >> setWindowFullscreenModeWindow: window mode: mode [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowFullscreenWindow: window fullscreen: fullscreen [
+SDL3Library >> setWindowFullscreenWindow: window fullscreen: fullscreen [
 	"/**
 	 * Request that the window's fullscreen state be changed.
 	 *
@@ -27779,7 +27779,7 @@ LibSDL3 >> setWindowFullscreenWindow: window fullscreen: fullscreen [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowHitTestWindow: window callback: callback callbackData: callback_data [
+SDL3Library >> setWindowHitTestWindow: window callback: callback callbackData: callback_data [
 	"/**
 	 * Provide a callback that decides if a window region has special properties.
 	 *
@@ -27827,7 +27827,7 @@ LibSDL3 >> setWindowHitTestWindow: window callback: callback callbackData: callb
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowIconWindow: window icon: icon [
+SDL3Library >> setWindowIconWindow: window icon: icon [
 	"/**
 	 * Set the icon for a window.
 	 *
@@ -27858,7 +27858,7 @@ LibSDL3 >> setWindowIconWindow: window icon: icon [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowKeyboardGrabWindow: window grabbed: grabbed [
+SDL3Library >> setWindowKeyboardGrabWindow: window grabbed: grabbed [
 	"/**
 	 * Set a window's keyboard grab mode.
 	 *
@@ -27895,7 +27895,7 @@ LibSDL3 >> setWindowKeyboardGrabWindow: window grabbed: grabbed [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowMaximumSizeWindow: window maxW: max_w maxH: max_h [
+SDL3Library >> setWindowMaximumSizeWindow: window maxW: max_w maxH: max_h [
 	"/**
 	 * Set the maximum size of a window's client area.
 	 *
@@ -27917,7 +27917,7 @@ LibSDL3 >> setWindowMaximumSizeWindow: window maxW: max_w maxH: max_h [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowMinimumSizeWindow: window minW: min_w minH: min_h [
+SDL3Library >> setWindowMinimumSizeWindow: window minW: min_w minH: min_h [
 	"/**
 	 * Set the minimum size of a window's client area.
 	 *
@@ -27939,7 +27939,7 @@ LibSDL3 >> setWindowMinimumSizeWindow: window minW: min_w minH: min_h [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowModalWindow: window modal: modal [
+SDL3Library >> setWindowModalWindow: window modal: modal [
 	"/**
 	 * Toggle the state of the window as modal.
 	 *
@@ -27963,7 +27963,7 @@ LibSDL3 >> setWindowModalWindow: window modal: modal [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowMouseGrabWindow: window grabbed: grabbed [
+SDL3Library >> setWindowMouseGrabWindow: window grabbed: grabbed [
 	"/**
 	 * Set a window's mouse grab mode.
 	 *
@@ -27987,7 +27987,7 @@ LibSDL3 >> setWindowMouseGrabWindow: window grabbed: grabbed [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowMouseRectWindow: window rect: rect [
+SDL3Library >> setWindowMouseRectWindow: window rect: rect [
 	"/**
 	 * Confines the cursor to the specified area of a window.
 	 *
@@ -28013,7 +28013,7 @@ LibSDL3 >> setWindowMouseRectWindow: window rect: rect [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowOpacityWindow: window opacity: opacity [
+SDL3Library >> setWindowOpacityWindow: window opacity: opacity [
 	"/**
 	 * Set the opacity for a window.
 	 *
@@ -28038,7 +28038,7 @@ LibSDL3 >> setWindowOpacityWindow: window opacity: opacity [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowParentWindow: window parent: parent [
+SDL3Library >> setWindowParentWindow: window parent: parent [
 	"/**
 	 * Set the window as a child of a parent window.
 	 *
@@ -28076,7 +28076,7 @@ LibSDL3 >> setWindowParentWindow: window parent: parent [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowPositionWindow: window x: x y: y [
+SDL3Library >> setWindowPositionWindow: window x: x y: y [
 	"/**
 	 * Request that the window's position be set.
 	 *
@@ -28121,7 +28121,7 @@ LibSDL3 >> setWindowPositionWindow: window x: x y: y [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowProgressStateWindow: window state: state [
+SDL3Library >> setWindowProgressStateWindow: window state: state [
 	"/**
 	 * Sets the state of the progress bar for the given window’s taskbar icon.
 	 *
@@ -28140,7 +28140,7 @@ LibSDL3 >> setWindowProgressStateWindow: window state: state [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowProgressValueWindow: window value: value [
+SDL3Library >> setWindowProgressValueWindow: window value: value [
 	"/**
 	 * Sets the value of the progress bar for the given window’s taskbar icon.
 	 *
@@ -28159,7 +28159,7 @@ LibSDL3 >> setWindowProgressValueWindow: window value: value [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> setWindowRelativeMouseModeWindow: window enabled: enabled [
+SDL3Library >> setWindowRelativeMouseModeWindow: window enabled: enabled [
 	"/**
 	 * Set relative mouse mode for a window.
 	 *
@@ -28191,7 +28191,7 @@ LibSDL3 >> setWindowRelativeMouseModeWindow: window enabled: enabled [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowResizableWindow: window resizable: resizable [
+SDL3Library >> setWindowResizableWindow: window resizable: resizable [
 	"/**
 	 * Set the user-resizable state of a window.
 	 *
@@ -28217,7 +28217,7 @@ LibSDL3 >> setWindowResizableWindow: window resizable: resizable [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowShapeWindow: window shape: shape [
+SDL3Library >> setWindowShapeWindow: window shape: shape [
 	"/**
 	 * Set the shape of a transparent window.
 	 *
@@ -28249,7 +28249,7 @@ LibSDL3 >> setWindowShapeWindow: window shape: shape [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowSizeWindow: window w: w h: h [
+SDL3Library >> setWindowSizeWindow: window w: w h: h [
 	"/**
 	 * Request that the size of a window's client area be set.
 	 *
@@ -28290,7 +28290,7 @@ LibSDL3 >> setWindowSizeWindow: window w: w h: h [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowSurfaceVSyncWindow: window vsync: vsync [
+SDL3Library >> setWindowSurfaceVSyncWindow: window vsync: vsync [
 	"/**
 	 * Toggle VSync for the window surface.
 	 *
@@ -28320,7 +28320,7 @@ LibSDL3 >> setWindowSurfaceVSyncWindow: window vsync: vsync [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> setWindowTitleWindow: window title: title [
+SDL3Library >> setWindowTitleWindow: window title: title [
 	"/**
 	 * Set the title of a window.
 	 *
@@ -28342,7 +28342,7 @@ LibSDL3 >> setWindowTitleWindow: window title: title [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> setWindowsMessageHookCallback: callback userdata: userdata [
+SDL3Library >> setWindowsMessageHookCallback: callback userdata: userdata [
 	"/**
 	 * Set a callback for every Windows message, run before TranslateMessage().
 	 *
@@ -28362,7 +28362,7 @@ LibSDL3 >> setWindowsMessageHookCallback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> setX11EventHookCallback: callback userdata: userdata [
+SDL3Library >> setX11EventHookCallback: callback userdata: userdata [
 	"/**
 	 * Set a callback for every X11 event.
 	 *
@@ -28379,7 +28379,7 @@ LibSDL3 >> setX11EventHookCallback: callback userdata: userdata [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> setenvUnsafeName: name value: value overwrite: overwrite [
+SDL3Library >> setenvUnsafeName: name value: value overwrite: overwrite [
 	"/**
 	 * Set the value of a variable in the environment.
 	 *
@@ -28401,7 +28401,7 @@ LibSDL3 >> setenvUnsafeName: name value: value overwrite: overwrite [
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> setiOSAnimationCallbackWindow: window interval: interval callback: callback callbackParam: callbackParam [
+SDL3Library >> setiOSAnimationCallbackWindow: window interval: interval callback: callback callbackParam: callbackParam [
 	"/**
 	 * Use this function to set the animation callback on Apple iOS.
 	 *
@@ -28444,7 +28444,7 @@ LibSDL3 >> setiOSAnimationCallbackWindow: window interval: interval callback: ca
 ]
 
 { #category : 'public - SDL_system' }
-LibSDL3 >> setiOSEventPump: enabled [
+SDL3Library >> setiOSEventPump: enabled [
 	"/**
 	 * Use this function to enable or disable the SDL event pump on Apple iOS.
 	 *
@@ -28461,7 +28461,7 @@ LibSDL3 >> setiOSEventPump: enabled [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> shouldInit: state [
+SDL3Library >> shouldInit: state [
 	"/**
 	 * Return whether initialization should be done.
 	 *
@@ -28488,7 +28488,7 @@ LibSDL3 >> shouldInit: state [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> shouldQuit: state [
+SDL3Library >> shouldQuit: state [
 	"/**
 	 * Return whether cleanup should be done.
 	 *
@@ -28513,7 +28513,7 @@ LibSDL3 >> shouldQuit: state [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> showCursor [
+SDL3Library >> showCursor [
 	"/**
 	 * Show the cursor.
 	 *
@@ -28532,7 +28532,7 @@ LibSDL3 >> showCursor [
 ]
 
 { #category : 'public - SDL_dialog' }
-LibSDL3 >> showFileDialogWithPropertiesType: type callback: callback userdata: userdata props: props [
+SDL3Library >> showFileDialogWithPropertiesType: type callback: callback userdata: userdata props: props [
 	"/**
 	 * Create and launch a file dialog with the specified properties.
 	 *
@@ -28585,7 +28585,7 @@ LibSDL3 >> showFileDialogWithPropertiesType: type callback: callback userdata: u
 ]
 
 { #category : 'public - SDL_messagebox' }
-LibSDL3 >> showMessageBoxMessageboxdata: messageboxdata buttonid: buttonid [
+SDL3Library >> showMessageBoxMessageboxdata: messageboxdata buttonid: buttonid [
 	"/**
 	 * Create a modal message box.
 	 *
@@ -28625,7 +28625,7 @@ LibSDL3 >> showMessageBoxMessageboxdata: messageboxdata buttonid: buttonid [
 ]
 
 { #category : 'public - SDL_dialog' }
-LibSDL3 >> showOpenFileDialogCallback: callback userdata: userdata window: window filters: filters nfilters: nfilters defaultLocation: default_location allowMany: allow_many [
+SDL3Library >> showOpenFileDialogCallback: callback userdata: userdata window: window filters: filters nfilters: nfilters defaultLocation: default_location allowMany: allow_many [
 	"/**
 	 * Displays a dialog that lets the user select a file on their filesystem.
 	 *
@@ -28682,7 +28682,7 @@ LibSDL3 >> showOpenFileDialogCallback: callback userdata: userdata window: windo
 ]
 
 { #category : 'public - SDL_dialog' }
-LibSDL3 >> showOpenFolderDialogCallback: callback userdata: userdata window: window defaultLocation: default_location allowMany: allow_many [
+SDL3Library >> showOpenFolderDialogCallback: callback userdata: userdata window: window defaultLocation: default_location allowMany: allow_many [
 	"/**
 	 * Displays a dialog that lets the user select a folder on their filesystem.
 	 *
@@ -28731,7 +28731,7 @@ LibSDL3 >> showOpenFolderDialogCallback: callback userdata: userdata window: win
 ]
 
 { #category : 'public - SDL_dialog' }
-LibSDL3 >> showSaveFileDialogCallback: callback userdata: userdata window: window filters: filters nfilters: nfilters defaultLocation: default_location [
+SDL3Library >> showSaveFileDialogCallback: callback userdata: userdata window: window filters: filters nfilters: nfilters defaultLocation: default_location [
 	"/**
 	 * Displays a dialog that lets the user choose a new or existing file on their
 	 * filesystem.
@@ -28784,7 +28784,7 @@ LibSDL3 >> showSaveFileDialogCallback: callback userdata: userdata window: windo
 ]
 
 { #category : 'public - SDL_messagebox' }
-LibSDL3 >> showSimpleMessageBoxFlags: flags title: title message: message window: window [
+SDL3Library >> showSimpleMessageBoxFlags: flags title: title message: message window: window [
 	"/**
 	 * Display a simple modal message box.
 	 *
@@ -28830,7 +28830,7 @@ LibSDL3 >> showSimpleMessageBoxFlags: flags title: title message: message window
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> showWindow: window [
+SDL3Library >> showWindow: window [
 	"/**
 	 * Show a window.
 	 *
@@ -28850,7 +28850,7 @@ LibSDL3 >> showWindow: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> showWindowSystemMenuWindow: window x: x y: y [
+SDL3Library >> showWindowSystemMenuWindow: window x: x y: y [
 	"/**
 	 * Display the system-level window menu.
 	 *
@@ -28879,7 +28879,7 @@ LibSDL3 >> showWindowSystemMenuWindow: window x: x y: y [
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> signalAsyncIOQueue: queue [
+SDL3Library >> signalAsyncIOQueue: queue [
 	"/**
 	 * Wake up any threads that are blocking in SDL_WaitAsyncIOResult().
 	 *
@@ -28907,7 +28907,7 @@ LibSDL3 >> signalAsyncIOQueue: queue [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> signalCondition: cond [
+SDL3Library >> signalCondition: cond [
 	"/**
 	 * Restart one of the threads that are waiting on the condition variable.
 	 *
@@ -28926,7 +28926,7 @@ LibSDL3 >> signalCondition: cond [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> signalSemaphore: sem [
+SDL3Library >> signalSemaphore: sem [
 	"/**
 	 * Atomically increment a semaphore's value and wake waiting threads.
 	 *
@@ -28943,7 +28943,7 @@ LibSDL3 >> signalSemaphore: sem [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> sin: x [
+SDL3Library >> sin: x [
 	"/**
 	 * Compute the sine of `x`.
 	 *
@@ -28975,7 +28975,7 @@ LibSDL3 >> sin: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> sinf: x [
+SDL3Library >> sinf: x [
 	"/**
 	 * Compute the sine of `x`.
 	 *
@@ -29007,7 +29007,7 @@ LibSDL3 >> sinf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> sizeAddCheckOverflowA: a b: b ret: ret [
+SDL3Library >> sizeAddCheckOverflowA: a b: b ret: ret [
 	"/**
 	 * Add two integers, checking for overflow.
 	 *
@@ -29030,7 +29030,7 @@ LibSDL3 >> sizeAddCheckOverflowA: a b: b ret: ret [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> sizeMulCheckOverflowA: a b: b ret: ret [
+SDL3Library >> sizeMulCheckOverflowA: a b: b ret: ret [
 	"/**
 	 * Multiply two integers, checking for overflow.
 	 *
@@ -29053,7 +29053,7 @@ LibSDL3 >> sizeMulCheckOverflowA: a b: b ret: ret [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> sqrt: x [
+SDL3Library >> sqrt: x [
 	"/**
 	 * Compute the square root of `x`.
 	 *
@@ -29083,7 +29083,7 @@ LibSDL3 >> sqrt: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> sqrtf: x [
+SDL3Library >> sqrtf: x [
 	"/**
 	 * Compute the square root of `x`.
 	 *
@@ -29113,7 +29113,7 @@ LibSDL3 >> sqrtf: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> srand: seed [
+SDL3Library >> srand: seed [
 	"/**
 	 * Seeds the pseudo-random number generator.
 	 *
@@ -29137,7 +29137,7 @@ LibSDL3 >> srand: seed [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> startTextInput: window [
+SDL3Library >> startTextInput: window [
 	"/**
 	 * Start accepting Unicode text input events in a window.
 	 *
@@ -29169,7 +29169,7 @@ LibSDL3 >> startTextInput: window [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> startTextInputWithPropertiesWindow: window props: props [
+SDL3Library >> startTextInputWithPropertiesWindow: window props: props [
 	"/**
 	 * Start accepting Unicode text input events in a window, with properties
 	 * describing the input.
@@ -29225,7 +29225,7 @@ LibSDL3 >> startTextInputWithPropertiesWindow: window props: props [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> stepBackUTF8Start: start pstr: pstr [
+SDL3Library >> stepBackUTF8Start: start pstr: pstr [
 	"/**
 	 * Decode a UTF-8 string in reverse, one Unicode codepoint at a time.
 	 *
@@ -29260,7 +29260,7 @@ LibSDL3 >> stepBackUTF8Start: start pstr: pstr [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> stepUTF8Pstr: pstr pslen: pslen [
+SDL3Library >> stepUTF8Pstr: pstr pslen: pslen [
 	"/**
 	 * Decode a UTF-8 string, one Unicode codepoint at a time.
 	 *
@@ -29309,7 +29309,7 @@ LibSDL3 >> stepUTF8Pstr: pstr pslen: pslen [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> stopHapticEffectHaptic: haptic effect: effect [
+SDL3Library >> stopHapticEffectHaptic: haptic effect: effect [
 	"/**
 	 * Stop the haptic effect on its associated haptic device.
 	 *
@@ -29328,7 +29328,7 @@ LibSDL3 >> stopHapticEffectHaptic: haptic effect: effect [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> stopHapticEffects: haptic [
+SDL3Library >> stopHapticEffects: haptic [
 	"/**
 	 * Stop all the currently playing effects on a haptic device.
 	 *
@@ -29346,7 +29346,7 @@ LibSDL3 >> stopHapticEffects: haptic [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> stopHapticRumble: haptic [
+SDL3Library >> stopHapticRumble: haptic [
 	"/**
 	 * Stop the simple rumble on a haptic device.
 	 *
@@ -29363,7 +29363,7 @@ LibSDL3 >> stopHapticRumble: haptic [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> stopTextInput: window [
+SDL3Library >> stopTextInput: window [
 	"/**
 	 * Stop receiving any text input events in a window.
 	 *
@@ -29385,7 +29385,7 @@ LibSDL3 >> stopTextInput: window [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> storageReady: storage [
+SDL3Library >> storageReady: storage [
 	"/**
 	 * Checks if the storage container is ready to use.
 	 *
@@ -29404,7 +29404,7 @@ LibSDL3 >> storageReady: storage [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strcasecmpStr1: str1 str2: str2 [
+SDL3Library >> strcasecmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated UTF-8 strings, case-insensitively.
 	 *
@@ -29436,7 +29436,7 @@ LibSDL3 >> strcasecmpStr1: str1 str2: str2 [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strcasestrHaystack: haystack needle: needle [
+SDL3Library >> strcasestrHaystack: haystack needle: needle [
 	"/**
 	 * Search a UTF-8 string for the first instance of a specific substring,
 	 * case-insensitively.
@@ -29468,7 +29468,7 @@ LibSDL3 >> strcasestrHaystack: haystack needle: needle [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strchrStr: str c: c [
+SDL3Library >> strchrStr: str c: c [
 	"/**
 	 * Search a string for the first instance of a specific byte.
 	 *
@@ -29492,7 +29492,7 @@ LibSDL3 >> strchrStr: str c: c [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strcmpStr1: str1 str2: str2 [
+SDL3Library >> strcmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated UTF-8 strings.
 	 *
@@ -29516,7 +29516,7 @@ LibSDL3 >> strcmpStr1: str1 str2: str2 [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strdup: str [
+SDL3Library >> strdup: str [
 	"/**
 	 * Allocate a copy of a string.
 	 *
@@ -29538,7 +29538,7 @@ LibSDL3 >> strdup: str [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> stretchSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
+SDL3Library >> stretchSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 	"/**
 	 * Perform a stretched pixel copy from one surface to another.
 	 *
@@ -29565,7 +29565,7 @@ LibSDL3 >> stretchSurfaceSrc: src srcrect: srcrect dst: dst dstrect: dstrect sca
 ]
 
 { #category : 'public - SDL_guid' }
-LibSDL3 >> stringToGUID: pchGUID [
+SDL3Library >> stringToGUID: pchGUID [
 	"/**
 	 * Convert a GUID string into a SDL_GUID structure.
 	 *
@@ -29587,7 +29587,7 @@ LibSDL3 >> stringToGUID: pchGUID [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strlcat: _Inout_z_cap_ [
+SDL3Library >> strlcat: _Inout_z_cap_ [
 	"/**
 	 * Concatenate strings.
 	 *
@@ -29619,7 +29619,7 @@ LibSDL3 >> strlcat: _Inout_z_cap_ [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strlcpyDst: dst src: src maxlen: maxlen [
+SDL3Library >> strlcpyDst: dst src: src maxlen: maxlen [
 	"/**
 	 * Copy a string.
 	 *
@@ -29652,7 +29652,7 @@ LibSDL3 >> strlcpyDst: dst src: src maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strlen: str [
+SDL3Library >> strlen: str [
 	"/**
 	 * This works exactly like strlen() but doesn't require access to a C runtime.
 	 *
@@ -29676,7 +29676,7 @@ LibSDL3 >> strlen: str [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strlwr: str [
+SDL3Library >> strlwr: str [
 	"/**
 	 * Convert a string to lowercase.
 	 *
@@ -29701,7 +29701,7 @@ LibSDL3 >> strlwr: str [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strncasecmpStr1: str1 str2: str2 maxlen: maxlen [
+SDL3Library >> strncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two UTF-8 strings, case-insensitively, up to a number of bytes.
 	 *
@@ -29744,7 +29744,7 @@ LibSDL3 >> strncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strncmpStr1: str1 str2: str2 maxlen: maxlen [
+SDL3Library >> strncmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two UTF-8 strings up to a number of bytes.
 	 *
@@ -29778,7 +29778,7 @@ LibSDL3 >> strncmpStr1: str1 str2: str2 maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strndupStr: str maxlen: maxlen [
+SDL3Library >> strndupStr: str maxlen: maxlen [
 	"/**
 	 * Allocate a copy of a string, up to n characters.
 	 *
@@ -29807,7 +29807,7 @@ LibSDL3 >> strndupStr: str maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strnlenStr: str maxlen: maxlen [
+SDL3Library >> strnlenStr: str maxlen: maxlen [
 	"/**
 	 * This works exactly like strnlen() but doesn't require access to a C
 	 * runtime.
@@ -29835,7 +29835,7 @@ LibSDL3 >> strnlenStr: str maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strnstrHaystack: haystack needle: needle maxlen: maxlen [
+SDL3Library >> strnstrHaystack: haystack needle: needle maxlen: maxlen [
 	"/**
 	 * Search a string, up to n bytes, for the first instance of a specific
 	 * substring.
@@ -29862,7 +29862,7 @@ LibSDL3 >> strnstrHaystack: haystack needle: needle maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strpbrkStr: str breakset: breakset [
+SDL3Library >> strpbrkStr: str breakset: breakset [
 	"/**
 	 * Searches a string for the first occurrence of any character contained in a
 	 * breakset, and returns a pointer from the string to that character.
@@ -29884,7 +29884,7 @@ LibSDL3 >> strpbrkStr: str breakset: breakset [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strrchrStr: str c: c [
+SDL3Library >> strrchrStr: str c: c [
 	"/**
 	 * Search a string for the last instance of a specific byte.
 	 *
@@ -29907,7 +29907,7 @@ LibSDL3 >> strrchrStr: str c: c [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strrev: str [
+SDL3Library >> strrev: str [
 	"/**
 	 * Reverse a string's contents.
 	 *
@@ -29932,7 +29932,7 @@ LibSDL3 >> strrev: str [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strstrHaystack: haystack needle: needle [
+SDL3Library >> strstrHaystack: haystack needle: needle [
 	"/**
 	 * Search a string for the first instance of a specific substring.
 	 *
@@ -29956,7 +29956,7 @@ LibSDL3 >> strstrHaystack: haystack needle: needle [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strtodStr: str endp: endp [
+SDL3Library >> strtodStr: str endp: endp [
 	"/**
 	 * Parse a `double` from a string.
 	 *
@@ -29989,7 +29989,7 @@ LibSDL3 >> strtodStr: str endp: endp [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strtokRStr: str delim: delim saveptr: saveptr [
+SDL3Library >> strtokRStr: str delim: delim saveptr: saveptr [
 	"/**
 	 * This works exactly like strtok_r() but doesn't require access to a C
 	 * runtime.
@@ -30022,7 +30022,7 @@ LibSDL3 >> strtokRStr: str delim: delim saveptr: saveptr [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strtolStr: str endp: endp base: base [
+SDL3Library >> strtolStr: str endp: endp base: base [
 	"/**
 	 * Parse a `long` from a string.
 	 *
@@ -30060,7 +30060,7 @@ LibSDL3 >> strtolStr: str endp: endp base: base [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strtoulStr: str endp: endp base: base [
+SDL3Library >> strtoulStr: str endp: endp base: base [
 	"/**
 	 * Parse an `unsigned long` from a string.
 	 *
@@ -30097,7 +30097,7 @@ LibSDL3 >> strtoulStr: str endp: endp base: base [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> strupr: str [
+SDL3Library >> strupr: str [
 	"/**
 	 * Convert a string to uppercase.
 	 *
@@ -30122,7 +30122,7 @@ LibSDL3 >> strupr: str [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> submitGPUCommandBuffer: command_buffer [
+SDL3Library >> submitGPUCommandBuffer: command_buffer [
 	"/**
 	 * Submits a command buffer so its commands can be processed on the GPU.
 	 *
@@ -30149,7 +30149,7 @@ LibSDL3 >> submitGPUCommandBuffer: command_buffer [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> submitGPUCommandBufferAndAcquireFence: command_buffer [
+SDL3Library >> submitGPUCommandBufferAndAcquireFence: command_buffer [
 	"/**
 	 * Submits a command buffer so its commands can be processed on the GPU, and
 	 * acquires a fence associated with the command buffer.
@@ -30179,7 +30179,7 @@ LibSDL3 >> submitGPUCommandBufferAndAcquireFence: command_buffer [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> surfaceHasAlternateImages: surface [
+SDL3Library >> surfaceHasAlternateImages: surface [
 	"/**
 	 * Return whether a surface has alternate versions available.
 	 *
@@ -30199,7 +30199,7 @@ LibSDL3 >> surfaceHasAlternateImages: surface [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> surfaceHasColorKey: surface [
+SDL3Library >> surfaceHasColorKey: surface [
 	"/**
 	 * Returns whether the surface has a color key.
 	 *
@@ -30220,7 +30220,7 @@ LibSDL3 >> surfaceHasColorKey: surface [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> surfaceHasRLE: surface [
+SDL3Library >> surfaceHasRLE: surface [
 	"/**
 	 * Returns whether the surface is RLE enabled.
 	 *
@@ -30240,7 +30240,7 @@ LibSDL3 >> surfaceHasRLE: surface [
 ]
 
 { #category : 'public - SDL_endian' }
-LibSDL3 >> swapFloat: x [
+SDL3Library >> swapFloat: x [
 	"/**
 	 * Byte-swap a floating point number.
 	 *
@@ -30265,7 +30265,7 @@ LibSDL3 >> swapFloat: x [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> syncWindow: window [
+SDL3Library >> syncWindow: window [
 	"/**
 	 * Block until any pending window state is finalized.
 	 *
@@ -30300,7 +30300,7 @@ LibSDL3 >> syncWindow: window [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> tan: x [
+SDL3Library >> tan: x [
 	"/**
 	 * Compute the tangent of `x`.
 	 *
@@ -30334,7 +30334,7 @@ LibSDL3 >> tan: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> tanf: x [
+SDL3Library >> tanf: x [
 	"/**
 	 * Compute the tangent of `x`.
 	 *
@@ -30368,7 +30368,7 @@ LibSDL3 >> tanf: x [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> tellIO: context [
+SDL3Library >> tellIO: context [
 	"/**
 	 * Determine the current read/write offset in an SDL_IOStream data stream.
 	 *
@@ -30392,7 +30392,7 @@ LibSDL3 >> tellIO: context [
 ]
 
 { #category : 'public - SDL_keyboard' }
-LibSDL3 >> textInputActive: window [
+SDL3Library >> textInputActive: window [
 	"/**
 	 * Check whether or not Unicode text input events are enabled for a window.
 	 *
@@ -30410,7 +30410,7 @@ LibSDL3 >> textInputActive: window [
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> timeFromWindowsDwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDateTime [
+SDL3Library >> timeFromWindowsDwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDateTime [
 	"/**
 	 * Converts a Windows FILETIME (100-nanosecond intervals since January 1,
 	 * 1601) to an SDL time.
@@ -30429,7 +30429,7 @@ LibSDL3 >> timeFromWindowsDwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDat
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> timeToDateTimeTicks: ticks dt: dt localTime: localTime [
+SDL3Library >> timeToDateTimeTicks: ticks dt: dt localTime: localTime [
 	"/**
 	 * Converts an SDL_Time in nanoseconds since the epoch to a calendar time in
 	 * the SDL_DateTime format.
@@ -30449,7 +30449,7 @@ LibSDL3 >> timeToDateTimeTicks: ticks dt: dt localTime: localTime [
 ]
 
 { #category : 'public - SDL_time' }
-LibSDL3 >> timeToWindowsTicks: ticks dwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDateTime [
+SDL3Library >> timeToWindowsTicks: ticks dwLowDateTime: dwLowDateTime dwHighDateTime: dwHighDateTime [
 	"/**
 	 * Converts an SDL time into a Windows FILETIME (100-nanosecond intervals
 	 * since January 1, 1601).
@@ -30469,7 +30469,7 @@ LibSDL3 >> timeToWindowsTicks: ticks dwLowDateTime: dwLowDateTime dwHighDateTime
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> tolower: x [
+SDL3Library >> tolower: x [
 	"/**
 	 * Convert low-ASCII English letters to lowercase.
 	 *
@@ -30491,7 +30491,7 @@ LibSDL3 >> tolower: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> toupper: x [
+SDL3Library >> toupper: x [
 	"/**
 	 * Convert low-ASCII English letters to uppercase.
 	 *
@@ -30513,7 +30513,7 @@ LibSDL3 >> toupper: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> trunc: x [
+SDL3Library >> trunc: x [
 	"/**
 	 * Truncate `x` to an integer.
 	 *
@@ -30546,7 +30546,7 @@ LibSDL3 >> trunc: x [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> truncf: x [
+SDL3Library >> truncf: x [
 	"/**
 	 * Truncate `x` to an integer.
 	 *
@@ -30579,7 +30579,7 @@ LibSDL3 >> truncf: x [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> tryLockMutex: mutex [
+SDL3Library >> tryLockMutex: mutex [
 	"/**
 	 * Try to lock a mutex without blocking.
 	 *
@@ -30604,7 +30604,7 @@ LibSDL3 >> tryLockMutex: mutex [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> tryLockRWLockForReading: rwlock [
+SDL3Library >> tryLockRWLockForReading: rwlock [
 	"/**
 	 * Try to lock a read/write lock _for reading_ without blocking.
 	 *
@@ -30633,7 +30633,7 @@ LibSDL3 >> tryLockRWLockForReading: rwlock [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> tryLockRWLockForWriting: rwlock [
+SDL3Library >> tryLockRWLockForWriting: rwlock [
 	"/**
 	 * Try to lock a read/write lock _for writing_ without blocking.
 	 *
@@ -30667,7 +30667,7 @@ LibSDL3 >> tryLockRWLockForWriting: rwlock [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> tryLockSpinlock: lock [
+SDL3Library >> tryLockSpinlock: lock [
 	"/**
 	 * Try to lock a spin lock by setting it to a non-zero value.
 	 *
@@ -30689,7 +30689,7 @@ LibSDL3 >> tryLockSpinlock: lock [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> tryWaitSemaphore: sem [
+SDL3Library >> tryWaitSemaphore: sem [
 	"/**
 	 * See if a semaphore has a positive value and decrement it if it does.
 	 *
@@ -30712,7 +30712,7 @@ LibSDL3 >> tryWaitSemaphore: sem [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> ucs4ToUTF8Codepoint: codepoint dst: dst [
+SDL3Library >> ucs4ToUTF8Codepoint: codepoint dst: dst [
 	"/**
 	 * Convert a single Unicode codepoint to UTF-8.
 	 *
@@ -30745,7 +30745,7 @@ LibSDL3 >> ucs4ToUTF8Codepoint: codepoint dst: dst [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> uitoaValue: value str: str radix: radix [
+SDL3Library >> uitoaValue: value str: str radix: radix [
 	"/**
 	 * Convert an unsigned integer into a string.
 	 *
@@ -30777,7 +30777,7 @@ LibSDL3 >> uitoaValue: value str: str radix: radix [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> ultoaValue: value str: str radix: radix [
+SDL3Library >> ultoaValue: value str: str radix: radix [
 	"/**
 	 * Convert an unsigned long integer into a string.
 	 *
@@ -30809,7 +30809,7 @@ LibSDL3 >> ultoaValue: value str: str radix: radix [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> unbindAudioStream: stream [
+SDL3Library >> unbindAudioStream: stream [
 	"/**
 	 * Unbind a single audio stream from its audio device.
 	 *
@@ -30829,7 +30829,7 @@ LibSDL3 >> unbindAudioStream: stream [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> unbindAudioStreams: streams numStreams: num_streams [
+SDL3Library >> unbindAudioStreams: streams numStreams: num_streams [
 	"/**
 	 * Unbind a list of audio streams from their audio devices.
 	 *
@@ -30854,14 +30854,14 @@ LibSDL3 >> unbindAudioStreams: streams numStreams: num_streams [
 ]
 
 { #category : 'accessing - platform' }
-LibSDL3 >> unix64LibraryName [
+SDL3Library >> unix64LibraryName [
 
 	^ FFIUnix64LibraryFinder new
 		findAnyLibrary: #('libSDL3.so' 'libSDL3.so.0.4.0')
 ]
 
 { #category : 'public - SDL_loadso' }
-LibSDL3 >> unloadObject: handle [
+SDL3Library >> unloadObject: handle [
 	"/**
 	 * Unload a shared object from memory.
 	 *
@@ -30881,7 +30881,7 @@ LibSDL3 >> unloadObject: handle [
 ]
 
 { #category : 'public - SDL_audio' }
-LibSDL3 >> unlockAudioStream: stream [
+SDL3Library >> unlockAudioStream: stream [
 	"/**
 	 * Unlock an audio stream for serialized access.
 	 *
@@ -30903,7 +30903,7 @@ LibSDL3 >> unlockAudioStream: stream [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> unlockJoysticks [
+SDL3Library >> unlockJoysticks [
 	"/**
 	 * Unlocking for atomic access to the joystick API.
 	 *
@@ -30917,7 +30917,7 @@ LibSDL3 >> unlockJoysticks [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> unlockMutex: mutex [
+SDL3Library >> unlockMutex: mutex [
 	"/**
 	 * Unlock the mutex.
 	 *
@@ -30940,7 +30940,7 @@ LibSDL3 >> unlockMutex: mutex [
 ]
 
 { #category : 'public - SDL_properties' }
-LibSDL3 >> unlockProperties: props [
+SDL3Library >> unlockProperties: props [
 	"/**
 	 * Unlock a group of properties.
 	 *
@@ -30957,7 +30957,7 @@ LibSDL3 >> unlockProperties: props [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> unlockRWLock: rwlock [
+SDL3Library >> unlockRWLock: rwlock [
 	"/**
 	 * Unlock the read/write lock.
 	 *
@@ -30986,7 +30986,7 @@ LibSDL3 >> unlockRWLock: rwlock [
 ]
 
 { #category : 'public - SDL_atomic' }
-LibSDL3 >> unlockSpinlock: lock [
+SDL3Library >> unlockSpinlock: lock [
 	"/**
 	 * Unlock a spin lock by setting it to 0.
 	 *
@@ -31009,7 +31009,7 @@ LibSDL3 >> unlockSpinlock: lock [
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> unlockSurface: surface [
+SDL3Library >> unlockSurface: surface [
 	"/**
 	 * Release a surface after directly accessing the pixels.
 	 *
@@ -31028,7 +31028,7 @@ LibSDL3 >> unlockSurface: surface [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> unlockTexture: texture [
+SDL3Library >> unlockTexture: texture [
 	"/**
 	 * Unlock a texture, uploading the changes to video memory, if needed.
 	 *
@@ -31053,7 +31053,7 @@ LibSDL3 >> unlockTexture: texture [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> unmapGPUTransferBufferDevice: device transferBuffer: transfer_buffer [
+SDL3Library >> unmapGPUTransferBufferDevice: device transferBuffer: transfer_buffer [
 	"/**
 	 * Unmaps a previously mapped transfer buffer.
 	 *
@@ -31067,7 +31067,7 @@ LibSDL3 >> unmapGPUTransferBufferDevice: device transferBuffer: transfer_buffer 
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> unsetEnvironmentVariableEnv: env name: name [
+SDL3Library >> unsetEnvironmentVariableEnv: env name: name [
 	"/**
 	 * Clear a variable from the environment.
 	 *
@@ -31092,7 +31092,7 @@ LibSDL3 >> unsetEnvironmentVariableEnv: env name: name [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> unsetenvUnsafe: name [
+SDL3Library >> unsetenvUnsafe: name [
 	"/**
 	 * Clear a variable from the environment.
 	 *
@@ -31111,7 +31111,7 @@ LibSDL3 >> unsetenvUnsafe: name [
 ]
 
 { #category : 'public - SDL_gamepad' }
-LibSDL3 >> updateGamepads [
+SDL3Library >> updateGamepads [
 	"/**
 	 * Manually pump gamepad updates if not using the loop.
 	 *
@@ -31128,7 +31128,7 @@ LibSDL3 >> updateGamepads [
 ]
 
 { #category : 'public - SDL_haptic' }
-LibSDL3 >> updateHapticEffectHaptic: haptic effect: effect data: data [
+SDL3Library >> updateHapticEffectHaptic: haptic effect: effect data: data [
 	"/**
 	 * Update the properties of an effect.
 	 *
@@ -31154,7 +31154,7 @@ LibSDL3 >> updateHapticEffectHaptic: haptic effect: effect data: data [
 ]
 
 { #category : 'public - SDL_joystick' }
-LibSDL3 >> updateJoysticks [
+SDL3Library >> updateJoysticks [
 	"/**
 	 * Update the current state of the open joysticks.
 	 *
@@ -31170,7 +31170,7 @@ LibSDL3 >> updateJoysticks [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> updateNVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch uVplane: UVplane uVpitch: UVpitch [
+SDL3Library >> updateNVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch uVplane: UVplane uVpitch: UVpitch [
 	"/**
 	 * Update a rectangle within a planar NV12 or NV21 texture with new pixels.
 	 *
@@ -31202,7 +31202,7 @@ LibSDL3 >> updateNVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch uVp
 ]
 
 { #category : 'public - SDL_sensor' }
-LibSDL3 >> updateSensors [
+SDL3Library >> updateSensors [
 	"/**
 	 * Update the current state of the open sensors.
 	 *
@@ -31219,7 +31219,7 @@ LibSDL3 >> updateSensors [
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> updateTexture: texture rect: rect pixels: pixels pitch: pitch [
+SDL3Library >> updateTexture: texture rect: rect pixels: pixels pitch: pitch [
 	"/**
 	 * Update the given texture rectangle with new pixel data.
 	 *
@@ -31257,7 +31257,7 @@ LibSDL3 >> updateTexture: texture rect: rect pixels: pixels pitch: pitch [
 ]
 
 { #category : 'public - SDL_tray' }
-LibSDL3 >> updateTrays [
+SDL3Library >> updateTrays [
 	"/**
 	 * Update the trays.
 	 *
@@ -31273,7 +31273,7 @@ LibSDL3 >> updateTrays [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> updateWindowSurface: window [
+SDL3Library >> updateWindowSurface: window [
 	"/**
 	 * Copy the window surface to the screen.
 	 *
@@ -31298,7 +31298,7 @@ LibSDL3 >> updateWindowSurface: window [
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> updateWindowSurfaceRectsWindow: window rects: rects numrects: numrects [
+SDL3Library >> updateWindowSurfaceRectsWindow: window rects: rects numrects: numrects [
 	"/**
 	 * Copy areas of the window surface to the screen.
 	 *
@@ -31331,7 +31331,7 @@ LibSDL3 >> updateWindowSurfaceRectsWindow: window rects: rects numrects: numrect
 ]
 
 { #category : 'public - SDL_render' }
-LibSDL3 >> updateYUVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch uplane: Uplane upitch: Upitch vplane: Vplane vpitch: Vpitch [
+SDL3Library >> updateYUVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch uplane: Uplane upitch: Upitch vplane: Vplane vpitch: Vpitch [
 	"/**
 	 * Update a rectangle within a planar YV12 or IYUV texture with new pixel
 	 * data.
@@ -31367,7 +31367,7 @@ LibSDL3 >> updateYUVTexture: texture rect: rect yplane: Yplane ypitch: Ypitch up
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> uploadToGPUBufferCopyPass: copy_pass source: source destination: destination cycle: cycle [
+SDL3Library >> uploadToGPUBufferCopyPass: copy_pass source: source destination: destination cycle: cycle [
 	"/**
 	 * Uploads data from a transfer buffer to a buffer.
 	 *
@@ -31387,7 +31387,7 @@ LibSDL3 >> uploadToGPUBufferCopyPass: copy_pass source: source destination: dest
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> uploadToGPUTextureCopyPass: copy_pass source: source destination: destination cycle: cycle [
+SDL3Library >> uploadToGPUTextureCopyPass: copy_pass source: source destination: destination cycle: cycle [
 	"/**
 	 * Uploads data from a transfer buffer to a texture.
 	 *
@@ -31410,7 +31410,7 @@ LibSDL3 >> uploadToGPUTextureCopyPass: copy_pass source: source destination: des
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> utf8strlcpyDst: dst src: src dst_bytes: dst_bytes [
+SDL3Library >> utf8strlcpyDst: dst src: src dst_bytes: dst_bytes [
 	"/**
 	 * Copy an UTF-8 string.
 	 *
@@ -31442,7 +31442,7 @@ LibSDL3 >> utf8strlcpyDst: dst src: src dst_bytes: dst_bytes [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> utf8strlen: str [
+SDL3Library >> utf8strlen: str [
 	"/**
 	 * Count the number of codepoints in a UTF-8 string.
 	 *
@@ -31474,7 +31474,7 @@ LibSDL3 >> utf8strlen: str [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> utf8strnlenStr: str bytes: bytes [
+SDL3Library >> utf8strnlenStr: str bytes: bytes [
 	"/**
 	 * Count the number of codepoints in a UTF-8 string, up to n bytes.
 	 *
@@ -31511,7 +31511,7 @@ LibSDL3 >> utf8strnlenStr: str bytes: bytes [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> waitAndAcquireGPUSwapchainTextureCommandBuffer: command_buffer window: window swapchainTexture: swapchain_texture swapchainTextureWidth: swapchain_texture_width swapchainTextureHeight: swapchain_texture_height [
+SDL3Library >> waitAndAcquireGPUSwapchainTextureCommandBuffer: command_buffer window: window swapchainTexture: swapchain_texture swapchainTextureWidth: swapchain_texture_width swapchainTextureHeight: swapchain_texture_height [
 	"/**
 	 * Blocks the thread until a swapchain texture is available to be acquired,
 	 * and then acquires it.
@@ -31559,7 +31559,7 @@ LibSDL3 >> waitAndAcquireGPUSwapchainTextureCommandBuffer: command_buffer window
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> waitAsyncIOResultQueue: queue outcome: outcome timeoutMS: timeoutMS [
+SDL3Library >> waitAsyncIOResultQueue: queue outcome: outcome timeoutMS: timeoutMS [
 	"/**
 	 * Block until an async I/O task queue has a completed task.
 	 *
@@ -31607,7 +31607,7 @@ LibSDL3 >> waitAsyncIOResultQueue: queue outcome: outcome timeoutMS: timeoutMS [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> waitConditionCond: cond mutex: mutex [
+SDL3Library >> waitConditionCond: cond mutex: mutex [
 	"/**
 	 * Wait until a condition variable is signaled.
 	 *
@@ -31639,7 +31639,7 @@ LibSDL3 >> waitConditionCond: cond mutex: mutex [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> waitConditionTimeoutCond: cond mutex: mutex timeoutMS: timeoutMS [
+SDL3Library >> waitConditionTimeoutCond: cond mutex: mutex timeoutMS: timeoutMS [
 	"/**
 	 * Wait until a condition variable is signaled or a certain time has passed.
 	 *
@@ -31673,7 +31673,7 @@ LibSDL3 >> waitConditionTimeoutCond: cond mutex: mutex timeoutMS: timeoutMS [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> waitEvent: event [
+SDL3Library >> waitEvent: event [
 	"/**
 	 * Wait indefinitely for the next available event.
 	 *
@@ -31701,7 +31701,7 @@ LibSDL3 >> waitEvent: event [
 ]
 
 { #category : 'public - SDL_events' }
-LibSDL3 >> waitEventTimeoutEvent: event timeoutMS: timeoutMS [
+SDL3Library >> waitEventTimeoutEvent: event timeoutMS: timeoutMS [
 	"/**
 	 * Wait until the specified timeout (in milliseconds) for the next available
 	 * event.
@@ -31735,7 +31735,7 @@ LibSDL3 >> waitEventTimeoutEvent: event timeoutMS: timeoutMS [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> waitForGPUFencesDevice: device waitAll: wait_all fences: fences numFences: num_fences [
+SDL3Library >> waitForGPUFencesDevice: device waitAll: wait_all fences: fences numFences: num_fences [
 	"/**
 	 * Blocks the thread until the given fences are signaled.
 	 *
@@ -31757,7 +31757,7 @@ LibSDL3 >> waitForGPUFencesDevice: device waitAll: wait_all fences: fences numFe
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> waitForGPUIdle: device [
+SDL3Library >> waitForGPUIdle: device [
 	"/**
 	 * Blocks the thread until the GPU is completely idle.
 	 *
@@ -31774,7 +31774,7 @@ LibSDL3 >> waitForGPUIdle: device [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> waitForGPUSwapchainDevice: device window: window [
+SDL3Library >> waitForGPUSwapchainDevice: device window: window [
 	"/**
 	 * Blocks the thread until a swapchain texture is available to be acquired.
 	 *
@@ -31797,7 +31797,7 @@ LibSDL3 >> waitForGPUSwapchainDevice: device window: window [
 ]
 
 { #category : 'public - SDL_process' }
-LibSDL3 >> waitProcess: process block: block exitcode: exitcode [
+SDL3Library >> waitProcess: process block: block exitcode: exitcode [
 	"/**
 	 * Wait for a process to finish.
 	 *
@@ -31834,7 +31834,7 @@ LibSDL3 >> waitProcess: process block: block exitcode: exitcode [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> waitSemaphore: sem [
+SDL3Library >> waitSemaphore: sem [
 	"/**
 	 * Wait until a semaphore has a positive value and then decrements it.
 	 *
@@ -31858,7 +31858,7 @@ LibSDL3 >> waitSemaphore: sem [
 ]
 
 { #category : 'public - SDL_mutex' }
-LibSDL3 >> waitSemaphoreTimeoutSem: sem timeoutMS: timeoutMS [
+SDL3Library >> waitSemaphoreTimeoutSem: sem timeoutMS: timeoutMS [
 	"/**
 	 * Wait until a semaphore has a positive value and then decrements it.
 	 *
@@ -31882,7 +31882,7 @@ LibSDL3 >> waitSemaphoreTimeoutSem: sem timeoutMS: timeoutMS [
 ]
 
 { #category : 'public - SDL_thread' }
-LibSDL3 >> waitThread: thread status: status [
+SDL3Library >> waitThread: thread status: status [
 	"/**
 	 * Wait for a thread to finish.
 	 *
@@ -31921,7 +31921,7 @@ LibSDL3 >> waitThread: thread status: status [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> warpMouseGlobalX: x y: y [
+SDL3Library >> warpMouseGlobalX: x y: y [
 	"/**
 	 * Move the mouse to the given position in global screen space.
 	 *
@@ -31949,7 +31949,7 @@ LibSDL3 >> warpMouseGlobalX: x y: y [
 ]
 
 { #category : 'public - SDL_mouse' }
-LibSDL3 >> warpMouseInWindow: window x: x y: y [
+SDL3Library >> warpMouseInWindow: window x: x y: y [
 	"/**
 	 * Move the mouse cursor to the given position within the window.
 	 *
@@ -31976,7 +31976,7 @@ LibSDL3 >> warpMouseInWindow: window x: x y: y [
 ]
 
 { #category : 'public - SDL_init' }
-LibSDL3 >> wasInit: flags [
+SDL3Library >> wasInit: flags [
 	"/**
 	 * Get a mask of the specified subsystems which are currently initialized.
 	 *
@@ -31994,7 +31994,7 @@ LibSDL3 >> wasInit: flags [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcscasecmpStr1: str1 str2: str2 [
+SDL3Library >> wcscasecmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated wide strings, case-insensitively.
 	 *
@@ -32028,7 +32028,7 @@ LibSDL3 >> wcscasecmpStr1: str1 str2: str2 [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcscmpStr1: str1 str2: str2 [
+SDL3Library >> wcscmpStr1: str1 str2: str2 [
 	"/**
 	 * Compare two null-terminated wide strings.
 	 *
@@ -32051,7 +32051,7 @@ LibSDL3 >> wcscmpStr1: str1 str2: str2 [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcsdup: wstr [
+SDL3Library >> wcsdup: wstr [
 	"/**
 	 * Allocate a copy of a wide string.
 	 *
@@ -32073,7 +32073,7 @@ LibSDL3 >> wcsdup: wstr [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcslcat: _Inout_z_cap_ [
+SDL3Library >> wcslcat: _Inout_z_cap_ [
 	"/**
 	 * Concatenate wide strings.
 	 *
@@ -32106,7 +32106,7 @@ LibSDL3 >> wcslcat: _Inout_z_cap_ [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcslcpyDst: dst src: src maxlen: maxlen [
+SDL3Library >> wcslcpyDst: dst src: src maxlen: maxlen [
 	"/**
 	 * Copy a wide string.
 	 *
@@ -32137,7 +32137,7 @@ LibSDL3 >> wcslcpyDst: dst src: src maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcslen: wstr [
+SDL3Library >> wcslen: wstr [
 	"/**
 	 * This works exactly like wcslen() but doesn't require access to a C runtime.
 	 *
@@ -32168,7 +32168,7 @@ LibSDL3 >> wcslen: wstr [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcsncasecmpStr1: str1 str2: str2 maxlen: maxlen [
+SDL3Library >> wcsncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two wide strings, case-insensitively, up to a number of wchar_t.
 	 *
@@ -32214,7 +32214,7 @@ LibSDL3 >> wcsncasecmpStr1: str1 str2: str2 maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcsncmpStr1: str1 str2: str2 maxlen: maxlen [
+SDL3Library >> wcsncmpStr1: str1 str2: str2 maxlen: maxlen [
 	"/**
 	 * Compare two wide strings up to a number of wchar_t values.
 	 *
@@ -32249,7 +32249,7 @@ LibSDL3 >> wcsncmpStr1: str1 str2: str2 maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcsnlenWstr: wstr maxlen: maxlen [
+SDL3Library >> wcsnlenWstr: wstr maxlen: maxlen [
 	"/**
 	 * This works exactly like wcsnlen() but doesn't require access to a C
 	 * runtime.
@@ -32284,7 +32284,7 @@ LibSDL3 >> wcsnlenWstr: wstr maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcsnstrHaystack: haystack needle: needle maxlen: maxlen [
+SDL3Library >> wcsnstrHaystack: haystack needle: needle maxlen: maxlen [
 	"/**
 	 * Search a wide string, up to n wide chars, for the first instance of a
 	 * specific substring.
@@ -32313,7 +32313,7 @@ LibSDL3 >> wcsnstrHaystack: haystack needle: needle maxlen: maxlen [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcsstrHaystack: haystack needle: needle [
+SDL3Library >> wcsstrHaystack: haystack needle: needle [
 	"/**
 	 * Search a wide string for the first instance of a specific substring.
 	 *
@@ -32337,7 +32337,7 @@ LibSDL3 >> wcsstrHaystack: haystack needle: needle [
 ]
 
 { #category : 'public - SDL_stdinc' }
-LibSDL3 >> wcstolStr: str endp: endp base: base [
+SDL3Library >> wcstolStr: str endp: endp base: base [
 	"/**
 	 * Parse a `long` from a wide string.
 	 *
@@ -32368,14 +32368,14 @@ LibSDL3 >> wcstolStr: str endp: endp base: base [
 ]
 
 { #category : 'accessing - platform' }
-LibSDL3 >> win32LibraryName [
+SDL3Library >> win32LibraryName [
 
 	^ FFIWindowsLibraryFinder new
 		findAnyLibrary: #('SDL3.dll')
 ]
 
 { #category : 'public - SDL_video' }
-LibSDL3 >> windowHasSurface: window [
+SDL3Library >> windowHasSurface: window [
 	"/**
 	 * Return whether the window has a surface associated with it.
 	 *
@@ -32394,7 +32394,7 @@ LibSDL3 >> windowHasSurface: window [
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> windowSupportsGPUPresentModeDevice: device window: window presentMode: present_mode [
+SDL3Library >> windowSupportsGPUPresentModeDevice: device window: window presentMode: present_mode [
 	"/**
 	 * Determines whether a presentation mode is supported by the window.
 	 *
@@ -32414,7 +32414,7 @@ LibSDL3 >> windowSupportsGPUPresentModeDevice: device window: window presentMode
 ]
 
 { #category : 'public - SDL_gpu' }
-LibSDL3 >> windowSupportsGPUSwapchainCompositionDevice: device window: window swapchainComposition: swapchain_composition [
+SDL3Library >> windowSupportsGPUSwapchainCompositionDevice: device window: window swapchainComposition: swapchain_composition [
 	"/**
 	 * Determines whether a swapchain composition is supported by the window.
 	 *
@@ -32434,7 +32434,7 @@ LibSDL3 >> windowSupportsGPUSwapchainCompositionDevice: device window: window sw
 ]
 
 { #category : 'public - SDL_asyncio' }
-LibSDL3 >> writeAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
+SDL3Library >> writeAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue userdata: userdata [
 	"/**
 	 * Start an async write.
 	 *
@@ -32475,7 +32475,7 @@ LibSDL3 >> writeAsyncIO: asyncio ptr: ptr offset: offset size: size queue: queue
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeIOContext: context ptr: ptr size: size [
+SDL3Library >> writeIOContext: context ptr: ptr size: size [
 	"/**
 	 * Write to an SDL_IOStream data stream.
 	 *
@@ -32515,7 +32515,7 @@ LibSDL3 >> writeIOContext: context ptr: ptr size: size [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeS16BEDst: dst value: value [
+SDL3Library >> writeS16BEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
 	 * big-endian data.
@@ -32537,7 +32537,7 @@ LibSDL3 >> writeS16BEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeS16LEDst: dst value: value [
+SDL3Library >> writeS16LEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
 	 * little-endian data.
@@ -32560,7 +32560,7 @@ LibSDL3 >> writeS16LEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeS32BEDst: dst value: value [
+SDL3Library >> writeS32BEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
 	 * big-endian data.
@@ -32582,7 +32582,7 @@ LibSDL3 >> writeS32BEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeS32LEDst: dst value: value [
+SDL3Library >> writeS32LEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
 	 * little-endian data.
@@ -32605,7 +32605,7 @@ LibSDL3 >> writeS32LEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeS64BEDst: dst value: value [
+SDL3Library >> writeS64BEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
 	 * big-endian data.
@@ -32627,7 +32627,7 @@ LibSDL3 >> writeS64BEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeS64LEDst: dst value: value [
+SDL3Library >> writeS64LEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
 	 * little-endian data.
@@ -32650,7 +32650,7 @@ LibSDL3 >> writeS64LEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeS8Dst: dst value: value [
+SDL3Library >> writeS8Dst: dst value: value [
 	"/**
 	 * Use this function to write a signed byte to an SDL_IOStream.
 	 *
@@ -32668,7 +32668,7 @@ LibSDL3 >> writeS8Dst: dst value: value [
 ]
 
 { #category : 'public - SDL_storage' }
-LibSDL3 >> writeStorageFileStorage: storage path: path source: source length: length [
+SDL3Library >> writeStorageFileStorage: storage path: path source: source length: length [
 	"/**
 	 * Synchronously write a file from client memory into a storage container.
 	 *
@@ -32690,7 +32690,7 @@ LibSDL3 >> writeStorageFileStorage: storage path: path source: source length: le
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> writeSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
+SDL3Library >> writeSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Writes a single pixel to a surface.
 	 *
@@ -32717,7 +32717,7 @@ LibSDL3 >> writeSurfacePixelFloatSurface: surface x: x y: y r: r g: g b: b a: a 
 ]
 
 { #category : 'public - SDL_surface' }
-LibSDL3 >> writeSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
+SDL3Library >> writeSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 	"/**
 	 * Writes a single pixel to a surface.
 	 *
@@ -32747,7 +32747,7 @@ LibSDL3 >> writeSurfacePixelSurface: surface x: x y: y r: r g: g b: b a: a [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeU16BEDst: dst value: value [
+SDL3Library >> writeU16BEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
 	 * big-endian data.
@@ -32769,7 +32769,7 @@ LibSDL3 >> writeU16BEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeU16LEDst: dst value: value [
+SDL3Library >> writeU16LEDst: dst value: value [
 	"/**
 	 * Use this function to write 16 bits in native format to an SDL_IOStream as
 	 * little-endian data.
@@ -32792,7 +32792,7 @@ LibSDL3 >> writeU16LEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeU32BEDst: dst value: value [
+SDL3Library >> writeU32BEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
 	 * big-endian data.
@@ -32814,7 +32814,7 @@ LibSDL3 >> writeU32BEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeU32LEDst: dst value: value [
+SDL3Library >> writeU32LEDst: dst value: value [
 	"/**
 	 * Use this function to write 32 bits in native format to an SDL_IOStream as
 	 * little-endian data.
@@ -32837,7 +32837,7 @@ LibSDL3 >> writeU32LEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeU64BEDst: dst value: value [
+SDL3Library >> writeU64BEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
 	 * big-endian data.
@@ -32859,7 +32859,7 @@ LibSDL3 >> writeU64BEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeU64LEDst: dst value: value [
+SDL3Library >> writeU64LEDst: dst value: value [
 	"/**
 	 * Use this function to write 64 bits in native format to an SDL_IOStream as
 	 * little-endian data.
@@ -32882,7 +32882,7 @@ LibSDL3 >> writeU64LEDst: dst value: value [
 ]
 
 { #category : 'public - SDL_iostream' }
-LibSDL3 >> writeU8Dst: dst value: value [
+SDL3Library >> writeU8Dst: dst value: value [
 	"/**
 	 * Use this function to write a byte to an SDL_IOStream.
 	 *
