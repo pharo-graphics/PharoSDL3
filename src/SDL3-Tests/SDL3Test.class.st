@@ -1,5 +1,5 @@
 "
-A LibSDL3Test is a test class for testing the behavior of LibSDL3
+A SDL3Test is a test class for testing the behavior of SDL3Library
 "
 Class {
 	#name : 'SDL3Test',
@@ -27,5 +27,5 @@ SDL3Test >> setUp [
 
 	super setUp.
 
-	sdl := LibSDL3 uniqueInstance
+	sdl := SDL3Library uniqueInstance
 ]

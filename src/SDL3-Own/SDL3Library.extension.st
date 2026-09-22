@@ -1,14 +1,14 @@
-Extension { #name : 'LibSDL3' }
+Extension { #name : 'SDL3Library' }
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allAudioDrivers [
+SDL3Library >> allAudioDrivers [
 	"Answer the name of every built-in audio driver."
 
 	^ (1 to: self getNumAudioDrivers) collect: [ :index | self getAudioDriver: index - 1 ]
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allAudioPlaybackDeviceIDs [
+SDL3Library >> allAudioPlaybackDeviceIDs [
 	"Answer an array of currently-connected audio playback device IDs."
 
 	| countValueHolder address array |
@@ -22,20 +22,20 @@ LibSDL3 >> allAudioPlaybackDeviceIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allAudioPlaybackDeviceNames [
+SDL3Library >> allAudioPlaybackDeviceNames [
 
 	^ self allAudioPlaybackDeviceIDs collect: [ :eachID | self getAudioDeviceName: eachID ]
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allAudioPlaybackDevices [
+SDL3Library >> allAudioPlaybackDevices [
 	"Answer an array of currently-connected audio playback devices"
 
 	^ self allAudioPlaybackDeviceIDs collect: [ :id | SDL3AudioDevice id: id ]
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allAudioRecordingDeviceIDs [
+SDL3Library >> allAudioRecordingDeviceIDs [
 	"Answer an array of currently-connected audio recording device IDs."
 
 	| countValueHolder address array |
@@ -49,20 +49,20 @@ LibSDL3 >> allAudioRecordingDeviceIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allAudioRecordingDeviceNames [
+SDL3Library >> allAudioRecordingDeviceNames [
 
 	^ self allAudioRecordingDeviceIDs collect: [ :eachID | self getAudioDeviceName: eachID ]
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allAudioRecordingDevices [
+SDL3Library >> allAudioRecordingDevices [
 	"Answer an array of currently-connected audio recording devices"
 
 	^ self allAudioRecordingDeviceIDs collect: [ :id | SDL3AudioDevice id: id ]
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allCameraIDs [
+SDL3Library >> allCameraIDs [
 	"Answer the id array of all connected cameras"
 
 	| countValueHolder address array |
@@ -76,7 +76,7 @@ LibSDL3 >> allCameraIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allCameraSupportedFormatsOf: cameraId [
+SDL3Library >> allCameraSupportedFormatsOf: cameraId [
 
 	| countValueHolder address array |
 	countValueHolder := FFIInt32 newValueHolder.
@@ -91,7 +91,7 @@ LibSDL3 >> allCameraSupportedFormatsOf: cameraId [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allFingersOf: touchID [
+SDL3Library >> allFingersOf: touchID [
 
 	| countValueHolder address array |
 	countValueHolder := FFIInt32 newValueHolder.
@@ -104,7 +104,7 @@ LibSDL3 >> allFingersOf: touchID [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allKeyboardIDs [
+SDL3Library >> allKeyboardIDs [
 	"Answer the id array of all connected keyboards"
 
 	| countValueHolder address array |
@@ -118,7 +118,7 @@ LibSDL3 >> allKeyboardIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allMouseIDs [
+SDL3Library >> allMouseIDs [
 	"Answer an array of connected mouses"
 
 	| countValueHolder address array |
@@ -132,7 +132,7 @@ LibSDL3 >> allMouseIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allTouchIDs [
+SDL3Library >> allTouchIDs [
 
 	| countValueHolder address array |
 	countValueHolder := FFIInt32 newValueHolder.
@@ -145,7 +145,7 @@ LibSDL3 >> allTouchIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> allWindows [
+SDL3Library >> allWindows [
 	"Answer an array of valid windows"
 
 	| countValueHolder address array |
@@ -159,7 +159,7 @@ LibSDL3 >> allWindows [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> assertSuccess: aReturnedValue [
+SDL3Library >> assertSuccess: aReturnedValue [
 	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of an error, a descriptive string can be retrieved from SDL_GetError()."
 	<debuggerCompleteToSender>
 
@@ -172,7 +172,7 @@ LibSDL3 >> assertSuccess: aReturnedValue [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> clipboardMimeTypes [
+SDL3Library >> clipboardMimeTypes [
 
 	| countValueHolder address array |
 	countValueHolder := FFIInt32 newValueHolder.
@@ -183,14 +183,14 @@ LibSDL3 >> clipboardMimeTypes [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> currentDirectory [
+SDL3Library >> currentDirectory [
 	"Answer a path String with the current working directory"
 
 	^ self utf8StringFromExternalAddress: self getCurrentDirectory
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> currentTime [
+SDL3Library >> currentTime [
 	"Answer current value of the system realtime clock in nanoseconds since Jan 1, 1970 in Universal Coordinated Time (UTC)."
 
 	| valueHolder |
@@ -200,7 +200,7 @@ LibSDL3 >> currentTime [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> displayIDs [
+SDL3Library >> displayIDs [
 	"Answer an array of currently connected display ids."
 
 	| countValueHolder first count array |
@@ -213,14 +213,14 @@ LibSDL3 >> displayIDs [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> displays [
+SDL3Library >> displays [
 	"Answer an array of currently connected displays"
 
 	^ self displayIDs collect: [ :id | SDL3Display id: id ]
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> globalMousePosition [
+SDL3Library >> globalMousePosition [
 
 	| xHolder yHolder |
 	xHolder := FFIFloat32 newValueHolder.
@@ -231,7 +231,7 @@ LibSDL3 >> globalMousePosition [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> gpuDrivers [
+SDL3Library >> gpuDrivers [
 
 	| result |
 	result := OrderedCollection new.
@@ -241,7 +241,7 @@ LibSDL3 >> gpuDrivers [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> isAvailable [
+SDL3Library >> isAvailable [
 
 	^ [ self libraryName. true ]
 		on: Error 
@@ -249,7 +249,7 @@ LibSDL3 >> isAvailable [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> mousePosition [
+SDL3Library >> mousePosition [
 
 	| xHolder yHolder |
 	xHolder := FFIFloat32 newValueHolder.
@@ -260,7 +260,7 @@ LibSDL3 >> mousePosition [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> mousePositionRounded [
+SDL3Library >> mousePositionRounded [
 	"Answer the mouse position with rounded coordinates."
 
 	| xHolder yHolder |
@@ -272,7 +272,7 @@ LibSDL3 >> mousePositionRounded [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> newPropertyGroup [
+SDL3Library >> newPropertyGroup [
 	"Anwer a new group of properties. Sender is responsible of releasing it with #destroy. 
 	However, all properties are automatically destroyed on `SDL_Quit()`."
 
@@ -284,7 +284,7 @@ LibSDL3 >> newPropertyGroup [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> numberOfDisplays [
+SDL3Library >> numberOfDisplays [
 
 	| valueHolder |
 	valueHolder := FFIInt32 newValueHolder.
@@ -293,7 +293,7 @@ LibSDL3 >> numberOfDisplays [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> pathInfoAt: pathString [
+SDL3Library >> pathInfoAt: pathString [
 
 	| pathInfoHolder |
 	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
@@ -302,14 +302,14 @@ LibSDL3 >> pathInfoAt: pathString [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> primarySelectionText [
+SDL3Library >> primarySelectionText [
 	"The X11 and Wayland video targets have a concept of the ""primary selection"" in addition to the usual clipboard. This is generally highlighted (but not explicitly copied) text from various apps. SDL offers APIs for this through SDL_GetPrimarySelectionText() and SDL_SetPrimarySelectionText(). SDL offers these APIs on platforms without this concept, too, but only so far that it will keep a copy of a string that the app sets for later retrieval; the operating system will not ever attempt to change the string externally if it doesn't support a primary selection."
 
 	^ self utf8StringFromExternalAddress: self getPrimarySelectionText
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> renderDrivers [
+SDL3Library >> renderDrivers [
 
 	| result |
 	result := OrderedCollection new.
@@ -319,14 +319,14 @@ LibSDL3 >> renderDrivers [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> timeToDateAndTime: ticks [
+SDL3Library >> timeToDateAndTime: ticks [
 	"Given an integer that represents a `SDL_Time`, answer its conversion to `DateAndTime`."
 
 	^ (self timeToDateTime: ticks localTime: false) asDateAndTime
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> timeToDateTime: ticks localTime: isLocal [
+SDL3Library >> timeToDateTime: ticks localTime: isLocal [
 	"Given an integer that represents a `SDL_Time`, answer its conversion to `SDL_DateTime`."
 
 	| dateAndTimeHolder |
@@ -342,7 +342,7 @@ LibSDL3 >> timeToDateTime: ticks localTime: isLocal [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> utf8StringFromExternalAddress: anExternalAddress [
+SDL3Library >> utf8StringFromExternalAddress: anExternalAddress [
 	"Answer a String from the received address (NULL-terminated) and free the memory.
 	Utility method that to ease calling some SDL functions whose comment indicates 
 	that caller is responsible of freeing the memory via SDL_free()."
@@ -354,7 +354,7 @@ LibSDL3 >> utf8StringFromExternalAddress: anExternalAddress [
 ]
 
 { #category : '*SDL3-Own' }
-LibSDL3 >> videoDrivers [
+SDL3Library >> videoDrivers [
 
 	| result |
 	result := OrderedCollection new.

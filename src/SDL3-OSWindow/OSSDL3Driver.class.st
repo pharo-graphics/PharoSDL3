@@ -9,8 +9,8 @@ I am responsible for:
 Class {
 	#name : 'OSSDL3Driver',
 	#superclass : 'OSWindowDriver',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
+	#traits : 'TSDL3Library',
+	#classTraits : 'TSDL3Library classTrait',
 	#instVars : [
 		'eventMap',
 		'eventHandlerChain',
@@ -49,7 +49,7 @@ OSSDL3Driver class >> eventLoopProcess [
 OSSDL3Driver class >> isSuitable [
 	"Answer true if the SDL3 library is available on the current platform."
 
-	^ LibSDL3 uniqueInstance isAvailable
+	^ SDL3Library uniqueInstance isAvailable
 ]
 
 { #category : 'events' }

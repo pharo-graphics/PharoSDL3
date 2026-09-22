@@ -1,8 +1,8 @@
 Class {
 	#name : 'SDL3Structure',
 	#superclass : 'FFIStructure',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
+	#traits : 'TSDL3Library',
+	#classTraits : 'TSDL3Library classTrait',
 	#pools : [
 		'SDL3Typedef',
 		'SDL3ZConstants'
@@ -43,5 +43,5 @@ SDL3Structure class >> safeNewArray: anInteger [
 SDL3Structure >> zeroMemory [
 
 	handle ifNotNil: [
-		LibSDL3 uniqueInstance memsetDst: handle c: 0 len: self externalTypeSize ]
+		SDL3Library uniqueInstance memsetDst: handle c: 0 len: self externalTypeSize ]
 ]

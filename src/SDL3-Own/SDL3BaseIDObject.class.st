@@ -4,8 +4,8 @@ I represent a SDL3 object that is identified by an unsigned integer ID, which co
 Class {
 	#name : 'SDL3BaseIDObject',
 	#superclass : 'Object',
-	#traits : 'LibTSDL3 - {#assertNotNullReturn}',
-	#classTraits : 'LibTSDL3 classTrait',
+	#traits : 'TSDL3Library - {#assertNotNullReturn}',
+	#classTraits : 'TSDL3Library classTrait',
 	#instVars : [
 		'id'
 	],

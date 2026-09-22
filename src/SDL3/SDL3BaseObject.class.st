@@ -1,8 +1,8 @@
 Class {
 	#name : 'SDL3BaseObject',
 	#superclass : 'FFIOpaqueObject',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
+	#traits : 'TSDL3Library',
+	#classTraits : 'TSDL3Library classTrait',
 	#pools : [
 		'SDL3Typedef',
 		'SDL3ZConstants'

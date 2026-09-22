@@ -41,7 +41,7 @@ OSSDL3DeliverOSEventHandler >> convertButtonState: mouseStateOrNil modifiers: mo
 
 	| mouseState modState |
 	mouseState := mouseStateOrNil ifNil: [
-		LibSDL3 uniqueInstance
+		SDL3Library uniqueInstance
 			getMouseStateX: ExternalAddress null
 			y: ExternalAddress null ].
 
@@ -52,7 +52,7 @@ OSSDL3DeliverOSEventHandler >> convertButtonState: mouseStateOrNil modifiers: mo
 		button4: (SDL_BUTTON_X1MASK anyMask: mouseState);
 		button5: (SDL_BUTTON_X2MASK anyMask: mouseState).
 
-	modState := LibSDL3 uniqueInstance getModState.
+	modState := SDL3Library uniqueInstance getModState.
 
 	modifiers
 		leftShift: (SDL_KMOD_LSHIFT anyMask: modState);
@@ -94,7 +94,7 @@ OSSDL3DeliverOSEventHandler >> handle: aSDL3MappedEvent [
 OSSDL3DeliverOSEventHandler >> mousePosition [
 	"Answer an Integer Point with the current mouse position relative to this window."
 
-	^ LibSDL3 uniqueInstance mousePositionRounded
+	^ SDL3Library uniqueInstance mousePositionRounded
 ]
 
 { #category : 'private' }

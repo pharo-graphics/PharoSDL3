@@ -14,7 +14,7 @@ SDL3Error class >> signalFromLibraryErrorMessage [
 
 	| errorMessage |
 	errorMessage :=
-		LibSDL3 uniqueInstance getError
+		SDL3Library uniqueInstance getError
 			ifEmpty: [ 'Unknown error in a SDL3 FFI call' ].
 
 	^ self new signal: errorMessage

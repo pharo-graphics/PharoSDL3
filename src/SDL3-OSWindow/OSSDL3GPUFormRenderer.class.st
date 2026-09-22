@@ -4,8 +4,8 @@ I am an OSWindow form renderer that uses the SDL3 GPU API to upload and present 
 Class {
 	#name : 'OSSDL3GPUFormRenderer',
 	#superclass : 'OSWindowFormRenderer',
-	#traits : 'LibTSDL3',
-	#classTraits : 'LibTSDL3 classTrait',
+	#traits : 'TSDL3Library',
+	#classTraits : 'TSDL3Library classTrait',
 	#instVars : [
 		'gpuTexture',
 		'extent',

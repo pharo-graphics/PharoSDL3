@@ -4,5 +4,5 @@ Extension { #name : 'FFIExternalArray' }
 FFIExternalArray >> zeroMemory [
 
 	handle ifNotNil: [
-		LibSDL3 uniqueInstance memsetDst: handle c: 0 len: self size * self typeSize ]
+		SDL3Library uniqueInstance memsetDst: handle c: 0 len: self size * self typeSize ]
 ]
