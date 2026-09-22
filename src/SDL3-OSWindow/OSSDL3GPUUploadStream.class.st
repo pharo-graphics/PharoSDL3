@@ -5,7 +5,7 @@ I encapsulate the complex dance of mapping Smalltalk Form bits into GPU transfer
 
 ### Key Concepts:
 
-1. **Mapping and Unmapping**: GPU memory is not directly accessible by the CPU. To write data, we must 'map' a 'Transfer Buffer' into the CPU's address space. I handle this via `LibSDL3 >> #mapGPUTransferBuffer:cycle:`.
+1. **Mapping and Unmapping**: GPU memory is not directly accessible by the CPU. To write data, we must 'map' a 'Transfer Buffer' into the CPU's address space. I handle this via `SDL3Library >> #mapGPUTransferBuffer:cycle:`.
 
 2. **Cycling (Buffer Renaming)**: When mapping with `cycle: true`, SDL3 provides a fresh slice of memory if the previous one is still being read by the GPU. This avoids CPU stalls (waiting for the GPU) and data corruption (overwriting data the GPU is currently reading).
 

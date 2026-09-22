@@ -135,17 +135,17 @@ The bindings follow a consistent naming convention to map C functions to Pharo m
 GENERAL TIP: Given a SDL3 C name (e.g. `SDL_` function, struct or constant), in Pharo you can select the string -> open context menu -> "**Code search**" -> "**Method source with it**", and you should find where in the project it is used or defined.
 
 ### 1. Raw API
-The `LibSDL3` class provides direct access to the C API.
+The `SDL3Library` class provides direct access to the C API.
 - **Prefix Removal:** The `SDL_` prefix is removed.
 - **CamelCase:** The first letter of the function name is lowercased.
 - **Keywords:** Function parameters are converted into Pharo keywords.
 - **Argument Naming:** Arguments are named using `camelCase` (e.g., `numThreads` instead of `num_threads`).
 
-You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki with a complete mapping from SDL functions to each Pharo method in `LibSDL3`.
+You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki with a complete mapping from SDL functions to each Pharo method in `SDL3Library`.
 
 **Examples:**
-- `SDL_Init(flags)` maps to `LibSDL3 >> init: flags`
-- `SDL_CreateWindow(title, w, h, flags)` maps to `LibSDL3 >> newWindowTitle:w:h:flags:`
+- `SDL_Init(flags)` maps to `SDL3Library >> init: flags`
+- `SDL_CreateWindow(title, w, h, flags)` maps to `SDL3Library >> newWindowTitle:w:h:flags:`
 
 ### 2. Convenience API (Instance-Side methods in SDL3Window and others)
 
@@ -160,7 +160,7 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "
 - **Argument Naming:** Just like in the raw API, all arguments use `camelCase`.
 - **Internal Assertions:** These methods internally perform success assertions, and signal `SDL3Error` if something was wrong in a SDL3 C function call.
 
-You can explore all available functions in the `LibSDL3` class or by browsing the object classes.
+You can explore all available functions in the `SDL3Library` class or by browsing the object classes.
 
 ### 3. Convenience API for Instance Creation ("Unsafe" Methods)
 
@@ -203,7 +203,7 @@ To provide a more idiomatic and safe experience, many wrapper methods in the Con
 - **Void Returns:** Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
 - **Query Methods:** Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.
 
-You can explore all available functions in the `LibSDL3` class or by browsing the object classes.
+You can explore all available functions in the `SDL3Library` class or by browsing the object classes.
 
 
 ## More Information

@@ -2,7 +2,7 @@
 I am an abstract base class for SDL3 demo applications. I provide a consistent lifecycle and event-handling framework to simplify the creation of interactive SDL3 examples in Pharo.
 
 I manage the core SDL3 components, including:
-- The `LibSDL3` unique instance.
+- The `SDL3Library` unique instance.
 - An `SDL3MainLoop` to drive the application.
 - An `SDL3EventMap` for efficient event dispatching.
 - A `quitRequested` flag for graceful termination.
