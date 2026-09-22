@@ -8,7 +8,7 @@ Class {
 	#superclass : 'Object',
 	#pools : [
 		'SDL3AllEnumerations',
-		'SDL3ZConstants'
+		'SDL3Constants'
 	],
 	#category : 'SDL3-GPU-ShaderSources',
 	#package : 'SDL3-GPU',

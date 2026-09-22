@@ -11,7 +11,7 @@ Class {
 	],
 	#pools : [
 		'SDL3AllEnumerations',
-		'SDL3ZConstants'
+		'SDL3Constants'
 	],
 	#category : 'SDL3-GPU-Tests-GraphicsPipeline',
 	#package : 'SDL3-GPU-Tests',

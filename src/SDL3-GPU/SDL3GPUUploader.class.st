@@ -16,8 +16,8 @@ Class {
 		'copyPass'
 	],
 	#pools : [
-		'SDL3Typedef',
-		'SDL3ZConstants'
+		'SDL3Aliases',
+		'SDL3Constants'
 	],
 	#category : 'SDL3-GPU-Support',
 	#package : 'SDL3-GPU',
