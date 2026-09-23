@@ -192,19 +192,19 @@ SDL3GPUBlurComputeDemoApp >> initialize [
 SDL3GPUBlurComputeDemoApp >> initializeComputeResources [
 
 	computePipeline := SDL3GPUGaussianBlurShaderSource
-		newComputePipelineAmong: gpuDevice gpuShaderFormatsAsArray
+		unsafeNewComputePipelineAmong: gpuDevice gpuShaderFormatsAsArray
 		device: gpuDevice.
 
 	writeTexture :=
 		gpuDevice
-			new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+			unsafeNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
 			width: lastExtent x
 			height: lastExtent y.
 
 	intermediateTexture :=
 		gpuDevice
-			new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+			unsafeNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
 			width: lastExtent x
 			height: lastExtent y
@@ -215,11 +215,11 @@ SDL3GPUBlurComputeDemoApp >> initializeGeometry [
 	"Initialize a single full-screen quad"
 
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: SDL3GPUQuadVertex structureSize * 4.
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 2 * 6.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -272,17 +272,17 @@ SDL3GPUBlurComputeDemoApp >> initializePipeline [
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
 
 	vertexShader := SDL3GPUQuadVertexShaderSource
-				newShaderAmong: shaderFormats
+				unsafeNewShaderAmong: shaderFormats
 				device: gpuDevice.
 	fragmentShader := SDL3GPUQuadFragmentShaderSource
-				 newShaderAmong: shaderFormats
+				 unsafeNewShaderAmong: shaderFormats
 				 device: gpuDevice.
 
 	vertexBindings := self newVertexBufferDescriptions.
 	vertexAttributes := self newVertexAttributeDescriptions.
 	colorTargets := self newColorTargetDescriptions.
 
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	gpuPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader
@@ -298,7 +298,7 @@ SDL3GPUBlurComputeDemoApp >> initializePipeline [
 { #category : 'initialization' }
 SDL3GPUBlurComputeDemoApp >> initializeSampler [
 
-	sampler := gpuDevice newSampler: [ :info |
+	sampler := gpuDevice unsafeNewSampler: [ :info |
 		info minFilter: SDL_GPU_FILTER_LINEAR;
 		magFilter: SDL_GPU_FILTER_LINEAR;
 		mipmapMode: SDL_GPU_FILTER_LINEAR;
@@ -323,7 +323,7 @@ SDL3GPUBlurComputeDemoApp >> initializeTexture [
 
 	texture :=
 		gpuDevice
-			newGPUTextureUploadingForm: form
+			unsafeNewGPUTextureUploadingForm: form
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ
 ]
 

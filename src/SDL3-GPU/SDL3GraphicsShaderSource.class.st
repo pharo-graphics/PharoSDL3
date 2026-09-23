@@ -22,8 +22,14 @@ SDL3GraphicsShaderSource class >> isAbstract [
 	^ self == SDL3GraphicsShaderSource
 ]
 
+{ #category : 'accessing' }
+SDL3GraphicsShaderSource class >> shaderStage [
+
+	^ self subclassResponsibility
+]
+
 { #category : 'building' }
-SDL3GraphicsShaderSource class >> newShaderAmong: supportedShaderFormats device: aSDL3GPUDevice [
+SDL3GraphicsShaderSource class >> unsafeNewShaderAmong: supportedShaderFormats device: aSDL3GPUDevice [
 	"Create a new shader given the available formats."
 
 	self
@@ -38,17 +44,11 @@ SDL3GraphicsShaderSource class >> newShaderAmong: supportedShaderFormats device:
 				numStorageTextures: m storageTextures size.
 
 			shader := (aSDL3GPUDevice ffiLibrary
-				newGPUShaderDevice: aSDL3GPUDevice
+				createGPUShaderDevice: aSDL3GPUDevice
 				createinfo: createInfo)
 					assertNotNullReturn;
 					device: aSDL3GPUDevice;
 					yourself.
 			shader metadata: m.
 			^ shader ]
-]
-
-{ #category : 'accessing' }
-SDL3GraphicsShaderSource class >> shaderStage [
-
-	^ self subclassResponsibility
 ]

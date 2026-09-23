@@ -193,13 +193,13 @@ SDL3GPUNodeForceDemoApp >> initializeBuffers [
 	nodesSize := numNodes * SDL3GPUNode structureSize.
 
 	nodesBufferPing := gpuDevice
-						  newGPUBufferUsage:
+						  unsafeNewGPUBufferUsage:
 							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 							  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
 						  size: nodesSize.
 	nodesBufferPong := gpuDevice
-						  newGPUBufferUsage:
+						  unsafeNewGPUBufferUsage:
 							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 							  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
@@ -209,7 +209,7 @@ SDL3GPUNodeForceDemoApp >> initializeBuffers [
 
 	edgesSize := numEdges * SDL3GPUEdge structureSize.
 	edgesBuffer := gpuDevice
-					  newGPUBufferUsage:
+					  unsafeNewGPUBufferUsage:
 						  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 						  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
 					  size: edgesSize
@@ -266,11 +266,11 @@ SDL3GPUNodeForceDemoApp >> initializeGraph [
 SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: 4 * SDL3GPUQuadVertex structureSize.
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -304,7 +304,7 @@ SDL3GPUNodeForceDemoApp >> initializeShaders [
 
 	| colorTargets |
 	computePipeline := SDL3GPUNodeForceComputeShaderSource
-						  newComputePipelineAmong: shaderFormats
+						  unsafeNewComputePipelineAmong: shaderFormats
 						  device: gpuDevice.
 
 	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
@@ -340,10 +340,10 @@ SDL3GPUNodeForceDemoApp >> newEdgePipelineWith: aFormatArray colorTargets: color
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes |
 	vertexShader := SDL3GPUEdgeVertexShaderSource
-						newShaderAmong: aFormatArray
+						unsafeNewShaderAmong: aFormatArray
 						device: gpuDevice.
 	fragmentShader := SDL3GPUEdgeFragmentShaderSource
-						 newShaderAmong: aFormatArray
+						 unsafeNewShaderAmong: aFormatArray
 						 device: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
@@ -351,7 +351,7 @@ SDL3GPUNodeForceDemoApp >> newEdgePipelineWith: aFormatArray colorTargets: color
 	vertexBindings := self newNodeVertexBindings.
 	vertexAttributes := self newNodeVertexAttributes.
 
-	edgePipeline := gpuDevice newGraphicsPipeline: [ :info |
+	edgePipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader
@@ -369,10 +369,10 @@ SDL3GPUNodeForceDemoApp >> newNodePipelineWith: aFormatArray colorTargets: color
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes |
 	vertexShader := SDL3GPUNodeVertexShaderSource
-						newShaderAmong: aFormatArray
+						unsafeNewShaderAmong: aFormatArray
 						device: gpuDevice.
 	fragmentShader := SDL3GPUNodeFragmentShaderSource
-						 newShaderAmong: aFormatArray
+						 unsafeNewShaderAmong: aFormatArray
 						 device: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
@@ -380,7 +380,7 @@ SDL3GPUNodeForceDemoApp >> newNodePipelineWith: aFormatArray colorTargets: color
 	vertexBindings := self newNodeVertexBindings.
 	vertexAttributes := self newNodeVertexAttributes.
 
-	nodePipeline := gpuDevice newGraphicsPipeline: [ :info |
+	nodePipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader

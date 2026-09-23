@@ -6,7 +6,6 @@ Class {
 	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'cursors',
-		'cursorFrames',
 		'cursorTextures',
 		'hotspots'
 	],
@@ -17,24 +16,16 @@ Class {
 
 { #category : 'lifecycle' }
 SDL3AnimatedCursorDemoApp >> close [
-	"Cleanup cursors, textures and surfaces"
+	"Cleanup cursors and textures"
 
-	| allSurfaces allTextures |
-	cursors ifNotNil: [ 
+	cursors ifNotNil: [
 		cursors do: [ :each | each destroy ].
 		cursors := nil ].
 
-	allTextures := IdentitySet new.
-	cursorTextures ifNotNil: [ 
-		cursorTextures do: [ :eachArray | allTextures addAll: eachArray ] ].
-	allTextures do: [ :each | each destroy ].
-	cursorTextures := nil.
-
-	allSurfaces := IdentitySet new.
-	cursorFrames ifNotNil: [ 
-		cursorFrames do: [ :eachArray | allSurfaces addAll: eachArray ] ].
-	allSurfaces do: [ :each | each destroy ].
-	cursorFrames := nil.
+	cursorTextures ifNotNil: [
+		cursorTextures do: [ :eachArray |
+			eachArray do: [ :each | each destroy ] ].
+		cursorTextures := nil ].
 
 	super close
 ]
@@ -80,7 +71,7 @@ SDL3AnimatedCursorDemoApp >> generateCursorPulsingIcon: iconSurface corner: aSym
 	| frames textures baseSurface extent h |
 	extent := self cursorExtent.
 	baseSurface := iconSurface
-		               scaleWidth: 40
+		               unsafeScaledToWidth: 40
 		               height: 40
 		               scaleMode: SDL_SCALEMODE_LINEAR.
 
@@ -101,14 +92,14 @@ SDL3AnimatedCursorDemoApp >> generateCursorPulsingIcon: iconSurface corner: aSym
 		          final ].
 	baseSurface destroy.
 
-	cursorFrames add: frames.
-	textures := frames collect: [ :each | renderer newTextureFromSurface: each ].
+	textures := frames collect: [ :each | renderer unsafeNewTextureFromSurface: each ].
 	cursorTextures add: textures.
 	hotspots add: h.
 	cursors add: (self
 			 newAnimatedCursorFromFrames: frames
 			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h)
+			 hotspot: h).
+	frames do: [ :each | each destroy ]
 ]
 
 { #category : 'initialization' }
@@ -117,7 +108,7 @@ SDL3AnimatedCursorDemoApp >> generateCursorRotatingAndPulsingIcon: iconSurface c
 	| frames textures baseSurface extent h |
 	extent := self cursorExtent.
 	baseSurface := iconSurface
-		               scaleWidth: 32 "Smaller to allow rotation"
+		               unsafeScaledToWidth: 32 "Smaller to allow rotation"
 		               height: 32
 		               scaleMode: SDL_SCALEMODE_LINEAR.
 
@@ -132,7 +123,7 @@ SDL3AnimatedCursorDemoApp >> generateCursorRotatingAndPulsingIcon: iconSurface c
 
 		          alpha := (i * 360 / self numberOfFrames) degreeSin abs.
 		          baseSurface alphaModAlpha: (alpha * 255) asInteger.
-		          rotated := baseSurface rotateAngle:
+		          rotated := baseSurface unsafeRotatedByDegrees:
 			                     (i * 360 / self numberOfFrames) asFloat.
 
 		          dstRect := self iconRectForCorner: aSymbol rotated: rotated.
@@ -141,14 +132,14 @@ SDL3AnimatedCursorDemoApp >> generateCursorRotatingAndPulsingIcon: iconSurface c
 		          final ].
 	baseSurface destroy.
 
-	cursorFrames add: frames.
-	textures := frames collect: [ :each | renderer newTextureFromSurface: each ].
+	textures := frames collect: [ :each | renderer unsafeNewTextureFromSurface: each ].
 	cursorTextures add: textures.
 	hotspots add: h.
 	cursors add: (self
 			 newAnimatedCursorFromFrames: frames
 			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h)
+			 hotspot: h).
+	frames do: [ :each | each destroy ]
 ]
 
 { #category : 'initialization' }
@@ -157,7 +148,7 @@ SDL3AnimatedCursorDemoApp >> generateCursorRotatingIcon: iconSurface corner: aSy
 	| frames textures baseSurface extent h |
 	extent := self cursorExtent.
 	baseSurface := iconSurface
-		               scaleWidth: 40
+		               unsafeScaledToWidth: 40
 		               height: 40
 		               scaleMode: SDL_SCALEMODE_LINEAR.
 
@@ -170,7 +161,7 @@ SDL3AnimatedCursorDemoApp >> generateCursorRotatingIcon: iconSurface corner: aSy
 		          final clearColor: Color transparent.
 		          h := self drawCrosshairOn: final corner: aSymbol.
 
-		          rotated := baseSurface rotateAngle:
+		          rotated := baseSurface unsafeRotatedByDegrees:
 			                     (i * 360 / self numberOfFrames) asFloat.
 
 		          dstRect := self iconRectForCorner: aSymbol rotated: rotated.
@@ -179,14 +170,14 @@ SDL3AnimatedCursorDemoApp >> generateCursorRotatingIcon: iconSurface corner: aSy
 		          final ].
 	baseSurface destroy.
 
-	cursorFrames add: frames.
-	textures := frames collect: [ :each | renderer newTextureFromSurface: each ].
+	textures := frames collect: [ :each | renderer unsafeNewTextureFromSurface: each ].
 	cursorTextures add: textures.
 	hotspots add: h.
 	cursors add: (self
 			 newAnimatedCursorFromFrames: frames
 			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h)
+			 hotspot: h).
+	frames do: [ :each | each destroy ]
 ]
 
 { #category : 'initialization' }
@@ -206,7 +197,7 @@ SDL3AnimatedCursorDemoApp >> generateCursorScalingIcon: iconSurface corner: aSym
 
 		          scale := (i * 360 / self numberOfFrames) degreeSin abs * 10 + 30.
 		          baseSurface := iconSurface
-			                         scaleWidth: scale asInteger
+			                         unsafeScaledToWidth: scale asInteger
 			                         height: scale asInteger
 			                         scaleMode: SDL_SCALEMODE_LINEAR.
 
@@ -215,14 +206,14 @@ SDL3AnimatedCursorDemoApp >> generateCursorScalingIcon: iconSurface corner: aSym
 		          baseSurface destroy.
 		          final ].
 
-	cursorFrames add: frames.
-	textures := frames collect: [ :each | renderer newTextureFromSurface: each ].
+	textures := frames collect: [ :each | renderer unsafeNewTextureFromSurface: each ].
 	cursorTextures add: textures.
 	hotspots add: h.
 	cursors add: (self
 			 newAnimatedCursorFromFrames: frames
 			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h)
+			 hotspot: h).
+	frames do: [ :each | each destroy ]
 ]
 
 { #category : 'initialization' }
@@ -230,7 +221,6 @@ SDL3AnimatedCursorDemoApp >> generateCursors [
 
 	| iconSurface |
 	cursors := OrderedCollection new.
-	cursorFrames := OrderedCollection new.
 	cursorTextures := OrderedCollection new.
 	hotspots := OrderedCollection new.
 

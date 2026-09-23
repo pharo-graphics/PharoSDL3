@@ -10,7 +10,7 @@ Form >> unsafeNewAsSDL3Surface [
 	self unhibernate.
 
 	aSDLSurface := SDL3Library uniqueInstance
-		              newSurfaceFromWidth: self width
+		              createSurfaceFromWidth: self width
 		              height: self height
 		              format: SDL3PixelFormat argb8888
 		              pixels: self bits

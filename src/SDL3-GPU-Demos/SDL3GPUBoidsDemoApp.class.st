@@ -258,13 +258,13 @@ SDL3GPUBoidsDemoApp >> initializeBoidsBuffers [
 	boidsSize := numBoids * SDL3GPUBoidsBoid structureSize.
 
 	boidsBufferPing := gpuDevice
-		                   newGPUBufferUsage:
+		                   unsafeNewGPUBufferUsage:
 			                   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 			                   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		                   size: boidsSize.
 
 	boidsBufferPong := gpuDevice
-		                   newGPUBufferUsage:
+		                   unsafeNewGPUBufferUsage:
 			                   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 			                   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		                   size: boidsSize.
@@ -286,11 +286,11 @@ SDL3GPUBoidsDemoApp >> initializeBuffers [
 SDL3GPUBoidsDemoApp >> initializeComputeResources [
 
 	boidsComputePipeline := SDL3GPUBoidsComputeShaderSource
-		newComputePipelineAmong: shaderFormats
+		unsafeNewComputePipelineAmong: shaderFormats
 		device: gpuDevice.
 
 	geometryComputePipeline := SDL3GPUBoidsGeometryComputeShaderSource
-		newComputePipelineAmong: shaderFormats
+		unsafeNewComputePipelineAmong: shaderFormats
 		device: gpuDevice
 ]
 
@@ -298,7 +298,7 @@ SDL3GPUBoidsDemoApp >> initializeComputeResources [
 SDL3GPUBoidsDemoApp >> initializeHuesBuffer [
 
 	huesBuffer := gpuDevice
-		              newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		              unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		              size: numBoids * FFIFloat32 externalTypeSize
 ]
 
@@ -306,7 +306,7 @@ SDL3GPUBoidsDemoApp >> initializeHuesBuffer [
 SDL3GPUBoidsDemoApp >> initializeIndexBuffer [
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: numBoids * 3 * 2. "16-bit"
 
 	indexBufferBinding := SDL_GPUBufferBinding buffer: indexBuffer offset: 0
@@ -317,10 +317,10 @@ SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 	vertexShader := SDL3GPUBoidsVertexShaderSource
-						newShaderAmong: shaderFormats
+						unsafeNewShaderAmong: shaderFormats
 						device: gpuDevice.
 	fragmentShader := SDL3GPUBoidsFragmentShaderSource
-						 newShaderAmong: shaderFormats
+						 unsafeNewShaderAmong: shaderFormats
 						 device: gpuDevice.
 
 	vertexBindings := self newBoidsVertexBindings.
@@ -331,7 +331,7 @@ SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	renderPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	renderPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader
@@ -348,7 +348,7 @@ SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 SDL3GPUBoidsDemoApp >> initializeVertexBuffers [
 
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage:
+		                unsafeNewGPUBufferUsage:
 			                SDL_GPU_BUFFERUSAGE_VERTEX
 			                | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		                size: numBoids * 3 * SDL3GPUBoidsVertex structureSize.

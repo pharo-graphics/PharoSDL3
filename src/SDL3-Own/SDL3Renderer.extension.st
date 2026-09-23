@@ -248,64 +248,6 @@ SDL3Renderer >> name [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> newRenderState: aBlock [
-
-	| info |
-	info := SDL3GPURenderStateCreateInfo externalNew.
-	^ [
-		aBlock value: info. 
-		(self ffiLibrary
-			newGPURenderStateRenderer: self
-			createinfo: info)
-			assertNotNullReturn;
-			device: self gpuDevice;
-			yourself
-		] ensure: [ info free ]
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Renderer >> newTextureFormat: format access: access width: w height: h [
-
-	^ (self ffiLibrary
-		   newTextureRenderer: self
-		   format: format
-		   access: access
-		   w: w
-		   h: h)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Renderer >> newTextureFromForm: aForm [
-	"Answer a new `SDL_Texture`. The form pixels will be uploaded to the new texture, assuming form depth is 32 bits. Sender is responsible of destroying the texture."
-
-	| surface texture |
-	surface := aForm unsafeNewAsSDL3Surface.
-	texture := self newTextureFromSurface: surface.
-	surface destroy.
-	^ texture
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Renderer >> newTextureFromSurface: surface [
-
-	^ (self ffiLibrary
-		   newTextureFromSurfaceRenderer: self
-		   surface: surface)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Renderer >> newTextureWithProperties: props [
-
-	^ (self ffiLibrary newTextureWithPropertiesRenderer: self props: props)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Renderer >> outputExtent [
 	
 	| widthHolder heightHolder |
@@ -520,14 +462,6 @@ SDL3Renderer >> renderPresent [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> renderReadPixelsRect: rect [
-
-	^ (self ffiLibrary renderReadPixelsRenderer: self rect: rect)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Renderer >> renderRect: rect [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary renderRectRenderer: self rect: rect)
@@ -709,4 +643,70 @@ SDL3Renderer >> scale [
 
 	self getScaleIntoX: widthHolder y: heightHolder.
 	^ widthHolder value @ heightHolder value
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Renderer >> unsafeNewRenderState: aBlock [
+
+	| info |
+	info := SDL3GPURenderStateCreateInfo externalNew.
+	^ [
+		aBlock value: info.
+		(self ffiLibrary
+			createGPURenderStateRenderer: self
+			createinfo: info)
+			assertNotNullReturn;
+			device: self gpuDevice;
+			yourself
+		] ensure: [ info free ]
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Renderer >> unsafeNewTextureFormat: format access: access width: w height: h [
+
+	^ (self ffiLibrary
+		   createTextureRenderer: self
+		   format: format
+		   access: access
+		   w: w
+		   h: h)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Renderer >> unsafeNewTextureFromForm: aForm [
+	"Answer a new `SDL_Texture`. The form pixels will be uploaded to the new texture, assuming form depth is 32 bits. Sender is responsible of destroying the texture."
+
+	| surface texture |
+	surface := aForm unsafeNewAsSDL3Surface.
+	texture := self unsafeNewTextureFromSurface: surface.
+	surface destroy.
+	^ texture
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Renderer >> unsafeNewTextureFromSurface: surface [
+
+	^ (self ffiLibrary
+		   createTextureFromSurfaceRenderer: self
+		   surface: surface)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Renderer >> unsafeNewTextureWithProperties: props [
+
+	^ (self ffiLibrary createTextureWithPropertiesRenderer: self props: props)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Renderer >> unsafeRenderReadPixelsRect: rect [
+
+	^ (self ffiLibrary renderReadPixelsRenderer: self rect: rect)
+		  assertNotNullReturn;
+		  yourself
 ]

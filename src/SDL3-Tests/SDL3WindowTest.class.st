@@ -96,7 +96,7 @@ SDL3WindowTest >> test03CreateWindowWithProperties [
 	| rectangle id window |
 	rectangle := 100 @ 200 extent: 600 @ 300.
 
-	id := sdl newProperties.
+	id := sdl createProperties.
 	sdl
 		setStringPropertyProps: id
 		name: SDL_PROP_WINDOW_CREATE_TITLE_STRING
@@ -122,7 +122,7 @@ SDL3WindowTest >> test03CreateWindowWithProperties [
 		name: SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER
 		value: SDL3WindowFlags highPixelDensity | SDL3WindowFlags resizable.
 
-	window := sdl newWindowWithProperties: id.
+	window := sdl createWindowWithProperties: id.
 	sdl destroyProperties: id.
 
 	self waitToSee.
@@ -185,7 +185,7 @@ SDL3WindowTest >> test05CreateWindowAndRenderer [
 
 	success :=
 		sdl
-			newWindowAndRendererTitle: #test05CreateWindowAndRenderer
+			createWindowAndRendererTitle: #test05CreateWindowAndRenderer
 			width: extent x
 			height: extent y
 			windowFlags: 0
@@ -232,10 +232,10 @@ SDL3WindowTest >> test06CreateRenderer [
 			expandMacrosWith: #test06CreateRenderer
 			with: eachName).
 
-		renderer := window newRendererFor: eachName.
+		renderer := window unsafeNewRendererFor: eachName.
 
 		self waitToSee.
-		
+
 		renderer destroy ].
 
 	window destroy
@@ -251,7 +251,7 @@ SDL3WindowTest >> test07RenderBasicOperations [
 			w: 400 h: 300 flags: 0.
 
 	"Create the default renderer"
-	renderer := window newRenderer.
+	renderer := window unsafeNewRenderer.
 
 	"Clear background with gray color"
 	renderer renderDrawColor: Color gray.
@@ -284,13 +284,13 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 			unsafeNewTitle: #test08RenderTextureFromSurfaceFromForm
 			w: 400 h: 800 flags: 0.
 
-	renderer := window newRenderer.
+	renderer := window unsafeNewRenderer.
 
 	"Render and present a texture created from a surface created from a Form"
 
 	form := self iconNamed: #pharoBig.
 	surface := form unsafeNewAsSDL3Surface.
-	texture := renderer newTextureFromSurface: surface.
+	texture := renderer unsafeNewTextureFromSurface: surface.
 	self assert: surface extent equals: 256 @ 256.
 	self assert: texture extent equals: 256.0 @ 256.0.
 	self assert: texture paletteOrNil isNil.
@@ -299,7 +299,7 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 	renderer renderPresent.
 
 	self waitToSee.
-	
+
 	"Tear down"
 	texture destroy.
 	renderer destroy.
@@ -315,7 +315,7 @@ SDL3WindowTest >> test09Bordered [
 			unsafeNewTitle: #test09Bordered
 			w: 800 h: 600 flags: SDL3WindowFlags borderless.
 
-	renderer := window newRenderer.
+	renderer := window unsafeNewRenderer.
 
 	renderer renderDrawColor: Color white.
 	renderer
@@ -362,7 +362,7 @@ SDL3WindowTest >> test11Fullscreen [
 			unsafeNewTitle: #test11Fullscreen
 			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
 
-	renderer := window newRenderer.
+	renderer := window unsafeNewRenderer.
 
 	renderer renderDrawColor: Color white.
 	renderer
@@ -373,7 +373,7 @@ SDL3WindowTest >> test11Fullscreen [
 	self waitToSee.
 	window sync.
 	self assert: window isFullscreen.
-	
+
 	window fullscreen: false.
 	renderer
 		renderDebugTextX: 20 y: 40
@@ -401,7 +401,7 @@ SDL3WindowTest >> test12ShapedWindow [
 				| SDL3WindowFlags borderless.
 
 	self assert: window isTransparent.
-	renderer := window newRenderer.
+	renderer := window unsafeNewRenderer.
 
 	shapeForm := Form extent: extent depth: 32.
 	shapeForm getCanvas
@@ -426,13 +426,13 @@ SDL3WindowTest >> test12ShapedWindow [
 	"Change shape and render the icon"
 	shapeForm := self iconNamed: #pharoBig.
 	surface := shapeForm unsafeNewAsSDL3Surface.
-	texture := renderer newTextureFromSurface: surface.
+	texture := renderer unsafeNewTextureFromSurface: surface.
 	window shape: surface.
 	surface destroy.
 	renderer renderTexture: texture srcrect: nil dstrect: nil.
 	renderer renderPresent.
 	self waitToSee.
-	
+
 	"Tear down"
 	renderer destroy.
 	window destroy
@@ -623,7 +623,7 @@ SDL3WindowTest >> test20Vsync [
 			unsafeNewTitle: #test20Vsync
 			w: extent x h: extent y flags: 0.
 
-	renderer := window newRenderer.
+	renderer := window unsafeNewRenderer.
 
 	"By default it is disabled"
 	self

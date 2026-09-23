@@ -14,7 +14,7 @@ SDL3GPUDownloadTest >> test01DownloadFromGPUDeviceExtension [
 	byteSize := count * FFIFloat32 externalTypeSize.
 	targetBuffer :=
 		gpuDevice
-			newGPUBufferUsage:
+			unsafeNewGPUBufferUsage:
 				SDL_GPU_BUFFERUSAGE_VERTEX | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 			size: byteSize.
 	

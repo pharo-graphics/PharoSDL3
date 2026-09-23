@@ -174,7 +174,7 @@ SDL3TextScrollDemoApp >> initializeAtlas [
 SDL3TextScrollDemoApp >> initializeBaseQuadBuffer [
 
 	baseQuadBuffer := gpuDevice
-		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                  size: SDL3GPUQuadVertex structureSize * 4.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -205,7 +205,7 @@ SDL3TextScrollDemoApp >> initializeGPUResources [
 SDL3TextScrollDemoApp >> initializeIndexBuffer [
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 	indexBinding buffer: indexBuffer.
 
@@ -230,8 +230,8 @@ SDL3TextScrollDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 
-	vertexShader := SDL3TextScrollVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice.
-	fragmentShader := SDL3TextScrollFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice.
+	vertexShader := SDL3TextScrollVertexShaderSource unsafeNewShaderAmong: shaderFormats device: gpuDevice.
+	fragmentShader := SDL3TextScrollFragmentShaderSource unsafeNewShaderAmong: shaderFormats device: gpuDevice.
 
 	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
 	vertexBindings first
@@ -282,7 +282,7 @@ SDL3TextScrollDemoApp >> initializePipeline [
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	gpuPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader
@@ -298,7 +298,7 @@ SDL3TextScrollDemoApp >> initializePipeline [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeSampler [
 
-	sampler := gpuDevice newSampler: [ :info |
+	sampler := gpuDevice unsafeNewSampler: [ :info |
 		info
 			minFilter: SDL_GPU_FILTER_NEAREST;
 			magFilter: SDL_GPU_FILTER_NEAREST;
@@ -314,7 +314,7 @@ SDL3TextScrollDemoApp >> initializeSampler [
 SDL3TextScrollDemoApp >> initializeTexture [
 
 	atlasTexture := gpuDevice
-		                new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
+		                unsafeNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
 		                usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
 		                width: atlas width
 		                height: atlas height.
@@ -380,9 +380,9 @@ SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 				instanceTransferBuffer release ].
 			instanceBufferSize := (visibleGlyphCount * SDL3TextScrollInstance structureSize * 1.5) ceiling.
 			instanceBuffer := gpuDevice
-								 newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+								 unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 								 size: instanceBufferSize.
-			instanceTransferBuffer := gpuDevice newUploadTransferBuffer:
+			instanceTransferBuffer := gpuDevice unsafeNewUploadTransferBuffer:
 										 instanceBufferSize ].
 
 	commandBuffer uploadToGPUDo: [ :uploader |

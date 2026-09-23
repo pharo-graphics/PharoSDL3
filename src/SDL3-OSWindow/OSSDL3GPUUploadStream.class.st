@@ -132,8 +132,8 @@ OSSDL3GPUUploadStream >> initializeResources [
 
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ self ].
 
-	transferBuffer := gpuDevice newUploadTransferBuffer: gpuTransferBufferSize.
-	
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: gpuTransferBufferSize.
+
 	externalForm := OSSDL3ExternalForm new.
 
 	"Pre-allocate structures to avoid churn"

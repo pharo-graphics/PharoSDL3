@@ -77,12 +77,6 @@ SDL3Haptic >> name [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Haptic >> newEffect: effect [
-
-	^ self ffiLibrary newHapticEffectHaptic: self effect: effect
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Haptic >> numberOfAxes [
 
 	^ self ffiLibrary getNumHapticAxes: self
@@ -143,6 +137,12 @@ SDL3Haptic >> stopEffects [
 SDL3Haptic >> stopRumble [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary stopHapticRumble: self)
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Haptic >> unsafeNewEffect: effect [
+
+	^ self ffiLibrary createHapticEffectHaptic: self effect: effect
 ]
 
 { #category : '*SDL3-Own' }

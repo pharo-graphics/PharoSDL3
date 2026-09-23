@@ -119,7 +119,7 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	gpuTexture ifNotNil: [ gpuTexture release ].
 	
 	gpuTexture := gpuDevice
-		new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+		unsafeNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
 		width: extent x 
 		height: extent y.

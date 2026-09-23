@@ -22,7 +22,7 @@ SDL3Surface >> asForm [
 		ifTrue: [ self asFormARGB32 ]
 		ifFalse: [
 			| copy |
-			copy := self copyWithFormat: SDL_PixelFormat argb8888.
+			copy := self unsafeCopyWithFormat: SDL_PixelFormat argb8888.
 			[ copy asForm ] ensure: [ copy destroy ] ]
 ]
 
@@ -224,38 +224,9 @@ SDL3Surface >> colorspace: colorspace [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Surface >> copyWithFormat: format [
-
-	^ (self ffiLibrary convertSurface: self format: format)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Surface >> copyWithFormat: format palette: palette colorspace: colorspace props: props [
-
-	^ (self ffiLibrary
-		   convertSurfaceAndColorspaceSurface: self
-		   format: format
-		   palette: palette
-		   colorspace: colorspace
-		   props: props)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Surface >> destroy [
 
 	self ffiLibrary destroySurface: self
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Surface >> duplicate [
-
-	^ (self ffiLibrary duplicateSurface: self)
-		  assertNotNullReturn;
-		  yourself
 ]
 
 { #category : '*SDL3-Own' }
@@ -391,36 +362,6 @@ SDL3Surface >> mapRGBR: r g: g b: b [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Surface >> newColorCursorHotX: hotX hotY: hotY [
-
-	^ (self ffiLibrary newColorCursorSurface: self hotX: hotX hotY: hotY)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Surface >> newPalette [
-
-	^ (self ffiLibrary newSurfacePalette: self)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Surface >> newSoftwareRenderer [
-
-	^ (self ffiLibrary newSoftwareRenderer: self)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Surface >> newTrayIconTooltip: tooltip [
-
-	^ self ffiLibrary newTrayIcon: self tooltip: tooltip
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Surface >> palette: palette [
 
 	self ffiLibrary assertSuccess:
@@ -497,14 +438,6 @@ SDL3Surface >> removeAlternateImages [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Surface >> rotateAngle: angle [
-
-	^ (self ffiLibrary rotateSurface: self angle: angle)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Surface >> saveBMPFile: file [
 
 	self ffiLibrary assertSuccess:
@@ -539,18 +472,6 @@ SDL3Surface >> savePNGIODst: dst closeio: closeIO [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Surface >> scaleWidth: width height: height scaleMode: scalemode [
-
-	^ (self ffiLibrary
-		   scaleSurface: self
-		   width: width
-		   height: height
-		   scaleMode: scalemode)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Surface >> stretchSrcrect: srcrect dst: dst dstrect: dstrect scaleMode: scaleMode [
 
 	self ffiLibrary assertSuccess:
@@ -569,10 +490,47 @@ SDL3Surface >> unlock [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Surface >> unsafeCopyWithFormat: format [
+
+	^ (self ffiLibrary convertSurface: self format: format)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unsafeCopyWithFormat: format palette: palette colorspace: colorspace props: props [
+
+	^ (self ffiLibrary
+		   convertSurfaceAndColorspaceSurface: self
+		   format: format
+		   palette: palette
+		   colorspace: colorspace
+		   props: props)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unsafeDuplicate [
+
+	^ (self ffiLibrary duplicateSurface: self)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unsafeNewColorCursorHotX: hotX hotY: hotY [
+
+	^ (self ffiLibrary createColorCursorSurface: self hotX: hotX hotY: hotY)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Surface class >> unsafeNewFromWidth: width height: height format: aFormat pixels: pixels pitch: pitch [
 
 	^ (self ffiLibrary
-		   newSurfaceFromWidth: width
+		   createSurfaceFromWidth: width
 		   height: height
 		   format: aFormat
 		   pixels: pixels
@@ -582,12 +540,54 @@ SDL3Surface class >> unsafeNewFromWidth: width height: height format: aFormat pi
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Surface >> unsafeNewPalette [
+
+	^ (self ffiLibrary createSurfacePalette: self)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unsafeNewSoftwareRenderer [
+
+	^ (self ffiLibrary createSoftwareRenderer: self)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unsafeNewTrayIconTooltip: tooltip [
+
+	^ self ffiLibrary createTrayIcon: self tooltip: tooltip
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Surface class >> unsafeNewWidth: width height: height format: aFormat [
 
 	^ (self ffiLibrary
-		   newSurfaceWidth: width
+		   createSurfaceWidth: width
 		   height: height
 		   format: aFormat)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unsafeRotatedByDegrees: angle [
+
+	^ (self ffiLibrary rotateSurface: self angle: angle)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unsafeScaledToWidth: width height: height scaleMode: scalemode [
+
+	^ (self ffiLibrary
+		   scaleSurface: self
+		   width: width
+		   height: height
+		   scaleMode: scalemode)
 		  assertNotNullReturn;
 		  yourself
 ]

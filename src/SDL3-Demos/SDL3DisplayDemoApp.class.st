@@ -262,7 +262,7 @@ SDL3DisplayDemoApp >> spawnWindowAt: aPoint extent: anExtent [
 		h: anExtent y
 		flags: SDL_WINDOW_BORDERLESS | SDL_WINDOW_NOT_FOCUSABLE | SDL_WINDOW_ALWAYS_ON_TOP.
 	childWindow position: aPoint.
-	childWindow newRenderer. "Ensure window has an associated renderer"
+	childWindow unsafeNewRenderer. "Ensure window has an associated renderer"
 	childWindow show.
 	^ childWindow
 ]

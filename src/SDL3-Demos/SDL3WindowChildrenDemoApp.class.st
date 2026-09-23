@@ -45,7 +45,7 @@ SDL3WindowChildrenDemoApp >> addChild: aWindow type: aSymbol [
 	id := aWindow id.
 	children at: id put: aWindow.
 	childTypes at: id put: aSymbol.
-	aWindow newRenderer. "Ensure the window has an associated default renderer"
+	aWindow unsafeNewRenderer. "Ensure the window has an associated default renderer"
 ]
 
 { #category : 'lifecycle' }
@@ -230,7 +230,7 @@ SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		self removeTooltips.
 		position := sdl mousePositionRounded.
 		child := window
-			newPopupParentOffsetX: position x
+			unsafeNewPopupParentOffsetX: position x
 			offsetY: position y - 300
 			w: 200 h: 300 flags: SDL_WINDOW_TOOLTIP.
 		self addChild: child type: #PopupTooltip ].
@@ -240,7 +240,7 @@ SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		self removePopupMenus.
 		position := sdl mousePositionRounded.
 		child := window
-			newPopupParentOffsetX: position x - 10
+			unsafeNewPopupParentOffsetX: position x - 10
 			offsetY: position y - 10
 			w: 150 h: 300 flags: SDL_WINDOW_POPUP_MENU.
 		self addChild: child type: #PopupMenu ].

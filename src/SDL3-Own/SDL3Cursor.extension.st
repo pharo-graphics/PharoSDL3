@@ -40,7 +40,7 @@ SDL3Cursor class >> toggleVisible [
 SDL3Cursor class >> unsafeNewAnimatedFrames: frames frameCount: frameCount hotX: hotX hotY: hotY [
 
 	^ (self ffiLibrary
-		   newAnimatedCursorFrames: frames
+		   createAnimatedCursorFrames: frames
 		   frameCount: frameCount
 		   hotX: hotX
 		   hotY: hotY)
@@ -52,7 +52,7 @@ SDL3Cursor class >> unsafeNewAnimatedFrames: frames frameCount: frameCount hotX:
 SDL3Cursor class >> unsafeNewColorSurface: surface hotX: hotX hotY: hotY [
 
 	^ (self ffiLibrary
-		   newColorCursorSurface: surface
+		   createColorCursorSurface: surface
 		   hotX: hotX
 		   hotY: hotY)
 		  assertNotNullReturn;
@@ -63,7 +63,7 @@ SDL3Cursor class >> unsafeNewColorSurface: surface hotX: hotX hotY: hotY [
 SDL3Cursor class >> unsafeNewData: data mask: mask w: w h: h hotX: hotX hotY: hotY [
 
 	^ (self ffiLibrary
-		   newCursorData: data
+		   createCursorData: data
 		   mask: mask
 		   w: w
 		   h: h
@@ -76,7 +76,7 @@ SDL3Cursor class >> unsafeNewData: data mask: mask w: w h: h hotX: hotX hotY: ho
 { #category : '*SDL3-Own' }
 SDL3Cursor class >> unsafeNewSystem: id [
 
-	^ (self ffiLibrary newSystemCursor: id)
+	^ (self ffiLibrary createSystemCursor: id)
 		  assertNotNullReturn;
 		  yourself
 ]

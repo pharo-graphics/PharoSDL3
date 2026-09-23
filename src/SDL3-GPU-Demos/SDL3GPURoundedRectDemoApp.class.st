@@ -135,10 +135,10 @@ SDL3GPURoundedRectDemoApp >> initializePipeline [
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
 
 	vertexShader := SDL3GPUQuadVertexShaderSource
-						newShaderAmong: shaderFormats
+						unsafeNewShaderAmong: shaderFormats
 						device: gpuDevice.
 	fragmentShader := SDL3GPUSDFRoundedRectFragmentShaderSource
-						 newShaderAmong: shaderFormats
+						 unsafeNewShaderAmong: shaderFormats
 						 device: gpuDevice.
 
 	vertexBindings := self newSDFVertexBindings.
@@ -149,7 +149,7 @@ SDL3GPURoundedRectDemoApp >> initializePipeline [
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	gpuPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader
@@ -253,10 +253,10 @@ SDL3GPURoundedRectDemoApp >> updateIndexBuffer [
 			indexBuffer release.
 			indexTransferBuffer release ].
 
-		indexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+		indexTransferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 
 		indexBuffer := gpuDevice
-			               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+			               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 			               size: byteSize.
 
 		indexBinding buffer: indexBuffer.
@@ -302,10 +302,10 @@ SDL3GPURoundedRectDemoApp >> updateVertexBuffer [
 			vertexBuffer release.
 			vertexTransferBuffer release ].
 
-		vertexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+		vertexTransferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 
 		vertexBuffer := gpuDevice
-			               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+			               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 			               size: byteSize.
 
 		vertexBufferBindings first buffer: vertexBuffer.

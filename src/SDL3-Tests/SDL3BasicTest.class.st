@@ -97,7 +97,7 @@ SDL3BasicTest >> test05CPUinfo [
 SDL3BasicTest >> test06Properties [
 
 	| id |
-	id := sdl newProperties.
+	id := sdl createProperties.
 
 	self assert:
 		(sdl

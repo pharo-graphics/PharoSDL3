@@ -160,11 +160,11 @@ SDL3GPUInstancedQuadDemoApp >> initializePipeline [
 
 	vertexShader :=
 		SDL3GPUInstancedQuadVertexShaderSource
-			newShaderAmong: shaderFormats
+			unsafeNewShaderAmong: shaderFormats
 			device: gpuDevice.
 	fragmentShader :=
 		SDL3GPUInstancedQuadFragmentShaderSource
-			newShaderAmong: shaderFormats
+			unsafeNewShaderAmong: shaderFormats
 			device: gpuDevice.
 
 	vertexBindings :=
@@ -199,7 +199,7 @@ SDL3GPUInstancedQuadDemoApp >> initializePipeline [
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	gpuPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader
@@ -218,7 +218,7 @@ SDL3GPUInstancedQuadDemoApp >> initializeTexture [
 
 	texture :=
 		gpuDevice
-			newGPUTextureUploadingForm: (self iconNamed: #remote)
+			unsafeNewGPUTextureUploadingForm: (self iconNamed: #remote)
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER.
 
 	textureSamplerBindings first texture: texture
@@ -257,7 +257,7 @@ SDL3GPUInstancedQuadDemoApp >> switchSamplerFilter [
 				ifFalse: [ SDL_GPU_FILTER_NEAREST ].
 		sampler release ].
 
-	sampler := gpuDevice newSampler: [ :info |
+	sampler := gpuDevice unsafeNewSampler: [ :info |
 		info
 			minFilter: filter;
 			magFilter: filter;
@@ -276,9 +276,9 @@ SDL3GPUInstancedQuadDemoApp >> updateIndexBuffer [
 	| byteSize |
 	byteSize := 6 * 2. "16-bit indices, 6 indices per quad"
 
-	indexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	indexTransferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: byteSize.
 
 	indexBinding buffer: indexBuffer.
@@ -304,9 +304,9 @@ SDL3GPUInstancedQuadDemoApp >> updateVertexBuffer [
 	| byteSize |
 	byteSize := SDL3GPUQuadVertex structureSize * 4.
 
-	vertexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	vertexTransferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 	vertexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		               size: byteSize.
 
 	vertexBufferBindings first buffer: vertexBuffer.

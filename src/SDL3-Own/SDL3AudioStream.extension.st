@@ -242,7 +242,7 @@ SDL3AudioStream >> unlock [
 SDL3AudioStream class >> unsafeNewSrcSpec: srcSpec dstSpec: dstSpec [
 
 	^ (self ffiLibrary
-		   newAudioStreamSrcSpec: srcSpec
+		   createAudioStreamSrcSpec: srcSpec
 		   dstSpec: dstSpec)
 		  assertNotNullReturn;
 		  yourself
