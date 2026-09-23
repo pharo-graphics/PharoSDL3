@@ -267,7 +267,7 @@ SDL3GPUMandelbrotDemoApp >> initialize [
 { #category : 'initialization' }
 SDL3GPUMandelbrotDemoApp >> initializeAtlas [
 
-	atlasTexture := gpuDevice newTexture: [ :info |
+	atlasTexture := gpuDevice unsafeNewTexture: [ :info |
 		info
 			type: SDL_GPU_TEXTURETYPE_2D;
 			format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
@@ -277,7 +277,7 @@ SDL3GPUMandelbrotDemoApp >> initializeAtlas [
 			numLevels: 1;
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE ].
 
-	sampler := gpuDevice newSampler: [ :info |
+	sampler := gpuDevice unsafeNewSampler: [ :info |
 		info
 			minFilter: SDL_GPU_FILTER_LINEAR;
 			magFilter: SDL_GPU_FILTER_LINEAR;
@@ -302,11 +302,11 @@ SDL3GPUMandelbrotDemoApp >> initializeInstanceBuffers [
 
 	"Pre-allocate instance buffers for up to 256 tiles"
 	instanceBuffer := gpuDevice
-		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                  size: 256 * SDL3GPUTileInstance structureSize.
 
 	shimmerInstanceBuffer := gpuDevice
-		                         newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                         unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                         size: 256 * SDL3GPUTileInstance structureSize
 ]
 
@@ -314,11 +314,11 @@ SDL3GPUMandelbrotDemoApp >> initializeInstanceBuffers [
 SDL3GPUMandelbrotDemoApp >> initializeQuadBuffers [
 
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: 4 * SDL3GPUQuadVertex structureSize.
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -374,10 +374,10 @@ SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineWith: formats colorTargets: co
 	| quadVertexSource quadFragmentSource vertexBindings vertexAttributes |
 
 	quadVertexSource := SDL3GPUTiledMapVertexShaderSource
-							newShaderAmong: formats
+							unsafeNewShaderAmong: formats
 							device: gpuDevice.
 	quadFragmentSource := SDL3GPUQuadFragmentShaderSource
-							 newShaderAmong: formats
+							 unsafeNewShaderAmong: formats
 							 device: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState new.
@@ -385,7 +385,7 @@ SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineWith: formats colorTargets: co
 	vertexBindings := self newTiledMapVertexBindings.
 	vertexAttributes := self newTiledMapVertexAttributes.
 
-	quadPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	quadPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: quadVertexSource
 			fragment: quadFragmentSource
@@ -403,7 +403,7 @@ SDL3GPUMandelbrotDemoApp >> initializeShaders [
 
 	| colorTargets |
 	computePipeline := SDL3GPUMandelbrotComputeShaderSource
-						  newComputePipelineAmong: shaderFormats
+						  unsafeNewComputePipelineAmong: shaderFormats
 						  device: gpuDevice.
 
 	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
@@ -420,10 +420,10 @@ SDL3GPUMandelbrotDemoApp >> initializeShimmerPipelineWith: formats colorTargets:
 	| shimmerVertexSource shimmerFragmentSource shimmerVertexBindings shimmerVertexAttributes |
 
 	shimmerVertexSource := SDL3GPUShimmerVertexShaderSource
-							  newShaderAmong: formats
+							  unsafeNewShaderAmong: formats
 							  device: gpuDevice.
 	shimmerFragmentSource := SDL3GPUShimmerFragmentShaderSource
-								newShaderAmong: formats
+								unsafeNewShaderAmong: formats
 								device: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
@@ -431,7 +431,7 @@ SDL3GPUMandelbrotDemoApp >> initializeShimmerPipelineWith: formats colorTargets:
 	shimmerVertexBindings := self newTiledMapVertexBindings.
 	shimmerVertexAttributes := self newTiledMapVertexAttributes.
 
-	shimmerPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	shimmerPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: shimmerVertexSource
 			fragment: shimmerFragmentSource

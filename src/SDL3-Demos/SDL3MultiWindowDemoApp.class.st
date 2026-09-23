@@ -54,14 +54,14 @@ SDL3MultiWindowDemoApp >> prepareToLoop [
 	1 to: 4 do: [ :i |
 		| aWindow |
 		aWindow := SDL3Window
-			unsafeNewTitle: ('Window {1}' format: {i}) 
+			unsafeNewTitle: ('Window {1}' format: {i})
 			w: 100 h: 75
 			flags: SDL_WINDOW_RESIZABLE.
 
 		aWindow position: (100 + (i * 220)) @ 100.
 
 		windows add: aWindow.
-		renderers add: aWindow newRenderer ].
+		renderers add: aWindow unsafeNewRenderer ].
 
 	colors := Color wheel: windows size.
 

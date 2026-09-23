@@ -118,7 +118,7 @@ SDL3GPUUploader >> uploadTexture: aGPUTexture fromPointer: sourceAddress byteSiz
 	"Uploads pixel data from a raw pointer to a texture. Automatically manages a temporary transfer buffer."
 
 	| transferBuffer |
-	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 	[
 		gpuDevice mapTransferBuffer: transferBuffer cycle: cycleBoolean do: [ :mappedAddress |
 			SDL3Library uniqueInstance memcpyDst: mappedAddress src: sourceAddress len: byteSize].
@@ -146,7 +146,7 @@ SDL3GPUUploader >> uploadTo: targetBuffer type: ffiClass count: arraySize cycle:
 
 	| byteSize transferBuffer |
 	byteSize := ffiClass externalTypeSize * arraySize.
-	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 	
 	[
 		gpuDevice mapTransferBuffer: transferBuffer cycle: cycleBoolean do: [ :mappedAddress |
@@ -176,7 +176,7 @@ SDL3GPUUploader >> uploadTo: targetBuffer type: ffiClass count: arraySize cycle:
 
 	| byteSize transferBuffer |
 	byteSize := ffiClass externalTypeSize * arraySize.
-	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 	
 	[
 		gpuDevice mapTransferBuffer: transferBuffer cycle: cycleBoolean do: [ :mappedAddress |

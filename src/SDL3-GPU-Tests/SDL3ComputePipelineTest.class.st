@@ -43,12 +43,12 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 
 	"2. Create GPU buffers"
 	inputBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		size: byteSize.
 	resultBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		size: byteSize.
-	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 
 	"3. Upload input data"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
@@ -64,7 +64,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 			cycle: false ].
 
 	"B. Compute"
-	computePipeline := SDL3TestComputeMathShaderSource newComputePipelineAmong: shaderFormats device: gpuDevice.
+	computePipeline := SDL3TestComputeMathShaderSource unsafeNewComputePipelineAmong: shaderFormats device: gpuDevice.
 
 	"Inlined binding logic to match Boids demo and ensure handle persistence"
 	rwBindings := FFIArray newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
@@ -83,7 +83,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 
 	"4. Download results"
 	transferBuffer release.
-	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
@@ -125,12 +125,12 @@ SDL3ComputePipelineTest >> test02Uniforms [
 
 	"2. Create GPU buffers"
 	resultBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		size: byteSize.
 	
 	"3. Setup pipeline and dispatch"
 	computePipeline := SDL3TestComputeUniformShaderSource
-		newComputePipelineAmong: shaderFormats
+		unsafeNewComputePipelineAmong: shaderFormats
 		device: gpuDevice.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -147,7 +147,7 @@ SDL3ComputePipelineTest >> test02Uniforms [
 	commandBuffer submit.
 	
 	"4. Download results"
-	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
@@ -184,22 +184,22 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 	"1. Create 3 buffers for double-buffering style chain"
 	bufferA :=
 		gpuDevice
-			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+			unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 			size: byteSize.
 	bufferB :=
 		gpuDevice
-			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+			unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 			size: byteSize.
 	bufferC :=
 		gpuDevice
-			newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+			unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 			size: byteSize.
 
 	"Initial data: 10.0"
 	inputData := FFIArray newType: FFIFloat32 size: numElements.
 	1 to: numElements do: [ :i | inputData at: i put: 10.0 ].
 
-	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 		sdl memcpyDst: mappedAddress src: inputData len: byteSize. ].
 
@@ -214,7 +214,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 
 	"B. Setup pipeline"
 	computePipeline := SDL3TestComputeAddOneShaderSource
-		newComputePipelineAmong: shaderFormats
+		unsafeNewComputePipelineAmong: shaderFormats
 		device: gpuDevice.
 
 	"C. Dispatch A: A -> B"
@@ -243,7 +243,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 
 	"3. Download results from C"
 	transferBuffer release.
-	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
@@ -286,12 +286,12 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 
 	"2. Create GPU buffers"
 	inputBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		size: byteSize.
 	resultBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		size: byteSize.
-	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 
 	"3. Upload"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
@@ -308,7 +308,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 
 	"B. Compute"
 	computePipeline := SDL3TestComputeStructShaderSource
-		newComputePipelineAmong: shaderFormats
+		unsafeNewComputePipelineAmong: shaderFormats
 		device: gpuDevice.
 
 	rwBindings := FFIArray newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
@@ -325,7 +325,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 	
 	"4. Download results"
 	transferBuffer release.
-	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
@@ -366,12 +366,12 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 
 	"1. Create GPU result buffer"
 	resultBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		size: byteSize. "1024 uints"
 	
 	"2. Setup pipeline and dispatch"
 	computePipeline := SDL3TestComputeIndexShaderSource
-		newComputePipelineAmong: shaderFormats
+		unsafeNewComputePipelineAmong: shaderFormats
 		device: gpuDevice.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -384,7 +384,7 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 	commandBuffer submit.
 	
 	"3. Download results"
-	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
@@ -420,14 +420,14 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 
 	"1. Create GPU result texture"
 	resultTexture := gpuDevice
-		new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+		unsafeNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
 		usage: SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE | SDL_GPU_TEXTUREUSAGE_SAMPLER
 		width: texWidth
 		height: texHeight.
 	
 	"2. Setup pipeline and dispatch"
 	computePipeline := SDL3TestComputeTextureShaderSource
-		newComputePipelineAmong: shaderFormats
+		unsafeNewComputePipelineAmong: shaderFormats
 		device: gpuDevice.
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -440,7 +440,7 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 	commandBuffer submit.
 	
 	"3. Download results"
-	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
@@ -490,13 +490,13 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 
 	"2. Create GPU buffers"
 	inputBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		size: byteSize.
 	"Output needs 1 float per workgroup"
 	resultBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		size: numWorkgroups * FFIFloat32 externalTypeSize.
-	transferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
 
 	"3. Upload input data"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
@@ -512,7 +512,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 			cycle: false ].
 
 	"B. Compute"
-	computePipeline := SDL3TestComputeSharedMemoryShaderSource newComputePipelineAmong: shaderFormats device: gpuDevice.
+	computePipeline := SDL3TestComputeSharedMemoryShaderSource unsafeNewComputePipelineAmong: shaderFormats device: gpuDevice.
 
 	rwBindings := FFIArray newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
 	rwBindings first buffer: resultBuffer; cycle: false.
@@ -528,7 +528,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 
 	"4. Download results"
 	transferBuffer release.
-	transferBuffer := gpuDevice newDownloadTransferBuffer: numWorkgroups * FFIFloat32 externalTypeSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: numWorkgroups * FFIFloat32 externalTypeSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass
@@ -586,17 +586,17 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 
 	"3. Create GPU buffers"
 	indirectBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDIRECT
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDIRECT
 		size: SDL3GPUIndirectDispatchCommand structureSize.
 	inputBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		size: byteSize.
 	resultBuffer := gpuDevice
-		newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+		unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		size: byteSize.
 	
 	"4. Upload data"
-	transferBuffer := gpuDevice newUploadTransferBuffer: SDL3GPUIndirectDispatchCommand structureSize + byteSize.
+	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: SDL3GPUIndirectDispatchCommand structureSize + byteSize.
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 		"Upload indirect command at offset 0"
 		sdl memcpyDst: mappedAddress src: indirectData len: SDL3GPUIndirectDispatchCommand structureSize.
@@ -628,7 +628,7 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 			cycle: false ].
 
 	"5. Compute"
-	computePipeline := SDL3TestComputeMathShaderSource newComputePipelineAmong: shaderFormats device: gpuDevice.
+	computePipeline := SDL3TestComputeMathShaderSource unsafeNewComputePipelineAmong: shaderFormats device: gpuDevice.
 
 	rwBindings := FFIArray newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
 	rwBindings first buffer: resultBuffer; cycle: false.
@@ -644,7 +644,7 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 
 	"6. Download results"
 	transferBuffer release.
-	transferBuffer := gpuDevice newDownloadTransferBuffer: byteSize.
+	transferBuffer := gpuDevice unsafeNewDownloadTransferBuffer: byteSize.
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 		copyPass

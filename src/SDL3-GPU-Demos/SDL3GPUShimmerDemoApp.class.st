@@ -107,8 +107,8 @@ SDL3GPUShimmerDemoApp >> initializePipeline [
 
 	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
 
-	vertexShader := SDL3GPUShimmerVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice.
-	fragmentShader := SDL3GPUShimmerFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice.
+	vertexShader := SDL3GPUShimmerVertexShaderSource unsafeNewShaderAmong: shaderFormats device: gpuDevice.
+	fragmentShader := SDL3GPUShimmerFragmentShaderSource unsafeNewShaderAmong: shaderFormats device: gpuDevice.
 
 	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
 
@@ -161,7 +161,7 @@ SDL3GPUShimmerDemoApp >> initializePipeline [
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
+	gpuPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
 		info
 			vertex: vertexShader
 			fragment: fragmentShader
@@ -178,15 +178,15 @@ SDL3GPUShimmerDemoApp >> initializePipeline [
 SDL3GPUShimmerDemoApp >> initializeQuadBuffers: instances [
 
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: 4 * SDL3GPUQuadVertex structureSize.
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 
 	instanceBuffer := gpuDevice
-		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                  size: instances size * SDL3GPUShimmerInstance structureSize.
 
 	gpuDevice uploadToGPUDo: [ :uploader |

@@ -231,7 +231,7 @@ OSSDL3BackendWindow >> lookupSystemCursor: aCursor ifNotFound: aBlock [
 			at: aCursor
 			ifAbsent: [ ^ aBlock value ].
 
-	^ SDL3Library uniqueInstance newSystemCursor: cursorID
+	^ SDL3Library uniqueInstance createSystemCursor: cursorID
 ]
 
 { #category : 'accessing' }
@@ -348,7 +348,7 @@ OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
 		surface := scaledForm unsafeNewAsSDL3Surface.
 		offset := aCursor offset * scaleToUse.
 		[ 
-			SDL3Library uniqueInstance newColorCursorSurface: surface hotX: offset x negated hotY: offset y negated
+			SDL3Library uniqueInstance createColorCursorSurface: surface hotX: offset x negated hotY: offset y negated
 		] ensure: [ surface destroy ]
 	].
 

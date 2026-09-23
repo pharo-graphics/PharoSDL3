@@ -183,6 +183,18 @@ SDL3Library >> clipboardMimeTypes [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Library >> createPropertyGroup [
+	"Anwer a new group of properties. Sender is responsible of releasing it with #destroy.
+	However, all properties are automatically destroyed on `SDL_Quit()`."
+
+	| id |
+	id := self createProperties.
+	self assertSuccess: id > 0.
+
+	^ SDL3PropertyGroup id: id
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Library >> currentDirectory [
 	"Answer a path String with the current working directory"
 
@@ -269,18 +281,6 @@ SDL3Library >> mousePositionRounded [
 
 	self getMouseStateX: xHolder y: yHolder.
 	^ xHolder value rounded @ yHolder value rounded
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Library >> newPropertyGroup [
-	"Anwer a new group of properties. Sender is responsible of releasing it with #destroy. 
-	However, all properties are automatically destroyed on `SDL_Quit()`."
-
-	| id |
-	id := self newProperties.
-	self assertSuccess: id > 0.
-
-	^ SDL3PropertyGroup id: id
 ]
 
 { #category : '*SDL3-Own' }

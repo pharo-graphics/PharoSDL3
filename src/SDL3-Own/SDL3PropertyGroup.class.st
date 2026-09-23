@@ -12,7 +12,7 @@ Class {
 { #category : 'instance creation' }
 SDL3PropertyGroup class >> unsafeNew [
 
-	^ self ffiLibrary newPropertyGroup
+	^ self ffiLibrary createPropertyGroup
 ]
 
 { #category : 'accessing' }
@@ -86,46 +86,6 @@ SDL3PropertyGroup >> includesKey: name [
 SDL3PropertyGroup >> lock [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary lockProperties: id)
-]
-
-{ #category : 'accessing' }
-SDL3PropertyGroup >> newGPUDevice [
-
-	^ (self ffiLibrary newGPUDeviceWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'accessing' }
-SDL3PropertyGroup >> newProcess [
-
-	^ (self ffiLibrary newProcessWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'accessing' }
-SDL3PropertyGroup >> newRenderer [
-
-	^ (self ffiLibrary newRendererWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'accessing' }
-SDL3PropertyGroup >> newThread [
-
-	^ (self ffiLibrary newThreadWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'accessing' }
-SDL3PropertyGroup >> newWindow [
-
-	^ (self ffiLibrary newWindowWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
 ]
 
 { #category : 'accessing' }
@@ -205,4 +165,44 @@ SDL3PropertyGroup >> typeAt: name [
 SDL3PropertyGroup >> unlock [
 
 	^ self ffiLibrary unlockProperties: id
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> unsafeNewGPUDevice [
+
+	^ (self ffiLibrary createGPUDeviceWithProperties: id)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> unsafeNewProcess [
+
+	^ (self ffiLibrary createProcessWithProperties: id)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> unsafeNewRenderer [
+
+	^ (self ffiLibrary createRendererWithProperties: id)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> unsafeNewThread [
+
+	^ (self ffiLibrary createThreadWithProperties: id)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> unsafeNewWindow [
+
+	^ (self ffiLibrary createWindowWithProperties: id)
+		  assertNotNullReturn;
+		  yourself
 ]

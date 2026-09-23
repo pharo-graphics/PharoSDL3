@@ -66,9 +66,9 @@ SDL3GPURenderStateDemoApp >> initializeGPURenderStates [
 
 	shaderSources do: [ :eachSources |
 		| aShader aRenderState |
-		aShader := eachSources newShaderAmong: supportedShaderFormats device: gpuDevice.
+		aShader := eachSources unsafeNewShaderAmong: supportedShaderFormats device: gpuDevice.
 
-		aRenderState := renderer newRenderState: [ :info |
+		aRenderState := renderer unsafeNewRenderState: [ :info |
 			info fragmentShader: aShader ].
 
 		shaders add: aShader. "Keep a reference to destroy on close"
@@ -81,20 +81,20 @@ SDL3GPURenderStateDemoApp >> initializeGPURenderStates [
 { #category : 'lifecycle' }
 SDL3GPURenderStateDemoApp >> initializeRenderer [
 
-	renderer := window newGPURenderer
+	renderer := window unsafeNewGPURenderer
 ]
 
 { #category : 'initialization' }
 SDL3GPURenderStateDemoApp >> initializeTextures [
 
 	| browserMorph |
-	foregroundTexture := renderer newTextureFromForm: (self iconNamed: #pharoBig).
+	foregroundTexture := renderer unsafeNewTextureFromForm: (self iconNamed: #pharoBig).
 
 	"Take a snapshot of a browser to be used as background"
 	browserMorph :=(Object >> #at:put:) browse owner.
 	backgroundForm := browserMorph extent: window extent; asForm.
 	browserMorph delete.
-	backgroundTexture := renderer newTextureFromForm: backgroundForm
+	backgroundTexture := renderer unsafeNewTextureFromForm: backgroundForm
 ]
 
 { #category : 'lifecycle' }
@@ -102,12 +102,12 @@ SDL3GPURenderStateDemoApp >> open [
 
 	window :=
 		sdl
-			newWindowTitle: self updatedTitle
+			createWindowTitle: self updatedTitle
 			w: self initialExtent x
 			h: self initialExtent y
 			flags: self initialWindowFlags.
 
-	renderer := window newGPURenderer.
+	renderer := window unsafeNewGPURenderer.
 
 	window startTextInput.
 

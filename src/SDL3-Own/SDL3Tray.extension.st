@@ -21,7 +21,7 @@ SDL3Tray >> menu [
 { #category : '*SDL3-Own' }
 SDL3Tray >> newMenu [
 
-	^ self ffiLibrary newTrayMenu: self
+	^ self ffiLibrary createTrayMenu: self
 ]
 
 { #category : '*SDL3-Own' }
@@ -33,7 +33,7 @@ SDL3Tray >> tooltip: tooltip [
 { #category : '*SDL3-Own' }
 SDL3Tray class >> unsafeNewIcon: icon tooltip: tooltip [
 
-	^ (self ffiLibrary newTrayIcon: icon tooltip: tooltip)
+	^ (self ffiLibrary createTrayIcon: icon tooltip: tooltip)
 		  assertNotNullReturn;
 		  yourself
 ]

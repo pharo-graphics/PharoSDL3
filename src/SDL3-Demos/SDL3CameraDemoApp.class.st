@@ -167,7 +167,7 @@ SDL3CameraDemoApp >> updateTextureFromCurrentFrame [
 				put: currentFrame h;
 			yourself.
 		texture ifNotNil: [ texture destroy ].
-		texture := renderer newTextureWithProperties: propertyGroup.
+		texture := renderer unsafeNewTextureWithProperties: propertyGroup.
 		propertyGroup destroy.
 
 		self adjustWindowToNewFrameExtent ].
