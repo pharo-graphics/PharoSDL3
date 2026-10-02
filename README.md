@@ -94,6 +94,7 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3GPUShimmerDemoApp`: Mock UI with a loading effect utilizing **time uniforms** and **procedural shader generation** ([Video](https://youtu.be/GNoRRP7irXs)).
 - `SDL3GPUInstancedQuadDemoApp`: High-performance rendering of thousands of objects using **hardware instancing** and **instance buffers**.
 - `SDL3TextScrollDemoApp`: Smooth text scrolling of a large file utilizing a **texture atlas** and **instanced quad rendering**.
+- `SDL3GPUMandelbrotDemoApp`: Interactive fractal exploration using **compute shaders**, **storage textures**, and dynamic **zoom/pan navigation uniforms**.
 - `SDL3GPUBlurComputeDemoApp`: Real-time image processing utilizing **compute shaders**, **storage textures**, and a **Gaussian blur** algorithm.
 - `SDL3GPUKawaseBlurDemoApp`: Multi-pass **post-processing** effect demonstrating **ping-pong buffers**, **downsampling/upsampling**, and a **Dual Kawase Blur** ([Video](https://youtu.be/t0MlKdq3KHs)).
 - `SDL3GPUBoidsDemoApp`: High-performance **particle system** using a **compute-to-vertex-buffer** architecture for a flocking simulation ([Video](https://www.youtube.com/watch?v=-6wztetR5qg)).
@@ -162,25 +163,25 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "
 
 You can explore all available functions in the `SDL3Library` class or by browsing the object classes.
 
-### 3. Convenience API for Instance Creation ("Unsafe" Methods)
+### 3. Convenience API for Instance Creation ("Unowned" Methods)
 
 Independent root classes provide class-side methods for creating or opening resources.
 
-- **Explicit Ownership:** These methods are prefixed with `unsafeNew` (for creation) or `unsafeOpen` (for opening peripherals). This naming convention explicitly signals that the **sender is responsible** for manual memory management (e.g., calling `destroy`, `close`, or `release`). At the moment, PharoSDL3 doesn't provide a `autoRelease`-like way to automatically free the SDL3 external resources, so it is the sender who is responsible of doing it.
+- **Explicit Ownership:** These methods are prefixed with `unownedNew` (for creation), `unownedOpen` (for opening peripherals), `unownedAs...`, or `unownedCopy...`. This naming convention aligns with Alexandrie (Cairo, FreeType, HarfBuzz) and explicitly signals that the **sender is responsible** for manual memory management (e.g., calling `destroy`, `close`, or `release`). At the moment, PharoSDL3 doesn't provide an automatic `autoRelease`-like way to free external SDL3 resources, so it is the sender who is responsible for doing it.
 - **Internal Assertions:** These methods internally perform success assertions (typically using `assertNotNullReturn`).
 
 **Examples:**
-- `SDL3Window unsafeNewTitle: 'title' w: 800 h: 600 flags: 0`
-- `SDL3Joystick unsafeOpen: 0`
-- `SDL3PropertyGroup unsafeNew`
+- `SDL3Window unownedNewTitle: 'title' width: 800 height: 600 flags: 0`
+- `SDL3Joystick unownedOpen: 0`
+- `SDL3PropertyGroup unownedNew`
 
 
 ### 4. GPU Block-Based API (Automatic Lifecycle)
 
 The GPU stack provides specialized methods that use BlockClosures to manage the lifecycle of transient resources (like passes, mapping addresses, or configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are correctly closed, unmapped, or freed, even if an error occurs.
 
-- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:do:`, and `copyPassDo:` automatically call the underlying `EndGPU...Pass` functions when the block finishes.
-- **Safe Resource Creation:** Methods like `newGraphicsPipeline:`, `newSamplerDo:`, and `newBufferDo:` provide a temporary `CreateInfo` struct to the block and automatically free it once the resource is created.
+- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:computeStorageBuffers:do:`, and `copyPassDo:` automatically call the underlying `EndGPU...Pass` functions when the block finishes.
+- **Safe Resource Creation:** Block-based factory methods on `SDL3GPUDevice` (such as `unownedNewGPUGraphicsPipeline:`, `unownedNewGPUSampler:`, and `unownedNewGPUBuffer:`) provide a temporary `CreateInfo` struct to the configuration block and automatically free it once the resource is created, returning an unowned resource that the sender assumes responsibility for releasing.
 - **Memory Mapping:** `mapTransferBuffer:cycle:do: [ :mappedAddress | ... ]` automatically unmaps the transfer buffer when the block terminates.
 
 **Example:**
@@ -199,7 +200,7 @@ The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass()](h
 To provide a more idiomatic and safe experience, many wrapper methods in the Convenience API handle error checking internally:
 
 - **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
-- **Pointer Results:** Methods that create or return SDL3 objects (e.g., `newRendererFor:`) use `assertNotNullReturn` internally. If the returned pointer is NULL, an `SDL3Error` is raised.
+- **Pointer Results:** Methods that create or return SDL3 objects (e.g., `unownedNewRenderer:`) use `assertNotNullReturn` internally. If the returned pointer is NULL, an `SDL3Error` is raised.
 - **Void Returns:** Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
 - **Query Methods:** Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.
 
