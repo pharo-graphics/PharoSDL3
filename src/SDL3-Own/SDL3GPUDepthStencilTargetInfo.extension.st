@@ -18,17 +18,3 @@ SDL3GPUDepthStencilTargetInfo >> beClear: aTexture [
 		cycle: false.
 	self clearDepth: 1.0
 ]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUDepthStencilTargetInfo class >> clear [
-
-	^ self clear: ExternalAddress null
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUDepthStencilTargetInfo class >> clear: aTexture [
-
-	^ self safeNew
-		beClear: aTexture;
-		yourself
-]

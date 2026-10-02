@@ -31,7 +31,7 @@ SDL3Tray >> tooltip: tooltip [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Tray class >> unsafeNewIcon: icon tooltip: tooltip [
+SDL3Tray class >> unownedNewIcon: icon tooltip: tooltip [
 
 	^ (self ffiLibrary createTrayIcon: icon tooltip: tooltip)
 		  assertNotNullReturn;

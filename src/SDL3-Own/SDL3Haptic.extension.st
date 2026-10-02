@@ -140,13 +140,13 @@ SDL3Haptic >> stopRumble [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Haptic >> unsafeNewEffect: effect [
+SDL3Haptic >> unownedNewEffect: effect [
 
 	^ self ffiLibrary createHapticEffectHaptic: self effect: effect
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Haptic class >> unsafeOpen: instanceId [
+SDL3Haptic class >> unownedOpen: instanceId [
 
 	^ (self ffiLibrary openHaptic: instanceId)
 		  assertNotNullReturn;
@@ -154,7 +154,7 @@ SDL3Haptic class >> unsafeOpen: instanceId [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Haptic class >> unsafeOpenFromJoystick: joystick [
+SDL3Haptic class >> unownedOpenFromJoystick: joystick [
 
 	^ (self ffiLibrary openHapticFromJoystick: joystick)
 		  assertNotNullReturn;
@@ -162,7 +162,7 @@ SDL3Haptic class >> unsafeOpenFromJoystick: joystick [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Haptic class >> unsafeOpenFromMouse [
+SDL3Haptic class >> unownedOpenFromMouse [
 
 	^ (self ffiLibrary openHapticFromMouse)
 		  assertNotNullReturn;

@@ -37,7 +37,7 @@ OSSDL3FormRenderer >> copySourceRectangle: rectangle targetOrigin: targetPoint e
 { #category : 'private' }
 OSSDL3FormRenderer >> createRenderer [
 
-	sdlRenderer := backendWindow sdlWindow unsafeNewRenderer.
+	sdlRenderer := backendWindow sdlWindow unownedNewRenderer.
 	self initializeVsync
 ]
 
@@ -52,7 +52,7 @@ OSSDL3FormRenderer >> createTexture [
 
 	sdlTexture :=
 		sdlRenderer
-			unsafeNewTextureFormat: SDL_PIXELFORMAT_XRGB8888
+			unownedNewTextureFormat: SDL_PIXELFORMAT_XRGB8888
 			access: SDL_TEXTUREACCESS_STREAMING
 			width: formExtent x
 			height: formExtent y

@@ -50,6 +50,14 @@ SDL3GPURoundedRectDemoApp >> close [
 		indexBuffer release.
 		indexBuffer := nil ].
 
+	colorTargetInfos ifNotNil: [
+		colorTargetInfos free.
+		colorTargetInfos := nil ].
+
+	indexBinding ifNotNil: [
+		indexBinding free.
+		indexBinding := nil ].
+
 	super close
 ]
 
@@ -109,59 +117,63 @@ SDL3GPURoundedRectDemoApp >> initialize [
 	cornerRadiiBase := 20.0.
 	radius := 50.0.
 
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClear: (Color r: 0.1 g: 0.1 b: 0.1).
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos first beClear: (Color r: 0.1 g: 0.1 b: 0.1).
 
-	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
+	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
 
-	indexBinding := SDL_GPUBufferBinding offset: 0.
+	indexBinding := SDL_GPUBufferBinding unownedNew
+		                beOffset: 0;
+		                yourself.
 
 	sdfUniforms := SDL3GPUSDFRoundedRectUniforms new.
 	sdfUniforms
-		shapeType: 1; "Rounded Rect"
-		radius: radius;
+		shapeType: 1;
+		"Rounded Rect"radius: radius;
 		strokeSize: 5.0;
-		fillColor: (SDL3FColor r: 0.2 g: 0.6 b: 1.0 a: 1.0);
-		strokeColor: (SDL3FColor r: 1.0 g: 1.0 b: 1.0 a: 1.0);
+		fillColor: (SDL3FColor
+				 r: 0.2
+				 g: 0.6
+				 b: 1.0
+				 a: 1.0);
+		strokeColor: (SDL3FColor
+				 r: 1.0
+				 g: 1.0
+				 b: 1.0
+				 a: 1.0);
 		fillType: 0;
 		dashCount: 0.0;
-		fillColor2: (SDL3FColor r: 1.0 g: 0.2 b: 0.6 a: 1.0)
+		fillColor2: (SDL3FColor
+				 r: 1.0
+				 g: 0.2
+				 b: 0.6
+				 a: 1.0)
 ]
 
 { #category : 'initialization' }
 SDL3GPURoundedRectDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
-
-	vertexShader := SDL3GPUQuadVertexShaderSource
-						unsafeNewShaderAmong: shaderFormats
-						device: gpuDevice.
-	fragmentShader := SDL3GPUSDFRoundedRectFragmentShaderSource
-						 unsafeNewShaderAmong: shaderFormats
-						 device: gpuDevice.
+	vertexShader := SDL3GPUQuadVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3GPUSDFRoundedRectFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
 	vertexBindings := self newSDFVertexBindings.
 	vertexAttributes := self newSDFVertexAttributes.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: fragmentShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			               info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+			               info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
-	"We can free after pipeline was created"
 	vertexShader release.
-
-	fragmentShader release
+	fragmentShader release.
+	vertexBindings free.
+	vertexAttributes free.
+	colorTargets free
 ]
 
 { #category : 'initialization' }
@@ -186,7 +198,7 @@ SDL3GPURoundedRectDemoApp >> newQuadIndices [
 SDL3GPURoundedRectDemoApp >> newSDFVertexAttributes [
 
 	| vertexAttributes |
-	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
 
 	vertexAttributes first
 		bufferSlot: 0;
@@ -207,7 +219,7 @@ SDL3GPURoundedRectDemoApp >> newSDFVertexAttributes [
 SDL3GPURoundedRectDemoApp >> newSDFVertexBindings [
 
 	| vertexBindings |
-	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
 
 	vertexBindings first
 		slot: 0;
@@ -253,10 +265,10 @@ SDL3GPURoundedRectDemoApp >> updateIndexBuffer [
 			indexBuffer release.
 			indexTransferBuffer release ].
 
-		indexTransferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
+		indexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
 
 		indexBuffer := gpuDevice
-			               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 			               size: byteSize.
 
 		indexBinding buffer: indexBuffer.
@@ -302,10 +314,10 @@ SDL3GPURoundedRectDemoApp >> updateVertexBuffer [
 			vertexBuffer release.
 			vertexTransferBuffer release ].
 
-		vertexTransferBuffer := gpuDevice unsafeNewUploadTransferBuffer: byteSize.
+		vertexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
 
 		vertexBuffer := gpuDevice
-			               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 			               size: byteSize.
 
 		vertexBufferBindings first buffer: vertexBuffer.

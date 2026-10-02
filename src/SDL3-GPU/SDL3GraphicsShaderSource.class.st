@@ -29,12 +29,21 @@ SDL3GraphicsShaderSource class >> shaderStage [
 ]
 
 { #category : 'building' }
-SDL3GraphicsShaderSource class >> unsafeNewShaderAmong: supportedShaderFormats device: aSDL3GPUDevice [
-	"Create a new shader given the available formats."
+SDL3GraphicsShaderSource class >> unownedNewShaderForDevice: aSDL3GPUDevice [
+	"Answer a new shader matching the formats supported by the given GPU device."
+
+	^ self
+		unownedNewShaderForDevice: aSDL3GPUDevice
+		formatFlags: aSDL3GPUDevice gpuShaderFormatFlags
+]
+
+{ #category : 'building' }
+SDL3GraphicsShaderSource class >> unownedNewShaderForDevice: aSDL3GPUDevice formatFlags: formatFlags [
+	"Answer a new shader given the available format flags."
 
 	self
 		withNew: SDL3GPUShaderCreateInfo
-		formats: supportedShaderFormats
+		formatFlags: formatFlags
 		do: [ :createInfo |
 			| shader m |
 			m := self metadata.

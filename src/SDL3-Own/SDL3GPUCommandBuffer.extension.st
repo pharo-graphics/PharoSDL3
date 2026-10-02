@@ -77,8 +77,8 @@ SDL3GPUCommandBuffer >> blit: info [
 SDL3GPUCommandBuffer >> blitFrom: sourceTexture to: destinationTexture do: aBlock [
 
 	| info |
-	info := SDL3GPUBlitInfo externalNew.
-	[ 
+	info := SDL3GPUBlitInfo unownedNew.
+	[
 	info
 		beSource: sourceTexture
 		destination: destinationTexture

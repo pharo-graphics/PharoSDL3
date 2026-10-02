@@ -64,6 +64,38 @@ SDL3GPUBoidsDemoApp >> close [
 		renderPipeline release.
 		renderPipeline := nil ].
 
+	vertexBufferBindings ifNotNil: [
+		vertexBufferBindings free.
+		vertexBufferBindings := nil ].
+
+	storageBuffers ifNotNil: [
+		storageBuffers free.
+		storageBuffers := nil ].
+
+	storageBufferBinding ifNotNil: [
+		storageBufferBinding free.
+		storageBufferBinding := nil ].
+
+	physicsStorageBuffers ifNotNil: [
+		physicsStorageBuffers free.
+		physicsStorageBuffers := nil ].
+
+	renderColorTargetInfos ifNotNil: [
+		renderColorTargetInfos free.
+		renderColorTargetInfos := nil ].
+
+	boidsUniforms ifNotNil: [
+		boidsUniforms free.
+		boidsUniforms := nil ].
+
+	geometryUniforms ifNotNil: [
+		geometryUniforms free.
+		geometryUniforms := nil ].
+
+	indexBufferBinding ifNotNil: [
+		indexBufferBinding free.
+		indexBufferBinding := nil ].
+
 	super close
 ]
 
@@ -167,29 +199,25 @@ SDL3GPUBoidsDemoApp >> generateInitialBoids [
 
 	| random boids |
 	random := Random seed: 7.
-	boids := FFIArray newType: SDL3GPUBoidsBoid size: numBoids.
+	boids := SDL3Array newType: SDL3GPUBoidsBoid size: numBoids.
 	1 to: numBoids do: [ :i |
-		| boid |
-		boid := boids at: i.
-		boid
-			x: random next * 2.0 - 1.0;
-			y: random next * 2.0 - 1.0.
-		boid
-			vx: random next * boidsUniforms maxVelocity
-				- (boidsUniforms maxVelocity / 2.0);
-			vy: random next * boidsUniforms maxVelocity
-				- (boidsUniforms maxVelocity / 2.0) ].
+			| boid |
+			boid := boids at: i.
+			boid
+				x: random next * 2.0 - 1.0;
+				y: random next * 2.0 - 1.0.
+			boid
+				vx: random next * boidsUniforms maxVelocity - (boidsUniforms maxVelocity / 2.0);
+				vy: random next * boidsUniforms maxVelocity - (boidsUniforms maxVelocity / 2.0) ].
 	^ boids
 ]
 
 { #category : 'private' }
 SDL3GPUBoidsDemoApp >> generateInitialHues [
 
-	| random hues |
+	| random |
 	random := Random seed: 7.
-	hues := FFIArray newType: FFIFloat32 size: numBoids.
-	1 to: numBoids do: [ :i | hues at: i put: random next ].
-	^ hues
+	^ SDL3Array newType: FFIFloat32 size: numBoids collect: [ :i | random next ]
 ]
 
 { #category : 'events' }
@@ -224,14 +252,14 @@ SDL3GPUBoidsDemoApp >> initialize [
 
 	numBoids := 1000.
 
-	vertexBufferBindings := SDL_GPUBufferBinding safeNewArray: 1.
+	vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1.
 
-	storageBuffers := ExternalAddress safeNewArray: 2.
+	storageBuffers := SDL3Array unownedNewType: ExternalAddress size: 2.
 
-	storageBufferBinding := SDL3GPUStorageBufferReadWriteBinding safeNewArray: 1.
+	storageBufferBinding := SDL3Array unownedNewType: SDL3GPUStorageBufferReadWriteBinding size: 1.
 
 	"Simulation defaults"
-	boidsUniforms := SDL3GPUBoidsUniforms safeNew.
+	boidsUniforms := SDL3GPUBoidsUniforms unownedNew.
 	boidsUniforms
 		numBoids: numBoids;
 		separationWeight: 1.5;
@@ -244,10 +272,10 @@ SDL3GPUBoidsDemoApp >> initialize [
 		damping: 0.99;
 		deltaTime: loop periodAsSeconds.
 
-	geometryUniforms := SDL3GPUBoidsGeometryUniforms safeNew.
+	geometryUniforms := SDL3GPUBoidsGeometryUniforms unownedNew.
 
-	physicsStorageBuffers := ExternalAddress safeNewArray: 1.
-	renderColorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
+	physicsStorageBuffers := SDL3Array unownedNewType: ExternalAddress size: 1.
+	renderColorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
 	renderColorTargetInfos first beClear: Color black
 ]
 
@@ -258,13 +286,13 @@ SDL3GPUBoidsDemoApp >> initializeBoidsBuffers [
 	boidsSize := numBoids * SDL3GPUBoidsBoid structureSize.
 
 	boidsBufferPing := gpuDevice
-		                   unsafeNewGPUBufferUsage:
+		                   unownedNewGPUBufferUsage:
 			                   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 			                   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		                   size: boidsSize.
 
 	boidsBufferPong := gpuDevice
-		                   unsafeNewGPUBufferUsage:
+		                   unownedNewGPUBufferUsage:
 			                   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 			                   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		                   size: boidsSize.
@@ -286,19 +314,17 @@ SDL3GPUBoidsDemoApp >> initializeBuffers [
 SDL3GPUBoidsDemoApp >> initializeComputeResources [
 
 	boidsComputePipeline := SDL3GPUBoidsComputeShaderSource
-		unsafeNewComputePipelineAmong: shaderFormats
-		device: gpuDevice.
+		unownedNewComputePipelineForDevice: gpuDevice.
 
 	geometryComputePipeline := SDL3GPUBoidsGeometryComputeShaderSource
-		unsafeNewComputePipelineAmong: shaderFormats
-		device: gpuDevice
+		unownedNewComputePipelineForDevice: gpuDevice
 ]
 
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeHuesBuffer [
 
 	huesBuffer := gpuDevice
-		              unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		              unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		              size: numBoids * FFIFloat32 externalTypeSize
 ]
 
@@ -306,49 +332,43 @@ SDL3GPUBoidsDemoApp >> initializeHuesBuffer [
 SDL3GPUBoidsDemoApp >> initializeIndexBuffer [
 
 	indexBuffer := gpuDevice
-		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: numBoids * 3 * 2. "16-bit"
 
-	indexBufferBinding := SDL_GPUBufferBinding buffer: indexBuffer offset: 0
+	indexBufferBinding := SDL_GPUBufferBinding unownedNew beBuffer: indexBuffer offset: 0; yourself
 ]
 
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
-	vertexShader := SDL3GPUBoidsVertexShaderSource
-						unsafeNewShaderAmong: shaderFormats
-						device: gpuDevice.
-	fragmentShader := SDL3GPUBoidsFragmentShaderSource
-						 unsafeNewShaderAmong: shaderFormats
-						 device: gpuDevice.
+	vertexShader := SDL3GPUBoidsVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3GPUBoidsFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
 	vertexBindings := self newBoidsVertexBindings.
 	vertexAttributes := self newBoidsVertexAttributes.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	renderPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: fragmentShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	renderPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                  info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+			                  info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	vertexShader release.
-	fragmentShader release
+	fragmentShader release.
+	vertexBindings free.
+	vertexAttributes free.
+	colorTargets free
 ]
 
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeVertexBuffers [
 
 	vertexBuffer := gpuDevice
-		                unsafeNewGPUBufferUsage:
+		                unownedNewGPUBufferUsage:
 			                SDL_GPU_BUFFERUSAGE_VERTEX
 			                | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		                size: numBoids * 3 * SDL3GPUBoidsVertex structureSize.
@@ -366,9 +386,7 @@ SDL3GPUBoidsDemoApp >> initializeVertexBuffers [
 SDL3GPUBoidsDemoApp >> newBoidsVertexAttributes [
 
 	| vertexAttributes |
-	vertexAttributes := FFIExternalArray
-							externalNewType: SDL_GPUVertexAttribute
-							size: 2.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
@@ -386,9 +404,7 @@ SDL3GPUBoidsDemoApp >> newBoidsVertexAttributes [
 SDL3GPUBoidsDemoApp >> newBoidsVertexBindings [
 
 	| vertexBindings |
-	vertexBindings := FFIExternalArray
-						 externalNewType: SDL_GPUVertexBufferDescription
-						 size: 1.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
 	vertexBindings first
 		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;

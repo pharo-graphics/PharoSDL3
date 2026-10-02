@@ -646,10 +646,10 @@ SDL3Renderer >> scale [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> unsafeNewRenderState: aBlock [
+SDL3Renderer >> unownedNewRenderState: aBlock [
 
 	| info |
-	info := SDL3GPURenderStateCreateInfo externalNew.
+	info := SDL3GPURenderStateCreateInfo unownedNew.
 	^ [
 		aBlock value: info.
 		(self ffiLibrary
@@ -662,7 +662,7 @@ SDL3Renderer >> unsafeNewRenderState: aBlock [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> unsafeNewTextureFormat: format access: access width: w height: h [
+SDL3Renderer >> unownedNewTextureFormat: format access: access width: w height: h [
 
 	^ (self ffiLibrary
 		   createTextureRenderer: self
@@ -675,18 +675,18 @@ SDL3Renderer >> unsafeNewTextureFormat: format access: access width: w height: h
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> unsafeNewTextureFromForm: aForm [
+SDL3Renderer >> unownedNewTextureFromForm: aForm [
 	"Answer a new `SDL_Texture`. The form pixels will be uploaded to the new texture, assuming form depth is 32 bits. Sender is responsible of destroying the texture."
 
 	| surface texture |
-	surface := aForm unsafeNewAsSDL3Surface.
-	texture := self unsafeNewTextureFromSurface: surface.
+	surface := aForm unownedAsSDL3Surface.
+	texture := self unownedNewTextureFromSurface: surface.
 	surface destroy.
 	^ texture
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> unsafeNewTextureFromSurface: surface [
+SDL3Renderer >> unownedNewTextureFromSurface: surface [
 
 	^ (self ffiLibrary
 		   createTextureFromSurfaceRenderer: self
@@ -696,7 +696,7 @@ SDL3Renderer >> unsafeNewTextureFromSurface: surface [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> unsafeNewTextureWithProperties: props [
+SDL3Renderer >> unownedNewTextureWithProperties: props [
 
 	^ (self ffiLibrary createTextureWithPropertiesRenderer: self props: props)
 		  assertNotNullReturn;
@@ -704,7 +704,7 @@ SDL3Renderer >> unsafeNewTextureWithProperties: props [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Renderer >> unsafeRenderReadPixelsRect: rect [
+SDL3Renderer >> unownedRenderReadPixelsRect: rect [
 
 	^ (self ffiLibrary renderReadPixelsRenderer: self rect: rect)
 		  assertNotNullReturn;

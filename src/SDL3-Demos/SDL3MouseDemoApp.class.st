@@ -27,7 +27,7 @@ SDL3MouseDemoApp >> activateNextSystemCursor [
 
 	| cursor |
 	cursorId := cursorIdGenerator next.
-	cursor := SDL3Cursor unsafeNewSystem: cursorId.
+	cursor := SDL3Cursor unownedNewSystemCursor: cursorId.
 	cursor setActive
 ]
 

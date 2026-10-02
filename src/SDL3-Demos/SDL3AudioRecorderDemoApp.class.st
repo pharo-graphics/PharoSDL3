@@ -53,7 +53,7 @@ SDL3AudioRecorderDemoApp >> openPlaybackStream [
 	"Open a stream at the the default playback device, with it's default format."
 
 	playbackStream := SDL_AudioStream
-		unsafeOpenDeviceStreamDevid: SDL3AudioDevice defaultPlaybackAudioDeviceID
+		unownedOpenDeviceStreamID: SDL3AudioDevice defaultPlaybackAudioDeviceID
 		spec: ExternalAddress null
 		callback: ExternalAddress null
 		userdata: ExternalAddress null
@@ -64,7 +64,7 @@ SDL3AudioRecorderDemoApp >> openRecordingStream [
 	"Open a stream at the the default recording device. Use the same format as the playback device"
 
 	recordingStream := SDL_AudioStream
-		unsafeOpenDeviceStreamDevid: SDL3AudioDevice defaultRecordingAudioDeviceID
+		unownedOpenDeviceStreamID: SDL3AudioDevice defaultRecordingAudioDeviceID
 		spec: playbackStream outputFormatSpec
 		callback: ExternalAddress null
 		userdata: ExternalAddress null

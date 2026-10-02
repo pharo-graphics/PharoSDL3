@@ -279,7 +279,7 @@ SDL3Gamepad >> type [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Gamepad class >> unsafeOpen: instanceId [
+SDL3Gamepad class >> unownedOpen: instanceId [
 
 	^ (self ffiLibrary openGamepad: instanceId)
 		  assertNotNullReturn;

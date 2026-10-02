@@ -22,18 +22,12 @@ SDL3GPUTest >> setUp [
 	super setUp.
 
 	window := SDL3Window
-		         unsafeNewTitle: 'GPU Test'
-		         w: 640
-		         h: 480
+		         unownedNewTitle: 'GPU Test'
+		         width: 640
+		         height: 480
 		         flags: 0.
 
-	gpuDevice := SDL3GPUDevice
-		            unsafeNewFormatFlags:
-			            SDL_GPU_SHADERFORMAT_DXIL
-			            | SDL_GPU_SHADERFORMAT_MSL
-			            | SDL_GPU_SHADERFORMAT_SPIRV
-		            debugMode: true
-		            name: nil.
+	gpuDevice := SDL3GPUDevice unownedNewDebugMode: true.
 
 	gpuDevice claimWindow: window
 ]

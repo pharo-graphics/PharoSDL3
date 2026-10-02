@@ -50,34 +50,6 @@ SDL3GPUColorTargetInfo >> beLoad: aTexture [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUColorTargetInfo class >> clear [
-
-	^ self clear: Color black
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUColorTargetInfo class >> clear: aColor [
-
-	^ self safeNew
-		beClear: aColor;
-		yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUColorTargetInfo class >> load [
-
-	^ self load: ExternalAddress null
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUColorTargetInfo class >> load: aTexture [
-
-	^ self safeNew
-		beLoad: aTexture;
-		yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3GPUColorTargetInfo >> updateClearColorFrom: aColor [
 
 	self clearColor updateFrom: aColor

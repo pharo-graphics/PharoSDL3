@@ -140,7 +140,7 @@ SDL3BasicTest >> test06Properties [
 SDL3BasicTest >> test06bPropertyGroup [
 
 	| properties |
-	properties := SDL3PropertyGroup unsafeNew.
+	properties := SDL3PropertyGroup unownedNew.
 
 	properties stringAt: 'bonjour' put: 'hola'.
 
@@ -198,4 +198,32 @@ SDL3BasicTest >> test08Hints [
 		assert: (sdl getHint: hintName)
 		equals: '' "Default"
 
+]
+
+{ #category : 'tests' }
+SDL3BasicTest >> test09Array [
+
+	| array generatedArray |
+	array := SDL3Array unownedNewType: FFIFloat32 size: 8.
+	[
+		self assert: array size equals: 8.
+		self assert: array byteSize equals: 32.
+		1 to: 8 do: [ :i |
+			self assert: (array at: i) equals: 0.0 ].
+
+		1 to: 8 do: [ :i |
+			array at: i put: 42.0 ].
+		array zeroOut.
+		1 to: 8 do: [ :i |
+			self assert: (array at: i) equals: 0.0 ].
+
+		self assert: (array addressAt: 1) equals: array getHandle.
+		self assert: (array addressAt: 2) equals: array getHandle + 4 ]
+		ensure: [ array free ].
+
+	generatedArray := SDL3Array newType: FFIFloat32 size: 4 collect: [ :i | i asFloat * 10.0 ].
+	self assert: generatedArray class equals: SDL3Array.
+	self assert: generatedArray size equals: 4.
+	self assert: (generatedArray at: 1) equals: 10.0.
+	self assert: (generatedArray at: 4) equals: 40.0
 ]

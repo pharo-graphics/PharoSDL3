@@ -41,7 +41,7 @@ SDL3TouchpadZoomDemoApp >> prepareToLoop [
 
 	super prepareToLoop.
 
-	texture := renderer unsafeNewTextureFromForm: (self iconNamed: #pharoBig).
+	texture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig).
 	textureRectangle := SDL3FRect x: 0 y: 0 width: texture w height: texture h
 ]
 

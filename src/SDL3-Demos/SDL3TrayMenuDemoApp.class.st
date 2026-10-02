@@ -48,8 +48,8 @@ SDL3TrayMenuDemoApp >> setupTray [
 				entry := SDL3TrayEntry fromHandle: entryHandle.
 				console addLine: 'Click on ', entry label surroundedBySingleQuotes ].
 
-	iconSurface := (self iconNamed: #pharo) unsafeNewAsSDL3Surface.
-	tray := SDL3Tray unsafeNewIcon: iconSurface tooltip: 'PharoSDL3'.
+	iconSurface := (self iconNamed: #pharo) unownedAsSDL3Surface.
+	tray := SDL3Tray unownedNewIcon: iconSurface tooltip: 'PharoSDL3'.
 	iconSurface destroy.
 
 	menu := tray newMenu.

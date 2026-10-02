@@ -35,9 +35,9 @@ SDL3VideoTest >> test01ClipboardAPI [
 { #category : 'tests' }
 SDL3VideoTest >> test02CursorAPI [
 
-	| cursorId cursor |
-	cursorId := SDL3SystemCursor crosshair.
-	cursor := SDL3Cursor unsafeNewSystem: cursorId.
+	| systemCursor cursor |
+	systemCursor := SDL3SystemCursor crosshair.
+	cursor := SDL3Cursor unownedNewSystemCursor: systemCursor.
 	cursor setActive.
 
 	self assert: sdl getCursor equals: cursor.

@@ -42,12 +42,21 @@ SDL3ComputeShaderSource class >> stageFileExtension [
 ]
 
 { #category : 'building' }
-SDL3ComputeShaderSource class >> unsafeNewComputePipelineAmong: supportedShaderFormats device: aSDL3GPUDevice [
-	"Create a new compute pipeline given the available formats."
+SDL3ComputeShaderSource class >> unownedNewComputePipelineForDevice: aSDL3GPUDevice [
+	"Create a new compute pipeline matching the formats supported by the given GPU device."
+
+	^ self
+		unownedNewComputePipelineForDevice: aSDL3GPUDevice
+		formatFlags: aSDL3GPUDevice gpuShaderFormatFlags
+]
+
+{ #category : 'building' }
+SDL3ComputeShaderSource class >> unownedNewComputePipelineForDevice: aSDL3GPUDevice formatFlags: formatFlags [
+	"Answer a new compute pipeline given the available format flags."
 
 	self
 		withNew: SDL3GPUComputePipelineCreateInfo
-		formats: supportedShaderFormats
+		formatFlags: formatFlags
 		do: [ :createInfo |
 			| computePipeline m |
 			m := self metadata.

@@ -70,7 +70,7 @@ SDL3AudioDevice class >> initialize [
 ]
 
 { #category : 'instance creation' }
-SDL3AudioDevice class >> unsafeOpenDevid: devid spec: spec [
+SDL3AudioDevice class >> unownedOpenID: devid spec: spec [
 
 	^ self ffiLibrary openAudioDeviceDevid: devid spec: spec
 ]
@@ -226,13 +226,13 @@ SDL3AudioDevice >> resume [
 ]
 
 { #category : 'accessing' }
-SDL3AudioDevice >> unsafeOpenSpec: spec [
+SDL3AudioDevice >> unownedOpenSpec: spec [
 
 	^ self ffiLibrary openAudioDeviceDevid: id spec: spec
 ]
 
 { #category : 'accessing' }
-SDL3AudioDevice >> unsafeOpenStreamSpec: spec callback: callback userdata: userdata [
+SDL3AudioDevice >> unownedOpenStreamSpec: spec callback: callback userdata: userdata [
 
 	^ (self ffiLibrary
 		   openAudioDeviceStreamDevid: id

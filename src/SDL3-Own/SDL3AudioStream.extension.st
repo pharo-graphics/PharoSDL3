@@ -239,7 +239,7 @@ SDL3AudioStream >> unlock [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3AudioStream class >> unsafeNewSrcSpec: srcSpec dstSpec: dstSpec [
+SDL3AudioStream class >> unownedNewSrcSpec: srcSpec dstSpec: dstSpec [
 
 	^ (self ffiLibrary
 		   createAudioStreamSrcSpec: srcSpec
@@ -249,7 +249,7 @@ SDL3AudioStream class >> unsafeNewSrcSpec: srcSpec dstSpec: dstSpec [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3AudioStream class >> unsafeOpenDeviceStreamDevid: devid spec: spec callback: callback userdata: userdata [
+SDL3AudioStream class >> unownedOpenDeviceStreamID: devid spec: spec callback: callback userdata: userdata [
 
 	^ (self ffiLibrary
 		   openAudioDeviceStreamDevid: devid

@@ -15,20 +15,6 @@ SDL3GPUBufferBinding >> beOffset: anInteger [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUBufferBinding class >> buffer: aBuffer offset: anInteger [
-
-	^ self safeNew
-		beBuffer: aBuffer offset: anInteger;
-		yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUBufferBinding class >> offset: anInteger [
-
-	^ self buffer: ExternalAddress null offset: anInteger
-]
-
-{ #category : '*SDL3-Own' }
 SDL3GPUBufferBinding >> printOn: aStream [
 
 	super printOn: aStream.

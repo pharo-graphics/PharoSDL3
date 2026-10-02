@@ -182,7 +182,7 @@ SDL3IOStream >> tellIO [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3IOStream >> unsafeLoadBMPCloseio: closeio [
+SDL3IOStream >> unownedLoadBMPCloseIO: closeio [
 
 	^ (self ffiLibrary loadBMPIOSrc: self closeio: closeio)
 		  assertNotNullReturn;
@@ -190,7 +190,7 @@ SDL3IOStream >> unsafeLoadBMPCloseio: closeio [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3IOStream >> unsafeLoadPNGCloseio: closeio [
+SDL3IOStream >> unownedLoadPNGCloseIO: closeio [
 
 	^ (self ffiLibrary loadPNGIOSrc: self closeio: closeio)
 		  assertNotNullReturn;
@@ -198,7 +198,7 @@ SDL3IOStream >> unsafeLoadPNGCloseio: closeio [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3IOStream >> unsafeLoadSurfaceCloseio: closeIO [
+SDL3IOStream >> unownedLoadSurfaceCloseIO: closeIO [
 
 	^ (self ffiLibrary loadSurfaceIOSrc: self closeio: closeIO)
 		  assertNotNullReturn;
@@ -206,7 +206,7 @@ SDL3IOStream >> unsafeLoadSurfaceCloseio: closeIO [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3IOStream class >> unsafeOpenIface: iface userdata: userdata [
+SDL3IOStream class >> unownedOpenIface: iface userdata: userdata [
 
 	^ (self ffiLibrary openIOIface: iface userdata: userdata)
 		  assertNotNullReturn;

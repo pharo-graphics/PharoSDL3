@@ -41,7 +41,7 @@ SDL3ImageClipboardDemoApp >> checkImageClipboardWithMimeTypes: imageMimes [
 				lastImageBytes := bytes.
 				form := ImageReadWriter formFromStream: bytes readStream.
 				texture ifNotNil: [ texture destroy ].
-				texture := renderer unsafeNewTextureFromForm: form.
+				texture := renderer unownedNewTextureFromForm: form.
 				console addLine: 'Loaded new image from clipboard' ] ]
 		ifAbsent: [  ]
 ]
@@ -118,7 +118,7 @@ SDL3ImageClipboardDemoApp >> drawPharoIconOverlay [
 
 	| windowExtent iconExtent iconOrigin |
 	pharoIconTexture ifNil: [ 
-		pharoIconTexture := renderer unsafeNewTextureFromForm: (self iconNamed: #pharoBig) ].
+		pharoIconTexture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig) ].
 
 	windowExtent := window extent.
 	iconExtent := 64 @ 64.

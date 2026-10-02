@@ -226,7 +226,7 @@ SDL3Joystick >> type [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Joystick class >> unsafeOpen: instanceId [
+SDL3Joystick class >> unownedOpen: instanceId [
 
 	^ (self ffiLibrary openJoystick: instanceId)
 		  assertNotNullReturn;
@@ -234,7 +234,7 @@ SDL3Joystick class >> unsafeOpen: instanceId [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Joystick >> unsafeOpenHapticFrom [
+SDL3Joystick >> unownedOpenHapticFrom [
 
 	^ (self ffiLibrary openHapticFromJoystick: self)
 		  assertNotNullReturn;

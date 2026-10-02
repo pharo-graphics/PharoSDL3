@@ -50,17 +50,61 @@ Class {
 { #category : 'lifecycle' }
 SDL3GPUMandelbrotDemoApp >> close [
 
-	computePipeline ifNotNil: [ computePipeline release. computePipeline := nil ].
-	quadPipeline ifNotNil: [ quadPipeline release. quadPipeline := nil ].
-	shimmerPipeline ifNotNil: [ shimmerPipeline release. shimmerPipeline := nil ].
+	computePipeline ifNotNil: [
+		computePipeline release.
+		computePipeline := nil ].
+	quadPipeline ifNotNil: [
+		quadPipeline release.
+		quadPipeline := nil ].
+	shimmerPipeline ifNotNil: [
+		shimmerPipeline release.
+		shimmerPipeline := nil ].
 
-	atlasTexture ifNotNil: [ atlasTexture release. atlasTexture := nil ].
-	sampler ifNotNil: [ sampler release. sampler := nil ].
+	atlasTexture ifNotNil: [
+		atlasTexture release.
+		atlasTexture := nil ].
+	sampler ifNotNil: [
+		sampler release.
+		sampler := nil ].
 
-	vertexBuffer ifNotNil: [ vertexBuffer release. vertexBuffer := nil ].
-	indexBuffer ifNotNil: [ indexBuffer release. indexBuffer := nil ].
-	instanceBuffer ifNotNil: [ instanceBuffer release. instanceBuffer := nil ].
-	shimmerInstanceBuffer ifNotNil: [ shimmerInstanceBuffer release. shimmerInstanceBuffer := nil ].
+	vertexBuffer ifNotNil: [
+		vertexBuffer release.
+		vertexBuffer := nil ].
+	indexBuffer ifNotNil: [
+		indexBuffer release.
+		indexBuffer := nil ].
+	instanceBuffer ifNotNil: [
+		instanceBuffer release.
+		instanceBuffer := nil ].
+	shimmerInstanceBuffer ifNotNil: [
+		shimmerInstanceBuffer release.
+		shimmerInstanceBuffer := nil ].
+
+	colorTargetInfos ifNotNil: [
+		colorTargetInfos free.
+		colorTargetInfos := nil ].
+	atlasBindings ifNotNil: [
+		atlasBindings free.
+		atlasBindings := nil ].
+	uniforms ifNotNil: [
+		uniforms free.
+		uniforms := nil ].
+	shimmerUniforms ifNotNil: [
+		shimmerUniforms free.
+		shimmerUniforms := nil ].
+	vertexBufferBindings ifNotNil: [
+		vertexBufferBindings free.
+		vertexBufferBindings := nil ].
+	shimmerVertexBufferBindings ifNotNil: [
+		shimmerVertexBufferBindings free.
+		shimmerVertexBufferBindings := nil ].
+	samplerBindings ifNotNil: [
+		samplerBindings free.
+		samplerBindings := nil ].
+
+	indexBufferBinding ifNotNil: [
+		indexBufferBinding free.
+		indexBufferBinding := nil ].
 
 	super close
 ]
@@ -227,32 +271,41 @@ SDL3GPUMandelbrotDemoApp >> initialize [
 	tileManager := SDL3TileManager new.
 	tileManager camera: camera.
 
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClear: (Color r: 0.02 g: 0.02 b: 0.05).
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos first beClear: (Color r: 0.02 g: 0.02 b: 0.05).
 
-	atlasBindings := SDL3GPUStorageTextureReadWriteBinding safeNewArray: 1.
+	atlasBindings := SDL3Array unownedNewType: SDL3GPUStorageTextureReadWriteBinding size: 1.
 	atlasBindings first beUnbound.
 
-	uniforms := SDL3GPUMandelbrotUniforms safeNew.
+	uniforms := SDL3GPUMandelbrotUniforms unownedNew.
 
-	shimmerUniforms := SDL3GPUShimmerUniforms safeNew.
+	shimmerUniforms := SDL3GPUShimmerUniforms unownedNew.
 	shimmerUniforms
-		baseColor: (SDL3FColor r: 0.1 g: 0.1 b: 0.15 a: 1.0);
-		highlightColor: (SDL3FColor r: 0.2 g: 0.2 b: 0.3 a: 1.0);
-		effectType: 2; "Angled Sweep"
-		cornerRadius: 0.0. "Perfectly square tiles"
+		baseColor: (SDL3FColor
+				 r: 0.1
+				 g: 0.1
+				 b: 0.15
+				 a: 1.0);
+		highlightColor: (SDL3FColor
+				 r: 0.2
+				 g: 0.2
+				 b: 0.3
+				 a: 1.0);
+		effectType: 2;
+		"Angled Sweep"cornerRadius: 0.0. "Perfectly square tiles"
 
 	tileToSlotMap := Dictionary new.
-	freeSlots := (0 to: (atlasSizeSlots x * atlasSizeSlots y - 1)) asOrderedCollection.
+	freeSlots := (0 to: atlasSizeSlots x * atlasSizeSlots y - 1) asOrderedCollection.
 
-	vertexBufferBindings := SDL_GPUBufferBinding safeNewArray: 2.
+	vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2.
 
-	shimmerVertexBufferBindings := SDL_GPUBufferBinding safeNewArray: 2.
+	shimmerVertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2.
 
-	indexBufferBinding := SDL_GPUBufferBinding offset: 0.
+	indexBufferBinding := SDL_GPUBufferBinding unownedNew
+		                      beOffset: 0;
+		                      yourself.
 
-	samplerBindings := SDL_GPUTextureSamplerBinding safeNewArray: 1.
+	samplerBindings := SDL3Array unownedNewType: SDL_GPUTextureSamplerBinding size: 1.
 
 	loadingDelayMillis := 250.
 	tileStates := Dictionary new.
@@ -267,7 +320,7 @@ SDL3GPUMandelbrotDemoApp >> initialize [
 { #category : 'initialization' }
 SDL3GPUMandelbrotDemoApp >> initializeAtlas [
 
-	atlasTexture := gpuDevice unsafeNewTexture: [ :info |
+	atlasTexture := gpuDevice unownedNewGPUTexture: [ :info |
 		info
 			type: SDL_GPU_TEXTURETYPE_2D;
 			format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
@@ -277,7 +330,7 @@ SDL3GPUMandelbrotDemoApp >> initializeAtlas [
 			numLevels: 1;
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE ].
 
-	sampler := gpuDevice unsafeNewSampler: [ :info |
+	sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info
 			minFilter: SDL_GPU_FILTER_LINEAR;
 			magFilter: SDL_GPU_FILTER_LINEAR;
@@ -302,11 +355,11 @@ SDL3GPUMandelbrotDemoApp >> initializeInstanceBuffers [
 
 	"Pre-allocate instance buffers for up to 256 tiles"
 	instanceBuffer := gpuDevice
-		                  unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                  size: 256 * SDL3GPUTileInstance structureSize.
 
 	shimmerInstanceBuffer := gpuDevice
-		                         unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                         unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                         size: 256 * SDL3GPUTileInstance structureSize
 ]
 
@@ -314,11 +367,11 @@ SDL3GPUMandelbrotDemoApp >> initializeInstanceBuffers [
 SDL3GPUMandelbrotDemoApp >> initializeQuadBuffers [
 
 	vertexBuffer := gpuDevice
-		                unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: 4 * SDL3GPUQuadVertex structureSize.
 
 	indexBuffer := gpuDevice
-		               unsafeNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -369,86 +422,69 @@ SDL3GPUMandelbrotDemoApp >> initializeQuadBuffers [
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineWith: formats colorTargets: colorTargets [
+SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineColorTargets: colorTargets [
 
 	| quadVertexSource quadFragmentSource vertexBindings vertexAttributes |
-
-	quadVertexSource := SDL3GPUTiledMapVertexShaderSource
-							unsafeNewShaderAmong: formats
-							device: gpuDevice.
-	quadFragmentSource := SDL3GPUQuadFragmentShaderSource
-							 unsafeNewShaderAmong: formats
-							 device: gpuDevice.
+	quadVertexSource := SDL3GPUTiledMapVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	quadFragmentSource := SDL3GPUQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState new.
 
 	vertexBindings := self newTiledMapVertexBindings.
 	vertexAttributes := self newTiledMapVertexAttributes.
 
-	quadPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
-		info
-			vertex: quadVertexSource
-			fragment: quadFragmentSource
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	quadPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                info vertex: quadVertexSource fragment: quadFragmentSource targets: colorTargets.
+			                info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	quadVertexSource release.
-	quadFragmentSource release
+	quadFragmentSource release.
+	vertexBindings free.
+	vertexAttributes free
 ]
 
 { #category : 'initialization' }
 SDL3GPUMandelbrotDemoApp >> initializeShaders [
 
 	| colorTargets |
-	computePipeline := SDL3GPUMandelbrotComputeShaderSource
-						  unsafeNewComputePipelineAmong: shaderFormats
-						  device: gpuDevice.
+	computePipeline := SDL3GPUMandelbrotComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
-	colorTargets first format:
-		(gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
+	colorTargets first format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
 
-	self initializeQuadPipelineWith: shaderFormats colorTargets: colorTargets.
-	self initializeShimmerPipelineWith: shaderFormats colorTargets: colorTargets
+	self initializeQuadPipelineColorTargets: colorTargets.
+	self initializeShimmerPipelineColorTargets: colorTargets.
+
+	colorTargets free
 ]
 
 { #category : 'private' }
-SDL3GPUMandelbrotDemoApp >> initializeShimmerPipelineWith: formats colorTargets: colorTargets [
+SDL3GPUMandelbrotDemoApp >> initializeShimmerPipelineColorTargets: colorTargets [
 
 	| shimmerVertexSource shimmerFragmentSource shimmerVertexBindings shimmerVertexAttributes |
-
-	shimmerVertexSource := SDL3GPUShimmerVertexShaderSource
-							  unsafeNewShaderAmong: formats
-							  device: gpuDevice.
-	shimmerFragmentSource := SDL3GPUShimmerFragmentShaderSource
-								unsafeNewShaderAmong: formats
-								device: gpuDevice.
+	shimmerVertexSource := SDL3GPUShimmerVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	shimmerFragmentSource := SDL3GPUShimmerFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
 	shimmerVertexBindings := self newTiledMapVertexBindings.
 	shimmerVertexAttributes := self newTiledMapVertexAttributes.
 
-	shimmerPipeline := gpuDevice unsafeNewGraphicsPipeline: [ :info |
-		info
-			vertex: shimmerVertexSource
-			fragment: shimmerFragmentSource
-			targets: colorTargets.
-		info vertexInputState
-			attributes: shimmerVertexAttributes
-			bindings: shimmerVertexBindings ].
+	shimmerPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                   info vertex: shimmerVertexSource fragment: shimmerFragmentSource targets: colorTargets.
+			                   info vertexInputState attributes: shimmerVertexAttributes bindings: shimmerVertexBindings ].
 
 	shimmerVertexSource release.
-	shimmerFragmentSource release
+	shimmerFragmentSource release.
+	shimmerVertexBindings free.
+	shimmerVertexAttributes free
 ]
 
 { #category : 'private' }
 SDL3GPUMandelbrotDemoApp >> newTiledMapVertexAttributes [
 
 	| vertexAttributes |
-	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 4.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 4.
 
 	vertexAttributes first
 		bufferSlot: 0;
@@ -478,7 +514,7 @@ SDL3GPUMandelbrotDemoApp >> newTiledMapVertexAttributes [
 SDL3GPUMandelbrotDemoApp >> newTiledMapVertexBindings [
 
 	| vertexBindings |
-	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 2.
 
 	vertexBindings first
 		slot: 0;

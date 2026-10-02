@@ -132,7 +132,7 @@ OSSDL3GPUUploadStream >> initializeResources [
 
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ self ].
 
-	transferBuffer := gpuDevice unsafeNewUploadTransferBuffer: gpuTransferBufferSize.
+	transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: gpuTransferBufferSize.
 
 	externalForm := OSSDL3ExternalForm new.
 

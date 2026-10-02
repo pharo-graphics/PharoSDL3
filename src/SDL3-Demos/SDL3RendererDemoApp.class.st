@@ -54,7 +54,7 @@ SDL3RendererDemoApp >> color: aColor [
 { #category : 'lifecycle' }
 SDL3RendererDemoApp >> initializeRenderer [
 
-	renderer := window unsafeNewRenderer
+	renderer := window unownedNewRenderer
 ]
 
 { #category : 'lifecycle' }

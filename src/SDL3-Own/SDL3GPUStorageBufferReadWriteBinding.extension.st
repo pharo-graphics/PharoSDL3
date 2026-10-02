@@ -7,11 +7,3 @@ SDL3GPUStorageBufferReadWriteBinding >> beBuffer: aBuffer [
 		buffer: aBuffer;
 		cycle: false
 ]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUStorageBufferReadWriteBinding class >> buffer: aBuffer [
-
-	^ self safeNew
-		beBuffer: aBuffer;
-		yourself
-]

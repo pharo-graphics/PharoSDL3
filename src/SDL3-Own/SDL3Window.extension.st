@@ -774,13 +774,7 @@ SDL3Window >> title: title [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window >> unsafeMetalCreateView [
-
-	^ self ffiLibrary metalCreateView: self
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Window >> unsafeNewGLContext [
+SDL3Window >> unownedNewGLContext [
 
 	^ (self ffiLibrary glCreateContext: self)
 		  assertNotNullReturn;
@@ -788,47 +782,53 @@ SDL3Window >> unsafeNewGLContext [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window >> unsafeNewGPURenderer [
+SDL3Window >> unownedNewGPURenderer [
 
-	^ self unsafeNewRendererFor: 'gpu'
+	^ self unownedNewRenderer: 'gpu'
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window class >> unsafeNewPopupParent: parent offsetX: offsetX offsetY: offsetY w: w h: h flags: flags [
+SDL3Window >> unownedNewMetalView [
+
+	^ self ffiLibrary metalCreateView: self
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window class >> unownedNewPopupParent: parent offsetX: offsetX offsetY: offsetY width: width height: height flags: flags [
 
 	^ (self ffiLibrary
 		   createPopupWindowParent: parent
 		   offsetX: offsetX
 		   offsetY: offsetY
-		   w: w
-		   h: h
+		   w: width
+		   h: height
 		   flags: flags)
 		  assertNotNullReturn;
 		  yourself
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window >> unsafeNewPopupParentOffsetX: offsetX offsetY: offsetY w: w h: h flags: flags [
+SDL3Window >> unownedNewPopupParentOffsetX: offsetX offsetY: offsetY width: width height: height flags: flags [
 
 	^ (self ffiLibrary
 		   createPopupWindowParent: self
 		   offsetX: offsetX
 		   offsetY: offsetY
-		   w: w
-		   h: h
+		   w: width
+		   h: height
 		   flags: flags)
 		  assertNotNullReturn;
 		  yourself
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window >> unsafeNewRenderer [
+SDL3Window >> unownedNewRenderer [
 
-	^ self unsafeNewRendererFor: nil
+	^ self unownedNewRenderer: nil
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window >> unsafeNewRendererFor: name [
+SDL3Window >> unownedNewRenderer: name [
 
 	^ (self ffiLibrary createRendererWindow: self name: name)
 		  assertNotNullReturn;
@@ -836,19 +836,19 @@ SDL3Window >> unsafeNewRendererFor: name [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window class >> unsafeNewTitle: title w: w h: h flags: flags [
+SDL3Window class >> unownedNewTitle: title width: width height: height flags: flags [
 
 	^ (self ffiLibrary
 		   createWindowTitle: title
-		   w: w
-		   h: h
+		   w: width
+		   h: height
 		   flags: flags)
 		  assertNotNullReturn;
 		  yourself
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window class >> unsafeNewWithProperties: props [
+SDL3Window class >> unownedNewWithProperties: props [
 
 	^ (self ffiLibrary createWindowWithProperties: props)
 		  assertNotNullReturn;

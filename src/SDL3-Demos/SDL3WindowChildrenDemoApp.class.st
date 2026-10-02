@@ -45,7 +45,7 @@ SDL3WindowChildrenDemoApp >> addChild: aWindow type: aSymbol [
 	id := aWindow id.
 	children at: id put: aWindow.
 	childTypes at: id put: aSymbol.
-	aWindow unsafeNewRenderer. "Ensure the window has an associated default renderer"
+	aWindow unownedNewRenderer. "Ensure the window has an associated default renderer"
 ]
 
 { #category : 'lifecycle' }
@@ -219,8 +219,10 @@ SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 				length := 200.
 				child :=
 					SDL3Window
-						unsafeNewTitle: ''
-						w: length h: length flags: SDL_WINDOW_UTILITY.
+						unownedNewTitle: ''
+						width: length
+						height: length
+						flags: SDL_WINDOW_UTILITY.
 				child parent: window.
 				child position: window position + window extent - length.
 				self addChild: child type: #Utility ] ].
@@ -230,9 +232,11 @@ SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		self removeTooltips.
 		position := sdl mousePositionRounded.
 		child := window
-			unsafeNewPopupParentOffsetX: position x
+			unownedNewPopupParentOffsetX: position x
 			offsetY: position y - 300
-			w: 200 h: 300 flags: SDL_WINDOW_TOOLTIP.
+			width: 200
+			height: 300
+			flags: SDL_WINDOW_TOOLTIP.
 		self addChild: child type: #PopupTooltip ].
 
 	key = SDLK_M ifTrue: [
@@ -240,15 +244,19 @@ SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		self removePopupMenus.
 		position := sdl mousePositionRounded.
 		child := window
-			unsafeNewPopupParentOffsetX: position x - 10
+			unownedNewPopupParentOffsetX: position x - 10
 			offsetY: position y - 10
-			w: 150 h: 300 flags: SDL_WINDOW_POPUP_MENU.
+			width: 150
+			height: 300
+			flags: SDL_WINDOW_POPUP_MENU.
 		self addChild: child type: #PopupMenu ].
 
 	key = SDLK_D ifTrue: [
 		child := SDL3Window
-			unsafeNewTitle: 'Modal Dialog'
-			w: 150 h: 150 flags: 0.
+			unownedNewTitle: 'Modal Dialog'
+			width: 150
+			height: 150
+			flags: 0.
 		child parent: window.
 		child modal: true.
 		self addChild: child type: #Modal ].

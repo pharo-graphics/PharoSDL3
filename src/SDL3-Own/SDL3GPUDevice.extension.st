@@ -28,8 +28,8 @@ SDL3GPUDevice >> downloadFrom: sourceBuffer type: ffiClass count: arraySize do: 
 
 	| byteSize transferBuffer commandBuffer |
 	byteSize := ffiClass externalTypeSize * arraySize.
-	transferBuffer := self unsafeNewDownloadTransferBuffer: byteSize.
-	
+	transferBuffer := self unownedNewGPUDownloadTransferBuffer: byteSize.
+
 	[
 		"1. Record and submit the copy command"
 		commandBuffer := self acquireGPUCommandBuffer.
@@ -90,20 +90,9 @@ SDL3GPUDevice >> gpuBufferNameBuffer: buffer text: text [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> gpuShaderFormats [
+SDL3GPUDevice >> gpuShaderFormatFlags [
 
 	^ self ffiLibrary getGPUShaderFormats: self
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUDevice >> gpuShaderFormatsAsArray [
-
-	| formatsBitFlags |
-	formatsBitFlags := self gpuShaderFormats.
-
-	formatsBitFlags = 0 ifTrue: [ ^ #() ].
-
-	^ SDL3GPUShaderFormat allValuesIn: formatsBitFlags
 ]
 
 { #category : '*SDL3-Own' }
@@ -205,10 +194,10 @@ SDL3GPUDevice >> unmapGPUTransferBuffer: transferBuffer [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNew2DGPUTextureFormat: pixelFormat usage: usage width: width height: height [
+SDL3GPUDevice >> unownedNew2DGPUTextureFormat: pixelFormat usage: usage width: width height: height [
 	"Answer a new `SDL_GPUTexture` with the given pixel format, usage and extent, and use default values."
 
-	^ self unsafeNewTexture: [ :info |
+	^ self unownedNewGPUTexture: [ :info |
 		info
 			type: SDL_GPU_TEXTURETYPE_2D;
 			format: pixelFormat;
@@ -222,10 +211,33 @@ SDL3GPUDevice >> unsafeNew2DGPUTextureFormat: pixelFormat usage: usage width: wi
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewBuffer: aBlock [
+SDL3GPUDevice class >> unownedNewDebugMode: debugMode [
+
+	^ self
+		unownedNewFormatFlags:
+			SDL_GPU_SHADERFORMAT_DXIL |
+			SDL_GPU_SHADERFORMAT_MSL |
+			SDL_GPU_SHADERFORMAT_SPIRV
+		debugMode: debugMode
+		name: nil
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice class >> unownedNewFormatFlags: formatFlags debugMode: debugMode name: aString [
+
+	^ (self ffiLibrary
+		   createGPUDeviceFormatFlags: formatFlags
+		   debugMode: debugMode
+		   name: aString)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> unownedNewGPUBuffer: aBlock [
 
 	| info |
-	info := SDL3GPUBufferCreateInfo externalNew.
+	info := SDL3GPUBufferCreateInfo unownedNew.
 	^ [
 		aBlock value: info.
 		(self ffiLibrary createGPUBufferDevice: self createinfo: info)
@@ -236,10 +248,19 @@ SDL3GPUDevice >> unsafeNewBuffer: aBlock [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewComputePipeline: aBlock [
+SDL3GPUDevice >> unownedNewGPUBufferUsage: usage size: size [
+
+	^ self unownedNewGPUBuffer: [ :info |
+		info
+			usage: usage asInteger;
+			size: size ]
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> unownedNewGPUComputePipeline: aBlock [
 
 	| createInfo pipeline |
-	createInfo := SDL3GPUComputePipelineCreateInfo externalNew.
+	createInfo := SDL3GPUComputePipelineCreateInfo unownedNew.
 	^ [
 		  aBlock value: createInfo.
 		  pipeline := (self ffiLibrary
@@ -253,11 +274,11 @@ SDL3GPUDevice >> unsafeNewComputePipeline: aBlock [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewDownloadTransferBuffer: size [
+SDL3GPUDevice >> unownedNewGPUDownloadTransferBuffer: size [
 	"Create a transfer buffer for downloading data from the GPU."
 
 	| info |
-	info := SDL3GPUTransferBufferCreateInfo externalNew.
+	info := SDL3GPUTransferBufferCreateInfo unownedNew.
 	^ [
 		info
 			usage: SDL3GPUTransferBufferUsage download;
@@ -271,27 +292,26 @@ SDL3GPUDevice >> unsafeNewDownloadTransferBuffer: size [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice class >> unsafeNewFormatFlags: formatFlags debugMode: debugMode name: aString [
+SDL3GPUDevice >> unownedNewGPUGraphicsPipeline: aBlock [
 
-	^ (self ffiLibrary
-		   createGPUDeviceFormatFlags: formatFlags
-		   debugMode: debugMode
-		   name: aString)
-		  assertNotNullReturn;
-		  yourself
+	| info pipeline |
+	info := SDL3GPUGraphicsPipelineCreateInfo unownedNew.
+	^ [
+		  aBlock value: info.
+
+		  pipeline := (self ffiLibrary
+			               createGPUGraphicsPipelineDevice: self
+			               createinfo: info)
+			              assertNotNullReturn;
+			              device: self;
+			              yourself.
+		  pipeline vertexMetadata: info vertexMetadata.
+		  pipeline fragmentMetadata: info fragmentMetadata.
+		  pipeline ] ensure: [ info free ]
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewGPUBufferUsage: usage size: size [
-
-	^ self unsafeNewBuffer: [ :info |
-		info
-			usage: usage asInteger;
-			size: size ]
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewGPURendererWindow: window [
+SDL3GPUDevice >> unownedNewGPURendererWindow: window [
 
 	^ (self ffiLibrary createGPURendererDevice: self window: window)
 		  assertNotNullReturn;
@@ -299,27 +319,54 @@ SDL3GPUDevice >> unsafeNewGPURendererWindow: window [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewGPUTextureUploadingForm: aForm usage: aUsage [
+SDL3GPUDevice >> unownedNewGPUSampler: aBlock [
+
+	| info |
+	info := SDL3GPUSamplerCreateInfo unownedNew.
+	^ [
+		aBlock value: info.
+		(self ffiLibrary createGPUSamplerDevice: self createinfo: info)
+			assertNotNullReturn;
+			device: self;
+			yourself
+	] ensure: [ info free ]
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> unownedNewGPUTexture: aBlock [
+
+	| info |
+	info := SDL3GPUTextureCreateInfo unownedNew.
+	^ [
+		aBlock value: info.
+		(self ffiLibrary createGPUTextureDevice: self createinfo: info)
+			assertNotNullReturn;
+			device: self;
+			yourself
+	] ensure: [ info free ]
+]
+
+{ #category : '*SDL3-Own' }
+SDL3GPUDevice >> unownedNewGPUTextureUploadingForm: aForm usage: aUsage [
 	"Answer a new `SDL_GPUTexture` and copy the Form pixels to it (assuming depth is 32 bits).
 	Sender is responsible of releasing the texture. Note: It may be convenient to reuse the transfer buffer and other SDL objects."
 
 	| gpuTexture transferBuffer commandBuffer |
-
 
 	self assert: [ aForm depth = 32 ].
 	aForm unhibernate.
 
 	gpuTexture :=
 		self
-			unsafeNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 			usage: aUsage
 			width: aForm width
 			height: aForm height.
 
-	transferBuffer := self unsafeNewUploadTransferBuffer: aForm bits byteSize.
+	transferBuffer := self unownedNewGPUUploadTransferBuffer: aForm bits byteSize.
 	self mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 		"Copy from surface pixels handle to mappedAddress handle"
-		SDL3Library uniqueInstance memcpyDst: mappedAddress src: aForm bits len: aForm bits byteSize].
+		SDL3Library uniqueInstance memcpyDst: mappedAddress src: aForm bits len: aForm bits byteSize ].
 
 	commandBuffer := self acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
@@ -340,65 +387,18 @@ SDL3GPUDevice >> unsafeNewGPUTextureUploadingForm: aForm usage: aUsage [
 	commandBuffer submit.
 
 	transferBuffer release.
-	
+
 	^ gpuTexture
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewGraphicsPipeline: aBlock [
-
-	| info pipeline |
-	info := SDL3GPUGraphicsPipelineCreateInfo externalNew.
-	^ [
-		  aBlock value: info.
-
-		  pipeline := (self ffiLibrary
-			               createGPUGraphicsPipelineDevice: self
-			               createinfo: info)
-			              assertNotNullReturn;
-			              device: self;
-			              yourself.
-		  pipeline vertexMetadata: info vertexMetadata.
-		  pipeline fragmentMetadata: info fragmentMetadata.
-		  pipeline ] ensure: [ info free ]
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewSampler: aBlock [
-
-	| info |
-	info := SDL3GPUSamplerCreateInfo externalNew.
-	^ [
-		aBlock value: info.
-		(self ffiLibrary createGPUSamplerDevice: self createinfo: info)
-			assertNotNullReturn;
-			device: self;
-			yourself
-	] ensure: [ info free ]
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewTexture: aBlock [
-
-	| info |
-	info := SDL3GPUTextureCreateInfo externalNew.
-	^ [
-		aBlock value: info.
-		(self ffiLibrary createGPUTextureDevice: self createinfo: info)
-			assertNotNullReturn;
-			device: self;
-			yourself
-	] ensure: [ info free ]
-]
-
-{ #category : '*SDL3-Own' }
-SDL3GPUDevice >> unsafeNewUploadTransferBuffer: size [
+SDL3GPUDevice >> unownedNewGPUUploadTransferBuffer: size [
 	"Create a transfer buffer for uploading data to the GPU."
 
 	| info |
-	info := SDL3GPUTransferBufferCreateInfo externalNew.
+	info := SDL3GPUTransferBufferCreateInfo unownedNew.
 	^ [
-	 	info
+		info
 			usage: SDL3GPUTransferBufferUsage upload;
 			size: size;
 			props: 0.
@@ -410,7 +410,7 @@ SDL3GPUDevice >> unsafeNewUploadTransferBuffer: size [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUDevice class >> unsafeNewWithProperties: propertiesID [
+SDL3GPUDevice class >> unownedNewWithProperties: propertiesID [
 
 	^ (self ffiLibrary createGPUDeviceWithProperties: propertiesID)
 		  assertNotNullReturn;

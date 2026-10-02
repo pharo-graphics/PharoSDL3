@@ -13,17 +13,14 @@ Class {
 SDL3GPUClearDemoApp >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 
 	| animatedHue colorTargetInfos |
+	animatedHue := Time millisecondClockValue / 10.0 \\ 360.
 
-	animatedHue := (Time millisecondClockValue / 10.0) \\ 360.
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	[
+		colorTargetInfos first beClearTexture: swapchainTexture color: (Color h: animatedHue s: 1.0 v: 1.0).
 
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClearTexture: swapchainTexture
-		color: (Color h: animatedHue s: 1.0 v: 1.0).
-
-	aCommandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
-		"HERE: use `SDL3GPURenderPass` to draw"
-	]
+		aCommandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass | "HERE: use `SDL3GPURenderPass` to draw" ] ] ensure: [
+		colorTargetInfos free ]
 ]
 
 { #category : 'accessing' }

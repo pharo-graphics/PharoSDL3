@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SDL3PropertyGroup class >> unsafeNew [
+SDL3PropertyGroup class >> unownedNew [
 
 	^ self ffiLibrary createPropertyGroup
 ]
@@ -168,7 +168,7 @@ SDL3PropertyGroup >> unlock [
 ]
 
 { #category : 'accessing' }
-SDL3PropertyGroup >> unsafeNewGPUDevice [
+SDL3PropertyGroup >> unownedNewGPUDevice [
 
 	^ (self ffiLibrary createGPUDeviceWithProperties: id)
 		  assertNotNullReturn;
@@ -176,7 +176,7 @@ SDL3PropertyGroup >> unsafeNewGPUDevice [
 ]
 
 { #category : 'accessing' }
-SDL3PropertyGroup >> unsafeNewProcess [
+SDL3PropertyGroup >> unownedNewProcess [
 
 	^ (self ffiLibrary createProcessWithProperties: id)
 		  assertNotNullReturn;
@@ -184,7 +184,7 @@ SDL3PropertyGroup >> unsafeNewProcess [
 ]
 
 { #category : 'accessing' }
-SDL3PropertyGroup >> unsafeNewRenderer [
+SDL3PropertyGroup >> unownedNewRenderer [
 
 	^ (self ffiLibrary createRendererWithProperties: id)
 		  assertNotNullReturn;
@@ -192,7 +192,7 @@ SDL3PropertyGroup >> unsafeNewRenderer [
 ]
 
 { #category : 'accessing' }
-SDL3PropertyGroup >> unsafeNewThread [
+SDL3PropertyGroup >> unownedNewThread [
 
 	^ (self ffiLibrary createThreadWithProperties: id)
 		  assertNotNullReturn;
@@ -200,7 +200,7 @@ SDL3PropertyGroup >> unsafeNewThread [
 ]
 
 { #category : 'accessing' }
-SDL3PropertyGroup >> unsafeNewWindow [
+SDL3PropertyGroup >> unownedNewWindow [
 
 	^ (self ffiLibrary createWindowWithProperties: id)
 		  assertNotNullReturn;
