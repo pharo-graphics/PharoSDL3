@@ -8,13 +8,13 @@ Based on repeated `shadercross` errors, the transpiler imposes strict rules on h
 
 | Resource Type | HLSL Register | Transpiler Space | Pharo Slot | Pharo API |
 | :--- | :--- | :--- | :--- | :--- |
-| **Compute Uniform** | `b0` | `space2` | 0 | `pushGPUComputeUniformDataSlotIndex: 0 ...` |
-| **Vertex Uniform** | `b0` | `space1` | 0 | `pushGPUVertexUniformDataSlotIndex: 0 ...` |
-| **Fragment Uniform** | `b0` | `space3` | 0 | `pushGPUFragmentUniformDataSlotIndex: 0 ...` |
+| **Compute Uniform** | `b0` | `space2` | 0 | `pushComputeUniform: data slot: 0` |
+| **Vertex Uniform** | `b0` | `space1` | 0 | `pushVertexUniform: data slot: 0` |
+| **Fragment Uniform** | `b0` | `space3` | 0 | `pushFragmentUniform: data slot: 0` |
 | **RO Storage (Vert/Comp)** | `t0` | `space0` | 0 | `vertexStorageBuffers: ... slot: 0` |
 | **RO Storage (Fragment)** | `t0` | `space2` | 0 | `fragmentStorageBuffers: ... slot: 0` |
-| **RW Storage** | `u0` | `space1` | 0 | `computeStorageBuffers: ... slot: 0` |
-| **Samplers (Vert/Comp)** | `s0` | `space0` | 0 | `vertexSamplers: ... slot: 0` |
+| **RW Storage** | `u0` | `space1` | 0 | `computeStorageBuffers: ... slot: 0` / `computeStorageTextures: ... slot: 0` |
+| **Samplers (Vert/Comp)** | `s0` | `space0` | 0 | `vertexSamplers: ... slot: 0` / `computeSamplers: ... slot: 0` |
 | **Samplers (Fragment)** | `s0` | `space2` | 0 | `fragmentSamplers: ... slot: 0` |
 
 > [!WARNING]
@@ -36,21 +36,21 @@ To bind resources correctly, follow these Pharo API mappings. **All high-level m
 - **Pharo API**: `renderPass vertexBuffers: bindings slot: index`
 - **Usage**: Use for standard vertex attribute arrays (e.g., Position, Color).
 - **Cascade Example**:
-  ```smalltalk
-  renderPass
-      bindGPUGraphicsPipeline: pipeline;
-      vertexBuffers: vertexBindings slot: 0;
-      drawGPUPrimitivesNumVertices: 3 numInstances: 1 firstVertex: 0 firstInstance: 0
-  ```
+```smalltalk
+renderPass
+	pipeline: pipeline;
+	vertexBuffers: vertexBindings slot: 0;
+	drawPrimitives: 3 instances: 1 firstVertex: 0 firstInstance: 0
+```
 
 ### 2. Storage Buffers (Manual Fetching)
 - **Pharo API**: `renderPass vertexStorageBuffers: buffers slot: index`
 - **Pharo API**: `renderPass fragmentStorageBuffers: buffers slot: index`
-- **Usage**: Use for `StructuredBuffer` access in vertex/fragment shaders. 
+- **Usage**: Use for `StructuredBuffer` access in vertex/fragment shaders.
 - *Note*: Use Slot 0 for `space0` resources in vertex shaders.
 
 ### 3. Uniforms
-- **Pharo API**: `aCommandBuffer pushGPUVertexUniformDataSlotIndex: slot data: data length: len`
+- **Pharo API**: `commandBuffer pushVertexUniform: data slot: slot` (convenience) or `commandBuffer pushVertexUniformSlot: slot data: data length: len`
 - **Usage**: Slot 0 is standard for the primary uniform block (`space1`).
 - **HLSL Example**:
   ```hlsl
@@ -59,23 +59,33 @@ To bind resources correctly, follow these Pharo API mappings. **All high-level m
   };
   ```
   ```smalltalk
-  "Matching Pharo API"
-  commandBuffer pushGPUVertexUniformDataSlotIndex: 0 data: matrixData length: 64.
+  "Matching Pharo API (convenience, length computed automatically)"
+  commandBuffer pushVertexUniform: uniforms slot: 0.
+
+  "Or with explicit length"
+  commandBuffer pushVertexUniformSlot: 0 data: matrixData length: 64.
   ```
 
 ### 4. Compute Storage
 - **Pharo API**: `computePass computeStorageBuffers: buffers slot: index`
 - **Pharo API**: `computePass computeStorageTextures: textures slot: index`
 - **Usage**: Map to corresponding register/space per shader layout.
+- **Cascade Example**:
+```smalltalk
+computePass
+	pipeline: computePipeline;
+	computeStorageBuffers: storageBuffers slot: 0;
+	dispatchX: numElements
+```
 
 ### 5. Copy Passes
 - **Pharo API**: `commandBuffer copyPassDo: [ :copyPass | ... ]`
 - **Usage**: Use for uploading/downloading data between CPU and GPU.
 - **Example**:
-  ```smalltalk
-  commandBuffer copyPassDo: [ :copyPass |
-      copyPass uploadToGPUBufferSource: source destination: dest cycle: false ]
-  ```
+```smalltalk
+commandBuffer copyPassDo: [ :copyPass |
+	copyPass uploadBuffer: source destination: dest cycle: false ]
+```
 
 ## Troubleshooting Flow
 If a transpilation error occurs (`Descriptor set index... must be...`), consult the table above. Ensure that the **space** assigned in HLSL matches the transpiler's requirement for that resource type.
