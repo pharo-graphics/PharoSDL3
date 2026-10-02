@@ -18,9 +18,9 @@ SDL3Palette >> destroy [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Palette class >> unsafeNew: ncolors [
+SDL3Palette class >> unownedNew: ncolors [
 
-	^ (self ffiLibrary newPalette: ncolors)
+	^ (self ffiLibrary createPalette: ncolors)
 		  assertNotNullReturn;
 		  yourself
 ]

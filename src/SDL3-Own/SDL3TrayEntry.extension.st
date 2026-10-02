@@ -54,7 +54,7 @@ SDL3TrayEntry >> label: label [
 { #category : '*SDL3-Own' }
 SDL3TrayEntry >> newSubmenu [
 
-	^ self ffiLibrary newTraySubmenu: self
+	^ self ffiLibrary createTraySubmenu: self
 ]
 
 { #category : '*SDL3-Own' }

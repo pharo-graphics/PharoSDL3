@@ -41,19 +41,20 @@ SDL3GPUBasicTest >> test03ClearColorInRenderPass [
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 
 	textureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
-	
+
 	commandBuffer
 		waitAndAcquireSwapchainTextureForWindow: window
-		into: textureHolder width: nil height: nil.
-	
-	self deny: textureHolder value isNull.
-	
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClearTexture: textureHolder value
-		color: Color yellow.
+		into: textureHolder
+		width: nil
+		height: nil.
 
-	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass | ].
-		
-	commandBuffer submit
+	self deny: textureHolder value isNull.
+
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	[
+		colorTargetInfos first beClearTexture: textureHolder value color: Color yellow.
+
+		commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |  ].
+
+		commandBuffer submit ] ensure: [ colorTargetInfos free ]
 ]

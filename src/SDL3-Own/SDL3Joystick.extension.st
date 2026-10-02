@@ -128,14 +128,6 @@ SDL3Joystick >> numHats [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Joystick >> openHapticFrom [
-
-	^ (self ffiLibrary openHapticFromJoystick: self)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Joystick >> path [
 
 	^ self ffiLibrary getJoystickPath: self
@@ -234,9 +226,17 @@ SDL3Joystick >> type [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Joystick class >> unsafeOpen: instanceId [
+SDL3Joystick class >> unownedOpen: instanceId [
 
 	^ (self ffiLibrary openJoystick: instanceId)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Joystick >> unownedOpenHapticFrom [
+
+	^ (self ffiLibrary openHapticFromJoystick: self)
 		  assertNotNullReturn;
 		  yourself
 ]

@@ -37,33 +37,9 @@ SDL3IOStream >> ioStatus [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3IOStream >> loadBMPCloseio: closeio [
-
-	^ (self ffiLibrary loadBMPIOSrc: self closeio: closeio)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3IOStream >> loadFileDatasize: datasize closeio: closeio [
 
 	^ self ffiLibrary loadFileIOSrc: self datasize: datasize closeio: closeio
-]
-
-{ #category : '*SDL3-Own' }
-SDL3IOStream >> loadPNGCloseio: closeio [
-
-	^ (self ffiLibrary loadPNGIOSrc: self closeio: closeio)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3IOStream >> loadSurfaceCloseio: closeIO [
-
-	^ (self ffiLibrary loadSurfaceIOSrc: self closeio: closeIO)
-		  assertNotNullReturn;
-		  yourself
 ]
 
 { #category : '*SDL3-Own' }
@@ -206,7 +182,31 @@ SDL3IOStream >> tellIO [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3IOStream class >> unsafeOpenIface: iface userdata: userdata [
+SDL3IOStream >> unownedLoadBMPCloseIO: closeio [
+
+	^ (self ffiLibrary loadBMPIOSrc: self closeio: closeio)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3IOStream >> unownedLoadPNGCloseIO: closeio [
+
+	^ (self ffiLibrary loadPNGIOSrc: self closeio: closeio)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3IOStream >> unownedLoadSurfaceCloseIO: closeIO [
+
+	^ (self ffiLibrary loadSurfaceIOSrc: self closeio: closeIO)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3IOStream class >> unownedOpenIface: iface userdata: userdata [
 
 	^ (self ffiLibrary openIOIface: iface userdata: userdata)
 		  assertNotNullReturn;

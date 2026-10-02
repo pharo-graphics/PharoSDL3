@@ -58,6 +58,13 @@ SDL3GPUQuadDemoApp >> close [
 		texture release.
 		texture := nil ].
 
+	colorTargetInfos ifNotNil: [
+		colorTargetInfos free.
+		colorTargetInfos := nil ].
+
+	indexBinding ifNotNil: [
+		indexBinding free.
+		indexBinding := nil ].
 
 	super close
 ]
@@ -131,15 +138,16 @@ SDL3GPUQuadDemoApp >> initialize [
 	vertexBufferSize := 0.
 	indexBufferSize := 0.
 
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClear: Color black.
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos first beClear: Color black.
 
-	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
+	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
 
-	textureSamplerBindings := FFIArray newType: SDL_GPUTextureSamplerBinding size: 1.
+	textureSamplerBindings := SDL3Array newType: SDL_GPUTextureSamplerBinding size: 1.
 
-	indexBinding := SDL_GPUBufferBinding offset: 0
+	indexBinding := SDL_GPUBufferBinding unownedNew
+		                beOffset: 0;
+		                yourself
 ]
 
 { #category : 'initialization' }
@@ -156,29 +164,17 @@ SDL3GPUQuadDemoApp >> initializeGPUResources [
 SDL3GPUQuadDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
-	vertexShader :=
-		SDL3GPUQuadVertexShaderSource
-			newShaderAmong: shaderFormats
-			device: gpuDevice.
-	fragmentShader :=
-		SDL3GPUQuadFragmentShaderSource
-			newShaderAmong: shaderFormats
-			device: gpuDevice.
+	vertexShader := SDL3GPUQuadVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3GPUQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
-	vertexBindings :=
-		FFIExternalArray
-			externalNewType: SDL_GPUVertexBufferDescription
-			size: 1.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
 	vertexBindings first
 		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		instanceStepRate: 0;
 		pitch: SDL3GPUQuadVertex structureSize.
 
-	vertexAttributes :=
-		FFIExternalArray
-			externalNewType: SDL_GPUVertexAttribute
-			size: 2.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
@@ -190,28 +186,25 @@ SDL3GPUQuadDemoApp >> initializePipeline [
 		location: 1;
 		offset: 12.
 
-	colorTargets :=
-		FFIExternalArray
-			externalNewType: SDL_GPUColorTargetDescription
-			size: 1.
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-			vertexShader: vertexShader;
-			fragmentShader: fragmentShader.
-		info targetInfo
-			colorTargetDescriptions: colorTargets;
-			numColorTargets: colorTargets size.
-		info vertexInputState
-			vertexBufferDescriptions: vertexBindings;
-			numVertexBuffers: vertexBindings size;
-			vertexAttributes: vertexAttributes;
-			numVertexAttributes: vertexAttributes size ].
 
-	"We can free after pipeline was created"
+	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			               info
+				               primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+				               vertexShader: vertexShader;
+				               fragmentShader: fragmentShader.
+			               info targetInfo
+				               colorTargetDescriptions: colorTargets;
+				               numColorTargets: colorTargets size.
+			               info vertexInputState
+				               vertexBufferDescriptions: vertexBindings;
+				               numVertexBuffers: vertexBindings size;
+				               vertexAttributes: vertexAttributes;
+				               numVertexAttributes: vertexAttributes size ].
+
 	vertexShader release.
 	fragmentShader release.
 	vertexBindings free.
@@ -224,7 +217,7 @@ SDL3GPUQuadDemoApp >> initializeTexture [
 
 	texture :=
 		gpuDevice
-			newGPUTextureUploadingForm: (self iconNamed: #remote)
+			unownedNewGPUTextureUploadingForm: (self iconNamed: #remote)
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER.
 
 	textureSamplerBindings first texture: texture
@@ -279,7 +272,7 @@ SDL3GPUQuadDemoApp >> switchSamplerFilter [
 				ifFalse: [ SDL_GPU_FILTER_NEAREST ].
 		sampler release ].
 
-	sampler := gpuDevice newSampler: [ :info |
+	sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info
 			minFilter: filter;
 			magFilter: filter;
@@ -306,10 +299,10 @@ SDL3GPUQuadDemoApp >> updateIndexBuffer [
 			indexBuffer release.
 			indexTransferBuffer release ].
 
-		indexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+		indexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
 
 		indexBuffer := gpuDevice
-			               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 			               size: byteSize.
 
 		indexBinding buffer: indexBuffer.
@@ -353,10 +346,10 @@ SDL3GPUQuadDemoApp >> updateVertexBuffer [
 			vertexBuffer release.
 			vertexTransferBuffer release ].
 
-		vertexTransferBuffer := gpuDevice newUploadTransferBuffer: byteSize.
+		vertexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
 
 		vertexBuffer := gpuDevice
-			               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 			               size: byteSize.
 
 		vertexBufferBindings first buffer: vertexBuffer.

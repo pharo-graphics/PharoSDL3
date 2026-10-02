@@ -49,9 +49,9 @@ SDL3SingleWindowApp >> open [
 
 	window :=
 		SDL3Window
-			unsafeNewTitle: self updatedTitle
-			w: self initialExtent x
-			h: self initialExtent y
+			unownedNewTitle: self updatedTitle
+			width: self initialExtent x
+			height: self initialExtent y
 			flags: self initialWindowFlags.
 ]
 

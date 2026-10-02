@@ -1,9 +1,9 @@
 Extension { #name : 'SDL3Condition' }
 
 { #category : '*SDL3-Own' }
-SDL3Condition class >> unsafeNew [
+SDL3Condition class >> unownedNew [
 
-	^ (self ffiLibrary newCondition)
+	^ (self ffiLibrary createCondition)
 		  assertNotNullReturn;
 		  yourself
 ]

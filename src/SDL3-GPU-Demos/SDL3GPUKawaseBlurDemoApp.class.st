@@ -87,26 +87,20 @@ SDL3GPUKawaseBlurDemoApp >> initializeBlurPipelines [
 
 	| vertexShader downShader upShader colorTargets vertexBindings vertexAttributes |
 	"We use our custom vertex shader that supports uniforms for full-screen quads"
-	vertexShader := SDL3GPUDualKawaseBlurSceneVertexShaderSource
-				newShaderAmong: shaderFormats
-				device: gpuDevice.
-	downShader := SDL3GPUDualKawaseDownsampleFragmentShaderSource
-				 newShaderAmong: shaderFormats
-				 device: gpuDevice.
-	upShader := SDL3GPUDualKawaseUpsampleFragmentShaderSource
-				newShaderAmong: shaderFormats
-				device: gpuDevice.
+	vertexShader := SDL3GPUDualKawaseBlurSceneVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	downShader := SDL3GPUDualKawaseDownsampleFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
+	upShader := SDL3GPUDualKawaseUpsampleFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first format: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM.
 
-	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
 	vertexBindings first
 		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		pitch: SDL3GPUQuadVertex structureSize.
 
-	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
@@ -119,29 +113,21 @@ SDL3GPUKawaseBlurDemoApp >> initializeBlurPipelines [
 		offset: 12.
 
 	"1. Downsample Pipeline"
-	downsamplePipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: downShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	downsamplePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                      info vertex: vertexShader fragment: downShader targets: colorTargets.
+			                      info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	"2. Upsample Pipeline"
-	upsamplePipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: upShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
-
+	upsamplePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                    info vertex: vertexShader fragment: upShader targets: colorTargets.
+			                    info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	vertexShader release.
 	downShader release.
-	upShader release
+	upShader release.
+	vertexBindings free.
+	vertexAttributes free.
+	colorTargets free
 ]
 
 { #category : 'initialization' }
@@ -158,7 +144,7 @@ SDL3GPUKawaseBlurDemoApp >> initializeBlurTextures [
 		w := (w / 2) floor max: 1.
 		h := (h / 2) floor max: 1.
 		blurTextures add: (gpuDevice
-			new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 			usage: SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER
 			width: w
 			height: h)
@@ -169,14 +155,14 @@ SDL3GPUKawaseBlurDemoApp >> initializeBlurTextures [
 SDL3GPUKawaseBlurDemoApp >> initializeFFIContainers [
 	"Initialize fixed-size FFI containers used during rendering to avoid allocation in the loop"
 
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
 	colorTargetInfos first beClear: (Color r: 0.1 g: 0.1 b: 0.1).
 
-	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 1.
-	textureSamplerBindings := FFIArray
-					  newType: SDL_GPUTextureSamplerBinding
-					  size: 1.
-	indexBufferBinding := SDL_GPUBufferBinding offset: 0.
+	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
+	textureSamplerBindings := SDL3Array newType: SDL_GPUTextureSamplerBinding size: 1.
+	indexBufferBinding := SDL_GPUBufferBinding unownedNew
+		                      beOffset: 0;
+		                      yourself.
 
 	sceneUniforms := SDL3GPUDualKawaseBlurSceneUniforms new.
 	blurUniforms := SDL3GPUDualKawaseBlurUniforms new
@@ -206,7 +192,7 @@ SDL3GPUKawaseBlurDemoApp >> initializeGeometry [
 { #category : 'initialization' }
 SDL3GPUKawaseBlurDemoApp >> initializePharoTexture [
 
-	pharoTexture := gpuDevice newGPUTextureUploadingForm: (self iconNamed: #pharoBig) usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
+	pharoTexture := gpuDevice unownedNewGPUTextureUploadingForm: (self iconNamed: #pharoBig) usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
 ]
 
 { #category : 'initialization' }
@@ -218,10 +204,10 @@ SDL3GPUKawaseBlurDemoApp >> initializeQuadBuffers [
 
 	"1. Allocate GPU buffers"
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: vertexByteSize.
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: indexByteSize.
 
 	"2. Upload to GPU"
@@ -273,7 +259,7 @@ SDL3GPUKawaseBlurDemoApp >> initializeQuads [
 { #category : 'initialization' }
 SDL3GPUKawaseBlurDemoApp >> initializeSampler [
 
-	sampler := gpuDevice newSampler: [ :info |
+	sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info
 			minFilter: SDL_GPU_FILTER_LINEAR;
 			magFilter: SDL_GPU_FILTER_LINEAR;
@@ -287,25 +273,21 @@ SDL3GPUKawaseBlurDemoApp >> initializeSampler [
 SDL3GPUKawaseBlurDemoApp >> initializeScenePipeline [
 
 	| vertexShader fragmentShader colorTargets vertexBindings vertexAttributes |
-	vertexShader := SDL3GPUDualKawaseBlurSceneVertexShaderSource
-				newShaderAmong: shaderFormats
-				device: gpuDevice.
-	fragmentShader := SDL3GPUQuadFragmentShaderSource
-				 newShaderAmong: shaderFormats
-				 device: gpuDevice.
+	vertexShader := SDL3GPUDualKawaseBlurSceneVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3GPUQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first
 		format: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM;
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
 	vertexBindings first
 		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
 		pitch: SDL3GPUQuadVertex structureSize.
 
-	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
@@ -317,17 +299,15 @@ SDL3GPUKawaseBlurDemoApp >> initializeScenePipeline [
 		location: 1;
 		offset: 12.
 
-	scenePipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: fragmentShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	scenePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                 info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+			                 info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	vertexShader release.
-	fragmentShader release
+	fragmentShader release.
+	vertexBindings free.
+	vertexAttributes free.
+	colorTargets free
 ]
 
 { #category : 'initialization' }
@@ -337,7 +317,7 @@ SDL3GPUKawaseBlurDemoApp >> initializeSceneTexture [
 
 	sceneTexture :=
 		gpuDevice
-			new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 			usage: SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER
 			width: window pixelExtent x
 			height: window pixelExtent y
@@ -422,7 +402,15 @@ SDL3GPUKawaseBlurDemoApp >> release [
 
 	self releaseBlurTextures.
 	downsamplePipeline ifNotNil: [ downsamplePipeline release ].
-	upsamplePipeline ifNotNil: [ upsamplePipeline release ]
+	upsamplePipeline ifNotNil: [ upsamplePipeline release ].
+
+	colorTargetInfos ifNotNil: [
+		colorTargetInfos free.
+		colorTargetInfos := nil ].
+
+	indexBufferBinding ifNotNil: [
+		indexBufferBinding free.
+		indexBufferBinding := nil ]
 ]
 
 { #category : 'lifecycle' }

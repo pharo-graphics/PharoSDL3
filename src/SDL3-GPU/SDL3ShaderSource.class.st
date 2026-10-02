@@ -163,7 +163,7 @@ SDL3ShaderSource class >> stageFileExtension [
 ]
 
 { #category : 'private' }
-SDL3ShaderSource class >> withNew: createInfoClass formats: supportedShaderFormats do: aBlock [
+SDL3ShaderSource class >> withNew: createInfoClass formatFlags: formatFlags do: aBlock [
 	"Either fragment, vertex or compute shaders, all of them have a common createInfo setup."
 
 	| createInfo codeAsBase64 codeAsByteArray codeAsExternalArray |
@@ -173,13 +173,13 @@ SDL3ShaderSource class >> withNew: createInfoClass formats: supportedShaderForma
 		numUniformBuffers: self metadata uniformBuffers size.
 
 	"Detect the format among the supported ones"
-	(supportedShaderFormats includes: SDL_GPU_SHADERFORMAT_DXIL) ifTrue: [
+	(formatFlags anyMask: SDL_GPU_SHADERFORMAT_DXIL asInteger) ifTrue: [
 		createInfo format: SDL_GPU_SHADERFORMAT_DXIL asInteger.
 		codeAsBase64 := self base64DXILCode ].
-	(supportedShaderFormats includes: SDL_GPU_SHADERFORMAT_MSL) ifTrue: [
+	(formatFlags anyMask: SDL_GPU_SHADERFORMAT_MSL asInteger) ifTrue: [
 		createInfo format: SDL_GPU_SHADERFORMAT_MSL asInteger.
 		codeAsBase64 := self base64MSLCode ].
-	(supportedShaderFormats includes: SDL_GPU_SHADERFORMAT_SPIRV) ifTrue: [
+	(formatFlags anyMask: SDL_GPU_SHADERFORMAT_SPIRV asInteger) ifTrue: [
 		createInfo format: SDL_GPU_SHADERFORMAT_SPIRV asInteger.
 		codeAsBase64 := self base64SPVCode ].
 	createInfo format = 0 ifTrue: [ NotFound signal ].

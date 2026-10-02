@@ -81,7 +81,7 @@ SDL3Camera >> releaseFrame: frame [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Camera class >> unsafeOpenInstanceId: instanceId spec: spec [
+SDL3Camera class >> unownedOpenInstanceID: instanceId spec: spec [
 
 	^ (self ffiLibrary openCameraInstanceId: instanceId spec: spec)
 		  assertNotNullReturn;

@@ -44,6 +44,22 @@ SDL3GPUShimmerDemoApp >> close [
 		indexBuffer release.
 		indexBuffer := nil ].
 
+	instanceBufferBinding ifNotNil: [
+		instanceBufferBinding free.
+		instanceBufferBinding := nil ].
+
+	colorTargetInfos ifNotNil: [
+		colorTargetInfos free.
+		colorTargetInfos := nil ].
+
+	uniforms ifNotNil: [
+		uniforms free.
+		uniforms := nil ].
+
+	indexBufferBinding ifNotNil: [
+		indexBufferBinding free.
+		indexBufferBinding := nil ].
+
 	super close
 ]
 
@@ -74,21 +90,28 @@ SDL3GPUShimmerDemoApp >> initialize [
 
 	effectType := 0.
 
-	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 2.
+	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 2.
 
-	instanceBufferBinding := SDL_GPUBufferBinding safeNewArray: 1.
+	instanceBufferBinding := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1.
 
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClear: (Color r: 0.05 g: 0.05 b: 0.1). "Dark background"
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos first beClear: (Color r: 0.05 g: 0.05 b: 0.1). "Dark background"
 
-	uniforms := SDL3GPUShimmerUniforms safeNew.
+	uniforms := SDL3GPUShimmerUniforms unownedNew.
 	uniforms
 		effectType: effectType;
 		time: 0.0;
-		cornerRadius: 0.0; "Overridden by instance data"
-		baseColor: (SDL3FColor r: 0.2 g: 0.2 b: 0.25 a: 1.0);
-		highlightColor: (SDL3FColor r: 0.3 g: 0.3 b: 0.35 a: 1.0)
+		cornerRadius: 0.0;
+		"Overridden by instance data"baseColor: (SDL3FColor
+				 r: 0.2
+				 g: 0.2
+				 b: 0.25
+				 a: 1.0);
+		highlightColor: (SDL3FColor
+				 r: 0.3
+				 g: 0.3
+				 b: 0.35
+				 a: 1.0)
 ]
 
 { #category : 'initialization' }
@@ -103,14 +126,11 @@ SDL3GPUShimmerDemoApp >> initializeGeometry [
 { #category : 'initialization' }
 SDL3GPUShimmerDemoApp >> initializePipeline [
 
-	| vertexShader fragmentShader shaderFormats vertexAttributes vertexBindings colorTargets |
+	| vertexShader fragmentShader vertexAttributes vertexBindings colorTargets |
+	vertexShader := SDL3GPUShimmerVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3GPUShimmerFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
-	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
-
-	vertexShader := SDL3GPUShimmerVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice.
-	fragmentShader := SDL3GPUShimmerFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice.
-
-	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 2.
 
 	"Binding 0: Quad vertices (per vertex)"
 	vertexBindings first
@@ -126,7 +146,7 @@ SDL3GPUShimmerDemoApp >> initializePipeline [
 		inputRate: SDL_GPU_VERTEXINPUTRATE_INSTANCE;
 		instanceStepRate: 0.
 
-	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 4.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 4.
 
 	"Quad Position (Attribute 0)"
 	vertexAttributes first
@@ -156,37 +176,35 @@ SDL3GPUShimmerDemoApp >> initializePipeline [
 		location: 3;
 		offset: 16.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: fragmentShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			               info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+			               info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	vertexShader release.
-	fragmentShader release
+	fragmentShader release.
+	vertexBindings free.
+	vertexAttributes free.
+	colorTargets free
 ]
 
 { #category : 'initialization' }
 SDL3GPUShimmerDemoApp >> initializeQuadBuffers: instances [
 
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: 4 * SDL3GPUQuadVertex structureSize.
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 
 	instanceBuffer := gpuDevice
-		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                  size: instances size * SDL3GPUShimmerInstance structureSize.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -290,9 +308,7 @@ SDL3GPUShimmerDemoApp >> setupGeometryBindings [
 		buffer: instanceBuffer;
 		offset: 0.
 
-	indexBufferBinding := SDL_GPUBufferBinding
-		                      buffer: indexBuffer
-		                      offset: 0
+	indexBufferBinding := SDL_GPUBufferBinding unownedNew beBuffer: indexBuffer offset: 0; yourself
 ]
 
 { #category : 'hooks' }

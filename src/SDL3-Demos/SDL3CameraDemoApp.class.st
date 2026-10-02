@@ -72,7 +72,7 @@ SDL3CameraDemoApp >> chooseCamera [
 	console addLine: 'Opening camera: ', (self descriptionForCameraId: cameraId).
 
 "	specs := sdl allCameraSupportedFormatsOf: cameraId."
-	camera := SDL3Camera unsafeOpenInstanceId: cameraId spec: nil.
+	camera := SDL3Camera unownedOpenInstanceID: cameraId spec: nil.
 	camera isNull ifTrue: [
 		console addLine: 'Opening camera ERROR: ', sdl getError asString.
 		^ camera := nil ].
@@ -154,7 +154,7 @@ SDL3CameraDemoApp >> updateTextureFromCurrentFrame [
 	"Create texture if it's the first frame or frame extent changed"
 	(texture isNil or: [ texture extent ~= currentFrame extent ]) ifTrue: [
 		| propertyGroup |
-		propertyGroup := SDL3PropertyGroup unsafeNew
+		propertyGroup := SDL3PropertyGroup unownedNew
 			numberAt: SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER
 				put: currentFrame format;
 			numberAt: SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER
@@ -167,7 +167,7 @@ SDL3CameraDemoApp >> updateTextureFromCurrentFrame [
 				put: currentFrame h;
 			yourself.
 		texture ifNotNil: [ texture destroy ].
-		texture := renderer newTextureWithProperties: propertyGroup.
+		texture := renderer unownedNewTextureWithProperties: propertyGroup.
 		propertyGroup destroy.
 
 		self adjustWindowToNewFrameExtent ].

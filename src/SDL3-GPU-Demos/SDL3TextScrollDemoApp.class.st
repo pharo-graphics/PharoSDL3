@@ -67,6 +67,14 @@ SDL3TextScrollDemoApp >> close [
 		atlasTexture release.
 		atlasTexture := nil ].
 
+	colorTargetInfos ifNotNil: [
+		colorTargetInfos free.
+		colorTargetInfos := nil ].
+
+	indexBinding ifNotNil: [
+		indexBinding free.
+		indexBinding := nil ].
+
 	super close
 ]
 
@@ -126,31 +134,60 @@ SDL3TextScrollDemoApp >> initialize [
 	targetScrollY := 0.0.
 	instanceBufferSize := 0.
 
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClear: Color white.
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	colorTargetInfos first beClear: Color white.
 
-	vertexBufferBindings := FFIArray newType: SDL_GPUBufferBinding size: 2.
-	textureSamplerBindings := FFIArray
-								  newType: SDL_GPUTextureSamplerBinding
-								  size: 1.
-	indexBinding := SDL_GPUBufferBinding offset: 0.
+	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 2.
+	textureSamplerBindings := SDL3Array newType: SDL_GPUTextureSamplerBinding size: 1.
+	indexBinding := SDL_GPUBufferBinding unownedNew
+		                beOffset: 0;
+		                yourself.
 
 	uniforms := SDL3TextScrollUniforms new.
 
 	"Initialize Palette: 16 RGBA floats directly in uniforms"
 	"0: Black (Standard FG)"
-	uniforms setColorAt: 1 r: 0.0 g: 0.0 b: 0.0 a: 1.0.
+	uniforms
+		setColorAt: 1
+		r: 0.0
+		g: 0.0
+		b: 0.0
+		a: 1.0.
 	"1: Green (Comment FG)"
-	uniforms setColorAt: 2 r: 0.0 g: 0.6 b: 0.0 a: 1.0.
+	uniforms
+		setColorAt: 2
+		r: 0.0
+		g: 0.6
+		b: 0.0
+		a: 1.0.
 	"2: Blue (Keyword FG)"
-	uniforms setColorAt: 3 r: 0.0 g: 0.0 b: 0.8 a: 1.0.
+	uniforms
+		setColorAt: 3
+		r: 0.0
+		g: 0.0
+		b: 0.8
+		a: 1.0.
 	"3: Red (Separator FG)"
-	uniforms setColorAt: 4 r: 0.8 g: 0.0 b: 0.0 a: 1.0.
+	uniforms
+		setColorAt: 4
+		r: 0.8
+		g: 0.0
+		b: 0.0
+		a: 1.0.
 	"4: Transparent (Standard BG)"
-	uniforms setColorAt: 5 r: 0.0 g: 0.0 b: 0.0 a: 0.0.
+	uniforms
+		setColorAt: 5
+		r: 0.0
+		g: 0.0
+		b: 0.0
+		a: 0.0.
 	"5: Light Gray (Header BG)"
-	uniforms setColorAt: 6 r: 0.9 g: 0.9 b: 0.9 a: 1.0
+	uniforms
+		setColorAt: 6
+		r: 0.9
+		g: 0.9
+		b: 0.9
+		a: 1.0
 ]
 
 { #category : 'initialization' }
@@ -174,7 +211,7 @@ SDL3TextScrollDemoApp >> initializeAtlas [
 SDL3TextScrollDemoApp >> initializeBaseQuadBuffer [
 
 	baseQuadBuffer := gpuDevice
-		                  newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                  unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                  size: SDL3GPUQuadVertex structureSize * 4.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -205,7 +242,7 @@ SDL3TextScrollDemoApp >> initializeGPUResources [
 SDL3TextScrollDemoApp >> initializeIndexBuffer [
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 	indexBinding buffer: indexBuffer.
 
@@ -229,11 +266,10 @@ SDL3TextScrollDemoApp >> initializeIndexBuffer [
 SDL3TextScrollDemoApp >> initializePipeline [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
+	vertexShader := SDL3TextScrollVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3TextScrollFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
-	vertexShader := SDL3TextScrollVertexShaderSource newShaderAmong: shaderFormats device: gpuDevice.
-	fragmentShader := SDL3TextScrollFragmentShaderSource newShaderAmong: shaderFormats device: gpuDevice.
-
-	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 2.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 2.
 	vertexBindings first
 		slot: 0;
 		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
@@ -245,7 +281,7 @@ SDL3TextScrollDemoApp >> initializePipeline [
 		instanceStepRate: 0;
 		pitch: SDL3TextScrollInstance structureSize.
 
-	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 6.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 6.
 	vertexAttributes first
 		bufferSlot: 0;
 		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
@@ -277,28 +313,26 @@ SDL3TextScrollDemoApp >> initializePipeline [
 		location: 5;
 		offset: 32.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: fragmentShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			               info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+			               info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	vertexShader release.
-	fragmentShader release
+	fragmentShader release.
+	vertexBindings free.
+	vertexAttributes free.
+	colorTargets free
 ]
 
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeSampler [
 
-	sampler := gpuDevice newSampler: [ :info |
+	sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info
 			minFilter: SDL_GPU_FILTER_NEAREST;
 			magFilter: SDL_GPU_FILTER_NEAREST;
@@ -314,7 +348,7 @@ SDL3TextScrollDemoApp >> initializeSampler [
 SDL3TextScrollDemoApp >> initializeTexture [
 
 	atlasTexture := gpuDevice
-		                new2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
+		                unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
 		                usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
 		                width: atlas width
 		                height: atlas height.
@@ -380,9 +414,9 @@ SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 				instanceTransferBuffer release ].
 			instanceBufferSize := (visibleGlyphCount * SDL3TextScrollInstance structureSize * 1.5) ceiling.
 			instanceBuffer := gpuDevice
-								 newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+								 unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 								 size: instanceBufferSize.
-			instanceTransferBuffer := gpuDevice newUploadTransferBuffer:
+			instanceTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer:
 										 instanceBufferSize ].
 
 	commandBuffer uploadToGPUDo: [ :uploader |

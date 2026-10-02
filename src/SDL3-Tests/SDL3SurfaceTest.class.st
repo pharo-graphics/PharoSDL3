@@ -23,7 +23,7 @@ SDL3SurfaceTest >> testColorAt [
 	color := Color purple.
 	extent := 300@200.	
 
-	surface := SDL3Surface unsafeNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
+	surface := SDL3Surface unownedNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
 	surface clearColor: color.
 
 	self assert: surface extent equals: extent.
@@ -41,7 +41,7 @@ SDL3SurfaceTest >> testFormAsSurface [
 
 	| form surface |
 	form := self newIconForm.
-	surface := form unsafeNewAsSDL3Surface.
+	surface := form unownedAsSDL3Surface.
 
 	self assert: surface w equals: form width.
 	self assert: surface h equals: form height.
@@ -66,7 +66,7 @@ SDL3SurfaceTest >> testFormAsSurfaceAsForm [
 
 	| form form2 surface |
 	form := self newIconForm.
-	surface := form unsafeNewAsSDL3Surface.
+	surface := form unownedAsSDL3Surface.
 	form2 := surface asForm.
 
 	self assert: form2 width equals: form width.
@@ -94,7 +94,7 @@ SDL3SurfaceTest >> testSaveAndLoadPNG [
 	filePathString := 'sdl3.png'.
 	filePathString asFileReference ensureDelete.
 
-	surface := SDL3Surface unsafeNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
+	surface := SDL3Surface unownedNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
 	surface clearColor: color.
 
 	self deny: filePathString asFileReference exists.

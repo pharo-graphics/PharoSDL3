@@ -70,7 +70,7 @@ SDL3AudioDevice class >> initialize [
 ]
 
 { #category : 'instance creation' }
-SDL3AudioDevice class >> unsafeOpenDevid: devid spec: spec [
+SDL3AudioDevice class >> unownedOpenID: devid spec: spec [
 
 	^ self ffiLibrary openAudioDeviceDevid: devid spec: spec
 ]
@@ -194,24 +194,6 @@ SDL3AudioDevice >> name [
 	^ self ffiLibrary getAudioDeviceName: id
 ]
 
-{ #category : 'accessing' }
-SDL3AudioDevice >> openSpec: spec [
-
-	^ self ffiLibrary openAudioDeviceDevid: id spec: spec
-]
-
-{ #category : 'accessing' }
-SDL3AudioDevice >> openStreamSpec: spec callback: callback userdata: userdata [
-
-	^ (self ffiLibrary
-		   openAudioDeviceStreamDevid: id
-		   spec: spec
-		   callback: callback
-		   userdata: userdata)
-		  assertNotNullReturn;
-		  yourself
-]
-
 { #category : 'playback' }
 SDL3AudioDevice >> pause [
 
@@ -241,4 +223,22 @@ SDL3AudioDevice >> printPropertiesOn: aStream [
 SDL3AudioDevice >> resume [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary resumeAudioDevice: id)
+]
+
+{ #category : 'accessing' }
+SDL3AudioDevice >> unownedOpenSpec: spec [
+
+	^ self ffiLibrary openAudioDeviceDevid: id spec: spec
+]
+
+{ #category : 'accessing' }
+SDL3AudioDevice >> unownedOpenStreamSpec: spec callback: callback userdata: userdata [
+
+	^ (self ffiLibrary
+		   openAudioDeviceStreamDevid: id
+		   spec: spec
+		   callback: callback
+		   userdata: userdata)
+		  assertNotNullReturn;
+		  yourself
 ]

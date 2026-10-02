@@ -3216,6 +3216,2068 @@ SDL3Library >> crc32Crc: crc data: data len: len [
 ]
 
 { #category : 'public - SDL_mouse' }
+SDL3Library >> createAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x hotY: hot_y [
+	"/**
+	 * Create an animated color cursor.
+	 *
+	 * Animated cursors are composed of a sequential array of frames, specified as
+	 * surfaces and durations in an array of SDL_CursorFrameInfo structs. The hot
+	 * spot coordinates are universal to all frames, and all frames must have the
+	 * same dimensions.
+	 *
+	 * Frame durations are specified in milliseconds. A duration of 0 implies an
+	 * infinite frame time, and the animation will stop on that frame. To create a
+	 * one-shot animation, set the duration of the last frame in the sequence to
+	 * 0.
+	 *
+	 * If this function is passed surfaces with alternate representations added
+	 * with SDL_AddSurfaceAlternateImage(), the surfaces will be interpreted as
+	 * the content to be used for 100% display scale, and the alternate
+	 * representations will be used for high DPI situations. For example, if the
+	 * original surfaces are 32x32, then on a 2x macOS display or 200% display
+	 * scale on Windows, a 64x64 version of the image will be used, if available.
+	 * If a matching version of the image isn't available, the closest larger size
+	 * image will be downscaled to the appropriate size and be used instead, if
+	 * available. Otherwise, the closest smaller image will be upscaled and be
+	 * used instead.
+	 *
+	 * If the underlying platform does not support animated cursors, this function
+	 * will fall back to creating a static color cursor using the first frame in
+	 * the sequence.
+	 *
+	 * \param frames an array of cursor images composing the animation.
+	 * \param frame_count the number of frames in the sequence.
+	 * \param hot_x the x position of the cursor hot spot.
+	 * \param hot_y the y position of the cursor hot spot.
+	 * \returns the new cursor on success or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_AddSurfaceAlternateImage
+	 * \sa SDL_CreateCursor
+	 * \sa SDL_CreateColorCursor
+	 * \sa SDL_CreateSystemCursor
+	 * \sa SDL_DestroyCursor
+	 * \sa SDL_SetCursor
+	 */"
+
+	^ self ffiCall: #(SDL_Cursor* SDL_CreateAnimatedCursor(SDL_CursorFrameInfo* frames, int frame_count, int hot_x, int hot_y))
+]
+
+{ #category : 'public - SDL_asyncio' }
+SDL3Library >> createAsyncIOQueue [
+	"/**
+	 * Create a task queue for tracking multiple I/O operations.
+	 *
+	 * Async I/O operations are assigned to a queue when started. The queue can be
+	 * checked for completed tasks thereafter.
+	 *
+	 * \returns a new task queue object or NULL if there was an error; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyAsyncIOQueue
+	 * \sa SDL_GetAsyncIOResult
+	 * \sa SDL_WaitAsyncIOResult
+	 */"
+
+	^ self ffiCall: #(SDL_AsyncIOQueue* SDL_CreateAsyncIOQueue())
+]
+
+{ #category : 'public - SDL_audio' }
+SDL3Library >> createAudioStreamSrcSpec: src_spec dstSpec: dst_spec [
+	"/**
+	 * Create a new audio stream.
+	 *
+	 * \param src_spec the format details of the input audio.
+	 * \param dst_spec the format details of the output audio.
+	 * \returns a new audio stream on success or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_PutAudioStreamData
+	 * \sa SDL_GetAudioStreamData
+	 * \sa SDL_GetAudioStreamAvailable
+	 * \sa SDL_FlushAudioStream
+	 * \sa SDL_ClearAudioStream
+	 * \sa SDL_SetAudioStreamFormat
+	 * \sa SDL_DestroyAudioStream
+	 */"
+
+	^ self ffiCall: #(SDL_AudioStream* SDL_CreateAudioStream(SDL_AudioSpec* src_spec, SDL_AudioSpec* dst_spec))
+]
+
+{ #category : 'public - SDL_mouse' }
+SDL3Library >> createColorCursorSurface: surface hotX: hot_x hotY: hot_y [
+	"/**
+	 * Create a color cursor.
+	 *
+	 * If this function is passed a surface with alternate representations added
+	 * with SDL_AddSurfaceAlternateImage(), the surface will be interpreted as the
+	 * content to be used for 100% display scale, and the alternate
+	 * representations will be used for high DPI situations if
+	 * SDL_HINT_MOUSE_DPI_SCALE_CURSORS is enabled. For example, if the original
+	 * surface is 32x32, then on a 2x macOS display or 200% display scale on
+	 * Windows, a 64x64 version of the image will be used, if available. If a
+	 * matching version of the image isn't available, the closest larger size
+	 * image will be downscaled to the appropriate size and be used instead, if
+	 * available. Otherwise, the closest smaller image will be upscaled and be
+	 * used instead.
+	 *
+	 * \param surface an SDL_Surface structure representing the cursor image.
+	 * \param hot_x the x position of the cursor hot spot.
+	 * \param hot_y the y position of the cursor hot spot.
+	 * \returns the new cursor on success or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_AddSurfaceAlternateImage
+	 * \sa SDL_CreateAnimatedCursor
+	 * \sa SDL_CreateCursor
+	 * \sa SDL_CreateSystemCursor
+	 * \sa SDL_DestroyCursor
+	 * \sa SDL_SetCursor
+	 */"
+
+	^ self ffiCall: #(SDL_Cursor* SDL_CreateColorCursor(SDL_Surface* surface, int hot_x, int hot_y))
+]
+
+{ #category : 'public - SDL_mutex' }
+SDL3Library >> createCondition [
+	"/**
+	 * Create a condition variable.
+	 *
+	 * \returns a new condition variable or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_BroadcastCondition
+	 * \sa SDL_SignalCondition
+	 * \sa SDL_WaitCondition
+	 * \sa SDL_WaitConditionTimeout
+	 * \sa SDL_DestroyCondition
+	 */"
+
+	^ self ffiCall: #(SDL_Condition* SDL_CreateCondition())
+]
+
+{ #category : 'public - SDL_mouse' }
+SDL3Library >> createCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
+	"/**
+	 * Create a cursor using the specified bitmap data and mask (in MSB format).
+	 *
+	 * `mask` has to be in MSB (Most Significant Bit) format.
+	 *
+	 * The cursor width (`w`) must be a multiple of 8 bits.
+	 *
+	 * The cursor is created in black and white according to the following:
+	 *
+	 * - data=0, mask=1: white
+	 * - data=1, mask=1: black
+	 * - data=0, mask=0: transparent
+	 * - data=1, mask=0: inverted color if possible, black if not.
+	 *
+	 * Cursors created with this function must be freed with SDL_DestroyCursor().
+	 *
+	 * If you want to have a color cursor, or create your cursor from an
+	 * SDL_Surface, you should use SDL_CreateColorCursor(). Alternately, you can
+	 * hide the cursor and draw your own as part of your game's rendering, but it
+	 * will be bound to the framerate.
+	 *
+	 * Also, SDL_CreateSystemCursor() is available, which provides several
+	 * readily-available system cursors to pick from.
+	 *
+	 * \param data the color value for each pixel of the cursor.
+	 * \param mask the mask value for each pixel of the cursor.
+	 * \param w the width of the cursor.
+	 * \param h the height of the cursor.
+	 * \param hot_x the x-axis offset from the left of the cursor image to the
+	 *              mouse x position, in the range of 0 to `w` - 1.
+	 * \param hot_y the y-axis offset from the top of the cursor image to the
+	 *              mouse y position, in the range of 0 to `h` - 1.
+	 * \returns a new cursor with the specified parameters on success or NULL on
+	 *          failure; call SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateAnimatedCursor
+	 * \sa SDL_CreateColorCursor
+	 * \sa SDL_CreateSystemCursor
+	 * \sa SDL_DestroyCursor
+	 * \sa SDL_SetCursor
+	 */"
+
+	^ self ffiCall: #(SDL_Cursor* SDL_CreateCursor(const Uint8* data, const Uint8* mask, int w, int h, int hot_x, int hot_y))
+]
+
+{ #category : 'public - SDL_filesystem' }
+SDL3Library >> createDirectory: path [
+	"/**
+	 * Create a directory, and any missing parent directories.
+	 *
+	 * This reports success if `path` already exists as a directory.
+	 *
+	 * If parent directories are missing, it will also create them. Note that if
+	 * this fails, it will not remove any parent directories it already made.
+	 *
+	 * \param path the path of the directory to create.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 */"
+
+	^ self ffiCall: #(bool SDL_CreateDirectory(const char* path))
+]
+
+{ #category : 'public - SDL_stdinc' }
+SDL3Library >> createEnvironment: populated [
+	"/**
+	 * Create a set of environment variables
+	 *
+	 * \param populated true to initialize it from the C runtime environment,
+	 *                  false to create an empty environment.
+	 * \returns a pointer to the new environment or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety If `populated` is false, it is safe to call this function
+	 *               from any thread, otherwise it is safe if no other threads are
+	 *               calling setenv() or unsetenv()
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetEnvironmentVariable
+	 * \sa SDL_GetEnvironmentVariables
+	 * \sa SDL_SetEnvironmentVariable
+	 * \sa SDL_UnsetEnvironmentVariable
+	 * \sa SDL_DestroyEnvironment
+	 */"
+
+	^ self ffiCall: #(SDL_Environment* SDL_CreateEnvironment(#bool populated))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUBufferDevice: device createinfo: createinfo [
+	"/**
+	 * Creates a buffer object to be used in graphics or compute workflows.
+	 *
+	 * The contents of this buffer are undefined until data is written to the
+	 * buffer.
+	 *
+	 * Note that certain combinations of usage flags are invalid. For example, a
+	 * buffer cannot have both the VERTEX and INDEX flags.
+	 *
+	 * If you use a STORAGE flag, the data in the buffer must respect std140
+	 * layout conventions. In practical terms this means you must ensure that vec3
+	 * and vec4 fields are 16-byte aligned.
+	 *
+	 * For better understanding of underlying concepts and memory management with
+	 * SDL GPU API, you may refer
+	 * [this blog post](https://moonside.games/posts/sdl-gpu-concepts-cycling/)
+	 * .
+	 *
+	 * There are optional properties that can be provided through `props`. These
+	 * are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_BUFFER_CREATE_NAME_STRING`: a name that can be displayed in
+	 *   debugging tools.
+	 *
+	 * \param device a GPU Context.
+	 * \param createinfo a struct describing the state of the buffer to create.
+	 * \returns a buffer object on success, or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_UploadToGPUBuffer
+	 * \sa SDL_DownloadFromGPUBuffer
+	 * \sa SDL_CopyGPUBufferToBuffer
+	 * \sa SDL_BindGPUVertexBuffers
+	 * \sa SDL_BindGPUIndexBuffer
+	 * \sa SDL_BindGPUVertexStorageBuffers
+	 * \sa SDL_BindGPUFragmentStorageBuffers
+	 * \sa SDL_DrawGPUPrimitivesIndirect
+	 * \sa SDL_DrawGPUIndexedPrimitivesIndirect
+	 * \sa SDL_BindGPUComputeStorageBuffers
+	 * \sa SDL_DispatchGPUComputeIndirect
+	 * \sa SDL_ReleaseGPUBuffer
+	 */"
+
+	^ self ffiCall: #(SDL_GPUBuffer* SDL_CreateGPUBuffer(SDL_GPUDevice* device, SDL_GPUBufferCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUComputePipelineDevice: device createinfo: createinfo [
+	"/**
+	 * Creates a pipeline object to be used in a compute workflow.
+	 *
+	 * Shader resource bindings must be authored to follow a particular order
+	 * depending on the shader format.
+	 *
+	 * For SPIR-V shaders, use the following resource sets:
+	 *
+	 * - 0: Sampled textures, followed by read-only storage textures, followed by
+	 *   read-only storage buffers
+	 * - 1: Read-write storage textures, followed by read-write storage buffers
+	 * - 2: Uniform buffers
+	 *
+	 * For DXBC and DXIL shaders, use the following register order:
+	 *
+	 * - (t[n], space0): Sampled textures, followed by read-only storage textures,
+	 *   followed by read-only storage buffers
+	 * - (u[n], space1): Read-write storage textures, followed by read-write
+	 *   storage buffers
+	 * - (b[n], space2): Uniform buffers
+	 *
+	 * For MSL/metallib, use the following order:
+	 *
+	 * - [[buffer]]: Uniform buffers, followed by read-only storage buffers,
+	 *   followed by read-write storage buffers
+	 * - [[texture]]: Sampled textures, followed by read-only storage textures,
+	 *   followed by read-write storage textures
+	 *
+	 * There are optional properties that can be provided through `props`. These
+	 * are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_COMPUTEPIPELINE_CREATE_NAME_STRING`: a name that can be
+	 *   displayed in debugging tools.
+	 *
+	 * \param device a GPU Context.
+	 * \param createinfo a struct describing the state of the compute pipeline to
+	 *                   create.
+	 * \returns a compute pipeline object on success, or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_BindGPUComputePipeline
+	 * \sa SDL_ReleaseGPUComputePipeline
+	 */"
+
+	^ self ffiCall: #(SDL_GPUComputePipeline* SDL_CreateGPUComputePipeline(SDL_GPUDevice* device, SDL_GPUComputePipelineCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: name [
+	"/**
+	 * Creates a GPU context.
+	 *
+	 * The GPU driver name can be one of the following:
+	 *
+	 * - ""vulkan"": [Vulkan](CategoryGPU#vulkan)
+	 * - ""direct3d12"": [D3D12](CategoryGPU#d3d12)
+	 * - ""metal"": [Metal](CategoryGPU#metal)
+	 * - NULL: let SDL pick the optimal driver
+	 *
+	 * \param format_flags a bitflag indicating which shader formats the app is
+	 *                     able to provide.
+	 * \param debug_mode enable debug mode properties and validations.
+	 * \param name the preferred GPU driver, or NULL to let SDL pick the optimal
+	 *             driver.
+	 * \returns a GPU context on success or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateGPUDeviceWithProperties
+	 * \sa SDL_GetGPUShaderFormats
+	 * \sa SDL_GetGPUDeviceDriver
+	 * \sa SDL_DestroyGPUDevice
+	 * \sa SDL_GPUSupportsShaderFormats
+	 */"
+
+	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDevice(SDL_GPUShaderFormat format_flags, #bool debug_mode, const char* name))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUDeviceWithProperties: props [
+	"/**
+	 * Creates a GPU context.
+	 *
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_DEBUGMODE_BOOLEAN`: enable debug mode
+	 *   properties and validations, defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_PREFERLOWPOWER_BOOLEAN`: enable to prefer
+	 *   energy efficiency over maximum GPU performance, defaults to false.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_VERBOSE_BOOLEAN`: enable to automatically log
+	 *   useful debug information on device creation, defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING`: the name of the GPU driver to
+	 *   use, if a specific one is desired.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_CLIP_DISTANCE_BOOLEAN`: Enable Vulkan
+	 *   device feature shaderClipDistance. If disabled, clip distances are not
+	 *   supported in shader code: gl_ClipDistance[] built-ins of GLSL,
+	 *   SV_ClipDistance0/1 semantics of HLSL and [[clip_distance]] attribute of
+	 *   Metal. Disabling optional features allows the application to run on some
+	 *   older Android devices. Defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_DEPTH_CLAMPING_BOOLEAN`: Enable
+	 *   Vulkan device feature depthClamp. If disabled, there is no depth clamp
+	 *   support and enable_depth_clip in SDL_GPURasterizerState must always be
+	 *   set to true. Disabling optional features allows the application to run on
+	 *   some older Android devices. Defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_INDIRECT_DRAW_FIRST_INSTANCE_BOOLEAN`:
+	 *   Enable Vulkan device feature drawIndirectFirstInstance. If disabled, the
+	 *   argument first_instance of SDL_GPUIndirectDrawCommand must be set to
+	 *   zero. Disabling optional features allows the application to run on some
+	 *   older Android devices. Defaults to true.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_ANISOTROPY_BOOLEAN`: Enable Vulkan
+	 *   device feature samplerAnisotropy. If disabled, enable_anisotropy of
+	 *   SDL_GPUSamplerCreateInfo must be set to false. Disabling optional
+	 *   features allows the application to run on some older Android devices.
+	 *   Defaults to true.
+	 *
+	 * These are the current shader format properties:
+	 *
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_PRIVATE_BOOLEAN`: The app is able to
+	 *   provide shaders for an NDA platform.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_SPIRV_BOOLEAN`: The app is able to
+	 *   provide SPIR-V shaders if applicable.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXBC_BOOLEAN`: The app is able to
+	 *   provide DXBC shaders if applicable
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXIL_BOOLEAN`: The app is able to
+	 *   provide DXIL shaders if applicable.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_MSL_BOOLEAN`: The app is able to
+	 *   provide MSL shaders if applicable.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_METALLIB_BOOLEAN`: The app is able to
+	 *   provide Metal shader libraries if applicable.
+	 *
+	 * With the D3D12 backend:
+	 *
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING`: the prefix to
+	 *   use for all vertex semantics, default is ""TEXCOORD"".
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_D3D12_ALLOW_FEWER_RESOURCE_SLOTS_BOOLEAN`: By
+	 *   default, Resourcing Binding Tier 2 is required for D3D12 support.
+	 *   However, an application can set this property to true to enable Tier 1
+	 *   support, if (and only if) the application uses 8 or fewer storage
+	 *   resources across all shader stages. As of writing, this property is
+	 *   useful for targeting Intel Haswell and Broadwell GPUs; other hardware
+	 *   either supports Tier 2 Resource Binding or does not support D3D12 in any
+	 *   capacity. Defaults to false.
+	 *
+	 * With the Vulkan backend:
+	 *
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION_BOOLEAN`:
+	 *   By default, Vulkan device enumeration includes drivers of all types,
+	 *   including software renderers (for example, the Lavapipe Mesa driver).
+	 *   This can be useful if your application _requires_ SDL_GPU, but if you can
+	 *   provide your own fallback renderer (for example, an OpenGL renderer) this
+	 *   property can be set to true. Defaults to false.
+	 * - `SDL_PROP_GPU_DEVICE_CREATE_VULKAN_OPTIONS_POINTER`: a pointer to an
+	 *   SDL_GPUVulkanOptions structure to be processed during device creation.
+	 *   This allows configuring a variety of Vulkan-specific options such as
+	 *   increasing the API version and opting into extensions aside from the
+	 *   minimal set SDL requires.
+	 *
+	 * \param props the properties to use.
+	 * \returns a GPU context on success or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_GetGPUShaderFormats
+	 * \sa SDL_GetGPUDeviceDriver
+	 * \sa SDL_DestroyGPUDevice
+	 * \sa SDL_GPUSupportsProperties
+	 */"
+
+	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDeviceWithProperties(SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUGraphicsPipelineDevice: device createinfo: createinfo [
+	"/**
+	 * Creates a pipeline object to be used in a graphics workflow.
+	 *
+	 * There are optional properties that can be provided through `props`. These
+	 * are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_GRAPHICSPIPELINE_CREATE_NAME_STRING`: a name that can be
+	 *   displayed in debugging tools.
+	 *
+	 * \param device a GPU Context.
+	 * \param createinfo a struct describing the state of the graphics pipeline to
+	 *                   create.
+	 * \returns a graphics pipeline object on success, or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateGPUShader
+	 * \sa SDL_BindGPUGraphicsPipeline
+	 * \sa SDL_ReleaseGPUGraphicsPipeline
+	 */"
+
+	^ self ffiCall: #(SDL_GPUGraphicsPipeline* SDL_CreateGPUGraphicsPipeline(SDL_GPUDevice* device, SDL_GPUGraphicsPipelineCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createGPURenderStateRenderer: renderer createinfo: createinfo [
+	"/**
+	 * Create custom GPU render state.
+	 *
+	 * \param renderer the renderer to use.
+	 * \param createinfo a struct describing the GPU render state to create.
+	 * \returns a custom GPU render state or NULL on failure; call SDL_GetError()
+	 *          for more information.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               renderer.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_SetGPURenderStateFragmentUniforms
+	 * \sa SDL_SetGPURenderState
+	 * \sa SDL_DestroyGPURenderState
+	 */"
+
+	^ self ffiCall: #(SDL_GPURenderState* SDL_CreateGPURenderState(SDL_Renderer* renderer, SDL_GPURenderStateCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createGPURendererDevice: device window: window [
+	"/**
+	 * Create a 2D GPU rendering context.
+	 *
+	 * The GPU device to use is passed in as a parameter. If this is NULL, then a
+	 * device will be created normally and can be retrieved using
+	 * SDL_GetGPURendererDevice().
+	 *
+	 * The window to use is passed in as a parameter. If this is NULL, then this
+	 * will become an offscreen renderer. In that case, you should call
+	 * SDL_SetRenderTarget() to setup rendering to a texture, and then call
+	 * SDL_RenderPresent() normally to complete drawing a frame.
+	 *
+	 * \param device the GPU device to use with the renderer, or NULL to create a
+	 *               device.
+	 * \param window the window where rendering is displayed, or NULL to create an
+	 *               offscreen renderer.
+	 * \returns a valid rendering context or NULL if there was an error; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety If this function is called with a valid GPU device, it should
+	 *               be called on the thread that created the device. If this
+	 *               function is called with a valid window, it should be called
+	 *               on the thread that created the window.
+	 *
+	 * \since This function is available since SDL 3.4.0.
+	 *
+	 * \sa SDL_CreateRendererWithProperties
+	 * \sa SDL_GetGPURendererDevice
+	 * \sa SDL_CreateGPUShader
+	 * \sa SDL_CreateGPURenderState
+	 * \sa SDL_SetGPURenderState
+	 */"
+
+	^ self ffiCall: #(SDL_Renderer* SDL_CreateGPURenderer(SDL_GPUDevice* device, SDL_Window* window))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUSamplerDevice: device createinfo: createinfo [
+	"/**
+	 * Creates a sampler object to be used when binding textures in a graphics
+	 * workflow.
+	 *
+	 * There are optional properties that can be provided through `props`. These
+	 * are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_SAMPLER_CREATE_NAME_STRING`: a name that can be displayed
+	 *   in debugging tools.
+	 *
+	 * \param device a GPU Context.
+	 * \param createinfo a struct describing the state of the sampler to create.
+	 * \returns a sampler object on success, or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_BindGPUVertexSamplers
+	 * \sa SDL_BindGPUFragmentSamplers
+	 * \sa SDL_ReleaseGPUSampler
+	 */"
+
+	^ self ffiCall: #(SDL_GPUSampler* SDL_CreateGPUSampler(SDL_GPUDevice* device, SDL_GPUSamplerCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUShaderDevice: device createinfo: createinfo [
+	"/**
+	 * Creates a shader to be used when creating a graphics pipeline.
+	 *
+	 * Shader resource bindings must be authored to follow a particular order
+	 * depending on the shader format.
+	 *
+	 * For SPIR-V shaders, use the following resource sets:
+	 *
+	 * For vertex shaders:
+	 *
+	 * - 0: Sampled textures, followed by storage textures, followed by storage
+	 *   buffers
+	 * - 1: Uniform buffers
+	 *
+	 * For fragment shaders:
+	 *
+	 * - 2: Sampled textures, followed by storage textures, followed by storage
+	 *   buffers
+	 * - 3: Uniform buffers
+	 *
+	 * For DXBC and DXIL shaders, use the following register order:
+	 *
+	 * For vertex shaders:
+	 *
+	 * - (t[n], space0): Sampled textures, followed by storage textures, followed
+	 *   by storage buffers
+	 * - (s[n], space0): Samplers with indices corresponding to the sampled
+	 *   textures
+	 * - (b[n], space1): Uniform buffers
+	 *
+	 * For pixel shaders:
+	 *
+	 * - (t[n], space2): Sampled textures, followed by storage textures, followed
+	 *   by storage buffers
+	 * - (s[n], space2): Samplers with indices corresponding to the sampled
+	 *   textures
+	 * - (b[n], space3): Uniform buffers
+	 *
+	 * For MSL/metallib, use the following order:
+	 *
+	 * - [[texture]]: Sampled textures, followed by storage textures
+	 * - [[sampler]]: Samplers with indices corresponding to the sampled textures
+	 * - [[buffer]]: Uniform buffers, followed by storage buffers. Vertex buffer 0
+	 *   is bound at [[buffer(14)]], vertex buffer 1 at [[buffer(15)]], and so on.
+	 *   Rather than manually authoring vertex buffer indices, use the
+	 *   [[stage_in]] attribute which will automatically use the vertex input
+	 *   information from the SDL_GPUGraphicsPipeline.
+	 *
+	 * Shader semantics other than system-value semantics do not matter in D3D12
+	 * and for ease of use the SDL implementation assumes that non system-value
+	 * semantics will all be TEXCOORD. If you are using HLSL as the shader source
+	 * language, your vertex semantics should start at TEXCOORD0 and increment
+	 * like so: TEXCOORD1, TEXCOORD2, etc. If you wish to change the semantic
+	 * prefix to something other than TEXCOORD you can use
+	 * SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING with
+	 * SDL_CreateGPUDeviceWithProperties().
+	 *
+	 * There are optional properties that can be provided through `props`. These
+	 * are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_SHADER_CREATE_NAME_STRING`: a name that can be displayed in
+	 *   debugging tools.
+	 *
+	 * \param device a GPU Context.
+	 * \param createinfo a struct describing the state of the shader to create.
+	 * \returns a shader object on success, or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateGPUGraphicsPipeline
+	 * \sa SDL_ReleaseGPUShader
+	 */"
+
+	^ self ffiCall: #(SDL_GPUShader* SDL_CreateGPUShader(SDL_GPUDevice* device, SDL_GPUShaderCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUTextureDevice: device createinfo: createinfo [
+	"/**
+	 * Creates a texture object to be used in graphics or compute workflows.
+	 *
+	 * The contents of this texture are undefined until data is written to the
+	 * texture, either via SDL_UploadToGPUTexture or by performing a render or
+	 * compute pass with this texture as a target.
+	 *
+	 * Note that certain combinations of usage flags are invalid. For example, a
+	 * texture cannot have both the SAMPLER and GRAPHICS_STORAGE_READ flags.
+	 *
+	 * If you request a sample count higher than the hardware supports, the
+	 * implementation will automatically fall back to the highest available sample
+	 * count.
+	 *
+	 * There are optional properties that can be provided through
+	 * SDL_GPUTextureCreateInfo's `props`. These are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_R_FLOAT`: (Direct3D 12 only) if
+	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
+	 *   to a color with this red intensity. Defaults to zero.
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_G_FLOAT`: (Direct3D 12 only) if
+	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
+	 *   to a color with this green intensity. Defaults to zero.
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_B_FLOAT`: (Direct3D 12 only) if
+	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
+	 *   to a color with this blue intensity. Defaults to zero.
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_A_FLOAT`: (Direct3D 12 only) if
+	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
+	 *   to a color with this alpha intensity. Defaults to zero.
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_DEPTH_FLOAT`: (Direct3D 12 only)
+	 *   if the texture usage is SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET, clear
+	 *   the texture to a depth of this value. Defaults to zero.
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_NUMBER`: (Direct3D 12
+	 *   only) if the texture usage is SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET,
+	 *   clear the texture to a stencil of this Uint8 value. Defaults to zero.
+	 * - `SDL_PROP_GPU_TEXTURE_CREATE_NAME_STRING`: a name that can be displayed
+	 *   in debugging tools.
+	 *
+	 * \param device a GPU Context.
+	 * \param createinfo a struct describing the state of the texture to create.
+	 * \returns a texture object on success, or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_UploadToGPUTexture
+	 * \sa SDL_DownloadFromGPUTexture
+	 * \sa SDL_BeginGPURenderPass
+	 * \sa SDL_BeginGPUComputePass
+	 * \sa SDL_BindGPUVertexSamplers
+	 * \sa SDL_BindGPUVertexStorageTextures
+	 * \sa SDL_BindGPUFragmentSamplers
+	 * \sa SDL_BindGPUFragmentStorageTextures
+	 * \sa SDL_BindGPUComputeStorageTextures
+	 * \sa SDL_BlitGPUTexture
+	 * \sa SDL_ReleaseGPUTexture
+	 * \sa SDL_GPUTextureSupportsFormat
+	 */"
+
+	^ self ffiCall: #(SDL_GPUTexture* SDL_CreateGPUTexture(SDL_GPUDevice* device, SDL_GPUTextureCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_gpu' }
+SDL3Library >> createGPUTransferBufferDevice: device createinfo: createinfo [
+	"/**
+	 * Creates a transfer buffer to be used when uploading to or downloading from
+	 * graphics resources.
+	 *
+	 * Download buffers can be particularly expensive to create, so it is good
+	 * practice to reuse them if data will be downloaded regularly.
+	 *
+	 * There are optional properties that can be provided through `props`. These
+	 * are the supported properties:
+	 *
+	 * - `SDL_PROP_GPU_TRANSFERBUFFER_CREATE_NAME_STRING`: a name that can be
+	 *   displayed in debugging tools.
+	 *
+	 * \param device a GPU Context.
+	 * \param createinfo a struct describing the state of the transfer buffer to
+	 *                   create.
+	 * \returns a transfer buffer on success, or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_UploadToGPUBuffer
+	 * \sa SDL_DownloadFromGPUBuffer
+	 * \sa SDL_UploadToGPUTexture
+	 * \sa SDL_DownloadFromGPUTexture
+	 * \sa SDL_ReleaseGPUTransferBuffer
+	 */"
+
+	^ self ffiCall: #(SDL_GPUTransferBuffer* SDL_CreateGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBufferCreateInfo* createinfo))
+]
+
+{ #category : 'public - SDL_haptic' }
+SDL3Library >> createHapticEffectHaptic: haptic effect: effect [
+	"/**
+	 * Create a new haptic effect on a specified device.
+	 *
+	 * \param haptic an SDL_Haptic device to create the effect on.
+	 * \param effect an SDL_HapticEffect structure containing the properties of
+	 *               the effect to create.
+	 * \returns the ID of the effect on success or -1 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyHapticEffect
+	 * \sa SDL_RunHapticEffect
+	 * \sa SDL_UpdateHapticEffect
+	 */"
+
+	^ self ffiCall: #(SDL_HapticEffectID SDL_CreateHapticEffect(SDL_Haptic* haptic, SDL_HapticEffect* effect))
+]
+
+{ #category : 'public - SDL_mutex' }
+SDL3Library >> createMutex [
+	"/**
+	 * Create a new mutex.
+	 *
+	 * All newly-created mutexes begin in the _unlocked_ state.
+	 *
+	 * Calls to SDL_LockMutex() will not return while the mutex is locked by
+	 * another thread. See SDL_TryLockMutex() to attempt to lock without blocking.
+	 *
+	 * SDL mutexes are reentrant.
+	 *
+	 * \returns the initialized and unlocked mutex or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyMutex
+	 * \sa SDL_LockMutex
+	 * \sa SDL_TryLockMutex
+	 * \sa SDL_UnlockMutex
+	 */"
+
+	^ self ffiCall: #(SDL_Mutex* SDL_CreateMutex())
+]
+
+{ #category : 'public - SDL_pixels' }
+SDL3Library >> createPalette: ncolors [
+	"/**
+	 * Create a palette structure with the specified number of color entries.
+	 *
+	 * The palette entries are initialized to white.
+	 *
+	 * \param ncolors represents the number of color entries in the color palette.
+	 * \returns a new SDL_Palette structure on success or NULL on failure (e.g. if
+	 *          there wasn't enough memory); call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyPalette
+	 * \sa SDL_SetPaletteColors
+	 * \sa SDL_SetSurfacePalette
+	 */"
+
+	^ self ffiCall: #(SDL_Palette* SDL_CreatePalette(int ncolors))
+]
+
+{ #category : 'public - SDL_video' }
+SDL3Library >> createPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w h: h flags: flags [
+	"/**
+	 * Create a child popup window of the specified parent window.
+	 *
+	 * The window size is a request and may be different than expected based on
+	 * the desktop layout and window manager policies. Your application should be
+	 * prepared to handle a window of any size.
+	 *
+	 * The flags parameter **must** contain at least one of the following:
+	 *
+	 * - `SDL_WINDOW_TOOLTIP`: The popup window is a tooltip and will not pass any
+	 *   input events.
+	 * - `SDL_WINDOW_POPUP_MENU`: The popup window is a popup menu. The topmost
+	 *   popup menu will implicitly gain the keyboard focus.
+	 *
+	 * The following flags are not relevant to popup window creation and will be
+	 * ignored:
+	 *
+	 * - `SDL_WINDOW_MINIMIZED`
+	 * - `SDL_WINDOW_MAXIMIZED`
+	 * - `SDL_WINDOW_FULLSCREEN`
+	 * - `SDL_WINDOW_BORDERLESS`
+	 *
+	 * The following flags are incompatible with popup window creation and will
+	 * cause it to fail:
+	 *
+	 * - `SDL_WINDOW_UTILITY`
+	 * - `SDL_WINDOW_MODAL`
+	 *
+	 * The parent parameter **must** be non-null and a valid window. The parent of
+	 * a popup window can be either a regular, toplevel window, or another popup
+	 * window.
+	 *
+	 * Popup windows cannot be minimized, maximized, made fullscreen, raised,
+	 * flash, be made a modal window, be the parent of a toplevel window, or grab
+	 * the mouse and/or keyboard. Attempts to do so will fail.
+	 *
+	 * Popup windows implicitly do not have a border/decorations and do not appear
+	 * on the taskbar/dock or in lists of windows such as alt-tab menus.
+	 *
+	 * By default, popup window positions will automatically be constrained to
+	 * keep the entire window within display bounds. This can be overridden with
+	 * the `SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN` property.
+	 *
+	 * By default, popup menus will automatically grab keyboard focus from the
+	 * parent when shown. This behavior can be overridden by setting the
+	 * `SDL_WINDOW_NOT_FOCUSABLE` flag, setting the
+	 * `SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN` property to false, or toggling
+	 * it after creation via the `SDL_SetWindowFocusable()` function.
+	 *
+	 * If a parent window is hidden or destroyed, any child popup windows will be
+	 * recursively hidden or destroyed as well. Child popup windows not explicitly
+	 * hidden will be restored when the parent is shown.
+	 *
+	 * \param parent the parent of the window, must not be NULL.
+	 * \param offset_x the x position of the popup window relative to the origin
+	 *                 of the parent.
+	 * \param offset_y the y position of the popup window relative to the origin
+	 *                 of the parent window.
+	 * \param w the width of the window.
+	 * \param h the height of the window.
+	 * \param flags SDL_WINDOW_TOOLTIP or SDL_WINDOW_POPUP_MENU, and zero or more
+	 *              additional SDL_WindowFlags OR'd together.
+	 * \returns the window that was created or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateWindow
+	 * \sa SDL_CreateWindowWithProperties
+	 * \sa SDL_DestroyWindow
+	 * \sa SDL_GetWindowParent
+	 */"
+
+	^ self ffiCall: #(SDL_Window* SDL_CreatePopupWindow(SDL_Window* parent, int offset_x, int offset_y, int w, int h, SDL_WindowFlags flags))
+]
+
+{ #category : 'public - SDL_process' }
+SDL3Library >> createProcessArgs: args pipeStdio: pipe_stdio [
+	"/**
+	 * Create a new process.
+	 *
+	 * The path to the executable is supplied in args[0]. args[1..N] are
+	 * additional arguments passed on the command line of the new process, and the
+	 * argument list should be terminated with a NULL, e.g.:
+	 *
+	 * ```c
+	 * const char *args[] = { ""myprogram"", ""argument"", NULL };
+	 * ```
+	 *
+	 * Setting pipe_stdio to true is equivalent to setting
+	 * `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` and
+	 * `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` to `SDL_PROCESS_STDIO_APP`, and
+	 * will allow the use of SDL_ReadProcess() or SDL_GetProcessInput() and
+	 * SDL_GetProcessOutput().
+	 *
+	 * See SDL_CreateProcessWithProperties() for more details.
+	 *
+	 * \param args the path and arguments for the new process.
+	 * \param pipe_stdio true to create pipes to the process's standard input and
+	 *                   from the process's standard output, false for the process
+	 *                   to have no input and inherit the application's standard
+	 *                   output.
+	 * \returns the newly created and running process, or NULL if the process
+	 *          couldn't be created.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcessWithProperties
+	 * \sa SDL_GetProcessProperties
+	 * \sa SDL_ReadProcess
+	 * \sa SDL_GetProcessInput
+	 * \sa SDL_GetProcessOutput
+	 * \sa SDL_KillProcess
+	 * \sa SDL_WaitProcess
+	 * \sa SDL_DestroyProcess
+	 */"
+
+	^ self ffiCall: #(SDL_Process* SDL_CreateProcess(const char* args, #bool pipe_stdio))
+]
+
+{ #category : 'public - SDL_process' }
+SDL3Library >> createProcessWithProperties: props [
+	"/**
+	 * Create a new process with the specified properties.
+	 *
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_PROCESS_CREATE_ARGS_POINTER`: an array of strings containing
+	 *   the program to run, any arguments, and a NULL pointer, e.g. const char
+	 *   *args[] = { ""myprogram"", ""argument"", NULL }. This is a required property.
+	 * - `SDL_PROP_PROCESS_CREATE_ENVIRONMENT_POINTER`: an SDL_Environment
+	 *   pointer. If this property is set, it will be the entire environment for
+	 *   the process, otherwise the current environment is used.
+	 * - `SDL_PROP_PROCESS_CREATE_WORKING_DIRECTORY_STRING`: a UTF-8 encoded
+	 *   string representing the working directory for the process, defaults to
+	 *   the current working directory.
+	 * - `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER`: an SDL_ProcessIO value describing
+	 *   where standard input for the process comes from, defaults to
+	 *   `SDL_PROCESS_STDIO_NULL`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDIN_POINTER`: an SDL_IOStream pointer used for
+	 *   standard input when `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` is set to
+	 *   `SDL_PROCESS_STDIO_REDIRECT`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER`: an SDL_ProcessIO value
+	 *   describing where standard output for the process goes to, defaults to
+	 *   `SDL_PROCESS_STDIO_INHERITED`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDOUT_POINTER`: an SDL_IOStream pointer used
+	 *   for standard output when `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` is set
+	 *   to `SDL_PROCESS_STDIO_REDIRECT`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER`: an SDL_ProcessIO value
+	 *   describing where standard error for the process goes to, defaults to
+	 *   `SDL_PROCESS_STDIO_INHERITED`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDERR_POINTER`: an SDL_IOStream pointer used
+	 *   for standard error when `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER` is set to
+	 *   `SDL_PROCESS_STDIO_REDIRECT`.
+	 * - `SDL_PROP_PROCESS_CREATE_STDERR_TO_STDOUT_BOOLEAN`: true if the error
+	 *   output of the process should be redirected into the standard output of
+	 *   the process. This property has no effect if
+	 *   `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER` is set.
+	 * - `SDL_PROP_PROCESS_CREATE_BACKGROUND_BOOLEAN`: true if the process should
+	 *   run in the background. In this case the default input and output is
+	 *   `SDL_PROCESS_STDIO_NULL` and the exitcode of the process is not
+	 *   available, and will always be 0.
+	 * - `SDL_PROP_PROCESS_CREATE_CMDLINE_STRING`: a string containing the program
+	 *   to run and any parameters. This string is passed directly to
+	 *   `CreateProcess` on Windows, and does nothing on other platforms. This
+	 *   property is only important if you want to start programs that does
+	 *   non-standard command-line processing, and in most cases using
+	 *   `SDL_PROP_PROCESS_CREATE_ARGS_POINTER` is sufficient.
+	 *
+	 * On POSIX platforms, wait() and waitpid(-1, ...) should not be called, and
+	 * SIGCHLD should not be ignored or handled because those would prevent SDL
+	 * from properly tracking the lifetime of the underlying process. You should
+	 * use SDL_WaitProcess() instead.
+	 *
+	 * \param props the properties to use.
+	 * \returns the newly created and running process, or NULL if the process
+	 *          couldn't be created.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProcess
+	 * \sa SDL_GetProcessProperties
+	 * \sa SDL_ReadProcess
+	 * \sa SDL_GetProcessInput
+	 * \sa SDL_GetProcessOutput
+	 * \sa SDL_KillProcess
+	 * \sa SDL_WaitProcess
+	 * \sa SDL_DestroyProcess
+	 */"
+
+	^ self ffiCall: #(SDL_Process* SDL_CreateProcessWithProperties(SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_properties' }
+SDL3Library >> createProperties [
+	"/**
+	 * Create a group of properties.
+	 *
+	 * All properties are automatically destroyed when SDL_Quit() is called.
+	 *
+	 * \returns an ID for a new group of properties, or 0 on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyProperties
+	 */"
+
+	^ self ffiCall: #(SDL_PropertiesID SDL_CreateProperties())
+]
+
+{ #category : 'public - SDL_mutex' }
+SDL3Library >> createRWLock [
+	"/**
+	 * Create a new read/write lock.
+	 *
+	 * A read/write lock is useful for situations where you have multiple threads
+	 * trying to access a resource that is rarely updated. All threads requesting
+	 * a read-only lock will be allowed to run in parallel; if a thread requests a
+	 * write lock, it will be provided exclusive access. This makes it safe for
+	 * multiple threads to use a resource at the same time if they promise not to
+	 * change it, and when it has to be changed, the rwlock will serve as a
+	 * gateway to make sure those changes can be made safely.
+	 *
+	 * In the right situation, a rwlock can be more efficient than a mutex, which
+	 * only lets a single thread proceed at a time, even if it won't be modifying
+	 * the data.
+	 *
+	 * All newly-created read/write locks begin in the _unlocked_ state.
+	 *
+	 * Calls to SDL_LockRWLockForReading() and SDL_LockRWLockForWriting will not
+	 * return while the rwlock is locked _for writing_ by another thread. See
+	 * SDL_TryLockRWLockForReading() and SDL_TryLockRWLockForWriting() to attempt
+	 * to lock without blocking.
+	 *
+	 * SDL read/write locks are only recursive for read-only locks! They are not
+	 * guaranteed to be fair, or provide access in a FIFO manner! They are not
+	 * guaranteed to favor writers. You may not lock a rwlock for both read-only
+	 * and write access at the same time from the same thread (so you can't
+	 * promote your read-only lock to a write lock without unlocking first).
+	 *
+	 * \returns the initialized and unlocked read/write lock or NULL on failure;
+	 *          call SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyRWLock
+	 * \sa SDL_LockRWLockForReading
+	 * \sa SDL_LockRWLockForWriting
+	 * \sa SDL_TryLockRWLockForReading
+	 * \sa SDL_TryLockRWLockForWriting
+	 * \sa SDL_UnlockRWLock
+	 */"
+
+	^ self ffiCall: #(SDL_RWLock* SDL_CreateRWLock())
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createRendererWindow: window name: name [
+	"/**
+	 * Create a 2D rendering context for a window.
+	 *
+	 * If you want a specific renderer, you can specify its name here. A list of
+	 * available renderers can be obtained by calling SDL_GetRenderDriver()
+	 * multiple times, with indices from 0 to SDL_GetNumRenderDrivers()-1. If you
+	 * don't need a specific renderer, specify NULL and SDL will attempt to choose
+	 * the best option for you, based on what is available on the user's system.
+	 *
+	 * If `name` is a comma-separated list, SDL will try each name, in the order
+	 * listed, until one succeeds or all of them fail.
+	 *
+	 * By default the rendering size matches the window size in pixels, but you
+	 * can call SDL_SetRenderLogicalPresentation() to change the content size and
+	 * scaling options.
+	 *
+	 * \param window the window where rendering is displayed.
+	 * \param name the name of the rendering driver to initialize, or NULL to let
+	 *             SDL choose one.
+	 * \returns a valid rendering context or NULL if there was an error; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateRendererWithProperties
+	 * \sa SDL_CreateSoftwareRenderer
+	 * \sa SDL_DestroyRenderer
+	 * \sa SDL_GetNumRenderDrivers
+	 * \sa SDL_GetRenderDriver
+	 * \sa SDL_GetRendererName
+	 */"
+
+	^ self ffiCall: #(SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, const char* name))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createRendererWithProperties: props [
+	"/**
+	 * Create a 2D rendering context for a window, with the specified properties.
+	 *
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_RENDERER_CREATE_NAME_STRING`: the name of the rendering driver
+	 *   to use, if a specific one is desired
+	 * - `SDL_PROP_RENDERER_CREATE_WINDOW_POINTER`: the window where rendering is
+	 *   displayed, required if this isn't a software renderer using a surface
+	 * - `SDL_PROP_RENDERER_CREATE_SURFACE_POINTER`: the surface where rendering
+	 *   is displayed, if you want a software renderer without a window
+	 * - `SDL_PROP_RENDERER_CREATE_OUTPUT_COLORSPACE_NUMBER`: an SDL_Colorspace
+	 *   value describing the colorspace for output to the display, defaults to
+	 *   SDL_COLORSPACE_SRGB. The direct3d11, direct3d12, and metal renderers
+	 *   support SDL_COLORSPACE_SRGB_LINEAR, which is a linear color space and
+	 *   supports HDR output. If you select SDL_COLORSPACE_SRGB_LINEAR, drawing
+	 *   still uses the sRGB colorspace, but values can go beyond 1.0 and float
+	 *   (linear) format textures can be used for HDR content.
+	 * - `SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER`: non-zero if you want
+	 *   present synchronized with the refresh rate. This property can take any
+	 *   value that is supported by SDL_SetRenderVSync() for the renderer.
+	 *
+	 * With the SDL GPU renderer (since SDL 3.4.0):
+	 *
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_DEVICE_POINTER`: the device to use with the
+	 *   renderer, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN`: the app is able to
+	 *   provide SPIR-V shaders to SDL_GPURenderState, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN`: the app is able to
+	 *   provide DXIL shaders to SDL_GPURenderState, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN`: the app is able to
+	 *   provide MSL shaders to SDL_GPURenderState, optional.
+	 *
+	 * With the vulkan renderer:
+	 *
+	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER`: the VkInstance to use
+	 *   with the renderer, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_SURFACE_NUMBER`: the VkSurfaceKHR to use
+	 *   with the renderer, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_PHYSICAL_DEVICE_POINTER`: the
+	 *   VkPhysicalDevice to use with the renderer, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_DEVICE_POINTER`: the VkDevice to use
+	 *   with the renderer, optional.
+	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER`: the
+	 *   queue family index used for rendering.
+	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER`: the
+	 *   queue family index used for presentation.
+	 *
+	 * \param props the properties to use.
+	 * \returns a valid rendering context or NULL if there was an error; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProperties
+	 * \sa SDL_CreateRenderer
+	 * \sa SDL_CreateSoftwareRenderer
+	 * \sa SDL_DestroyRenderer
+	 * \sa SDL_GetRendererName
+	 */"
+
+	^ self ffiCall: #(SDL_Renderer* SDL_CreateRendererWithProperties(SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_mutex' }
+SDL3Library >> createSemaphore: initial_value [
+	"/**
+	 * Create a semaphore.
+	 *
+	 * This function creates a new semaphore and initializes it with the value
+	 * `initial_value`. Each wait operation on the semaphore will atomically
+	 * decrement the semaphore value and potentially block if the semaphore value
+	 * is 0. Each post operation will atomically increment the semaphore value and
+	 * wake waiting threads and allow them to retry the wait operation.
+	 *
+	 * \param initial_value the starting value of the semaphore.
+	 * \returns a new semaphore or NULL on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroySemaphore
+	 * \sa SDL_SignalSemaphore
+	 * \sa SDL_TryWaitSemaphore
+	 * \sa SDL_GetSemaphoreValue
+	 * \sa SDL_WaitSemaphore
+	 * \sa SDL_WaitSemaphoreTimeout
+	 */"
+
+	^ self ffiCall: #(SDL_Semaphore* SDL_CreateSemaphore(Uint32 initial_value))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createSoftwareRenderer: surface [
+	"/**
+	 * Create a 2D software rendering context for a surface.
+	 *
+	 * Two other API which can be used to create SDL_Renderer:
+	 * SDL_CreateRenderer() and SDL_CreateWindowAndRenderer(). These can _also_
+	 * create a software renderer, but they are intended to be used with an
+	 * SDL_Window as the final destination and not an SDL_Surface.
+	 *
+	 * \param surface the SDL_Surface structure representing the surface where
+	 *                rendering is done.
+	 * \returns a valid rendering context or NULL if there was an error; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyRenderer
+	 */"
+
+	^ self ffiCall: #(SDL_Renderer* SDL_CreateSoftwareRenderer(SDL_Surface* surface))
+]
+
+{ #category : 'public - SDL_storage' }
+SDL3Library >> createStorageDirectoryStorage: storage path: path [
+	"/**
+	 * Create a directory in a writable storage container.
+	 *
+	 * \param storage a storage container.
+	 * \param path the path of the directory to create.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_StorageReady
+	 */"
+
+	^ self ffiCall: #(bool SDL_CreateStorageDirectory(SDL_Storage* storage, const char* path))
+]
+
+{ #category : 'public - SDL_surface' }
+SDL3Library >> createSurfaceFromWidth: width height: height format: format pixels: pixels pitch: pitch [
+	"/**
+	 * Allocate a new surface with a specific pixel format and existing pixel
+	 * data.
+	 *
+	 * No copy is made of the pixel data. Pixel data is not managed automatically;
+	 * you must free the surface before you free the pixel data.
+	 *
+	 * Pitch is the offset in bytes from one row of pixels to the next, e.g.
+	 * `width*4` for `SDL_PIXELFORMAT_RGBA8888`.
+	 *
+	 * You may pass NULL for pixels and 0 for pitch to create a surface that you
+	 * will fill in with valid values later.
+	 *
+	 * \param width the width of the surface.
+	 * \param height the height of the surface.
+	 * \param format the SDL_PixelFormat for the new surface's pixel format.
+	 * \param pixels a pointer to existing pixel data.
+	 * \param pitch the number of bytes between each row, including padding.
+	 * \returns the new SDL_Surface structure that is created or NULL on failure;
+	 *          call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateSurface
+	 * \sa SDL_DestroySurface
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* SDL_CreateSurfaceFrom(int width, int height, SDL_PixelFormat format, void* pixels, int pitch))
+]
+
+{ #category : 'public - SDL_surface' }
+SDL3Library >> createSurfacePalette: surface [
+	"/**
+	 * Create a palette and associate it with a surface.
+	 *
+	 * This function creates a palette compatible with the provided surface. The
+	 * palette is then returned for you to modify, and the surface will
+	 * automatically use the new palette in future operations. You do not need to
+	 * destroy the returned palette, it will be freed when the reference count
+	 * reaches 0, usually when the surface is destroyed.
+	 *
+	 * Bitmap surfaces (with format SDL_PIXELFORMAT_INDEX1LSB or
+	 * SDL_PIXELFORMAT_INDEX1MSB) will have the palette initialized with 0 as
+	 * white and 1 as black. Other surfaces will get a palette initialized with
+	 * white in every entry.
+	 *
+	 * If this function is called for a surface that already has a palette, a new
+	 * palette will be created to replace it.
+	 *
+	 * \param surface the SDL_Surface structure to update.
+	 * \returns a new SDL_Palette structure on success or NULL on failure (e.g. if
+	 *          the surface didn't have an index format); call SDL_GetError() for
+	 *          more information.
+	 *
+	 * \threadsafety This function can be called on different threads with
+	 *               different surfaces.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_SetPaletteColors
+	 */"
+
+	^ self ffiCall: #(SDL_Palette* SDL_CreateSurfacePalette(SDL_Surface* surface))
+]
+
+{ #category : 'public - SDL_surface' }
+SDL3Library >> createSurfaceWidth: width height: height format: format [
+	"/**
+	 * Allocate a new surface with a specific pixel format.
+	 *
+	 * The pixels of the new surface are initialized to zero.
+	 *
+	 * \param width the width of the surface.
+	 * \param height the height of the surface.
+	 * \param format the SDL_PixelFormat for the new surface's pixel format.
+	 * \returns the new SDL_Surface structure that is created or NULL on failure;
+	 *          call SDL_GetError() for more information.
+	 *
+	 * \threadsafety It is safe to call this function from any thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateSurfaceFrom
+	 * \sa SDL_DestroySurface
+	 */"
+
+	^ self ffiCall: #(SDL_Surface* SDL_CreateSurface(int width, int height, SDL_PixelFormat format))
+]
+
+{ #category : 'public - SDL_mouse' }
+SDL3Library >> createSystemCursor: id [
+	"/**
+	 * Create a system cursor.
+	 *
+	 * \param id an SDL_SystemCursor enum value.
+	 * \returns a cursor on success or NULL on failure; call SDL_GetError() for
+	 *          more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_DestroyCursor
+	 */"
+
+	^ self ffiCall: #(SDL_Cursor* SDL_CreateSystemCursor(SDL_SystemCursor id))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createTextureFromSurfaceRenderer: renderer surface: surface [
+	"/**
+	 * Create a texture from an existing surface.
+	 *
+	 * The surface is not modified or freed by this function.
+	 *
+	 * The SDL_TextureAccess hint for the created texture is
+	 * `SDL_TEXTUREACCESS_STATIC`.
+	 *
+	 * The pixel format of the created texture may be different from the pixel
+	 * format of the surface, and can be queried using the
+	 * SDL_PROP_TEXTURE_FORMAT_NUMBER property.
+	 *
+	 * \param renderer the rendering context.
+	 * \param surface the SDL_Surface structure containing pixel data used to fill
+	 *                the texture.
+	 * \returns the created texture or NULL on failure; call SDL_GetError() for
+	 *          more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTexture
+	 * \sa SDL_CreateTextureWithProperties
+	 * \sa SDL_DestroyTexture
+	 */"
+
+	^ self ffiCall: #(SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createTextureRenderer: renderer format: format access: access w: w h: h [
+	"/**
+	 * Create a texture for a rendering context.
+	 *
+	 * The contents of a texture when first created are not defined.
+	 *
+	 * \param renderer the rendering context.
+	 * \param format one of the enumerated values in SDL_PixelFormat.
+	 * \param access one of the enumerated values in SDL_TextureAccess.
+	 * \param w the width of the texture in pixels.
+	 * \param h the height of the texture in pixels.
+	 * \returns the created texture or NULL on failure; call SDL_GetError() for
+	 *          more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTextureFromSurface
+	 * \sa SDL_CreateTextureWithProperties
+	 * \sa SDL_DestroyTexture
+	 * \sa SDL_GetTextureSize
+	 * \sa SDL_UpdateTexture
+	 */"
+
+	^ self ffiCall: #(SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, SDL_PixelFormat format, SDL_TextureAccess access, int w, int h))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createTextureWithPropertiesRenderer: renderer props: props [
+	"/**
+	 * Create a texture for a rendering context with the specified properties.
+	 *
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER`: an SDL_Colorspace value
+	 *   describing the texture colorspace, defaults to SDL_COLORSPACE_SRGB_LINEAR
+	 *   for floating point textures, SDL_COLORSPACE_HDR10 for 10-bit textures,
+	 *   SDL_COLORSPACE_SRGB for other RGB textures and SDL_COLORSPACE_JPEG for
+	 *   YUV textures.
+	 * - `SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER`: one of the enumerated values in
+	 *   SDL_PixelFormat, defaults to the best RGBA format for the renderer
+	 * - `SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER`: one of the enumerated values in
+	 *   SDL_TextureAccess, defaults to SDL_TEXTUREACCESS_STATIC
+	 * - `SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER`: the width of the texture in
+	 *   pixels, required
+	 * - `SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER`: the height of the texture in
+	 *   pixels, required
+	 * - `SDL_PROP_TEXTURE_CREATE_PALETTE_POINTER`: an SDL_Palette to use with
+	 *   palettized texture formats. This can be set later with
+	 *   SDL_SetTexturePalette()
+	 * - `SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT`: for HDR10 and floating
+	 *   point textures, this defines the value of 100% diffuse white, with higher
+	 *   values being displayed in the High Dynamic Range headroom. This defaults
+	 *   to 100 for HDR10 textures and 1.0 for floating point textures.
+	 * - `SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT`: for HDR10 and floating
+	 *   point textures, this defines the maximum dynamic range used by the
+	 *   content, in terms of the SDR white point. This would be equivalent to
+	 *   maxCLL / SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT for HDR10 content.
+	 *   If this is defined, any values outside the range supported by the display
+	 *   will be scaled into the available HDR headroom, otherwise they are
+	 *   clipped.
+	 *
+	 * With the direct3d11 renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER`: the ID3D11Texture2D
+	 *   associated with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER`: the ID3D11Texture2D
+	 *   associated with the U plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER`: the ID3D11Texture2D
+	 *   associated with the V plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 *
+	 * With the direct3d12 renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER`: the ID3D12Resource
+	 *   associated with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER`: the ID3D12Resource
+	 *   associated with the U plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER`: the ID3D12Resource
+	 *   associated with the V plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 *
+	 * With the metal renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER`: the CVPixelBufferRef
+	 *   associated with the texture, if you want to create a texture from an
+	 *   existing pixel buffer.
+	 *
+	 * With the opengl renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER`: the GLuint texture
+	 *   associated with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER`: the GLuint texture
+	 *   associated with the UV plane of an NV12 texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER`: the GLuint texture
+	 *   associated with the U plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER`: the GLuint texture
+	 *   associated with the V plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 *
+	 * With the opengles2 renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER`: the GLuint texture
+	 *   associated with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER`: the GLuint texture
+	 *   associated with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER`: the GLuint texture
+	 *   associated with the UV plane of an NV12 texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER`: the GLuint texture
+	 *   associated with the U plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER`: the GLuint texture
+	 *   associated with the V plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 *
+	 * With the vulkan renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER`: the VkImage associated
+	 *   with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER`: the VkImageLayout for the
+	 *   VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.
+	 *
+	 * With the GPU renderer:
+	 *
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER`: the SDL_GPUTexture
+	 *   associated with the texture, if you want to wrap an existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_NUMBER`: the SDL_GPUTexture
+	 *   associated with the UV plane of an NV12 texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_U_NUMBER`: the SDL_GPUTexture
+	 *   associated with the U plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_V_NUMBER`: the SDL_GPUTexture
+	 *   associated with the V plane of a YUV texture, if you want to wrap an
+	 *   existing texture.
+	 *
+	 * \param renderer the rendering context.
+	 * \param props the properties to use.
+	 * \returns the created texture or NULL on failure; call SDL_GetError() for
+	 *          more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProperties
+	 * \sa SDL_CreateTexture
+	 * \sa SDL_CreateTextureFromSurface
+	 * \sa SDL_DestroyTexture
+	 * \sa SDL_GetTextureSize
+	 * \sa SDL_UpdateTexture
+	 */"
+
+	^ self ffiCall: #(SDL_Texture* SDL_CreateTextureWithProperties(SDL_Renderer* renderer, SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_thread' }
+SDL3Library >> createThreadFn: fn name: name data: data [
+	"/**
+	 * Create a new thread with a default stack size.
+	 *
+	 * This is a convenience function, equivalent to calling
+	 * SDL_CreateThreadWithProperties with the following properties set:
+	 *
+	 * - `SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER`: `fn`
+	 * - `SDL_PROP_THREAD_CREATE_NAME_STRING`: `name`
+	 * - `SDL_PROP_THREAD_CREATE_USERDATA_POINTER`: `data`
+	 *
+	 * Note that this ""function"" is actually a macro that calls an internal
+	 * function with two extra parameters not listed here; they are hidden through
+	 * preprocessor macros and are needed to support various C runtimes at the
+	 * point of the function call. Language bindings that aren't using the C
+	 * headers will need to deal with this.
+	 *
+	 * Usually, apps should just call this function the same way on every platform
+	 * and let the macros hide the details.
+	 *
+	 * \param fn the SDL_ThreadFunction function to call in the new thread.
+	 * \param name the name of the thread.
+	 * \param data a pointer that is passed to `fn`.
+	 * \returns an opaque pointer to the new thread object on success, NULL if the
+	 *          new thread could not be created; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateThreadWithProperties
+	 * \sa SDL_WaitThread
+	 */"
+
+	^ self ffiCall: #(SDL_Thread* SDL_CreateThread(SDL_ThreadFunction fn, const char* name, void* data))
+]
+
+{ #category : 'public - SDL_thread' }
+SDL3Library >> createThreadWithProperties: props [
+	"/**
+	 * Create a new thread with with the specified properties.
+	 *
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER`: an SDL_ThreadFunction
+	 *   value that will be called at the start of the new thread's life.
+	 *   Required.
+	 * - `SDL_PROP_THREAD_CREATE_NAME_STRING`: the name of the new thread, which
+	 *   might be available to debuggers. Optional, defaults to NULL.
+	 * - `SDL_PROP_THREAD_CREATE_USERDATA_POINTER`: an arbitrary app-defined
+	 *   pointer, which is passed to the entry function on the new thread, as its
+	 *   only parameter. Optional, defaults to NULL.
+	 * - `SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER`: the size, in bytes, of the new
+	 *   thread's stack. Optional, defaults to 0 (system-defined default).
+	 *
+	 * SDL makes an attempt to report `SDL_PROP_THREAD_CREATE_NAME_STRING` to the
+	 * system, so that debuggers can display it. Not all platforms support this.
+	 *
+	 * Thread naming is a little complicated: Most systems have very small limits
+	 * for the string length (Haiku has 32 bytes, Linux currently has 16, Visual
+	 * C++ 6.0 has _nine_!), and possibly other arbitrary rules. You'll have to
+	 * see what happens with your system's debugger. The name should be UTF-8 (but
+	 * using the naming limits of C identifiers is a better bet). There are no
+	 * requirements for thread naming conventions, so long as the string is
+	 * null-terminated UTF-8, but these guidelines are helpful in choosing a name:
+	 *
+	 * https://stackoverflow.com/questions/149932/naming-conventions-for-threads
+	 *
+	 * If a system imposes requirements, SDL will try to munge the string for it
+	 * (truncate, etc), but the original string contents will be available from
+	 * SDL_GetThreadName().
+	 *
+	 * The size (in bytes) of the new stack can be specified with
+	 * `SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER`. Zero means ""use the system
+	 * default"" which might be wildly different between platforms. x86 Linux
+	 * generally defaults to eight megabytes, an embedded device might be a few
+	 * kilobytes instead. You generally need to specify a stack that is a multiple
+	 * of the system's page size (in many cases, this is 4 kilobytes, but check
+	 * your system documentation).
+	 *
+	 * Note that this ""function"" is actually a macro that calls an internal
+	 * function with two extra parameters not listed here; they are hidden through
+	 * preprocessor macros and are needed to support various C runtimes at the
+	 * point of the function call. Language bindings that aren't using the C
+	 * headers will need to deal with this.
+	 *
+	 * The actual symbol in SDL is `SDL_CreateThreadWithPropertiesRuntime`, so
+	 * there is no symbol clash, but trying to load an SDL shared library and look
+	 * for ""SDL_CreateThreadWithProperties"" will fail.
+	 *
+	 * Usually, apps should just call this function the same way on every platform
+	 * and let the macros hide the details.
+	 *
+	 * \param props the properties to use.
+	 * \returns an opaque pointer to the new thread object on success, NULL if the
+	 *          new thread could not be created; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateThread
+	 * \sa SDL_WaitThread
+	 */"
+
+	^ self ffiCall: #(SDL_Thread* SDL_CreateThreadWithProperties(SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_tray' }
+SDL3Library >> createTrayIcon: icon tooltip: tooltip [
+	"/**
+	 * Create an icon to be placed in the operating system's tray, or equivalent.
+	 *
+	 * Many platforms advise not using a system tray unless persistence is a
+	 * necessary feature. Avoid needlessly creating a tray icon, as the user may
+	 * feel like it clutters their interface.
+	 *
+	 * Using tray icons require the video subsystem.
+	 *
+	 * \param icon a surface to be used as icon. May be NULL.
+	 * \param tooltip a tooltip to be displayed when the mouse hovers the icon in
+	 *                UTF-8 encoding. Not supported on all platforms. May be NULL.
+	 * \returns The newly created system tray icon.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTrayMenu
+	 * \sa SDL_GetTrayMenu
+	 * \sa SDL_DestroyTray
+	 */"
+
+	^ self ffiCall: #(SDL_Tray* SDL_CreateTray(SDL_Surface* icon, const char* tooltip))
+]
+
+{ #category : 'public - SDL_tray' }
+SDL3Library >> createTrayMenu: tray [
+	"/**
+	 * Create a menu for a system tray.
+	 *
+	 * This should be called at most once per tray icon.
+	 *
+	 * This function does the same thing as SDL_CreateTraySubmenu(), except that
+	 * it takes a SDL_Tray instead of a SDL_TrayEntry.
+	 *
+	 * A menu does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param tray the tray to bind the menu to.
+	 * \returns the newly created menu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateTray
+	 * \sa SDL_GetTrayMenu
+	 * \sa SDL_GetTrayMenuParentTray
+	 */"
+
+	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTrayMenu(SDL_Tray* tray))
+]
+
+{ #category : 'public - SDL_tray' }
+SDL3Library >> createTraySubmenu: entry [
+	"/**
+	 * Create a submenu for a system tray entry.
+	 *
+	 * This should be called at most once per tray entry.
+	 *
+	 * This function does the same thing as SDL_CreateTrayMenu, except that it
+	 * takes a SDL_TrayEntry instead of a SDL_Tray.
+	 *
+	 * A menu does not need to be destroyed; it will be destroyed with the tray.
+	 *
+	 * \param entry the tray entry to bind the menu to.
+	 * \returns the newly created menu.
+	 *
+	 * \threadsafety This function should be called on the thread that created the
+	 *               tray.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_InsertTrayEntryAt
+	 * \sa SDL_GetTraySubmenu
+	 * \sa SDL_GetTrayMenuParentEntry
+	 */"
+
+	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTraySubmenu(SDL_TrayEntry* entry))
+]
+
+{ #category : 'public - SDL_render' }
+SDL3Library >> createWindowAndRendererTitle: title width: width height: height windowFlags: window_flags window: window renderer: renderer [
+	"/**
+	 * Create a window and default renderer.
+	 *
+	 * \param title the title of the window, in UTF-8 encoding.
+	 * \param width the width of the window.
+	 * \param height the height of the window.
+	 * \param window_flags the flags used to create the window (see
+	 *                     SDL_CreateWindow()).
+	 * \param window a pointer filled with the window, or NULL on error.
+	 * \param renderer a pointer filled with the renderer, or NULL on error.
+	 * \returns true on success or false on failure; call SDL_GetError() for more
+	 *          information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateRenderer
+	 * \sa SDL_CreateWindow
+	 */"
+
+	^ self ffiCall: #(bool SDL_CreateWindowAndRenderer(const char* title, int width, int height, SDL_WindowFlags window_flags, SDL_Window* window, SDL_Renderer* renderer))
+]
+
+{ #category : 'public - SDL_video' }
+SDL3Library >> createWindowTitle: title w: w h: h flags: flags [
+	"/**
+	 * Create a window with the specified dimensions and flags.
+	 *
+	 * The window size is a request and may be different than expected based on
+	 * the desktop layout and window manager policies. Your application should be
+	 * prepared to handle a window of any size.
+	 *
+	 * `flags` may be any of the following OR'd together:
+	 *
+	 * - `SDL_WINDOW_FULLSCREEN`: fullscreen window at desktop resolution
+	 * - `SDL_WINDOW_OPENGL`: window usable with an OpenGL context
+	 * - `SDL_WINDOW_HIDDEN`: window is not visible
+	 * - `SDL_WINDOW_BORDERLESS`: no window decoration
+	 * - `SDL_WINDOW_RESIZABLE`: window can be resized
+	 * - `SDL_WINDOW_MINIMIZED`: window is minimized
+	 * - `SDL_WINDOW_MAXIMIZED`: window is maximized
+	 * - `SDL_WINDOW_MOUSE_GRABBED`: window has grabbed mouse focus
+	 * - `SDL_WINDOW_INPUT_FOCUS`: window has input focus
+	 * - `SDL_WINDOW_MOUSE_FOCUS`: window has mouse focus
+	 * - `SDL_WINDOW_EXTERNAL`: window not created by SDL
+	 * - `SDL_WINDOW_MODAL`: window is modal
+	 * - `SDL_WINDOW_HIGH_PIXEL_DENSITY`: window uses high pixel density back
+	 *   buffer if possible
+	 * - `SDL_WINDOW_MOUSE_CAPTURE`: window has mouse captured (unrelated to
+	 *   MOUSE_GRABBED)
+	 * - `SDL_WINDOW_ALWAYS_ON_TOP`: window should always be above others
+	 * - `SDL_WINDOW_UTILITY`: window should be treated as a utility window, not
+	 *   showing in the task bar and window list
+	 * - `SDL_WINDOW_TOOLTIP`: window should be treated as a tooltip and does not
+	 *   get mouse or keyboard focus, requires a parent window
+	 * - `SDL_WINDOW_POPUP_MENU`: window should be treated as a popup menu,
+	 *   requires a parent window
+	 * - `SDL_WINDOW_KEYBOARD_GRABBED`: window has grabbed keyboard input
+	 * - `SDL_WINDOW_VULKAN`: window usable with a Vulkan instance
+	 * - `SDL_WINDOW_METAL`: window usable with a Metal instance
+	 * - `SDL_WINDOW_TRANSPARENT`: window with transparent buffer
+	 * - `SDL_WINDOW_NOT_FOCUSABLE`: window should not be focusable
+	 *
+	 * The SDL_Window will be shown if SDL_WINDOW_HIDDEN is not set. If hidden at
+	 * creation time, SDL_ShowWindow() can be used to show it later.
+	 *
+	 * On Apple's macOS, you **must** set the NSHighResolutionCapable Info.plist
+	 * property to YES, otherwise you will not receive a High-DPI OpenGL canvas.
+	 *
+	 * The window pixel size may differ from its window coordinate size if the
+	 * window is on a high pixel density display. Use SDL_GetWindowSize() to query
+	 * the client area's size in window coordinates, and
+	 * SDL_GetWindowSizeInPixels() or SDL_GetRenderOutputSize() to query the
+	 * drawable size in pixels. Note that the drawable size can vary after the
+	 * window is created and should be queried again if you get an
+	 * SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED event.
+	 *
+	 * If the window is created with any of the SDL_WINDOW_OPENGL or
+	 * SDL_WINDOW_VULKAN flags, then the corresponding LoadLibrary function
+	 * (SDL_GL_LoadLibrary or SDL_Vulkan_LoadLibrary) is called and the
+	 * corresponding UnloadLibrary function is called by SDL_DestroyWindow().
+	 *
+	 * If SDL_WINDOW_VULKAN is specified and there isn't a working Vulkan driver,
+	 * SDL_CreateWindow() will fail, because SDL_Vulkan_LoadLibrary() will fail.
+	 *
+	 * If SDL_WINDOW_METAL is specified on an OS that does not support Metal,
+	 * SDL_CreateWindow() will fail.
+	 *
+	 * If you intend to use this window with an SDL_Renderer, you should use
+	 * SDL_CreateWindowAndRenderer() instead of this function, to avoid window
+	 * flicker.
+	 *
+	 * On non-Apple devices, SDL requires you to either not link to the Vulkan
+	 * loader or link to a dynamic library version. This limitation may be removed
+	 * in a future version of SDL.
+	 *
+	 * \param title the title of the window, in UTF-8 encoding.
+	 * \param w the width of the window.
+	 * \param h the height of the window.
+	 * \param flags 0, or one or more SDL_WindowFlags OR'd together.
+	 * \returns the window that was created or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateWindowAndRenderer
+	 * \sa SDL_CreatePopupWindow
+	 * \sa SDL_CreateWindowWithProperties
+	 * \sa SDL_DestroyWindow
+	 */"
+
+	^ self ffiCall: #(SDL_Window* SDL_CreateWindow(const char* title, int w, int h, SDL_WindowFlags flags))
+]
+
+{ #category : 'public - SDL_video' }
+SDL3Library >> createWindowWithProperties: props [
+	"/**
+	 * Create a window with the specified properties.
+	 *
+	 * The window size is a request and may be different than expected based on
+	 * the desktop layout and window manager policies. Your application should be
+	 * prepared to handle a window of any size.
+	 *
+	 * These are the supported properties:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN`: true if the window should
+	 *   be always on top
+	 * - `SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN`: true if the window has no
+	 *   window decoration
+	 * - `SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN`: true if the ""tooltip""
+	 *   and ""menu"" window types should be automatically constrained to be
+	 *   entirely within display bounds (default), false if no constraints on the
+	 *   position are desired.
+	 * - `SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN`: true if the
+	 *   window will be used with an externally managed graphics context.
+	 * - `SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN`: true if the window should
+	 *   accept keyboard input (defaults true)
+	 * - `SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN`: true if the window should
+	 *   start in fullscreen mode at desktop resolution
+	 * - `SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER`: the height of the window
+	 * - `SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN`: true if the window should start
+	 *   hidden
+	 * - `SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN`: true if the window
+	 *   uses a high pixel density buffer if possible
+	 * - `SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN`: true if the window should
+	 *   start maximized
+	 * - `SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN`: true if the window is a popup menu
+	 * - `SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN`: true if the window will be used
+	 *   with Metal rendering
+	 * - `SDL_PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN`: true if the window should
+	 *   start minimized
+	 * - `SDL_PROP_WINDOW_CREATE_MODAL_BOOLEAN`: true if the window is modal to
+	 *   its parent
+	 * - `SDL_PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN`: true if the window starts
+	 *   with grabbed mouse focus
+	 * - `SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN`: true if the window will be used
+	 *   with OpenGL rendering
+	 * - `SDL_PROP_WINDOW_CREATE_PARENT_POINTER`: an SDL_Window that will be the
+	 *   parent of this window, required for windows with the ""tooltip"", ""menu"",
+	 *   and ""modal"" properties
+	 * - `SDL_PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN`: true if the window should be
+	 *   resizable
+	 * - `SDL_PROP_WINDOW_CREATE_TITLE_STRING`: the title of the window, in UTF-8
+	 *   encoding
+	 * - `SDL_PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN`: true if the window show
+	 *   transparent in the areas with alpha of 0
+	 * - `SDL_PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN`: true if the window is a tooltip
+	 * - `SDL_PROP_WINDOW_CREATE_UTILITY_BOOLEAN`: true if the window is a utility
+	 *   window, not showing in the task bar and window list
+	 * - `SDL_PROP_WINDOW_CREATE_VULKAN_BOOLEAN`: true if the window will be used
+	 *   with Vulkan rendering
+	 * - `SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER`: the width of the window
+	 * - `SDL_PROP_WINDOW_CREATE_X_NUMBER`: the x position of the window, or
+	 *   `SDL_WINDOWPOS_CENTERED`, defaults to `SDL_WINDOWPOS_UNDEFINED`. This is
+	 *   relative to the parent for windows with the ""tooltip"" or ""menu"" property
+	 *   set.
+	 * - `SDL_PROP_WINDOW_CREATE_Y_NUMBER`: the y position of the window, or
+	 *   `SDL_WINDOWPOS_CENTERED`, defaults to `SDL_WINDOWPOS_UNDEFINED`. This is
+	 *   relative to the parent for windows with the ""tooltip"" or ""menu"" property
+	 *   set.
+	 *
+	 * These are additional supported properties on macOS:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER`: the
+	 *   `(__unsafe_unretained)` NSWindow associated with the window, if you want
+	 *   to wrap an existing window.
+	 * - `SDL_PROP_WINDOW_CREATE_COCOA_VIEW_POINTER`: the `(__unsafe_unretained)`
+	 *   NSView associated with the window, defaults to `[window contentView]`
+	 *
+	 * These are additional supported properties on iOS, tvOS, and visionOS:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_WINDOWSCENE_POINTER`: the `(__unsafe_unretained)`
+	 *   UIWindowScene associated with the window, defaults to the active window
+	 *   scene.
+	 *
+	 * These are additional supported properties on Wayland:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN` - true if
+	 *   the application wants to use the Wayland surface for a custom role and
+	 *   does not want it attached to an XDG toplevel window. See
+	 *   [README-wayland](README-wayland) for more information on using custom
+	 *   surfaces.
+	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN` - true if the
+	 *   application wants an associated `wl_egl_window` object to be created and
+	 *   attached to the window, even if the window does not have the OpenGL
+	 *   property or `SDL_WINDOW_OPENGL` flag set.
+	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER` - the wl_surface
+	 *   associated with the window, if you want to wrap an existing window. See
+	 *   [README-wayland](README-wayland) for more information.
+	 *
+	 * These are additional supported properties on Windows:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER`: the HWND associated with the
+	 *   window, if you want to wrap an existing window.
+	 * - `SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER`: optional,
+	 *   another window to share pixel format with, useful for OpenGL windows
+	 *
+	 * These are additional supported properties with X11:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_X11_WINDOW_NUMBER`: the X11 Window associated
+	 *   with the window, if you want to wrap an existing window.
+	 *
+	 * The window is implicitly shown if the ""hidden"" property is not set.
+	 *
+	 * These are additional supported properties with Emscripten:
+	 *
+	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING`: the id given to the
+	 *   canvas element. This should start with a '#' sign
+	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING`: override the
+	 *   binding element for keyboard inputs for this canvas. The variable can be
+	 *   one of:
+	 * - ""#window"": the javascript window object (default)
+	 * - ""#document"": the javascript document object
+	 * - ""#screen"": the javascript window.screen object
+	 * - ""#canvas"": the WebGL canvas element
+	 * - ""#none"": Don't bind anything at all
+	 * - any other string without a leading # sign applies to the element on the
+	 *   page with that ID. Windows with the ""tooltip"" and ""menu"" properties are
+	 *   popup windows and have the behaviors and guidelines outlined in
+	 *   SDL_CreatePopupWindow().
+	 *
+	 * If this window is being created to be used with an SDL_Renderer, you should
+	 * not add a graphics API specific property
+	 * (`SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN`, etc), as SDL will handle that
+	 * internally when it chooses a renderer. However, SDL might need to recreate
+	 * your window at that point, which may cause the window to appear briefly,
+	 * and then flicker as it is recreated. The correct approach to this is to
+	 * create the window with the `SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN` property
+	 * set to true, then create the renderer, then show the window with
+	 * SDL_ShowWindow().
+	 *
+	 * \param props the properties to use.
+	 * \returns the window that was created or NULL on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \threadsafety This function should only be called on the main thread.
+	 *
+	 * \since This function is available since SDL 3.2.0.
+	 *
+	 * \sa SDL_CreateProperties
+	 * \sa SDL_CreateWindow
+	 * \sa SDL_DestroyWindow
+	 */"
+
+	^ self ffiCall: #(SDL_Window* SDL_CreateWindowWithProperties(SDL_PropertiesID props))
+]
+
+{ #category : 'public - SDL_mouse' }
 SDL3Library >> cursorVisible [
 	"/**
 	 * Return whether the cursor is currently being shown.
@@ -18120,2068 +20182,6 @@ SDL3Library >> murmur332Data: data len: len seed: seed [
 	 */"
 
 	^ self ffiCall: #(Uint32 SDL_murmur3_32(const void* data, size_t len, Uint32 seed))
-]
-
-{ #category : 'public - SDL_mouse' }
-SDL3Library >> newAnimatedCursorFrames: frames frameCount: frame_count hotX: hot_x hotY: hot_y [
-	"/**
-	 * Create an animated color cursor.
-	 *
-	 * Animated cursors are composed of a sequential array of frames, specified as
-	 * surfaces and durations in an array of SDL_CursorFrameInfo structs. The hot
-	 * spot coordinates are universal to all frames, and all frames must have the
-	 * same dimensions.
-	 *
-	 * Frame durations are specified in milliseconds. A duration of 0 implies an
-	 * infinite frame time, and the animation will stop on that frame. To create a
-	 * one-shot animation, set the duration of the last frame in the sequence to
-	 * 0.
-	 *
-	 * If this function is passed surfaces with alternate representations added
-	 * with SDL_AddSurfaceAlternateImage(), the surfaces will be interpreted as
-	 * the content to be used for 100% display scale, and the alternate
-	 * representations will be used for high DPI situations. For example, if the
-	 * original surfaces are 32x32, then on a 2x macOS display or 200% display
-	 * scale on Windows, a 64x64 version of the image will be used, if available.
-	 * If a matching version of the image isn't available, the closest larger size
-	 * image will be downscaled to the appropriate size and be used instead, if
-	 * available. Otherwise, the closest smaller image will be upscaled and be
-	 * used instead.
-	 *
-	 * If the underlying platform does not support animated cursors, this function
-	 * will fall back to creating a static color cursor using the first frame in
-	 * the sequence.
-	 *
-	 * \param frames an array of cursor images composing the animation.
-	 * \param frame_count the number of frames in the sequence.
-	 * \param hot_x the x position of the cursor hot spot.
-	 * \param hot_y the y position of the cursor hot spot.
-	 * \returns the new cursor on success or NULL on failure; call SDL_GetError()
-	 *          for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.4.0.
-	 *
-	 * \sa SDL_AddSurfaceAlternateImage
-	 * \sa SDL_CreateCursor
-	 * \sa SDL_CreateColorCursor
-	 * \sa SDL_CreateSystemCursor
-	 * \sa SDL_DestroyCursor
-	 * \sa SDL_SetCursor
-	 */"
-
-	^ self ffiCall: #(SDL_Cursor* SDL_CreateAnimatedCursor(SDL_CursorFrameInfo* frames, int frame_count, int hot_x, int hot_y))
-]
-
-{ #category : 'public - SDL_asyncio' }
-SDL3Library >> newAsyncIOQueue [
-	"/**
-	 * Create a task queue for tracking multiple I/O operations.
-	 *
-	 * Async I/O operations are assigned to a queue when started. The queue can be
-	 * checked for completed tasks thereafter.
-	 *
-	 * \returns a new task queue object or NULL if there was an error; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyAsyncIOQueue
-	 * \sa SDL_GetAsyncIOResult
-	 * \sa SDL_WaitAsyncIOResult
-	 */"
-
-	^ self ffiCall: #(SDL_AsyncIOQueue* SDL_CreateAsyncIOQueue())
-]
-
-{ #category : 'public - SDL_audio' }
-SDL3Library >> newAudioStreamSrcSpec: src_spec dstSpec: dst_spec [
-	"/**
-	 * Create a new audio stream.
-	 *
-	 * \param src_spec the format details of the input audio.
-	 * \param dst_spec the format details of the output audio.
-	 * \returns a new audio stream on success or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_PutAudioStreamData
-	 * \sa SDL_GetAudioStreamData
-	 * \sa SDL_GetAudioStreamAvailable
-	 * \sa SDL_FlushAudioStream
-	 * \sa SDL_ClearAudioStream
-	 * \sa SDL_SetAudioStreamFormat
-	 * \sa SDL_DestroyAudioStream
-	 */"
-
-	^ self ffiCall: #(SDL_AudioStream* SDL_CreateAudioStream(SDL_AudioSpec* src_spec, SDL_AudioSpec* dst_spec))
-]
-
-{ #category : 'public - SDL_mouse' }
-SDL3Library >> newColorCursorSurface: surface hotX: hot_x hotY: hot_y [
-	"/**
-	 * Create a color cursor.
-	 *
-	 * If this function is passed a surface with alternate representations added
-	 * with SDL_AddSurfaceAlternateImage(), the surface will be interpreted as the
-	 * content to be used for 100% display scale, and the alternate
-	 * representations will be used for high DPI situations if
-	 * SDL_HINT_MOUSE_DPI_SCALE_CURSORS is enabled. For example, if the original
-	 * surface is 32x32, then on a 2x macOS display or 200% display scale on
-	 * Windows, a 64x64 version of the image will be used, if available. If a
-	 * matching version of the image isn't available, the closest larger size
-	 * image will be downscaled to the appropriate size and be used instead, if
-	 * available. Otherwise, the closest smaller image will be upscaled and be
-	 * used instead.
-	 *
-	 * \param surface an SDL_Surface structure representing the cursor image.
-	 * \param hot_x the x position of the cursor hot spot.
-	 * \param hot_y the y position of the cursor hot spot.
-	 * \returns the new cursor on success or NULL on failure; call SDL_GetError()
-	 *          for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_AddSurfaceAlternateImage
-	 * \sa SDL_CreateAnimatedCursor
-	 * \sa SDL_CreateCursor
-	 * \sa SDL_CreateSystemCursor
-	 * \sa SDL_DestroyCursor
-	 * \sa SDL_SetCursor
-	 */"
-
-	^ self ffiCall: #(SDL_Cursor* SDL_CreateColorCursor(SDL_Surface* surface, int hot_x, int hot_y))
-]
-
-{ #category : 'public - SDL_mutex' }
-SDL3Library >> newCondition [
-	"/**
-	 * Create a condition variable.
-	 *
-	 * \returns a new condition variable or NULL on failure; call SDL_GetError()
-	 *          for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_BroadcastCondition
-	 * \sa SDL_SignalCondition
-	 * \sa SDL_WaitCondition
-	 * \sa SDL_WaitConditionTimeout
-	 * \sa SDL_DestroyCondition
-	 */"
-
-	^ self ffiCall: #(SDL_Condition* SDL_CreateCondition())
-]
-
-{ #category : 'public - SDL_mouse' }
-SDL3Library >> newCursorData: data mask: mask w: w h: h hotX: hot_x hotY: hot_y [
-	"/**
-	 * Create a cursor using the specified bitmap data and mask (in MSB format).
-	 *
-	 * `mask` has to be in MSB (Most Significant Bit) format.
-	 *
-	 * The cursor width (`w`) must be a multiple of 8 bits.
-	 *
-	 * The cursor is created in black and white according to the following:
-	 *
-	 * - data=0, mask=1: white
-	 * - data=1, mask=1: black
-	 * - data=0, mask=0: transparent
-	 * - data=1, mask=0: inverted color if possible, black if not.
-	 *
-	 * Cursors created with this function must be freed with SDL_DestroyCursor().
-	 *
-	 * If you want to have a color cursor, or create your cursor from an
-	 * SDL_Surface, you should use SDL_CreateColorCursor(). Alternately, you can
-	 * hide the cursor and draw your own as part of your game's rendering, but it
-	 * will be bound to the framerate.
-	 *
-	 * Also, SDL_CreateSystemCursor() is available, which provides several
-	 * readily-available system cursors to pick from.
-	 *
-	 * \param data the color value for each pixel of the cursor.
-	 * \param mask the mask value for each pixel of the cursor.
-	 * \param w the width of the cursor.
-	 * \param h the height of the cursor.
-	 * \param hot_x the x-axis offset from the left of the cursor image to the
-	 *              mouse x position, in the range of 0 to `w` - 1.
-	 * \param hot_y the y-axis offset from the top of the cursor image to the
-	 *              mouse y position, in the range of 0 to `h` - 1.
-	 * \returns a new cursor with the specified parameters on success or NULL on
-	 *          failure; call SDL_GetError() for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateAnimatedCursor
-	 * \sa SDL_CreateColorCursor
-	 * \sa SDL_CreateSystemCursor
-	 * \sa SDL_DestroyCursor
-	 * \sa SDL_SetCursor
-	 */"
-
-	^ self ffiCall: #(SDL_Cursor* SDL_CreateCursor(const Uint8* data, const Uint8* mask, int w, int h, int hot_x, int hot_y))
-]
-
-{ #category : 'public - SDL_filesystem' }
-SDL3Library >> newDirectory: path [
-	"/**
-	 * Create a directory, and any missing parent directories.
-	 *
-	 * This reports success if `path` already exists as a directory.
-	 *
-	 * If parent directories are missing, it will also create them. Note that if
-	 * this fails, it will not remove any parent directories it already made.
-	 *
-	 * \param path the path of the directory to create.
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 */"
-
-	^ self ffiCall: #(bool SDL_CreateDirectory(const char* path))
-]
-
-{ #category : 'public - SDL_stdinc' }
-SDL3Library >> newEnvironment: populated [
-	"/**
-	 * Create a set of environment variables
-	 *
-	 * \param populated true to initialize it from the C runtime environment,
-	 *                  false to create an empty environment.
-	 * \returns a pointer to the new environment or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety If `populated` is false, it is safe to call this function
-	 *               from any thread, otherwise it is safe if no other threads are
-	 *               calling setenv() or unsetenv()
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_GetEnvironmentVariable
-	 * \sa SDL_GetEnvironmentVariables
-	 * \sa SDL_SetEnvironmentVariable
-	 * \sa SDL_UnsetEnvironmentVariable
-	 * \sa SDL_DestroyEnvironment
-	 */"
-
-	^ self ffiCall: #(SDL_Environment* SDL_CreateEnvironment(#bool populated))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUBufferDevice: device createinfo: createinfo [
-	"/**
-	 * Creates a buffer object to be used in graphics or compute workflows.
-	 *
-	 * The contents of this buffer are undefined until data is written to the
-	 * buffer.
-	 *
-	 * Note that certain combinations of usage flags are invalid. For example, a
-	 * buffer cannot have both the VERTEX and INDEX flags.
-	 *
-	 * If you use a STORAGE flag, the data in the buffer must respect std140
-	 * layout conventions. In practical terms this means you must ensure that vec3
-	 * and vec4 fields are 16-byte aligned.
-	 *
-	 * For better understanding of underlying concepts and memory management with
-	 * SDL GPU API, you may refer
-	 * [this blog post](https://moonside.games/posts/sdl-gpu-concepts-cycling/)
-	 * .
-	 *
-	 * There are optional properties that can be provided through `props`. These
-	 * are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_BUFFER_CREATE_NAME_STRING`: a name that can be displayed in
-	 *   debugging tools.
-	 *
-	 * \param device a GPU Context.
-	 * \param createinfo a struct describing the state of the buffer to create.
-	 * \returns a buffer object on success, or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_UploadToGPUBuffer
-	 * \sa SDL_DownloadFromGPUBuffer
-	 * \sa SDL_CopyGPUBufferToBuffer
-	 * \sa SDL_BindGPUVertexBuffers
-	 * \sa SDL_BindGPUIndexBuffer
-	 * \sa SDL_BindGPUVertexStorageBuffers
-	 * \sa SDL_BindGPUFragmentStorageBuffers
-	 * \sa SDL_DrawGPUPrimitivesIndirect
-	 * \sa SDL_DrawGPUIndexedPrimitivesIndirect
-	 * \sa SDL_BindGPUComputeStorageBuffers
-	 * \sa SDL_DispatchGPUComputeIndirect
-	 * \sa SDL_ReleaseGPUBuffer
-	 */"
-
-	^ self ffiCall: #(SDL_GPUBuffer* SDL_CreateGPUBuffer(SDL_GPUDevice* device, SDL_GPUBufferCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUComputePipelineDevice: device createinfo: createinfo [
-	"/**
-	 * Creates a pipeline object to be used in a compute workflow.
-	 *
-	 * Shader resource bindings must be authored to follow a particular order
-	 * depending on the shader format.
-	 *
-	 * For SPIR-V shaders, use the following resource sets:
-	 *
-	 * - 0: Sampled textures, followed by read-only storage textures, followed by
-	 *   read-only storage buffers
-	 * - 1: Read-write storage textures, followed by read-write storage buffers
-	 * - 2: Uniform buffers
-	 *
-	 * For DXBC and DXIL shaders, use the following register order:
-	 *
-	 * - (t[n], space0): Sampled textures, followed by read-only storage textures,
-	 *   followed by read-only storage buffers
-	 * - (u[n], space1): Read-write storage textures, followed by read-write
-	 *   storage buffers
-	 * - (b[n], space2): Uniform buffers
-	 *
-	 * For MSL/metallib, use the following order:
-	 *
-	 * - [[buffer]]: Uniform buffers, followed by read-only storage buffers,
-	 *   followed by read-write storage buffers
-	 * - [[texture]]: Sampled textures, followed by read-only storage textures,
-	 *   followed by read-write storage textures
-	 *
-	 * There are optional properties that can be provided through `props`. These
-	 * are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_COMPUTEPIPELINE_CREATE_NAME_STRING`: a name that can be
-	 *   displayed in debugging tools.
-	 *
-	 * \param device a GPU Context.
-	 * \param createinfo a struct describing the state of the compute pipeline to
-	 *                   create.
-	 * \returns a compute pipeline object on success, or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_BindGPUComputePipeline
-	 * \sa SDL_ReleaseGPUComputePipeline
-	 */"
-
-	^ self ffiCall: #(SDL_GPUComputePipeline* SDL_CreateGPUComputePipeline(SDL_GPUDevice* device, SDL_GPUComputePipelineCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUDeviceFormatFlags: format_flags debugMode: debug_mode name: name [
-	"/**
-	 * Creates a GPU context.
-	 *
-	 * The GPU driver name can be one of the following:
-	 *
-	 * - ""vulkan"": [Vulkan](CategoryGPU#vulkan)
-	 * - ""direct3d12"": [D3D12](CategoryGPU#d3d12)
-	 * - ""metal"": [Metal](CategoryGPU#metal)
-	 * - NULL: let SDL pick the optimal driver
-	 *
-	 * \param format_flags a bitflag indicating which shader formats the app is
-	 *                     able to provide.
-	 * \param debug_mode enable debug mode properties and validations.
-	 * \param name the preferred GPU driver, or NULL to let SDL pick the optimal
-	 *             driver.
-	 * \returns a GPU context on success or NULL on failure; call SDL_GetError()
-	 *          for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateGPUDeviceWithProperties
-	 * \sa SDL_GetGPUShaderFormats
-	 * \sa SDL_GetGPUDeviceDriver
-	 * \sa SDL_DestroyGPUDevice
-	 * \sa SDL_GPUSupportsShaderFormats
-	 */"
-
-	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDevice(SDL_GPUShaderFormat format_flags, #bool debug_mode, const char* name))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUDeviceWithProperties: props [
-	"/**
-	 * Creates a GPU context.
-	 *
-	 * These are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_DEBUGMODE_BOOLEAN`: enable debug mode
-	 *   properties and validations, defaults to true.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_PREFERLOWPOWER_BOOLEAN`: enable to prefer
-	 *   energy efficiency over maximum GPU performance, defaults to false.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_VERBOSE_BOOLEAN`: enable to automatically log
-	 *   useful debug information on device creation, defaults to true.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING`: the name of the GPU driver to
-	 *   use, if a specific one is desired.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_CLIP_DISTANCE_BOOLEAN`: Enable Vulkan
-	 *   device feature shaderClipDistance. If disabled, clip distances are not
-	 *   supported in shader code: gl_ClipDistance[] built-ins of GLSL,
-	 *   SV_ClipDistance0/1 semantics of HLSL and [[clip_distance]] attribute of
-	 *   Metal. Disabling optional features allows the application to run on some
-	 *   older Android devices. Defaults to true.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_DEPTH_CLAMPING_BOOLEAN`: Enable
-	 *   Vulkan device feature depthClamp. If disabled, there is no depth clamp
-	 *   support and enable_depth_clip in SDL_GPURasterizerState must always be
-	 *   set to true. Disabling optional features allows the application to run on
-	 *   some older Android devices. Defaults to true.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_INDIRECT_DRAW_FIRST_INSTANCE_BOOLEAN`:
-	 *   Enable Vulkan device feature drawIndirectFirstInstance. If disabled, the
-	 *   argument first_instance of SDL_GPUIndirectDrawCommand must be set to
-	 *   zero. Disabling optional features allows the application to run on some
-	 *   older Android devices. Defaults to true.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_FEATURE_ANISOTROPY_BOOLEAN`: Enable Vulkan
-	 *   device feature samplerAnisotropy. If disabled, enable_anisotropy of
-	 *   SDL_GPUSamplerCreateInfo must be set to false. Disabling optional
-	 *   features allows the application to run on some older Android devices.
-	 *   Defaults to true.
-	 *
-	 * These are the current shader format properties:
-	 *
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_PRIVATE_BOOLEAN`: The app is able to
-	 *   provide shaders for an NDA platform.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_SPIRV_BOOLEAN`: The app is able to
-	 *   provide SPIR-V shaders if applicable.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXBC_BOOLEAN`: The app is able to
-	 *   provide DXBC shaders if applicable
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXIL_BOOLEAN`: The app is able to
-	 *   provide DXIL shaders if applicable.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_MSL_BOOLEAN`: The app is able to
-	 *   provide MSL shaders if applicable.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_SHADERS_METALLIB_BOOLEAN`: The app is able to
-	 *   provide Metal shader libraries if applicable.
-	 *
-	 * With the D3D12 backend:
-	 *
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING`: the prefix to
-	 *   use for all vertex semantics, default is ""TEXCOORD"".
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_D3D12_ALLOW_FEWER_RESOURCE_SLOTS_BOOLEAN`: By
-	 *   default, Resourcing Binding Tier 2 is required for D3D12 support.
-	 *   However, an application can set this property to true to enable Tier 1
-	 *   support, if (and only if) the application uses 8 or fewer storage
-	 *   resources across all shader stages. As of writing, this property is
-	 *   useful for targeting Intel Haswell and Broadwell GPUs; other hardware
-	 *   either supports Tier 2 Resource Binding or does not support D3D12 in any
-	 *   capacity. Defaults to false.
-	 *
-	 * With the Vulkan backend:
-	 *
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION_BOOLEAN`:
-	 *   By default, Vulkan device enumeration includes drivers of all types,
-	 *   including software renderers (for example, the Lavapipe Mesa driver).
-	 *   This can be useful if your application _requires_ SDL_GPU, but if you can
-	 *   provide your own fallback renderer (for example, an OpenGL renderer) this
-	 *   property can be set to true. Defaults to false.
-	 * - `SDL_PROP_GPU_DEVICE_CREATE_VULKAN_OPTIONS_POINTER`: a pointer to an
-	 *   SDL_GPUVulkanOptions structure to be processed during device creation.
-	 *   This allows configuring a variety of Vulkan-specific options such as
-	 *   increasing the API version and opting into extensions aside from the
-	 *   minimal set SDL requires.
-	 *
-	 * \param props the properties to use.
-	 * \returns a GPU context on success or NULL on failure; call SDL_GetError()
-	 *          for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_GetGPUShaderFormats
-	 * \sa SDL_GetGPUDeviceDriver
-	 * \sa SDL_DestroyGPUDevice
-	 * \sa SDL_GPUSupportsProperties
-	 */"
-
-	^ self ffiCall: #(SDL_GPUDevice* SDL_CreateGPUDeviceWithProperties(SDL_PropertiesID props))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUGraphicsPipelineDevice: device createinfo: createinfo [
-	"/**
-	 * Creates a pipeline object to be used in a graphics workflow.
-	 *
-	 * There are optional properties that can be provided through `props`. These
-	 * are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_GRAPHICSPIPELINE_CREATE_NAME_STRING`: a name that can be
-	 *   displayed in debugging tools.
-	 *
-	 * \param device a GPU Context.
-	 * \param createinfo a struct describing the state of the graphics pipeline to
-	 *                   create.
-	 * \returns a graphics pipeline object on success, or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateGPUShader
-	 * \sa SDL_BindGPUGraphicsPipeline
-	 * \sa SDL_ReleaseGPUGraphicsPipeline
-	 */"
-
-	^ self ffiCall: #(SDL_GPUGraphicsPipeline* SDL_CreateGPUGraphicsPipeline(SDL_GPUDevice* device, SDL_GPUGraphicsPipelineCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newGPURenderStateRenderer: renderer createinfo: createinfo [
-	"/**
-	 * Create custom GPU render state.
-	 *
-	 * \param renderer the renderer to use.
-	 * \param createinfo a struct describing the GPU render state to create.
-	 * \returns a custom GPU render state or NULL on failure; call SDL_GetError()
-	 *          for more information.
-	 *
-	 * \threadsafety This function should be called on the thread that created the
-	 *               renderer.
-	 *
-	 * \since This function is available since SDL 3.4.0.
-	 *
-	 * \sa SDL_SetGPURenderStateFragmentUniforms
-	 * \sa SDL_SetGPURenderState
-	 * \sa SDL_DestroyGPURenderState
-	 */"
-
-	^ self ffiCall: #(SDL_GPURenderState* SDL_CreateGPURenderState(SDL_Renderer* renderer, SDL_GPURenderStateCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newGPURendererDevice: device window: window [
-	"/**
-	 * Create a 2D GPU rendering context.
-	 *
-	 * The GPU device to use is passed in as a parameter. If this is NULL, then a
-	 * device will be created normally and can be retrieved using
-	 * SDL_GetGPURendererDevice().
-	 *
-	 * The window to use is passed in as a parameter. If this is NULL, then this
-	 * will become an offscreen renderer. In that case, you should call
-	 * SDL_SetRenderTarget() to setup rendering to a texture, and then call
-	 * SDL_RenderPresent() normally to complete drawing a frame.
-	 *
-	 * \param device the GPU device to use with the renderer, or NULL to create a
-	 *               device.
-	 * \param window the window where rendering is displayed, or NULL to create an
-	 *               offscreen renderer.
-	 * \returns a valid rendering context or NULL if there was an error; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety If this function is called with a valid GPU device, it should
-	 *               be called on the thread that created the device. If this
-	 *               function is called with a valid window, it should be called
-	 *               on the thread that created the window.
-	 *
-	 * \since This function is available since SDL 3.4.0.
-	 *
-	 * \sa SDL_CreateRendererWithProperties
-	 * \sa SDL_GetGPURendererDevice
-	 * \sa SDL_CreateGPUShader
-	 * \sa SDL_CreateGPURenderState
-	 * \sa SDL_SetGPURenderState
-	 */"
-
-	^ self ffiCall: #(SDL_Renderer* SDL_CreateGPURenderer(SDL_GPUDevice* device, SDL_Window* window))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUSamplerDevice: device createinfo: createinfo [
-	"/**
-	 * Creates a sampler object to be used when binding textures in a graphics
-	 * workflow.
-	 *
-	 * There are optional properties that can be provided through `props`. These
-	 * are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_SAMPLER_CREATE_NAME_STRING`: a name that can be displayed
-	 *   in debugging tools.
-	 *
-	 * \param device a GPU Context.
-	 * \param createinfo a struct describing the state of the sampler to create.
-	 * \returns a sampler object on success, or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_BindGPUVertexSamplers
-	 * \sa SDL_BindGPUFragmentSamplers
-	 * \sa SDL_ReleaseGPUSampler
-	 */"
-
-	^ self ffiCall: #(SDL_GPUSampler* SDL_CreateGPUSampler(SDL_GPUDevice* device, SDL_GPUSamplerCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUShaderDevice: device createinfo: createinfo [
-	"/**
-	 * Creates a shader to be used when creating a graphics pipeline.
-	 *
-	 * Shader resource bindings must be authored to follow a particular order
-	 * depending on the shader format.
-	 *
-	 * For SPIR-V shaders, use the following resource sets:
-	 *
-	 * For vertex shaders:
-	 *
-	 * - 0: Sampled textures, followed by storage textures, followed by storage
-	 *   buffers
-	 * - 1: Uniform buffers
-	 *
-	 * For fragment shaders:
-	 *
-	 * - 2: Sampled textures, followed by storage textures, followed by storage
-	 *   buffers
-	 * - 3: Uniform buffers
-	 *
-	 * For DXBC and DXIL shaders, use the following register order:
-	 *
-	 * For vertex shaders:
-	 *
-	 * - (t[n], space0): Sampled textures, followed by storage textures, followed
-	 *   by storage buffers
-	 * - (s[n], space0): Samplers with indices corresponding to the sampled
-	 *   textures
-	 * - (b[n], space1): Uniform buffers
-	 *
-	 * For pixel shaders:
-	 *
-	 * - (t[n], space2): Sampled textures, followed by storage textures, followed
-	 *   by storage buffers
-	 * - (s[n], space2): Samplers with indices corresponding to the sampled
-	 *   textures
-	 * - (b[n], space3): Uniform buffers
-	 *
-	 * For MSL/metallib, use the following order:
-	 *
-	 * - [[texture]]: Sampled textures, followed by storage textures
-	 * - [[sampler]]: Samplers with indices corresponding to the sampled textures
-	 * - [[buffer]]: Uniform buffers, followed by storage buffers. Vertex buffer 0
-	 *   is bound at [[buffer(14)]], vertex buffer 1 at [[buffer(15)]], and so on.
-	 *   Rather than manually authoring vertex buffer indices, use the
-	 *   [[stage_in]] attribute which will automatically use the vertex input
-	 *   information from the SDL_GPUGraphicsPipeline.
-	 *
-	 * Shader semantics other than system-value semantics do not matter in D3D12
-	 * and for ease of use the SDL implementation assumes that non system-value
-	 * semantics will all be TEXCOORD. If you are using HLSL as the shader source
-	 * language, your vertex semantics should start at TEXCOORD0 and increment
-	 * like so: TEXCOORD1, TEXCOORD2, etc. If you wish to change the semantic
-	 * prefix to something other than TEXCOORD you can use
-	 * SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING with
-	 * SDL_CreateGPUDeviceWithProperties().
-	 *
-	 * There are optional properties that can be provided through `props`. These
-	 * are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_SHADER_CREATE_NAME_STRING`: a name that can be displayed in
-	 *   debugging tools.
-	 *
-	 * \param device a GPU Context.
-	 * \param createinfo a struct describing the state of the shader to create.
-	 * \returns a shader object on success, or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateGPUGraphicsPipeline
-	 * \sa SDL_ReleaseGPUShader
-	 */"
-
-	^ self ffiCall: #(SDL_GPUShader* SDL_CreateGPUShader(SDL_GPUDevice* device, SDL_GPUShaderCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUTextureDevice: device createinfo: createinfo [
-	"/**
-	 * Creates a texture object to be used in graphics or compute workflows.
-	 *
-	 * The contents of this texture are undefined until data is written to the
-	 * texture, either via SDL_UploadToGPUTexture or by performing a render or
-	 * compute pass with this texture as a target.
-	 *
-	 * Note that certain combinations of usage flags are invalid. For example, a
-	 * texture cannot have both the SAMPLER and GRAPHICS_STORAGE_READ flags.
-	 *
-	 * If you request a sample count higher than the hardware supports, the
-	 * implementation will automatically fall back to the highest available sample
-	 * count.
-	 *
-	 * There are optional properties that can be provided through
-	 * SDL_GPUTextureCreateInfo's `props`. These are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_R_FLOAT`: (Direct3D 12 only) if
-	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
-	 *   to a color with this red intensity. Defaults to zero.
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_G_FLOAT`: (Direct3D 12 only) if
-	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
-	 *   to a color with this green intensity. Defaults to zero.
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_B_FLOAT`: (Direct3D 12 only) if
-	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
-	 *   to a color with this blue intensity. Defaults to zero.
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_A_FLOAT`: (Direct3D 12 only) if
-	 *   the texture usage is SDL_GPU_TEXTUREUSAGE_COLOR_TARGET, clear the texture
-	 *   to a color with this alpha intensity. Defaults to zero.
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_DEPTH_FLOAT`: (Direct3D 12 only)
-	 *   if the texture usage is SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET, clear
-	 *   the texture to a depth of this value. Defaults to zero.
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_NUMBER`: (Direct3D 12
-	 *   only) if the texture usage is SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET,
-	 *   clear the texture to a stencil of this Uint8 value. Defaults to zero.
-	 * - `SDL_PROP_GPU_TEXTURE_CREATE_NAME_STRING`: a name that can be displayed
-	 *   in debugging tools.
-	 *
-	 * \param device a GPU Context.
-	 * \param createinfo a struct describing the state of the texture to create.
-	 * \returns a texture object on success, or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_UploadToGPUTexture
-	 * \sa SDL_DownloadFromGPUTexture
-	 * \sa SDL_BeginGPURenderPass
-	 * \sa SDL_BeginGPUComputePass
-	 * \sa SDL_BindGPUVertexSamplers
-	 * \sa SDL_BindGPUVertexStorageTextures
-	 * \sa SDL_BindGPUFragmentSamplers
-	 * \sa SDL_BindGPUFragmentStorageTextures
-	 * \sa SDL_BindGPUComputeStorageTextures
-	 * \sa SDL_BlitGPUTexture
-	 * \sa SDL_ReleaseGPUTexture
-	 * \sa SDL_GPUTextureSupportsFormat
-	 */"
-
-	^ self ffiCall: #(SDL_GPUTexture* SDL_CreateGPUTexture(SDL_GPUDevice* device, SDL_GPUTextureCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_gpu' }
-SDL3Library >> newGPUTransferBufferDevice: device createinfo: createinfo [
-	"/**
-	 * Creates a transfer buffer to be used when uploading to or downloading from
-	 * graphics resources.
-	 *
-	 * Download buffers can be particularly expensive to create, so it is good
-	 * practice to reuse them if data will be downloaded regularly.
-	 *
-	 * There are optional properties that can be provided through `props`. These
-	 * are the supported properties:
-	 *
-	 * - `SDL_PROP_GPU_TRANSFERBUFFER_CREATE_NAME_STRING`: a name that can be
-	 *   displayed in debugging tools.
-	 *
-	 * \param device a GPU Context.
-	 * \param createinfo a struct describing the state of the transfer buffer to
-	 *                   create.
-	 * \returns a transfer buffer on success, or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_UploadToGPUBuffer
-	 * \sa SDL_DownloadFromGPUBuffer
-	 * \sa SDL_UploadToGPUTexture
-	 * \sa SDL_DownloadFromGPUTexture
-	 * \sa SDL_ReleaseGPUTransferBuffer
-	 */"
-
-	^ self ffiCall: #(SDL_GPUTransferBuffer* SDL_CreateGPUTransferBuffer(SDL_GPUDevice* device, SDL_GPUTransferBufferCreateInfo* createinfo))
-]
-
-{ #category : 'public - SDL_haptic' }
-SDL3Library >> newHapticEffectHaptic: haptic effect: effect [
-	"/**
-	 * Create a new haptic effect on a specified device.
-	 *
-	 * \param haptic an SDL_Haptic device to create the effect on.
-	 * \param effect an SDL_HapticEffect structure containing the properties of
-	 *               the effect to create.
-	 * \returns the ID of the effect on success or -1 on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyHapticEffect
-	 * \sa SDL_RunHapticEffect
-	 * \sa SDL_UpdateHapticEffect
-	 */"
-
-	^ self ffiCall: #(SDL_HapticEffectID SDL_CreateHapticEffect(SDL_Haptic* haptic, SDL_HapticEffect* effect))
-]
-
-{ #category : 'public - SDL_mutex' }
-SDL3Library >> newMutex [
-	"/**
-	 * Create a new mutex.
-	 *
-	 * All newly-created mutexes begin in the _unlocked_ state.
-	 *
-	 * Calls to SDL_LockMutex() will not return while the mutex is locked by
-	 * another thread. See SDL_TryLockMutex() to attempt to lock without blocking.
-	 *
-	 * SDL mutexes are reentrant.
-	 *
-	 * \returns the initialized and unlocked mutex or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyMutex
-	 * \sa SDL_LockMutex
-	 * \sa SDL_TryLockMutex
-	 * \sa SDL_UnlockMutex
-	 */"
-
-	^ self ffiCall: #(SDL_Mutex* SDL_CreateMutex())
-]
-
-{ #category : 'public - SDL_pixels' }
-SDL3Library >> newPalette: ncolors [
-	"/**
-	 * Create a palette structure with the specified number of color entries.
-	 *
-	 * The palette entries are initialized to white.
-	 *
-	 * \param ncolors represents the number of color entries in the color palette.
-	 * \returns a new SDL_Palette structure on success or NULL on failure (e.g. if
-	 *          there wasn't enough memory); call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyPalette
-	 * \sa SDL_SetPaletteColors
-	 * \sa SDL_SetSurfacePalette
-	 */"
-
-	^ self ffiCall: #(SDL_Palette* SDL_CreatePalette(int ncolors))
-]
-
-{ #category : 'public - SDL_video' }
-SDL3Library >> newPopupWindowParent: parent offsetX: offset_x offsetY: offset_y w: w h: h flags: flags [
-	"/**
-	 * Create a child popup window of the specified parent window.
-	 *
-	 * The window size is a request and may be different than expected based on
-	 * the desktop layout and window manager policies. Your application should be
-	 * prepared to handle a window of any size.
-	 *
-	 * The flags parameter **must** contain at least one of the following:
-	 *
-	 * - `SDL_WINDOW_TOOLTIP`: The popup window is a tooltip and will not pass any
-	 *   input events.
-	 * - `SDL_WINDOW_POPUP_MENU`: The popup window is a popup menu. The topmost
-	 *   popup menu will implicitly gain the keyboard focus.
-	 *
-	 * The following flags are not relevant to popup window creation and will be
-	 * ignored:
-	 *
-	 * - `SDL_WINDOW_MINIMIZED`
-	 * - `SDL_WINDOW_MAXIMIZED`
-	 * - `SDL_WINDOW_FULLSCREEN`
-	 * - `SDL_WINDOW_BORDERLESS`
-	 *
-	 * The following flags are incompatible with popup window creation and will
-	 * cause it to fail:
-	 *
-	 * - `SDL_WINDOW_UTILITY`
-	 * - `SDL_WINDOW_MODAL`
-	 *
-	 * The parent parameter **must** be non-null and a valid window. The parent of
-	 * a popup window can be either a regular, toplevel window, or another popup
-	 * window.
-	 *
-	 * Popup windows cannot be minimized, maximized, made fullscreen, raised,
-	 * flash, be made a modal window, be the parent of a toplevel window, or grab
-	 * the mouse and/or keyboard. Attempts to do so will fail.
-	 *
-	 * Popup windows implicitly do not have a border/decorations and do not appear
-	 * on the taskbar/dock or in lists of windows such as alt-tab menus.
-	 *
-	 * By default, popup window positions will automatically be constrained to
-	 * keep the entire window within display bounds. This can be overridden with
-	 * the `SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN` property.
-	 *
-	 * By default, popup menus will automatically grab keyboard focus from the
-	 * parent when shown. This behavior can be overridden by setting the
-	 * `SDL_WINDOW_NOT_FOCUSABLE` flag, setting the
-	 * `SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN` property to false, or toggling
-	 * it after creation via the `SDL_SetWindowFocusable()` function.
-	 *
-	 * If a parent window is hidden or destroyed, any child popup windows will be
-	 * recursively hidden or destroyed as well. Child popup windows not explicitly
-	 * hidden will be restored when the parent is shown.
-	 *
-	 * \param parent the parent of the window, must not be NULL.
-	 * \param offset_x the x position of the popup window relative to the origin
-	 *                 of the parent.
-	 * \param offset_y the y position of the popup window relative to the origin
-	 *                 of the parent window.
-	 * \param w the width of the window.
-	 * \param h the height of the window.
-	 * \param flags SDL_WINDOW_TOOLTIP or SDL_WINDOW_POPUP_MENU, and zero or more
-	 *              additional SDL_WindowFlags OR'd together.
-	 * \returns the window that was created or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateWindow
-	 * \sa SDL_CreateWindowWithProperties
-	 * \sa SDL_DestroyWindow
-	 * \sa SDL_GetWindowParent
-	 */"
-
-	^ self ffiCall: #(SDL_Window* SDL_CreatePopupWindow(SDL_Window* parent, int offset_x, int offset_y, int w, int h, SDL_WindowFlags flags))
-]
-
-{ #category : 'public - SDL_process' }
-SDL3Library >> newProcessArgs: args pipeStdio: pipe_stdio [
-	"/**
-	 * Create a new process.
-	 *
-	 * The path to the executable is supplied in args[0]. args[1..N] are
-	 * additional arguments passed on the command line of the new process, and the
-	 * argument list should be terminated with a NULL, e.g.:
-	 *
-	 * ```c
-	 * const char *args[] = { ""myprogram"", ""argument"", NULL };
-	 * ```
-	 *
-	 * Setting pipe_stdio to true is equivalent to setting
-	 * `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` and
-	 * `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` to `SDL_PROCESS_STDIO_APP`, and
-	 * will allow the use of SDL_ReadProcess() or SDL_GetProcessInput() and
-	 * SDL_GetProcessOutput().
-	 *
-	 * See SDL_CreateProcessWithProperties() for more details.
-	 *
-	 * \param args the path and arguments for the new process.
-	 * \param pipe_stdio true to create pipes to the process's standard input and
-	 *                   from the process's standard output, false for the process
-	 *                   to have no input and inherit the application's standard
-	 *                   output.
-	 * \returns the newly created and running process, or NULL if the process
-	 *          couldn't be created.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateProcessWithProperties
-	 * \sa SDL_GetProcessProperties
-	 * \sa SDL_ReadProcess
-	 * \sa SDL_GetProcessInput
-	 * \sa SDL_GetProcessOutput
-	 * \sa SDL_KillProcess
-	 * \sa SDL_WaitProcess
-	 * \sa SDL_DestroyProcess
-	 */"
-
-	^ self ffiCall: #(SDL_Process* SDL_CreateProcess(const char* args, #bool pipe_stdio))
-]
-
-{ #category : 'public - SDL_process' }
-SDL3Library >> newProcessWithProperties: props [
-	"/**
-	 * Create a new process with the specified properties.
-	 *
-	 * These are the supported properties:
-	 *
-	 * - `SDL_PROP_PROCESS_CREATE_ARGS_POINTER`: an array of strings containing
-	 *   the program to run, any arguments, and a NULL pointer, e.g. const char
-	 *   *args[] = { ""myprogram"", ""argument"", NULL }. This is a required property.
-	 * - `SDL_PROP_PROCESS_CREATE_ENVIRONMENT_POINTER`: an SDL_Environment
-	 *   pointer. If this property is set, it will be the entire environment for
-	 *   the process, otherwise the current environment is used.
-	 * - `SDL_PROP_PROCESS_CREATE_WORKING_DIRECTORY_STRING`: a UTF-8 encoded
-	 *   string representing the working directory for the process, defaults to
-	 *   the current working directory.
-	 * - `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER`: an SDL_ProcessIO value describing
-	 *   where standard input for the process comes from, defaults to
-	 *   `SDL_PROCESS_STDIO_NULL`.
-	 * - `SDL_PROP_PROCESS_CREATE_STDIN_POINTER`: an SDL_IOStream pointer used for
-	 *   standard input when `SDL_PROP_PROCESS_CREATE_STDIN_NUMBER` is set to
-	 *   `SDL_PROCESS_STDIO_REDIRECT`.
-	 * - `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER`: an SDL_ProcessIO value
-	 *   describing where standard output for the process goes to, defaults to
-	 *   `SDL_PROCESS_STDIO_INHERITED`.
-	 * - `SDL_PROP_PROCESS_CREATE_STDOUT_POINTER`: an SDL_IOStream pointer used
-	 *   for standard output when `SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER` is set
-	 *   to `SDL_PROCESS_STDIO_REDIRECT`.
-	 * - `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER`: an SDL_ProcessIO value
-	 *   describing where standard error for the process goes to, defaults to
-	 *   `SDL_PROCESS_STDIO_INHERITED`.
-	 * - `SDL_PROP_PROCESS_CREATE_STDERR_POINTER`: an SDL_IOStream pointer used
-	 *   for standard error when `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER` is set to
-	 *   `SDL_PROCESS_STDIO_REDIRECT`.
-	 * - `SDL_PROP_PROCESS_CREATE_STDERR_TO_STDOUT_BOOLEAN`: true if the error
-	 *   output of the process should be redirected into the standard output of
-	 *   the process. This property has no effect if
-	 *   `SDL_PROP_PROCESS_CREATE_STDERR_NUMBER` is set.
-	 * - `SDL_PROP_PROCESS_CREATE_BACKGROUND_BOOLEAN`: true if the process should
-	 *   run in the background. In this case the default input and output is
-	 *   `SDL_PROCESS_STDIO_NULL` and the exitcode of the process is not
-	 *   available, and will always be 0.
-	 * - `SDL_PROP_PROCESS_CREATE_CMDLINE_STRING`: a string containing the program
-	 *   to run and any parameters. This string is passed directly to
-	 *   `CreateProcess` on Windows, and does nothing on other platforms. This
-	 *   property is only important if you want to start programs that does
-	 *   non-standard command-line processing, and in most cases using
-	 *   `SDL_PROP_PROCESS_CREATE_ARGS_POINTER` is sufficient.
-	 *
-	 * On POSIX platforms, wait() and waitpid(-1, ...) should not be called, and
-	 * SIGCHLD should not be ignored or handled because those would prevent SDL
-	 * from properly tracking the lifetime of the underlying process. You should
-	 * use SDL_WaitProcess() instead.
-	 *
-	 * \param props the properties to use.
-	 * \returns the newly created and running process, or NULL if the process
-	 *          couldn't be created.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateProcess
-	 * \sa SDL_GetProcessProperties
-	 * \sa SDL_ReadProcess
-	 * \sa SDL_GetProcessInput
-	 * \sa SDL_GetProcessOutput
-	 * \sa SDL_KillProcess
-	 * \sa SDL_WaitProcess
-	 * \sa SDL_DestroyProcess
-	 */"
-
-	^ self ffiCall: #(SDL_Process* SDL_CreateProcessWithProperties(SDL_PropertiesID props))
-]
-
-{ #category : 'public - SDL_properties' }
-SDL3Library >> newProperties [
-	"/**
-	 * Create a group of properties.
-	 *
-	 * All properties are automatically destroyed when SDL_Quit() is called.
-	 *
-	 * \returns an ID for a new group of properties, or 0 on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyProperties
-	 */"
-
-	^ self ffiCall: #(SDL_PropertiesID SDL_CreateProperties())
-]
-
-{ #category : 'public - SDL_mutex' }
-SDL3Library >> newRWLock [
-	"/**
-	 * Create a new read/write lock.
-	 *
-	 * A read/write lock is useful for situations where you have multiple threads
-	 * trying to access a resource that is rarely updated. All threads requesting
-	 * a read-only lock will be allowed to run in parallel; if a thread requests a
-	 * write lock, it will be provided exclusive access. This makes it safe for
-	 * multiple threads to use a resource at the same time if they promise not to
-	 * change it, and when it has to be changed, the rwlock will serve as a
-	 * gateway to make sure those changes can be made safely.
-	 *
-	 * In the right situation, a rwlock can be more efficient than a mutex, which
-	 * only lets a single thread proceed at a time, even if it won't be modifying
-	 * the data.
-	 *
-	 * All newly-created read/write locks begin in the _unlocked_ state.
-	 *
-	 * Calls to SDL_LockRWLockForReading() and SDL_LockRWLockForWriting will not
-	 * return while the rwlock is locked _for writing_ by another thread. See
-	 * SDL_TryLockRWLockForReading() and SDL_TryLockRWLockForWriting() to attempt
-	 * to lock without blocking.
-	 *
-	 * SDL read/write locks are only recursive for read-only locks! They are not
-	 * guaranteed to be fair, or provide access in a FIFO manner! They are not
-	 * guaranteed to favor writers. You may not lock a rwlock for both read-only
-	 * and write access at the same time from the same thread (so you can't
-	 * promote your read-only lock to a write lock without unlocking first).
-	 *
-	 * \returns the initialized and unlocked read/write lock or NULL on failure;
-	 *          call SDL_GetError() for more information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyRWLock
-	 * \sa SDL_LockRWLockForReading
-	 * \sa SDL_LockRWLockForWriting
-	 * \sa SDL_TryLockRWLockForReading
-	 * \sa SDL_TryLockRWLockForWriting
-	 * \sa SDL_UnlockRWLock
-	 */"
-
-	^ self ffiCall: #(SDL_RWLock* SDL_CreateRWLock())
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newRendererWindow: window name: name [
-	"/**
-	 * Create a 2D rendering context for a window.
-	 *
-	 * If you want a specific renderer, you can specify its name here. A list of
-	 * available renderers can be obtained by calling SDL_GetRenderDriver()
-	 * multiple times, with indices from 0 to SDL_GetNumRenderDrivers()-1. If you
-	 * don't need a specific renderer, specify NULL and SDL will attempt to choose
-	 * the best option for you, based on what is available on the user's system.
-	 *
-	 * If `name` is a comma-separated list, SDL will try each name, in the order
-	 * listed, until one succeeds or all of them fail.
-	 *
-	 * By default the rendering size matches the window size in pixels, but you
-	 * can call SDL_SetRenderLogicalPresentation() to change the content size and
-	 * scaling options.
-	 *
-	 * \param window the window where rendering is displayed.
-	 * \param name the name of the rendering driver to initialize, or NULL to let
-	 *             SDL choose one.
-	 * \returns a valid rendering context or NULL if there was an error; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateRendererWithProperties
-	 * \sa SDL_CreateSoftwareRenderer
-	 * \sa SDL_DestroyRenderer
-	 * \sa SDL_GetNumRenderDrivers
-	 * \sa SDL_GetRenderDriver
-	 * \sa SDL_GetRendererName
-	 */"
-
-	^ self ffiCall: #(SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, const char* name))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newRendererWithProperties: props [
-	"/**
-	 * Create a 2D rendering context for a window, with the specified properties.
-	 *
-	 * These are the supported properties:
-	 *
-	 * - `SDL_PROP_RENDERER_CREATE_NAME_STRING`: the name of the rendering driver
-	 *   to use, if a specific one is desired
-	 * - `SDL_PROP_RENDERER_CREATE_WINDOW_POINTER`: the window where rendering is
-	 *   displayed, required if this isn't a software renderer using a surface
-	 * - `SDL_PROP_RENDERER_CREATE_SURFACE_POINTER`: the surface where rendering
-	 *   is displayed, if you want a software renderer without a window
-	 * - `SDL_PROP_RENDERER_CREATE_OUTPUT_COLORSPACE_NUMBER`: an SDL_Colorspace
-	 *   value describing the colorspace for output to the display, defaults to
-	 *   SDL_COLORSPACE_SRGB. The direct3d11, direct3d12, and metal renderers
-	 *   support SDL_COLORSPACE_SRGB_LINEAR, which is a linear color space and
-	 *   supports HDR output. If you select SDL_COLORSPACE_SRGB_LINEAR, drawing
-	 *   still uses the sRGB colorspace, but values can go beyond 1.0 and float
-	 *   (linear) format textures can be used for HDR content.
-	 * - `SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER`: non-zero if you want
-	 *   present synchronized with the refresh rate. This property can take any
-	 *   value that is supported by SDL_SetRenderVSync() for the renderer.
-	 *
-	 * With the SDL GPU renderer (since SDL 3.4.0):
-	 *
-	 * - `SDL_PROP_RENDERER_CREATE_GPU_DEVICE_POINTER`: the device to use with the
-	 *   renderer, optional.
-	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN`: the app is able to
-	 *   provide SPIR-V shaders to SDL_GPURenderState, optional.
-	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN`: the app is able to
-	 *   provide DXIL shaders to SDL_GPURenderState, optional.
-	 * - `SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN`: the app is able to
-	 *   provide MSL shaders to SDL_GPURenderState, optional.
-	 *
-	 * With the vulkan renderer:
-	 *
-	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER`: the VkInstance to use
-	 *   with the renderer, optional.
-	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_SURFACE_NUMBER`: the VkSurfaceKHR to use
-	 *   with the renderer, optional.
-	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_PHYSICAL_DEVICE_POINTER`: the
-	 *   VkPhysicalDevice to use with the renderer, optional.
-	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_DEVICE_POINTER`: the VkDevice to use
-	 *   with the renderer, optional.
-	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER`: the
-	 *   queue family index used for rendering.
-	 * - `SDL_PROP_RENDERER_CREATE_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER`: the
-	 *   queue family index used for presentation.
-	 *
-	 * \param props the properties to use.
-	 * \returns a valid rendering context or NULL if there was an error; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateProperties
-	 * \sa SDL_CreateRenderer
-	 * \sa SDL_CreateSoftwareRenderer
-	 * \sa SDL_DestroyRenderer
-	 * \sa SDL_GetRendererName
-	 */"
-
-	^ self ffiCall: #(SDL_Renderer* SDL_CreateRendererWithProperties(SDL_PropertiesID props))
-]
-
-{ #category : 'public - SDL_mutex' }
-SDL3Library >> newSemaphore: initial_value [
-	"/**
-	 * Create a semaphore.
-	 *
-	 * This function creates a new semaphore and initializes it with the value
-	 * `initial_value`. Each wait operation on the semaphore will atomically
-	 * decrement the semaphore value and potentially block if the semaphore value
-	 * is 0. Each post operation will atomically increment the semaphore value and
-	 * wake waiting threads and allow them to retry the wait operation.
-	 *
-	 * \param initial_value the starting value of the semaphore.
-	 * \returns a new semaphore or NULL on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroySemaphore
-	 * \sa SDL_SignalSemaphore
-	 * \sa SDL_TryWaitSemaphore
-	 * \sa SDL_GetSemaphoreValue
-	 * \sa SDL_WaitSemaphore
-	 * \sa SDL_WaitSemaphoreTimeout
-	 */"
-
-	^ self ffiCall: #(SDL_Semaphore* SDL_CreateSemaphore(Uint32 initial_value))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newSoftwareRenderer: surface [
-	"/**
-	 * Create a 2D software rendering context for a surface.
-	 *
-	 * Two other API which can be used to create SDL_Renderer:
-	 * SDL_CreateRenderer() and SDL_CreateWindowAndRenderer(). These can _also_
-	 * create a software renderer, but they are intended to be used with an
-	 * SDL_Window as the final destination and not an SDL_Surface.
-	 *
-	 * \param surface the SDL_Surface structure representing the surface where
-	 *                rendering is done.
-	 * \returns a valid rendering context or NULL if there was an error; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyRenderer
-	 */"
-
-	^ self ffiCall: #(SDL_Renderer* SDL_CreateSoftwareRenderer(SDL_Surface* surface))
-]
-
-{ #category : 'public - SDL_storage' }
-SDL3Library >> newStorageDirectoryStorage: storage path: path [
-	"/**
-	 * Create a directory in a writable storage container.
-	 *
-	 * \param storage a storage container.
-	 * \param path the path of the directory to create.
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_StorageReady
-	 */"
-
-	^ self ffiCall: #(bool SDL_CreateStorageDirectory(SDL_Storage* storage, const char* path))
-]
-
-{ #category : 'public - SDL_surface' }
-SDL3Library >> newSurfaceFromWidth: width height: height format: format pixels: pixels pitch: pitch [
-	"/**
-	 * Allocate a new surface with a specific pixel format and existing pixel
-	 * data.
-	 *
-	 * No copy is made of the pixel data. Pixel data is not managed automatically;
-	 * you must free the surface before you free the pixel data.
-	 *
-	 * Pitch is the offset in bytes from one row of pixels to the next, e.g.
-	 * `width*4` for `SDL_PIXELFORMAT_RGBA8888`.
-	 *
-	 * You may pass NULL for pixels and 0 for pitch to create a surface that you
-	 * will fill in with valid values later.
-	 *
-	 * \param width the width of the surface.
-	 * \param height the height of the surface.
-	 * \param format the SDL_PixelFormat for the new surface's pixel format.
-	 * \param pixels a pointer to existing pixel data.
-	 * \param pitch the number of bytes between each row, including padding.
-	 * \returns the new SDL_Surface structure that is created or NULL on failure;
-	 *          call SDL_GetError() for more information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateSurface
-	 * \sa SDL_DestroySurface
-	 */"
-
-	^ self ffiCall: #(SDL_Surface* SDL_CreateSurfaceFrom(int width, int height, SDL_PixelFormat format, void* pixels, int pitch))
-]
-
-{ #category : 'public - SDL_surface' }
-SDL3Library >> newSurfacePalette: surface [
-	"/**
-	 * Create a palette and associate it with a surface.
-	 *
-	 * This function creates a palette compatible with the provided surface. The
-	 * palette is then returned for you to modify, and the surface will
-	 * automatically use the new palette in future operations. You do not need to
-	 * destroy the returned palette, it will be freed when the reference count
-	 * reaches 0, usually when the surface is destroyed.
-	 *
-	 * Bitmap surfaces (with format SDL_PIXELFORMAT_INDEX1LSB or
-	 * SDL_PIXELFORMAT_INDEX1MSB) will have the palette initialized with 0 as
-	 * white and 1 as black. Other surfaces will get a palette initialized with
-	 * white in every entry.
-	 *
-	 * If this function is called for a surface that already has a palette, a new
-	 * palette will be created to replace it.
-	 *
-	 * \param surface the SDL_Surface structure to update.
-	 * \returns a new SDL_Palette structure on success or NULL on failure (e.g. if
-	 *          the surface didn't have an index format); call SDL_GetError() for
-	 *          more information.
-	 *
-	 * \threadsafety This function can be called on different threads with
-	 *               different surfaces.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_SetPaletteColors
-	 */"
-
-	^ self ffiCall: #(SDL_Palette* SDL_CreateSurfacePalette(SDL_Surface* surface))
-]
-
-{ #category : 'public - SDL_surface' }
-SDL3Library >> newSurfaceWidth: width height: height format: format [
-	"/**
-	 * Allocate a new surface with a specific pixel format.
-	 *
-	 * The pixels of the new surface are initialized to zero.
-	 *
-	 * \param width the width of the surface.
-	 * \param height the height of the surface.
-	 * \param format the SDL_PixelFormat for the new surface's pixel format.
-	 * \returns the new SDL_Surface structure that is created or NULL on failure;
-	 *          call SDL_GetError() for more information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateSurfaceFrom
-	 * \sa SDL_DestroySurface
-	 */"
-
-	^ self ffiCall: #(SDL_Surface* SDL_CreateSurface(int width, int height, SDL_PixelFormat format))
-]
-
-{ #category : 'public - SDL_mouse' }
-SDL3Library >> newSystemCursor: id [
-	"/**
-	 * Create a system cursor.
-	 *
-	 * \param id an SDL_SystemCursor enum value.
-	 * \returns a cursor on success or NULL on failure; call SDL_GetError() for
-	 *          more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_DestroyCursor
-	 */"
-
-	^ self ffiCall: #(SDL_Cursor* SDL_CreateSystemCursor(SDL_SystemCursor id))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newTextureFromSurfaceRenderer: renderer surface: surface [
-	"/**
-	 * Create a texture from an existing surface.
-	 *
-	 * The surface is not modified or freed by this function.
-	 *
-	 * The SDL_TextureAccess hint for the created texture is
-	 * `SDL_TEXTUREACCESS_STATIC`.
-	 *
-	 * The pixel format of the created texture may be different from the pixel
-	 * format of the surface, and can be queried using the
-	 * SDL_PROP_TEXTURE_FORMAT_NUMBER property.
-	 *
-	 * \param renderer the rendering context.
-	 * \param surface the SDL_Surface structure containing pixel data used to fill
-	 *                the texture.
-	 * \returns the created texture or NULL on failure; call SDL_GetError() for
-	 *          more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateTexture
-	 * \sa SDL_CreateTextureWithProperties
-	 * \sa SDL_DestroyTexture
-	 */"
-
-	^ self ffiCall: #(SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newTextureRenderer: renderer format: format access: access w: w h: h [
-	"/**
-	 * Create a texture for a rendering context.
-	 *
-	 * The contents of a texture when first created are not defined.
-	 *
-	 * \param renderer the rendering context.
-	 * \param format one of the enumerated values in SDL_PixelFormat.
-	 * \param access one of the enumerated values in SDL_TextureAccess.
-	 * \param w the width of the texture in pixels.
-	 * \param h the height of the texture in pixels.
-	 * \returns the created texture or NULL on failure; call SDL_GetError() for
-	 *          more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateTextureFromSurface
-	 * \sa SDL_CreateTextureWithProperties
-	 * \sa SDL_DestroyTexture
-	 * \sa SDL_GetTextureSize
-	 * \sa SDL_UpdateTexture
-	 */"
-
-	^ self ffiCall: #(SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, SDL_PixelFormat format, SDL_TextureAccess access, int w, int h))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newTextureWithPropertiesRenderer: renderer props: props [
-	"/**
-	 * Create a texture for a rendering context with the specified properties.
-	 *
-	 * These are the supported properties:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER`: an SDL_Colorspace value
-	 *   describing the texture colorspace, defaults to SDL_COLORSPACE_SRGB_LINEAR
-	 *   for floating point textures, SDL_COLORSPACE_HDR10 for 10-bit textures,
-	 *   SDL_COLORSPACE_SRGB for other RGB textures and SDL_COLORSPACE_JPEG for
-	 *   YUV textures.
-	 * - `SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER`: one of the enumerated values in
-	 *   SDL_PixelFormat, defaults to the best RGBA format for the renderer
-	 * - `SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER`: one of the enumerated values in
-	 *   SDL_TextureAccess, defaults to SDL_TEXTUREACCESS_STATIC
-	 * - `SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER`: the width of the texture in
-	 *   pixels, required
-	 * - `SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER`: the height of the texture in
-	 *   pixels, required
-	 * - `SDL_PROP_TEXTURE_CREATE_PALETTE_POINTER`: an SDL_Palette to use with
-	 *   palettized texture formats. This can be set later with
-	 *   SDL_SetTexturePalette()
-	 * - `SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT`: for HDR10 and floating
-	 *   point textures, this defines the value of 100% diffuse white, with higher
-	 *   values being displayed in the High Dynamic Range headroom. This defaults
-	 *   to 100 for HDR10 textures and 1.0 for floating point textures.
-	 * - `SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT`: for HDR10 and floating
-	 *   point textures, this defines the maximum dynamic range used by the
-	 *   content, in terms of the SDR white point. This would be equivalent to
-	 *   maxCLL / SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT for HDR10 content.
-	 *   If this is defined, any values outside the range supported by the display
-	 *   will be scaled into the available HDR headroom, otherwise they are
-	 *   clipped.
-	 *
-	 * With the direct3d11 renderer:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER`: the ID3D11Texture2D
-	 *   associated with the texture, if you want to wrap an existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER`: the ID3D11Texture2D
-	 *   associated with the U plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER`: the ID3D11Texture2D
-	 *   associated with the V plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 *
-	 * With the direct3d12 renderer:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER`: the ID3D12Resource
-	 *   associated with the texture, if you want to wrap an existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER`: the ID3D12Resource
-	 *   associated with the U plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER`: the ID3D12Resource
-	 *   associated with the V plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 *
-	 * With the metal renderer:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER`: the CVPixelBufferRef
-	 *   associated with the texture, if you want to create a texture from an
-	 *   existing pixel buffer.
-	 *
-	 * With the opengl renderer:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER`: the GLuint texture
-	 *   associated with the texture, if you want to wrap an existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER`: the GLuint texture
-	 *   associated with the UV plane of an NV12 texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER`: the GLuint texture
-	 *   associated with the U plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER`: the GLuint texture
-	 *   associated with the V plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 *
-	 * With the opengles2 renderer:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER`: the GLuint texture
-	 *   associated with the texture, if you want to wrap an existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER`: the GLuint texture
-	 *   associated with the texture, if you want to wrap an existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER`: the GLuint texture
-	 *   associated with the UV plane of an NV12 texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER`: the GLuint texture
-	 *   associated with the U plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER`: the GLuint texture
-	 *   associated with the V plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 *
-	 * With the vulkan renderer:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER`: the VkImage associated
-	 *   with the texture, if you want to wrap an existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER`: the VkImageLayout for the
-	 *   VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.
-	 *
-	 * With the GPU renderer:
-	 *
-	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER`: the SDL_GPUTexture
-	 *   associated with the texture, if you want to wrap an existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_NUMBER`: the SDL_GPUTexture
-	 *   associated with the UV plane of an NV12 texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_U_NUMBER`: the SDL_GPUTexture
-	 *   associated with the U plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 * - `SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_V_NUMBER`: the SDL_GPUTexture
-	 *   associated with the V plane of a YUV texture, if you want to wrap an
-	 *   existing texture.
-	 *
-	 * \param renderer the rendering context.
-	 * \param props the properties to use.
-	 * \returns the created texture or NULL on failure; call SDL_GetError() for
-	 *          more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateProperties
-	 * \sa SDL_CreateTexture
-	 * \sa SDL_CreateTextureFromSurface
-	 * \sa SDL_DestroyTexture
-	 * \sa SDL_GetTextureSize
-	 * \sa SDL_UpdateTexture
-	 */"
-
-	^ self ffiCall: #(SDL_Texture* SDL_CreateTextureWithProperties(SDL_Renderer* renderer, SDL_PropertiesID props))
-]
-
-{ #category : 'public - SDL_thread' }
-SDL3Library >> newThreadFn: fn name: name data: data [
-	"/**
-	 * Create a new thread with a default stack size.
-	 *
-	 * This is a convenience function, equivalent to calling
-	 * SDL_CreateThreadWithProperties with the following properties set:
-	 *
-	 * - `SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER`: `fn`
-	 * - `SDL_PROP_THREAD_CREATE_NAME_STRING`: `name`
-	 * - `SDL_PROP_THREAD_CREATE_USERDATA_POINTER`: `data`
-	 *
-	 * Note that this ""function"" is actually a macro that calls an internal
-	 * function with two extra parameters not listed here; they are hidden through
-	 * preprocessor macros and are needed to support various C runtimes at the
-	 * point of the function call. Language bindings that aren't using the C
-	 * headers will need to deal with this.
-	 *
-	 * Usually, apps should just call this function the same way on every platform
-	 * and let the macros hide the details.
-	 *
-	 * \param fn the SDL_ThreadFunction function to call in the new thread.
-	 * \param name the name of the thread.
-	 * \param data a pointer that is passed to `fn`.
-	 * \returns an opaque pointer to the new thread object on success, NULL if the
-	 *          new thread could not be created; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateThreadWithProperties
-	 * \sa SDL_WaitThread
-	 */"
-
-	^ self ffiCall: #(SDL_Thread* SDL_CreateThread(SDL_ThreadFunction fn, const char* name, void* data))
-]
-
-{ #category : 'public - SDL_thread' }
-SDL3Library >> newThreadWithProperties: props [
-	"/**
-	 * Create a new thread with with the specified properties.
-	 *
-	 * These are the supported properties:
-	 *
-	 * - `SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER`: an SDL_ThreadFunction
-	 *   value that will be called at the start of the new thread's life.
-	 *   Required.
-	 * - `SDL_PROP_THREAD_CREATE_NAME_STRING`: the name of the new thread, which
-	 *   might be available to debuggers. Optional, defaults to NULL.
-	 * - `SDL_PROP_THREAD_CREATE_USERDATA_POINTER`: an arbitrary app-defined
-	 *   pointer, which is passed to the entry function on the new thread, as its
-	 *   only parameter. Optional, defaults to NULL.
-	 * - `SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER`: the size, in bytes, of the new
-	 *   thread's stack. Optional, defaults to 0 (system-defined default).
-	 *
-	 * SDL makes an attempt to report `SDL_PROP_THREAD_CREATE_NAME_STRING` to the
-	 * system, so that debuggers can display it. Not all platforms support this.
-	 *
-	 * Thread naming is a little complicated: Most systems have very small limits
-	 * for the string length (Haiku has 32 bytes, Linux currently has 16, Visual
-	 * C++ 6.0 has _nine_!), and possibly other arbitrary rules. You'll have to
-	 * see what happens with your system's debugger. The name should be UTF-8 (but
-	 * using the naming limits of C identifiers is a better bet). There are no
-	 * requirements for thread naming conventions, so long as the string is
-	 * null-terminated UTF-8, but these guidelines are helpful in choosing a name:
-	 *
-	 * https://stackoverflow.com/questions/149932/naming-conventions-for-threads
-	 *
-	 * If a system imposes requirements, SDL will try to munge the string for it
-	 * (truncate, etc), but the original string contents will be available from
-	 * SDL_GetThreadName().
-	 *
-	 * The size (in bytes) of the new stack can be specified with
-	 * `SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER`. Zero means ""use the system
-	 * default"" which might be wildly different between platforms. x86 Linux
-	 * generally defaults to eight megabytes, an embedded device might be a few
-	 * kilobytes instead. You generally need to specify a stack that is a multiple
-	 * of the system's page size (in many cases, this is 4 kilobytes, but check
-	 * your system documentation).
-	 *
-	 * Note that this ""function"" is actually a macro that calls an internal
-	 * function with two extra parameters not listed here; they are hidden through
-	 * preprocessor macros and are needed to support various C runtimes at the
-	 * point of the function call. Language bindings that aren't using the C
-	 * headers will need to deal with this.
-	 *
-	 * The actual symbol in SDL is `SDL_CreateThreadWithPropertiesRuntime`, so
-	 * there is no symbol clash, but trying to load an SDL shared library and look
-	 * for ""SDL_CreateThreadWithProperties"" will fail.
-	 *
-	 * Usually, apps should just call this function the same way on every platform
-	 * and let the macros hide the details.
-	 *
-	 * \param props the properties to use.
-	 * \returns an opaque pointer to the new thread object on success, NULL if the
-	 *          new thread could not be created; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateThread
-	 * \sa SDL_WaitThread
-	 */"
-
-	^ self ffiCall: #(SDL_Thread* SDL_CreateThreadWithProperties(SDL_PropertiesID props))
-]
-
-{ #category : 'public - SDL_tray' }
-SDL3Library >> newTrayIcon: icon tooltip: tooltip [
-	"/**
-	 * Create an icon to be placed in the operating system's tray, or equivalent.
-	 *
-	 * Many platforms advise not using a system tray unless persistence is a
-	 * necessary feature. Avoid needlessly creating a tray icon, as the user may
-	 * feel like it clutters their interface.
-	 *
-	 * Using tray icons require the video subsystem.
-	 *
-	 * \param icon a surface to be used as icon. May be NULL.
-	 * \param tooltip a tooltip to be displayed when the mouse hovers the icon in
-	 *                UTF-8 encoding. Not supported on all platforms. May be NULL.
-	 * \returns The newly created system tray icon.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateTrayMenu
-	 * \sa SDL_GetTrayMenu
-	 * \sa SDL_DestroyTray
-	 */"
-
-	^ self ffiCall: #(SDL_Tray* SDL_CreateTray(SDL_Surface* icon, const char* tooltip))
-]
-
-{ #category : 'public - SDL_tray' }
-SDL3Library >> newTrayMenu: tray [
-	"/**
-	 * Create a menu for a system tray.
-	 *
-	 * This should be called at most once per tray icon.
-	 *
-	 * This function does the same thing as SDL_CreateTraySubmenu(), except that
-	 * it takes a SDL_Tray instead of a SDL_TrayEntry.
-	 *
-	 * A menu does not need to be destroyed; it will be destroyed with the tray.
-	 *
-	 * \param tray the tray to bind the menu to.
-	 * \returns the newly created menu.
-	 *
-	 * \threadsafety This function should be called on the thread that created the
-	 *               tray.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateTray
-	 * \sa SDL_GetTrayMenu
-	 * \sa SDL_GetTrayMenuParentTray
-	 */"
-
-	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTrayMenu(SDL_Tray* tray))
-]
-
-{ #category : 'public - SDL_tray' }
-SDL3Library >> newTraySubmenu: entry [
-	"/**
-	 * Create a submenu for a system tray entry.
-	 *
-	 * This should be called at most once per tray entry.
-	 *
-	 * This function does the same thing as SDL_CreateTrayMenu, except that it
-	 * takes a SDL_TrayEntry instead of a SDL_Tray.
-	 *
-	 * A menu does not need to be destroyed; it will be destroyed with the tray.
-	 *
-	 * \param entry the tray entry to bind the menu to.
-	 * \returns the newly created menu.
-	 *
-	 * \threadsafety This function should be called on the thread that created the
-	 *               tray.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_InsertTrayEntryAt
-	 * \sa SDL_GetTraySubmenu
-	 * \sa SDL_GetTrayMenuParentEntry
-	 */"
-
-	^ self ffiCall: #(SDL_TrayMenu* SDL_CreateTraySubmenu(SDL_TrayEntry* entry))
-]
-
-{ #category : 'public - SDL_render' }
-SDL3Library >> newWindowAndRendererTitle: title width: width height: height windowFlags: window_flags window: window renderer: renderer [
-	"/**
-	 * Create a window and default renderer.
-	 *
-	 * \param title the title of the window, in UTF-8 encoding.
-	 * \param width the width of the window.
-	 * \param height the height of the window.
-	 * \param window_flags the flags used to create the window (see
-	 *                     SDL_CreateWindow()).
-	 * \param window a pointer filled with the window, or NULL on error.
-	 * \param renderer a pointer filled with the renderer, or NULL on error.
-	 * \returns true on success or false on failure; call SDL_GetError() for more
-	 *          information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateRenderer
-	 * \sa SDL_CreateWindow
-	 */"
-
-	^ self ffiCall: #(bool SDL_CreateWindowAndRenderer(const char* title, int width, int height, SDL_WindowFlags window_flags, SDL_Window* window, SDL_Renderer* renderer))
-]
-
-{ #category : 'public - SDL_video' }
-SDL3Library >> newWindowTitle: title w: w h: h flags: flags [
-	"/**
-	 * Create a window with the specified dimensions and flags.
-	 *
-	 * The window size is a request and may be different than expected based on
-	 * the desktop layout and window manager policies. Your application should be
-	 * prepared to handle a window of any size.
-	 *
-	 * `flags` may be any of the following OR'd together:
-	 *
-	 * - `SDL_WINDOW_FULLSCREEN`: fullscreen window at desktop resolution
-	 * - `SDL_WINDOW_OPENGL`: window usable with an OpenGL context
-	 * - `SDL_WINDOW_HIDDEN`: window is not visible
-	 * - `SDL_WINDOW_BORDERLESS`: no window decoration
-	 * - `SDL_WINDOW_RESIZABLE`: window can be resized
-	 * - `SDL_WINDOW_MINIMIZED`: window is minimized
-	 * - `SDL_WINDOW_MAXIMIZED`: window is maximized
-	 * - `SDL_WINDOW_MOUSE_GRABBED`: window has grabbed mouse focus
-	 * - `SDL_WINDOW_INPUT_FOCUS`: window has input focus
-	 * - `SDL_WINDOW_MOUSE_FOCUS`: window has mouse focus
-	 * - `SDL_WINDOW_EXTERNAL`: window not created by SDL
-	 * - `SDL_WINDOW_MODAL`: window is modal
-	 * - `SDL_WINDOW_HIGH_PIXEL_DENSITY`: window uses high pixel density back
-	 *   buffer if possible
-	 * - `SDL_WINDOW_MOUSE_CAPTURE`: window has mouse captured (unrelated to
-	 *   MOUSE_GRABBED)
-	 * - `SDL_WINDOW_ALWAYS_ON_TOP`: window should always be above others
-	 * - `SDL_WINDOW_UTILITY`: window should be treated as a utility window, not
-	 *   showing in the task bar and window list
-	 * - `SDL_WINDOW_TOOLTIP`: window should be treated as a tooltip and does not
-	 *   get mouse or keyboard focus, requires a parent window
-	 * - `SDL_WINDOW_POPUP_MENU`: window should be treated as a popup menu,
-	 *   requires a parent window
-	 * - `SDL_WINDOW_KEYBOARD_GRABBED`: window has grabbed keyboard input
-	 * - `SDL_WINDOW_VULKAN`: window usable with a Vulkan instance
-	 * - `SDL_WINDOW_METAL`: window usable with a Metal instance
-	 * - `SDL_WINDOW_TRANSPARENT`: window with transparent buffer
-	 * - `SDL_WINDOW_NOT_FOCUSABLE`: window should not be focusable
-	 *
-	 * The SDL_Window will be shown if SDL_WINDOW_HIDDEN is not set. If hidden at
-	 * creation time, SDL_ShowWindow() can be used to show it later.
-	 *
-	 * On Apple's macOS, you **must** set the NSHighResolutionCapable Info.plist
-	 * property to YES, otherwise you will not receive a High-DPI OpenGL canvas.
-	 *
-	 * The window pixel size may differ from its window coordinate size if the
-	 * window is on a high pixel density display. Use SDL_GetWindowSize() to query
-	 * the client area's size in window coordinates, and
-	 * SDL_GetWindowSizeInPixels() or SDL_GetRenderOutputSize() to query the
-	 * drawable size in pixels. Note that the drawable size can vary after the
-	 * window is created and should be queried again if you get an
-	 * SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED event.
-	 *
-	 * If the window is created with any of the SDL_WINDOW_OPENGL or
-	 * SDL_WINDOW_VULKAN flags, then the corresponding LoadLibrary function
-	 * (SDL_GL_LoadLibrary or SDL_Vulkan_LoadLibrary) is called and the
-	 * corresponding UnloadLibrary function is called by SDL_DestroyWindow().
-	 *
-	 * If SDL_WINDOW_VULKAN is specified and there isn't a working Vulkan driver,
-	 * SDL_CreateWindow() will fail, because SDL_Vulkan_LoadLibrary() will fail.
-	 *
-	 * If SDL_WINDOW_METAL is specified on an OS that does not support Metal,
-	 * SDL_CreateWindow() will fail.
-	 *
-	 * If you intend to use this window with an SDL_Renderer, you should use
-	 * SDL_CreateWindowAndRenderer() instead of this function, to avoid window
-	 * flicker.
-	 *
-	 * On non-Apple devices, SDL requires you to either not link to the Vulkan
-	 * loader or link to a dynamic library version. This limitation may be removed
-	 * in a future version of SDL.
-	 *
-	 * \param title the title of the window, in UTF-8 encoding.
-	 * \param w the width of the window.
-	 * \param h the height of the window.
-	 * \param flags 0, or one or more SDL_WindowFlags OR'd together.
-	 * \returns the window that was created or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateWindowAndRenderer
-	 * \sa SDL_CreatePopupWindow
-	 * \sa SDL_CreateWindowWithProperties
-	 * \sa SDL_DestroyWindow
-	 */"
-
-	^ self ffiCall: #(SDL_Window* SDL_CreateWindow(const char* title, int w, int h, SDL_WindowFlags flags))
-]
-
-{ #category : 'public - SDL_video' }
-SDL3Library >> newWindowWithProperties: props [
-	"/**
-	 * Create a window with the specified properties.
-	 *
-	 * The window size is a request and may be different than expected based on
-	 * the desktop layout and window manager policies. Your application should be
-	 * prepared to handle a window of any size.
-	 *
-	 * These are the supported properties:
-	 *
-	 * - `SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN`: true if the window should
-	 *   be always on top
-	 * - `SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN`: true if the window has no
-	 *   window decoration
-	 * - `SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN`: true if the ""tooltip""
-	 *   and ""menu"" window types should be automatically constrained to be
-	 *   entirely within display bounds (default), false if no constraints on the
-	 *   position are desired.
-	 * - `SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN`: true if the
-	 *   window will be used with an externally managed graphics context.
-	 * - `SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN`: true if the window should
-	 *   accept keyboard input (defaults true)
-	 * - `SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN`: true if the window should
-	 *   start in fullscreen mode at desktop resolution
-	 * - `SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER`: the height of the window
-	 * - `SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN`: true if the window should start
-	 *   hidden
-	 * - `SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN`: true if the window
-	 *   uses a high pixel density buffer if possible
-	 * - `SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN`: true if the window should
-	 *   start maximized
-	 * - `SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN`: true if the window is a popup menu
-	 * - `SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN`: true if the window will be used
-	 *   with Metal rendering
-	 * - `SDL_PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN`: true if the window should
-	 *   start minimized
-	 * - `SDL_PROP_WINDOW_CREATE_MODAL_BOOLEAN`: true if the window is modal to
-	 *   its parent
-	 * - `SDL_PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN`: true if the window starts
-	 *   with grabbed mouse focus
-	 * - `SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN`: true if the window will be used
-	 *   with OpenGL rendering
-	 * - `SDL_PROP_WINDOW_CREATE_PARENT_POINTER`: an SDL_Window that will be the
-	 *   parent of this window, required for windows with the ""tooltip"", ""menu"",
-	 *   and ""modal"" properties
-	 * - `SDL_PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN`: true if the window should be
-	 *   resizable
-	 * - `SDL_PROP_WINDOW_CREATE_TITLE_STRING`: the title of the window, in UTF-8
-	 *   encoding
-	 * - `SDL_PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN`: true if the window show
-	 *   transparent in the areas with alpha of 0
-	 * - `SDL_PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN`: true if the window is a tooltip
-	 * - `SDL_PROP_WINDOW_CREATE_UTILITY_BOOLEAN`: true if the window is a utility
-	 *   window, not showing in the task bar and window list
-	 * - `SDL_PROP_WINDOW_CREATE_VULKAN_BOOLEAN`: true if the window will be used
-	 *   with Vulkan rendering
-	 * - `SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER`: the width of the window
-	 * - `SDL_PROP_WINDOW_CREATE_X_NUMBER`: the x position of the window, or
-	 *   `SDL_WINDOWPOS_CENTERED`, defaults to `SDL_WINDOWPOS_UNDEFINED`. This is
-	 *   relative to the parent for windows with the ""tooltip"" or ""menu"" property
-	 *   set.
-	 * - `SDL_PROP_WINDOW_CREATE_Y_NUMBER`: the y position of the window, or
-	 *   `SDL_WINDOWPOS_CENTERED`, defaults to `SDL_WINDOWPOS_UNDEFINED`. This is
-	 *   relative to the parent for windows with the ""tooltip"" or ""menu"" property
-	 *   set.
-	 *
-	 * These are additional supported properties on macOS:
-	 *
-	 * - `SDL_PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER`: the
-	 *   `(__unsafe_unretained)` NSWindow associated with the window, if you want
-	 *   to wrap an existing window.
-	 * - `SDL_PROP_WINDOW_CREATE_COCOA_VIEW_POINTER`: the `(__unsafe_unretained)`
-	 *   NSView associated with the window, defaults to `[window contentView]`
-	 *
-	 * These are additional supported properties on iOS, tvOS, and visionOS:
-	 *
-	 * - `SDL_PROP_WINDOW_CREATE_WINDOWSCENE_POINTER`: the `(__unsafe_unretained)`
-	 *   UIWindowScene associated with the window, defaults to the active window
-	 *   scene.
-	 *
-	 * These are additional supported properties on Wayland:
-	 *
-	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN` - true if
-	 *   the application wants to use the Wayland surface for a custom role and
-	 *   does not want it attached to an XDG toplevel window. See
-	 *   [README-wayland](README-wayland) for more information on using custom
-	 *   surfaces.
-	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN` - true if the
-	 *   application wants an associated `wl_egl_window` object to be created and
-	 *   attached to the window, even if the window does not have the OpenGL
-	 *   property or `SDL_WINDOW_OPENGL` flag set.
-	 * - `SDL_PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER` - the wl_surface
-	 *   associated with the window, if you want to wrap an existing window. See
-	 *   [README-wayland](README-wayland) for more information.
-	 *
-	 * These are additional supported properties on Windows:
-	 *
-	 * - `SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER`: the HWND associated with the
-	 *   window, if you want to wrap an existing window.
-	 * - `SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER`: optional,
-	 *   another window to share pixel format with, useful for OpenGL windows
-	 *
-	 * These are additional supported properties with X11:
-	 *
-	 * - `SDL_PROP_WINDOW_CREATE_X11_WINDOW_NUMBER`: the X11 Window associated
-	 *   with the window, if you want to wrap an existing window.
-	 *
-	 * The window is implicitly shown if the ""hidden"" property is not set.
-	 *
-	 * These are additional supported properties with Emscripten:
-	 *
-	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING`: the id given to the
-	 *   canvas element. This should start with a '#' sign
-	 * - `SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING`: override the
-	 *   binding element for keyboard inputs for this canvas. The variable can be
-	 *   one of:
-	 * - ""#window"": the javascript window object (default)
-	 * - ""#document"": the javascript document object
-	 * - ""#screen"": the javascript window.screen object
-	 * - ""#canvas"": the WebGL canvas element
-	 * - ""#none"": Don't bind anything at all
-	 * - any other string without a leading # sign applies to the element on the
-	 *   page with that ID. Windows with the ""tooltip"" and ""menu"" properties are
-	 *   popup windows and have the behaviors and guidelines outlined in
-	 *   SDL_CreatePopupWindow().
-	 *
-	 * If this window is being created to be used with an SDL_Renderer, you should
-	 * not add a graphics API specific property
-	 * (`SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN`, etc), as SDL will handle that
-	 * internally when it chooses a renderer. However, SDL might need to recreate
-	 * your window at that point, which may cause the window to appear briefly,
-	 * and then flicker as it is recreated. The correct approach to this is to
-	 * create the window with the `SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN` property
-	 * set to true, then create the renderer, then show the window with
-	 * SDL_ShowWindow().
-	 *
-	 * \param props the properties to use.
-	 * \returns the window that was created or NULL on failure; call
-	 *          SDL_GetError() for more information.
-	 *
-	 * \threadsafety This function should only be called on the main thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CreateProperties
-	 * \sa SDL_CreateWindow
-	 * \sa SDL_DestroyWindow
-	 */"
-
-	^ self ffiCall: #(SDL_Window* SDL_CreateWindowWithProperties(SDL_PropertiesID props))
 ]
 
 { #category : 'public - SDL_system' }

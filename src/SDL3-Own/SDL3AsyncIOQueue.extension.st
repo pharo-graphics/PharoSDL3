@@ -1,9 +1,9 @@
 Extension { #name : 'SDL3AsyncIOQueue' }
 
 { #category : '*SDL3-Own' }
-SDL3AsyncIOQueue class >> unsafeNew [
+SDL3AsyncIOQueue class >> unownedNew [
 
-	^ (self ffiLibrary newAsyncIOQueue)
+	^ (self ffiLibrary createAsyncIOQueue)
 		  assertNotNullReturn;
 		  yourself
 ]

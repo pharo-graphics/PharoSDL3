@@ -182,7 +182,7 @@ OSSDL3BackendWindow >> icon: aForm [
 	"Set the window icon to aForm."
 
 	| surface |
-	surface := aForm unsafeNewAsSDL3Surface.
+	surface := aForm unownedAsSDL3Surface.
 	[ sdlWindow icon: surface ] ensure: [ surface destroy ]
 ]
 
@@ -194,9 +194,9 @@ OSSDL3BackendWindow >> initializeFromAttributes: attributes for: anOSWindow [
 	osWindow := anOSWindow.
 
 	sdlWindow := SDL3Window
-		unsafeNewTitle: attributes title
-		w: attributes width
-		h: attributes height
+		unownedNewTitle: attributes title
+		width: attributes width
+		height: attributes height
 		flags: (self windowFlagsFromAttributes: attributes).
 
 	osWindow setJustCreatedHandle: self
@@ -231,7 +231,7 @@ OSSDL3BackendWindow >> lookupSystemCursor: aCursor ifNotFound: aBlock [
 			at: aCursor
 			ifAbsent: [ ^ aBlock value ].
 
-	^ SDL3Library uniqueInstance newSystemCursor: cursorID
+	^ SDL3Library uniqueInstance createSystemCursor: cursorID
 ]
 
 { #category : 'accessing' }
@@ -345,10 +345,10 @@ OSSDL3BackendWindow >> setMouseCursor: aCursor mask: aMask andScale: aScale [
 	sdlCursor := self lookupSystemCursor: aCursor ifNotFound: [ 
 		scaleToUse := aScale ceiling.
 		scaledForm := self convertCursor: aCursor withMask: aMask andScale: aScale.
-		surface := scaledForm unsafeNewAsSDL3Surface.
+		surface := scaledForm unownedAsSDL3Surface.
 		offset := aCursor offset * scaleToUse.
 		[ 
-			SDL3Library uniqueInstance newColorCursorSurface: surface hotX: offset x negated hotY: offset y negated
+			SDL3Library uniqueInstance createColorCursorSurface: surface hotX: offset x negated hotY: offset y negated
 		] ensure: [ surface destroy ]
 	].
 

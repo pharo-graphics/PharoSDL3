@@ -13,14 +13,6 @@ SDL3GPUBlitInfo >> beSource: sourceTexture destination: destinationTexture filte
 ]
 
 { #category : '*SDL3-Own' }
-SDL3GPUBlitInfo class >> source: sourceTexture destination: destinationTexture filter: aFilter [
-
-	^ self safeNew
-		beSource: sourceTexture destination: destinationTexture filter: aFilter;
-		yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3GPUBlitInfo >> updateClearColorFrom: aColor [
 
 	self clearColor updateFrom: aColor

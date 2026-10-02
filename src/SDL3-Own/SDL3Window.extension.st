@@ -251,14 +251,6 @@ SDL3Window >> glMakeCurrentContext: context [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window >> glNewContext [
-
-	^ (self ffiLibrary glCreateContext: self)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Window >> glSwap [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary glSwapWindow: self)
@@ -468,12 +460,6 @@ SDL3Window >> maximumSizeMaxW: maxW maxH: maxH [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window >> metalCreateView [
-
-	^ self ffiLibrary metalCreateView: self
-]
-
-{ #category : '*SDL3-Own' }
 SDL3Window >> minimize [
 
 	self ffiLibrary assertSuccess: (self ffiLibrary minimizeWindow: self)
@@ -514,40 +500,6 @@ SDL3Window >> mouseRect: rect [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary setWindowMouseRectWindow: self rect: rect)
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Window >> newGPURenderer [
-
-	^ self newRendererFor: 'gpu'
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Window >> newPopupParentOffsetX: offsetX offsetY: offsetY w: w h: h flags: flags [
-
-	^ (self ffiLibrary
-		   newPopupWindowParent: self
-		   offsetX: offsetX
-		   offsetY: offsetY
-		   w: w
-		   h: h
-		   flags: flags)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Window >> newRenderer [
-
-	^ self newRendererFor: nil
-]
-
-{ #category : '*SDL3-Own' }
-SDL3Window >> newRendererFor: name [
-
-	^ (self ffiLibrary newRendererWindow: self name: name)
-		  assertNotNullReturn;
-		  yourself
 ]
 
 { #category : '*SDL3-Own' }
@@ -822,35 +774,83 @@ SDL3Window >> title: title [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window class >> unsafeNewPopupParent: parent offsetX: offsetX offsetY: offsetY w: w h: h flags: flags [
+SDL3Window >> unownedNewGLContext [
+
+	^ (self ffiLibrary glCreateContext: self)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> unownedNewGPURenderer [
+
+	^ self unownedNewRenderer: 'gpu'
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> unownedNewMetalView [
+
+	^ self ffiLibrary metalCreateView: self
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window class >> unownedNewPopupParent: parent offsetX: offsetX offsetY: offsetY width: width height: height flags: flags [
 
 	^ (self ffiLibrary
-		   newPopupWindowParent: parent
+		   createPopupWindowParent: parent
 		   offsetX: offsetX
 		   offsetY: offsetY
-		   w: w
-		   h: h
+		   w: width
+		   h: height
 		   flags: flags)
 		  assertNotNullReturn;
 		  yourself
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window class >> unsafeNewTitle: title w: w h: h flags: flags [
+SDL3Window >> unownedNewPopupParentOffsetX: offsetX offsetY: offsetY width: width height: height flags: flags [
 
 	^ (self ffiLibrary
-		   newWindowTitle: title
-		   w: w
-		   h: h
+		   createPopupWindowParent: self
+		   offsetX: offsetX
+		   offsetY: offsetY
+		   w: width
+		   h: height
 		   flags: flags)
 		  assertNotNullReturn;
 		  yourself
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Window class >> unsafeNewWithProperties: props [
+SDL3Window >> unownedNewRenderer [
 
-	^ (self ffiLibrary newWindowWithProperties: props)
+	^ self unownedNewRenderer: nil
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window >> unownedNewRenderer: name [
+
+	^ (self ffiLibrary createRendererWindow: self name: name)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window class >> unownedNewTitle: title width: width height: height flags: flags [
+
+	^ (self ffiLibrary
+		   createWindowTitle: title
+		   w: width
+		   h: height
+		   flags: flags)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Window class >> unownedNewWithProperties: props [
+
+	^ (self ffiLibrary createWindowWithProperties: props)
 		  assertNotNullReturn;
 		  yourself
 ]

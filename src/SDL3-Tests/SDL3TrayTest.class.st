@@ -15,8 +15,8 @@ SDL3TrayTest >> setUp [
 
 	super setUp.
 
-	iconSurface := (self iconNamed: #pharo) unsafeNewAsSDL3Surface.
-	tray := SDL3Tray unsafeNewIcon: iconSurface tooltip: 'Test tooltip'
+	iconSurface := (self iconNamed: #pharo) unownedAsSDL3Surface.
+	tray := SDL3Tray unownedNewIcon: iconSurface tooltip: 'Test tooltip'
 ]
 
 { #category : 'running' }

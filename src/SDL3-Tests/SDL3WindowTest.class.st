@@ -48,8 +48,8 @@ SDL3WindowTest >> test01CreateWindow [
 	| window |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test01CreateWindow
-			w: 400 h: 300 flags: 0.
+			unownedNewTitle: #test01CreateWindow
+			width: 400 height: 300 flags: 0.
 
 	self assert: window title equals: #test01CreateWindow.
 
@@ -80,8 +80,8 @@ SDL3WindowTest >> test02AllWindows [
 	| windows |
 	windows := (1 to: 5) collect: [ :index |
 		SDL3Window
-			unsafeNewTitle: index asString
-			w: 300 h: 300 flags: 0 ].
+			unownedNewTitle: index asString
+			width: 300 height: 300 flags: 0 ].
 
 	"The query seems to return last window first"
 	self assert: sdl allWindows equals: windows reversed.
@@ -96,7 +96,7 @@ SDL3WindowTest >> test03CreateWindowWithProperties [
 	| rectangle id window |
 	rectangle := 100 @ 200 extent: 600 @ 300.
 
-	id := sdl newProperties.
+	id := sdl createProperties.
 	sdl
 		setStringPropertyProps: id
 		name: SDL_PROP_WINDOW_CREATE_TITLE_STRING
@@ -122,7 +122,7 @@ SDL3WindowTest >> test03CreateWindowWithProperties [
 		name: SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER
 		value: SDL3WindowFlags highPixelDensity | SDL3WindowFlags resizable.
 
-	window := sdl newWindowWithProperties: id.
+	window := sdl createWindowWithProperties: id.
 	sdl destroyProperties: id.
 
 	self waitToSee.
@@ -144,7 +144,7 @@ SDL3WindowTest >> test04CreateWindowWithPropertyGroup [
 	| rectangle p window |
 	rectangle := 100 @ 200 extent: 600 @ 300.
 
-	p := SDL3PropertyGroup unsafeNew
+	p := SDL3PropertyGroup unownedNew
 		stringAt: SDL_PROP_WINDOW_CREATE_TITLE_STRING
 			put: #test04CreateWindowWithPropertyGroup;
 		numberAt: SDL_PROP_WINDOW_CREATE_X_NUMBER
@@ -159,7 +159,7 @@ SDL3WindowTest >> test04CreateWindowWithPropertyGroup [
 			put: SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE;
 		yourself.
 
-	window := SDL3Window unsafeNewWithProperties: p.
+	window := SDL3Window unownedNewWithProperties: p.
 	p destroy.
 
 	self waitToSee.
@@ -185,7 +185,7 @@ SDL3WindowTest >> test05CreateWindowAndRenderer [
 
 	success :=
 		sdl
-			newWindowAndRendererTitle: #test05CreateWindowAndRenderer
+			createWindowAndRendererTitle: #test05CreateWindowAndRenderer
 			width: extent x
 			height: extent y
 			windowFlags: 0
@@ -218,8 +218,8 @@ SDL3WindowTest >> test06CreateRenderer [
 	| window renderer drivers |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test06CreateRenderer
-			w: 400 h: 300 flags: 0.
+			unownedNewTitle: #test06CreateRenderer
+			width: 400 height: 300 flags: 0.
 
 	drivers := sdl renderDrivers.
 
@@ -232,10 +232,10 @@ SDL3WindowTest >> test06CreateRenderer [
 			expandMacrosWith: #test06CreateRenderer
 			with: eachName).
 
-		renderer := window newRendererFor: eachName.
+		renderer := window unownedNewRenderer: eachName.
 
 		self waitToSee.
-		
+
 		renderer destroy ].
 
 	window destroy
@@ -247,11 +247,11 @@ SDL3WindowTest >> test07RenderBasicOperations [
 	| window renderer |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test07RenderBasicOperations
-			w: 400 h: 300 flags: 0.
+			unownedNewTitle: #test07RenderBasicOperations
+			width: 400 height: 300 flags: 0.
 
 	"Create the default renderer"
-	renderer := window newRenderer.
+	renderer := window unownedNewRenderer.
 
 	"Clear background with gray color"
 	renderer renderDrawColor: Color gray.
@@ -281,16 +281,16 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 	| window renderer texture form surface |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test08RenderTextureFromSurfaceFromForm
-			w: 400 h: 800 flags: 0.
+			unownedNewTitle: #test08RenderTextureFromSurfaceFromForm
+			width: 400 height: 800 flags: 0.
 
-	renderer := window newRenderer.
+	renderer := window unownedNewRenderer.
 
 	"Render and present a texture created from a surface created from a Form"
 
 	form := self iconNamed: #pharoBig.
-	surface := form unsafeNewAsSDL3Surface.
-	texture := renderer newTextureFromSurface: surface.
+	surface := form unownedAsSDL3Surface.
+	texture := renderer unownedNewTextureFromSurface: surface.
 	self assert: surface extent equals: 256 @ 256.
 	self assert: texture extent equals: 256.0 @ 256.0.
 	self assert: texture paletteOrNil isNil.
@@ -299,7 +299,7 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 	renderer renderPresent.
 
 	self waitToSee.
-	
+
 	"Tear down"
 	texture destroy.
 	renderer destroy.
@@ -312,10 +312,10 @@ SDL3WindowTest >> test09Bordered [
 	| window renderer |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test09Bordered
-			w: 800 h: 600 flags: SDL3WindowFlags borderless.
+			unownedNewTitle: #test09Bordered
+			width: 800 height: 600 flags: SDL3WindowFlags borderless.
 
-	renderer := window newRenderer.
+	renderer := window unownedNewRenderer.
 
 	renderer renderDrawColor: Color white.
 	renderer
@@ -342,8 +342,8 @@ SDL3WindowTest >> test10Hidden [
 	| window |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test10Hidden
-			w: 800 h: 600 flags: SDL3WindowFlags hidden.
+			unownedNewTitle: #test10Hidden
+			width: 800 height: 600 flags: SDL3WindowFlags hidden.
 
 	self assert: window isHidden.
 	self waitToSee.
@@ -359,10 +359,10 @@ SDL3WindowTest >> test11Fullscreen [
 	| window renderer |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test11Fullscreen
-			w: 0 h: 0 flags: SDL3WindowFlags fullscreen.
+			unownedNewTitle: #test11Fullscreen
+			width: 0 height: 0 flags: SDL3WindowFlags fullscreen.
 
-	renderer := window newRenderer.
+	renderer := window unownedNewRenderer.
 
 	renderer renderDrawColor: Color white.
 	renderer
@@ -373,7 +373,7 @@ SDL3WindowTest >> test11Fullscreen [
 	self waitToSee.
 	window sync.
 	self assert: window isFullscreen.
-	
+
 	window fullscreen: false.
 	renderer
 		renderDebugTextX: 20 y: 40
@@ -394,20 +394,20 @@ SDL3WindowTest >> test12ShapedWindow [
 	extent := 500 @ 500.
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test12ShapedWindow
-			w: extent x h: extent y
+			unownedNewTitle: #test12ShapedWindow
+			width: extent x height: extent y
 			flags:
 				SDL3WindowFlags hidden | SDL3WindowFlags transparent
 				| SDL3WindowFlags borderless.
 
 	self assert: window isTransparent.
-	renderer := window newRenderer.
+	renderer := window unownedNewRenderer.
 
 	shapeForm := Form extent: extent depth: 32.
 	shapeForm getCanvas
 		fillColor: Color transparent;
 		fillOval: (0@0 corner: extent) color: Color blue.
-	surface := shapeForm unsafeNewAsSDL3Surface.
+	surface := shapeForm unownedAsSDL3Surface.
 	window shape: surface.
 	"Surface can be destroyed, as it was copied by SDL"
 	surface destroy.
@@ -425,14 +425,14 @@ SDL3WindowTest >> test12ShapedWindow [
 
 	"Change shape and render the icon"
 	shapeForm := self iconNamed: #pharoBig.
-	surface := shapeForm unsafeNewAsSDL3Surface.
-	texture := renderer newTextureFromSurface: surface.
+	surface := shapeForm unownedAsSDL3Surface.
+	texture := renderer unownedNewTextureFromSurface: surface.
 	window shape: surface.
 	surface destroy.
 	renderer renderTexture: texture srcrect: nil dstrect: nil.
 	renderer renderPresent.
 	self waitToSee.
-	
+
 	"Tear down"
 	renderer destroy.
 	window destroy
@@ -446,8 +446,8 @@ SDL3WindowTest >> test13CocoaWindowPointer [
 
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test13CocoaWindowPointer
-			w: 800 h: 600 flags: SDL3WindowFlags borderless.
+			unownedNewTitle: #test13CocoaWindowPointer
+			width: 800 height: 600 flags: SDL3WindowFlags borderless.
 
 	cocoaPointer := window propertyGroup pointerAt: SDL_PROP_WINDOW_COCOA_WINDOW_POINTER ifAbsent: nil.
 
@@ -462,8 +462,8 @@ SDL3WindowTest >> test14Utility [
 	| window |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test14Utility
-			w: 400 h: 300 flags: SDL3WindowFlags utility.
+			unownedNewTitle: #test14Utility
+			width: 400 height: 300 flags: SDL3WindowFlags utility.
 
 	self assert: window isUtility.
 	self waitToSee.
@@ -477,8 +477,8 @@ SDL3WindowTest >> test15AlwaysOnTop [
 	| window |
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test15AlwaysOnTop
-			w: 400 h: 300 flags: 0.
+			unownedNewTitle: #test15AlwaysOnTop
+			width: 400 height: 300 flags: 0.
 
 	self deny: window isAlwaysOnTop.
 	self waitToSee.
@@ -500,13 +500,13 @@ SDL3WindowTest >> test16Modal [
 	| parent child |
 	parent :=
 		SDL3Window
-			unsafeNewTitle: #test16Modal
-			w: 600 h: 400 flags: 0.
+			unownedNewTitle: #test16Modal
+			width: 600 height: 400 flags: 0.
 
 	child :=
 		SDL3Window
-			unsafeNewTitle: #test16ModalChild
-			w: 300 h: 200 flags: 0.
+			unownedNewTitle: #test16ModalChild
+			width: 300 height: 200 flags: 0.
 
 	child parent: parent.
 	self assert: child parentOrNil equals: parent.
@@ -529,16 +529,16 @@ SDL3WindowTest >> test17Popup [
 	| parent popup |
 	parent :=
 		SDL3Window
-			unsafeNewTitle: #test17Popup
-			w: 600 h: 400 flags: 0.
+			unownedNewTitle: #test17Popup
+			width: 600 height: 400 flags: 0.
 
 	popup :=
 		SDL3Window
-			unsafeNewPopupParent: parent
+			unownedNewPopupParent: parent
 			offsetX: 50
 			offsetY: 50
-			w: 200
-			h: 100
+			width: 200
+			height: 100
 			flags: SDL3WindowFlags tooltip.
 
 	self assert: popup parentOrNil equals: parent.
@@ -559,16 +559,16 @@ SDL3WindowTest >> test18PopupMenu [
 	| parent popup |
 	parent :=
 		SDL3Window
-			unsafeNewTitle: #test18PopupMenu
-			w: 600 h: 400 flags: 0.
+			unownedNewTitle: #test18PopupMenu
+			width: 600 height: 400 flags: 0.
 
 	popup :=
 		SDL3Window
-			unsafeNewPopupParent: parent
+			unownedNewPopupParent: parent
 			offsetX: 100
 			offsetY: 100
-			w: 200
-			h: 150
+			width: 200
+			height: 150
 			flags: SDL3WindowFlags popupMenu.
 
 	self assert: popup parentOrNil equals: parent.
@@ -589,8 +589,8 @@ SDL3WindowTest >> test19Occluded [
 	extent := 400 @ 300.
 	windowA :=
 		SDL3Window
-			unsafeNewTitle: #test19Occluded
-			w: extent x h: extent y flags: 0.
+			unownedNewTitle: #test19Occluded
+			width: extent x height: extent y flags: 0.
 
 	"Usually a newly created visible window is not occluded, unless it's completely covered by another app"
 	self deny: windowA isOccluded.
@@ -599,8 +599,8 @@ SDL3WindowTest >> test19Occluded [
 	"B's extent = 2 * A's extent"
 	windowB :=
 		SDL3Window
-			unsafeNewTitle: #test19Occluded
-			w: extent x * 2 h: extent y * 2 flags: 0.
+			unownedNewTitle: #test19Occluded
+			width: extent x * 2 height: extent y * 2 flags: 0.
 
 	"Ensure B is positioned to fully occlude A"
 	windowB position: windowA position - (extent x // 4).
@@ -620,10 +620,10 @@ SDL3WindowTest >> test20Vsync [
 	extent := 400 @ 300.
 	window :=
 		SDL3Window
-			unsafeNewTitle: #test20Vsync
-			w: extent x h: extent y flags: 0.
+			unownedNewTitle: #test20Vsync
+			width: extent x height: extent y flags: 0.
 
-	renderer := window newRenderer.
+	renderer := window unownedNewRenderer.
 
 	"By default it is disabled"
 	self

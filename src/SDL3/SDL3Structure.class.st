@@ -13,35 +13,17 @@ Class {
 }
 
 { #category : 'instance creation' }
-SDL3Structure class >> externalNew [
+SDL3Structure class >> unownedNew [
+	"Answer a new instance on the external heap with zeroed memory. The sender is responsible for freeing it."
 
 	| instance |
-	instance := super externalNew.
-	instance zeroMemory.
+	instance := self externalNew.
+	instance zeroOut.
 	^ instance
 ]
 
-{ #category : 'instance creation' }
-SDL3Structure class >> safeNew [
-
-	^ self externalNew
-		autoRelease;
-		yourself
-]
-
-{ #category : 'instance creation' }
-SDL3Structure class >> safeNewArray: anInteger [
-	| array |
-	array := (FFIExternalArray externalNewType: self size: anInteger)
-		autoRelease;
-		yourself.
-	array zeroMemory.
-	^ array
-]
-
 { #category : 'initialization' }
-SDL3Structure >> zeroMemory [
+SDL3Structure >> zeroOut [
 
-	handle ifNotNil: [
-		SDL3Library uniqueInstance memsetDst: handle c: 0 len: self externalTypeSize ]
+	self ffiLibrary memsetDst: handle c: 0 len: self externalTypeSize
 ]

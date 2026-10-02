@@ -53,7 +53,7 @@ SDL3Sensor >> type [
 ]
 
 { #category : '*SDL3-Own' }
-SDL3Sensor class >> unsafeOpen: instanceId [
+SDL3Sensor class >> unownedOpen: instanceId [
 
 	^ (self ffiLibrary openSensor: instanceId)
 		  assertNotNullReturn;

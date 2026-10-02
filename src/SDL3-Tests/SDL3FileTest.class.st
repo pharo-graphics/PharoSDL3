@@ -83,7 +83,7 @@ SDL3FileTest >> test06CreateRenameRemoveDirectory [
 	self deny: directoryB exists.
 
 	"Create a directory"
-	sdl assertSuccess: (sdl newDirectory: directoryA pathString).
+	sdl assertSuccess: (sdl createDirectory: directoryA pathString).
 	self assert: directoryA exists.
 
 	"Rename it"

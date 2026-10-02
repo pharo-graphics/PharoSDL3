@@ -79,6 +79,23 @@ SDL3GPUNodeForceDemoApp >> close [
 		edgePipeline release.
 		edgePipeline := nil ].
 
+	storageBuffers ifNotNil: [
+		storageBuffers free.
+		storageBuffers := nil ].
+	storageBufferBindings ifNotNil: [
+		storageBufferBindings free.
+		storageBufferBindings := nil ].
+	vertexBufferBindings ifNotNil: [
+		vertexBufferBindings free.
+		vertexBufferBindings := nil ].
+	uniforms ifNotNil: [
+		uniforms free.
+		uniforms := nil ].
+
+	indexBufferBinding ifNotNil: [
+		indexBufferBinding free.
+		indexBufferBinding := nil ].
+
 	super close
 ]
 
@@ -110,15 +127,14 @@ SDL3GPUNodeForceDemoApp >> computeSimulation [
 SDL3GPUNodeForceDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	| colorTargetInfos |
-	colorTargetInfos := SDL_GPUColorTargetInfo safeNewArray: 1.
-	colorTargetInfos first
-		beClearTexture: swapchainTexture
-		color: Color black.
+	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
+	[
+		colorTargetInfos first beClearTexture: swapchainTexture color: Color black.
 
-	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
-		self bindSharedGraphicsResourcesTo: renderPass with: commandBuffer.
-		self drawEdgesOn: renderPass.
-		self drawNodesOn: renderPass ]
+		commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+				self bindSharedGraphicsResourcesTo: renderPass with: commandBuffer.
+				self drawEdgesOn: renderPass.
+				self drawNodesOn: renderPass ] ] ensure: [ colorTargetInfos free ]
 ]
 
 { #category : 'private' }
@@ -193,13 +209,13 @@ SDL3GPUNodeForceDemoApp >> initializeBuffers [
 	nodesSize := numNodes * SDL3GPUNode structureSize.
 
 	nodesBufferPing := gpuDevice
-						  newGPUBufferUsage:
+						  unownedNewGPUBufferUsage:
 							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 							  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
 						  size: nodesSize.
 	nodesBufferPong := gpuDevice
-						  newGPUBufferUsage:
+						  unownedNewGPUBufferUsage:
 							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 							  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
@@ -209,7 +225,7 @@ SDL3GPUNodeForceDemoApp >> initializeBuffers [
 
 	edgesSize := numEdges * SDL3GPUEdge structureSize.
 	edgesBuffer := gpuDevice
-					  newGPUBufferUsage:
+					  unownedNewGPUBufferUsage:
 						  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 						  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
 					  size: edgesSize
@@ -218,12 +234,12 @@ SDL3GPUNodeForceDemoApp >> initializeBuffers [
 { #category : 'initialization' }
 SDL3GPUNodeForceDemoApp >> initializeGPUStateContainers [
 
-	storageBuffers := ExternalAddress safeNewArray: 2.
+	storageBuffers := SDL3Array unownedNewType: ExternalAddress size: 2.
 
 
-	storageBufferBindings := SDL3GPUStorageBufferReadWriteBinding safeNewArray: 1.
+	storageBufferBindings := SDL3Array unownedNewType: SDL3GPUStorageBufferReadWriteBinding size: 1.
 
-	vertexBufferBindings := SDL_GPUBufferBinding safeNewArray: 1.
+	vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1.
 
 	selectedNodeIndex := -1.
 
@@ -244,33 +260,36 @@ SDL3GPUNodeForceDemoApp >> initializeGraph [
 	| random |
 	random := Random seed: 17.
 
-	nodeArray := FFIArray newType: SDL3GPUNode size: numNodes.
+	nodeArray := SDL3Array newType: SDL3GPUNode size: numNodes.
 	nodeArray do: [ :node |
-		node x: (random next * 1.0 - 0.5); y: (random next * 1.0 - 0.5).
-		node vx: 0.0; vy: 0.0.
-		node radius: 0.02 + (random next * 0.03).
-		node hue: random next.
-		node isSelected: 0 ].
+			node
+				x: random next * 1.0 - 0.5;
+				y: random next * 1.0 - 0.5.
+			node
+				vx: 0.0;
+				vy: 0.0.
+			node radius: 0.02 + (random next * 0.03).
+			node hue: random next.
+			node isSelected: 0 ].
 
-	edgeArray := FFIArray newType: SDL3GPUEdge size: numEdges.
+	edgeArray := SDL3Array newType: SDL3GPUEdge size: numEdges.
 	edgeArray do: [ :edge |
-		edge nodeA: (random nextInteger: numNodes) - 1.
-		edge nodeB: (random nextInteger: numNodes) - 1.
-		edge weight: 0.5 + random next.
-		"Avoid self-loops for simplicity"
-		[ edge nodeA = edge nodeB ] whileTrue: [
-			edge nodeB: (random nextInteger: numNodes) - 1 ] ]
+			edge nodeA: (random nextInteger: numNodes) - 1.
+			edge nodeB: (random nextInteger: numNodes) - 1.
+			edge weight: 0.5 + random next.
+			"Avoid self-loops for simplicity"
+			[ edge nodeA = edge nodeB ] whileTrue: [ edge nodeB: (random nextInteger: numNodes) - 1 ] ]
 ]
 
 { #category : 'initialization' }
 SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 
 	vertexBuffer := gpuDevice
-		                newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		                size: 4 * SDL3GPUQuadVertex structureSize.
 
 	indexBuffer := gpuDevice
-		               newGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
+		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
 		               size: 6 * 2.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -303,22 +322,21 @@ SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 SDL3GPUNodeForceDemoApp >> initializeShaders [
 
 	| colorTargets |
-	computePipeline := SDL3GPUNodeForceComputeShaderSource
-						  newComputePipelineAmong: shaderFormats
-						  device: gpuDevice.
+	computePipeline := SDL3GPUNodeForceComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice.
 
-	colorTargets := SDL_GPUColorTargetDescription safeNewArray: 1.
-	colorTargets first format:
-		(gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
+	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
+	colorTargets first format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
 
-	self newNodePipelineWith: shaderFormats colorTargets: colorTargets.
-	self newEdgePipelineWith: shaderFormats colorTargets: colorTargets
+	self newNodePipelineColorTargets: colorTargets.
+	self newEdgePipelineColorTargets: colorTargets.
+
+	colorTargets free
 ]
 
 { #category : 'initialization' }
 SDL3GPUNodeForceDemoApp >> initializeUniforms [
 
-	uniforms := SDL3GPUNodeForceUniforms safeNew.
+	uniforms := SDL3GPUNodeForceUniforms unownedNew.
 	uniforms
 		numNodes: numNodes;
 		numEdges: numEdges;
@@ -336,68 +354,54 @@ SDL3GPUNodeForceDemoApp >> initializeUniforms [
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemoApp >> newEdgePipelineWith: aFormatArray colorTargets: colorTargets [
+SDL3GPUNodeForceDemoApp >> newEdgePipelineColorTargets: colorTargets [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes |
-	vertexShader := SDL3GPUEdgeVertexShaderSource
-						newShaderAmong: aFormatArray
-						device: gpuDevice.
-	fragmentShader := SDL3GPUEdgeFragmentShaderSource
-						 newShaderAmong: aFormatArray
-						 device: gpuDevice.
+	vertexShader := SDL3GPUEdgeVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3GPUEdgeFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
 	vertexBindings := self newNodeVertexBindings.
 	vertexAttributes := self newNodeVertexAttributes.
 
-	edgePipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: fragmentShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	edgePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+			                info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	vertexShader release.
-	fragmentShader release
+	fragmentShader release.
+	vertexBindings free.
+	vertexAttributes free
 ]
 
 { #category : 'private' }
-SDL3GPUNodeForceDemoApp >> newNodePipelineWith: aFormatArray colorTargets: colorTargets [
+SDL3GPUNodeForceDemoApp >> newNodePipelineColorTargets: colorTargets [
 
 	| vertexShader fragmentShader vertexBindings vertexAttributes |
-	vertexShader := SDL3GPUNodeVertexShaderSource
-						newShaderAmong: aFormatArray
-						device: gpuDevice.
-	fragmentShader := SDL3GPUNodeFragmentShaderSource
-						 newShaderAmong: aFormatArray
-						 device: gpuDevice.
+	vertexShader := SDL3GPUNodeVertexShaderSource unownedNewShaderForDevice: gpuDevice.
+	fragmentShader := SDL3GPUNodeFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
 
 	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
 	vertexBindings := self newNodeVertexBindings.
 	vertexAttributes := self newNodeVertexAttributes.
 
-	nodePipeline := gpuDevice newGraphicsPipeline: [ :info |
-		info
-			vertex: vertexShader
-			fragment: fragmentShader
-			targets: colorTargets.
-		info vertexInputState
-			attributes: vertexAttributes
-			bindings: vertexBindings ].
+	nodePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+			                info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+			                info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
 
 	vertexShader release.
-	fragmentShader release
+	fragmentShader release.
+	vertexBindings free.
+	vertexAttributes free
 ]
 
 { #category : 'private' }
 SDL3GPUNodeForceDemoApp >> newNodeVertexAttributes [
 
 	| vertexAttributes |
-	vertexAttributes := SDL_GPUVertexAttribute safeNewArray: 2.
+	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
 
 	vertexAttributes first
 		bufferSlot: 0;
@@ -418,7 +422,7 @@ SDL3GPUNodeForceDemoApp >> newNodeVertexAttributes [
 SDL3GPUNodeForceDemoApp >> newNodeVertexBindings [
 
 	| vertexBindings |
-	vertexBindings := SDL_GPUVertexBufferDescription safeNewArray: 1.
+	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
 
 	vertexBindings first
 		slot: 0;
@@ -479,8 +483,7 @@ SDL3GPUNodeForceDemoApp >> setupGeometryBindings [
 		buffer: vertexBuffer;
 		offset: 0.
 
-	indexBufferBinding :=
-		SDL_GPUBufferBinding buffer: indexBuffer offset: 0
+	indexBufferBinding := SDL_GPUBufferBinding unownedNew beBuffer: indexBuffer offset: 0; yourself
 ]
 
 { #category : 'private' }

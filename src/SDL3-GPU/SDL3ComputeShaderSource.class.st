@@ -35,13 +35,28 @@ SDL3ComputeShaderSource class >> metadata [
 	^ m
 ]
 
+{ #category : 'accessing' }
+SDL3ComputeShaderSource class >> stageFileExtension [
+
+	^ 'comp'
+]
+
 { #category : 'building' }
-SDL3ComputeShaderSource class >> newComputePipelineAmong: supportedShaderFormats device: aSDL3GPUDevice [
-	"Create a new compute pipeline given the available formats."
+SDL3ComputeShaderSource class >> unownedNewComputePipelineForDevice: aSDL3GPUDevice [
+	"Create a new compute pipeline matching the formats supported by the given GPU device."
+
+	^ self
+		unownedNewComputePipelineForDevice: aSDL3GPUDevice
+		formatFlags: aSDL3GPUDevice gpuShaderFormatFlags
+]
+
+{ #category : 'building' }
+SDL3ComputeShaderSource class >> unownedNewComputePipelineForDevice: aSDL3GPUDevice formatFlags: formatFlags [
+	"Answer a new compute pipeline given the available format flags."
 
 	self
 		withNew: SDL3GPUComputePipelineCreateInfo
-		formats: supportedShaderFormats
+		formatFlags: formatFlags
 		do: [ :createInfo |
 			| computePipeline m |
 			m := self metadata.
@@ -56,17 +71,11 @@ SDL3ComputeShaderSource class >> newComputePipelineAmong: supportedShaderFormats
 				threadcountZ: m threadCountZ.
 
 			computePipeline := (aSDL3GPUDevice ffiLibrary
-				newGPUComputePipelineDevice: aSDL3GPUDevice
+				createGPUComputePipelineDevice: aSDL3GPUDevice
 				createinfo: createInfo)
 					assertNotNullReturn;
 					device: aSDL3GPUDevice;
 					yourself.
 			computePipeline metadata: m.
 			^ computePipeline ]
-]
-
-{ #category : 'accessing' }
-SDL3ComputeShaderSource class >> stageFileExtension [
-
-	^ 'comp'
 ]

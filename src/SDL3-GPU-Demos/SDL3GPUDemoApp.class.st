@@ -10,8 +10,7 @@ Class {
 	#superclass : 'SDL3SingleWindowApp',
 	#instVars : [
 		'gpuDevice',
-		'swapchainTextureHolder',
-		'shaderFormats'
+		'swapchainTextureHolder'
 	],
 	#category : 'SDL3-GPU-Demos-Base',
 	#package : 'SDL3-GPU-Demos',
@@ -59,11 +58,7 @@ SDL3GPUDemoApp >> initialize [
 { #category : 'lifecycle' }
 SDL3GPUDemoApp >> open [
 
-	gpuDevice := SDL_GPUDevice
-		unsafeNewFormatFlags: SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_MSL | SDL_GPU_SHADERFORMAT_SPIRV
-		debugMode: true name: nil.
-
-	shaderFormats := gpuDevice gpuShaderFormatsAsArray.
+	gpuDevice := SDL_GPUDevice unownedNewDebugMode: true.
 
 	super open.
 
