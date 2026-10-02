@@ -212,12 +212,13 @@ SDL3GPUDevice >> unownedNew2DGPUTextureFormat: pixelFormat usage: usage width: w
 
 { #category : '*SDL3-Own' }
 SDL3GPUDevice class >> unownedNewDebugMode: debugMode [
+	"Answer a new GPU device for any of DXIL, MSL or SPIRV shader format (let SDL pick the optimal driver)."
 
 	^ self
 		unownedNewFormatFlags:
-			SDL_GPU_SHADERFORMAT_DXIL |
-			SDL_GPU_SHADERFORMAT_MSL |
-			SDL_GPU_SHADERFORMAT_SPIRV
+			SDL3GPUShaderFormat dxil |
+			SDL3GPUShaderFormat msl |
+			SDL3GPUShaderFormat spirv
 		debugMode: debugMode
 		name: nil
 ]

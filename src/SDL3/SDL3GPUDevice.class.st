@@ -10,7 +10,6 @@ Class {
 	#superclass : 'SDL3BaseObject',
 	#pools : [
 		'SDL3GPUSampleCount',
-		'SDL3GPUShaderFormat',
 		'SDL3GPUTextureFormat',
 		'SDL3GPUTextureType'
 	],
