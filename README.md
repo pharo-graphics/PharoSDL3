@@ -1,6 +1,6 @@
 # PharoSDL3
 
-Pharo Smalltalk bindings for [SDL (Simple DirectMedia Layer)](https://github.com/libsdl-org/SDL) version 3.0.
+[Pharo](https://github.com/pharo-project/pharo) FFI bindings for [SDL (Simple DirectMedia Layer)](https://github.com/libsdl-org/SDL) version 3.0.
 
 SDL is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware. It is used by video playback software, emulators, and games.
 
