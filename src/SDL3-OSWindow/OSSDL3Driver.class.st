@@ -130,8 +130,12 @@ OSSDL3Driver >> deliverGlobalEvent: osEvent [
 OSSDL3Driver >> ensureEventLoop [
 	"Ensure that the SDL3 event loop process is running."
 
-	EventLoopProcess ifNotNil: [ ^ self ].
+	"A dead process can linger across image sessions or crashes without being nilled.
+	Only a living, non-terminated process indicates an active event loop."
+	(EventLoopProcess isNotNil and: [ EventLoopProcess isTerminated not ])
+		ifTrue: [ ^ self ].
 
+	self shutDownEventLoop.
 	self startUpEventLoop
 ]
 
@@ -233,13 +237,15 @@ OSSDL3Driver >> registerWindow: aBackendWindow [
 { #category : 'events-processing' }
 OSSDL3Driver >> runEventLoop [
 	"The main loop for polling and handling pending SDL3 events."
-	
-	eventLoopSession := Smalltalk session. "Store which session is valid for us"
-	sdl3Event := SDL3Event new. "Reuse this object along this session"
-	eventMap := SDL3EventMap new. "Maps SDL3Event (a C union) to SDL3MappedEvent"
 
-	[  self handlePendingSDL3Events.
+	[
+		eventLoopSession := Smalltalk session. "Store which session is valid for us"
+		sdl3Event := SDL3Event new. "Reuse this object along this session"
+		eventMap := SDL3EventMap new. "Maps SDL3Event (a C union) to SDL3MappedEvent"
+
+		[ self handlePendingSDL3Events.
 		self waitUntilNextEventLoopIteration ] doWhileTrue: [ eventLoopSession == Smalltalk session ]
+	] ensure: [ EventLoopProcess := nil ]
 ]
 
 { #category : 'window registry' }
