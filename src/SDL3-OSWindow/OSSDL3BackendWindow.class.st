@@ -444,6 +444,7 @@ OSSDL3BackendWindow >> windowFlagsFromAttributes: attributes [
 	| flags |
 	flags := SDL3WindowFlags highPixelDensity.
 
+	attributes visible ifFalse: [ flags := flags bitOr: SDL3WindowFlags hidden ].
 	attributes fullscreen ifTrue: [ flags := flags bitOr: SDL3WindowFlags fullscreen ].
 	attributes borderless ifTrue: [ flags := flags bitOr: SDL3WindowFlags borderless ].
 	attributes resizable ifTrue: [ flags := flags bitOr: SDL3WindowFlags resizable ].
