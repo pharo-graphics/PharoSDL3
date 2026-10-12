@@ -3,7 +3,7 @@ I am a OSWindow driver that uses the low-level GPU API of SDL3 to create window 
 "
 Class {
 	#name : 'OSSDL3GPUDriver',
-	#superclass : 'OSSDL3Driver',
+	#superclass : 'OSSDL3AbstractDriver',
 	#instVars : [
 		'gpuDevice',
 		'lastUS'
@@ -13,17 +13,11 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'window creation' }
-OSSDL3GPUDriver >> createWindowWithAttributes: attributes osWindow: osWindow [
+{ #category : 'testing' }
+OSSDL3GPUDriver class >> isSuitable [
+	"Answer true if the SDL3 library is available on the current platform."
 
-	self assert: [ gpuDevice isNil not and: gpuDevice isNull not ].
-
-	^ RegistryMutex critical: [
-		| aBackendWindow |
-		aBackendWindow := OSSDL3BackendWindow fromAttributes: attributes for: osWindow.
-		gpuDevice claimWindow: aBackendWindow sdlWindow.
-		self registerWindow: aBackendWindow.
-		aBackendWindow ]
+	^ SDL3Library uniqueInstance isAvailable
 ]
 
 { #category : 'accessing' }
@@ -44,13 +38,14 @@ OSSDL3GPUDriver >> initializeSDL3Library [
 			OSSDL3SystemSettings debugEnabled.
 
 	self class allWindows do: [ :each |
-		each gpuDevice: gpuDevice ]
+		each isValid ifTrue: [
+			each gpuDevice: gpuDevice ] ]
 ]
 
 { #category : 'accessing' }
 OSSDL3GPUDriver >> newFormRenderer: form backendWindow: aBackendWindow [
 
-	self assert: [ gpuDevice isNil not and: gpuDevice isNull not ].
+	self assert: [ gpuDevice isNil not and: [ gpuDevice isNull not ] ].
 
 	^ OSSDL3GPUFormRenderer new
 		form: form;
@@ -59,18 +54,24 @@ OSSDL3GPUDriver >> newFormRenderer: form backendWindow: aBackendWindow [
 		yourself
 ]
 
+{ #category : 'window creation' }
+OSSDL3GPUDriver >> prepareBackendWindow: aBackendWindow [
+
+	self assert: [ gpuDevice isNil not and: [ gpuDevice isNull not ] ].
+	gpuDevice claimWindow: aBackendWindow sdlWindow
+]
+
 { #category : 'events-processing' }
 OSSDL3GPUDriver >> runEventLoop [
 
 	lastUS := Time microsecondClockValue.
 	super runEventLoop
-
 ]
 
 { #category : 'system startup' }
 OSSDL3GPUDriver >> shutDown: quitting [
 
-	quitting ifTrue: [ 
+	quitting ifTrue: [
 		gpuDevice ifNotNil: [
 			self class allWindows do: [ :each |
 				each gpuDevice: nil ].
@@ -109,6 +110,6 @@ OSSDL3GPUDriver >> waitUntilNextEventLoopIteration [
 		stillNeedFlush ifFalse: [ ^ self waitSpareTime ].
 
 		(Delay forMilliseconds: 1) wait ].
-	
+
 	self waitSpareTime
 ]

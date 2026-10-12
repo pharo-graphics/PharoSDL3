@@ -238,11 +238,11 @@ OSSDL3GPUFormRenderer >> updateGPUDevice: aGPUDevice [
 
 	gpuDevice == aGPUDevice ifTrue: [ ^ self ].
 	mutex critical: [ 
-		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+		(gpuDevice isNil not and: [ gpuDevice isNull not and: [ backendWindow isNotNil and: [ backendWindow isValid ] ] ]) ifTrue: [
 			gpuDevice releaseWindow: backendWindow sdlWindow ].
 		self destroy.
 		gpuDevice := aGPUDevice.
-		(gpuDevice isNil not and: [ gpuDevice isNull not ]) ifTrue: [ 
+		(gpuDevice isNil not and: [ gpuDevice isNull not and: [ backendWindow isNotNil and: [ backendWindow isValid ] ] ]) ifTrue: [
 			gpuDevice claimWindow: backendWindow sdlWindow.
 			self initializeSwapchainParameters ] ]
 ]
