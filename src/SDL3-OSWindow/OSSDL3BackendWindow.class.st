@@ -110,7 +110,7 @@ OSSDL3BackendWindow >> destroy [
 	"Destroy the backend window and release its resources, including any associated GPU device and callbacks."
 
 	sdlWindow ifNotNil: [
-		OSSDL3Driver current unregisterWindowWithId: sdlWindow id.
+		OSSDL3AbstractDriver current unregisterWindowWithId: sdlWindow id.
 
 		renderer ifNotNil: [ 
 			renderer destroy.
@@ -159,6 +159,8 @@ OSSDL3BackendWindow >> fullscreen: aBoolean [
 { #category : 'accessing' }
 OSSDL3BackendWindow >> gpuDevice: aGPUDevice [
 	"Forward the GPU device update to our renderer if we have one."
+
+	self isValid ifFalse: [ ^ self ].
 
 	renderer ifNotNil: [ 
 		renderer updateGPUDevice: aGPUDevice ]
@@ -251,7 +253,7 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
 
 	^ renderer :=
-		OSSDL3Driver current
+		OSSDL3AbstractDriver current
 			newFormRenderer: form
 			backendWindow: self
 ]
