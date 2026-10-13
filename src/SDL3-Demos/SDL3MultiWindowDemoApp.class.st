@@ -17,20 +17,6 @@ Class {
 	#tag : 'API'
 }
 
-{ #category : 'lifecycle' }
-SDL3MultiWindowDemoApp >> close [
-
-	renderers ifNotNil: [ 
-		renderers do: [ :each | each destroy ].
-		renderers := nil ].
-	
-	windows ifNotNil: [ 
-		windows do: [ :each | each destroy ].
-		windows := nil ].
-		
-	super close
-]
-
 { #category : 'initialization' }
 SDL3MultiWindowDemoApp >> initialize [
 
@@ -47,10 +33,10 @@ SDL3MultiWindowDemoApp >> millisecondsToWait [
 ]
 
 { #category : 'lifecycle' }
-SDL3MultiWindowDemoApp >> prepareToLoop [
+SDL3MultiWindowDemoApp >> setUp [
 
-	super prepareToLoop.
-	
+	super setUp.
+
 	1 to: 4 do: [ :i |
 		| aWindow |
 		aWindow := SDL3Window
@@ -61,8 +47,8 @@ SDL3MultiWindowDemoApp >> prepareToLoop [
 
 		aWindow position: (100 + (i * 220)) @ 100.
 
-		windows add: aWindow.
-		renderers add: aWindow unownedNewRenderer ].
+		windows add: (DiScope own: aWindow).
+		renderers add: (DiScope own: aWindow unownedNewRenderer) ].
 
 	colors := Color wheel: windows size.
 

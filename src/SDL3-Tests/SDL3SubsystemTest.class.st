@@ -38,6 +38,7 @@ SDL3SubsystemTest >> subsystemInitFlags [
 { #category : 'running' }
 SDL3SubsystemTest >> tearDown [
 
+	DiScope current disposeAll.
 	sdl quitSubSystem: self subsystemInitFlags.
 	super tearDown
 ]

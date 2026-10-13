@@ -23,21 +23,17 @@ SDL3GPUDemoApp class >> isAbstract [
 	^ self == SDL3GPUDemoApp
 ]
 
-{ #category : 'lifecycle' }
-SDL3GPUDemoApp >> close [
-
-	gpuDevice ifNotNil: [
-		gpuDevice destroy.
-		gpuDevice := nil ].
-
-	super close
-]
-
 { #category : 'rendering' }
 SDL3GPUDemoApp >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 	"Subclasses must override this to perform their GPU drawing commands."
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SDL3GPUDemoApp >> gpuDevice [
+
+	^ gpuDevice
 ]
 
 { #category : 'accessing' }
@@ -53,16 +49,6 @@ SDL3GPUDemoApp >> initialize [
 
 	"Pre-allocate object to avoid GC pressure in hot path"
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new
-]
-
-{ #category : 'lifecycle' }
-SDL3GPUDemoApp >> open [
-
-	gpuDevice := SDL_GPUDevice unownedNewDebugMode: true.
-
-	super open.
-
-	gpuDevice claimWindow: window
 ]
 
 { #category : 'rendering' }
@@ -83,6 +69,14 @@ SDL3GPUDemoApp >> render [
 	[ swapchainTextureHolder value isNull ifFalse: [
 		self doRenderPassesOn: swapchainTextureHolder value with: commandBuffer ]
 	] ensure: [ commandBuffer submit "Submit even if empty" ]
+]
+
+{ #category : 'lifecycle' }
+SDL3GPUDemoApp >> setUp [
+
+	super setUp.
+	DiScope own: (gpuDevice := SDL_GPUDevice unownedNewDebugMode: true).
+	gpuDevice claimWindow: window
 ]
 
 { #category : 'hooks' }

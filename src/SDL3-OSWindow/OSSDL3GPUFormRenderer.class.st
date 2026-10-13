@@ -42,7 +42,7 @@ OSSDL3GPUFormRenderer >> destroy [
 
 	mutex critical: [
 		gpuTexture ifNotNil: [
-			gpuTexture release.
+			gpuTexture dispose.
 			gpuTexture := nil ].
 		
 		uploadStream ifNotNil: [ 
@@ -116,7 +116,7 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 
 	extent := form extent.
 
-	gpuTexture ifNotNil: [ gpuTexture release ].
+	gpuTexture ifNotNil: [ gpuTexture dispose ].
 	
 	gpuTexture := gpuDevice
 		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM

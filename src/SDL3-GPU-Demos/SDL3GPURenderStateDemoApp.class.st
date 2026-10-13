@@ -5,32 +5,20 @@ Class {
 	#name : 'SDL3GPURenderStateDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
-		'backgroundTexture',
-		'foregroundTexture',
 		'backgroundForm',
 		'shaders',
 		'renderStates',
 		'renderStateIndex',
 		'uniformBuffer',
 		'shaderSources',
-		'gpuDevice'
+		'gpuDevice',
+		'foregroundTexture',
+		'backgroundTexture'
 	],
 	#category : 'SDL3-GPU-Demos-RenderState',
 	#package : 'SDL3-GPU-Demos',
 	#tag : 'RenderState'
 }
-
-{ #category : 'lifecycle' }
-SDL3GPURenderStateDemoApp >> close [
-
-	renderStates do: [ :each | each destroy ].
-	shaders do: [ :each | each release ].
-
-	foregroundTexture destroy.
-	backgroundTexture destroy.
-
-	super close
-]
 
 { #category : 'initialization' }
 SDL3GPURenderStateDemoApp >> initialize [
@@ -63,13 +51,11 @@ SDL3GPURenderStateDemoApp >> initializeGPURenderStates [
 
 	shaderSources do: [ :eachSources |
 		| aShader aRenderState |
-		aShader := eachSources unownedNewShaderForDevice: gpuDevice.
+		aShader := DiScope own: (eachSources unownedNewShaderForDevice: gpuDevice).
+		aRenderState := DiScope own: (renderer unownedNewRenderState: [ :info | info fragmentShader: aShader ]).
 
-		aRenderState := renderer unownedNewRenderState: [ :info |
-			info fragmentShader: aShader ].
-
-		shaders add: aShader. "Keep a reference to destroy on close"
-		renderStates add: aRenderState "These will be switched with arrow keys" ].
+		shaders add: aShader.
+		renderStates add: aRenderState ].
 
 	"We'll update these input before each render to produce an animation"
 	uniformBuffer := SDL3GPURenderStateDemoUniformBuffer new
@@ -78,41 +64,23 @@ SDL3GPURenderStateDemoApp >> initializeGPURenderStates [
 { #category : 'lifecycle' }
 SDL3GPURenderStateDemoApp >> initializeRenderer [
 
-	renderer := window unownedNewGPURenderer
+	renderer := window unownedNewGPURenderer.
+	gpuDevice := renderer gpuDevice
 ]
 
 { #category : 'initialization' }
 SDL3GPURenderStateDemoApp >> initializeTextures [
 
 	| browserMorph |
-	foregroundTexture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig).
+	DiScope own: (foregroundTexture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig)).
 
 	"Take a snapshot of a browser to be used as background"
-	browserMorph :=(Object >> #at:put:) browse owner.
-	backgroundForm := browserMorph extent: window extent; asForm.
+	browserMorph := (Object >> #at:put:) browse owner.
+	backgroundForm := browserMorph
+		extent: window extent;
+		asForm.
 	browserMorph delete.
-	backgroundTexture := renderer unownedNewTextureFromForm: backgroundForm
-]
-
-{ #category : 'lifecycle' }
-SDL3GPURenderStateDemoApp >> open [
-
-	window :=
-		sdl
-			createWindowTitle: self updatedTitle
-			w: self initialExtent x
-			h: self initialExtent y
-			flags: self initialWindowFlags.
-
-	renderer := window unownedNewGPURenderer.
-
-	window startTextInput.
-
-	gpuDevice := renderer gpuDevice.
-
-	self
-		initializeTextures;
-		initializeGPURenderStates
+	DiScope own: (backgroundTexture := renderer unownedNewTextureFromForm: backgroundForm)
 ]
 
 { #category : 'lifecycle' }
@@ -142,6 +110,18 @@ SDL3GPURenderStateDemoApp >> render [
 
 	"We're done with rendering this frame, so let's present it on the window"
 	self present
+]
+
+{ #category : 'lifecycle' }
+SDL3GPURenderStateDemoApp >> setUp [
+
+	super setUp.
+
+	window startTextInput.
+
+	self
+		initializeTextures;
+		initializeGPURenderStates
 ]
 
 { #category : 'hooks' }

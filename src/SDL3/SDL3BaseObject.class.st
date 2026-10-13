@@ -13,21 +13,9 @@ Class {
 }
 
 { #category : 'finalization' }
-SDL3BaseObject >> autoRelease [
-	
-	FinalizationRegistry default add: self
-]
-
-{ #category : 'finalization' }
-SDL3BaseObject >> dispose [
-	"Hook sent on finalization"
-]
-
-{ #category : 'finalization' }
-SDL3BaseObject >> finalize [
-	
-	self dispose.
-	handle beNull
+SDL3BaseObject >> destroy [
+	"Hook for subclasses to destroy their native handle.
+	Subclasses with specific C destructor functions override this."
 ]
 
 { #category : 'initialization' }

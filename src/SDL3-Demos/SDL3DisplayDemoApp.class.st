@@ -32,31 +32,24 @@ SDL3DisplayDemoApp >> checkAndSpawnFrontierBetween: firstDisplay and: secondDisp
 ]
 
 { #category : 'lifecycle' }
-SDL3DisplayDemoApp >> close [
-
-	self destroyChildWindows.
-	super close
-]
-
-{ #category : 'private' }
 SDL3DisplayDemoApp >> destroyChildWindows [
 
-	windowsByDisplay ifNotNil: [ 
-		windowsByDisplay valuesDo: [ :windows | 
-			windows do: [ :each | 
-				each renderer destroy.
-				each destroy ] ].
+	windowsByDisplay ifNotNil: [
+		windowsByDisplay valuesDo: [ :windows |
+			windows do: [ :each |
+				each renderer ifNotNil: [ :r | r dispose ].
+				each dispose ] ].
 		windowsByDisplay := Dictionary new ].
-		
-	frontierPairs ifNotNil: [ 
-		frontierPairs do: [ :eachPair | 
+
+	frontierPairs ifNotNil: [
+		frontierPairs do: [ :eachPair |
 			| eachWindow1 eachWindow2 |
 			eachWindow1 := eachPair at: #childWindow1.
 			eachWindow2 := eachPair at: #childWindow2.
-			eachWindow1 renderer destroy.
-			eachWindow1 destroy.
-			eachWindow2 renderer destroy.
-			eachWindow2 destroy ].
+			eachWindow1 renderer ifNotNil: [ :r | r dispose ].
+			eachWindow1 dispose.
+			eachWindow2 renderer ifNotNil: [ :r | r dispose ].
+			eachWindow2 dispose ].
 		frontierPairs := OrderedCollection new ]
 ]
 
@@ -122,13 +115,6 @@ SDL3DisplayDemoApp >> initialize [
 ]
 
 { #category : 'private' }
-SDL3DisplayDemoApp >> prepareToLoop [
-
-	super prepareToLoop.
-	self updateWindows
-]
-
-{ #category : 'private' }
 SDL3DisplayDemoApp >> renderChild: childWindow color: aColor labels: aCollectionOfStrings [
 
 	| currentRenderer |
@@ -163,6 +149,14 @@ SDL3DisplayDemoApp >> renderChildWindows [
 	frontierPairs do: [ :eachPair |
 		self renderChild: (eachPair at: #childWindow1) color: (eachPair at: #color1) labels: #().
 		self renderChild: (eachPair at: #childWindow2) color: (eachPair at: #color2) labels: #() ]
+]
+
+{ #category : 'lifecycle' }
+SDL3DisplayDemoApp >> setUp [
+
+	super setUp.
+
+	self updateWindows
 ]
 
 { #category : 'private' }
@@ -252,7 +246,7 @@ SDL3DisplayDemoApp >> spawnFrontierWindows: currentDisplays [
 				self checkAndSpawnFrontierBetween: firstDisplay and: secondDisplay ] ] ]
 ]
 
-{ #category : 'private' }
+{ #category : 'actions' }
 SDL3DisplayDemoApp >> spawnWindowAt: aPoint extent: anExtent [
 
 	| childWindow |
@@ -261,8 +255,9 @@ SDL3DisplayDemoApp >> spawnWindowAt: aPoint extent: anExtent [
 		width: anExtent x
 		height: anExtent y
 		flags: SDL_WINDOW_BORDERLESS | SDL_WINDOW_NOT_FOCUSABLE | SDL_WINDOW_ALWAYS_ON_TOP.
+	DiScope own: childWindow.
 	childWindow position: aPoint.
-	childWindow unownedNewRenderer. "Ensure window has an associated renderer"
+	DiScope own: childWindow unownedNewRenderer. "Ensure window has an associated renderer"
 	childWindow show.
 	^ childWindow
 ]

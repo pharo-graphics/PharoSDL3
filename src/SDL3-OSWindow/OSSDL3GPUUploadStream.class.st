@@ -85,7 +85,7 @@ OSSDL3GPUUploadStream >> destroy [
 	"Release the GPU transfer buffer and the VM surface"
 
 	transferBuffer ifNotNil: [ 
-		transferBuffer release.
+		transferBuffer dispose.
 		transferBuffer := nil ].
 	
 	externalForm ifNotNil: [ 

@@ -11,14 +11,16 @@ BaselineOfSDL3 >> baseline: spec [
 
 	spec
 		for: #common
-		do: [ 
+		do: [
 			spec
 				postLoadDoIt: #postLoad;
+				package: 'DisposeScopes';
+				package: 'DisposeScopes-Tests' with: [ spec requires: #('DisposeScopes') ];
 				package: 'SDL3';
 				package: 'SDL3-Own' with: [ spec requires: #('SDL3') ];
 				package: 'SDL3-OSWindow' with: [ spec requires: #('SDL3-Own') ];
-				package: 'SDL3-Demos' with: [ spec requires: #('SDL3-Own') ];
-				package: 'SDL3-Tests' with: [ spec requires: #('SDL3-Own') ];
+				package: 'SDL3-Demos' with: [ spec requires: #('SDL3-Own' 'DisposeScopes') ];
+				package: 'SDL3-Tests' with: [ spec requires: #('SDL3-Own' 'DisposeScopes') ];
 				package: 'SDL3-GPU' with: [ spec requires: #('SDL3-Own') ];
 				package: 'SDL3-GPU-Demos' with: [ spec requires: #('SDL3-Demos' 'SDL3-GPU') ];
 				package: 'SDL3-GPU-Tests' with: [ spec requires: #('SDL3-Tests' 'SDL3-GPU-Demos') ]

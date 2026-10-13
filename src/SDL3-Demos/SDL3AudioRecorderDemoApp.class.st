@@ -10,24 +10,10 @@ Class {
 		'recordingBuffer',
 		'frequencyRatio'
 	],
-	#category : 'SDL3-Demos-API',
+	#category : 'SDL3-Demos-Base',
 	#package : 'SDL3-Demos',
-	#tag : 'API'
+	#tag : 'Base'
 }
-
-{ #category : 'lifecycle' }
-SDL3AudioRecorderDemoApp >> close [
-
-	recordingStream ifNotNil: [
-		recordingStream destroy.
-		recordingStream := nil ].
-
-	playbackStream ifNotNil: [
-		playbackStream destroy.
-		playbackStream := nil ].
-
-	super close
-]
 
 { #category : 'accessing' }
 SDL3AudioRecorderDemoApp >> initialExtent [
@@ -52,32 +38,22 @@ SDL3AudioRecorderDemoApp >> initialize [
 SDL3AudioRecorderDemoApp >> openPlaybackStream [
 	"Open a stream at the the default playback device, with it's default format."
 
-	playbackStream := SDL_AudioStream
+	DiScope own: (playbackStream := SDL_AudioStream
 		unownedOpenDeviceStreamID: SDL3AudioDevice defaultPlaybackAudioDeviceID
 		spec: ExternalAddress null
 		callback: ExternalAddress null
-		userdata: ExternalAddress null
+		userdata: ExternalAddress null)
 ]
 
 { #category : 'initialization' }
 SDL3AudioRecorderDemoApp >> openRecordingStream [
 	"Open a stream at the the default recording device. Use the same format as the playback device"
 
-	recordingStream := SDL_AudioStream
+	DiScope own: (recordingStream := SDL_AudioStream
 		unownedOpenDeviceStreamID: SDL3AudioDevice defaultRecordingAudioDeviceID
 		spec: playbackStream outputFormatSpec
 		callback: ExternalAddress null
-		userdata: ExternalAddress null
-]
-
-{ #category : 'lifecycle' }
-SDL3AudioRecorderDemoApp >> prepareToLoop [
-
-	super prepareToLoop.
-
-	recordingBuffer := ByteArray new: 1024.
-	self openPlaybackStream.
-	self openRecordingStream
+		userdata: ExternalAddress null)
 ]
 
 { #category : 'recording' }
@@ -119,6 +95,16 @@ SDL3AudioRecorderDemoApp >> render [
 	self showText: 'Frequency ratio (UP/DOWN): ', (frequencyRatio printShowingDecimalPlaces: 2) x: 20 y: 180.
 
 	self present
+]
+
+{ #category : 'lifecycle' }
+SDL3AudioRecorderDemoApp >> setUp [
+
+	super setUp.
+
+	recordingBuffer := ByteArray new: 1024.
+	self openPlaybackStream.
+	self openRecordingStream
 ]
 
 { #category : 'hooks' }

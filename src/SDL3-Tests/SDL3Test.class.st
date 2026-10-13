@@ -23,6 +23,12 @@ SDL3Test class >> isAbstract [
 ]
 
 { #category : 'running' }
+SDL3Test >> runCase [
+
+	DiScope during: [ super runCase ]
+]
+
+{ #category : 'running' }
 SDL3Test >> setUp [
 
 	super setUp.

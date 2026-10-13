@@ -18,6 +18,14 @@ SDL3Palette >> destroy [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Palette >> dispose [
+
+	(handle isNil or: [ self isNull ]) ifTrue: [ ^ self ].
+	self destroy.
+	handle := nil
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Palette class >> unownedNew: ncolors [
 
 	^ (self ffiLibrary createPalette: ncolors)

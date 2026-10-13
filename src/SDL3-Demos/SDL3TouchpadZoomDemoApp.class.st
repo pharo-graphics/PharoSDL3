@@ -6,22 +6,13 @@ Class {
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
 		'zoom',
-		'texture',
-		'textureRectangle'
+		'textureRectangle',
+		'texture'
 	],
-	#category : 'SDL3-Demos-API',
+	#category : 'SDL3-Demos-Base',
 	#package : 'SDL3-Demos',
-	#tag : 'API'
+	#tag : 'Base'
 }
-
-{ #category : 'lifecycle' }
-SDL3TouchpadZoomDemoApp >> close [
-
-	texture ifNotNil: [ 
-		texture destroy.
-		texture := nil ].
-	super close
-]
 
 { #category : 'accessing' }
 SDL3TouchpadZoomDemoApp >> initialExtent [
@@ -37,11 +28,11 @@ SDL3TouchpadZoomDemoApp >> initialize [
 ]
 
 { #category : 'lifecycle' }
-SDL3TouchpadZoomDemoApp >> prepareToLoop [
+SDL3TouchpadZoomDemoApp >> setUp [
 
-	super prepareToLoop.
+	super setUp.
 
-	texture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig).
+	DiScope own: (texture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig)).
 	textureRectangle := SDL3FRect x: 0 y: 0 width: texture w height: texture h
 ]
 

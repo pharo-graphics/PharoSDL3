@@ -6,68 +6,26 @@ Class {
 	#name : 'SDL3GPUQuadDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
-		'gpuPipeline',
-		'vertexBuffer',
-		'sampler',
-		'texture',
-		'colorTargetInfos',
-		'vertexBufferBindings',
-		'textureSamplerBindings',
 		'numberOfQuads',
 		'filter',
-		'vertexTransferBuffer',
 		'vertexBufferSize',
-		'indexBuffer',
 		'indexBufferSize',
+		'pipeline',
+		'vertexBuffer',
+		'indexBuffer',
+		'texture',
+		'sampler',
+		'vertexTransferBuffer',
 		'indexTransferBuffer',
-		'indexBinding'
+		'colorTargetInfos',
+		'indexBinding',
+		'vertexBufferBindings',
+		'textureSamplerBindings'
 	],
-	#category : 'SDL3-GPU-Demos-SimpleQuads',
+	#category : 'SDL3-GPU-Demos-Base',
 	#package : 'SDL3-GPU-Demos',
-	#tag : 'SimpleQuads'
+	#tag : 'Base'
 }
-
-{ #category : 'lifecycle' }
-SDL3GPUQuadDemoApp >> close [
-
-	gpuPipeline ifNotNil: [
-		gpuPipeline release.
-		gpuPipeline := nil ].
-
-	vertexTransferBuffer ifNotNil: [
-		vertexTransferBuffer release.
-		vertexTransferBuffer := nil ].
-
-	indexTransferBuffer ifNotNil: [
-		indexTransferBuffer release.
-		indexTransferBuffer := nil ].
-
-	vertexBuffer ifNotNil: [
-		vertexBuffer release.
-		vertexBuffer := nil ].
-
-	indexBuffer ifNotNil: [
-		indexBuffer release.
-		indexBuffer := nil ].
-
-	sampler ifNotNil: [
-		sampler release.
-		sampler := nil ].
-
-	texture ifNotNil: [
-		texture release.
-		texture := nil ].
-
-	colorTargetInfos ifNotNil: [
-		colorTargetInfos free.
-		colorTargetInfos := nil ].
-
-	indexBinding ifNotNil: [
-		indexBinding free.
-		indexBinding := nil ].
-
-	super close
-]
 
 { #category : 'actions' }
 SDL3GPUQuadDemoApp >> decrementQuads [
@@ -90,7 +48,7 @@ SDL3GPUQuadDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
 		renderPass
-			pipeline: gpuPipeline;
+			pipeline: pipeline;
 			vertexBuffers: vertexBufferBindings slot: 0;
 			indexBuffer16Bit: indexBinding;
 			fragmentSamplers: textureSamplerBindings slot: 0;
@@ -136,18 +94,7 @@ SDL3GPUQuadDemoApp >> initialize [
 	filter := SDL_GPU_FILTER_NEAREST.
 	numberOfQuads := 36.
 	vertexBufferSize := 0.
-	indexBufferSize := 0.
-
-	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos first beClear: Color black.
-
-	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
-
-	textureSamplerBindings := SDL3Array newType: SDL_GPUTextureSamplerBinding size: 1.
-
-	indexBinding := SDL_GPUBufferBinding unownedNew
-		                beOffset: 0;
-		                yourself
+	indexBufferSize := 0
 ]
 
 { #category : 'initialization' }
@@ -191,22 +138,23 @@ SDL3GPUQuadDemoApp >> initializePipeline [
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			               info
-				               primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-				               vertexShader: vertexShader;
-				               fragmentShader: fragmentShader.
-			               info targetInfo
-				               colorTargetDescriptions: colorTargets;
-				               numColorTargets: colorTargets size.
-			               info vertexInputState
-				               vertexBufferDescriptions: vertexBindings;
-				               numVertexBuffers: vertexBindings size;
-				               vertexAttributes: vertexAttributes;
-				               numVertexAttributes: vertexAttributes size ].
+	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+		info
+			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
+			vertexShader: vertexShader;
+			fragmentShader: fragmentShader.
+		info targetInfo
+			colorTargetDescriptions: colorTargets;
+			numColorTargets: colorTargets size.
+		info vertexInputState
+			vertexBufferDescriptions: vertexBindings;
+			numVertexBuffers: vertexBindings size;
+			vertexAttributes: vertexAttributes;
+			numVertexAttributes: vertexAttributes size ].
+	DiScope own: pipeline.
 
-	vertexShader release.
-	fragmentShader release.
+	vertexShader dispose.
+	fragmentShader dispose.
 	vertexBindings free.
 	vertexAttributes free.
 	colorTargets free
@@ -215,10 +163,11 @@ SDL3GPUQuadDemoApp >> initializePipeline [
 { #category : 'initialization' }
 SDL3GPUQuadDemoApp >> initializeTexture [
 
-	texture :=
-		gpuDevice
-			unownedNewGPUTextureUploadingForm: (self iconNamed: #remote)
-			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER.
+	DiScope own:
+		(texture :=
+			gpuDevice
+				unownedNewGPUTextureUploadingForm: (self iconNamed: #remote)
+				usage: SDL_GPU_TEXTUREUSAGE_SAMPLER).
 
 	textureSamplerBindings first texture: texture
 ]
@@ -235,16 +184,6 @@ SDL3GPUQuadDemoApp >> numberOfVerticesPerQuad [
 	^ 4
 ]
 
-{ #category : 'lifecycle' }
-SDL3GPUQuadDemoApp >> open [
-	"Run headless with:
-	./pharo Pharo.image eval 'SDL3GPUQuadDemoApp new run'
-	"
-
-	super open.
-	self initializeGPUResources
-]
-
 { #category : 'private' }
 SDL3GPUQuadDemoApp >> quadIndices [
 	"Standard index pattern for a quad:
@@ -252,6 +191,24 @@ SDL3GPUQuadDemoApp >> quadIndices [
 	Triangles: (0,1,2) and (0,2,3)"
 
 	^ #(0 1 2 0 2 3)
+]
+
+{ #category : 'lifecycle' }
+SDL3GPUQuadDemoApp >> setUp [
+	"Run headless with:
+	./pharo Pharo.image eval 'SDL3GPUQuadDemoApp new run'
+	"
+
+	super setUp.
+	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+	colorTargetInfos first beClear: Color black.
+	DiScope own: (indexBinding := SDL_GPUBufferBinding unownedNew
+		beOffset: 0;
+		yourself).
+	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1).
+	DiScope own: (textureSamplerBindings := SDL3Array unownedNewType: SDL_GPUTextureSamplerBinding size: 1).
+
+	self initializeGPUResources
 ]
 
 { #category : 'hooks' }
@@ -263,14 +220,13 @@ SDL3GPUQuadDemoApp >> step [
 
 { #category : 'initialization' }
 SDL3GPUQuadDemoApp >> switchSamplerFilter [
+	"If needed, switch to the other filter and dispose current sampler"
 
-	"If needed, switch to the other filter and release current sampler"
 	sampler ifNotNil: [
-		filter :=
-			self isNearestSamplerFilter
-				ifTrue: [ SDL_GPU_FILTER_LINEAR ]
-				ifFalse: [ SDL_GPU_FILTER_NEAREST ].
-		sampler release ].
+		sampler dispose.
+		filter := self isNearestSamplerFilter
+			ifTrue: [ SDL_GPU_FILTER_LINEAR ]
+			ifFalse: [ SDL_GPU_FILTER_NEAREST ] ].
 
 	sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info
@@ -280,9 +236,9 @@ SDL3GPUQuadDemoApp >> switchSamplerFilter [
 			addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE ].
+	DiScope own: sampler.
 
-			textureSamplerBindings first sampler: sampler
-.
+	textureSamplerBindings first sampler: sampler.
 
 	self updateTitle
 ]
@@ -295,16 +251,10 @@ SDL3GPUQuadDemoApp >> updateIndexBuffer [
 
 	"1. Initialize buffer (or recreate if number of quads changed)"
 	indexBufferSize = byteSize ifFalse: [
-		indexBuffer ifNotNil: [
-			indexBuffer release.
-			indexTransferBuffer release ].
-
-		indexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
-
-		indexBuffer := gpuDevice
-			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-			               size: byteSize.
-
+		indexTransferBuffer ifNotNil: [ indexTransferBuffer dispose ].
+		indexBuffer ifNotNil: [ indexBuffer dispose ].
+		DiScope own: (indexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
+		DiScope own: (indexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: byteSize).
 		indexBinding buffer: indexBuffer.
 		indexBufferSize := byteSize ].
 
@@ -342,16 +292,10 @@ SDL3GPUQuadDemoApp >> updateVertexBuffer [
 
 	"2. Initialize buffer (or recreate if number of quads changed)"
 	vertexBufferSize = byteSize ifFalse: [
-		vertexBuffer ifNotNil: [
-			vertexBuffer release.
-			vertexTransferBuffer release ].
-
-		vertexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
-
-		vertexBuffer := gpuDevice
-			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-			               size: byteSize.
-
+		vertexTransferBuffer ifNotNil: [ vertexTransferBuffer dispose ].
+		vertexBuffer ifNotNil: [ vertexBuffer dispose ].
+		DiScope own: (vertexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
+		DiScope own: (vertexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: byteSize).
 		vertexBufferBindings first buffer: vertexBuffer.
 		vertexBufferSize := byteSize ].
 

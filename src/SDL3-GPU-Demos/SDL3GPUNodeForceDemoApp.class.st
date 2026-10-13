@@ -5,26 +5,27 @@ Class {
 	#name : 'SDL3GPUNodeForceDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
-		'nodesBufferPing',
-		'nodesBufferPong',
-		'edgesBuffer',
 		'currentNodesBuffer',
-		'computePipeline',
-		'uniforms',
 		'numNodes',
 		'numEdges',
-		'storageBuffers',
-		'storageBufferBindings',
-		'nodePipeline',
-		'edgePipeline',
-		'vertexBuffer',
-		'indexBuffer',
-		'vertexBufferBindings',
-		'indexBufferBinding',
 		'selectedNodeIndex',
 		'isDragging',
 		'nodeArray',
-		'edgeArray'
+		'edgeArray',
+		'nodesBufferPing',
+		'nodesBufferPong',
+		'edgesBuffer',
+		'vertexBuffer',
+		'indexBuffer',
+		'computePipeline',
+		'nodePipeline',
+		'edgePipeline',
+		'storageBuffers',
+		'storageBufferBindings',
+		'vertexBufferBindings',
+		'uniforms',
+		'indexBufferBinding',
+		'colorTargetInfos'
 	],
 	#pools : [
 		'SDL3AllEnumerations'
@@ -47,56 +48,6 @@ SDL3GPUNodeForceDemoApp >> bindSharedGraphicsResourcesTo: renderPass with: comma
 		selectedNodeIndex: selectedNodeIndex.
 	commandBuffer
 		pushVertexUniform: uniforms slot: 0
-]
-
-{ #category : 'lifecycle' }
-SDL3GPUNodeForceDemoApp >> close [
-
-	nodesBufferPing ifNotNil: [
-		nodesBufferPing release.
-		nodesBufferPing := nil ].
-	nodesBufferPong ifNotNil: [
-		nodesBufferPong release.
-		nodesBufferPong := nil ].
-	edgesBuffer ifNotNil: [
-		edgesBuffer release.
-		edgesBuffer := nil ].
-
-	vertexBuffer ifNotNil: [
-		vertexBuffer release.
-		vertexBuffer := nil ].
-	indexBuffer ifNotNil: [
-		indexBuffer release.
-		indexBuffer := nil ].
-
-	computePipeline ifNotNil: [
-		computePipeline release.
-		computePipeline := nil ].
-	nodePipeline ifNotNil: [
-		nodePipeline release.
-		nodePipeline := nil ].
-	edgePipeline ifNotNil: [
-		edgePipeline release.
-		edgePipeline := nil ].
-
-	storageBuffers ifNotNil: [
-		storageBuffers free.
-		storageBuffers := nil ].
-	storageBufferBindings ifNotNil: [
-		storageBufferBindings free.
-		storageBufferBindings := nil ].
-	vertexBufferBindings ifNotNil: [
-		vertexBufferBindings free.
-		vertexBufferBindings := nil ].
-	uniforms ifNotNil: [
-		uniforms free.
-		uniforms := nil ].
-
-	indexBufferBinding ifNotNil: [
-		indexBufferBinding free.
-		indexBufferBinding := nil ].
-
-	super close
 ]
 
 { #category : 'rendering' }
@@ -126,15 +77,12 @@ SDL3GPUNodeForceDemoApp >> computeSimulation [
 { #category : 'rendering' }
 SDL3GPUNodeForceDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
-	| colorTargetInfos |
-	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
-	[
-		colorTargetInfos first beClearTexture: swapchainTexture color: Color black.
+	colorTargetInfos first beClearTexture: swapchainTexture color: Color black.
 
-		commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
-				self bindSharedGraphicsResourcesTo: renderPass with: commandBuffer.
-				self drawEdgesOn: renderPass.
-				self drawNodesOn: renderPass ] ] ensure: [ colorTargetInfos free ]
+	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
+			self bindSharedGraphicsResourcesTo: renderPass with: commandBuffer.
+			self drawEdgesOn: renderPass.
+			self drawNodesOn: renderPass ]
 ]
 
 { #category : 'private' }
@@ -197,9 +145,8 @@ SDL3GPUNodeForceDemoApp >> initialize [
 
 	numNodes := 64.
 	numEdges := 128.
-
-	self initializeUniforms.
-	self initializeGPUStateContainers
+	selectedNodeIndex := -1.
+	isDragging := false
 ]
 
 { #category : 'initialization' }
@@ -207,43 +154,23 @@ SDL3GPUNodeForceDemoApp >> initializeBuffers [
 
 	| nodesSize edgesSize |
 	nodesSize := numNodes * SDL3GPUNode structureSize.
-
-	nodesBufferPing := gpuDevice
-						  unownedNewGPUBufferUsage:
-							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-							  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
-						  size: nodesSize.
-	nodesBufferPong := gpuDevice
-						  unownedNewGPUBufferUsage:
-							  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-							  | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-							  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
-						  size: nodesSize.
+	DiScope own: (nodesBufferPing := gpuDevice
+		unownedNewGPUBufferUsage:
+			SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+			| SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
+		size: nodesSize).
+	DiScope own: (nodesBufferPong := gpuDevice
+		unownedNewGPUBufferUsage:
+			SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+			| SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
+		size: nodesSize).
 
 	currentNodesBuffer := nodesBufferPing.
 
 	edgesSize := numEdges * SDL3GPUEdge structureSize.
-	edgesBuffer := gpuDevice
-					  unownedNewGPUBufferUsage:
-						  SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-						  | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
-					  size: edgesSize
-]
-
-{ #category : 'initialization' }
-SDL3GPUNodeForceDemoApp >> initializeGPUStateContainers [
-
-	storageBuffers := SDL3Array unownedNewType: ExternalAddress size: 2.
-
-
-	storageBufferBindings := SDL3Array unownedNewType: SDL3GPUStorageBufferReadWriteBinding size: 1.
-
-	vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1.
-
-	selectedNodeIndex := -1.
-
-	isDragging := false
+	DiScope own: (edgesBuffer := gpuDevice
+		unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ | SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
+		size: edgesSize)
 ]
 
 { #category : 'initialization' }
@@ -284,13 +211,9 @@ SDL3GPUNodeForceDemoApp >> initializeGraph [
 { #category : 'initialization' }
 SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 
-	vertexBuffer := gpuDevice
-		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-		                size: 4 * SDL3GPUQuadVertex structureSize.
-
-	indexBuffer := gpuDevice
-		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-		               size: 6 * 2.
+	DiScope own:
+		(vertexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: 4 * SDL3GPUQuadVertex structureSize).
+	DiScope own: (indexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: 6 * 2).
 
 	gpuDevice uploadToGPUDo: [ :uploader |
 		uploader
@@ -302,11 +225,12 @@ SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 				#( (0 0) (1 0) (1 1) (0 1) ) withIndexDo: [ :uv :idx |
 					| v |
 					v := vertices at: idx.
-					v x: uv first asFloat;
-					  y: uv second asFloat;
-					  z: 0.0;
-					  u: uv first asFloat;
-					  v: uv second asFloat ] ].
+					v
+						x: uv first asFloat;
+						y: uv second asFloat;
+						z: 0.0;
+						u: uv first asFloat;
+						v: uv second asFloat ] ].
 
 		uploader
 			uploadTo: indexBuffer
@@ -322,7 +246,7 @@ SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 SDL3GPUNodeForceDemoApp >> initializeShaders [
 
 	| colorTargets |
-	computePipeline := SDL3GPUNodeForceComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3GPUNodeForceComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
@@ -331,26 +255,6 @@ SDL3GPUNodeForceDemoApp >> initializeShaders [
 	self newEdgePipelineColorTargets: colorTargets.
 
 	colorTargets free
-]
-
-{ #category : 'initialization' }
-SDL3GPUNodeForceDemoApp >> initializeUniforms [
-
-	uniforms := SDL3GPUNodeForceUniforms unownedNew.
-	uniforms
-		numNodes: numNodes;
-		numEdges: numEdges;
-		deltaTime: loop periodAsSeconds;
-		springStiffness: 2.0;
-		repulsionWeight: 6.0;
-		repulsionRadius: 0.5;
-		centerGravityWeight: 0.5;
-		damping: 0.01;
-		maxVelocity: 2.0;
-		aspectRatio: 1.0;
-		hoverX: -10.0;
-		hoverY: -10.0;
-		isDragging: 0
 ]
 
 { #category : 'private' }
@@ -366,11 +270,12 @@ SDL3GPUNodeForceDemoApp >> newEdgePipelineColorTargets: colorTargets [
 	vertexAttributes := self newNodeVertexAttributes.
 
 	edgePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			                info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-			                info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	DiScope own: edgePipeline.
 
-	vertexShader release.
-	fragmentShader release.
+	vertexShader dispose.
+	fragmentShader dispose.
 	vertexBindings free.
 	vertexAttributes free
 ]
@@ -388,11 +293,12 @@ SDL3GPUNodeForceDemoApp >> newNodePipelineColorTargets: colorTargets [
 	vertexAttributes := self newNodeVertexAttributes.
 
 	nodePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			                info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-			                info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	DiScope own: nodePipeline.
 
-	vertexShader release.
-	fragmentShader release.
+	vertexShader dispose.
+	fragmentShader dispose.
 	vertexBindings free.
 	vertexAttributes free
 ]
@@ -433,18 +339,6 @@ SDL3GPUNodeForceDemoApp >> newNodeVertexBindings [
 	^ vertexBindings
 ]
 
-{ #category : 'lifecycle' }
-SDL3GPUNodeForceDemoApp >> prepareToLoop [
-
-	super prepareToLoop.
-	self initializeBuffers.
-	self initializeGraph.
-	self uploadNodes.
-	self uploadEdges.
-	self initializeGeometry.
-	self initializeShaders
-]
-
 { #category : 'private' }
 SDL3GPUNodeForceDemoApp >> pushSimulationUniformsTo: commandBuffer [
 
@@ -476,14 +370,48 @@ SDL3GPUNodeForceDemoApp >> selectNodeAtSimulationPosition: point [
 	self updateTitle
 ]
 
+{ #category : 'lifecycle' }
+SDL3GPUNodeForceDemoApp >> setUp [
+
+	DiScope own: (uniforms := SDL3GPUNodeForceUniforms unownedNew).
+	uniforms
+		numNodes: numNodes;
+		numEdges: numEdges;
+		deltaTime: loop periodAsSeconds;
+		springStiffness: 2.0;
+		repulsionWeight: 6.0;
+		repulsionRadius: 0.5;
+		centerGravityWeight: 0.5;
+		damping: 0.01;
+		maxVelocity: 2.0;
+		aspectRatio: 1.0;
+		hoverX: -10.0;
+		hoverY: -10.0;
+		isDragging: 0.
+
+	super setUp.
+	DiScope own: (storageBuffers := SDL3Array unownedNewType: ExternalAddress size: 2).
+	DiScope own: (storageBufferBindings := SDL3Array unownedNewType: SDL3GPUStorageBufferReadWriteBinding size: 1).
+	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1).
+	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+
+	self initializeBuffers.
+	self initializeGraph.
+	self uploadNodes.
+	self uploadEdges.
+	self initializeGeometry.
+	self initializeShaders
+]
+
 { #category : 'initialization' }
 SDL3GPUNodeForceDemoApp >> setupGeometryBindings [
 
 	vertexBufferBindings first
 		buffer: vertexBuffer;
 		offset: 0.
-
-	indexBufferBinding := SDL_GPUBufferBinding unownedNew beBuffer: indexBuffer offset: 0; yourself
+	DiScope own: (indexBufferBinding := SDL_GPUBufferBinding unownedNew
+		beBuffer: indexBuffer offset: 0;
+		yourself)
 ]
 
 { #category : 'private' }
@@ -513,6 +441,8 @@ SDL3GPUNodeForceDemoApp >> step [
 SDL3GPUNodeForceDemoApp >> updatedTitle [
 
 	| selectionInfo dragInfo |
+	uniforms ifNil: [ ^ super updatedTitle ].
+
 	selectionInfo := selectedNodeIndex >= 0
 		ifTrue: [ ' | Selected: {1}' format: { selectedNodeIndex } ]
 		ifFalse: [ '' ].

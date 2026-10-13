@@ -49,12 +49,10 @@ SDL3GPUBasicTest >> test03ClearColorInRenderPass [
 		height: nil.
 
 	self deny: textureHolder value isNull.
+	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+	colorTargetInfos first beClearTexture: textureHolder value color: Color yellow.
 
-	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
-	[
-		colorTargetInfos first beClearTexture: textureHolder value color: Color yellow.
+	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |  ].
 
-		commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |  ].
-
-		commandBuffer submit ] ensure: [ colorTargetInfos free ]
+	commandBuffer submit
 ]

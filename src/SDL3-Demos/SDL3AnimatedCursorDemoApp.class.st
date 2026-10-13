@@ -14,20 +14,18 @@ Class {
 	#tag : 'API'
 }
 
-{ #category : 'lifecycle' }
-SDL3AnimatedCursorDemoApp >> close [
-	"Cleanup cursors and textures"
+{ #category : 'accessing' }
+SDL3AnimatedCursorDemoApp >> angleForFrame: anIndex [
 
-	cursors ifNotNil: [
-		cursors do: [ :each | each destroy ].
-		cursors := nil ].
+	^ (anIndex * 360 / self numberOfFrames) asFloat
+]
 
-	cursorTextures ifNotNil: [
-		cursorTextures do: [ :eachArray |
-			eachArray do: [ :each | each destroy ] ].
-		cursorTextures := nil ].
+{ #category : 'initialization' }
+SDL3AnimatedCursorDemoApp >> blitIcon: aSurface on: final corner: aSymbol [
 
-	super close
+	| dstRect |
+	dstRect := self iconRectForCorner: aSymbol surface: aSurface.
+	aSurface blitSrcrect: nil dst: final dstrect: dstRect
 ]
 
 { #category : 'accessing' }
@@ -43,177 +41,108 @@ SDL3AnimatedCursorDemoApp >> cursorExtent [
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemoApp >> drawCrosshairOn: surface corner: aSymbol [
+SDL3AnimatedCursorDemoApp >> drawCrosshairOn: surface at: aPoint [
 
-	| cSize crosshairColor h |
+	| cSize crosshairColor |
 	cSize := self crosshairSize.
 	crosshairColor := surface mapRGBAR: 255 g: 255 b: 255 a: 255.
 
+	surface fillRectDstRect: (SDL_Rect new
+		x: aPoint x - (cSize // 2);
+		y: aPoint y;
+		w: cSize;
+		h: 1) color: crosshairColor.
+	surface fillRectDstRect: (SDL_Rect new
+		x: aPoint x;
+		y: aPoint y - (cSize // 2);
+		w: 1;
+		h: cSize) color: crosshairColor.
+
+	^ aPoint
+]
+
+{ #category : 'accessing' }
+SDL3AnimatedCursorDemoApp >> frameDelays [
+
+	^ Array new: self numberOfFrames withAll: 33
+]
+
+{ #category : 'initialization' }
+SDL3AnimatedCursorDemoApp >> generateCursorForCorner: aSymbol during: aBlock [
+
+	| extent h frames textures |
+	extent := self cursorExtent.
 	h := self hotspotOffsetForCorner: aSymbol.
 
-	surface fillRectDstRect: (SDL_Rect new
-			 x: h x - (cSize // 2);
-			 y: h y;
-			 w: cSize;
-			 h: 1) color: crosshairColor.
-	surface fillRectDstRect: (SDL_Rect new
-			 x: h x;
-			 y: h y - (cSize // 2);
-			 w: 1;
-			 h: cSize) color: crosshairColor.
-			
-	^ h
+	frames := (0 to: self numberOfFrames - 1) collect: [ :i |
+		| final |
+		final := SDL3Surface unownedNewWidth: extent x height: extent y format: SDL_PIXELFORMAT_BGRA32.
+		final clearColor: Color transparent.
+		self drawCrosshairOn: final at: h.
+		aBlock value: i value: final.
+		final ].
+
+	[
+		textures := frames collect: [ :each | renderer unownedNewTextureFromSurface: each ].
+		cursorTextures add: (DiScope ownAll: textures).
+		hotspots add: h.
+		cursors add: (DiScope own: (self newAnimatedCursorFromFrames: frames delays: self frameDelays hotspot: h))
+	] ensure: [
+		frames do: [ :each | each destroy ] ]
 ]
 
 { #category : 'initialization' }
 SDL3AnimatedCursorDemoApp >> generateCursorPulsingIcon: iconSurface corner: aSymbol [
 
-	| frames textures baseSurface extent h |
-	extent := self cursorExtent.
-	baseSurface := iconSurface
-		               unownedScaledToWidth: 40
-		               height: 40
-		               scaleMode: SDL_SCALEMODE_LINEAR.
-
-	frames := (0 to: self numberOfFrames - 1) collect: [ :i | 
-		          | final dstRect alpha |
-		          final := SDL3Surface
-			                   unownedNewWidth: extent x
-			                   height: extent y
-			                   format: SDL_PIXELFORMAT_BGRA32.
-		          final clearColor: Color transparent.
-		          h := self drawCrosshairOn: final corner: aSymbol.
-
-		          alpha := (i * 360 / self numberOfFrames) degreeSin abs.
-		          baseSurface alphaModAlpha: (alpha * 255) asInteger.
-
-		          dstRect := self iconRectForCorner: aSymbol rotated: baseSurface.
-		          baseSurface blitSrcrect: nil dst: final dstrect: dstRect.
-		          final ].
-	baseSurface destroy.
-
-	textures := frames collect: [ :each | renderer unownedNewTextureFromSurface: each ].
-	cursorTextures add: textures.
-	hotspots add: h.
-	cursors add: (self
-			 newAnimatedCursorFromFrames: frames
-			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h).
-	frames do: [ :each | each destroy ]
+	| baseSurface |
+	baseSurface := iconSurface unownedScaledToWidth: 40 height: 40.
+	[
+		self generateCursorForCorner: aSymbol during: [ :i :final |
+			baseSurface alphaModAlpha: ((self pulseForFrame: i) * 255) asInteger.
+			self blitIcon: baseSurface on: final corner: aSymbol ]
+	] ensure: [ baseSurface destroy ]
 ]
 
 { #category : 'initialization' }
 SDL3AnimatedCursorDemoApp >> generateCursorRotatingAndPulsingIcon: iconSurface corner: aSymbol [
 
-	| frames textures baseSurface extent h |
-	extent := self cursorExtent.
-	baseSurface := iconSurface
-		               unownedScaledToWidth: 32 "Smaller to allow rotation"
-		               height: 32
-		               scaleMode: SDL_SCALEMODE_LINEAR.
-
-	frames := (0 to: self numberOfFrames - 1) collect: [ :i | 
-		          | final dstRect alpha rotated |
-		          final := SDL3Surface
-			                   unownedNewWidth: extent x
-			                   height: extent y
-			                   format: SDL_PIXELFORMAT_BGRA32.
-		          final clearColor: Color transparent.
-		          h := self drawCrosshairOn: final corner: aSymbol.
-
-		          alpha := (i * 360 / self numberOfFrames) degreeSin abs.
-		          baseSurface alphaModAlpha: (alpha * 255) asInteger.
-		          rotated := baseSurface unownedRotatedByDegrees:
-			                     (i * 360 / self numberOfFrames) asFloat.
-
-		          dstRect := self iconRectForCorner: aSymbol rotated: rotated.
-		          rotated blitSrcrect: nil dst: final dstrect: dstRect.
-		          rotated destroy.
-		          final ].
-	baseSurface destroy.
-
-	textures := frames collect: [ :each | renderer unownedNewTextureFromSurface: each ].
-	cursorTextures add: textures.
-	hotspots add: h.
-	cursors add: (self
-			 newAnimatedCursorFromFrames: frames
-			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h).
-	frames do: [ :each | each destroy ]
+	| baseSurface |
+	baseSurface := iconSurface unownedScaledToWidth: 32 height: 32.
+	[
+		self generateCursorForCorner: aSymbol during: [ :i :final |
+			| rotated |
+			baseSurface alphaModAlpha: ((self pulseForFrame: i) * 255) asInteger.
+			rotated := baseSurface unownedRotatedByDegrees: (self angleForFrame: i).
+			[ self blitIcon: rotated on: final corner: aSymbol ]
+				ensure: [ rotated destroy ] ]
+	] ensure: [ baseSurface destroy ]
 ]
 
 { #category : 'initialization' }
 SDL3AnimatedCursorDemoApp >> generateCursorRotatingIcon: iconSurface corner: aSymbol [
 
-	| frames textures baseSurface extent h |
-	extent := self cursorExtent.
-	baseSurface := iconSurface
-		               unownedScaledToWidth: 40
-		               height: 40
-		               scaleMode: SDL_SCALEMODE_LINEAR.
-
-	frames := (0 to: self numberOfFrames - 1) collect: [ :i | 
-		          | final dstRect rotated |
-		          final := SDL3Surface
-			                   unownedNewWidth: extent x
-			                   height: extent y
-			                   format: SDL_PIXELFORMAT_BGRA32.
-		          final clearColor: Color transparent.
-		          h := self drawCrosshairOn: final corner: aSymbol.
-
-		          rotated := baseSurface unownedRotatedByDegrees:
-			                     (i * 360 / self numberOfFrames) asFloat.
-
-		          dstRect := self iconRectForCorner: aSymbol rotated: rotated.
-		          rotated blitSrcrect: nil dst: final dstrect: dstRect.
-		          rotated destroy.
-		          final ].
-	baseSurface destroy.
-
-	textures := frames collect: [ :each | renderer unownedNewTextureFromSurface: each ].
-	cursorTextures add: textures.
-	hotspots add: h.
-	cursors add: (self
-			 newAnimatedCursorFromFrames: frames
-			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h).
-	frames do: [ :each | each destroy ]
+	| baseSurface |
+	baseSurface := iconSurface unownedScaledToWidth: 40 height: 40.
+	[
+		self generateCursorForCorner: aSymbol during: [ :i :final |
+			| rotated |
+			rotated := baseSurface unownedRotatedByDegrees: (self angleForFrame: i).
+			[ self blitIcon: rotated on: final corner: aSymbol ]
+				ensure: [ rotated destroy ] ]
+	] ensure: [ baseSurface destroy ]
 ]
 
 { #category : 'initialization' }
 SDL3AnimatedCursorDemoApp >> generateCursorScalingIcon: iconSurface corner: aSymbol [
 
-	| frames textures extent h |
-	extent := self cursorExtent.
-
-	frames := (0 to: self numberOfFrames - 1) collect: [ :i | 
-		          | final dstRect scale baseSurface |
-		          final := SDL3Surface
-			                   unownedNewWidth: extent x
-			                   height: extent y
-			                   format: SDL_PIXELFORMAT_BGRA32.
-		          final clearColor: Color transparent.
-		          h := self drawCrosshairOn: final corner: aSymbol.
-
-		          scale := (i * 360 / self numberOfFrames) degreeSin abs * 10 + 30.
-		          baseSurface := iconSurface
-			                         unownedScaledToWidth: scale asInteger
-			                         height: scale asInteger
-			                         scaleMode: SDL_SCALEMODE_LINEAR.
-
-		          dstRect := self iconRectForCorner: aSymbol rotated: baseSurface.
-		          baseSurface blitSrcrect: nil dst: final dstrect: dstRect.
-		          baseSurface destroy.
-		          final ].
-
-	textures := frames collect: [ :each | renderer unownedNewTextureFromSurface: each ].
-	cursorTextures add: textures.
-	hotspots add: h.
-	cursors add: (self
-			 newAnimatedCursorFromFrames: frames
-			 delays: ((1 to: self numberOfFrames) collect: [ :i | 33 ])
-			 hotspot: h).
-	frames do: [ :each | each destroy ]
+	self generateCursorForCorner: aSymbol during: [ :i :final |
+		| scale baseSurface |
+		scale := (self pulseForFrame: i) * 10 + 30.
+		baseSurface := iconSurface
+			unownedScaledToWidth: scale asInteger
+			height: scale asInteger.
+		[ self blitIcon: baseSurface on: final corner: aSymbol ]
+			ensure: [ baseSurface destroy ] ]
 ]
 
 { #category : 'initialization' }
@@ -254,32 +183,32 @@ SDL3AnimatedCursorDemoApp >> hotspotOffsetForCorner: aSymbol [
 ]
 
 { #category : 'initialization' }
-SDL3AnimatedCursorDemoApp >> iconRectForCorner: aSymbol rotated: rotated [
+SDL3AnimatedCursorDemoApp >> iconRectForCorner: aSymbol surface: aSurface [
 
 	| extent x y |
 	extent := self cursorExtent.
 	"TL: icon at (10, 10)"
 	aSymbol == #TL ifTrue: [ 
-		x := (extent x - rotated w) // 2 + 5.
-		y := (extent y - rotated h) // 2 + 5 ].
+		x := (extent x - aSurface w) // 2 + 5.
+		y := (extent y - aSurface h) // 2 + 5 ].
 	"TR: icon at (left side)"
 	aSymbol == #TR ifTrue: [ 
-		x := (extent x - rotated w) // 2 - 5.
-		y := (extent y - rotated h) // 2 + 5 ].
+		x := (extent x - aSurface w) // 2 - 5.
+		y := (extent y - aSurface h) // 2 + 5 ].
 	"BL: icon at (top side)"
 	aSymbol == #BL ifTrue: [ 
-		x := (extent x - rotated w) // 2 + 5.
-		y := (extent y - rotated h) // 2 - 5 ].
+		x := (extent x - aSurface w) // 2 + 5.
+		y := (extent y - aSurface h) // 2 - 5 ].
 	"BR: icon at (top left side)"
 	aSymbol == #BR ifTrue: [ 
-		x := (extent x - rotated w) // 2 - 5.
-		y := (extent y - rotated h) // 2 - 5 ].
+		x := (extent x - aSurface w) // 2 - 5.
+		y := (extent y - aSurface h) // 2 - 5 ].
 
 	^ SDL_Rect new
-		  x: x;
-		  y: y;
-		  w: rotated w;
-		  h: rotated h
+		x: x;
+		y: y;
+		w: aSurface w;
+		h: aSurface h
 ]
 
 { #category : 'accessing' }
@@ -313,11 +242,10 @@ SDL3AnimatedCursorDemoApp >> numberOfFrames [
 	^ 20
 ]
 
-{ #category : 'lifecycle' }
-SDL3AnimatedCursorDemoApp >> prepareToLoop [
+{ #category : 'accessing' }
+SDL3AnimatedCursorDemoApp >> pulseForFrame: anIndex [
 
-	super prepareToLoop.
-	self generateCursors
+	^ (self angleForFrame: anIndex) degreeSin abs
 ]
 
 { #category : 'rendering' }
@@ -354,6 +282,14 @@ SDL3AnimatedCursorDemoApp >> renderQuadrants [
 				           w: frameSize x;
 				           h: frameSize y.
 			renderer renderTexture: tex srcrect: nil dstrect: dstRect ] ]
+]
+
+{ #category : 'lifecycle' }
+SDL3AnimatedCursorDemoApp >> setUp [
+
+	super setUp.
+
+	self generateCursors
 ]
 
 { #category : 'hooks' }

@@ -52,6 +52,14 @@ SDL3Texture >> destroy [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Texture >> dispose [
+
+	(handle isNil or: [ self isNull ]) ifTrue: [ ^ self ].
+	self destroy.
+	handle := nil
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Texture >> extent [
 	^ self w @ self h
 ]

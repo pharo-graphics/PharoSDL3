@@ -21,9 +21,10 @@ SDL3SurfaceTest >> testColorAt [
 
 	| surface extent color |
 	color := Color purple.
-	extent := 300@200.	
+	extent := 300 @ 200.
 
 	surface := SDL3Surface unownedNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
+	DiScope own: surface.
 	surface clearColor: color.
 
 	self assert: surface extent equals: extent.
@@ -31,9 +32,7 @@ SDL3SurfaceTest >> testColorAt [
 
 	0 to: extent x - 1 do: [ :x |
 		0 to: extent y - 1 do: [ :y |
-			self assert: (surface colorAtX: x y: y) equals: color ] ].
-
-	surface destroy
+			self assert: (surface colorAtX: x y: y) equals: color ] ]
 ]
 
 { #category : 'tests' }
@@ -41,7 +40,7 @@ SDL3SurfaceTest >> testFormAsSurface [
 
 	| form surface |
 	form := self newIconForm.
-	surface := form unownedAsSDL3Surface.
+	DiScope own: (surface := form unownedAsSDL3Surface).
 
 	self assert: surface w equals: form width.
 	self assert: surface h equals: form height.
@@ -49,16 +48,14 @@ SDL3SurfaceTest >> testFormAsSurface [
 	0 to: form width - 1 do: [ :x |
 		0 to: form height - 1 do: [ :y |
 			| actualColor expectedColor |
-			expectedColor := form colorAt: x@y.
+			expectedColor := form colorAt: x @ y.
 			actualColor := surface colorAtX: x y: y.
 
 			#(red green blue alpha) do: [ :selector |
 				self
 					assert: (actualColor perform: selector)
 					closeTo: (expectedColor perform: selector)
-					precision: 0.001 ] ] ].
-
-	surface destroy
+					precision: 0.001 ] ] ]
 ]
 
 { #category : 'tests' }
@@ -66,7 +63,7 @@ SDL3SurfaceTest >> testFormAsSurfaceAsForm [
 
 	| form form2 surface |
 	form := self newIconForm.
-	surface := form unownedAsSDL3Surface.
+	DiScope own: (surface := form unownedAsSDL3Surface).
 	form2 := surface asForm.
 
 	self assert: form2 width equals: form width.
@@ -74,15 +71,12 @@ SDL3SurfaceTest >> testFormAsSurfaceAsForm [
 
 	0 to: form width - 1 do: [ :x |
 		0 to: form height - 1 do: [ :y |
-
 			| currentPoint actualColor expectedColor |
-			currentPoint := x@y.
+			currentPoint := x @ y.
 			expectedColor := form colorAt: currentPoint.
 			actualColor := form2 colorAt: currentPoint.
 
-			self assert: actualColor equals: expectedColor ] ].
-
-	surface destroy
+			self assert: actualColor equals: expectedColor ] ]
 ]
 
 { #category : 'tests' }
@@ -90,18 +84,18 @@ SDL3SurfaceTest >> testSaveAndLoadPNG [
 
 	| extent color filePathString surface loadedSurface |
 	color := Color purple.
-	extent := 100@50.	
+	extent := 100 @ 50.
 	filePathString := 'sdl3.png'.
 	filePathString asFileReference ensureDelete.
 
 	surface := SDL3Surface unownedNewWidth: extent x height: extent y format: SDL3PixelFormat argb8888.
+	DiScope own: surface.
 	surface clearColor: color.
 
 	self deny: filePathString asFileReference exists.
 	surface savePNGFile: filePathString.
 	self assert: filePathString asFileReference exists.
-
-	loadedSurface := SDL3Library uniqueInstance loadPNG: filePathString.
+	DiScope own: (loadedSurface := SDL3Library uniqueInstance loadPNG: filePathString).
 
 	self assert: loadedSurface extent equals: surface extent.
 	self assert: loadedSurface pitch equals: surface pitch.
@@ -109,7 +103,5 @@ SDL3SurfaceTest >> testSaveAndLoadPNG [
 	self assert: (surface colorAtX: 5 y: 5) equals: color.
 	self assert: loadedSurface paletteOrNil isNil.
 
-	filePathString asFileReference ensureDelete.
-	surface destroy.
-	loadedSurface destroy
+	filePathString asFileReference ensureDelete
 ]

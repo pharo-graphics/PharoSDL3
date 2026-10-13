@@ -38,25 +38,14 @@ Class {
 	#tag : 'API'
 }
 
-{ #category : 'private' }
+{ #category : 'actions' }
 SDL3WindowChildrenDemoApp >> addChild: aWindow type: aSymbol [
 
 	| id |
 	id := aWindow id.
-	children at: id put: aWindow.
+	children at: id put: (DiScope own: aWindow).
 	childTypes at: id put: aSymbol.
-	aWindow unownedNewRenderer. "Ensure the window has an associated default renderer"
-]
-
-{ #category : 'lifecycle' }
-SDL3WindowChildrenDemoApp >> close [
-
-	children valuesDo: [ :each |
-		each renderer destroy.
-		each destroy ].
-	children removeAll.
-
-	super close
+	DiScope own: aWindow unownedNewRenderer "Ensure the window has an associated default renderer"
 ]
 
 { #category : 'accessing' }
@@ -87,7 +76,7 @@ SDL3WindowChildrenDemoApp >> removeChildWithID: aWindowID [
 	self removeChildrenSuchThat: [ :childWindow | childWindow id = aWindowID ]
 ]
 
-{ #category : 'private' }
+{ #category : 'actions' }
 SDL3WindowChildrenDemoApp >> removeChildrenSuchThat: aBlock [
 
 	| toRemove |
@@ -95,8 +84,9 @@ SDL3WindowChildrenDemoApp >> removeChildrenSuchThat: aBlock [
 	toRemove do: [ :eachWindow |
 		| id |
 		id := eachWindow id.
-		(children removeKey: id ifAbsent: [ nil ])
-			ifNotNil: [ :w | w renderer destroy. w destroy ].
+		children removeKey: id ifAbsent: [ nil ].
+		eachWindow renderer ifNotNil: [ :r | r dispose ].
+		eachWindow dispose.
 		eventCounts removeKey: id ifAbsent: [ ] ]
 ]
 
@@ -142,12 +132,12 @@ SDL3WindowChildrenDemoApp >> renderChild: childWindow [
 	childRenderer renderPresent
 ]
 
-{ #category : 'hooks' }
+{ #category : 'rendering' }
 SDL3WindowChildrenDemoApp >> renderParent [
 
 	| x y |
 	self clearColor: Color black.
-	
+
 	x := 20.
 	y := 20.
 
@@ -160,9 +150,9 @@ SDL3WindowChildrenDemoApp >> renderParent [
 
 	flashCountdown > 0
 		ifFalse: [
-				self
-					showText: 'F: Flash Main Window (3s delay - lose focus to see the effect)'
-					x: x y: y + 90 color: Color white ]
+			self
+				showText: 'F: Flash Main Window (3s delay - lose focus to see the effect)'
+				x: x y: y + 90 color: Color white ]
 		ifTrue: [
 			| now |
 			now := Time millisecondClockValue.
@@ -178,17 +168,17 @@ SDL3WindowChildrenDemoApp >> renderParent [
 						x: x y: y + 90 color: Color yellow ] ].
 
 	self showText: ('Active Child Windows: ', children size asString) x: x y: y + 115 color: Color lightYellow.
-	
+
 	self showText: ('Main Window Events: ', (eventCounts at: window id ifAbsent: [ 0 ]) asString)
 		x: x y: y + 140 color: Color cyan.
-		
+
 	self showText: ('Main Window Opacity: ', (window opacity * 100) rounded asString, '%')
 		x: x y: y + 155 color: Color cyan.
-		
-	window hasInputFocus ifTrue: [ 
+
+	window hasInputFocus ifTrue: [
 		self showText: '*** FOCUSED ***' x: x y: y + 170 color: Color green ].
-		
-	isModalActive ifTrue: [ 
+
+	isModalActive ifTrue: [
 		self showText: '*** LOCKED BY MODAL WINDOW  ***' x: x y: y + 170 color: Color red ].
 
 	self present
@@ -275,12 +265,12 @@ SDL3WindowChildrenDemoApp >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
 
 	| windowID |
 	windowID := aMouseButtonDownEvent windowID.
-	
+
 	"If main window is clicked, dismiss all popups and tooltips"
-	windowID = window id ifTrue: [ 
+	windowID = window id ifTrue: [
 		self removePopupMenus.
 		self removeTooltips ].
-	
+
 	"Dismiss popups/tooltips on click on themselves"
 	children at: windowID ifPresent: [ :childWindow |
 		(childWindow isTooltip or: [ childWindow isPopupMenu ])
@@ -294,11 +284,11 @@ SDL3WindowChildrenDemoApp >> visitMouseWheelEvent: aMouseWheelEvent [
 
 	| windowID |
 	windowID := aMouseWheelEvent windowID.
-	
-	windowID = window id ifTrue: [ 
+
+	windowID = window id ifTrue: [
 		window opacity:
 			((window opacity + (aMouseWheelEvent y * 0.05)) min: 1.0 max: 0.1) ].
-	
+
 	children at: windowID ifPresent: [ :childWindow |
 		childWindow opacity:
 			(childWindow opacity + (aMouseWheelEvent y * 0.05) min: 1.0 max: 0.1) ].
