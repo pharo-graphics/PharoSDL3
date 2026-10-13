@@ -29,9 +29,9 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 	1 to: numElements do: [ :i | self assert: (inputData at: i) equals: i asFloat ].
 
 	"2. Create GPU buffers"
-	inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize.
-	resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize.
-	transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
+	DiScope own: (inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize).
+	DiScope own: (resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize).
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
 
 	"3. Upload input data"
 	gpuDevice
@@ -56,7 +56,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 				cycle: false ].
 
 	"B. Compute"
-	computePipeline := SDL3TestComputeMathShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeMathShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	"Inlined binding logic to match Boids demo and ensure handle persistence"
 	rwBindings := SDL3Array newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
@@ -76,8 +76,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 	commandBuffer submit.
 
 	"4. Download results"
-	transferBuffer release.
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -98,14 +97,7 @@ SDL3ComputePipelineTest >> test01SimpleMath [
 	"5. Assert"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 			resultData := FFIArray fromHandle: mappedAddress type: FFIFloat32 size: numElements.
-			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: (i * 2) asFloat ] ].
-
-	"Cleanup"
-	computePipeline release.
-	inputBuffer release.
-	resultBuffer release.
-	transferBuffer release.
-	inputData free
+			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: (i * 2) asFloat ] ]
 ]
 
 { #category : 'tests' }
@@ -124,10 +116,10 @@ SDL3ComputePipelineTest >> test02Uniforms [
 		offset: 5.0.
 
 	"2. Create GPU buffers"
-	resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize.
+	DiScope own: (resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize).
 
 	"3. Setup pipeline and dispatch"
-	computePipeline := SDL3TestComputeUniformShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeUniformShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer pushComputeUniform: uniforms slot: 0.
@@ -144,7 +136,7 @@ SDL3ComputePipelineTest >> test02Uniforms [
 	commandBuffer submit.
 
 	"4. Download results"
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -165,12 +157,7 @@ SDL3ComputePipelineTest >> test02Uniforms [
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 			resultData := FFIArray fromHandle: mappedAddress type: FFIFloat32 size: numElements.
 			1 to: numElements do: [ :i | "Expected: (i-1) * 10.0 + 5.0"
-			self assert: (resultData at: i) equals: (i - 1 * 10.0 + 5.0) asFloat ] ].
-
-	"Cleanup"
-	computePipeline release.
-	resultBuffer release.
-	transferBuffer release
+			self assert: (resultData at: i) equals: (i - 1 * 10.0 + 5.0) asFloat ] ]
 ]
 
 { #category : 'tests' }
@@ -183,17 +170,17 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 	byteSize := numElements * FFIFloat32 externalTypeSize.
 
 	"1. Create 3 buffers for double-buffering style chain"
-	bufferA := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize.
+	DiScope own: (bufferA := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize).
 	bufferB := gpuDevice
 		           unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		           size: byteSize.
-	bufferC := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize.
+	DiScope own: bufferB.
+	DiScope own: (bufferC := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize).
 
 	"Initial data: 10.0"
 	inputData := SDL3Array newType: FFIFloat32 size: numElements.
 	1 to: numElements do: [ :i | inputData at: i put: 10.0 ].
-
-	transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
 	gpuDevice
 		mapTransferBuffer: transferBuffer
 		cycle: false
@@ -216,7 +203,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 				cycle: false ].
 
 	"B. Setup pipeline"
-	computePipeline := SDL3TestComputeAddOneShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeAddOneShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	"C. Dispatch A: A -> B"
 	rwBindingsA := SDL3Array newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
@@ -247,8 +234,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 	commandBuffer submit.
 
 	"3. Download results from C"
-	transferBuffer release.
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -268,15 +254,7 @@ SDL3ComputePipelineTest >> test03MultiDispatchChaining [
 	"4. Assert: 10.0 + 1.0 + 1.0 = 12.0"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 			resultData := FFIArray fromHandle: mappedAddress type: FFIFloat32 size: numElements.
-			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: 12.0 ] ].
-
-	"Cleanup"
-	computePipeline release.
-	bufferA release.
-	bufferB release.
-	bufferC release.
-	transferBuffer release.
-	inputData free
+			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: 12.0 ] ]
 ]
 
 { #category : 'tests' }
@@ -298,9 +276,9 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 				w: 40.0 ].
 
 	"2. Create GPU buffers"
-	inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize.
-	resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize.
-	transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
+	DiScope own: (inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize).
+	DiScope own: (resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize).
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
 
 	"3. Upload"
 	gpuDevice
@@ -325,7 +303,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 				cycle: false ].
 
 	"B. Compute"
-	computePipeline := SDL3TestComputeStructShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeStructShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	rwBindings := SDL3Array newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
 	rwBindings first
@@ -342,8 +320,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 	commandBuffer submit.
 
 	"4. Download results"
-	transferBuffer release.
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -369,14 +346,7 @@ SDL3ComputePipelineTest >> test04StructuredBuffers [
 					self assert: s x equals: 11.0.
 					self assert: s y equals: 22.0.
 					self assert: s z equals: 33.0.
-					self assert: s w equals: 44.0 ] ].
-
-	"Cleanup"
-	computePipeline release.
-	inputBuffer release.
-	resultBuffer release.
-	transferBuffer release.
-	inputData free
+					self assert: s w equals: 44.0 ] ]
 ]
 
 { #category : 'tests' }
@@ -389,10 +359,10 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 	byteSize := numElements * FFIUInt32 externalTypeSize.
 
 	"1. Create GPU result buffer"
-	resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize. "1024 uints"
+	DiScope own: (resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize). "1024 uints"
 
 	"2. Setup pipeline and dispatch"
-	computePipeline := SDL3TestComputeIndexShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeIndexShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	rwBindings := SDL3Array newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
@@ -406,7 +376,7 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 	commandBuffer submit.
 
 	"3. Download results"
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -426,12 +396,7 @@ SDL3ComputePipelineTest >> test05LargeBufferIndexing [
 	"4. Assert"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 			resultData := FFIArray fromHandle: mappedAddress type: FFIUInt32 size: numElements.
-			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: i - 1 ] ].
-
-	"Cleanup"
-	computePipeline release.
-	resultBuffer release.
-	transferBuffer release
+			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: i - 1 ] ]
 ]
 
 { #category : 'tests' }
@@ -450,9 +415,10 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 		                 usage: SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE | SDL_GPU_TEXTUREUSAGE_SAMPLER
 		                 width: texWidth
 		                 height: texHeight.
+	DiScope own: resultTexture.
 
 	"2. Setup pipeline and dispatch"
-	computePipeline := SDL3TestComputeTextureShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeTextureShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	rwBindings := SDL3Array newType: SDL3GPUStorageTextureReadWriteBinding size: 1.
@@ -466,7 +432,7 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 	commandBuffer submit.
 
 	"3. Download results"
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -496,12 +462,7 @@ SDL3ComputePipelineTest >> test06StorageTextures [
 			self assert: (resultData at: byteSize - 3) equals: 239. "R (15/16 * 255 = 239.0625)"
 			self assert: (resultData at: byteSize - 2) equals: 239. "G"
 			self assert: (resultData at: byteSize - 1) equals: 0. "B"
-			self assert: (resultData at: byteSize) equals: 255 "A" ].
-
-	"Cleanup"
-	computePipeline release.
-	resultTexture release.
-	transferBuffer release
+			self assert: (resultData at: byteSize) equals: 255 "A" ]
 ]
 
 { #category : 'tests' }
@@ -520,12 +481,13 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 	1 to: numElements do: [ :i | inputData at: i put: 1.0 ].
 
 	"2. Create GPU buffers"
-	inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize.
+	DiScope own: (inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize).
 	"Output needs 1 float per workgroup"
 	resultBuffer := gpuDevice
 		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
 		                size: numWorkgroups * FFIFloat32 externalTypeSize.
-	transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
+	DiScope own: resultBuffer.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
 
 	"3. Upload input data"
 	gpuDevice
@@ -550,7 +512,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 				cycle: false ].
 
 	"B. Compute"
-	computePipeline := SDL3TestComputeSharedMemoryShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeSharedMemoryShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	rwBindings := SDL3Array newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
 	rwBindings first
@@ -567,8 +529,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 	commandBuffer submit.
 
 	"4. Download results"
-	transferBuffer release.
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: numWorkgroups * FFIFloat32 externalTypeSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: numWorkgroups * FFIFloat32 externalTypeSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -590,13 +551,7 @@ SDL3ComputePipelineTest >> test07SharedMemory [
 			resultData := FFIArray fromHandle: mappedAddress type: FFIFloat32 size: numWorkgroups.
 
 			"Every workgroup of 64 threads should produce the sum of 64 ones = 64.0"
-			1 to: numWorkgroups do: [ :i | self assert: (resultData at: i) equals: 64.0 ] ].
-
-	"Cleanup"
-	computePipeline release.
-	inputBuffer release.
-	resultBuffer release.
-	transferBuffer release
+			1 to: numWorkgroups do: [ :i | self assert: (resultData at: i) equals: 64.0 ] ]
 ]
 
 { #category : 'tests' }
@@ -625,11 +580,13 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	indirectBuffer := gpuDevice
 		                  unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDIRECT
 		                  size: SDL3GPUIndirectDispatchCommand structureSize.
-	inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize.
-	resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize.
+	DiScope own: indirectBuffer.
+	DiScope own: (inputBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ size: byteSize).
+	DiScope own: (resultBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE size: byteSize).
 
 	"4. Upload data"
-	transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: SDL3GPUIndirectDispatchCommand structureSize + byteSize.
+	DiScope own:
+		(transferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: SDL3GPUIndirectDispatchCommand structureSize + byteSize).
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress | "Upload indirect command at offset 0"
 			sdl memcpyDst: mappedAddress src: indirectData len: SDL3GPUIndirectDispatchCommand structureSize.
 			"Upload input data at offset after indirect struct"
@@ -660,7 +617,7 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 				cycle: false ].
 
 	"5. Compute"
-	computePipeline := SDL3TestComputeMathShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3TestComputeMathShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	rwBindings := SDL3Array newType: SDL3GPUStorageBufferReadWriteBinding size: 1.
 	rwBindings first
@@ -677,8 +634,7 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	commandBuffer submit.
 
 	"6. Download results"
-	transferBuffer release.
-	transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize.
+	DiScope own: (transferBuffer := gpuDevice unownedNewGPUDownloadTransferBuffer: byteSize).
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 	commandBuffer copyPassDo: [ :copyPass |
 			copyPass
@@ -698,27 +654,17 @@ SDL3ComputePipelineTest >> test08IndirectDispatch [
 	"7. Assert"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 			resultData := FFIArray fromHandle: mappedAddress type: FFIFloat32 size: numElements.
-			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: (i * 2) asFloat ] ].
-
-	"Cleanup"
-	computePipeline release.
-	indirectBuffer release.
-	inputBuffer release.
-	resultBuffer release.
-	transferBuffer release
+			1 to: numElements do: [ :i | self assert: (resultData at: i) equals: (i * 2) asFloat ] ]
 ]
 
 { #category : 'tests' }
 SDL3ComputePipelineTest >> test09ComputePipelineWithFormats [
 
 	| computePipeline |
-	computePipeline :=
-		SDL3TestComputeMathShaderSource
-			unownedNewComputePipelineForDevice: gpuDevice
-			formatFlags: gpuDevice gpuShaderFormatFlags.
+	DiScope own: (computePipeline := SDL3TestComputeMathShaderSource
+		unownedNewComputePipelineForDevice: gpuDevice
+		formatFlags: gpuDevice gpuShaderFormatFlags).
 
 	self deny: computePipeline isNil.
-	self deny: computePipeline isNull.
-
-	computePipeline release
+	self deny: computePipeline isNull
 ]

@@ -10,21 +10,21 @@ Class {
 		'layoutEngine',
 		'scrollPosition',
 		'targetScrollY',
-		'gpuPipeline',
+		'instanceBufferSize',
+		'uniforms',
+		'lastVisibleLineRange',
+		'lastVisibleGlyphCount',
+		'pipeline',
 		'baseQuadBuffer',
 		'instanceBuffer',
-		'instanceBufferSize',
+		'instanceTransferBuffer',
+		'indexBuffer',
 		'sampler',
 		'atlasTexture',
 		'colorTargetInfos',
-		'vertexBufferBindings',
-		'textureSamplerBindings',
 		'indexBinding',
-		'indexBuffer',
-		'uniforms',
-		'instanceTransferBuffer',
-		'lastVisibleLineRange',
-		'lastVisibleGlyphCount'
+		'vertexBufferBindings',
+		'textureSamplerBindings'
 	],
 	#category : 'SDL3-GPU-Demos-TextScroll',
 	#package : 'SDL3-GPU-Demos',
@@ -34,48 +34,6 @@ Class {
 { #category : 'accessing' }
 SDL3TextScrollDemoApp >> atlas [
 	^ atlas
-]
-
-{ #category : 'lifecycle' }
-SDL3TextScrollDemoApp >> close [
-
-	gpuPipeline ifNotNil: [
-		gpuPipeline release.
-		gpuPipeline := nil ].
-
-	baseQuadBuffer ifNotNil: [
-		baseQuadBuffer release.
-		baseQuadBuffer := nil ].
-
-	instanceBuffer ifNotNil: [
-		instanceBuffer release.
-		instanceBuffer := nil ].
-
-	instanceTransferBuffer ifNotNil: [
-		instanceTransferBuffer release.
-		instanceTransferBuffer := nil ].
-
-	indexBuffer ifNotNil: [
-		indexBuffer release.
-		indexBuffer := nil ].
-
-	sampler ifNotNil: [
-		sampler release.
-		sampler := nil ].
-
-	atlasTexture ifNotNil: [
-		atlasTexture release.
-		atlasTexture := nil ].
-
-	colorTargetInfos ifNotNil: [
-		colorTargetInfos free.
-		colorTargetInfos := nil ].
-
-	indexBinding ifNotNil: [
-		indexBinding free.
-		indexBinding := nil ].
-
-	super close
 ]
 
 { #category : 'rendering' }
@@ -102,7 +60,7 @@ SDL3TextScrollDemoApp >> executeTextRenderPassOn: swapchainTexture with: command
 		vertexBufferBindings second buffer: instanceBuffer.
 
 		renderPass
-			pipeline: gpuPipeline;
+			pipeline: pipeline;
 			vertexBuffers: vertexBufferBindings slot: 0;
 			indexBuffer16Bit: indexBinding;
 			fragmentSamplers: textureSamplerBindings slot: 0.
@@ -133,15 +91,6 @@ SDL3TextScrollDemoApp >> initialize [
 	scrollPosition := 0 @ 0.
 	targetScrollY := 0.0.
 	instanceBufferSize := 0.
-
-	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos first beClear: Color white.
-
-	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 2.
-	textureSamplerBindings := SDL3Array newType: SDL_GPUTextureSamplerBinding size: 1.
-	indexBinding := SDL_GPUBufferBinding unownedNew
-		                beOffset: 0;
-		                yourself.
 
 	uniforms := SDL3TextScrollUniforms new.
 
@@ -210,9 +159,11 @@ SDL3TextScrollDemoApp >> initializeAtlas [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeBaseQuadBuffer [
 
-	baseQuadBuffer := gpuDevice
-		                  unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-		                  size: SDL3GPUQuadVertex structureSize * 4.
+	DiScope own:
+		(baseQuadBuffer := gpuDevice
+			                  unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+			                  size: SDL3GPUQuadVertex structureSize * 4).
+	vertexBufferBindings first buffer: baseQuadBuffer.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
 		uploader
@@ -241,9 +192,7 @@ SDL3TextScrollDemoApp >> initializeGPUResources [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeIndexBuffer [
 
-	indexBuffer := gpuDevice
-		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-		               size: 6 * 2.
+	DiScope own: (indexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: 6 * 2).
 	indexBinding buffer: indexBuffer.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -318,12 +267,13 @@ SDL3TextScrollDemoApp >> initializePipeline [
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			               info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-			               info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	DiScope own: pipeline.
 
-	vertexShader release.
-	fragmentShader release.
+	vertexShader dispose.
+	fragmentShader dispose.
 	vertexBindings free.
 	vertexAttributes free.
 	colorTargets free
@@ -332,14 +282,14 @@ SDL3TextScrollDemoApp >> initializePipeline [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeSampler [
 
-	sampler := gpuDevice unownedNewGPUSampler: [ :info |
+	DiScope own: (sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info
 			minFilter: SDL_GPU_FILTER_NEAREST;
 			magFilter: SDL_GPU_FILTER_NEAREST;
 			mipmapMode: SDL_GPU_SAMPLERMIPMAPMODE_NEAREST;
 			addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE ].
+			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE ]).
 
 	textureSamplerBindings first sampler: sampler
 ]
@@ -347,11 +297,11 @@ SDL3TextScrollDemoApp >> initializeSampler [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeTexture [
 
-	atlasTexture := gpuDevice
-		                unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
-		                usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
-		                width: atlas width
-		                height: atlas height.
+	DiScope own: (atlasTexture := gpuDevice
+		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
+		width: atlas width
+		height: atlas height).
 
 	"Cairo A8 surfaces may have padding (stride). We forced width to be a multiple of 4, so stride == width."
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -373,51 +323,28 @@ SDL3TextScrollDemoApp >> instanceStride [
 	^ 36
 ]
 
-{ #category : 'lifecycle' }
-SDL3TextScrollDemoApp >> open [
-
-	"Load the large text file"
-	[ text := FileLocator changes readStream next: 10e6 ] on: Error do: [ :ex |
-		text := 'Error loading changes file: ', ex messageText ].
-
-	super open.
-	self initializeAtlas.
-	self initializeGPUResources
-]
-
 { #category : 'private' }
 SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 
 	| visibleLineRange firstLine lastLine visibleGlyphCount |
-
-	visibleLineRange := layoutEngine visibleLineRangeIn:
-							(scrollPosition extent: window pixelExtent).
+	visibleLineRange := layoutEngine visibleLineRangeIn: (scrollPosition extent: window pixelExtent).
 
 	"Optimization: Skip layout and upload if the visible range is the same"
-	visibleLineRange = lastVisibleLineRange ifTrue: [
-		^ lastVisibleGlyphCount ].
+	visibleLineRange = lastVisibleLineRange ifTrue: [ ^ lastVisibleGlyphCount ].
 
 	firstLine := visibleLineRange x.
 	lastLine := visibleLineRange y.
 
 	"Exact character count for visible lines to prevent overflow"
-	visibleGlyphCount := (layoutEngine
-							 characterCountFromLine: firstLine
-							 to: lastLine) + 100.
+	visibleGlyphCount := (layoutEngine characterCountFromLine: firstLine to: lastLine) + 100.
 
 	"Recycle or resize GPU buffers"
-	(instanceBuffer isNil or: [ instanceBufferSize < (visibleGlyphCount * SDL3TextScrollInstance structureSize) ])
-		ifTrue: [
-			instanceBuffer ifNotNil: [
-				instanceBuffer release ].
-			instanceTransferBuffer ifNotNil: [
-				instanceTransferBuffer release ].
-			instanceBufferSize := (visibleGlyphCount * SDL3TextScrollInstance structureSize * 1.5) ceiling.
-			instanceBuffer := gpuDevice
-								 unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-								 size: instanceBufferSize.
-			instanceTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer:
-										 instanceBufferSize ].
+	(instanceBuffer isNil or: [ instanceBufferSize < (visibleGlyphCount * SDL3TextScrollInstance structureSize) ]) ifTrue: [
+		instanceBuffer ifNotNil: [ instanceBuffer dispose ].
+		instanceTransferBuffer ifNotNil: [ instanceTransferBuffer dispose ].
+		instanceBufferSize := (visibleGlyphCount * SDL3TextScrollInstance structureSize * 1.5) ceiling.
+		DiScope own: (instanceBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: instanceBufferSize).
+		DiScope own: (instanceTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: instanceBufferSize) ].
 
 	commandBuffer uploadToGPUDo: [ :uploader |
 		uploader
@@ -429,9 +356,9 @@ SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 			fillWith: [ :mappedInstances |
 				"Lazy Layout into the buffer"
 				visibleGlyphCount := layoutEngine
-										layoutVisibleLinesOf: text
-										in: (scrollPosition extent: window pixelExtent)
-										into: mappedInstances ] ].
+					layoutVisibleLinesOf: text
+					in: (scrollPosition extent: window pixelExtent)
+					into: mappedInstances ] ].
 
 	visibleGlyphCount = 0 ifTrue: [
 		lastVisibleLineRange := visibleLineRange.
@@ -442,6 +369,27 @@ SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 	lastVisibleGlyphCount := visibleGlyphCount.
 
 	^ visibleGlyphCount
+]
+
+{ #category : 'lifecycle' }
+SDL3TextScrollDemoApp >> setUp [
+	"Load the large text file"
+
+	[ text := FileLocator changes readStream next: 10e6 ]
+		on: Error
+		do: [ :ex | text := 'Error loading changes file: ', ex messageText ].
+
+	super setUp.
+	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+	colorTargetInfos first beClear: Color white.
+	DiScope own: (indexBinding := SDL_GPUBufferBinding unownedNew
+		beOffset: 0;
+		yourself).
+	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2).
+	DiScope own: (textureSamplerBindings := SDL3Array unownedNewType: SDL_GPUTextureSamplerBinding size: 1).
+
+	self initializeAtlas.
+	self initializeGPUResources
 ]
 
 { #category : 'hooks' }

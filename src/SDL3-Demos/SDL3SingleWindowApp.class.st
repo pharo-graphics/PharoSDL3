@@ -22,16 +22,6 @@ SDL3SingleWindowApp class >> isAbstract [
 	^ self == SDL3SingleWindowApp
 ]
 
-{ #category : 'lifecycle' }
-SDL3SingleWindowApp >> close [
-
-	window ifNotNil: [
-		window destroy.
-		window := nil ].
-		
-	super close
-]
-
 { #category : 'accessing' }
 SDL3SingleWindowApp >> initialExtent [
 
@@ -45,21 +35,16 @@ SDL3SingleWindowApp >> initialWindowFlags [
 ]
 
 { #category : 'lifecycle' }
-SDL3SingleWindowApp >> open [
+SDL3SingleWindowApp >> setUp [
 
-	window :=
+	super setUp.
+
+	DiScope own: (window :=
 		SDL3Window
 			unownedNewTitle: self updatedTitle
 			width: self initialExtent x
 			height: self initialExtent y
-			flags: self initialWindowFlags.
-]
-
-{ #category : 'lifecycle' }
-SDL3SingleWindowApp >> prepareToLoop [
-
-	self open.
-	super prepareToLoop
+			flags: self initialWindowFlags)
 ]
 
 { #category : 'private' }
@@ -81,4 +66,10 @@ SDL3SingleWindowApp >> visitWindowCloseRequestedEvent: aWindowEvent [
 	aWindowEvent windowID = window id ifTrue: [ loop requestQuit ].
 
 	super visitWindowCloseRequestedEvent: aWindowEvent
+]
+
+{ #category : 'accessing' }
+SDL3SingleWindowApp >> window [
+
+	^ window
 ]

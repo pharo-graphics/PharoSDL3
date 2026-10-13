@@ -35,16 +35,6 @@ SDL3RendererDemoApp >> clearColor: aColor [
 	renderer renderClear
 ]
 
-{ #category : 'lifecycle' }
-SDL3RendererDemoApp >> close [
-
-	renderer ifNotNil: [
-		renderer destroy.
-		renderer := nil ].
-		
-	super close
-]
-
 { #category : 'renderer' }
 SDL3RendererDemoApp >> color: aColor [
 
@@ -54,21 +44,27 @@ SDL3RendererDemoApp >> color: aColor [
 { #category : 'lifecycle' }
 SDL3RendererDemoApp >> initializeRenderer [
 
-	renderer := window unownedNewRenderer
-]
-
-{ #category : 'lifecycle' }
-SDL3RendererDemoApp >> open [
-
-	super open.
-
-	self initializeRenderer
+	DiScope own: (renderer := window unownedNewRenderer)
 ]
 
 { #category : 'renderer' }
 SDL3RendererDemoApp >> present [
 
 	renderer renderPresent
+]
+
+{ #category : 'accessing' }
+SDL3RendererDemoApp >> renderer [
+
+	^ renderer
+]
+
+{ #category : 'lifecycle' }
+SDL3RendererDemoApp >> setUp [
+
+	super setUp.
+
+	self initializeRenderer
 ]
 
 { #category : 'renderer' }

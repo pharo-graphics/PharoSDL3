@@ -11,9 +11,9 @@ Class {
 		'texture',
 		'currentFrame'
 	],
-	#category : 'SDL3-Demos-API',
+	#category : 'SDL3-Demos-Base',
 	#package : 'SDL3-Demos',
-	#tag : 'API'
+	#tag : 'Base'
 }
 
 { #category : 'rendering' }
@@ -48,7 +48,7 @@ SDL3CameraDemoApp >> chooseCamera [
 
 	| ids cameraId |
 	ids := sdl allCameraIDs.
-	
+
 	ids ifEmpty: [
 		^ console addLine: 'No available cameras!' ].
 
@@ -66,35 +66,16 @@ SDL3CameraDemoApp >> chooseCamera [
 			"Close current camera and will look for next camera"
 			currentId := ids indexOf: camera id.
 			cameraId := ids atWrap: currentId + 1.
-			camera close.
+			camera dispose.
 			camera := nil ].
 
 	console addLine: 'Opening camera: ', (self descriptionForCameraId: cameraId).
-
-"	specs := sdl allCameraSupportedFormatsOf: cameraId."
-	camera := SDL3Camera unownedOpenInstanceID: cameraId spec: nil.
+	DiScope own: (camera := SDL3Camera unownedOpenInstanceID: cameraId spec: nil).
 	camera isNull ifTrue: [
 		console addLine: 'Opening camera ERROR: ', sdl getError asString.
 		^ camera := nil ].
 
 	console addLine: 'Opening camera SUCCESS'
-]
-
-{ #category : 'lifecycle' }
-SDL3CameraDemoApp >> close [
-
-	(currentFrame notNil and: [ currentFrame isNull not ]) ifTrue: [
-		camera releaseFrame: currentFrame ].
-
-	camera ifNotNil: [
-		camera close.
-		camera := nil ].
-
-	texture ifNotNil: [
-		texture destroy.
-		texture := nil ].
-
-	super close
 ]
 
 { #category : 'printing' }
@@ -115,14 +96,6 @@ SDL3CameraDemoApp >> initialWindowFlags [
 	^ SDL_WINDOW_RESIZABLE
 ]
 
-{ #category : 'lifecycle' }
-SDL3CameraDemoApp >> prepareToLoop [
-
-	super prepareToLoop.
-
-	self chooseCamera
-]
-
 { #category : 'rendering' }
 SDL3CameraDemoApp >> render [
 	
@@ -132,6 +105,14 @@ SDL3CameraDemoApp >> render [
 		renderer renderTexture: texture srcrect: nil dstrect: nil ].
 	console renderOn: renderer.
 	renderer renderPresent
+]
+
+{ #category : 'lifecycle' }
+SDL3CameraDemoApp >> setUp [
+
+	super setUp.
+
+	self chooseCamera
 ]
 
 { #category : 'hooks' }
@@ -166,9 +147,9 @@ SDL3CameraDemoApp >> updateTextureFromCurrentFrame [
 			numberAt: SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER
 				put: currentFrame h;
 			yourself.
-		texture ifNotNil: [ texture destroy ].
-		texture := renderer unownedNewTextureWithProperties: propertyGroup.
-		propertyGroup destroy.
+		texture := DiScope
+			dispose: texture
+			andOwn: ([ renderer unownedNewTextureWithProperties: propertyGroup ] ensure: [ propertyGroup destroy ]).
 
 		self adjustWindowToNewFrameExtent ].
 	texture updateRect: nil pixels: currentFrame pixels pitch: currentFrame pitch

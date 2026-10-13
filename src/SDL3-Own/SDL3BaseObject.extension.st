@@ -9,6 +9,14 @@ SDL3BaseObject >> = anObject [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3BaseObject >> dispose [
+
+	(handle isNil or: [ self isNull ]) ifTrue: [ ^ self ].
+	self destroy.
+	handle beNull
+]
+
+{ #category : '*SDL3-Own' }
 SDL3BaseObject >> hash [
 
 	^ self class hash bitXor: self getHandle hash

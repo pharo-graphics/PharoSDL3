@@ -44,6 +44,14 @@ SDL3PropertyGroup >> destroy [
 	^ self ffiLibrary destroyProperties: id
 ]
 
+{ #category : 'finalization' }
+SDL3PropertyGroup >> dispose [
+
+	id ifNil: [ ^ self ].
+	self destroy.
+	id := nil
+]
+
 { #category : 'accessing' }
 SDL3PropertyGroup >> doesGPUSupportProperties [
 

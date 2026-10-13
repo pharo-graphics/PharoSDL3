@@ -5,61 +5,27 @@ Class {
 	#name : 'SDL3GPURoundedRectDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
-		'gpuPipeline',
-		'vertexBuffer',
-		'colorTargetInfos',
-		'vertexBufferBindings',
 		'numberOfQuads',
-		'vertexTransferBuffer',
 		'vertexBufferSize',
-		'indexBuffer',
 		'indexBufferSize',
-		'indexTransferBuffer',
-		'indexBinding',
 		'sdfUniforms',
 		'columns',
 		'rows',
 		'cornerRadiiBase',
-		'radius'
+		'radius',
+		'pipeline',
+		'vertexBuffer',
+		'indexBuffer',
+		'vertexTransferBuffer',
+		'indexTransferBuffer',
+		'colorTargetInfos',
+		'indexBinding',
+		'vertexBufferBindings'
 	],
-	#category : 'SDL3-GPU-Demos-SDF',
+	#category : 'SDL3-GPU-Demos-Base',
 	#package : 'SDL3-GPU-Demos',
-	#tag : 'SDF'
+	#tag : 'Base'
 }
-
-{ #category : 'lifecycle' }
-SDL3GPURoundedRectDemoApp >> close [
-
-	gpuPipeline ifNotNil: [
-		gpuPipeline release.
-		gpuPipeline := nil ].
-
-	vertexTransferBuffer ifNotNil: [
-		vertexTransferBuffer release.
-		vertexTransferBuffer := nil ].
-
-	indexTransferBuffer ifNotNil: [
-		indexTransferBuffer release.
-		indexTransferBuffer := nil ].
-
-	vertexBuffer ifNotNil: [
-		vertexBuffer release.
-		vertexBuffer := nil ].
-
-	indexBuffer ifNotNil: [
-		indexBuffer release.
-		indexBuffer := nil ].
-
-	colorTargetInfos ifNotNil: [
-		colorTargetInfos free.
-		colorTargetInfos := nil ].
-
-	indexBinding ifNotNil: [
-		indexBinding free.
-		indexBinding := nil ].
-
-	super close
-]
 
 { #category : 'rendering' }
 SDL3GPURoundedRectDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
@@ -87,7 +53,7 @@ SDL3GPURoundedRectDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuf
 
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
 		renderPass
-			pipeline: gpuPipeline;
+			pipeline: pipeline;
 			vertexBuffers: vertexBufferBindings slot: 0;
 			indexBuffer16Bit: indexBinding;
 			drawIndexedPrimitives: self indicesCount
@@ -116,15 +82,6 @@ SDL3GPURoundedRectDemoApp >> initialize [
 	indexBufferSize := 0.
 	cornerRadiiBase := 20.0.
 	radius := 50.0.
-
-	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos first beClear: (Color r: 0.1 g: 0.1 b: 0.1).
-
-	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
-
-	indexBinding := SDL_GPUBufferBinding unownedNew
-		                beOffset: 0;
-		                yourself.
 
 	sdfUniforms := SDL3GPUSDFRoundedRectUniforms new.
 	sdfUniforms
@@ -165,12 +122,13 @@ SDL3GPURoundedRectDemoApp >> initializePipeline [
 		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
-	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			               info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-			               info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	DiScope own: pipeline.
 
-	vertexShader release.
-	fragmentShader release.
+	vertexShader dispose.
+	fragmentShader dispose.
 	vertexBindings free.
 	vertexAttributes free.
 	colorTargets free
@@ -237,12 +195,19 @@ SDL3GPURoundedRectDemoApp >> numberOfVerticesPerQuad [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPURoundedRectDemoApp >> open [
+SDL3GPURoundedRectDemoApp >> setUp [
 	"Run headless with:
 	./pharo Pharo.image eval 'SDL3GPURoundedRectDemoApp new run'
 	"
 
-	super open.
+	super setUp.
+	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+	colorTargetInfos first beClear: (Color r: 0.1 g: 0.1 b: 0.1).
+	DiScope own: (indexBinding := SDL_GPUBufferBinding unownedNew
+		beOffset: 0;
+		yourself).
+	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1).
+
 	self newGPUResources
 ]
 
@@ -261,16 +226,12 @@ SDL3GPURoundedRectDemoApp >> updateIndexBuffer [
 
 	"1. Initialize buffer (or recreate if number of quads changed)"
 	indexBufferSize = byteSize ifFalse: [
-		indexBuffer ifNotNil: [
-			indexBuffer release.
-			indexTransferBuffer release ].
-
-		indexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
-
-		indexBuffer := gpuDevice
-			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-			               size: byteSize.
-
+		indexTransferBuffer := DiScope
+			dispose: indexTransferBuffer
+			andOwn: (gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
+		indexBuffer := DiScope
+			dispose: indexBuffer
+			andOwn: (gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: byteSize).
 		indexBinding buffer: indexBuffer.
 		indexBufferSize := byteSize ].
 
@@ -288,9 +249,7 @@ SDL3GPURoundedRectDemoApp >> updateIndexBuffer [
 					baseVertex := (i - 1) * self numberOfVerticesPerQuad.
 					baseIndex := (i - 1) * 6.
 					1 to: 6 do: [ :j |
-						indices
-							at: baseIndex + j
-							put: baseVertex + (self newQuadIndices at: j) ] ] ] ]
+						indices at: baseIndex + j put: baseVertex + (self newQuadIndices at: j) ] ] ] ]
 ]
 
 { #category : 'initialization' }
@@ -310,16 +269,12 @@ SDL3GPURoundedRectDemoApp >> updateVertexBuffer [
 
 	"2. Initialize buffer (or recreate if number of quads changed)"
 	vertexBufferSize = byteSize ifFalse: [
-		vertexBuffer ifNotNil: [
-			vertexBuffer release.
-			vertexTransferBuffer release ].
-
-		vertexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize.
-
-		vertexBuffer := gpuDevice
-			               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-			               size: byteSize.
-
+		vertexTransferBuffer := DiScope
+			dispose: vertexTransferBuffer
+			andOwn: (gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
+		vertexBuffer := DiScope
+			dispose: vertexBuffer
+			andOwn: (gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: byteSize).
 		vertexBufferBindings first buffer: vertexBuffer.
 		vertexBufferSize := byteSize ].
 

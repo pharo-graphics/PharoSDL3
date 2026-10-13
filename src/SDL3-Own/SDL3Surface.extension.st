@@ -230,6 +230,14 @@ SDL3Surface >> destroy [
 ]
 
 { #category : '*SDL3-Own' }
+SDL3Surface >> dispose [
+
+	(handle isNil or: [ self isNull ]) ifTrue: [ ^ self ].
+	self destroy.
+	handle := nil
+]
+
+{ #category : '*SDL3-Own' }
 SDL3Surface >> extent [
 	
 	^ self w @ self h
@@ -578,6 +586,15 @@ SDL3Surface >> unownedRotatedByDegrees: angle [
 	^ (self ffiLibrary rotateSurface: self angle: angle)
 		  assertNotNullReturn;
 		  yourself
+]
+
+{ #category : '*SDL3-Own' }
+SDL3Surface >> unownedScaledToWidth: width height: height [
+
+	^ self
+		unownedScaledToWidth: width
+		height: height
+		scaleMode: SDL3ScaleMode linear
 ]
 
 { #category : '*SDL3-Own' }

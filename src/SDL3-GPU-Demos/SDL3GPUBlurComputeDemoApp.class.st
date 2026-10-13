@@ -6,79 +6,29 @@ Class {
 	#name : 'SDL3GPUBlurComputeDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
-		'gpuPipeline',
-		'vertexBuffer',
-		'sampler',
-		'texture',
-		'colorTargetInfos',
-		'vertexBufferBindings',
-		'textureSamplerBindings',
-		'indexBuffer',
-		'indexBinding',
-		'writeTexture',
 		'bufferIndex',
 		'lastExtent',
-		'computePipeline',
-		'intermediateTexture',
 		'uniforms',
-		'storageTextureArray',
+		'pipeline',
+		'computePipeline',
+		'vertexBuffer',
+		'indexBuffer',
+		'sampler',
+		'texture',
+		'intermediateTexture',
+		'writeTexture',
+		'colorTargetInfos',
+		'indexBinding',
 		'blurStorageBindings',
-		'blurSamplerBindings'
+		'blurSamplerBindings',
+		'vertexBufferBindings',
+		'textureSamplerBindings',
+		'storageTextureArray'
 	],
 	#category : 'SDL3-GPU-Demos-GaussianBlur',
 	#package : 'SDL3-GPU-Demos',
 	#tag : 'GaussianBlur'
 }
-
-{ #category : 'lifecycle' }
-SDL3GPUBlurComputeDemoApp >> close [
-
-	gpuPipeline ifNotNil: [
-		gpuPipeline release.
-		gpuPipeline := nil ].
-
-	computePipeline ifNotNil: [
-		computePipeline release.
-		computePipeline := nil ].
-
-	vertexBuffer ifNotNil: [
-		vertexBuffer release.
-		vertexBuffer := nil ].
-
-	indexBuffer ifNotNil: [
-		indexBuffer release.
-		indexBuffer := nil ].
-
-	sampler ifNotNil: [
-		sampler release.
-		sampler := nil ].
-
-	texture ifNotNil: [
-		texture release.
-		texture := nil ].
-
-	intermediateTexture ifNotNil: [
-		intermediateTexture release.
-		intermediateTexture := nil ].
-
-	writeTexture ifNotNil: [
-		writeTexture release.
-		writeTexture := nil ].
-
-	blurStorageBindings ifNotNil: [
-		blurStorageBindings free.
-		blurStorageBindings := nil ].
-
-	blurSamplerBindings ifNotNil: [
-		blurSamplerBindings free.
-		blurSamplerBindings := nil ].
-
-	indexBinding ifNotNil: [
-		indexBinding free.
-		indexBinding := nil ].
-
-	super close
-]
 
 { #category : 'rendering' }
 SDL3GPUBlurComputeDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
@@ -145,7 +95,7 @@ SDL3GPUBlurComputeDemoApp >> executeFinalRenderPassOn: swapchainTexture with: co
 		indexBinding buffer: indexBuffer.
 
 		renderPass
-			pipeline: gpuPipeline;
+			pipeline: pipeline;
 			vertexBuffers: vertexBufferBindings slot: 0;
 			indexBuffer16Bit: indexBinding;
 			fragmentSamplers: textureSamplerBindings slot: 0;
@@ -160,10 +110,6 @@ SDL3GPUBlurComputeDemoApp >> executeFinalRenderPassOn: swapchainTexture with: co
 SDL3GPUBlurComputeDemoApp >> handleResize [
 	"Recreate textures and pipelines based on the new window extent"
 
-	texture release.
-	intermediateTexture release.
-	writeTexture release.
-
 	self initializeTexture.
 	self initializeComputeResources
 ]
@@ -175,65 +121,47 @@ SDL3GPUBlurComputeDemoApp >> initialize [
 
 	bufferIndex := 1.
 
-	colorTargetInfos := SDL3Array newType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos first
-		storeOp: SDL_GPU_STOREOP_STORE;
-		loadOp: SDL_GPU_LOADOP_CLEAR.
-	colorTargetInfos first clearColor updateFrom: Color red.
-
-	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
-
-	textureSamplerBindings := SDL3Array newType: SDL_GPUTextureSamplerBinding size: 1.
-
-	indexBinding := SDL_GPUBufferBinding unownedNew
-		                beOffset: 0;
-		                yourself.
-
-	blurStorageBindings := SDL3Array unownedNewType: SDL3GPUStorageTextureReadWriteBinding size: 1.
-
-	blurSamplerBindings := SDL3Array unownedNewType: SDL3GPUTextureSamplerBinding size: 1.
-
 	uniforms := SDL3GPUBlurUniforms new.
 	uniforms
 		blurRadius: 0.0;
 		blurSpread: 1.0;
-		brightness: 1.0.
-
-	storageTextureArray := SDL3Array newType: SDL_GPUTexture size: 1
+		brightness: 1.0
 ]
 
 { #category : 'initialization' }
 SDL3GPUBlurComputeDemoApp >> initializeComputeResources [
 
-	computePipeline := SDL3GPUGaussianBlurShaderSource
-		unownedNewComputePipelineForDevice: gpuDevice.
+	computePipeline ifNotNil: [ computePipeline dispose ].
+	writeTexture ifNotNil: [ writeTexture dispose ].
+	intermediateTexture ifNotNil: [ intermediateTexture dispose ].
 
-	writeTexture :=
-		gpuDevice
-			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
-			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
-			width: lastExtent x
-			height: lastExtent y.
+	computePipeline := SDL3GPUGaussianBlurShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: computePipeline.
 
-	intermediateTexture :=
-		gpuDevice
-			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
-			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
-			width: lastExtent x
-			height: lastExtent y
+	writeTexture := gpuDevice
+		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
+		width: lastExtent x
+		height: lastExtent y.
+	DiScope own: writeTexture.
+
+	intermediateTexture := gpuDevice
+		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
+		width: lastExtent x
+		height: lastExtent y.
+	DiScope own: intermediateTexture
 ]
 
 { #category : 'initialization' }
 SDL3GPUBlurComputeDemoApp >> initializeGeometry [
 	"Initialize a single full-screen quad"
 
-	vertexBuffer := gpuDevice
-		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-		                size: SDL3GPUQuadVertex structureSize * 4.
+	vertexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: SDL3GPUQuadVertex structureSize * 4.
+	DiScope own: vertexBuffer.
 
-	indexBuffer := gpuDevice
-		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-		               size: 2 * 6.
+	indexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: 2 * 6.
+	DiScope own: indexBuffer.
 
 	gpuDevice uploadToGPUDo: [ :uploader |
 		uploader
@@ -272,9 +200,7 @@ SDL3GPUBlurComputeDemoApp >> initializeGeometry [
 			type: FFIUInt16
 			count: 6
 			cycle: false
-			fillWith: [ :indices |
-				#( 0 1 2 0 2 3 ) doWithIndex: [ :val :idx |
-					indices at: idx put: val ] ] ]
+			fillWith: [ :indices | #( 0 1 2 0 2 3 ) doWithIndex: [ :val :idx | indices at: idx put: val ] ] ]
 ]
 
 { #category : 'initialization' }
@@ -288,12 +214,13 @@ SDL3GPUBlurComputeDemoApp >> initializePipeline [
 	vertexAttributes := self newVertexAttributeDescriptions.
 	colorTargets := self newColorTargetDescriptions.
 
-	gpuPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			               info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-			               info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
+		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	DiScope own: pipeline.
 
-	vertexShader release.
-	fragmentShader release.
+	vertexShader dispose.
+	fragmentShader dispose.
 	vertexBindings free.
 	vertexAttributes free.
 	colorTargets free
@@ -302,14 +229,14 @@ SDL3GPUBlurComputeDemoApp >> initializePipeline [
 { #category : 'initialization' }
 SDL3GPUBlurComputeDemoApp >> initializeSampler [
 
-	sampler := gpuDevice unownedNewGPUSampler: [ :info |
+	DiScope own: (sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info minFilter: SDL_GPU_FILTER_LINEAR;
 		magFilter: SDL_GPU_FILTER_LINEAR;
 		mipmapMode: SDL_GPU_FILTER_LINEAR;
 		addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 		addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 		addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-		yourself ].
+		yourself ]).
 
 	textureSamplerBindings first sampler: sampler
 ]
@@ -320,15 +247,17 @@ SDL3GPUBlurComputeDemoApp >> initializeTexture [
 	| browserMorph form |
 	lastExtent := window pixelExtent.
 
+	texture ifNotNil: [ texture dispose ].
+
 	"Take a snapshot of a browser to be used as background"
 	browserMorph := (Object >> #at:put:) browse owner.
-	form := browserMorph extent: lastExtent; asForm.
+	form := browserMorph
+		extent: lastExtent;
+		asForm.
 	browserMorph delete.
-
-	texture :=
-		gpuDevice
-			unownedNewGPUTextureUploadingForm: form
-			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ
+	DiScope own: (texture := gpuDevice
+		unownedNewGPUTextureUploadingForm: form
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ)
 ]
 
 { #category : 'private' }
@@ -374,9 +303,22 @@ SDL3GPUBlurComputeDemoApp >> newVertexBufferDescriptions [
 ]
 
 { #category : 'lifecycle' }
-SDL3GPUBlurComputeDemoApp >> open [
+SDL3GPUBlurComputeDemoApp >> setUp [
 
-	super open.
+	super setUp.
+	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+	colorTargetInfos first
+		storeOp: SDL_GPU_STOREOP_STORE;
+		loadOp: SDL_GPU_LOADOP_CLEAR.
+	colorTargetInfos first clearColor updateFrom: Color red.
+	DiScope own: (indexBinding := SDL_GPUBufferBinding unownedNew
+		beOffset: 0;
+		yourself).
+	DiScope own: (blurStorageBindings := SDL3Array unownedNewType: SDL3GPUStorageTextureReadWriteBinding size: 1).
+	DiScope own: (blurSamplerBindings := SDL3Array unownedNewType: SDL3GPUTextureSamplerBinding size: 1).
+	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1).
+	DiScope own: (textureSamplerBindings := SDL3Array unownedNewType: SDL_GPUTextureSamplerBinding size: 1).
+	DiScope own: (storageTextureArray := SDL3Array unownedNewType: SDL_GPUTexture size: 1).
 
 	self initializeTexture.
 	self initializeComputeResources.

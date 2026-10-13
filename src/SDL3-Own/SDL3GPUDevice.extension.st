@@ -57,7 +57,7 @@ SDL3GPUDevice >> downloadFrom: sourceBuffer type: ffiClass count: arraySize do: 
 			array := FFIArray fromHandle: mappedAddress type: ffiClass size: arraySize.
 			aBlock value: array ]
 			
-	] ensure: [ transferBuffer release ]
+	] ensure: [ transferBuffer dispose ]
 ]
 
 { #category : '*SDL3-Own' }
@@ -387,7 +387,7 @@ SDL3GPUDevice >> unownedNewGPUTextureUploadingForm: aForm usage: aUsage [
 			cycle: false ].
 	commandBuffer submit.
 
-	transferBuffer release.
+	transferBuffer dispose.
 
 	^ gpuTexture
 ]

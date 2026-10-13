@@ -13,26 +13,10 @@ Class {
 	#instVars : [
 		'camera',
 		'tileManager',
-		'atlasTexture',
-		'computePipeline',
-		'quadPipeline',
-		'shimmerPipeline',
-		'shimmerUniforms',
 		'atlasSizeSlots',
 		'tileSizePixels',
-		'vertexBuffer',
-		'indexBuffer',
-		'colorTargetInfos',
-		'uniforms',
-		'sampler',
 		'tileToSlotMap',
 		'freeSlots',
-		'instanceBuffer',
-		'shimmerInstanceBuffer',
-		'vertexBufferBindings',
-		'shimmerVertexBufferBindings',
-		'indexBufferBinding',
-		'samplerBindings',
 		'loadingDelayMillis',
 		'tileStates',
 		'loadedKeysQueue',
@@ -40,74 +24,28 @@ Class {
 		'visibleReadyKeys',
 		'visibleFallbackKeys',
 		'visibleLoadingKeys',
-		'atlasBindings'
+		'computePipeline',
+		'quadPipeline',
+		'shimmerPipeline',
+		'atlasTexture',
+		'sampler',
+		'vertexBuffer',
+		'indexBuffer',
+		'instanceBuffer',
+		'shimmerInstanceBuffer',
+		'colorTargetInfos',
+		'atlasBindings',
+		'uniforms',
+		'shimmerUniforms',
+		'vertexBufferBindings',
+		'shimmerVertexBufferBindings',
+		'samplerBindings',
+		'indexBufferBinding'
 	],
 	#category : 'SDL3-GPU-Demos-TiledMap',
 	#package : 'SDL3-GPU-Demos',
 	#tag : 'TiledMap'
 }
-
-{ #category : 'lifecycle' }
-SDL3GPUMandelbrotDemoApp >> close [
-
-	computePipeline ifNotNil: [
-		computePipeline release.
-		computePipeline := nil ].
-	quadPipeline ifNotNil: [
-		quadPipeline release.
-		quadPipeline := nil ].
-	shimmerPipeline ifNotNil: [
-		shimmerPipeline release.
-		shimmerPipeline := nil ].
-
-	atlasTexture ifNotNil: [
-		atlasTexture release.
-		atlasTexture := nil ].
-	sampler ifNotNil: [
-		sampler release.
-		sampler := nil ].
-
-	vertexBuffer ifNotNil: [
-		vertexBuffer release.
-		vertexBuffer := nil ].
-	indexBuffer ifNotNil: [
-		indexBuffer release.
-		indexBuffer := nil ].
-	instanceBuffer ifNotNil: [
-		instanceBuffer release.
-		instanceBuffer := nil ].
-	shimmerInstanceBuffer ifNotNil: [
-		shimmerInstanceBuffer release.
-		shimmerInstanceBuffer := nil ].
-
-	colorTargetInfos ifNotNil: [
-		colorTargetInfos free.
-		colorTargetInfos := nil ].
-	atlasBindings ifNotNil: [
-		atlasBindings free.
-		atlasBindings := nil ].
-	uniforms ifNotNil: [
-		uniforms free.
-		uniforms := nil ].
-	shimmerUniforms ifNotNil: [
-		shimmerUniforms free.
-		shimmerUniforms := nil ].
-	vertexBufferBindings ifNotNil: [
-		vertexBufferBindings free.
-		vertexBufferBindings := nil ].
-	shimmerVertexBufferBindings ifNotNil: [
-		shimmerVertexBufferBindings free.
-		shimmerVertexBufferBindings := nil ].
-	samplerBindings ifNotNil: [
-		samplerBindings free.
-		samplerBindings := nil ].
-
-	indexBufferBinding ifNotNil: [
-		indexBufferBinding free.
-		indexBufferBinding := nil ].
-
-	super close
-]
 
 { #category : 'rendering' }
 SDL3GPUMandelbrotDemoApp >> computeNewTiles [
@@ -271,41 +209,8 @@ SDL3GPUMandelbrotDemoApp >> initialize [
 	tileManager := SDL3TileManager new.
 	tileManager camera: camera.
 
-	colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
-	colorTargetInfos first beClear: (Color r: 0.02 g: 0.02 b: 0.05).
-
-	atlasBindings := SDL3Array unownedNewType: SDL3GPUStorageTextureReadWriteBinding size: 1.
-	atlasBindings first beUnbound.
-
-	uniforms := SDL3GPUMandelbrotUniforms unownedNew.
-
-	shimmerUniforms := SDL3GPUShimmerUniforms unownedNew.
-	shimmerUniforms
-		baseColor: (SDL3FColor
-				 r: 0.1
-				 g: 0.1
-				 b: 0.15
-				 a: 1.0);
-		highlightColor: (SDL3FColor
-				 r: 0.2
-				 g: 0.2
-				 b: 0.3
-				 a: 1.0);
-		effectType: 2;
-		"Angled Sweep"cornerRadius: 0.0. "Perfectly square tiles"
-
 	tileToSlotMap := Dictionary new.
 	freeSlots := (0 to: atlasSizeSlots x * atlasSizeSlots y - 1) asOrderedCollection.
-
-	vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2.
-
-	shimmerVertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2.
-
-	indexBufferBinding := SDL_GPUBufferBinding unownedNew
-		                      beOffset: 0;
-		                      yourself.
-
-	samplerBindings := SDL3Array unownedNewType: SDL_GPUTextureSamplerBinding size: 1.
 
 	loadingDelayMillis := 250.
 	tileStates := Dictionary new.
@@ -329,6 +234,7 @@ SDL3GPUMandelbrotDemoApp >> initializeAtlas [
 			layerCountOrDepth: 1;
 			numLevels: 1;
 			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE ].
+	DiScope own: atlasTexture.
 
 	sampler := gpuDevice unownedNewGPUSampler: [ :info |
 		info
@@ -337,7 +243,8 @@ SDL3GPUMandelbrotDemoApp >> initializeAtlas [
 			mipmapMode: SDL_GPU_SAMPLERMIPMAPMODE_LINEAR;
 			addressModeU: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
 			addressModeV: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE ]
+			addressModeW: SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE ].
+	DiScope own: sampler
 ]
 
 { #category : 'initialization' }
@@ -352,27 +259,21 @@ SDL3GPUMandelbrotDemoApp >> initializeGeometry [
 
 { #category : 'initialization' }
 SDL3GPUMandelbrotDemoApp >> initializeInstanceBuffers [
-
 	"Pre-allocate instance buffers for up to 256 tiles"
-	instanceBuffer := gpuDevice
-		                  unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-		                  size: 256 * SDL3GPUTileInstance structureSize.
 
-	shimmerInstanceBuffer := gpuDevice
-		                         unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-		                         size: 256 * SDL3GPUTileInstance structureSize
+	DiScope own:
+		(instanceBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: 256 * SDL3GPUTileInstance structureSize).
+	DiScope own: (shimmerInstanceBuffer := gpuDevice
+		unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
+		size: 256 * SDL3GPUTileInstance structureSize)
 ]
 
 { #category : 'initialization' }
 SDL3GPUMandelbrotDemoApp >> initializeQuadBuffers [
 
-	vertexBuffer := gpuDevice
-		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
-		                size: 4 * SDL3GPUQuadVertex structureSize.
-
-	indexBuffer := gpuDevice
-		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-		               size: 6 * 2.
+	DiScope own:
+		(vertexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: 4 * SDL3GPUQuadVertex structureSize).
+	DiScope own: (indexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: 6 * 2).
 
 	gpuDevice uploadToGPUDo: [ :uploader |
 		uploader
@@ -381,30 +282,10 @@ SDL3GPUMandelbrotDemoApp >> initializeQuadBuffers [
 			count: 4
 			cycle: false
 			fillWith: [ :vertices |
-				vertices first
-					x: 0.0;
-					y: 0.0;
-					z: 0.0;
-					u: 0.0;
-					v: 0.0.
-				vertices second
-					x: 1.0;
-					y: 0.0;
-					z: 0.0;
-					u: 1.0;
-					v: 0.0.
-				vertices third
-					x: 1.0;
-					y: 1.0;
-					z: 0.0;
-					u: 1.0;
-					v: 1.0.
-				vertices fourth
-					x: 0.0;
-					y: 1.0;
-					z: 0.0;
-					u: 0.0;
-					v: 1.0 ].
+				vertices first  x: 0.0; y: 0.0; z: 0.0; u: 0.0; v: 0.0.
+				vertices second x: 1.0; y: 0.0; z: 0.0; u: 1.0; v: 0.0.
+				vertices third  x: 1.0; y: 1.0; z: 0.0; u: 1.0; v: 1.0.
+				vertices fourth x: 0.0; y: 1.0; z: 0.0; u: 0.0; v: 1.0 ].
 
 		uploader
 			uploadTo: indexBuffer
@@ -434,11 +315,12 @@ SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineColorTargets: colorTargets [
 	vertexAttributes := self newTiledMapVertexAttributes.
 
 	quadPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			                info vertex: quadVertexSource fragment: quadFragmentSource targets: colorTargets.
-			                info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+		info vertex: quadVertexSource fragment: quadFragmentSource targets: colorTargets.
+		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	DiScope own: quadPipeline.
 
-	quadVertexSource release.
-	quadFragmentSource release.
+	quadVertexSource dispose.
+	quadFragmentSource dispose.
 	vertexBindings free.
 	vertexAttributes free
 ]
@@ -447,7 +329,7 @@ SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineColorTargets: colorTargets [
 SDL3GPUMandelbrotDemoApp >> initializeShaders [
 
 	| colorTargets |
-	computePipeline := SDL3GPUMandelbrotComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (computePipeline := SDL3GPUMandelbrotComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
 	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
 	colorTargets first format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
@@ -473,9 +355,10 @@ SDL3GPUMandelbrotDemoApp >> initializeShimmerPipelineColorTargets: colorTargets 
 	shimmerPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
 			                   info vertex: shimmerVertexSource fragment: shimmerFragmentSource targets: colorTargets.
 			                   info vertexInputState attributes: shimmerVertexAttributes bindings: shimmerVertexBindings ].
+	DiScope own: shimmerPipeline.
 
-	shimmerVertexSource release.
-	shimmerFragmentSource release.
+	shimmerVertexSource dispose.
+	shimmerFragmentSource dispose.
 	shimmerVertexBindings free.
 	shimmerVertexAttributes free
 ]
@@ -529,15 +412,6 @@ SDL3GPUMandelbrotDemoApp >> newTiledMapVertexBindings [
 		instanceStepRate: 0.
 
 	^ vertexBindings
-]
-
-{ #category : 'lifecycle' }
-SDL3GPUMandelbrotDemoApp >> prepareToLoop [
-
-	super prepareToLoop.
-	self initializeAtlas.
-	self initializeShaders.
-	self initializeGeometry
 ]
 
 { #category : 'private' }
@@ -600,6 +474,33 @@ SDL3GPUMandelbrotDemoApp >> requestTile: key [
 		loadedKeysQueue nextPut: key ] forkAt: Processor activePriority + 1.
 
 	^ tileStates at: key put: #loading
+]
+
+{ #category : 'lifecycle' }
+SDL3GPUMandelbrotDemoApp >> setUp [
+
+	super setUp.
+	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+	colorTargetInfos first beClear: (Color r: 0.02 g: 0.02 b: 0.05).
+	DiScope own: (atlasBindings := SDL3Array unownedNewType: SDL3GPUStorageTextureReadWriteBinding size: 1).
+	atlasBindings first beUnbound.
+	DiScope own: (uniforms := SDL3GPUMandelbrotUniforms unownedNew).
+	DiScope own: (shimmerUniforms := SDL3GPUShimmerUniforms unownedNew).
+	shimmerUniforms
+		baseColor: (SDL3FColor r: 0.1 g: 0.1 b: 0.15 a: 1.0);
+		highlightColor: (SDL3FColor r: 0.2 g: 0.2 b: 0.3 a: 1.0);
+		effectType: 2; "Angled Sweep"
+		cornerRadius: 0.0. "Perfectly square tiles"
+	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2).
+	DiScope own: (shimmerVertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2).
+	DiScope own: (indexBufferBinding := SDL_GPUBufferBinding unownedNew
+		beOffset: 0;
+		yourself).
+	DiScope own: (samplerBindings := SDL3Array unownedNewType: SDL_GPUTextureSamplerBinding size: 1).
+
+	self initializeAtlas.
+	self initializeShaders.
+	self initializeGeometry
 ]
 
 { #category : 'initialization' }

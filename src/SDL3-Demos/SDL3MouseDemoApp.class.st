@@ -15,7 +15,8 @@ Class {
 	#superclass : 'SDL3RendererDemoApp',
 	#instVars : [
 		'cursorIdGenerator',
-		'cursorId'
+		'cursorId',
+		'cursor'
 	],
 	#category : 'SDL3-Demos-API',
 	#package : 'SDL3-Demos',
@@ -25,9 +26,9 @@ Class {
 { #category : 'private' }
 SDL3MouseDemoApp >> activateNextSystemCursor [
 
-	| cursor |
 	cursorId := cursorIdGenerator next.
-	cursor := SDL3Cursor unownedNewSystemCursor: cursorId.
+	cursor ifNotNil: [ cursor dispose ].
+	DiScope own: (cursor := SDL3Cursor unownedNewSystemCursor: cursorId).
 	cursor setActive
 ]
 
@@ -38,9 +39,9 @@ SDL3MouseDemoApp >> initialExtent [
 ]
 
 { #category : 'lifecycle' }
-SDL3MouseDemoApp >> prepareToLoop [
+SDL3MouseDemoApp >> setUp [
 
-	super prepareToLoop.
+	super setUp.
 
 	cursorIdGenerator := Generator on: [ :g |
 		[ (SDL3SystemCursor allValues
@@ -56,20 +57,20 @@ SDL3MouseDemoApp >> step [
 
 	| x y mousePosition globalMousePosition pressedButtons mouseSDLRect isMouseLocked |
 	self clearColor: Color black.
-	
+
 	x := 20.
 	y := 20.
-	
-	self showText: ('M: Mouse Grabbed: ', window isMouseGrabbed asString, ' - Confines the cursor within the window boundaries.') 
-		x: x y: y 
+
+	self showText: ('M: Mouse Grabbed: ', window isMouseGrabbed asString, ' - Confines the cursor within the window boundaries.')
+		x: x y: y
 		color: (window isMouseGrabbed ifTrue: [ Color green ] ifFalse: [ Color white ]).
-		
-	self showText: ('R: Relative Mouse Mode: ', window isRelativeMouseMode asString, ' - Hides cursor; sends motion as deltas.') 
-		x: x y: y + 15 
+
+	self showText: ('R: Relative Mouse Mode: ', window isRelativeMouseMode asString, ' - Hides cursor; sends motion as deltas.')
+		x: x y: y + 15
 		color: (window isRelativeMouseMode ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: ('C: Cursor Visible: ', SDL3Cursor isVisible asString, ' - Toggles the visibility of the system mouse cursor.') 
-		x: x y: y + 30 
+	self showText: ('C: Cursor Visible: ', SDL3Cursor isVisible asString, ' - Toggles the visibility of the system mouse cursor.')
+		x: x y: y + 30
 		color: (SDL3Cursor isVisible ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
 	mouseSDLRect := window mouseRect.
@@ -77,18 +78,18 @@ SDL3MouseDemoApp >> step [
 	isMouseLocked ifTrue: [
 		renderer renderDrawColor: Color yellow.
 		renderer renderRect: (SDL3FRect newFrom: mouseSDLRect) ].
-	self showText: ('L: Mouse Locked to Rect: ', isMouseLocked asString, ' - Confines mouse to a specific sub-area.') 
-		x: x y: y + 45 
+	self showText: ('L: Mouse Locked to Rect: ', isMouseLocked asString, ' - Confines mouse to a specific sub-area.')
+		x: x y: y + 45
 		color: (isMouseLocked ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: 'W: Warp Mouse - Move mouse cursor to the specified position.' 
-		x: x y: y + 60 
+	self showText: 'W: Warp Mouse - Move mouse cursor to the specified position.'
+		x: x y: y + 60
 		color: Color white.
 
 	self showText: ('N: Current system cursor: ', cursorId item)
 		x: x y: y + 75
 		color: Color cyan.
-		
+
 	mousePosition := sdl mousePosition.
 	self showText: ('Local Position: ', (mousePosition x printShowingDecimalPlaces: 2), ' @ ', (mousePosition y printShowingDecimalPlaces: 2))
 		x: x y: y + 100
@@ -101,7 +102,7 @@ SDL3MouseDemoApp >> step [
 
 	pressedButtons := (SDL3MouseButtonFlagsMask allValuesIn:
 		(sdl getMouseStateX: ExternalAddress null y: ExternalAddress null))
-			collect: [ :e | e item  ].
+			collect: [ :e | e item ].
 	self showText: ('Buttons: ', (pressedButtons ifEmpty: [ 'None' ] ifNotEmpty: [ ', ' join: pressedButtons ]))
 		x: x y: y + 130
 		color: Color lightYellow.

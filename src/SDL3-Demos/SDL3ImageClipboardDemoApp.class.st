@@ -5,14 +5,14 @@ Class {
 	#name : 'SDL3ImageClipboardDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
-		'texture',
 		'stepCount',
 		'lastImageBytes',
 		'textureRectangle',
 		'clipboardDataCallback',
 		'clipboardCleanupCallback',
-		'pharoIconTexture',
-		'iconRectangle'
+		'iconRectangle',
+		'texture',
+		'pharoIconTexture'
 	],
 	#category : 'SDL3-Demos-API',
 	#package : 'SDL3-Demos',
@@ -35,24 +35,21 @@ SDL3ImageClipboardDemoApp >> checkImageClipboardWithMimeTypes: imageMimes [
 
 	self
 		clipboardMimeTypeAnyOf: imageMimes
-		ifPresent: [ :mimeType :bytes | 
-			bytes = lastImageBytes ifFalse: [ 
+		ifPresent: [ :mimeType :bytes |
+			bytes = lastImageBytes ifFalse: [
 				| form |
 				lastImageBytes := bytes.
 				form := ImageReadWriter formFromStream: bytes readStream.
-				texture ifNotNil: [ texture destroy ].
-				texture := renderer unownedNewTextureFromForm: form.
+				texture := DiScope dispose: texture andOwn: (renderer unownedNewTextureFromForm: form).
 				console addLine: 'Loaded new image from clipboard' ] ]
-		ifAbsent: [  ]
+		ifAbsent: [ ]
 ]
 
 { #category : 'visiting - concrete' }
 SDL3ImageClipboardDemoApp >> clearClipboardImage [
 
 	lastImageBytes := nil.
-	texture ifNotNil: [ 
-		texture destroy.
-		texture := nil ]
+	texture := DiScope disposeAndDisown: texture
 ]
 
 { #category : 'utilities' }
@@ -76,18 +73,6 @@ SDL3ImageClipboardDemoApp >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presen
 						               size: dataSizePointer.
 					dataSize := dataSizePointer signedLongLongAt: 1.
 					dataPointer bytesFromNext: dataSize ])
-]
-
-{ #category : 'lifecycle' }
-SDL3ImageClipboardDemoApp >> close [
-
-	texture ifNotNil: [ 
-		texture destroy. 
-		texture := nil ].
-	pharoIconTexture ifNotNil: [ 
-		pharoIconTexture destroy.
-		pharoIconTexture := nil ].
-	super close
 ]
 
 { #category : 'visiting - concrete' }
@@ -117,8 +102,8 @@ SDL3ImageClipboardDemoApp >> drawClipboardTexture [
 SDL3ImageClipboardDemoApp >> drawPharoIconOverlay [
 
 	| windowExtent iconExtent iconOrigin |
-	pharoIconTexture ifNil: [ 
-		pharoIconTexture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig) ].
+	pharoIconTexture ifNil: [
+		DiScope own: (pharoIconTexture := renderer unownedNewTextureFromForm: (self iconNamed: #pharoBig)) ].
 
 	windowExtent := window extent.
 	iconExtent := 64 @ 64.
@@ -147,16 +132,6 @@ SDL3ImageClipboardDemoApp >> initialize [
 	lastImageBytes := ByteArray new.
 	textureRectangle := SDL3FRect new.
 	iconRectangle := SDL3FRect new
-]
-
-{ #category : 'lifecycle' }
-SDL3ImageClipboardDemoApp >> open [
-
-	super open.
-	console addLine: 'Clipboard Demo started.'.
-	console addLine: 'Actions:'.
-	console addLine: ' - Copy any image externally -> shows it here.'.
-	console addLine: ' - Click the Pharo icon in the top-right -> copies it to clipboard.'
 ]
 
 { #category : 'visiting - concrete' }
@@ -192,6 +167,16 @@ SDL3ImageClipboardDemoApp >> setClipboardPNGData: pngBytes [
 		 numMimeTypes: 1)
 		ifTrue: [ console addLine: 'Pharo logo copied to clipboard!' ]
 		ifFalse: [ console addLine: 'Failed to set clipboard data' ]
+]
+
+{ #category : 'lifecycle' }
+SDL3ImageClipboardDemoApp >> setUp [
+
+	super setUp.
+	console addLine: 'Clipboard Demo started.'.
+	console addLine: 'Actions:'.
+	console addLine: ' - Copy any image externally -> shows it here.'.
+	console addLine: ' - Click the Pharo icon in the top-right -> copies it to clipboard.'
 ]
 
 { #category : 'visiting - concrete' }

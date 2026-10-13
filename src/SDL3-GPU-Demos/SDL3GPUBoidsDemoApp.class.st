@@ -5,99 +5,29 @@ Class {
 	#name : 'SDL3GPUBoidsDemoApp',
 	#superclass : 'SDL3GPUDemoApp',
 	#instVars : [
+		'currentBoidsBuffer',
+		'numBoids',
 		'boidsBufferPing',
 		'boidsBufferPong',
-		'currentBoidsBuffer',
+		'huesBuffer',
 		'vertexBuffer',
 		'indexBuffer',
+		'boidsComputePipeline',
 		'geometryComputePipeline',
 		'renderPipeline',
-		'numBoids',
 		'vertexBufferBindings',
-		'storageBufferBinding',
-		'boidsComputePipeline',
 		'storageBuffers',
-		'indexBufferBinding',
+		'storageBufferBinding',
+		'physicsStorageBuffers',
+		'renderColorTargetInfos',
 		'boidsUniforms',
 		'geometryUniforms',
-		'huesBuffer',
-		'physicsStorageBuffers',
-		'renderColorTargetInfos'
+		'indexBufferBinding'
 	],
 	#category : 'SDL3-GPU-Demos-Boids',
 	#package : 'SDL3-GPU-Demos',
 	#tag : 'Boids'
 }
-
-{ #category : 'lifecycle' }
-SDL3GPUBoidsDemoApp >> close [
-
-	boidsBufferPing ifNotNil: [
-		boidsBufferPing release.
-		boidsBufferPing := nil ].
-
-	boidsBufferPong ifNotNil: [
-		boidsBufferPong release.
-		boidsBufferPong := nil ].
-
-	huesBuffer ifNotNil: [
-		huesBuffer release.
-		huesBuffer := nil ].
-
-	vertexBuffer ifNotNil: [
-		vertexBuffer release.
-		vertexBuffer := nil ].
-
-	indexBuffer ifNotNil: [
-		indexBuffer release.
-		indexBuffer := nil ].
-
-	boidsComputePipeline ifNotNil: [
-		boidsComputePipeline release.
-		boidsComputePipeline := nil ].
-
-	geometryComputePipeline ifNotNil: [
-		geometryComputePipeline release.
-		geometryComputePipeline := nil ].
-
-	renderPipeline ifNotNil: [
-		renderPipeline release.
-		renderPipeline := nil ].
-
-	vertexBufferBindings ifNotNil: [
-		vertexBufferBindings free.
-		vertexBufferBindings := nil ].
-
-	storageBuffers ifNotNil: [
-		storageBuffers free.
-		storageBuffers := nil ].
-
-	storageBufferBinding ifNotNil: [
-		storageBufferBinding free.
-		storageBufferBinding := nil ].
-
-	physicsStorageBuffers ifNotNil: [
-		physicsStorageBuffers free.
-		physicsStorageBuffers := nil ].
-
-	renderColorTargetInfos ifNotNil: [
-		renderColorTargetInfos free.
-		renderColorTargetInfos := nil ].
-
-	boidsUniforms ifNotNil: [
-		boidsUniforms free.
-		boidsUniforms := nil ].
-
-	geometryUniforms ifNotNil: [
-		geometryUniforms free.
-		geometryUniforms := nil ].
-
-	indexBufferBinding ifNotNil: [
-		indexBufferBinding free.
-		indexBufferBinding := nil ].
-
-	super close
-]
 
 { #category : 'rendering' }
 SDL3GPUBoidsDemoApp >> computeSimulation [
@@ -250,33 +180,7 @@ SDL3GPUBoidsDemoApp >> initialize [
 
 	super initialize.
 
-	numBoids := 1000.
-
-	vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1.
-
-	storageBuffers := SDL3Array unownedNewType: ExternalAddress size: 2.
-
-	storageBufferBinding := SDL3Array unownedNewType: SDL3GPUStorageBufferReadWriteBinding size: 1.
-
-	"Simulation defaults"
-	boidsUniforms := SDL3GPUBoidsUniforms unownedNew.
-	boidsUniforms
-		numBoids: numBoids;
-		separationWeight: 1.5;
-		alignmentWeight: 1.0;
-		cohesionWeight: 1.0;
-		separationRadius: 0.05;
-		neighborRadius: 0.2;
-		maxVelocity: 2.0;
-		minVelocity: 0.5;
-		damping: 0.99;
-		deltaTime: loop periodAsSeconds.
-
-	geometryUniforms := SDL3GPUBoidsGeometryUniforms unownedNew.
-
-	physicsStorageBuffers := SDL3Array unownedNewType: ExternalAddress size: 1.
-	renderColorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1.
-	renderColorTargetInfos first beClear: Color black
+	numBoids := 1000
 ]
 
 { #category : 'initialization' }
@@ -284,18 +188,12 @@ SDL3GPUBoidsDemoApp >> initializeBoidsBuffers [
 
 	| boidsSize |
 	boidsSize := numBoids * SDL3GPUBoidsBoid structureSize.
-
-	boidsBufferPing := gpuDevice
-		                   unownedNewGPUBufferUsage:
-			                   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-			                   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		                   size: boidsSize.
-
-	boidsBufferPong := gpuDevice
-		                   unownedNewGPUBufferUsage:
-			                   SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-			                   | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		                   size: boidsSize.
+	DiScope own: (boidsBufferPing := gpuDevice
+		unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		size: boidsSize).
+	DiScope own: (boidsBufferPong := gpuDevice
+		unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		size: boidsSize).
 
 	currentBoidsBuffer := boidsBufferPing
 ]
@@ -313,29 +211,28 @@ SDL3GPUBoidsDemoApp >> initializeBuffers [
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeComputeResources [
 
-	boidsComputePipeline := SDL3GPUBoidsComputeShaderSource
-		unownedNewComputePipelineForDevice: gpuDevice.
+	DiScope own: (boidsComputePipeline := SDL3GPUBoidsComputeShaderSource
+		unownedNewComputePipelineForDevice: gpuDevice).
 
-	geometryComputePipeline := SDL3GPUBoidsGeometryComputeShaderSource
-		unownedNewComputePipelineForDevice: gpuDevice
+	DiScope own: (geometryComputePipeline := SDL3GPUBoidsGeometryComputeShaderSource
+		unownedNewComputePipelineForDevice: gpuDevice)
 ]
 
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeHuesBuffer [
 
-	huesBuffer := gpuDevice
-		              unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
-		              size: numBoids * FFIFloat32 externalTypeSize
+	DiScope own: (huesBuffer := gpuDevice
+		unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+		size: numBoids * FFIFloat32 externalTypeSize)
 ]
 
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeIndexBuffer [
 
-	indexBuffer := gpuDevice
-		               unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX
-		               size: numBoids * 3 * 2. "16-bit"
-
-	indexBufferBinding := SDL_GPUBufferBinding unownedNew beBuffer: indexBuffer offset: 0; yourself
+	DiScope own: (indexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: numBoids * 3 * 2). "16-bit"
+	DiScope own: (indexBufferBinding := SDL_GPUBufferBinding unownedNew
+		beBuffer: indexBuffer offset: 0;
+		yourself)
 ]
 
 { #category : 'initialization' }
@@ -354,11 +251,12 @@ SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
 
 	renderPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			                  info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-			                  info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
+		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	DiScope own: renderPipeline.
 
-	vertexShader release.
-	fragmentShader release.
+	vertexShader dispose.
+	fragmentShader dispose.
 	vertexBindings free.
 	vertexAttributes free.
 	colorTargets free
@@ -367,11 +265,9 @@ SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeVertexBuffers [
 
-	vertexBuffer := gpuDevice
-		                unownedNewGPUBufferUsage:
-			                SDL_GPU_BUFFERUSAGE_VERTEX
-			                | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
-		                size: numBoids * 3 * SDL3GPUBoidsVertex structureSize.
+	DiScope own: (vertexBuffer := gpuDevice
+		unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+		size: numBoids * 3 * SDL3GPUBoidsVertex structureSize).
 
 	vertexBufferBindings first
 		buffer: vertexBuffer;
@@ -413,19 +309,6 @@ SDL3GPUBoidsDemoApp >> newBoidsVertexBindings [
 	^ vertexBindings
 ]
 
-{ #category : 'lifecycle' }
-SDL3GPUBoidsDemoApp >> open [
-	"Run headless with:
-	./pharo Pharo.image eval 'SDL3GPUBoidsDemoApp new run'
-	"
-
-	super open.
-	self initializeBuffers.
-	self uploadInitialData.
-	self initializeComputeResources.
-	self initializeRenderPipeline
-]
-
 { #category : 'private' }
 SDL3GPUBoidsDemoApp >> pushGeometryUniformsTo: commandBuffer [
 
@@ -449,6 +332,42 @@ SDL3GPUBoidsDemoApp >> pushGeometryUniformsTo: commandBuffer [
 		pushComputeUniform: geometryUniforms slot: 0
 ]
 
+{ #category : 'lifecycle' }
+SDL3GPUBoidsDemoApp >> setUp [
+	"Run headless with:
+	./pharo Pharo.image eval 'SDL3GPUBoidsDemoApp new run'
+	"
+
+	"Simulation defaults"
+
+	DiScope own: (boidsUniforms := SDL3GPUBoidsUniforms unownedNew).
+	boidsUniforms
+		numBoids: numBoids;
+		separationWeight: 1.5;
+		alignmentWeight: 1.0;
+		cohesionWeight: 1.0;
+		separationRadius: 0.05;
+		neighborRadius: 0.2;
+		maxVelocity: 2.0;
+		minVelocity: 0.5;
+		damping: 0.99;
+		deltaTime: loop periodAsSeconds.
+
+	super setUp.
+	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1).
+	DiScope own: (storageBuffers := SDL3Array unownedNewType: ExternalAddress size: 2).
+	DiScope own: (storageBufferBinding := SDL3Array unownedNewType: SDL3GPUStorageBufferReadWriteBinding size: 1).
+	DiScope own: (geometryUniforms := SDL3GPUBoidsGeometryUniforms unownedNew).
+	DiScope own: (physicsStorageBuffers := SDL3Array unownedNewType: ExternalAddress size: 1).
+	DiScope own: (renderColorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
+	renderColorTargetInfos first beClear: Color black.
+
+	self initializeBuffers.
+	self uploadInitialData.
+	self initializeComputeResources.
+	self initializeRenderPipeline
+]
+
 { #category : 'hooks' }
 SDL3GPUBoidsDemoApp >> step [
 
@@ -458,6 +377,8 @@ SDL3GPUBoidsDemoApp >> step [
 
 { #category : 'accessing' }
 SDL3GPUBoidsDemoApp >> updatedTitle [
+
+	boidsUniforms ifNil: [ ^ super updatedTitle ].
 
 	^ super updatedTitle, (' - Count: {1} | Sep: {2} Ali: {3} Coh: {4} | Rad: {5}/{6} | MaxV: {7}' format: {
 		numBoids.

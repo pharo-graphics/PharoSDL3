@@ -26,16 +26,6 @@ SDL3GPUDeviceObject >> device: aSDL3GPUDevice [
 	device := aSDL3GPUDevice
 ]
 
-{ #category : 'dependencies' }
-SDL3GPUDeviceObject >> release [
-	"Releases the receiver from its owning device. If the device is nil or the handle is already null, does nothing."
-
-	(device isNil or: [ self isNull ]) ifTrue: [ ^ self ].
-	self releaseFromGPUDevice.
-	device := nil.
-	handle beNull
-]
-
 { #category : 'releasing' }
 SDL3GPUDeviceObject >> releaseFromGPUDevice [
 	"Should be overridden by subclasses to send the specific release message to the owning device."

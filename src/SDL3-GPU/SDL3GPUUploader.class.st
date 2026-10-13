@@ -1,6 +1,6 @@
 "
 I provide a builder-style API to simplify uploading data to GPU buffers.
-I orchestrate the creation, mapping, unmapping, and release of transfer buffers, and automatically record the upload commands to my associated copy pass.
+I orchestrate the creation, mapping, unmapping, and disposal of transfer buffers, and automatically record the upload commands to my associated copy pass.
 
 My API automatically calculates byte sizes based on the provided FFI types and sizes.
 
@@ -63,7 +63,7 @@ SDL3GPUUploader >> gpuDevice: anObject [
 
 { #category : 'uploading' }
 SDL3GPUUploader >> transferBuffer: aTransferBuffer uploadTo: targetBuffer type: ffiClass count: arraySize cycle: cycleBoolean fillWith: aBlock [
-	"Uses the provided transferBuffer (user-managed), maps it as an FFIArray of the given type, passes it to aBlock for filling, and records the upload command. Does NOT release the transfer buffer."
+	"Uses the provided transferBuffer (user-managed), maps it as an FFIArray of the given type, passes it to aBlock for filling, and records the upload command. Does NOT dispose the transfer buffer."
 
 	| byteSize |
 	byteSize := ffiClass externalTypeSize * arraySize.
@@ -90,7 +90,7 @@ SDL3GPUUploader >> transferBuffer: aTransferBuffer uploadTo: targetBuffer type: 
 
 { #category : 'uploading' }
 SDL3GPUUploader >> transferBuffer: aTransferBuffer uploadTo: targetBuffer type: ffiClass count: arraySize cycle: cycleBoolean fromPointer: sourceAddress [
-	"Uses the provided transferBuffer (user-managed) and directly memCopies the data from sourceAddress. Does NOT release the transfer buffer."
+	"Uses the provided transferBuffer (user-managed) and directly memCopies the data from sourceAddress. Does NOT dispose the transfer buffer."
 
 	| byteSize |
 	byteSize := ffiClass externalTypeSize * arraySize.
@@ -137,7 +137,7 @@ SDL3GPUUploader >> uploadTexture: aGPUTexture fromPointer: sourceAddress byteSiz
 					d: 1;
 					yourself)
 			cycle: cycleBoolean
-	] ensure: [ transferBuffer release ]
+	] ensure: [ transferBuffer dispose ]
 ]
 
 { #category : 'uploading' }
@@ -167,7 +167,7 @@ SDL3GPUUploader >> uploadTo: targetBuffer type: ffiClass count: arraySize cycle:
 					size: byteSize;
 					yourself)
 			cycle: cycleBoolean
-	] ensure: [ transferBuffer release ]
+	] ensure: [ transferBuffer dispose ]
 ]
 
 { #category : 'uploading' }
@@ -195,5 +195,5 @@ SDL3GPUUploader >> uploadTo: targetBuffer type: ffiClass count: arraySize cycle:
 					size: byteSize;
 					yourself)
 			cycle: cycleBoolean
-	] ensure: [ transferBuffer release ]
+	] ensure: [ transferBuffer dispose ]
 ]

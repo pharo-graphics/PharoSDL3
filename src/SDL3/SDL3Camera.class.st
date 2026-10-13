@@ -12,3 +12,9 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'finalization' }
+SDL3Camera >> destroy [
+
+	self close
+]

@@ -15,18 +15,14 @@ I use the Visitor design pattern (`TSDL3HierarchicalEventVisitor`) to process SD
 ### Lifecycle Hooks
 Subclasses should utilize the following template methods:
 - `subsystemInitFlags`: Override to specify which SDL3 subsystems to initialize (default is `SDL_INIT_VIDEO`).
-- `loopWillStart`: Called just before the main loop begins. Ideal for resource initialization (windows, renderers, shaders).
-- `step`: Called on every frame. Use this for simulation updates or rendering triggers.
-- `loopStopped`: Called after the main loop terminates.
-- `close`: Final cleanup hook.
+- `setUp`: Sent just before the main loop begins. Ideal for resource initialization (windows, renderers, shaders).
+- `step`: Sent on every frame. Use this for simulation updates or rendering triggers.
+- `tearDown`: Final cleanup hook sent after the main loop terminates and before resources are disposed.
 
 ### Execution Modes
 I support two ways of running:
 1. `run`: Synchronous execution on the current thread. This is mandatory for macOS UI applications where the main thread must poll events.
 2. `start`: Asynchronous execution. It forks a background process to run the event loop.
-
-### Logging
-By default, I enable `SDL_LOG_PRIORITY_TRACE` in `startNoLoop` to provide detailed debugging information in the console.
 "
 Class {
 	#name : 'SDL3App',
@@ -46,11 +42,6 @@ Class {
 	#package : 'SDL3-Demos',
 	#tag : 'Base'
 }
-
-{ #category : 'lifecycle' }
-SDL3App >> close [
-	"Template method for cleanup. Subclasses should override and call super close."
-]
 
 { #category : 'events' }
 SDL3App >> handleEvent: aSDL3MappedEvent [
@@ -89,20 +80,14 @@ SDL3App >> mainStep [
 ]
 
 { #category : 'lifecycle' }
-SDL3App >> prepareToLoop [
-	"Prepare the app before starting the main loop"
-]
-
-{ #category : 'lifecycle' }
 SDL3App >> run [
 
 	self sdlInit.
-	self prepareToLoop.
-
-	loop start.
-
-	self close.
-	self sdlQuit
+	[ DiScope during: [ [
+		self setUp.
+		loop start ] ensure: [
+		self tearDown ] ] ] ensure: [
+		self sdlQuit ]
 ]
 
 { #category : 'lifecycle' }
@@ -110,7 +95,7 @@ SDL3App >> runForSeconds: aNumber [
 	"Run the app and automatically quit after a number of seconds.
 	Useful for CI smoke testing where no user interaction is available."
 
-	[(Delay forSeconds: aNumber) wait. loop requestQuit ]
+	[ (Delay forSeconds: aNumber) wait. loop requestQuit ]
 		forkAt: Processor userInterruptPriority.
 
 	self run
@@ -130,6 +115,11 @@ SDL3App >> sdlQuit [
 	sdl quit
 ]
 
+{ #category : 'lifecycle' }
+SDL3App >> setUp [
+	"Hook for subclasses to open windows and acquire resources before the main loop"
+]
+
 { #category : 'hooks' }
 SDL3App >> step [
 ]
@@ -138,6 +128,11 @@ SDL3App >> step [
 SDL3App >> subsystemInitFlags [
 
 	^ SDL_INIT_VIDEO
+]
+
+{ #category : 'lifecycle' }
+SDL3App >> tearDown [
+	"Hook for subclasses to perform custom teardown before resources are disposed"
 ]
 
 { #category : 'hooks' }

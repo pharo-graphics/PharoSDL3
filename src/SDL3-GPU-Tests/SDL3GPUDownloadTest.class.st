@@ -15,27 +15,28 @@ SDL3GPUDownloadTest >> test01DownloadFromGPUDeviceExtension [
 	targetBuffer := gpuDevice
 		                unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX | SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
 		                size: byteSize.
+	DiScope own: targetBuffer.
 
 	sourceArray := SDL3Array newType: FFIFloat32 size: count.
 	1 to: count do: [ :i | sourceArray at: i put: i asFloat ].
 
-	[ "1. Upload data to test buffer"
-		gpuDevice uploadToGPUDo: [ :uploader |
-				uploader
-					uploadTo: targetBuffer
-					type: FFIFloat32
-					count: count
-					cycle: false
-					fromPointer: sourceArray ].
-
-		"2. Download and verify"
-		gpuDevice
-			downloadFrom: targetBuffer
+	"1. Upload data to test buffer"
+	gpuDevice uploadToGPUDo: [ :uploader |
+		uploader
+			uploadTo: targetBuffer
 			type: FFIFloat32
 			count: count
-			do: [ :downloadedArray |
-					resultData := SDL3Array newType: FFIFloat32 size: count.
-					sdl memcpyDst: resultData src: downloadedArray len: byteSize ] ] ensure: [ targetBuffer release ].
+			cycle: false
+			fromPointer: sourceArray ].
+
+	"2. Download and verify"
+	gpuDevice
+		downloadFrom: targetBuffer
+		type: FFIFloat32
+		count: count
+		do: [ :downloadedArray |
+			resultData := SDL3Array newType: FFIFloat32 size: count.
+			sdl memcpyDst: resultData src: downloadedArray len: byteSize ].
 
 	1 to: count do: [ :i | self assert: (resultData at: i) equals: i asFloat ]
 ]

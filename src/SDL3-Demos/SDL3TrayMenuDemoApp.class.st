@@ -5,22 +5,13 @@ Class {
 	#name : 'SDL3TrayMenuDemoApp',
 	#superclass : 'SDL3ConsoleDemoApp',
 	#instVars : [
-		'tray',
-		'logEntryLabelCallback'
+		'logEntryLabelCallback',
+		'tray'
 	],
-	#category : 'SDL3-Demos-API',
+	#category : 'SDL3-Demos-Base',
 	#package : 'SDL3-Demos',
-	#tag : 'API'
+	#tag : 'Base'
 }
-
-{ #category : 'lifecycle' }
-SDL3TrayMenuDemoApp >> close [
-
-	tray ifNotNil: [ 
-		sdl destroyTray: tray. 
-		tray := nil ].
-	super close
-]
 
 { #category : 'accessing' }
 SDL3TrayMenuDemoApp >> initialExtent [
@@ -29,9 +20,10 @@ SDL3TrayMenuDemoApp >> initialExtent [
 ]
 
 { #category : 'lifecycle' }
-SDL3TrayMenuDemoApp >> prepareToLoop [
+SDL3TrayMenuDemoApp >> setUp [
 
-	super prepareToLoop.
+	super setUp.
+
 	self setupTray
 ]
 
@@ -49,7 +41,7 @@ SDL3TrayMenuDemoApp >> setupTray [
 				console addLine: 'Click on ', entry label surroundedBySingleQuotes ].
 
 	iconSurface := (self iconNamed: #pharo) unownedAsSDL3Surface.
-	tray := SDL3Tray unownedNewIcon: iconSurface tooltip: 'PharoSDL3'.
+	DiScope own: (tray := SDL3Tray unownedNewIcon: iconSurface tooltip: 'PharoSDL3').
 	iconSurface destroy.
 
 	menu := tray newMenu.
@@ -65,7 +57,7 @@ SDL3TrayMenuDemoApp >> setupTray [
 		insertEntryAt: -1
 			label: nil
 			flags: SDL3TrayEntryFlags button.
-			
+
 	"Add submenu with buttons"
 	submenu :=
 		(menu

@@ -14,18 +14,8 @@ Class {
 SDL3TrayTest >> setUp [
 
 	super setUp.
-
-	iconSurface := (self iconNamed: #pharo) unownedAsSDL3Surface.
-	tray := SDL3Tray unownedNewIcon: iconSurface tooltip: 'Test tooltip'
-]
-
-{ #category : 'running' }
-SDL3TrayTest >> tearDown [
-
-	iconSurface ifNotNil: #destroy.
-	tray ifNotNil: #destroy.
-	
-	super tearDown
+	DiScope own: (iconSurface := (self iconNamed: #pharo) unownedAsSDL3Surface).
+	DiScope own: (tray := SDL3Tray unownedNewIcon: iconSurface tooltip: 'Test tooltip')
 ]
 
 { #category : 'tests' }

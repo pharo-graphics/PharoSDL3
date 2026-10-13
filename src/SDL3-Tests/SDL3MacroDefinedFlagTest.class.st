@@ -30,9 +30,7 @@ SDL3MacroDefinedFlagTest >> testAllValuesIn [
 
 	self
 		assert: (SDL3InitFlags allValuesIn: SDL3InitFlags video | SDL3InitFlags audio)
-		equals: {
-			SDL3InitFlags audio.
-			SDL3InitFlags video }
+		equals: { SDL3InitFlags audio. SDL3InitFlags video }
 ]
 
 { #category : 'tests' }
