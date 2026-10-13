@@ -226,10 +226,12 @@ SDL3GPURoundedRectDemoApp >> updateIndexBuffer [
 
 	"1. Initialize buffer (or recreate if number of quads changed)"
 	indexBufferSize = byteSize ifFalse: [
-		indexTransferBuffer ifNotNil: [ indexTransferBuffer dispose ].
-		indexBuffer ifNotNil: [ indexBuffer dispose ].
-		DiScope own: (indexTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
-		DiScope own: (indexBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: byteSize).
+		indexTransferBuffer := DiScope
+			dispose: indexTransferBuffer
+			andOwn: (gpuDevice unownedNewGPUUploadTransferBuffer: byteSize).
+		indexBuffer := DiScope
+			dispose: indexBuffer
+			andOwn: (gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_INDEX size: byteSize).
 		indexBinding buffer: indexBuffer.
 		indexBufferSize := byteSize ].
 

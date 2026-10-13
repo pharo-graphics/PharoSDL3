@@ -196,3 +196,16 @@ DiScopeTest >> test09DisownLeavesUndisposed [
 		self assert: DiScope current disposables isEmpty ].
 	self deny: d1 isDisposed
 ]
+
+{ #category : 'tests' }
+DiScopeTest >> test10DisposeWithNilOldActsAsOwn [
+
+	| d1 assigned |
+	d1 := DiMockDisposable new.
+	DiScope during: [
+		assigned := DiScope dispose: nil andOwn: d1.
+		self assert: assigned identicalTo: d1.
+		self assert: DiScope current disposables asArray equals: { d1 }.
+		self deny: assigned isDisposed ].
+	self assert: assigned isDisposed
+]

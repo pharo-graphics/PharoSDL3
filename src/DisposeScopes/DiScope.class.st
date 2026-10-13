@@ -77,6 +77,8 @@ DiScope >> disposables [
 DiScope >> dispose: aDisposable andOwn: aNewDisposable [
 
 	| index |
+	aDisposable ifNil: [ ^ self own: aNewDisposable ].
+
 	aDisposable dispose.
 
 	index := disposables indexOf: aDisposable.
