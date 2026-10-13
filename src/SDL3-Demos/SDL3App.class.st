@@ -15,9 +15,9 @@ I use the Visitor design pattern (`TSDL3HierarchicalEventVisitor`) to process SD
 ### Lifecycle Hooks
 Subclasses should utilize the following template methods:
 - `subsystemInitFlags`: Override to specify which SDL3 subsystems to initialize (default is `SDL_INIT_VIDEO`).
-- `setUp`: Called just before the main loop begins. Ideal for resource initialization (windows, renderers, shaders).
-- `step`: Called on every frame. Use this for simulation updates or rendering triggers.
-- `tearDown`: Final cleanup hook called after the main loop terminates and before resources are disposed.
+- `setUp`: Sent just before the main loop begins. Ideal for resource initialization (windows, renderers, shaders).
+- `step`: Sent on every frame. Use this for simulation updates or rendering triggers.
+- `tearDown`: Final cleanup hook sent after the main loop terminates and before resources are disposed.
 
 ### Execution Modes
 I support two ways of running:

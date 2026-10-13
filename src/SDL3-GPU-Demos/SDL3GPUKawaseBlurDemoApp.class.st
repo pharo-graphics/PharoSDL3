@@ -56,7 +56,7 @@ SDL3GPUKawaseBlurDemoApp >> destroyBlurTextures [
 
 { #category : 'rendering' }
 SDL3GPUKawaseBlurDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
-	"Main rendering entry point called by the app loop"
+	"Main rendering entry point sent by the app loop"
 
 	| lastTexture |
 

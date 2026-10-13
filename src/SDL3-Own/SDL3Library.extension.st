@@ -344,8 +344,8 @@ SDL3Library >> timeToDateTime: ticks localTime: isLocal [
 { #category : '*SDL3-Own' }
 SDL3Library >> utf8StringFromExternalAddress: anExternalAddress [
 	"Answer a String from the received address (NULL-terminated) and free the memory.
-	Utility method that to ease calling some SDL functions whose comment indicates 
-	that caller is responsible of freeing the memory via SDL_free()."
+	Utility method to ease calling some SDL functions whose comment indicates
+	that the sender is responsible for freeing the memory via SDL_free()."
 
 	| string |
 	string := anExternalAddress utf8StringFromCString.
