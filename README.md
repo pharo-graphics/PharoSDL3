@@ -165,15 +165,60 @@ You can explore all available functions in the `SDL3Library` class or by browsin
 
 ### 3. Convenience API for Instance Creation ("Unowned" Methods)
 
-Independent root classes provide class-side methods for creating or opening resources.
+Independent root classes provide class-side methods for creating or opening SDL objects.
 
-- **Explicit Ownership:** These methods are prefixed with `unownedNew` (for creation), `unownedOpen` (for opening peripherals), `unownedAs...`, or `unownedCopy...`. This naming convention aligns with Alexandrie (Cairo, FreeType, HarfBuzz) and explicitly signals that the **sender is responsible** for manual memory management (e.g., calling `destroy`, `close`, or `release`). At the moment, PharoSDL3 doesn't provide an automatic `autoRelease`-like way to free external SDL3 resources, so it is the sender who is responsible for doing it.
-- **Internal Assertions:** These methods internally perform success assertions (typically using `assertNotNullReturn`).
+- **Explicit Ownership:** Methods prefixed with `unownedNew`, `unownedOpen`, `unownedAs...`, or `unownedCopy...` signal that the **sender is responsible** for freeing the object (e.g., calling `destroy`, `close`, or `dispose`).
+- **Internal Assertions:** These methods verify return values and signal `SDL3Error` on failure.
 
 **Examples:**
 - `SDL3Window unownedNewTitle: 'title' width: 800 height: 600 flags: 0`
 - `SDL3Joystick unownedOpen: 0`
 - `SDL3PropertyGroup unownedNew`
+
+#### Scope-based Dispose with `DiScope`
+
+To simplify calling `#dispose` without nested `ensure:` blocks, PharoSDL3 provides `DiScope` (from the `DisposeScopes` package):
+
+- **Scopes:** `DiScope during: [ ... ]` runs a block and sends `#dispose` to registered disposables in reverse (LIFO) order upon block completion or error.
+- **Nesting:** Scopes can be nested. Disposables registered within an inner `DiScope during:` are disposed as soon as the inner block exits, while outer objects remain active.
+- **Error Safety:** If an error is signaled inside the innermost block closure, all registered SDL objects across enclosing scopes are disposed in LIFO order as the stack unwinds.
+- **Ownership:** `DiScope own: aDisposable` (or `ownAll:`) registers SDL objects into the current scope.
+- **Replacement:** `texture := DiScope dispose: texture andOwn: aNewTexture` sends `#dispose` to the previous object and registers the new one in place (handling an initial `nil` seamlessly).
+- **Applications:** `SDL3App` runs inside an ambient `DiScope during:`, so disposables registered in `setUp` are disposed automatically when the application terminates.
+
+```smalltalk
+DiScope during: [
+	| window renderer texture |
+	window := DiScope own: (SDL3Window unownedNewTitle: 'Scope Demo' width: 640 height: 480 flags: 0).
+	renderer := DiScope own: window unownedNewRenderer.
+
+	"Create and render a streaming texture"
+	texture := DiScope own: (renderer
+		unownedNewTextureFormat: SDL_PIXELFORMAT_RGBA8888
+		access: SDL_TEXTUREACCESS_STREAMING
+		width: 640
+		height: 480).
+
+	"Nested scope: transient objects are disposed immediately upon inner block exit"
+	DiScope during: [
+		| tempSurface |
+		tempSurface := DiScope own: (SDL3Surface unownedNewWidth: 640 height: 480 format: SDL_PIXELFORMAT_RGBA8888).
+		texture updateRect: nil pixels: tempSurface pixels pitch: tempSurface pitch
+	]. "tempSurface is disposed here; if an error is signaled inside, all SDL objects unwind and dispose in LIFO order"
+
+	renderer
+		renderClear;
+		renderTexture: texture srcrect: nil dstrect: nil;
+		renderPresent.
+
+	"Dynamically replace an SDL object (e.g. upon window resize)"
+	texture := DiScope dispose: texture andOwn: (renderer
+		unownedNewTextureFormat: SDL_PIXELFORMAT_RGBA8888
+		access: SDL_TEXTUREACCESS_STREAMING
+		width: 800
+		height: 600)
+]. "All registered disposables are sent #dispose in reverse order (LIFO)"
+```
 
 
 ### 4. GPU Block-Based API (Automatic Lifecycle)
