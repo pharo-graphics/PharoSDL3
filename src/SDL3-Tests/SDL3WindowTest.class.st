@@ -483,11 +483,11 @@ SDL3WindowTest >> test15AlwaysOnTop [
 	self deny: window isAlwaysOnTop.
 	self waitToSee.
 
-	window alwaysOnTopOnTop: true.
+	window alwaysOnTop: true.
 	self assert: window isAlwaysOnTop.
 	self waitToSee.
 
-	window alwaysOnTopOnTop: false.
+	window alwaysOnTop: false.
 	self deny: window isAlwaysOnTop.
 	self waitToSee.
 

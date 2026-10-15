@@ -252,7 +252,7 @@ SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		self addChild: child type: #Modal ].
 
 	key = SDLK_A ifTrue: [ 
-		window alwaysOnTopOnTop: window isAlwaysOnTop not ].
+		window alwaysOnTop: window isAlwaysOnTop not ].
 
 	key = SDLK_F ifTrue: [ 
 		flashCountdown := Time millisecondClockValue + 3000 ].
