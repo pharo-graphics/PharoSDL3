@@ -1,0 +1,16 @@
+Extension { #name : 'SDL3MouseWheelEvent' }
+
+{ #category : '*SDL3-Additions' }
+SDL3MouseWheelEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' mouseX: ';
+		nextPutAll: (self mouseX printShowingDecimalPlaces: 2).
+	aStream
+		nextPutAll: ' mouseY: ';
+		nextPutAll: (self mouseY printShowingDecimalPlaces: 2).
+	aStream
+		nextPutAll: ' direction: ';
+		nextPutAll: self direction item
+]

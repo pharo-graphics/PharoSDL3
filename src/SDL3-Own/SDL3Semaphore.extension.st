@@ -1,9 +1,0 @@
-Extension { #name : 'SDL3Semaphore' }
-
-{ #category : '*SDL3-Own' }
-SDL3Semaphore class >> unownedNew: initialValue [
-
-	^ (self ffiLibrary createSemaphore: initialValue)
-		  assertNotNullReturn;
-		  yourself
-]
