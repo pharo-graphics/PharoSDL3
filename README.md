@@ -129,6 +129,56 @@ The project includes shell scripts in `scripts/`:
   ./scripts/benchOSWindow.sh "./pharo-ui MyImage.image" | tee -a results.txt
   ```
 
+
+## Beyond Raw FFI: High-Level Abstractions
+
+While the core FFI layer provides direct bindings to C functions, PharoSDL3 adds object-oriented abstractions that eliminate manual C bookkeeping:
+
+- **Standalone Desktop Applications (`SDL3App`)**: Build and run standalone desktop applications directly from a headless Pharo image, completely independent of Morphic and OSWindow.
+- **GPU Pipeline Builder (`SDL3GPUGraphicsPipelineBuilder`)**: Declarative pipeline configuration with vertex struct reflection (`addVertexBufferFor:`) and pre-flight validation preventing native driver crashes.
+- **Polymorphic Event Visitor (`TSDL3HierarchicalEventVisitor`)**: Reifies the raw C `SDL_Event` union into 130+ event classes with hierarchical bubbling delegation.
+- **Deterministic Scope Disposal (`DiScope`)**: RAII-style ambient LIFO scopes that guarantee clean resource teardown without nested `ensure:` blocks.
+- **Reified Domain Entities**: First-class objects for C integer IDs (`SDL3Display`, `SDL3AudioDevice`, `SDL3PropertyGroup`) and typed macro flags (`SDL3MacroDefinedFlag`, `SDL3WindowFlags`).
+- **Pharo Interoperability**: Zero-copy surface sharing (`Form >> unownedAsSDL3Surface`) and geometry/color conversions.
+
+### Minimal Standalone App in 10 Lines
+
+```smalltalk
+SDL3SingleWindowApp << #MyGameApp
+	slots: { #renderer };
+	package: 'MyGame'.
+
+MyGameApp >> setUp [
+	super setUp.
+	renderer := DiScope own: window unownedNewRenderer.
+]
+
+MyGameApp >> step [
+	renderer
+		drawColor: (SDL3FColor r: 0.1 g: 0.2 b: 0.3 a: 1.0);
+		renderClear;
+		renderPresent.
+]
+
+MyGameApp >> visitKeyboardDownEvent: anEvent [
+	anEvent key = SDLK_SPACE asInteger ifTrue: [ "handle spacebar" ].
+	^ super visitKeyboardDownEvent: anEvent
+]
+```
+
+Run it from the terminal using a headless Pharo VM:
+```bash
+./pharo Pharo.image eval 'MyGameApp new run'
+```
+
+### In-Depth Documentation
+
+For detailed architectural explanations and guides, see:
+- [`doc/Standalone-Applications.md`](./doc/Standalone-Applications.md): Complete guide to `SDL3App`, lifecycle hooks, frame pacing with `SDL3CappedLoop`, and GPU apps.
+- [`doc/Architecture-And-OOP-Design.md`](./doc/Architecture-And-OOP-Design.md): In-depth comparison of the raw C FFI baseline against the OOP abstractions (events, builder, domain entities).
+- [`doc/GPU-Resource-Mapping.md`](./doc/GPU-Resource-Mapping.md): Ground-truth reference for HLSL descriptor spaces, registers, and transpiler rules.
+
+
 ## Mapping SDL3 Functions to Pharo Methods
 
 The bindings follow a consistent naming convention to map C functions to Pharo methods.
