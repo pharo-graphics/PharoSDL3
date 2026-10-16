@@ -8,9 +8,9 @@ Class {
 		'logEntryLabelCallback',
 		'tray'
 	],
-	#category : 'SDL3-Demos-Base',
+	#category : 'SDL3-Demos-API',
 	#package : 'SDL3-Demos',
-	#tag : 'Base'
+	#tag : 'API'
 }
 
 { #category : 'accessing' }
