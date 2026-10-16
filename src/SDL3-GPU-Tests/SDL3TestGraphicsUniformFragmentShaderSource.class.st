@@ -47,8 +47,8 @@ float4 main() : SV_Target0 {
 { #category : 'accessing' }
 SDL3TestGraphicsUniformFragmentShaderSource class >> metadata [
 
-	^ (SDL3GPUFragmentShaderMetadata new
+	^ SDL3GPUFragmentShaderMetadata new
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 3) };
-		yourself)
+		yourself
 ]

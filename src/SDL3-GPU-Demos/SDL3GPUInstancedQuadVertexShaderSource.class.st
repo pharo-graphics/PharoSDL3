@@ -117,8 +117,11 @@ VertexOutput main(VertexInput input) {
 { #category : 'accessing' }
 SDL3GPUInstancedQuadVertexShaderSource class >> metadata [
 
-	^ (SDL3GPUVertexShaderMetadata new
+	^ SDL3GPUVertexShaderMetadata new
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 1 linkedClass: SDL3GPUInstancedQuadUniforms) };
-		yourself)
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'position' type: 'float2' semantic: 'TEXCOORD0' location: 0).
+			(SDL3GPUVertexAttributeMetadata name: 'uv' type: 'float2' semantic: 'TEXCOORD1' location: 1) };
+		yourself
 ]

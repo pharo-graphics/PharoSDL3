@@ -86,51 +86,21 @@ SDL3GPUKawaseBlurDemoApp >> initialize [
 { #category : 'initialization' }
 SDL3GPUKawaseBlurDemoApp >> initializeBlurPipelines [
 
-	| vertexShader downShader upShader colorTargets vertexBindings vertexAttributes |
-	"We use our custom vertex shader that supports uniforms for full-screen quads"
-	vertexShader := SDL3GPUDualKawaseBlurSceneVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	downShader := SDL3GPUDualKawaseDownsampleFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-	upShader := SDL3GPUDualKawaseUpsampleFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
+	| baseBuilder |
+	baseBuilder := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUDualKawaseBlurSceneVertexShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		targetFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM.
 
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first format: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM.
-
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		pitch: SDL3GPUQuadVertex structureSize.
-
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 12.
-
-	"1. Downsample Pipeline"
-	downsamplePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			                      info vertex: vertexShader fragment: downShader targets: colorTargets.
-			                      info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	downsamplePipeline := baseBuilder copy
+		fragmentShader: SDL3GPUDualKawaseDownsampleFragmentShaderSource;
+		unownedNewPipeline.
 	DiScope own: downsamplePipeline.
 
-	"2. Upsample Pipeline"
-	upsamplePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			                    info vertex: vertexShader fragment: upShader targets: colorTargets.
-			                    info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: upsamplePipeline.
-
-	vertexShader dispose.
-	downShader dispose.
-	upShader dispose.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	upsamplePipeline := baseBuilder copy
+		fragmentShader: SDL3GPUDualKawaseUpsampleFragmentShaderSource;
+		unownedNewPipeline.
+	DiScope own: upsamplePipeline
 ]
 
 { #category : 'initialization' }
@@ -266,43 +236,14 @@ SDL3GPUKawaseBlurDemoApp >> initializeSampler [
 { #category : 'initialization' }
 SDL3GPUKawaseBlurDemoApp >> initializeScenePipeline [
 
-	| vertexShader fragmentShader colorTargets vertexBindings vertexAttributes |
-	vertexShader := SDL3GPUDualKawaseBlurSceneVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3GPUQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first
-		format: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM;
-		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		pitch: SDL3GPUQuadVertex structureSize.
-
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 12.
-
-	scenePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: scenePipeline.
-
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	scenePipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUDualKawaseBlurSceneVertexShaderSource;
+		fragmentShader: SDL3GPUQuadFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		targetFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: scenePipeline
 ]
 
 { #category : 'initialization' }

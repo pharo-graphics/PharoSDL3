@@ -89,8 +89,15 @@ VertexOutput main(VertexInput input) {
 { #category : 'accessing' }
 SDL3TextScrollVertexShaderSource class >> metadata [
 
-	^ (SDL3GPUVertexShaderMetadata new
+	^ SDL3GPUVertexShaderMetadata new
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 1 linkedClass: SDL3TextScrollUniforms) };
-		yourself)
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'basePosition' type: 'float3' semantic: 'TEXCOORD0' location: 0).
+			(SDL3GPUVertexAttributeMetadata name: 'baseUV' type: 'float2' semantic: 'TEXCOORD1' location: 1).
+			(SDL3GPUVertexAttributeMetadata name: 'instPosition' type: 'float2' semantic: 'TEXCOORD2' location: 2).
+			(SDL3GPUVertexAttributeMetadata name: 'instExtent' type: 'float2' semantic: 'TEXCOORD3' location: 3).
+			(SDL3GPUVertexAttributeMetadata name: 'instUVBounds' type: 'float4' semantic: 'TEXCOORD4' location: 4).
+			(SDL3GPUVertexAttributeMetadata name: 'colorIndices' type: 'uint' semantic: 'TEXCOORD5' location: 5) };
+		yourself
 ]

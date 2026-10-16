@@ -4,9 +4,9 @@ I represent a read-only storage texture binding (register t).
 Class {
 	#name : 'SDL3GPUReadOnlyStorageTextureBinding',
 	#superclass : 'SDL3GPUStorageTextureBinding',
-	#category : 'SDL3-GPU-ShaderScanner',
+	#category : 'SDL3-GPU-ShaderMetadata',
 	#package : 'SDL3-GPU',
-	#tag : 'ShaderScanner'
+	#tag : 'ShaderMetadata'
 }
 
 { #category : 'accessing' }

@@ -72,4 +72,8 @@ VertexOutput main(VertexInput vIn, InstanceInput iIn) {
 SDL3GPUTiledMapVertexShaderSource class >> metadata [
 
 	^ SDL3GPUVertexShaderMetadata new
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'Position' type: 'float3' semantic: 'TEXCOORD0' location: 0).
+			(SDL3GPUVertexAttributeMetadata name: 'TexCoord' type: 'float2' semantic: 'TEXCOORD1' location: 1) };
+		yourself
 ]

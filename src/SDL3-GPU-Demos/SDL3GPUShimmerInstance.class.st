@@ -3,7 +3,7 @@ I represent the instance data for a shimmer panel, including its bounds and corn
 "
 Class {
 	#name : 'SDL3GPUShimmerInstance',
-	#superclass : 'SDL3Structure',
+	#superclass : 'SDL3GPUVertexInputStructure',
 	#classVars : [
 		'OFFSET_H',
 		'OFFSET_PADDING1',
@@ -33,6 +33,14 @@ SDL3GPUShimmerInstance class >> fieldsDesc [
 	float padding2;
 	float padding3;
 	)
+]
+
+{ #category : 'accessing' }
+SDL3GPUShimmerInstance class >> gpuVertexElementsDescription [
+
+	^ {
+		(SDL3GPUVertexElement location: 2 oneBasedOffset: OFFSET_X format: SDL3GPUVertexElementFormat float4).
+		(SDL3GPUVertexElement location: 3 oneBasedOffset: OFFSET_RADIUS format: SDL3GPUVertexElementFormat float4) }
 ]
 
 { #category : 'accessing - structure variables' }

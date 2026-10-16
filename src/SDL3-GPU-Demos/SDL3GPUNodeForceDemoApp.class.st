@@ -245,98 +245,25 @@ SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 { #category : 'initialization' }
 SDL3GPUNodeForceDemoApp >> initializeShaders [
 
-	| colorTargets |
 	DiScope own: (computePipeline := SDL3GPUNodeForceComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
-
-	self newNodePipelineColorTargets: colorTargets.
-	self newEdgePipelineColorTargets: colorTargets.
-
-	colorTargets free
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemoApp >> newEdgePipelineColorTargets: colorTargets [
-
-	| vertexShader fragmentShader vertexBindings vertexAttributes |
-	vertexShader := SDL3GPUEdgeVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3GPUEdgeFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	vertexBindings := self newNodeVertexBindings.
-	vertexAttributes := self newNodeVertexAttributes.
-
-	edgePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: edgePipeline.
-
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemoApp >> newNodePipelineColorTargets: colorTargets [
-
-	| vertexShader fragmentShader vertexBindings vertexAttributes |
-	vertexShader := SDL3GPUNodeVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3GPUNodeFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	vertexBindings := self newNodeVertexBindings.
-	vertexAttributes := self newNodeVertexAttributes.
-
-	nodePipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
+	nodePipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUNodeVertexShaderSource;
+		fragmentShader: SDL3GPUNodeFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
 	DiScope own: nodePipeline.
 
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemoApp >> newNodeVertexAttributes [
-
-	| vertexAttributes |
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
-
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 3 * FFIFloat32 externalTypeSize.
-
-	^ vertexAttributes
-]
-
-{ #category : 'private' }
-SDL3GPUNodeForceDemoApp >> newNodeVertexBindings [
-
-	| vertexBindings |
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
-
-	vertexBindings first
-		slot: 0;
-		pitch: SDL3GPUQuadVertex structureSize;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0.
-
-	^ vertexBindings
+	edgePipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUEdgeVertexShaderSource;
+		fragmentShader: SDL3GPUEdgeFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: edgePipeline
 ]
 
 { #category : 'private' }

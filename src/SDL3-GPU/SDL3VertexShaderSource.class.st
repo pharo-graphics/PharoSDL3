@@ -24,9 +24,9 @@ SDL3VertexShaderSource class >> isAbstract [
 ]
 
 { #category : 'accessing' }
-SDL3VertexShaderSource class >> metadata [
+SDL3VertexShaderSource class >> metadataClass [
 
-	^ SDL3GPUVertexShaderMetadata new
+	^ SDL3GPUVertexShaderMetadata
 ]
 
 { #category : 'accessing' }

@@ -238,28 +238,14 @@ SDL3GPUBoidsDemoApp >> initializeIndexBuffer [
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initializeRenderPipeline [
 
-	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
-	vertexShader := SDL3GPUBoidsVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3GPUBoidsFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	vertexBindings := self newBoidsVertexBindings.
-	vertexAttributes := self newBoidsVertexAttributes.
-
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first
-		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	renderPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: renderPipeline.
-
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	renderPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUBoidsVertexShaderSource;
+		fragmentShader: SDL3GPUBoidsFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUBoidsVertex;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: renderPipeline
 ]
 
 { #category : 'initialization' }
@@ -276,37 +262,6 @@ SDL3GPUBoidsDemoApp >> initializeVertexBuffers [
 	storageBufferBinding first
 		buffer: vertexBuffer;
 		cycle: false
-]
-
-{ #category : 'private' }
-SDL3GPUBoidsDemoApp >> newBoidsVertexAttributes [
-
-	| vertexAttributes |
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 0;
-		offset: 0.
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT;
-		location: 1;
-		offset: 8.
-	^ vertexAttributes
-]
-
-{ #category : 'private' }
-SDL3GPUBoidsDemoApp >> newBoidsVertexBindings [
-
-	| vertexBindings |
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: 16. "float2 + float + float pad = 16 bytes"
-	^ vertexBindings
 ]
 
 { #category : 'private' }

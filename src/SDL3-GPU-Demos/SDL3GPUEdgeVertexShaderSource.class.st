@@ -128,11 +128,14 @@ VertexOutput main(VertexInput vIn, uint instanceID : SV_InstanceID) {
 { #category : 'accessing' }
 SDL3GPUEdgeVertexShaderSource class >> metadata [
 
-	^ (SDL3GPUVertexShaderMetadata new
+	^ SDL3GPUVertexShaderMetadata new
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 1 linkedClass: SDL3GPUNodeForceUniforms) };
 		storageBuffers: {
 			(SDL3GPUReadOnlyStorageBufferBinding index: 0 space: 0 linkedClass: SDL3GPUNode).
 			(SDL3GPUReadOnlyStorageBufferBinding index: 1 space: 0 linkedClass: SDL3GPUEdge) };
-		yourself)
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'Position' type: 'float3' semantic: 'TEXCOORD0' location: 0).
+			(SDL3GPUVertexAttributeMetadata name: 'TexCoord' type: 'float2' semantic: 'TEXCOORD1' location: 1) };
+		yourself
 ]

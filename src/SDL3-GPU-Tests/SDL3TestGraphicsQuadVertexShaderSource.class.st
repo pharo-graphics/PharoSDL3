@@ -54,4 +54,7 @@ VertexOutput main(VertexInput input) {
 SDL3TestGraphicsQuadVertexShaderSource class >> metadata [
 
 	^ SDL3GPUVertexShaderMetadata new
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'position' type: 'float3' semantic: 'POSITION' location: 0) };
+		yourself
 ]

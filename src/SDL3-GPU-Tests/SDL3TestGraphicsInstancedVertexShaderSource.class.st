@@ -57,4 +57,7 @@ VertexOutput main(VertexInput input, uint instanceID : SV_InstanceID) {
 SDL3TestGraphicsInstancedVertexShaderSource class >> metadata [
 
 	^ SDL3GPUVertexShaderMetadata new
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'position' type: 'float3' semantic: 'POSITION' location: 0) };
+		yourself
 ]

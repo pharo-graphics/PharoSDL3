@@ -169,12 +169,12 @@ void main(
 { #category : 'accessing' }
 SDL3GPUBoidsComputeShaderSource class >> metadata [
 
-	^ (SDL3GPUComputeShaderMetadata new
+	^ SDL3GPUComputeShaderMetadata new
 		threadCountX: 64;
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 2 linkedClass: SDL3GPUBoidsUniforms) };
 		storageBuffers: {
 			(SDL3GPUReadOnlyStorageBufferBinding index: 0 space: 0 linkedClass: SDL3GPUNode).
 			(SDL3GPUReadWriteStorageBufferBinding index: 0 space: 1 linkedClass: SDL3GPUNode) };
-		yourself)
+		yourself
 ]

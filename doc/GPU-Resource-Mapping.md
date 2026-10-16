@@ -20,6 +20,12 @@ Based on repeated `shadercross` errors, the transpiler imposes strict rules on h
 > [!WARNING]
 > **Space Collision Risk**: Never assign both `RO Storage` (register t) and `RW Storage` (register u) to the same **space**. While D3D might allow this, the `shadercross` transpiler maps spaces to descriptor sets/argument buffers. Assigning them to the same space can cause them to overlap, leading to silent failures or zeroed-out results in the GPU.
 
+> [!TIP]
+> **Automated Pre-Flight Validation**: `SDL3GPUGraphicsPipelineBuilder` automatically verifies this ground-truth mapping and checks `hasSpaceCollision` on shader metadata at pipeline creation time. If an invalid descriptor space or RO/RW space collision is detected, an explicit error is signaled before sending resources to `shadercross` or the GPU driver.
+
+> [!NOTE]
+> **Shader Metadata Reflection**: Subclasses of `SDL3ShaderSource` scan their HLSL source code (via `SDL3GPUShaderMetadata`) to generate class-side `#metadata` methods. This ensures binding spaces, register indices, compute thread dimensions, and vertex attributes stay synchronized with this specification.
+
 > [!NOTE]
 > **Multiple Resources**: The table above shows `0` for the HLSL Register and Pharo Slot. If you need multiple resources of the same type, simply increment the register and slot while keeping the same space. For example, a second vertex sampler would be `register(s1, space0)` in HLSL and `slot: 1` in Pharo.
 
@@ -33,10 +39,20 @@ Based on repeated `shadercross` errors, the transpiler imposes strict rules on h
 To bind resources correctly, follow these Pharo API mappings. **All high-level methods require an explicit slot index.**
 
 ### 1. Vertex Buffers (Graphics)
-- **Pharo API**: `renderPass vertexBuffers: bindings slot: index`
-- **Usage**: Use for standard vertex attribute arrays (e.g., Position, Color).
-- **Cascade Example**:
+- **Pipeline Setup**: Use `builder addVertexBufferFor: aVertexInputStructure` in `SDL3GPUGraphicsPipelineBuilder`. Structures deriving from `SDL3GPUVertexInputStructure` automatically define their attribute locations, formats, offsets, and buffer slot bindings via `#gpuVertexElementsDescription` and `#asVertexBufferDescriptionForSlot:inputRate:`.
+- **Pre-flight Validation**: The builder cross-checks all configured vertex attributes against the vertex shader's HLSL `struct VertexInput`, signaling an `SDL3GPUShaderLayoutMismatch` if any required attribute location is missing.
+- **Render Pass Binding**: `renderPass vertexBuffers: bindings slot: index`
+- **Example**:
 ```smalltalk
+"1. Build pipeline with automatic vertex layout reflection & preflight validation:"
+pipeline := device newGraphicsPipelineBuilder
+	vertexShader: SDL3GPUQuadVertexShaderSource;
+	fragmentShader: SDL3GPUQuadFragmentShaderSource;
+	addVertexBufferFor: SDL3GPUQuadVertex;
+	targetWindow: window;
+	unownedNewPipeline.
+
+"2. Bind vertex buffers and draw during render pass:"
 renderPass
 	pipeline: pipeline;
 	vertexBuffers: vertexBindings slot: 0;

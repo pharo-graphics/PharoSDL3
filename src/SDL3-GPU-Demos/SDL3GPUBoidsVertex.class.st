@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3GPUBoidsVertex',
-	#superclass : 'SDL3Structure',
+	#superclass : 'SDL3GPUVertexInputStructure',
 	#classVars : [
 		'OFFSET_HUE',
 		'OFFSET_PADDING',
@@ -22,6 +22,14 @@ SDL3GPUBoidsVertex class >> fieldsDesc [
 	float hue;
 	float padding;
 	)
+]
+
+{ #category : 'accessing' }
+SDL3GPUBoidsVertex class >> gpuVertexElementsDescription [
+
+	^ {
+		(SDL3GPUVertexElement location: 0 oneBasedOffset: OFFSET_X format: SDL3GPUVertexElementFormat float2).
+		(SDL3GPUVertexElement location: 1 oneBasedOffset: OFFSET_HUE format: SDL3GPUVertexElementFormat float) }
 ]
 
 { #category : 'accessing - structure variables' }

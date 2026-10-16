@@ -26,13 +26,9 @@ SDL3ComputeShaderSource class >> isAbstract [
 ]
 
 { #category : 'accessing' }
-SDL3ComputeShaderSource class >> metadata [
-	| m |
-	m := SDL3GPUComputeShaderMetadata new.
-	m threadCountX: 1.
-	m threadCountY: 1.
-	m threadCountZ: 1.
-	^ m
+SDL3ComputeShaderSource class >> metadataClass [
+
+	^ SDL3GPUComputeShaderMetadata
 ]
 
 { #category : 'accessing' }

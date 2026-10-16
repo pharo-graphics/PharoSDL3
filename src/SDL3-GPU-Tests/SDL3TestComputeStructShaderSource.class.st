@@ -59,10 +59,10 @@ void main(uint3 dtid : SV_DispatchThreadID) {
 { #category : 'accessing' }
 SDL3TestComputeStructShaderSource class >> metadata [
 
-	^ (SDL3GPUComputeShaderMetadata new
+	^ SDL3GPUComputeShaderMetadata new
 		threadCountX: 64;
 		storageBuffers: {
 			(SDL3GPUReadOnlyStorageBufferBinding index: 0 space: 0 linkedClass: SDL3TestComputeStruct).
 			(SDL3GPUReadWriteStorageBufferBinding index: 0 space: 1 linkedClass: SDL3TestComputeStruct) };
-		yourself)
+		yourself
 ]

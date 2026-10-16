@@ -55,8 +55,8 @@ float4 main(VertexOutput input) : SV_Target0 {
 { #category : 'accessing' }
 SDL3TextScrollFragmentShaderSource class >> metadata [
 
-	^ (SDL3GPUFragmentShaderMetadata new
+	^ SDL3GPUFragmentShaderMetadata new
 		samplers: {
 			(SDL3GPUSamplerBinding index: 0 space: 2) };
-		yourself)
+		yourself
 ]

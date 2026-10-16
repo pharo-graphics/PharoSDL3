@@ -129,6 +129,56 @@ The project includes shell scripts in `scripts/`:
   ./scripts/benchOSWindow.sh "./pharo-ui MyImage.image" | tee -a results.txt
   ```
 
+
+## Beyond Raw FFI: High-Level Abstractions
+
+While the core FFI layer provides direct bindings to C functions, PharoSDL3 adds object-oriented abstractions that eliminate manual C bookkeeping:
+
+- **Standalone Desktop Applications (`SDL3App`)**: Build and run standalone desktop applications directly from a headless Pharo image, completely independent of Morphic and OSWindow.
+- **GPU Pipeline Builder (`SDL3GPUGraphicsPipelineBuilder`)**: Declarative pipeline configuration with vertex struct reflection (`addVertexBufferFor:`) and pre-flight validation preventing native driver crashes.
+- **Polymorphic Event Visitor (`TSDL3HierarchicalEventVisitor`)**: Reifies the raw C `SDL_Event` union into 130+ event classes with hierarchical bubbling delegation.
+- **Deterministic Scope Disposal (`DiScope`)**: RAII-style ambient LIFO scopes that guarantee clean resource teardown without nested `ensure:` blocks.
+- **Reified Domain Entities**: First-class objects for C integer IDs (`SDL3Display`, `SDL3AudioDevice`, `SDL3PropertyGroup`) and typed macro flags (`SDL3MacroDefinedFlag`, `SDL3WindowFlags`).
+- **Pharo Interoperability**: Zero-copy surface sharing (`Form >> unownedAsSDL3Surface`) and geometry/color conversions.
+
+### Minimal Standalone App in 10 Lines
+
+```smalltalk
+SDL3SingleWindowApp << #MyGameApp
+	slots: { #renderer };
+	package: 'MyGame'.
+
+MyGameApp >> setUp [
+	super setUp.
+	renderer := DiScope own: window unownedNewRenderer.
+]
+
+MyGameApp >> step [
+	renderer
+		drawColor: (SDL3FColor r: 0.1 g: 0.2 b: 0.3 a: 1.0);
+		renderClear;
+		renderPresent.
+]
+
+MyGameApp >> visitKeyboardDownEvent: anEvent [
+	anEvent key = SDLK_SPACE asInteger ifTrue: [ "handle spacebar" ].
+	^ super visitKeyboardDownEvent: anEvent
+]
+```
+
+Run it from the terminal using a headless Pharo VM:
+```bash
+./pharo Pharo.image eval 'MyGameApp new run'
+```
+
+### In-Depth Documentation
+
+For detailed architectural explanations and guides, see:
+- [`doc/Standalone-Applications.md`](./doc/Standalone-Applications.md): Complete guide to `SDL3App`, lifecycle hooks, frame pacing with `SDL3CappedLoop`, and GPU apps.
+- [`doc/Architecture-And-OOP-Design.md`](./doc/Architecture-And-OOP-Design.md): In-depth comparison of the raw C FFI baseline against the OOP abstractions (events, builder, domain entities).
+- [`doc/GPU-Resource-Mapping.md`](./doc/GPU-Resource-Mapping.md): Ground-truth reference for HLSL descriptor spaces, registers, and transpiler rules.
+
+
 ## Mapping SDL3 Functions to Pharo Methods
 
 The bindings follow a consistent naming convention to map C functions to Pharo methods.
@@ -146,7 +196,7 @@ You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki w
 
 **Examples:**
 - `SDL_Init(flags)` maps to `SDL3Library >> init: flags`
-- `SDL_CreateWindow(title, w, h, flags)` maps to `SDL3Library >> newWindowTitle:w:h:flags:`
+- `SDL_CreateWindow(title, w, h, flags)` maps to `SDL3Library >> createWindowTitle:w:h:flags:`
 
 ### 2. Convenience API (Instance-Side methods in SDL3Window and others)
 
@@ -156,7 +206,7 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "
   - `SDL_GetWindowFlags(window)` maps to `SDL3Window >> flags`
   - `SDL_SetWindowBordered(window, bordered)` maps to `SDL3Window >> bordered: bordered`
 - **Output Parameters (Into):** When a function returns values via pointers (output parameters), the Pharo method typically uses the `Into` keyword in the selector.
-  - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW:w h:h`
+  - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW: w h: h`
   - `SDL_GetRenderClipRect(renderer, &rect)` maps to `SDL3Renderer >> getRenderClipRectInto: rect`
 - **Argument Naming:** Just like in the raw API, all arguments use `camelCase`.
 - **Internal Assertions:** These methods internally perform success assertions, and signal `SDL3Error` if something was wrong in a SDL3 C function call.
@@ -167,7 +217,7 @@ You can explore all available functions in the `SDL3Library` class or by browsin
 
 Independent root classes provide class-side methods for creating or opening SDL objects.
 
-- **Explicit Ownership:** Methods prefixed with `unownedNew`, `unownedOpen`, `unownedAs...`, or `unownedCopy...` signal that the **sender is responsible** for freeing the object (e.g., calling `destroy`, `close`, or `dispose`).
+- **Explicit Ownership:** Methods prefixed with `unownedNew`, `unownedOpen`, `unownedAs...`, or `unownedCopy...` signal that the **sender is responsible** for disposing the object (e.g., sending `dispose`, `destroy`, `close`, `end`, or `release`).
 - **Internal Assertions:** These methods verify return values and signal `SDL3Error` on failure.
 
 **Examples:**
@@ -177,13 +227,13 @@ Independent root classes provide class-side methods for creating or opening SDL 
 
 #### Scope-based Dispose with `DiScope`
 
-To simplify calling `#dispose` without nested `ensure:` blocks, PharoSDL3 provides `DiScope` (from the `DisposeScopes` package):
+To simplify sending `#dispose` without nested `ensure:` blocks, PharoSDL3 provides `DiScope` (from the `DisposeScopes` package):
 
-- **Scopes:** `DiScope during: [ ... ]` runs a block and sends `#dispose` to registered disposables in reverse (LIFO) order upon block completion or error.
+- **Scopes:** `DiScope during: [ ... ]` evaluates a block and sends `dispose` to registered disposables in reverse (LIFO) order upon block completion or error.
 - **Nesting:** Scopes can be nested. Disposables registered within an inner `DiScope during:` are disposed as soon as the inner block exits, while outer objects remain active.
 - **Error Safety:** If an error is signaled inside the innermost block closure, all registered SDL objects across enclosing scopes are disposed in LIFO order as the stack unwinds.
 - **Ownership:** `DiScope own: aDisposable` (or `ownAll:`) registers SDL objects into the current scope.
-- **Replacement:** `texture := DiScope dispose: texture andOwn: aNewTexture` sends `#dispose` to the previous object and registers the new one in place (handling an initial `nil` seamlessly).
+- **Replacement:** `texture := DiScope dispose: texture andOwn: aNewTexture` sends `dispose` to the previous object and registers the new one in place (handling an initial `nil` seamlessly).
 - **Applications:** `SDL3App` runs inside an ambient `DiScope during:`, so disposables registered in `setUp` are disposed automatically when the application terminates.
 
 ```smalltalk
@@ -225,7 +275,7 @@ DiScope during: [
 
 The GPU stack provides specialized methods that use BlockClosures to manage the lifecycle of transient resources (like passes, mapping addresses, or configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are correctly closed, unmapped, or freed, even if an error occurs.
 
-- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:computeStorageBuffers:do:`, and `copyPassDo:` automatically call the underlying `EndGPU...Pass` functions when the block finishes.
+- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:computeStorageBuffers:do:`, and `copyPassDo:` automatically call the underlying SDL functions when the block finishes.
 - **Safe Resource Creation:** Block-based factory methods on `SDL3GPUDevice` (such as `unownedNewGPUGraphicsPipeline:`, `unownedNewGPUSampler:`, and `unownedNewGPUBuffer:`) provide a temporary `CreateInfo` struct to the configuration block and automatically free it once the resource is created, returning an unowned resource that the sender assumes responsibility for releasing.
 - **Memory Mapping:** `mapTransferBuffer:cycle:do: [ :mappedAddress | ... ]` automatically unmaps the transfer buffer when the block terminates.
 
@@ -244,7 +294,7 @@ The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass()](h
 
 To provide a more idiomatic and safe experience, many wrapper methods in the Convenience API handle error checking internally:
 
-- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
+- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the function call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
 - **Pointer Results:** Methods that create or return SDL3 objects (e.g., `unownedNewRenderer:`) use `assertNotNullReturn` internally. If the returned pointer is NULL, an `SDL3Error` is raised.
 - **Void Returns:** Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
 - **Query Methods:** Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.

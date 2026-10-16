@@ -95,13 +95,14 @@ SDL3ShaderSource class >> compileBase64CodeFromHLSLSourceInAllSubclasses [
 { #category : 'code generation' }
 SDL3ShaderSource class >> compileMetadataFromHLSLSource [
 
-	| metadata methodSourceCode |
-	metadata := SDL3ShaderMetadataScanner new scan: self hlslSource.
+	| metadata storeString methodSourceCode |
+	metadata := self newScannedMetadata.
+	storeString := (metadata storeString withoutPrefix: '(') withoutSuffix: ')'.
 	methodSourceCode := String streamContents: [ :stream |
 		stream
 			nextPutAll: 'metadata'; cr; cr;
-			tab; nextPutAll: '^ '.
-		metadata storeOn: stream ].
+			tab; nextPutAll: '^ ';
+			nextPutAll: storeString ].
 
 	self classSide
 		compile: methodSourceCode
@@ -132,7 +133,20 @@ SDL3ShaderSource class >> isAbstract [
 
 { #category : 'accessing' }
 SDL3ShaderSource class >> metadata [
-	^ SDL3GPUShaderMetadata new
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SDL3ShaderSource class >> metadataClass [
+
+	self subclassResponsibility
+]
+
+{ #category : 'compiling' }
+SDL3ShaderSource class >> newScannedMetadata [
+
+	^ self metadataClass scanFromSource: self hlslSource
 ]
 
 { #category : 'private' }
