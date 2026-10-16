@@ -167,7 +167,7 @@ You can explore all available functions in the `SDL3Library` class or by browsin
 
 Independent root classes provide class-side methods for creating or opening SDL objects.
 
-- **Explicit Ownership:** Methods prefixed with `unownedNew`, `unownedOpen`, `unownedAs...`, or `unownedCopy...` signal that the **sender is responsible** for freeing the object (e.g., calling `destroy`, `close`, or `dispose`).
+- **Explicit Ownership:** Methods prefixed with `unownedNew`, `unownedOpen`, `unownedAs...`, or `unownedCopy...` signal that the **sender is responsible** for disposing the object (e.g., sending `dispose`, `destroy`, `close`, `end`, or `release`).
 - **Internal Assertions:** These methods verify return values and signal `SDL3Error` on failure.
 
 **Examples:**
@@ -177,13 +177,13 @@ Independent root classes provide class-side methods for creating or opening SDL 
 
 #### Scope-based Dispose with `DiScope`
 
-To simplify calling `#dispose` without nested `ensure:` blocks, PharoSDL3 provides `DiScope` (from the `DisposeScopes` package):
+To simplify sending `#dispose` without nested `ensure:` blocks, PharoSDL3 provides `DiScope` (from the `DisposeScopes` package):
 
-- **Scopes:** `DiScope during: [ ... ]` runs a block and sends `#dispose` to registered disposables in reverse (LIFO) order upon block completion or error.
+- **Scopes:** `DiScope during: [ ... ]` evaluates a block and sends `dispose` to registered disposables in reverse (LIFO) order upon block completion or error.
 - **Nesting:** Scopes can be nested. Disposables registered within an inner `DiScope during:` are disposed as soon as the inner block exits, while outer objects remain active.
 - **Error Safety:** If an error is signaled inside the innermost block closure, all registered SDL objects across enclosing scopes are disposed in LIFO order as the stack unwinds.
 - **Ownership:** `DiScope own: aDisposable` (or `ownAll:`) registers SDL objects into the current scope.
-- **Replacement:** `texture := DiScope dispose: texture andOwn: aNewTexture` sends `#dispose` to the previous object and registers the new one in place (handling an initial `nil` seamlessly).
+- **Replacement:** `texture := DiScope dispose: texture andOwn: aNewTexture` sends `dispose` to the previous object and registers the new one in place (handling an initial `nil` seamlessly).
 - **Applications:** `SDL3App` runs inside an ambient `DiScope during:`, so disposables registered in `setUp` are disposed automatically when the application terminates.
 
 ```smalltalk
@@ -225,7 +225,7 @@ DiScope during: [
 
 The GPU stack provides specialized methods that use BlockClosures to manage the lifecycle of transient resources (like passes, mapping addresses, or configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are correctly closed, unmapped, or freed, even if an error occurs.
 
-- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:computeStorageBuffers:do:`, and `copyPassDo:` automatically call the underlying `EndGPU...Pass` functions when the block finishes.
+- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:computeStorageBuffers:do:`, and `copyPassDo:` automatically call the underlying SDL functions when the block finishes.
 - **Safe Resource Creation:** Block-based factory methods on `SDL3GPUDevice` (such as `unownedNewGPUGraphicsPipeline:`, `unownedNewGPUSampler:`, and `unownedNewGPUBuffer:`) provide a temporary `CreateInfo` struct to the configuration block and automatically free it once the resource is created, returning an unowned resource that the sender assumes responsibility for releasing.
 - **Memory Mapping:** `mapTransferBuffer:cycle:do: [ :mappedAddress | ... ]` automatically unmaps the transfer buffer when the block terminates.
 
@@ -244,7 +244,7 @@ The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass()](h
 
 To provide a more idiomatic and safe experience, many wrapper methods in the Convenience API handle error checking internally:
 
-- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
+- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the function call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
 - **Pointer Results:** Methods that create or return SDL3 objects (e.g., `unownedNewRenderer:`) use `assertNotNullReturn` internally. If the returned pointer is NULL, an `SDL3Error` is raised.
 - **Void Returns:** Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
 - **Query Methods:** Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.
