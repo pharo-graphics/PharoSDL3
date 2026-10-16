@@ -196,7 +196,7 @@ You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki w
 
 **Examples:**
 - `SDL_Init(flags)` maps to `SDL3Library >> init: flags`
-- `SDL_CreateWindow(title, w, h, flags)` maps to `SDL3Library >> newWindowTitle:w:h:flags:`
+- `SDL_CreateWindow(title, w, h, flags)` maps to `SDL3Library >> createWindowTitle:w:h:flags:`
 
 ### 2. Convenience API (Instance-Side methods in SDL3Window and others)
 
@@ -206,7 +206,7 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "
   - `SDL_GetWindowFlags(window)` maps to `SDL3Window >> flags`
   - `SDL_SetWindowBordered(window, bordered)` maps to `SDL3Window >> bordered: bordered`
 - **Output Parameters (Into):** When a function returns values via pointers (output parameters), the Pharo method typically uses the `Into` keyword in the selector.
-  - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW:w h:h`
+  - `SDL_GetWindowSize(window, &w, &h)` maps to `SDL3Window >> getSizeIntoW: w h: h`
   - `SDL_GetRenderClipRect(renderer, &rect)` maps to `SDL3Renderer >> getRenderClipRectInto: rect`
 - **Argument Naming:** Just like in the raw API, all arguments use `camelCase`.
 - **Internal Assertions:** These methods internally perform success assertions, and signal `SDL3Error` if something was wrong in a SDL3 C function call.
