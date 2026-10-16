@@ -87,7 +87,7 @@ void main(uint3 id : SV_DispatchThreadID)
 { #category : 'accessing' }
 SDL3GPUGaussianBlurShaderSource class >> metadata [
 
-	^ (SDL3GPUComputeShaderMetadata new
+	^ SDL3GPUComputeShaderMetadata new
 		threadCountX: 8;
 		threadCountY: 8;
 		samplers: {
@@ -96,5 +96,5 @@ SDL3GPUGaussianBlurShaderSource class >> metadata [
 			(SDL3GPUUniformBinding index: 0 space: 2 linkedClass: SDL3GPUBlurUniforms) };
 		storageTextures: {
 			(SDL3GPUReadWriteStorageTextureBinding index: 0 space: 1) };
-		yourself)
+		yourself
 ]

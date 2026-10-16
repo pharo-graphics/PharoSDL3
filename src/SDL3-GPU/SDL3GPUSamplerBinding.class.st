@@ -4,9 +4,9 @@ I represent a sampler binding (register s).
 Class {
 	#name : 'SDL3GPUSamplerBinding',
 	#superclass : 'SDL3GPUBinding',
-	#category : 'SDL3-GPU-ShaderScanner',
+	#category : 'SDL3-GPU-ShaderMetadata',
 	#package : 'SDL3-GPU',
-	#tag : 'ShaderScanner'
+	#tag : 'ShaderMetadata'
 }
 
 { #category : 'accessing' }

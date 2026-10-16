@@ -165,7 +165,7 @@ void main(uint3 id : SV_DispatchThreadID, uint3 localID : SV_GroupThreadID) {
 { #category : 'accessing' }
 SDL3GPUNodeForceComputeShaderSource class >> metadata [
 
-	^ (SDL3GPUComputeShaderMetadata new
+	^ SDL3GPUComputeShaderMetadata new
 		threadCountX: 64;
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 2 linkedClass: SDL3GPUNodeForceUniforms) };
@@ -173,5 +173,5 @@ SDL3GPUNodeForceComputeShaderSource class >> metadata [
 			(SDL3GPUReadOnlyStorageBufferBinding index: 0 space: 0 linkedClass: SDL3GPUNode).
 			(SDL3GPUReadWriteStorageBufferBinding index: 0 space: 1 linkedClass: SDL3GPUNode).
 			(SDL3GPUReadOnlyStorageBufferBinding index: 1 space: 0 linkedClass: SDL3GPUEdge) };
-		yourself)
+		yourself
 ]

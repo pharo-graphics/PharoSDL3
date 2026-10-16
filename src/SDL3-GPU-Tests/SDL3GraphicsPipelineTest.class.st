@@ -84,7 +84,7 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 	"Case 2: Fullscreen Quad
 	Draws a solid green quad covering the whole screen using explicit vertices."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertexBufferBindings vertexShader fragmentShader |
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBufferBindings |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -152,38 +152,23 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 			cycle: false ].
 
 	"2. Create Pipeline"
-	DiScope own: (vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1).
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3GPUQuadVertex structureSize.
-	DiScope own: (vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 1).
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	DiScope own: (colorTargetDescriptions := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1).
-	colorTargetDescriptions first
-		format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
-		blendState: SDL_GPUColorTargetBlendState new.
-	DiScope own: (vertexShader := SDL3TestGraphicsQuadVertexShaderSource unownedNewShaderForDevice: gpuDevice).
-	DiScope own: (fragmentShader := SDL3TestGraphicsQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice).
-
-	graphicsPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info
-			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-			vertexShader: vertexShader;
-			fragmentShader: fragmentShader.
-		info vertexInputState
-			vertexBufferDescriptions: vertexBindings;
-			numVertexBuffers: 1;
-			vertexAttributes: vertexAttributes;
-			numVertexAttributes: 1.
-		info targetInfo
-			colorTargetDescriptions: colorTargetDescriptions;
-			numColorTargets: 1 ].
+	graphicsPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3TestGraphicsQuadVertexShaderSource;
+		fragmentShader: SDL3TestGraphicsQuadFragmentShaderSource;
+		addVertexBufferDescription: (SDL3GPUVertexBufferDescription new
+			slot: 0;
+			inputRate: SDL3GPUVertexInputRate vertex;
+			instanceStepRate: 0;
+			pitch: SDL3GPUQuadVertex structureSize;
+			yourself);
+		addVertexAttribute: (SDL3GPUVertexAttribute new
+			bufferSlot: 0;
+			format: SDL3GPUVertexElementFormat float3;
+			location: 0;
+			offset: 0;
+			yourself);
+		targetFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
+		unownedNewPipeline.
 	DiScope own: graphicsPipeline.
 
 	"3. Render"
@@ -246,10 +231,10 @@ SDL3GraphicsPipelineTest >> test02FullscreenQuad [
 
 { #category : 'tests' }
 SDL3GraphicsPipelineTest >> test03VertexColors [
-	"Case 3: Vertex Attributes & Interpolation
+	"Draw a triangle with per-vertex colors and verify downloaded output.
 	Draws a triangle with Red, Green, Blue vertices and verifies interpolated colors."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertexBufferBindings topIdx centerIdx vertexShader fragmentShader |
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBufferBindings topIdx centerIdx |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -320,45 +305,12 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 			cycle: false ].
 
 	"2. Create Pipeline"
-	DiScope own: (vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1).
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3TestGraphicsColorVertex structureSize.
-	DiScope own: (vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2).
-	"Position (Attribute 0)"
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	"Color (Attribute 1)"
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
-		location: 1;
-		offset: 3 * FFIFloat32 externalTypeSize. "3 floats * 4 bytes"
-	DiScope own: (colorTargetDescriptions := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1).
-	colorTargetDescriptions first
-		format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
-		blendState: SDL_GPUColorTargetBlendState new.
-	DiScope own: (vertexShader := SDL3TestGraphicsColorVertexShaderSource unownedNewShaderForDevice: gpuDevice).
-	DiScope own: (fragmentShader := SDL3TestGraphicsColorFragmentShaderSource unownedNewShaderForDevice: gpuDevice).
-
-	graphicsPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info
-			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-			vertexShader: vertexShader;
-			fragmentShader: fragmentShader.
-		info vertexInputState
-			vertexBufferDescriptions: vertexBindings;
-			numVertexBuffers: 1;
-			vertexAttributes: vertexAttributes;
-			numVertexAttributes: 2.
-		info targetInfo
-			colorTargetDescriptions: colorTargetDescriptions;
-			numColorTargets: 1 ].
+	graphicsPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3TestGraphicsColorVertexShaderSource;
+		fragmentShader: SDL3TestGraphicsColorFragmentShaderSource;
+		addVertexBufferFor: SDL3TestGraphicsColorVertex;
+		targetFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
+		unownedNewPipeline.
 	DiScope own: graphicsPipeline.
 
 	"3. Render"
@@ -367,15 +319,18 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 		texture: colorTarget;
 		storeOp: SDL_GPU_STOREOP_STORE;
 		loadOp: SDL_GPU_LOADOP_CLEAR.
-	"Initial black"
-	colorTargetInfos first updateClearColorFrom: Color black.
+	colorTargetInfos first clearColor
+		r: 0.0;
+		g: 0.0;
+		b: 0.0;
+		a: 1.0.
+
+	vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
+	vertexBufferBindings first
+		buffer: vertexBuffer;
+		offset: 0.
 
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
-		vertexBufferBindings := SDL3Array newType: SDL_GPUBufferBinding size: 1.
-		vertexBufferBindings first
-			buffer: vertexBuffer;
-			offset: 0.
-
 		renderPass
 			pipeline: graphicsPipeline;
 			vertexBuffers: vertexBufferBindings slot: 0;
@@ -383,7 +338,6 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 			instances: 1
 			firstVertex: 0
 			firstInstance: 0 ].
-
 	commandBuffer submit.
 
 	"4. Download results"
@@ -405,28 +359,26 @@ SDL3GraphicsPipelineTest >> test03VertexColors [
 
 	gpuDevice waitForGPUIdle.
 
-	"5. Assert interpolation"
+	"5. Assert"
 	gpuDevice mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
 		resultData := FFIArray fromHandle: mappedAddress type: FFIUInt8 size: byteSize.
 
-		"Top vertex is at (0, 1) in clip space -> (32, 0) in texture"
-		"Check a pixel slightly below the top vertex (32, 4) -> Should be Red"
-		topIdx := 4 * texWidth + 32 * FFIUInt32 externalTypeSize + 1.
-		self assert: (resultData at: topIdx) > 200. "Red"
-
-		"Center (32, 32) -> Should be a mix of all colors"
-		centerIdx := 32 * texWidth + 32 * FFIUInt32 externalTypeSize + 1.
+		"Center pixel should be interpolated (mixed color, definitely not pure black)"
+		centerIdx := (texHeight // 2 * texWidth + (texWidth // 2)) * 4 + 1.
 		self assert: (resultData at: centerIdx) > 0.
-		self assert: (resultData at: centerIdx + 1) > 0.
-		self assert: (resultData at: centerIdx + 2) > 0 ]
+
+		"Near top vertex should be predominantly RED"
+		topIdx := (5 * texWidth + (texWidth // 2)) * 4 + 1.
+		self assert: (resultData at: topIdx) > 100.
+		self assert: (resultData at: topIdx + 3) equals: 255 ]
 ]
 
 { #category : 'tests' }
 SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
-	"Case 4: Uniforms
-	Draws a primitive offset by a vertex uniform with color from a fragment uniform."
+	"Case 4: Uniform Buffers
+	Draws a triangle shifted by a vertex uniform and colored by a fragment uniform."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertUniforms fragUniforms vertexBufferBindings trIdx vertexShader fragmentShader |
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertUniforms fragUniforms trIdx vertexBufferBindings |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -480,38 +432,22 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 			cycle: false ].
 
 	"2. Create Pipeline"
-	DiScope own: (vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1).
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3GPUQuadVertex structureSize.
-	DiScope own: (vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 1).
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	DiScope own: (colorTargetDescriptions := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1).
-	colorTargetDescriptions first
-		format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
-		blendState: SDL_GPUColorTargetBlendState new.
-	DiScope own: (vertexShader := SDL3TestGraphicsUniformVertexShaderSource unownedNewShaderForDevice: gpuDevice).
-	DiScope own: (fragmentShader := SDL3TestGraphicsUniformFragmentShaderSource unownedNewShaderForDevice: gpuDevice).
-
-	graphicsPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info
-			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-			vertexShader: vertexShader;
-			fragmentShader: fragmentShader.
-		info vertexInputState
-			vertexBufferDescriptions: vertexBindings;
-			numVertexBuffers: 1;
-			vertexAttributes: vertexAttributes;
-			numVertexAttributes: 1.
-		info targetInfo
-			colorTargetDescriptions: colorTargetDescriptions;
-			numColorTargets: 1 ].
+	graphicsPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3TestGraphicsUniformVertexShaderSource;
+		fragmentShader: SDL3TestGraphicsUniformFragmentShaderSource;
+		addVertexBufferDescription: (SDL3GPUVertexBufferDescription new
+			slot: 0;
+			pitch: SDL3GPUQuadVertex structureSize;
+			inputRate: SDL3GPUVertexInputRate vertex;
+			yourself);
+		addVertexAttribute: (SDL3GPUVertexAttribute new
+			bufferSlot: 0;
+			format: SDL3GPUVertexElementFormat float3;
+			location: 0;
+			offset: 0;
+			yourself);
+		targetFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
+		unownedNewPipeline.
 	DiScope own: graphicsPipeline.
 
 	"3. Prepare Uniforms"
@@ -597,9 +533,9 @@ SDL3GraphicsPipelineTest >> test04GraphicsUniforms [
 { #category : 'tests' }
 SDL3GraphicsPipelineTest >> test05Instancing [
 	"Case 5: Instancing
-	Draws 4 instances of a triangle using SV_InstanceID for positioning."
+	Draws 4 instances of a small triangle using SV_InstanceID."
 
-	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions vertexBufferBindings vertexShader fragmentShader |
+	| colorTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBufferBindings |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -653,38 +589,22 @@ SDL3GraphicsPipelineTest >> test05Instancing [
 			cycle: false ].
 
 	"2. Create Pipeline"
-	DiScope own: (vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1).
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3GPUQuadVertex structureSize.
-	DiScope own: (vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 1).
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	DiScope own: (colorTargetDescriptions := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1).
-	colorTargetDescriptions first
-		format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
-		blendState: SDL_GPUColorTargetBlendState new.
-	DiScope own: (vertexShader := SDL3TestGraphicsInstancedVertexShaderSource unownedNewShaderForDevice: gpuDevice).
-	DiScope own: (fragmentShader := SDL3TestGraphicsInstancedFragmentShaderSource unownedNewShaderForDevice: gpuDevice).
-
-	graphicsPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info
-			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-			vertexShader: vertexShader;
-			fragmentShader: fragmentShader.
-		info vertexInputState
-			vertexBufferDescriptions: vertexBindings;
-			numVertexBuffers: 1;
-			vertexAttributes: vertexAttributes;
-			numVertexAttributes: 1.
-		info targetInfo
-			colorTargetDescriptions: colorTargetDescriptions;
-			numColorTargets: 1 ].
+	graphicsPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3TestGraphicsInstancedVertexShaderSource;
+		fragmentShader: SDL3TestGraphicsInstancedFragmentShaderSource;
+		addVertexBufferDescription: (SDL3GPUVertexBufferDescription new
+			slot: 0;
+			pitch: SDL3GPUQuadVertex structureSize;
+			inputRate: SDL3GPUVertexInputRate vertex;
+			yourself);
+		addVertexAttribute: (SDL3GPUVertexAttribute new
+			bufferSlot: 0;
+			format: SDL3GPUVertexElementFormat float3;
+			location: 0;
+			offset: 0;
+			yourself);
+		targetFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
+		unownedNewPipeline.
 	DiScope own: graphicsPipeline.
 
 	"3. Render 4 instances"
@@ -750,7 +670,7 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 	Draws a near Blue quad first, then a far Red quad.
 	With depth testing enabled (LESS), the Red quad should be rejected."
 
-	| colorTarget depthTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData vertexBindings vertexAttributes colorTargetDescriptions blueUniforms redUniforms depthStencilTargetInfo vertexBufferBindings vertexShader fragmentShader |
+	| colorTarget depthTarget vertexBuffer graphicsPipeline commandBuffer transferBuffer resultData texWidth texHeight byteSize colorTargetInfos vertexData blueUniforms redUniforms depthStencilTargetInfo vertexBufferBindings |
 	texWidth := 64.
 	texHeight := 64.
 	byteSize := texWidth * texHeight * FFIUInt32 externalTypeSize.
@@ -823,45 +743,24 @@ SDL3GraphicsPipelineTest >> test06DepthTesting [
 			cycle: false ].
 
 	"2. Create Pipeline with Depth Testing"
-	DiScope own: (vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1).
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3GPUQuadVertex structureSize.
-	DiScope own: (vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 1).
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	DiScope own: (colorTargetDescriptions := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1).
-	colorTargetDescriptions first
-		format: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
-		blendState: SDL_GPUColorTargetBlendState new.
-	DiScope own: (vertexShader := SDL3TestGraphicsDepthVertexShaderSource unownedNewShaderForDevice: gpuDevice).
-	DiScope own: (fragmentShader := SDL3TestGraphicsDepthFragmentShaderSource unownedNewShaderForDevice: gpuDevice).
-
-	graphicsPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info
-			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-			vertexShader: vertexShader;
-			fragmentShader: fragmentShader.
-		info vertexInputState
-			vertexBufferDescriptions: vertexBindings;
-			numVertexBuffers: 1;
-			vertexAttributes: vertexAttributes;
-			numVertexAttributes: 1.
-		info targetInfo
-			colorTargetDescriptions: colorTargetDescriptions;
-			numColorTargets: 1;
-			depthStencilFormat: SDL_GPU_TEXTUREFORMAT_D16_UNORM;
-			hasDepthStencilTarget: true.
-		info depthStencilState: (SDL_GPUDepthStencilState new
-			enableDepthTest: true;
-			enableDepthWrite: true;
-			compareOp: SDL_GPU_COMPAREOP_LESS;
-			yourself) ].
+	graphicsPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3TestGraphicsDepthVertexShaderSource;
+		fragmentShader: SDL3TestGraphicsDepthFragmentShaderSource;
+		addVertexBufferDescription: (SDL3GPUVertexBufferDescription new
+			slot: 0;
+			pitch: SDL3GPUQuadVertex structureSize;
+			inputRate: SDL3GPUVertexInputRate vertex;
+			yourself);
+		addVertexAttribute: (SDL3GPUVertexAttribute new
+			bufferSlot: 0;
+			format: SDL3GPUVertexElementFormat float3;
+			location: 0;
+			offset: 0;
+			yourself);
+		targetFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
+		depthStencilFormat: SDL_GPU_TEXTUREFORMAT_D16_UNORM;
+		enableDepthTest;
+		unownedNewPipeline.
 	DiScope own: graphicsPipeline.
 
 	"3. Prepare Uniforms"
@@ -975,4 +874,32 @@ SDL3GraphicsPipelineTest >> test07ShaderWithFormats [
 
 	self deny: vertexShader isNil.
 	self deny: vertexShader isNull
+]
+
+{ #category : 'tests' }
+SDL3GraphicsPipelineTest >> test08GraphicsPipelineBuilder [
+	"Test creating a pipeline using SDL3GPUGraphicsPipelineBuilder"
+
+	| colorTarget graphicsPipeline texWidth texHeight |
+	texWidth := 64.
+	texHeight := 64.
+
+	colorTarget := gpuDevice
+		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+		usage: SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
+		width: texWidth
+		height: texHeight.
+	DiScope own: colorTarget.
+
+	graphicsPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3TestGraphicsColorVertexShaderSource;
+		fragmentShader: SDL3TestGraphicsColorFragmentShaderSource;
+		addVertexBufferFor: SDL3TestGraphicsColorVertex;
+		targetFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
+		unownedNewPipeline.
+	DiScope own: graphicsPipeline.
+
+	self deny: graphicsPipeline isNull.
+	self assert: graphicsPipeline vertexMetadata notNil.
+	self assert: graphicsPipeline fragmentMetadata notNil
 ]

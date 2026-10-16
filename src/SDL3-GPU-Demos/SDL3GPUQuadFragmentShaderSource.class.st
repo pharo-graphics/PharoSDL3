@@ -49,8 +49,8 @@ float4 main(float2 uv : TEXCOORD0) : SV_Target {
 { #category : 'accessing' }
 SDL3GPUQuadFragmentShaderSource class >> metadata [
 
-	^ (SDL3GPUFragmentShaderMetadata new
+	^ SDL3GPUFragmentShaderMetadata new
 		samplers: {
 			(SDL3GPUSamplerBinding index: 0 space: 2) };
-		yourself)
+		yourself
 ]

@@ -198,8 +198,8 @@ float4 main(PSInput input) : SV_Target {
 { #category : 'accessing' }
 SDL3GPUSDFRoundedRectFragmentShaderSource class >> metadata [
 
-	^ (SDL3GPUFragmentShaderMetadata new
+	^ SDL3GPUFragmentShaderMetadata new
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 3 linkedClass: SDL3GPUSDFRoundedRectUniforms) };
-		yourself)
+		yourself
 ]

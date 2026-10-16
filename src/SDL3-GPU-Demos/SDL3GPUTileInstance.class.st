@@ -3,7 +3,7 @@ I represent an instance of a tile in the rendering pipeline.
 "
 Class {
 	#name : 'SDL3GPUTileInstance',
-	#superclass : 'SDL3Structure',
+	#superclass : 'SDL3GPUVertexInputStructure',
 	#classVars : [
 		'OFFSET_ATLASRECT',
 		'OFFSET_SCREENRECT'
@@ -21,6 +21,14 @@ SDL3GPUTileInstance class >> fieldsDesc [
 	SDL3FRect screenRect;
 	SDL3FRect atlasRect;
 	)
+]
+
+{ #category : 'accessing' }
+SDL3GPUTileInstance class >> gpuVertexElementsDescription [
+
+	^ {
+		(SDL3GPUVertexElement location: 2 oneBasedOffset: OFFSET_SCREENRECT format: SDL3GPUVertexElementFormat float4).
+		(SDL3GPUVertexElement location: 3 oneBasedOffset: OFFSET_ATLASRECT format: SDL3GPUVertexElementFormat float4) }
 ]
 
 { #category : 'accessing - structure variables' }

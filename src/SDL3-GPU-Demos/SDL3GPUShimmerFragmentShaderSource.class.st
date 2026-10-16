@@ -122,8 +122,8 @@ float4 main(FragmentInput input) : SV_Target {
 { #category : 'accessing' }
 SDL3GPUShimmerFragmentShaderSource class >> metadata [
 
-	^ (SDL3GPUFragmentShaderMetadata new
+	^ SDL3GPUFragmentShaderMetadata new
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 3 linkedClass: SDL3GPUShimmerUniforms) };
-		yourself)
+		yourself
 ]

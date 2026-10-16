@@ -1,6 +1,12 @@
 Extension { #name : 'SDL3GPUDevice' }
 
 { #category : '*SDL3-GPU' }
+SDL3GPUDevice >> newGraphicsPipelineBuilder [
+
+	^ SDL3GPUGraphicsPipelineBuilder on: self
+]
+
+{ #category : '*SDL3-GPU' }
 SDL3GPUDevice >> uploadToGPUDo: aBlock [
 	"Acquires a command buffer, starts a copy pass, yields an uploader for batching, and submits the commands."
 

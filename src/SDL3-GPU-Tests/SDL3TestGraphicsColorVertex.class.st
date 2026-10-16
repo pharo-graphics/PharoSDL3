@@ -3,7 +3,7 @@ I represent a vertex with position and color.
 "
 Class {
 	#name : 'SDL3TestGraphicsColorVertex',
-	#superclass : 'SDL3Structure',
+	#superclass : 'SDL3GPUVertexInputStructure',
 	#classVars : [
 		'OFFSET_A',
 		'OFFSET_B',
@@ -30,6 +30,14 @@ SDL3TestGraphicsColorVertex class >> fieldsDesc [
 	float b;
 	float a
 	)
+]
+
+{ #category : 'accessing' }
+SDL3TestGraphicsColorVertex class >> gpuVertexElementsDescription [
+
+	^ {
+		(SDL3GPUVertexElement location: 0 oneBasedOffset: OFFSET_X format: SDL3GPUVertexElementFormat float3).
+		(SDL3GPUVertexElement location: 1 oneBasedOffset: OFFSET_R format: SDL3GPUVertexElementFormat float4) }
 ]
 
 { #category : 'accessing - structure variables' }

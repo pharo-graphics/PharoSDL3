@@ -94,7 +94,7 @@ void main(uint3 id : SV_DispatchThreadID)
 { #category : 'accessing' }
 SDL3GPUBoidsGeometryComputeShaderSource class >> metadata [
 
-	^ (SDL3GPUComputeShaderMetadata new
+	^ SDL3GPUComputeShaderMetadata new
 		threadCountX: 64;
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 2 linkedClass: SDL3GPUBoidsUniforms) };
@@ -102,5 +102,5 @@ SDL3GPUBoidsGeometryComputeShaderSource class >> metadata [
 			(SDL3GPUReadOnlyStorageBufferBinding index: 0 space: 0 linkedClass: SDL3GPUNode).
 			(SDL3GPUReadOnlyStorageBufferBinding index: 1 space: 0).
 			(SDL3GPUReadWriteStorageBufferBinding index: 0 space: 1 linkedClass: SDL3GPUBoidsVertex) };
-		yourself)
+		yourself
 ]

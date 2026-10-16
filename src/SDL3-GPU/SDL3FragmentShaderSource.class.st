@@ -24,9 +24,9 @@ SDL3FragmentShaderSource class >> isAbstract [
 ]
 
 { #category : 'accessing' }
-SDL3FragmentShaderSource class >> metadata [
+SDL3FragmentShaderSource class >> metadataClass [
 
-	^ SDL3GPUFragmentShaderMetadata new
+	^ SDL3GPUFragmentShaderMetadata
 ]
 
 { #category : 'accessing' }

@@ -206,24 +206,14 @@ SDL3GPUBlurComputeDemoApp >> initializeGeometry [
 { #category : 'initialization' }
 SDL3GPUBlurComputeDemoApp >> initializePipeline [
 
-	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
-	vertexShader := SDL3GPUQuadVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3GPUQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	vertexBindings := self newVertexBufferDescriptions.
-	vertexAttributes := self newVertexAttributeDescriptions.
-	colorTargets := self newColorTargetDescriptions.
-
-	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: pipeline.
-
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	pipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUQuadVertexShaderSource;
+		fragmentShader: SDL3GPUQuadFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: pipeline
 ]
 
 { #category : 'initialization' }
@@ -258,48 +248,6 @@ SDL3GPUBlurComputeDemoApp >> initializeTexture [
 	DiScope own: (texture := gpuDevice
 		unownedNewGPUTextureUploadingForm: form
 		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ)
-]
-
-{ #category : 'private' }
-SDL3GPUBlurComputeDemoApp >> newColorTargetDescriptions [
-
-	| colorTargets |
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first
-		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState: SDL_GPUColorTargetBlendState new.
-	^ colorTargets
-]
-
-{ #category : 'private' }
-SDL3GPUBlurComputeDemoApp >> newVertexAttributeDescriptions [
-
-	| vertexAttributes |
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 12.
-	^ vertexAttributes
-]
-
-{ #category : 'private' }
-SDL3GPUBlurComputeDemoApp >> newVertexBufferDescriptions [
-
-	| vertexBindings |
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3GPUQuadVertex structureSize.
-	^ vertexBindings
 ]
 
 { #category : 'lifecycle' }

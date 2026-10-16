@@ -214,69 +214,17 @@ SDL3TextScrollDemoApp >> initializeIndexBuffer [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializePipeline [
 
-	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
-	vertexShader := SDL3TextScrollVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3TextScrollFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 2.
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3GPUQuadVertex structureSize.
-	vertexBindings second
-		slot: 1;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_INSTANCE;
-		instanceStepRate: 0;
-		pitch: SDL3TextScrollInstance structureSize.
-
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 6.
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 12.
-	vertexAttributes third
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 2;
-		offset: 0.
-	vertexAttributes fourth
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 3;
-		offset: 8.
-	vertexAttributes fifth
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
-		location: 4;
-		offset: 16.
-	vertexAttributes sixth
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_UINT;
-		location: 5;
-		offset: 32.
-
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first
-		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: pipeline.
-
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	pipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3TextScrollVertexShaderSource;
+		fragmentShader: SDL3TextScrollFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		addVertexBufferFor: SDL3TextScrollInstance
+			slot: 1
+			inputRate: SDL3GPUVertexInputRate instance;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: pipeline
 ]
 
 { #category : 'initialization' }

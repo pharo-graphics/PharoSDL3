@@ -57,8 +57,10 @@ VertexOutput main(VertexInput input) {
 { #category : 'accessing' }
 SDL3TestGraphicsUniformVertexShaderSource class >> metadata [
 
-	^ (SDL3GPUVertexShaderMetadata new
+	^ SDL3GPUVertexShaderMetadata new
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 1) };
-		yourself)
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'position' type: 'float3' semantic: 'POSITION' location: 0) };
+		yourself
 ]

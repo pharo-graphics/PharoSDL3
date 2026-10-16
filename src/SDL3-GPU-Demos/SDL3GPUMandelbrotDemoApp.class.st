@@ -302,116 +302,33 @@ SDL3GPUMandelbrotDemoApp >> initializeQuadBuffers [
 					at: 6 put: 3 ] ]
 ]
 
-{ #category : 'private' }
-SDL3GPUMandelbrotDemoApp >> initializeQuadPipelineColorTargets: colorTargets [
-
-	| quadVertexSource quadFragmentSource vertexBindings vertexAttributes |
-	quadVertexSource := SDL3GPUTiledMapVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	quadFragmentSource := SDL3GPUQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	colorTargets first blendState: SDL_GPUColorTargetBlendState new.
-
-	vertexBindings := self newTiledMapVertexBindings.
-	vertexAttributes := self newTiledMapVertexAttributes.
-
-	quadPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: quadVertexSource fragment: quadFragmentSource targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: quadPipeline.
-
-	quadVertexSource dispose.
-	quadFragmentSource dispose.
-	vertexBindings free.
-	vertexAttributes free
-]
-
 { #category : 'initialization' }
 SDL3GPUMandelbrotDemoApp >> initializeShaders [
 
-	| colorTargets |
 	DiScope own: (computePipeline := SDL3GPUMandelbrotComputeShaderSource unownedNewComputePipelineForDevice: gpuDevice).
 
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window).
+	quadPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUTiledMapVertexShaderSource;
+		fragmentShader: SDL3GPUQuadFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		addVertexBufferFor: SDL3GPUTileInstance
+			slot: 1
+			inputRate: SDL3GPUVertexInputRate instance;
+		targetWindow: window;
+		unownedNewPipeline.
+	DiScope own: quadPipeline.
 
-	self initializeQuadPipelineColorTargets: colorTargets.
-	self initializeShimmerPipelineColorTargets: colorTargets.
-
-	colorTargets free
-]
-
-{ #category : 'private' }
-SDL3GPUMandelbrotDemoApp >> initializeShimmerPipelineColorTargets: colorTargets [
-
-	| shimmerVertexSource shimmerFragmentSource shimmerVertexBindings shimmerVertexAttributes |
-	shimmerVertexSource := SDL3GPUShimmerVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	shimmerFragmentSource := SDL3GPUShimmerFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	colorTargets first blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	shimmerVertexBindings := self newTiledMapVertexBindings.
-	shimmerVertexAttributes := self newTiledMapVertexAttributes.
-
-	shimmerPipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-			                   info vertex: shimmerVertexSource fragment: shimmerFragmentSource targets: colorTargets.
-			                   info vertexInputState attributes: shimmerVertexAttributes bindings: shimmerVertexBindings ].
-	DiScope own: shimmerPipeline.
-
-	shimmerVertexSource dispose.
-	shimmerFragmentSource dispose.
-	shimmerVertexBindings free.
-	shimmerVertexAttributes free
-]
-
-{ #category : 'private' }
-SDL3GPUMandelbrotDemoApp >> newTiledMapVertexAttributes [
-
-	| vertexAttributes |
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 4.
-
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 3 * FFIFloat32 externalTypeSize.
-	vertexAttributes third
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
-		location: 2;
-		offset: 0.
-	vertexAttributes fourth
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
-		location: 3;
-		offset: 4 * FFIFloat32 externalTypeSize.
-
-	^ vertexAttributes
-]
-
-{ #category : 'private' }
-SDL3GPUMandelbrotDemoApp >> newTiledMapVertexBindings [
-
-	| vertexBindings |
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 2.
-
-	vertexBindings first
-		slot: 0;
-		pitch: SDL3GPUQuadVertex structureSize;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0.
-
-	vertexBindings second
-		slot: 1;
-		pitch: SDL3GPUTileInstance structureSize;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_INSTANCE;
-		instanceStepRate: 0.
-
-	^ vertexBindings
+	shimmerPipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUShimmerVertexShaderSource;
+		fragmentShader: SDL3GPUShimmerFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		addVertexBufferFor: SDL3GPUTileInstance
+			slot: 1
+			inputRate: SDL3GPUVertexInputRate instance;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: shimmerPipeline
 ]
 
 { #category : 'private' }

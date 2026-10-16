@@ -4,9 +4,9 @@ I represent a read-only storage buffer binding (register t).
 Class {
 	#name : 'SDL3GPUReadOnlyStorageBufferBinding',
 	#superclass : 'SDL3GPUStorageBufferBinding',
-	#category : 'SDL3-GPU-ShaderScanner',
+	#category : 'SDL3-GPU-ShaderMetadata',
 	#package : 'SDL3-GPU',
-	#tag : 'ShaderScanner'
+	#tag : 'ShaderMetadata'
 }
 
 { #category : 'accessing' }

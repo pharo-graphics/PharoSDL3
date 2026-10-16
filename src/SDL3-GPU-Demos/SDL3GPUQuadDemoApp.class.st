@@ -110,54 +110,14 @@ SDL3GPUQuadDemoApp >> initializeGPUResources [
 { #category : 'initialization' }
 SDL3GPUQuadDemoApp >> initializePipeline [
 
-	| vertexShader fragmentShader vertexBindings vertexAttributes colorTargets |
-	vertexShader := SDL3GPUQuadVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3GPUQuadFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 1.
-	vertexBindings first
-		slot: 0;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0;
-		pitch: SDL3GPUQuadVertex structureSize.
-
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 2.
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 12.
-
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first
-		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info
-			primitiveType: SDL_GPU_PRIMITIVETYPE_TRIANGLELIST;
-			vertexShader: vertexShader;
-			fragmentShader: fragmentShader.
-		info targetInfo
-			colorTargetDescriptions: colorTargets;
-			numColorTargets: colorTargets size.
-		info vertexInputState
-			vertexBufferDescriptions: vertexBindings;
-			numVertexBuffers: vertexBindings size;
-			vertexAttributes: vertexAttributes;
-			numVertexAttributes: vertexAttributes size ].
-	DiScope own: pipeline.
-
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	pipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUQuadVertexShaderSource;
+		fragmentShader: SDL3GPUQuadFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: pipeline
 ]
 
 { #category : 'initialization' }

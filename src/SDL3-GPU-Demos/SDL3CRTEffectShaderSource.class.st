@@ -91,10 +91,10 @@ float4 main(PSInput input) : SV_Target {
 { #category : 'accessing' }
 SDL3CRTEffectShaderSource class >> metadata [
 
-	^ (SDL3GPUFragmentShaderMetadata new
+	^ SDL3GPUFragmentShaderMetadata new
 		samplers: {
 			(SDL3GPUSamplerBinding index: 0 space: 2) };
 		uniformBuffers: {
 			(SDL3GPUUniformBinding index: 0 space: 3) };
-		yourself)
+		yourself
 ]

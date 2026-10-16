@@ -57,4 +57,8 @@ VertexOutput main(VertexInput input) {
 SDL3TestGraphicsColorVertexShaderSource class >> metadata [
 
 	^ SDL3GPUVertexShaderMetadata new
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'position' type: 'float3' semantic: 'POSITION' location: 0).
+			(SDL3GPUVertexAttributeMetadata name: 'color' type: 'float4' semantic: 'COLOR' location: 1) };
+		yourself
 ]

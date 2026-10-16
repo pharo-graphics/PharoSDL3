@@ -4,9 +4,9 @@ I represent a read-write storage buffer binding (register u).
 Class {
 	#name : 'SDL3GPUReadWriteStorageBufferBinding',
 	#superclass : 'SDL3GPUStorageBufferBinding',
-	#category : 'SDL3-GPU-ShaderScanner',
+	#category : 'SDL3-GPU-ShaderMetadata',
 	#package : 'SDL3-GPU',
-	#tag : 'ShaderScanner'
+	#tag : 'ShaderMetadata'
 }
 
 { #category : 'testing' }

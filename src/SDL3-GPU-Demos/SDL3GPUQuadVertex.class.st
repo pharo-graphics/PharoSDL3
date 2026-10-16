@@ -3,7 +3,7 @@ I represent a vertex struct in the quads demo (see my references).
 "
 Class {
 	#name : 'SDL3GPUQuadVertex',
-	#superclass : 'SDL3Structure',
+	#superclass : 'SDL3GPUVertexInputStructure',
 	#classVars : [
 		'OFFSET_U',
 		'OFFSET_V',
@@ -27,6 +27,14 @@ SDL3GPUQuadVertex class >> fieldsDesc [
 	float u;
 	float v
 	)
+]
+
+{ #category : 'accessing' }
+SDL3GPUQuadVertex class >> gpuVertexElementsDescription [
+
+	^ {
+		(SDL3GPUVertexElement location: 0 oneBasedOffset: OFFSET_X format: SDL3GPUVertexElementFormat float3).
+		(SDL3GPUVertexElement location: 1 oneBasedOffset: OFFSET_U format: SDL3GPUVertexElementFormat float2) }
 ]
 
 { #category : 'accessing - structure variables' }

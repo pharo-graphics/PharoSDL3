@@ -10,9 +10,9 @@ Class {
 		'space',
 		'linkedClass'
 	],
-	#category : 'SDL3-GPU-ShaderScanner',
+	#category : 'SDL3-GPU-ShaderMetadata',
 	#package : 'SDL3-GPU',
-	#tag : 'ShaderScanner'
+	#tag : 'ShaderMetadata'
 }
 
 { #category : 'instance creation' }
@@ -77,6 +77,23 @@ SDL3GPUBinding >> space [
 { #category : 'accessing' }
 SDL3GPUBinding >> space: anInteger [
 	space := anInteger
+]
+
+{ #category : 'storing' }
+SDL3GPUBinding >> storeOn: aStream [
+
+	aStream
+		nextPut: $(;
+		nextPutAll: self class name;
+		nextPutAll: ' index: ';
+		print: index;
+		nextPutAll: ' space: ';
+		print: space.
+	linkedClass ifNotNil: [
+		aStream
+			nextPutAll: ' linkedClass: ';
+			nextPutAll: linkedClass name ].
+	aStream nextPut: $)
 ]
 
 { #category : 'validation' }

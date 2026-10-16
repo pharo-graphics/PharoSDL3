@@ -55,4 +55,8 @@ VertexOutput main(VertexInput input) {
 SDL3GPUBoidsVertexShaderSource class >> metadata [
 
 	^ SDL3GPUVertexShaderMetadata new
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'position' type: 'float2' semantic: 'TEXCOORD0' location: 0).
+			(SDL3GPUVertexAttributeMetadata name: 'hue' type: 'float' semantic: 'TEXCOORD1' location: 1) };
+		yourself
 ]

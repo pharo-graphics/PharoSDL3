@@ -62,71 +62,17 @@ SDL3GPUShimmerDemoApp >> initializeGeometry [
 { #category : 'initialization' }
 SDL3GPUShimmerDemoApp >> initializePipeline [
 
-	| vertexShader fragmentShader vertexAttributes vertexBindings colorTargets |
-	vertexShader := SDL3GPUShimmerVertexShaderSource unownedNewShaderForDevice: gpuDevice.
-	fragmentShader := SDL3GPUShimmerFragmentShaderSource unownedNewShaderForDevice: gpuDevice.
-
-	vertexBindings := SDL3Array unownedNewType: SDL_GPUVertexBufferDescription size: 2.
-
-	"Binding 0: Quad vertices (per vertex)"
-	vertexBindings first
-		slot: 0;
-		pitch: SDL3GPUQuadVertex structureSize;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_VERTEX;
-		instanceStepRate: 0.
-
-	"Binding 1: Instance Data (per instance)"
-	vertexBindings second
-		slot: 1;
-		pitch: SDL3GPUShimmerInstance structureSize;
-		inputRate: SDL_GPU_VERTEXINPUTRATE_INSTANCE;
-		instanceStepRate: 0.
-
-	vertexAttributes := SDL3Array unownedNewType: SDL_GPUVertexAttribute size: 4.
-
-	"Quad Position (Attribute 0)"
-	vertexAttributes first
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3;
-		location: 0;
-		offset: 0.
-
-	"Quad TexCoord (Attribute 1)"
-	vertexAttributes second
-		bufferSlot: 0;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2;
-		location: 1;
-		offset: 3 * FFIFloat32 externalTypeSize.
-
-	"Instance Bounds (Attribute 2)"
-	vertexAttributes third
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
-		location: 2;
-		offset: 0.
-
-	"Instance Extra/Radius (Attribute 3)"
-	vertexAttributes fourth
-		bufferSlot: 1;
-		format: SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4;
-		location: 3;
-		offset: 16.
-
-	colorTargets := SDL3Array unownedNewType: SDL_GPUColorTargetDescription size: 1.
-	colorTargets first
-		format: (gpuDevice getGPUSwapchainTextureFormatIntoWindow: window);
-		blendState: SDL_GPUColorTargetBlendState newAlphaBlend.
-
-	pipeline := gpuDevice unownedNewGPUGraphicsPipeline: [ :info |
-		info vertex: vertexShader fragment: fragmentShader targets: colorTargets.
-		info vertexInputState attributes: vertexAttributes bindings: vertexBindings ].
-	DiScope own: pipeline.
-
-	vertexShader dispose.
-	fragmentShader dispose.
-	vertexBindings free.
-	vertexAttributes free.
-	colorTargets free
+	pipeline := gpuDevice newGraphicsPipelineBuilder
+		vertexShader: SDL3GPUShimmerVertexShaderSource;
+		fragmentShader: SDL3GPUShimmerFragmentShaderSource;
+		addVertexBufferFor: SDL3GPUQuadVertex;
+		addVertexBufferFor: SDL3GPUShimmerInstance
+			slot: 1
+			inputRate: SDL3GPUVertexInputRate instance;
+		targetWindow: window;
+		enableAlphaBlending;
+		unownedNewPipeline.
+	DiScope own: pipeline
 ]
 
 { #category : 'initialization' }

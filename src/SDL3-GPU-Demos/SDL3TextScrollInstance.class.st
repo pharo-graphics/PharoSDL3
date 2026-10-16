@@ -1,6 +1,6 @@
 Class {
 	#name : 'SDL3TextScrollInstance',
-	#superclass : 'SDL3Structure',
+	#superclass : 'SDL3GPUVertexInputStructure',
 	#classVars : [
 		'OFFSET_COLORINDICES',
 		'OFFSET_EXTENTX',
@@ -32,6 +32,16 @@ SDL3TextScrollInstance class >> fieldsDesc [
 	float uvHeight;
 	uint32 colorIndices; "Packed: low 16 bits = FG index, high 16 bits = BG index"
 	)
+]
+
+{ #category : 'accessing' }
+SDL3TextScrollInstance class >> gpuVertexElementsDescription [
+
+	^ {
+		(SDL3GPUVertexElement location: 2 oneBasedOffset: OFFSET_POSX format: SDL3GPUVertexElementFormat float2).
+		(SDL3GPUVertexElement location: 3 oneBasedOffset: OFFSET_EXTENTX format: SDL3GPUVertexElementFormat float2).
+		(SDL3GPUVertexElement location: 4 oneBasedOffset: OFFSET_UVX format: SDL3GPUVertexElementFormat float4).
+		(SDL3GPUVertexElement location: 5 oneBasedOffset: OFFSET_COLORINDICES format: SDL3GPUVertexElementFormat uint) }
 ]
 
 { #category : 'accessing - structure variables' }

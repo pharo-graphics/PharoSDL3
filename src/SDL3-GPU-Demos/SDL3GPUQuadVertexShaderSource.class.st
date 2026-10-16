@@ -59,4 +59,8 @@ VertexOutput main(VertexInput input) {
 SDL3GPUQuadVertexShaderSource class >> metadata [
 
 	^ SDL3GPUVertexShaderMetadata new
+		inputAttributes: {
+			(SDL3GPUVertexAttributeMetadata name: 'position' type: 'float2' semantic: 'TEXCOORD0' location: 0).
+			(SDL3GPUVertexAttributeMetadata name: 'uv' type: 'float2' semantic: 'TEXCOORD1' location: 1) };
+		yourself
 ]
