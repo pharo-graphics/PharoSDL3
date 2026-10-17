@@ -1,14 +1,14 @@
 Extension { #name : 'SDL3Window' }
 
 { #category : '*SDL3-Additions' }
-SDL3Window >> alwaysOnTopOnTop: onTop [
+SDL3Window >> alwaysOnTop: aBoolean [
 
 	self ffiLibrary assertSuccess:
-		(self ffiLibrary setWindowAlwaysOnTopWindow: self onTop: onTop)
+		(self ffiLibrary setWindowAlwaysOnTopWindow: self onTop: aBoolean)
 ]
 
 { #category : '*SDL3-Additions' }
-SDL3Window >> aspectRatioMinAspect: minAspect maxAspect: maxAspect [
+SDL3Window >> aspectRatioMin: minAspect max: maxAspect [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary
@@ -104,7 +104,7 @@ SDL3Window >> extent [
 { #category : '*SDL3-Additions' }
 SDL3Window >> extent: aPoint [
 
-	self ffiLibrary assertSuccess: (self sizeW: aPoint x h: aPoint y)
+	self sizeW: aPoint x h: aPoint y
 ]
 
 { #category : '*SDL3-Additions' }
