@@ -108,13 +108,6 @@ SDL3Window >> extent: aPoint [
 ]
 
 { #category : '*SDL3-Additions' }
-SDL3Window >> fillDocumentSpace: fill [
-
-	self ffiLibrary assertSuccess:
-		(self ffiLibrary setWindowFillDocumentWindow: self fill: fill)
-]
-
-{ #category : '*SDL3-Additions' }
 SDL3Window >> flags [
 
 	^ self ffiLibrary getWindowFlags: self

@@ -579,7 +579,7 @@ SDL3Keycode class >> enumDecl [
 	renames := enumClass enumDeclToCamelCaseDictionary.
 
 	""Apply rename refactorings""
-	env := RBPackageEnvironment packageNames: #('SDL3-Own').
+	env := RBPackageEnvironment packageNames: #('SDL3-Additions').
 	env := env & (RBSelectorEnvironment new addMethod: (enumClass classSide >> #enumDecl); yourself) not.
 	model := RBNamespace onEnvironment: env.
 
