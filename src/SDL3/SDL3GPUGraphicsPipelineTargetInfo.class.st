@@ -17,9 +17,9 @@ Class {
 		'OFFSET_PADDING2',
 		'OFFSET_PADDING3'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -34,6 +34,14 @@ SDL3GPUGraphicsPipelineTargetInfo class >> fieldsDesc [
 	Uint8 padding2;
 	Uint8 padding3
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUGraphicsPipelineTargetInfo >> colorDescriptions: descArray [
+
+	self
+		colorTargetDescriptions: descArray;
+		numColorTargets: descArray size
 ]
 
 { #category : 'accessing - structure variables' }

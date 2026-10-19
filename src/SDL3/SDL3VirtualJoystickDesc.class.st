@@ -83,9 +83,9 @@ SDL3VirtualJoystickDesc >> Cleanup [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> Cleanup: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_CLEANUP
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -99,9 +99,9 @@ SDL3VirtualJoystickDesc >> Rumble [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> Rumble: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_RUMBLE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -115,9 +115,9 @@ SDL3VirtualJoystickDesc >> RumbleTriggers [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> RumbleTriggers: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_RUMBLETRIGGERS
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -131,9 +131,9 @@ SDL3VirtualJoystickDesc >> SendEffect [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> SendEffect: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_SENDEFFECT
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -147,9 +147,9 @@ SDL3VirtualJoystickDesc >> SetLED [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> SetLED: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_SETLED
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -163,9 +163,9 @@ SDL3VirtualJoystickDesc >> SetPlayerIndex [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> SetPlayerIndex: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_SETPLAYERINDEX
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -179,9 +179,9 @@ SDL3VirtualJoystickDesc >> SetSensorsEnabled [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> SetSensorsEnabled: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_SETSENSORSENABLED
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -195,9 +195,9 @@ SDL3VirtualJoystickDesc >> Update [
 { #category : 'accessing - structure variables' }
 SDL3VirtualJoystickDesc >> Update: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_UPDATE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]

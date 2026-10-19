@@ -42,6 +42,12 @@ SDL3Finger >> id: anObject [
 	handle unsignedLongLongAt: OFFSET_ID put: anObject
 ]
 
+{ #category : 'accessing' }
+SDL3Finger >> position [
+
+	^ self x @ self y
+]
+
 { #category : 'accessing - structure variables' }
 SDL3Finger >> pressure [
 	"This method was automatically generated"

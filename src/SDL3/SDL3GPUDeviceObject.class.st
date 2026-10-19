@@ -9,9 +9,9 @@ Class {
 	#instVars : [
 		'device'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'accessing' }
@@ -24,6 +24,16 @@ SDL3GPUDeviceObject >> device [
 SDL3GPUDeviceObject >> device: aSDL3GPUDevice [
 
 	device := aSDL3GPUDevice
+]
+
+{ #category : 'finalization' }
+SDL3GPUDeviceObject >> dispose [
+	"Releases the receiver from its owning device. If the device is nil or the handle is already null, does nothing."
+
+	(device isNil or: [ self isNull ]) ifTrue: [ ^ self ].
+	self releaseFromGPUDevice.
+	device := nil.
+	handle beNull
 ]
 
 { #category : 'releasing' }

@@ -34,6 +34,17 @@ SDL3CommonEvent >> accept: aVisitor [
 	^ aVisitor visitCommonEvent: self
 ]
 
+{ #category : 'printing' }
+SDL3CommonEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' type: ';
+		nextPutAll: self typeName;
+		nextPutAll: ' time: ';
+		print: self timestamp
+]
+
 { #category : 'accessing - structure variables' }
 SDL3CommonEvent >> timestamp [
 	"This method was automatically generated"

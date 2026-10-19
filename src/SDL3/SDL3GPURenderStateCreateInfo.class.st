@@ -18,9 +18,9 @@ Class {
 		'OFFSET_STORAGE_BUFFERS',
 		'OFFSET_STORAGE_TEXTURES'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }

@@ -52,6 +52,12 @@ SDL3DisplayMode >> displayID: anObject [
 	handle unsignedLongAt: OFFSET_DISPLAYID put: anObject
 ]
 
+{ #category : 'accessing' }
+SDL3DisplayMode >> extent [
+
+	^ self w @ self h
+]
+
 { #category : 'accessing - structure variables' }
 SDL3DisplayMode >> format [
 	"This method was automatically generated"
@@ -98,6 +104,20 @@ SDL3DisplayMode >> pixelDensity [
 SDL3DisplayMode >> pixelDensity: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_PIXEL_DENSITY put: anObject
+]
+
+{ #category : 'printing' }
+SDL3DisplayMode >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		print: self extent;
+		space;
+		print: self refreshRate;
+		nextPutAll: 'hz ';
+		print: self pixelDensity;
+		nextPutAll: 'X)'
 ]
 
 { #category : 'accessing - structure variables' }

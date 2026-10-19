@@ -20,9 +20,9 @@ Class {
 		'OFFSET_STORE_OP',
 		'OFFSET_TEXTURE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -40,6 +40,25 @@ SDL3GPUDepthStencilTargetInfo class >> fieldsDesc [
 	Uint8 mip_level;
 	Uint8 layer
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUDepthStencilTargetInfo >> beClear [
+
+	self beClear: ExternalAddress null
+]
+
+{ #category : 'configuring' }
+SDL3GPUDepthStencilTargetInfo >> beClear: aTexture [
+
+	self
+		texture: aTexture;
+		mipLevel: 0;
+		layer: 0;
+		loadOp: SDL3GPULoadOp clear;
+		storeOp: SDL3GPUStoreOp dontCare;
+		cycle: false.
+	self clearDepth: 1.0
 ]
 
 { #category : 'accessing - structure variables' }

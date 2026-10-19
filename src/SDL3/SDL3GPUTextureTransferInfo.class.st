@@ -14,9 +14,9 @@ Class {
 		'OFFSET_ROWS_PER_LAYER',
 		'OFFSET_TRANSFER_BUFFER'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }

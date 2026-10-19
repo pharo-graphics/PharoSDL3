@@ -56,6 +56,18 @@ SDL3KeyboardEvent >> down [
 	^handle booleanAt: OFFSET_DOWN
 ]
 
+{ #category : 'testing' }
+SDL3KeyboardEvent >> isDown [
+
+	^ self down
+]
+
+{ #category : 'testing' }
+SDL3KeyboardEvent >> isRepeat [
+
+	^ self repeat
+]
+
 { #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> key [
 	"This method was automatically generated"
@@ -66,6 +78,31 @@ SDL3KeyboardEvent >> key [
 SDL3KeyboardEvent >> mod [
 	"This method was automatically generated"
 	^handle unsignedShortAt: OFFSET_MOD
+]
+
+{ #category : 'printing' }
+SDL3KeyboardEvent >> printOn: aStream [
+
+	super printOn: aStream.
+
+	aStream
+		nextPutAll: ' key: ';
+		nextPutAll:
+			(SDL3Keycode
+				itemAt: self key
+				ifAbsent: [ 'Unknown' ]).
+
+	aStream
+		nextPutAll: ' scancode: ';
+		print: self scancode item.
+
+	aStream
+		nextPutAll: ' isDown: ';
+		print: self isDown.
+
+	aStream
+		nextPutAll: ' isRepeat: ';
+		print: self isRepeat
 ]
 
 { #category : 'accessing - structure variables' }

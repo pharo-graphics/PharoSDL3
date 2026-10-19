@@ -12,3 +12,11 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3Thread class >> unownedNewFn: fn name: aString data: data [
+
+	^ (self ffiLibrary createThreadFn: fn name: aString data: data)
+		  assertNotNullReturn;
+		  yourself
+]

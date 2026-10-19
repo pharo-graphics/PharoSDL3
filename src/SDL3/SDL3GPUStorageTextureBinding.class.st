@@ -1,0 +1,10 @@
+"
+I am an abstract class for storage texture bindings.
+"
+Class {
+	#name : 'SDL3GPUStorageTextureBinding',
+	#superclass : 'SDL3GPUBinding',
+	#category : 'SDL3-GPU-ShaderMetadata',
+	#package : 'SDL3',
+	#tag : 'GPU-ShaderMetadata'
+}

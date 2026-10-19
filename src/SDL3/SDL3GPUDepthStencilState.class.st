@@ -21,9 +21,9 @@ Class {
 		'OFFSET_PADDING3',
 		'OFFSET_WRITE_MASK'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }

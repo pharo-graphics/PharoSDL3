@@ -55,9 +55,9 @@ SDL3StorageInterface >> close [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> close: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_CLOSE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -71,9 +71,9 @@ SDL3StorageInterface >> copy [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> copy: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_COPY
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -87,9 +87,9 @@ SDL3StorageInterface >> enumerate [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> enumerate: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_ENUMERATE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -103,9 +103,9 @@ SDL3StorageInterface >> info [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> info: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_INFO
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -119,9 +119,9 @@ SDL3StorageInterface >> mkdir [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> mkdir: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_MKDIR
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -135,9 +135,9 @@ SDL3StorageInterface >> readFile [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> readFile: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_READ_FILE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -151,9 +151,9 @@ SDL3StorageInterface >> ready [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> ready: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_READY
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -167,9 +167,9 @@ SDL3StorageInterface >> remove [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> remove: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_REMOVE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -183,9 +183,9 @@ SDL3StorageInterface >> rename [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> rename: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_RENAME
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -223,9 +223,9 @@ SDL3StorageInterface >> writeFile [
 { #category : 'accessing - structure variables' }
 SDL3StorageInterface >> writeFile: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_WRITE_FILE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]

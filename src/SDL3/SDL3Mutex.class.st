@@ -12,3 +12,11 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3Mutex class >> unownedNew [
+
+	^ (self ffiLibrary createMutex)
+		  assertNotNullReturn;
+		  yourself
+]

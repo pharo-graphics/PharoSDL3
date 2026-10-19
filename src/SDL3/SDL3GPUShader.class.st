@@ -11,9 +11,9 @@ Class {
 	#instVars : [
 		'metadata'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'accessing' }
@@ -24,4 +24,10 @@ SDL3GPUShader >> metadata [
 { #category : 'accessing' }
 SDL3GPUShader >> metadata: aMetadata [
 	metadata := aMetadata
+]
+
+{ #category : 'releasing' }
+SDL3GPUShader >> releaseFromGPUDevice [
+
+	device ffiLibrary releaseGPUShaderDevice: device shader: self
 ]

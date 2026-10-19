@@ -20,9 +20,9 @@ Class {
 		'OFFSET_PADDING3',
 		'OFFSET_SOURCE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -40,6 +40,18 @@ SDL3GPUBlitInfo class >> fieldsDesc [
 	Uint8 padding2;
 	Uint8 padding3
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUBlitInfo >> beSource: sourceTexture destination: destinationTexture filter: aFilter [
+
+	self
+		loadOp: SDL3GPULoadOp dontCare;
+		flipMode: SDL3FlipMode none;
+		filter: aFilter;
+		cycle: false.
+	self source beTexture: sourceTexture.
+	self destination beTexture: destinationTexture
 ]
 
 { #category : 'accessing - structure variables' }
@@ -124,4 +136,10 @@ SDL3GPUBlitInfo >> source [
 SDL3GPUBlitInfo >> source: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_SOURCE put: anObject getHandle length: SDL3GPUBlitRegion byteSize
+]
+
+{ #category : 'configuring' }
+SDL3GPUBlitInfo >> updateClearColorFrom: aColor [
+
+	self clearColor updateFrom: aColor
 ]

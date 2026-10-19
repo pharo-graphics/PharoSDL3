@@ -658,6 +658,164 @@ SDL3Library >> alignedFree: mem [
 	self ffiCall: #(void SDL_aligned_free(void* mem))
 ]
 
+{ #category : 'accessing' }
+SDL3Library >> allAudioDrivers [
+	"Answer the name of every built-in audio driver."
+
+	^ (1 to: self getNumAudioDrivers) collect: [ :index | self getAudioDriver: index - 1 ]
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allAudioPlaybackDeviceIDs [
+	"Answer an array of currently-connected audio playback device IDs."
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getAudioPlaybackDevices: countValueHolder.
+	array := address
+		readArrayOf: SDL_AudioDeviceID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allAudioPlaybackDeviceNames [
+
+	^ self allAudioPlaybackDeviceIDs collect: [ :eachID | self getAudioDeviceName: eachID ]
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allAudioPlaybackDevices [
+	"Answer an array of currently-connected audio playback devices"
+
+	^ self allAudioPlaybackDeviceIDs collect: [ :id | SDL3AudioDevice id: id ]
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allAudioRecordingDeviceIDs [
+	"Answer an array of currently-connected audio recording device IDs."
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getAudioRecordingDevices: countValueHolder.
+	array := address
+		readArrayOf: SDL_AudioDeviceID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allAudioRecordingDeviceNames [
+
+	^ self allAudioRecordingDeviceIDs collect: [ :eachID | self getAudioDeviceName: eachID ]
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allAudioRecordingDevices [
+	"Answer an array of currently-connected audio recording devices"
+
+	^ self allAudioRecordingDeviceIDs collect: [ :id | SDL3AudioDevice id: id ]
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allCameraIDs [
+	"Answer the id array of all connected cameras"
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self getCameras: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_CameraID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allCameraSupportedFormatsOf: cameraId [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self
+		getCameraSupportedFormatsInstanceId: cameraId
+		count: countValueHolder) getHandle.
+	array := address
+		readStructArrayByValue: SDL_CameraSpec
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allFingersOf: touchID [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getTouchFingersTouchID: touchID count: countValueHolder.
+	array := address
+		        readStructArrayFromPointers: SDL_Finger
+		        size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allKeyboardIDs [
+	"Answer the id array of all connected keyboards"
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self getKeyboards: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_KeyboardID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allMouseIDs [
+	"Answer an array of connected mouses"
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self getMice: countValueHolder) getHandle.
+	array := address
+		readArrayOf: SDL_MouseID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allTouchIDs [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getTouchDevices: countValueHolder.
+	array := address
+		readArrayOf: SDL_TouchID
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> allWindows [
+	"Answer an array of valid windows"
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := (self getWindows: countValueHolder) getHandle.
+	array := address
+		readPointerArrayOf: SDL_Window
+		size: countValueHolder value.
+	self free: address.
+	^ array
+]
+
 { #category : 'public - SDL_stdinc' }
 SDL3Library >> asin: x [
 	"/**
@@ -724,6 +882,19 @@ SDL3Library >> asinf: x [
 	 */"
 
 	^ self ffiCall: #(float SDL_asinf(float x))
+]
+
+{ #category : 'error handling' }
+SDL3Library >> assertSuccess: aReturnedValue [
+	"FFI calls in SDL3 return either true or not NULL to indicate success. In the case of an error, a descriptive string can be retrieved from SDL_GetError()."
+	<debuggerCompleteToSender>
+
+	aReturnedValue = true ifTrue: [ ^ aReturnedValue ].
+	(aReturnedValue = false or: [ aReturnedValue isNull ])
+		ifFalse: [ ^ aReturnedValue ].
+
+	"Try to retrieve a descriptive error message"
+	^ SDL3Error signalFromLibraryErrorMessage
 ]
 
 { #category : 'public - SDL_asyncio' }
@@ -2310,6 +2481,17 @@ SDL3Library >> clickTrayEntry: entry [
 	 */"
 
 	self ffiCall: #(void SDL_ClickTrayEntry(SDL_TrayEntry* entry))
+]
+
+{ #category : 'accessing' }
+SDL3Library >> clipboardMimeTypes [
+
+	| countValueHolder address array |
+	countValueHolder := FFIInt32 newValueHolder.
+	address := self getClipboardMimeTypes: countValueHolder.
+	array := address readCStringArrayOfSize: countValueHolder value.
+	self free: address.
+	^ array
 ]
 
 { #category : 'public - SDL_asyncio' }
@@ -4283,6 +4465,18 @@ SDL3Library >> createProperties [
 	^ self ffiCall: #(SDL_PropertiesID SDL_CreateProperties())
 ]
 
+{ #category : 'instance creation' }
+SDL3Library >> createPropertyGroup [
+	"Anwer a new group of properties. Sender is responsible of releasing it with #destroy.
+	However, all properties are automatically destroyed on `SDL_Quit()`."
+
+	| id |
+	id := self createProperties.
+	self assertSuccess: id > 0.
+
+	^ SDL3PropertyGroup id: id
+]
+
 { #category : 'public - SDL_mutex' }
 SDL3Library >> createRWLock [
 	"/**
@@ -5277,6 +5471,23 @@ SDL3Library >> createWindowWithProperties: props [
 	^ self ffiCall: #(SDL_Window* SDL_CreateWindowWithProperties(SDL_PropertiesID props))
 ]
 
+{ #category : 'accessing' }
+SDL3Library >> currentDirectory [
+	"Answer a path String with the current working directory"
+
+	^ self utf8StringFromExternalAddress: self getCurrentDirectory
+]
+
+{ #category : 'accessing' }
+SDL3Library >> currentTime [
+	"Answer current value of the system realtime clock in nanoseconds since Jan 1, 1970 in Universal Coordinated Time (UTC)."
+
+	| valueHolder |
+	valueHolder := FFIInt64 newValueHolder.
+	self assertSuccess: (self getCurrentTime: valueHolder).
+	^ valueHolder value
+]
+
 { #category : 'public - SDL_mouse' }
 SDL3Library >> cursorVisible [
 	"/**
@@ -5963,6 +6174,26 @@ SDL3Library >> dispatchGPUComputeIndirectComputePass: compute_pass buffer: buffe
 	 */"
 
 	self ffiCall: #(void SDL_DispatchGPUComputeIndirect(SDL_GPUComputePass* compute_pass, SDL_GPUBuffer* buffer, Uint32 offset))
+]
+
+{ #category : 'accessing' }
+SDL3Library >> displayIDs [
+	"Answer an array of currently connected display ids."
+
+	| countValueHolder first count array |
+	countValueHolder := FFIInt32 newValueHolder.
+	first := self getDisplays: countValueHolder.
+	count := countValueHolder value.
+	array := first readArrayOf: SDL_DisplayID size: count.
+	self free: first.
+	^ array
+]
+
+{ #category : 'accessing' }
+SDL3Library >> displays [
+	"Answer an array of currently connected displays"
+
+	^ self displayIDs collect: [ :id | SDL3Display id: id ]
 ]
 
 { #category : 'public - SDL_gpu' }
@@ -16259,6 +16490,27 @@ SDL3Library >> globStorageDirectoryStorage: storage path: path pattern: pattern 
 	^ self ffiCall: #(char** SDL_GlobStorageDirectory(SDL_Storage* storage, const char* path, const char* pattern, SDL_GlobFlags flags, int* count))
 ]
 
+{ #category : 'accessing' }
+SDL3Library >> globalMousePosition [
+
+	| xHolder yHolder |
+	xHolder := FFIFloat32 newValueHolder.
+	yHolder := FFIFloat32 newValueHolder.
+
+	self getGlobalMouseStateX: xHolder y: yHolder.
+	^ xHolder value @ yHolder value
+]
+
+{ #category : 'accessing' }
+SDL3Library >> gpuDrivers [
+
+	| result |
+	result := OrderedCollection new.
+	0 to: self getNumGPUDrivers - 1 do: [ :zeroBasedIndex |
+		result add: (self getGPUDriver: zeroBasedIndex) ].
+	^ result
+]
+
 { #category : 'public - SDL_gpu' }
 SDL3Library >> gpuSupportsProperties: props [
 	"/**
@@ -18024,6 +18276,14 @@ SDL3Library >> isAudioDevicePlayback: devid [
 	 */"
 
 	^ self ffiCall: #(bool SDL_IsAudioDevicePlayback(SDL_AudioDeviceID devid))
+]
+
+{ #category : 'testing' }
+SDL3Library >> isAvailable [
+
+	^ [ self libraryName. true ]
+		on: Error
+		do: [ :e | false ]
 ]
 
 { #category : 'public - SDL_gamepad' }
@@ -20154,6 +20414,29 @@ SDL3Library >> mostSignificantBitIndex32: x [
 	^ self ffiCall: #(int SDL_MostSignificantBitIndex32(Uint32 x))
 ]
 
+{ #category : 'accessing' }
+SDL3Library >> mousePosition [
+
+	| xHolder yHolder |
+	xHolder := FFIFloat32 newValueHolder.
+	yHolder := FFIFloat32 newValueHolder.
+
+	self getMouseStateX: xHolder y: yHolder.
+	^ xHolder value @ yHolder value
+]
+
+{ #category : 'accessing' }
+SDL3Library >> mousePositionRounded [
+	"Answer the mouse position with rounded coordinates."
+
+	| xHolder yHolder |
+	xHolder := FFIFloat32 newValueHolder.
+	yHolder := FFIFloat32 newValueHolder.
+
+	self getMouseStateX: xHolder y: yHolder.
+	^ xHolder value rounded @ yHolder value rounded
+]
+
 { #category : 'public - SDL_stdinc' }
 SDL3Library >> murmur332Data: data len: len seed: seed [
 	"/**
@@ -20182,6 +20465,15 @@ SDL3Library >> murmur332Data: data len: len seed: seed [
 	 */"
 
 	^ self ffiCall: #(Uint32 SDL_murmur3_32(const void* data, size_t len, Uint32 seed))
+]
+
+{ #category : 'accessing' }
+SDL3Library >> numberOfDisplays [
+
+	| valueHolder |
+	valueHolder := FFIInt32 newValueHolder.
+	self free: (self getDisplays: valueHolder).
+	^ valueHolder value
 ]
 
 { #category : 'public - SDL_system' }
@@ -20858,6 +21150,15 @@ SDL3Library >> outOfMemory [
 	^ self ffiCall: #(bool SDL_OutOfMemory())
 ]
 
+{ #category : 'accessing' }
+SDL3Library >> pathInfoAt: pathString [
+
+	| pathInfoHolder |
+	pathInfoHolder := (FFIExternalValueHolder ofType: SDL3PathInfo) new.
+	self assertSuccess: (self getPathInfoPath: pathString info: pathInfoHolder).
+	^ pathInfoHolder value
+]
+
 { #category : 'public - SDL_audio' }
 SDL3Library >> pauseAudioDevice: devid [
 	"/**
@@ -21265,6 +21566,13 @@ SDL3Library >> premultiplySurfaceAlphaSurface: surface linear: linear [
 	 */"
 
 	^ self ffiCall: #(bool SDL_PremultiplySurfaceAlpha(SDL_Surface* surface, #bool linear))
+]
+
+{ #category : 'accessing' }
+SDL3Library >> primarySelectionText [
+	"The X11 and Wayland video targets have a concept of the ""primary selection"" in addition to the usual clipboard. This is generally highlighted (but not explicitly copied) text from various apps. SDL offers APIs for this through SDL_GetPrimarySelectionText() and SDL_SetPrimarySelectionText(). SDL offers these APIs on platforms without this concept, too, but only so far that it will keep a copy of a string that the app sets for later retrieval; the operating system will not ever attempt to change the string externally if it doesn't support a primary selection."
+
+	^ self utf8StringFromExternalAddress: self getPrimarySelectionText
 ]
 
 { #category : 'public - SDL_events' }
@@ -23284,6 +23592,16 @@ SDL3Library >> renderDebugTextRenderer: renderer x: x y: y str: str [
 	^ self ffiCall: #(bool SDL_RenderDebugText(SDL_Renderer* renderer, float x, float y, const char* str))
 ]
 
+{ #category : 'accessing' }
+SDL3Library >> renderDrivers [
+
+	| result |
+	result := OrderedCollection new.
+	0 to: self getNumRenderDrivers - 1 do: [ :zeroBasedIndex |
+		result add: (self getRenderDriver: zeroBasedIndex) ].
+	^ result
+]
+
 { #category : 'public - SDL_render' }
 SDL3Library >> renderFillRectRenderer: renderer rect: rect [
 	"/**
@@ -24306,8 +24624,8 @@ SDL3Library >> runOnMainThreadCallback: callback userdata: userdata waitComplete
 
 { #category : 'accessing' }
 SDL3Library >> runner [
-	
-	^ TFProcessLocalWorker new 
+
+	^ TFProcessLocalWorker new
 		defaultWorker: TFSameThreadRunner uniqueInstance;
 		yourself
 ]
@@ -30428,6 +30746,29 @@ SDL3Library >> timeFromWindowsDwLowDateTime: dwLowDateTime dwHighDateTime: dwHig
 	^ self ffiCall: #(SDL_Time SDL_TimeFromWindows(Uint32 dwLowDateTime, Uint32 dwHighDateTime))
 ]
 
+{ #category : 'converting' }
+SDL3Library >> timeToDateAndTime: ticks [
+	"Given an integer that represents a `SDL_Time`, answer its conversion to `DateAndTime`."
+
+	^ (self timeToDateTime: ticks localTime: false) asDateAndTime
+]
+
+{ #category : 'converting' }
+SDL3Library >> timeToDateTime: ticks localTime: isLocal [
+	"Given an integer that represents a `SDL_Time`, answer its conversion to `SDL_DateTime`."
+
+	| dateAndTimeHolder |
+	dateAndTimeHolder := (FFIExternalValueHolder ofType: SDL3DateTime) new.
+
+	self assertSuccess:
+		(self
+			timeToDateTimeTicks: ticks
+			dt: dateAndTimeHolder
+			localTime: isLocal).
+
+	^ dateAndTimeHolder value
+]
+
 { #category : 'public - SDL_time' }
 SDL3Library >> timeToDateTimeTicks: ticks dt: dt localTime: localTime [
 	"/**
@@ -31409,6 +31750,18 @@ SDL3Library >> uploadToGPUTextureCopyPass: copy_pass source: source destination:
 	self ffiCall: #(void SDL_UploadToGPUTexture(SDL_GPUCopyPass* copy_pass, SDL_GPUTextureTransferInfo* source, SDL_GPUTextureRegion* destination, #bool cycle))
 ]
 
+{ #category : 'converting' }
+SDL3Library >> utf8StringFromExternalAddress: anExternalAddress [
+	"Answer a String from the received address (NULL-terminated) and free the memory.
+	Utility method to ease calling some SDL functions whose comment indicates
+	that the sender is responsible for freeing the memory via SDL_free()."
+
+	| string |
+	string := anExternalAddress utf8StringFromCString.
+	self free: anExternalAddress.
+	^ string
+]
+
 { #category : 'public - SDL_stdinc' }
 SDL3Library >> utf8strlcpyDst: dst src: src dst_bytes: dst_bytes [
 	"/**
@@ -31508,6 +31861,16 @@ SDL3Library >> utf8strnlenStr: str bytes: bytes [
 	 */"
 
 	^ self ffiCall: #(size_t SDL_utf8strnlen(const char* str, size_t bytes))
+]
+
+{ #category : 'accessing' }
+SDL3Library >> videoDrivers [
+
+	| result |
+	result := OrderedCollection new.
+	0 to: self getNumVideoDrivers - 1 do: [ :zeroBasedIndex |
+		result add: (self getVideoDriver: zeroBasedIndex) ].
+	^ result
 ]
 
 { #category : 'public - SDL_gpu' }

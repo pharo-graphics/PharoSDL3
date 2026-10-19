@@ -12,3 +12,11 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3Semaphore class >> unownedNew: initialValue [
+
+	^ (self ffiLibrary createSemaphore: initialValue)
+		  assertNotNullReturn;
+		  yourself
+]

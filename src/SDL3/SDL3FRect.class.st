@@ -30,6 +30,39 @@ SDL3FRect class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'instance creation' }
+SDL3FRect class >> newFrom: aRectangle [
+
+	^ self origin: aRectangle origin extent: aRectangle extent
+]
+
+{ #category : 'instance creation' }
+SDL3FRect class >> origin: origin extent: extent [
+
+	^ self
+		 x: origin x
+		 y: origin y
+		 width: extent x
+		 height: extent y
+]
+
+{ #category : 'instance creation' }
+SDL3FRect class >> x: x y: y width: w height: h [
+
+	^ self new
+		 x: x;
+		 y: y;
+		 w: w;
+		 h: h;
+		 yourself
+]
+
+{ #category : 'accessing' }
+SDL3FRect >> extent [
+
+	^ self w @ self h
+]
+
 { #category : 'accessing - structure variables' }
 SDL3FRect >> h [
 	"This method was automatically generated"
@@ -40,6 +73,22 @@ SDL3FRect >> h [
 SDL3FRect >> h: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_H put: anObject
+]
+
+{ #category : 'accessing' }
+SDL3FRect >> origin [
+
+	^ self x @ self y
+]
+
+{ #category : 'configuring' }
+SDL3FRect >> updateFrom: aRectangle [
+
+	self
+		x: aRectangle origin x asFloat;
+		y: aRectangle origin y asFloat;
+		w: aRectangle width asFloat;
+		h: aRectangle height asFloat
 ]
 
 { #category : 'accessing - structure variables' }

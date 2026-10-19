@@ -54,6 +54,16 @@ SDL3Color >> b: anObject [
 	handle unsignedByteAt: OFFSET_B put: anObject
 ]
 
+{ #category : 'configuring' }
+SDL3Color >> beR: r g: g b: b a: a [
+
+	self
+		r: r;
+		g: g;
+		b: b;
+		a: a
+]
+
 { #category : 'accessing - structure variables' }
 SDL3Color >> g [
 	"This method was automatically generated"

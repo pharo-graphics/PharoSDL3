@@ -13,7 +13,487 @@ Class {
 		'SDL3GPUTextureFormat',
 		'SDL3GPUTextureType'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
+
+{ #category : 'instance creation' }
+SDL3GPUDevice class >> unownedNewDebugMode: debugMode [
+	"Answer a new GPU device for any of DXIL, MSL or SPIRV shader format (let SDL pick the optimal driver)."
+
+	^ self
+		unownedNewFormatFlags:
+			SDL3GPUShaderFormat dxil |
+			SDL3GPUShaderFormat msl |
+			SDL3GPUShaderFormat spirv
+		debugMode: debugMode
+		name: nil
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice class >> unownedNewFormatFlags: formatFlags debugMode: debugMode name: aString [
+
+	^ (self ffiLibrary
+		   createGPUDeviceFormatFlags: formatFlags
+		   debugMode: debugMode
+		   name: aString)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice class >> unownedNewWithProperties: propertiesID [
+
+	^ (self ffiLibrary createGPUDeviceWithProperties: propertiesID)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> acquireGPUCommandBuffer [
+
+	^ (self ffiLibrary acquireGPUCommandBuffer: self)
+		  assertNotNullReturn;
+		  device: self;
+		  yourself
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> claimWindow: window [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary claimWindowForGPUDevice: self window: window)
+]
+
+{ #category : 'finalization' }
+SDL3GPUDevice >> destroy [
+
+	self ffiLibrary destroyGPUDevice: self
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> downloadFrom: sourceBuffer type: ffiClass count: arraySize do: aBlock [
+	"Synchronously downloads data from a GPU buffer to the CPU, stalling the CPU until complete."
+
+	| byteSize transferBuffer commandBuffer |
+	byteSize := ffiClass externalTypeSize * arraySize.
+	transferBuffer := self unownedNewGPUDownloadTransferBuffer: byteSize.
+
+	[
+		"1. Record and submit the copy command"
+		commandBuffer := self acquireGPUCommandBuffer.
+		commandBuffer copyPassDo: [ :copyPass |
+			copyPass
+				downloadBuffer:
+					(SDL_GPUBufferRegion new
+						buffer: sourceBuffer;
+						offset: 0;
+						size: byteSize;
+						yourself)
+				destination:
+					(SDL_GPUTransferBufferLocation new
+						transferBuffer: transferBuffer;
+						offset: 0;
+						yourself) ].
+		commandBuffer submit.
+
+		"2. Stall CPU until the transfer is physically complete on the GPU"
+		self waitForGPUIdle.
+
+		"3. Map memory and let the user read it"
+		self mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
+			| array |
+			array := FFIArray fromHandle: mappedAddress type: ffiClass size: arraySize.
+			aBlock value: array ]
+
+	] ensure: [ transferBuffer dispose ]
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> driverName [
+
+	^ self ffiLibrary getGPUDeviceDriver: self
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> getGPUSwapchainTextureFormatIntoWindow: window [
+
+	^ self ffiLibrary
+		  getGPUSwapchainTextureFormatDevice: self
+		  window: window
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> gpuAllowedFramesInFlightAllowedFramesInFlight: allowedFramesInFlight [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setGPUAllowedFramesInFlightDevice: self
+			allowedFramesInFlight: allowedFramesInFlight)
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> gpuBufferNameBuffer: buffer text: text [
+
+	self ffiLibrary setGPUBufferNameDevice: self buffer: buffer text: text
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> gpuShaderFormatFlags [
+
+	^ self ffiLibrary getGPUShaderFormats: self
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> gpuSwapchainParametersWindow: window swapchainComposition: swapchainComposition presentMode: presentMode [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setGPUSwapchainParametersDevice: self
+			window: window
+			swapchainComposition: swapchainComposition
+			presentMode: presentMode)
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> gpuTextureNameTexture: texture text: text [
+
+	self ffiLibrary setGPUTextureNameDevice: self texture: texture text: text
+]
+
+{ #category : 'testing' }
+SDL3GPUDevice >> gpuTextureSupportsFormat: format type: type usage: usage [
+
+	^ self ffiLibrary
+		  gpuTextureSupportsFormatDevice: self
+		  format: format
+		  type: type
+		  usage: usage
+]
+
+{ #category : 'testing' }
+SDL3GPUDevice >> gpuTextureSupportsSampleCountFormat: format sampleCount: sampleCount [
+
+	^ self ffiLibrary
+		  gpuTextureSupportsSampleCountDevice: self
+		  format: format
+		  sampleCount: sampleCount
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> mapGPUTransferBuffer: transferBuffer cycle: cycle [
+
+	^ self ffiLibrary
+		  mapGPUTransferBufferDevice: self
+		  transferBuffer: transferBuffer
+		  cycle: cycle
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> mapTransferBuffer: transferBuffer cycle: cycle do: aBlock [
+
+	| address |
+	address := self mapGPUTransferBuffer: transferBuffer cycle: cycle.
+	address isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
+	[ aBlock value: address ] ensure: [ self unmapGPUTransferBuffer: transferBuffer ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> newGraphicsPipelineBuilder [
+
+	^ SDL3GPUGraphicsPipelineBuilder on: self
+]
+
+{ #category : 'printing' }
+SDL3GPUDevice >> printOn: aStream [
+
+	super printOn: aStream.
+	self isNull ifTrue: [ ^ self ].
+
+	aStream
+		nextPutAll: ' (';
+		nextPutAll: self driverName;
+		nextPut: $)
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> propertiesID [
+
+	^ self ffiLibrary getGPUDeviceProperties: self
+]
+
+{ #category : 'accessing' }
+SDL3GPUDevice >> propertyGroup [
+
+	^ SDL3PropertyGroup id: self propertiesID
+]
+
+{ #category : 'testing' }
+SDL3GPUDevice >> queryGPUFence: fence [
+
+	^ self ffiLibrary queryGPUFenceDevice: self fence: fence
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> releaseWindow: window [
+
+	self ffiLibrary releaseWindowFromGPUDevice: self window: window
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> unmapGPUTransferBuffer: transferBuffer [
+
+	self ffiLibrary
+		unmapGPUTransferBufferDevice: self
+		transferBuffer: transferBuffer
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNew2DGPUTextureFormat: pixelFormat usage: usage width: width height: height [
+	"Answer a new `SDL_GPUTexture` with the given pixel format, usage and extent, and use default values."
+
+	^ self unownedNewGPUTexture: [ :info |
+		info
+			type: SDL_GPU_TEXTURETYPE_2D;
+			format: pixelFormat;
+			usage: usage asInteger;
+			width: width;
+			height: height;
+			layerCountOrDepth: 1;
+			numLevels: 1;
+			sampleCount: SDL_GPU_SAMPLECOUNT_1;
+			props: 0 ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUBuffer: aBlock [
+
+	| info |
+	info := SDL3GPUBufferCreateInfo unownedNew.
+	^ [
+		aBlock value: info.
+		(self ffiLibrary createGPUBufferDevice: self createinfo: info)
+			assertNotNullReturn;
+			device: self;
+			yourself
+	] ensure: [ info free ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUBufferUsage: usage size: size [
+
+	^ self unownedNewGPUBuffer: [ :info |
+		info
+			usage: usage asInteger;
+			size: size ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUComputePipeline: aBlock [
+
+	| createInfo pipeline |
+	createInfo := SDL3GPUComputePipelineCreateInfo unownedNew.
+	^ [
+		  aBlock value: createInfo.
+		  pipeline := (self ffiLibrary
+			               createGPUComputePipelineDevice: self
+			               createinfo: createInfo)
+			              assertNotNullReturn;
+			              device: self;
+			              yourself.
+		  pipeline metadata: createInfo metadata.
+		  pipeline ] ensure: [ createInfo free ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUDownloadTransferBuffer: size [
+	"Create a transfer buffer for downloading data from the GPU."
+
+	| info |
+	info := SDL3GPUTransferBufferCreateInfo unownedNew.
+	^ [
+		info
+			usage: SDL3GPUTransferBufferUsage download;
+			size: size;
+			props: 0.
+		(self ffiLibrary createGPUTransferBufferDevice: self createinfo: info)
+			assertNotNullReturn;
+			device: self;
+			yourself
+	] ensure: [ info free ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUGraphicsPipeline: aBlock [
+
+	| info pipeline |
+	info := SDL3GPUGraphicsPipelineCreateInfo unownedNew.
+	^ [
+		  aBlock value: info.
+
+		  pipeline := (self ffiLibrary
+			               createGPUGraphicsPipelineDevice: self
+			               createinfo: info)
+			              assertNotNullReturn;
+			              device: self;
+			              yourself.
+		  pipeline vertexMetadata: info vertexMetadata.
+		  pipeline fragmentMetadata: info fragmentMetadata.
+		  pipeline ] ensure: [ info free ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPURendererWindow: window [
+
+	^ (self ffiLibrary createGPURendererDevice: self window: window)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUSampler: aBlock [
+
+	| info |
+	info := SDL3GPUSamplerCreateInfo unownedNew.
+	^ [
+		aBlock value: info.
+		(self ffiLibrary createGPUSamplerDevice: self createinfo: info)
+			assertNotNullReturn;
+			device: self;
+			yourself
+	] ensure: [ info free ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUTexture: aBlock [
+
+	| info |
+	info := SDL3GPUTextureCreateInfo unownedNew.
+	^ [
+		aBlock value: info.
+		(self ffiLibrary createGPUTextureDevice: self createinfo: info)
+			assertNotNullReturn;
+			device: self;
+			yourself
+	] ensure: [ info free ]
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUTextureUploadingForm: aForm usage: aUsage [
+	"Answer a new `SDL_GPUTexture` and copy the Form pixels to it (assuming depth is 32 bits).
+	Sender is responsible of releasing the texture. Note: It may be convenient to reuse the transfer buffer and other SDL objects."
+
+	| gpuTexture transferBuffer commandBuffer |
+
+	self assert: [ aForm depth = 32 ].
+	aForm unhibernate.
+
+	gpuTexture :=
+		self
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+			usage: aUsage
+			width: aForm width
+			height: aForm height.
+
+	transferBuffer := self unownedNewGPUUploadTransferBuffer: aForm bits byteSize.
+	self mapTransferBuffer: transferBuffer cycle: false do: [ :mappedAddress |
+		"Copy from surface pixels handle to mappedAddress handle"
+		SDL3Library uniqueInstance memcpyDst: mappedAddress src: aForm bits len: aForm bits byteSize ].
+
+	commandBuffer := self acquireGPUCommandBuffer.
+	commandBuffer copyPassDo: [ :copyPass |
+		copyPass
+			uploadTexture:
+				(SDL3GPUTextureTransferInfo new
+					transferBuffer: transferBuffer;
+					offset: 0;
+					yourself)
+			destination:
+				(SDL3GPUTextureRegion new
+					texture: gpuTexture;
+					w: aForm width;
+					h: aForm height;
+					d: 1;
+					yourself)
+			cycle: false ].
+	commandBuffer submit.
+
+	transferBuffer dispose.
+
+	^ gpuTexture
+]
+
+{ #category : 'instance creation' }
+SDL3GPUDevice >> unownedNewGPUUploadTransferBuffer: size [
+	"Create a transfer buffer for uploading data to the GPU."
+
+	| info |
+	info := SDL3GPUTransferBufferCreateInfo unownedNew.
+	^ [
+		info
+			usage: SDL3GPUTransferBufferUsage upload;
+			size: size;
+			props: 0.
+		(self ffiLibrary createGPUTransferBufferDevice: self createinfo: info)
+			assertNotNullReturn;
+			device: self;
+			yourself
+	] ensure: [ info free ]
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> uploadToGPUDo: aBlock [
+	"Acquires a command buffer, starts a copy pass, yields an uploader for batching, and submits the commands."
+
+	SDL3GPUUploader on: self do: aBlock
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> waitForGPUFencesWaitAll: waitAll fences: fences numFences: numFences [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			waitForGPUFencesDevice: self
+			waitAll: waitAll
+			fences: fences
+			numFences: numFences)
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> waitForGPUIdle [
+
+	self ffiLibrary assertSuccess: (self ffiLibrary waitForGPUIdle: self)
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> waitForGPUSwapchainWindow: window [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary waitForGPUSwapchainDevice: self window: window)
+]
+
+{ #category : 'operations' }
+SDL3GPUDevice >> waitGPUFence: aGPUFence [
+
+	self ffiLibrary assertSuccess:
+		(self waitForGPUFencesWaitAll: true fences: aGPUFence numFences: 1)
+]
+
+{ #category : 'testing' }
+SDL3GPUDevice >> windowSupportsGPUPresentModeWindow: window presentMode: presentMode [
+
+	^ self ffiLibrary
+		  windowSupportsGPUPresentModeDevice: self
+		  window: window
+		  presentMode: presentMode
+]
+
+{ #category : 'testing' }
+SDL3GPUDevice >> windowSupportsGPUSwapchainCompositionWindow: window swapchainComposition: swapchainComposition [
+
+	^ self ffiLibrary
+		  windowSupportsGPUSwapchainCompositionDevice: self
+		  window: window
+		  swapchainComposition: swapchainComposition
+]

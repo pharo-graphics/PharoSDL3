@@ -63,3 +63,19 @@ SDL3AudioSpec >> freq: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_FREQ put: anObject
 ]
+
+{ #category : 'printing' }
+SDL3AudioSpec >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: '(freq: ';
+		print: self freq.
+	aStream
+		nextPutAll: ' channels: ';
+		print: self channels.
+	aStream
+		nextPutAll: ' format: ';
+		print: self format item;
+		nextPut: $)
+]

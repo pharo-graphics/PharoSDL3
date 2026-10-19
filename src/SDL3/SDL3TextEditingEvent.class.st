@@ -54,6 +54,21 @@ SDL3TextEditingEvent >> length [
 	^handle signedLongAt: OFFSET_LENGTH
 ]
 
+{ #category : 'printing' }
+SDL3TextEditingEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' text: ';
+		print: self text bytesFromCString utf8Decoded.
+	aStream
+		nextPutAll: ' start: ';
+		print: self start.
+	aStream
+		nextPutAll: ' length: ';
+		print: self length
+]
+
 { #category : 'accessing - structure variables' }
 SDL3TextEditingEvent >> start [
 	"This method was automatically generated"

@@ -20,3 +20,10 @@ SDL3WindowExposedEvent >> accept: aVisitor [
 
 	^ aVisitor visitWindowExposedEvent: self
 ]
+
+{ #category : 'testing' }
+SDL3WindowExposedEvent >> isLiveResize [
+	"data1 is 1 for live-resize expose events, 0 otherwise"
+
+	^ self data1 = 1
+]

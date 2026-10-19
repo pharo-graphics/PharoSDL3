@@ -12,9 +12,9 @@ Class {
 		'vertexMetadata',
 		'fragmentMetadata'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'accessing' }
@@ -25,6 +25,14 @@ SDL3GPUGraphicsPipeline >> fragmentMetadata [
 { #category : 'accessing' }
 SDL3GPUGraphicsPipeline >> fragmentMetadata: aMetadata [
 	fragmentMetadata := aMetadata
+]
+
+{ #category : 'releasing' }
+SDL3GPUGraphicsPipeline >> releaseFromGPUDevice [
+
+	device ffiLibrary
+		releaseGPUGraphicsPipelineDevice: device
+		graphicsPipeline: self
 ]
 
 { #category : 'accessing' }

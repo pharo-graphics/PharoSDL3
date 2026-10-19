@@ -14,9 +14,9 @@ Class {
 		'OFFSET_VERTEX_ATTRIBUTES',
 		'OFFSET_VERTEX_BUFFER_DESCRIPTIONS'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -28,6 +28,16 @@ SDL3GPUVertexInputState class >> fieldsDesc [
 	SDL_GPUVertexAttribute* vertex_attributes;
 	Uint32 num_vertex_attributes
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUVertexInputState >> attributes: attrArray bindings: bindArray [
+
+	self
+		vertexAttributes: attrArray;
+		numVertexAttributes: attrArray size;
+		vertexBufferDescriptions: bindArray;
+		numVertexBuffers: bindArray size
 ]
 
 { #category : 'accessing - structure variables' }

@@ -13,9 +13,9 @@ Class {
 		'OFFSET_GROUPCOUNT_Y',
 		'OFFSET_GROUPCOUNT_Z'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }

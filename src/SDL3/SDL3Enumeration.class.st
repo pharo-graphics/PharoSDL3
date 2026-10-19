@@ -14,3 +14,27 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Enumerations'
 }
+
+{ #category : 'enumerating' }
+SDL3Enumeration class >> allValues [
+
+	^ Array streamContents: [ :stream |
+		self allValuesDo: [ :each | stream nextPut: each ] ]
+]
+
+{ #category : 'enumerating' }
+SDL3Enumeration class >> allValuesDo: aBlock [
+
+	self withAllSuperclassesDo: [ :eachClass |
+		eachClass = SDL3Enumeration
+			ifFalse: [
+				eachClass classPool valuesDo: [ :eachValue |
+					aBlock value: eachValue ] ]
+			ifTrue: [ ^ self "done!" ] ]
+]
+
+{ #category : 'converting' }
+SDL3Enumeration >> asInteger [
+
+	^ value asInteger
+]

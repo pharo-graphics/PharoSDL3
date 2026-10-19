@@ -74,6 +74,27 @@ SDL3TouchFingerEvent >> pressure [
 	^handle floatAt: OFFSET_PRESSURE
 ]
 
+{ #category : 'printing' }
+SDL3TouchFingerEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' touchID: ';
+		print: self touchID.
+	aStream
+		nextPutAll: ' fingerID: ';
+		print: self fingerID.
+	aStream
+		nextPutAll: ' x: ';
+		nextPutAll: (self x printShowingDecimalPlaces: 2).
+	aStream
+		nextPutAll: ' y: ';
+		nextPutAll: (self y printShowingDecimalPlaces: 2).
+	aStream
+		nextPutAll: ' pressure: ';
+		nextPutAll: (self pressure printShowingDecimalPlaces: 2)
+]
+
 { #category : 'accessing - structure variables' }
 SDL3TouchFingerEvent >> timestamp [
 	"This method was automatically generated"

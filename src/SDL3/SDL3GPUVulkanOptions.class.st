@@ -17,9 +17,9 @@ Class {
 		'OFFSET_VULKAN_10_PHYSICAL_DEVICE_FEATURES',
 		'OFFSET_VULKAN_API_VERSION'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
