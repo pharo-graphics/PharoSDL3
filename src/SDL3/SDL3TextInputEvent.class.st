@@ -44,6 +44,15 @@ SDL3TextInputEvent >> accept: aVisitor [
 	^ aVisitor visitTextInputEvent: self
 ]
 
+{ #category : 'printing' }
+SDL3TextInputEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' text: ';
+		print: self text bytesFromCString utf8Decoded
+]
+
 { #category : 'accessing - structure variables' }
 SDL3TextInputEvent >> text [
 	"This method was automatically generated"

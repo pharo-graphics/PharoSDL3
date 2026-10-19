@@ -46,6 +46,12 @@ SDL3CameraSpec >> colorspace: anObject [
 	handle unsignedLongAt: OFFSET_COLORSPACE put: anObject value
 ]
 
+{ #category : 'accessing' }
+SDL3CameraSpec >> extent [
+
+	^ self width @ self height
+]
+
 { #category : 'accessing - structure variables' }
 SDL3CameraSpec >> format [
 	"This method was automatically generated"
@@ -92,6 +98,27 @@ SDL3CameraSpec >> height [
 SDL3CameraSpec >> height: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_HEIGHT put: anObject
+]
+
+{ #category : 'printing' }
+SDL3CameraSpec >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: '(extent: ';
+		print: self extent.
+"	aStream
+		nextPutAll: ' format: ';
+		print: self format."
+	aStream
+		nextPutAll: ' colorspace: ';
+		print: self colorspace.
+	aStream
+		nextPutAll: ' framerate: ';
+		print: self framerateNumerator;
+		nextPutAll: '/';
+		print: self framerateDenominator;
+		nextPut: $)
 ]
 
 { #category : 'accessing - structure variables' }

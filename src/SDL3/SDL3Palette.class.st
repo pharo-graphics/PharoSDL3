@@ -30,6 +30,14 @@ SDL3Palette class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'instance creation' }
+SDL3Palette class >> unownedNew: ncolors [
+
+	^ (self ffiLibrary createPalette: ncolors)
+		  assertNotNullReturn;
+		  yourself
+]
+
 { #category : 'accessing - structure variables' }
 SDL3Palette >> colors [
 	"This method was automatically generated"
@@ -40,6 +48,31 @@ SDL3Palette >> colors [
 SDL3Palette >> colors: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_COLORS put: anObject getHandle.
+]
+
+{ #category : 'accessing' }
+SDL3Palette >> colors: colors firstcolor: firstcolor ncolors: ncolors [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setPaletteColorsPalette: self
+			colors: colors
+			firstcolor: firstcolor
+			ncolors: ncolors)
+]
+
+{ #category : 'finalization' }
+SDL3Palette >> destroy [
+
+	self ffiLibrary destroyPalette: self
+]
+
+{ #category : 'finalization' }
+SDL3Palette >> dispose [
+
+	(handle isNil or: [ self isNull ]) ifTrue: [ ^ self ].
+	self destroy.
+	handle := nil
 ]
 
 { #category : 'accessing - structure variables' }

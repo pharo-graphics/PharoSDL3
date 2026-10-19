@@ -14,9 +14,9 @@ Class {
 		'OFFSET_NUM_INSTANCES',
 		'OFFSET_NUM_VERTICES'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }

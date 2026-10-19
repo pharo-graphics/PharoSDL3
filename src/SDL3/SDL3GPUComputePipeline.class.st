@@ -11,9 +11,9 @@ Class {
 	#instVars : [
 		'metadata'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'accessing' }
@@ -24,4 +24,12 @@ SDL3GPUComputePipeline >> metadata [
 { #category : 'accessing' }
 SDL3GPUComputePipeline >> metadata: aMetadata [
 	metadata := aMetadata
+]
+
+{ #category : 'releasing' }
+SDL3GPUComputePipeline >> releaseFromGPUDevice [
+
+	device ffiLibrary
+		releaseGPUComputePipelineDevice: device
+		computePipeline: self
 ]

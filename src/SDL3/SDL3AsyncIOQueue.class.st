@@ -12,3 +12,11 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3AsyncIOQueue class >> unownedNew [
+
+	^ (self ffiLibrary createAsyncIOQueue)
+		  assertNotNullReturn;
+		  yourself
+]

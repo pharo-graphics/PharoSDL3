@@ -30,6 +30,28 @@ SDL3Rect class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'instance creation' }
+SDL3Rect class >> newFrom: aRectangle [
+	^ self new
+		x: aRectangle origin x asInteger;
+		y: aRectangle origin y asInteger;
+		w: aRectangle width asInteger;
+		h: aRectangle height asInteger;
+		yourself
+]
+
+{ #category : 'converting' }
+SDL3Rect >> asRectangle [
+
+	^ self origin extent: self extent
+]
+
+{ #category : 'accessing' }
+SDL3Rect >> extent [
+
+	^ self w @ self h
+]
+
 { #category : 'accessing - structure variables' }
 SDL3Rect >> h [
 	"This method was automatically generated"
@@ -40,6 +62,28 @@ SDL3Rect >> h [
 SDL3Rect >> h: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_H put: anObject
+]
+
+{ #category : 'accessing' }
+SDL3Rect >> origin [
+
+	^ self x @ self y
+]
+
+{ #category : 'printing' }
+SDL3Rect >> printOn: aStream [
+
+	self asRectangle printOn: aStream
+]
+
+{ #category : 'configuring' }
+SDL3Rect >> updateFrom: aRectangle [
+
+	self
+		x: aRectangle origin x asInteger;
+		y: aRectangle origin y asInteger;
+		w: aRectangle width asInteger;
+		h: aRectangle height asInteger
 ]
 
 { #category : 'accessing - structure variables' }

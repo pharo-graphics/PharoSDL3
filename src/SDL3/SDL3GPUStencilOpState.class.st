@@ -14,9 +14,9 @@ Class {
 		'OFFSET_FAIL_OP',
 		'OFFSET_PASS_OP'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }

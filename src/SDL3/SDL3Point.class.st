@@ -26,6 +26,14 @@ SDL3Point class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'configuring' }
+SDL3Point >> beX: x y: y [
+
+	self
+		x: x;
+		y: y
+]
+
 { #category : 'accessing - structure variables' }
 SDL3Point >> x [
 	"This method was automatically generated"

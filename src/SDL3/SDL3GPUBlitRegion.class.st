@@ -17,9 +17,9 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -34,6 +34,19 @@ SDL3GPUBlitRegion class >> fieldsDesc [
 	Uint32 w;
 	Uint32 h
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUBlitRegion >> beTexture: aTexture [
+
+	self
+		texture: aTexture;
+		mipLevel: 0;
+		layerOrDepthPlane: 0;
+		x: 0;
+		y: 0;
+		w: 0;
+		h: 0
 ]
 
 { #category : 'accessing - structure variables' }

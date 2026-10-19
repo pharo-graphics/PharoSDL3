@@ -12,9 +12,9 @@ Class {
 		'OFFSET_SAMPLER',
 		'OFFSET_TEXTURE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -24,6 +24,14 @@ SDL3GPUTextureSamplerBinding class >> fieldsDesc [
 	SDL_GPUTexture* texture;
 	SDL_GPUSampler* sampler
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUTextureSamplerBinding >> beTexture: aTexture sampler: aSampler [
+
+	self
+		texture: aTexture;
+		sampler: aSampler
 ]
 
 { #category : 'accessing - structure variables' }

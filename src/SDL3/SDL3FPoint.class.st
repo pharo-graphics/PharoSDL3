@@ -26,6 +26,21 @@ SDL3FPoint class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'instance creation' }
+SDL3FPoint class >> newFrom: aPoint [
+
+	^ self x: aPoint x y: aPoint y
+]
+
+{ #category : 'instance creation' }
+SDL3FPoint class >> x: x y: y [
+
+	^ self new
+		 x: x;
+		 y: y;
+		 yourself
+]
+
 { #category : 'accessing - structure variables' }
 SDL3FPoint >> x [
 	"This method was automatically generated"

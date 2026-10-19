@@ -12,9 +12,9 @@ Class {
 		'OFFSET_BLEND_STATE',
 		'OFFSET_FORMAT'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }

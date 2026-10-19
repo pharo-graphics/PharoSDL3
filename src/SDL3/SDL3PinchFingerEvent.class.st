@@ -38,6 +38,15 @@ SDL3PinchFingerEvent >> accept: aVisitor [
 	^ aVisitor visitPinchFingerEvent: self
 ]
 
+{ #category : 'printing' }
+SDL3PinchFingerEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' scale: ';
+		print: self scale
+]
+
 { #category : 'accessing - structure variables' }
 SDL3PinchFingerEvent >> scale [
 	"This method was automatically generated"

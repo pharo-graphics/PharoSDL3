@@ -55,6 +55,14 @@ SDL3Array >> byteSize [
 	^ size * type typeSize
 ]
 
+{ #category : 'finalization' }
+SDL3Array >> dispose [
+
+	(handle isNil or: [ handle isNull ]) ifTrue: [ ^ self ].
+	self free.
+	handle := nil
+]
+
 { #category : 'initialization' }
 SDL3Array >> zeroOut [
 

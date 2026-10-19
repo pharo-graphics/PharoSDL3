@@ -45,9 +45,9 @@ SDL3IOStreamInterface >> close [
 { #category : 'accessing - structure variables' }
 SDL3IOStreamInterface >> close: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_CLOSE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -61,9 +61,9 @@ SDL3IOStreamInterface >> flush [
 { #category : 'accessing - structure variables' }
 SDL3IOStreamInterface >> flush: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_FLUSH
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -77,9 +77,9 @@ SDL3IOStreamInterface >> read [
 { #category : 'accessing - structure variables' }
 SDL3IOStreamInterface >> read: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_READ
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]
@@ -129,9 +129,9 @@ SDL3IOStreamInterface >> write [
 { #category : 'accessing - structure variables' }
 SDL3IOStreamInterface >> write: anObject [
 	"This method was automatically generated"
-	handle 
+	handle
 		pointerAt: OFFSET_WRITE
-		put: (anObject 
+		put: (anObject
 			ifNotNil: [ anObject thunk asExternalAddress ]
 			ifNil: [ ExternalAddress null ])
 ]

@@ -17,9 +17,9 @@ Class {
 		'OFFSET_PADDING3',
 		'OFFSET_TEXTURE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -34,6 +34,34 @@ SDL3GPUStorageTextureReadWriteBinding class >> fieldsDesc [
 	Uint8 padding2;
 	Uint8 padding3
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUStorageTextureReadWriteBinding >> beTexture: aTexture [
+
+	self beTexture: aTexture cycle: false
+]
+
+{ #category : 'configuring' }
+SDL3GPUStorageTextureReadWriteBinding >> beTexture: aTexture cycle: aBoolean [
+
+	self
+		texture: aTexture;
+		mipLevel: 0;
+		layer: 0;
+		cycle: aBoolean
+]
+
+{ #category : 'configuring' }
+SDL3GPUStorageTextureReadWriteBinding >> beUnbound [
+
+	self beUnboundCycle: false
+]
+
+{ #category : 'configuring' }
+SDL3GPUStorageTextureReadWriteBinding >> beUnboundCycle: aBoolean [
+
+	self beTexture: ExternalAddress null cycle: aBoolean
 ]
 
 { #category : 'accessing - structure variables' }

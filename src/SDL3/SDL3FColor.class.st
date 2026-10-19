@@ -30,6 +30,17 @@ SDL3FColor class >> fieldsDesc [
 	)
 ]
 
+{ #category : 'instance creation' }
+SDL3FColor class >> r: red g: green b: blue a: alpha [
+
+	^ self new
+		r: red;
+		g: green;
+		b: blue;
+		a: alpha;
+		yourself
+]
+
 { #category : 'accessing - structure variables' }
 SDL3FColor >> a [
 	"This method was automatically generated"
@@ -40,6 +51,12 @@ SDL3FColor >> a [
 SDL3FColor >> a: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_A put: anObject
+]
+
+{ #category : 'converting' }
+SDL3FColor >> asColor [
+
+	^ Color r: self r g: self g b: self b alpha: self a
 ]
 
 { #category : 'accessing - structure variables' }
@@ -66,6 +83,22 @@ SDL3FColor >> g: anObject [
 	handle floatAt: OFFSET_G put: anObject
 ]
 
+{ #category : 'printing' }
+SDL3FColor >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: '(r: ';
+		print: self r;
+		nextPutAll: ' g: ';
+		print: self g;
+		nextPutAll: ' b: ';
+		print: self b;
+		nextPutAll: ' a: ';
+		print: self a;
+		nextPutAll: ')'
+]
+
 { #category : 'accessing - structure variables' }
 SDL3FColor >> r [
 	"This method was automatically generated"
@@ -76,4 +109,14 @@ SDL3FColor >> r [
 SDL3FColor >> r: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_R put: anObject
+]
+
+{ #category : 'configuring' }
+SDL3FColor >> updateFrom: aPharoColor [
+
+	self
+		r: aPharoColor red;
+		g: aPharoColor green;
+		b: aPharoColor blue;
+		a: aPharoColor alpha
 ]

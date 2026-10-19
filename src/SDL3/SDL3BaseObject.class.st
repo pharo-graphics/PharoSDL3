@@ -12,10 +12,32 @@ Class {
 	#tag : 'Base'
 }
 
+{ #category : 'comparing' }
+SDL3BaseObject >> = anObject [
+	"Equality relies on the handle in the opaque external objects"
+
+	^ self class == anObject class and: [
+		self getHandle = anObject getHandle ]
+]
+
 { #category : 'finalization' }
 SDL3BaseObject >> destroy [
 	"Hook for subclasses to destroy their native handle.
 	Subclasses with specific C destructor functions override this."
+]
+
+{ #category : 'finalization' }
+SDL3BaseObject >> dispose [
+
+	(handle isNil or: [ self isNull ]) ifTrue: [ ^ self ].
+	self destroy.
+	handle beNull
+]
+
+{ #category : 'comparing' }
+SDL3BaseObject >> hash [
+
+	^ self class hash bitXor: self getHandle hash
 ]
 
 { #category : 'initialization' }

@@ -12,3 +12,182 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3Haptic class >> unownedOpen: instanceId [
+
+	^ (self ffiLibrary openHaptic: instanceId)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+SDL3Haptic class >> unownedOpenFromJoystick: joystick [
+
+	^ (self ffiLibrary openHapticFromJoystick: joystick)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+SDL3Haptic class >> unownedOpenFromMouse [
+
+	^ (self ffiLibrary openHapticFromMouse)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> autocenter: autocenter [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			setHapticAutocenterHaptic: self
+			autocenter: autocenter)
+]
+
+{ #category : 'finalization' }
+SDL3Haptic >> close [
+
+	self ffiLibrary closeHaptic: self
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> destroyEffect: effect [
+
+	self ffiLibrary destroyHapticEffectHaptic: self effect: effect
+]
+
+{ #category : 'testing' }
+SDL3Haptic >> effectSupportedEffect: effect [
+
+	^ self ffiLibrary hapticEffectSupportedHaptic: self effect: effect
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> features [
+
+	^ self ffiLibrary getHapticFeatures: self
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> gain: gain [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setHapticGainHaptic: self gain: gain)
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> getEffectStatusIntoEffect: effect [
+
+	^ self ffiLibrary getHapticEffectStatusHaptic: self effect: effect
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> id [
+
+	^ self ffiLibrary getHapticID: self
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> initRumble [
+
+	self ffiLibrary assertSuccess: (self ffiLibrary initHapticRumble: self)
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> maxEffects [
+
+	^ self ffiLibrary getMaxHapticEffects: self
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> maxEffectsPlaying [
+
+	^ self ffiLibrary getMaxHapticEffectsPlaying: self
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> name [
+
+	^ self ffiLibrary getHapticName: self
+]
+
+{ #category : 'accessing' }
+SDL3Haptic >> numberOfAxes [
+
+	^ self ffiLibrary getNumHapticAxes: self
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> pause [
+
+	self ffiLibrary assertSuccess: (self ffiLibrary pauseHaptic: self)
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> playRumbleStrength: strength length: length [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			playHapticRumbleHaptic: self
+			strength: strength
+			length: length)
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> resume [
+
+	self ffiLibrary assertSuccess: (self ffiLibrary resumeHaptic: self)
+]
+
+{ #category : 'testing' }
+SDL3Haptic >> rumbleSupported [
+
+	^ self ffiLibrary hapticRumbleSupported: self
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> runEffect: effect iterations: iterations [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			runHapticEffectHaptic: self
+			effect: effect
+			iterations: iterations)
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> stopEffect: effect [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary stopHapticEffectHaptic: self effect: effect)
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> stopEffects [
+
+	self ffiLibrary assertSuccess: (self ffiLibrary stopHapticEffects: self)
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> stopRumble [
+
+	self ffiLibrary assertSuccess: (self ffiLibrary stopHapticRumble: self)
+]
+
+{ #category : 'instance creation' }
+SDL3Haptic >> unownedNewEffect: effect [
+
+	^ self ffiLibrary createHapticEffectHaptic: self effect: effect
+]
+
+{ #category : 'operations' }
+SDL3Haptic >> updateEffect: effect data: data [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
+			updateHapticEffectHaptic: self
+			effect: effect
+			data: data)
+]

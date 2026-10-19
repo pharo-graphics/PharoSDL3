@@ -22,6 +22,12 @@ SDL3Structure class >> unownedNew [
 	^ instance
 ]
 
+{ #category : 'finalization' }
+SDL3Structure >> dispose [
+
+	self free
+]
+
 { #category : 'initialization' }
 SDL3Structure >> zeroOut [
 

@@ -23,9 +23,9 @@ Class {
 		'OFFSET_VERTEX_INPUT_STATE',
 		'OFFSET_VERTEX_SHADER'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -136,6 +136,18 @@ SDL3GPUGraphicsPipelineCreateInfo >> targetInfo [
 SDL3GPUGraphicsPipelineCreateInfo >> targetInfo: anObject [
 	"This method was automatically generated"
 	handle structAt: OFFSET_TARGET_INFO put: anObject getHandle length: SDL3GPUGraphicsPipelineTargetInfo byteSize
+]
+
+{ #category : 'configuring' }
+SDL3GPUGraphicsPipelineCreateInfo >> vertex: vShader fragment: fShader targets: targetArray [
+
+	vShader ifNotNil: [
+		self vertexShader: vShader.
+		self vertexMetadata: vShader metadata ].
+	fShader ifNotNil: [
+		self fragmentShader: fShader.
+		self fragmentMetadata: fShader metadata ].
+	self targetInfo colorDescriptions: targetArray
 ]
 
 { #category : 'accessing - structure variables' }

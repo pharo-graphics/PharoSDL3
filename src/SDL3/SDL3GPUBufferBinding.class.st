@@ -12,9 +12,9 @@ Class {
 		'OFFSET_BUFFER',
 		'OFFSET_OFFSET'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -24,6 +24,20 @@ SDL3GPUBufferBinding class >> fieldsDesc [
 	SDL_GPUBuffer* buffer;
 	Uint32 offset
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUBufferBinding >> beBuffer: aBuffer offset: anInteger [
+
+	self
+		buffer: aBuffer;
+		offset: anInteger
+]
+
+{ #category : 'configuring' }
+SDL3GPUBufferBinding >> beOffset: anInteger [
+
+	self beBuffer: ExternalAddress null offset: anInteger
 ]
 
 { #category : 'accessing - structure variables' }
@@ -48,4 +62,16 @@ SDL3GPUBufferBinding >> offset [
 SDL3GPUBufferBinding >> offset: anObject [
 	"This method was automatically generated"
 	handle unsignedLongAt: OFFSET_OFFSET put: anObject
+]
+
+{ #category : 'printing' }
+SDL3GPUBufferBinding >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' buffer: (';
+		print: self buffer.
+	aStream
+		nextPutAll: ') offset: ';
+		print: self offset
 ]

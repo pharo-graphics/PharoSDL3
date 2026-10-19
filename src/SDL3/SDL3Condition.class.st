@@ -12,3 +12,11 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3Condition class >> unownedNew [
+
+	^ (self ffiLibrary createCondition)
+		  assertNotNullReturn;
+		  yourself
+]

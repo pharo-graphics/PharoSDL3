@@ -12,3 +12,11 @@ Class {
 	#package : 'SDL3',
 	#tag : 'Base'
 }
+
+{ #category : 'instance creation' }
+SDL3RWLock class >> unownedNew [
+
+	^ (self ffiLibrary createRWLock)
+		  assertNotNullReturn;
+		  yourself
+]

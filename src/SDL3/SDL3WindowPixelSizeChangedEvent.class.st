@@ -20,3 +20,24 @@ SDL3WindowPixelSizeChangedEvent >> accept: aVisitor [
 
 	^ aVisitor visitWindowPixelSizeChangedEvent: self
 ]
+
+{ #category : 'accessing' }
+SDL3WindowPixelSizeChangedEvent >> extent [
+	"Answer the new extent"
+
+	^ self width @ self height
+]
+
+{ #category : 'accessing' }
+SDL3WindowPixelSizeChangedEvent >> height [
+	"Answer the new height"
+
+	^ self data2
+]
+
+{ #category : 'accessing' }
+SDL3WindowPixelSizeChangedEvent >> width [
+	"Answer the new width"
+
+	^ self data1
+]

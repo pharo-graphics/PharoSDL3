@@ -23,9 +23,9 @@ Class {
 		'OFFSET_STORE_OP',
 		'OFFSET_TEXTURE'
 	],
-	#category : 'SDL3-Base',
+	#category : 'SDL3-GPU-Base',
 	#package : 'SDL3',
-	#tag : 'Base'
+	#tag : 'GPU-Base'
 }
 
 { #category : 'field definition' }
@@ -46,6 +46,55 @@ SDL3GPUColorTargetInfo class >> fieldsDesc [
 	Uint8 padding1;
 	Uint8 padding2
 	)
+]
+
+{ #category : 'configuring' }
+SDL3GPUColorTargetInfo >> beClear [
+
+	self beClear: Color black
+]
+
+{ #category : 'configuring' }
+SDL3GPUColorTargetInfo >> beClear: aColor [
+
+	self beClearTexture: ExternalAddress null color: aColor
+]
+
+{ #category : 'configuring' }
+SDL3GPUColorTargetInfo >> beClearTexture: aTexture [
+
+	self beClearTexture: aTexture color: Color black
+]
+
+{ #category : 'configuring' }
+SDL3GPUColorTargetInfo >> beClearTexture: aTexture color: aColor [
+
+	self
+		texture: aTexture;
+		mipLevel: 0;
+		layerOrDepthPlane: 0;
+		loadOp: SDL3GPULoadOp clear;
+		storeOp: SDL3GPUStoreOp store;
+		cycle: false.
+	self updateClearColorFrom: aColor
+]
+
+{ #category : 'configuring' }
+SDL3GPUColorTargetInfo >> beLoad [
+
+	self beLoad: ExternalAddress null
+]
+
+{ #category : 'configuring' }
+SDL3GPUColorTargetInfo >> beLoad: aTexture [
+
+	self
+		texture: aTexture;
+		mipLevel: 0;
+		layerOrDepthPlane: 0;
+		loadOp: SDL3GPULoadOp load;
+		storeOp: SDL3GPUStoreOp store;
+		cycle: false
 ]
 
 { #category : 'accessing - structure variables' }
@@ -178,4 +227,10 @@ SDL3GPUColorTargetInfo >> texture [
 SDL3GPUColorTargetInfo >> texture: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_TEXTURE put: anObject getHandle.
+]
+
+{ #category : 'configuring' }
+SDL3GPUColorTargetInfo >> updateClearColorFrom: aColor [
+
+	self clearColor updateFrom: aColor
 ]

@@ -20,3 +20,24 @@ SDL3WindowResizedEvent >> accept: aVisitor [
 
 	^ aVisitor visitWindowResizedEvent: self
 ]
+
+{ #category : 'accessing' }
+SDL3WindowResizedEvent >> extent [
+	"Answer the new extent"
+
+	^ self width @ self height
+]
+
+{ #category : 'accessing' }
+SDL3WindowResizedEvent >> height [
+	"Answer the new height"
+
+	^ self data2
+]
+
+{ #category : 'accessing' }
+SDL3WindowResizedEvent >> width [
+	"Answer the new width"
+
+	^ self data1
+]
