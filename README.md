@@ -185,7 +185,7 @@ The bindings follow a consistent naming convention to map C functions to Pharo m
 
 GENERAL TIP: Given a SDL3 C name (e.g. `SDL_` function, struct or constant), in Pharo you can select the string -> open context menu -> "**Code search**" -> "**Method source with it**", and you should find where in the project it is used or defined.
 
-### 1. Raw API
+### 1. Raw C API (`SDL3Library`)
 The `SDL3Library` class provides direct access to the C API.
 - **Prefix Removal:** The `SDL_` prefix is removed.
 - **CamelCase:** The first letter of the function name is lowercased.
@@ -196,9 +196,9 @@ The `SDL3Library` class provides direct access to the C API.
 - `SDL_Init(flags)` maps to `SDL3Library >> init: flags`
 - `SDL_CreateWindow(title, w, h, flags)` maps to `SDL3Library >> createWindowTitle:w:h:flags:`
 
-### 2. Convenience API (Instance-Side methods in SDL3Window and others)
+### 2. Object-Oriented API (Instance-Side Methods)
 
-Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "Independent root objects") provide more idiomatic Smalltalk methods.
+Classes like `SDL3Window`, `SDL3Renderer`, `SDL3Surface`, and `SDL3GPUDevice` provide idiomatic Smalltalk methods.
 
 - **Accessors:** Getter and setter functions are converted to Smalltalk-style accessors by omitting the `Get` and `Set` prefixes.
   - `SDL_GetWindowFlags(window)` maps to `SDL3Window >> flags`
@@ -211,9 +211,9 @@ Object-oriented classes like `SDL3Window` and `SDL3Renderer` (We may call them "
 
 You can explore all available functions in the `SDL3Library` class or by browsing the object classes.
 
-### 3. Convenience API for Instance Creation ("Unowned" Methods)
+### 3. Instance Creation ("Unowned" Methods)
 
-Independent root classes provide class-side methods for creating or opening SDL objects.
+These classes also provide class-side and factory methods for creating or opening SDL resources.
 
 - **Explicit Ownership:** Methods prefixed with `unownedNew`, `unownedOpen`, `unownedAs...`, or `unownedCopy...` signal that the **sender is responsible** for disposing the object (e.g., sending `dispose`, `destroy`, `close`, `end`, or `release`).
 - **Internal Assertions:** These methods verify return values and signal `SDL3Error` on failure.

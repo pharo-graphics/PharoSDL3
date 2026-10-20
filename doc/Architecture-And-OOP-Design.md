@@ -105,7 +105,7 @@ To eliminate manual error checking and procedural routing:
 
 ### Success Assertions
 
-Wrapper methods in the Convenience API handle error checking internally based on the C return type:
+Wrapper methods in the object-oriented API handle error checking internally based on the C return type:
 
 - **Boolean Success**: Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the function call fails, an `SDL3Error` is signaled with the diagnostic message from `SDL_GetError()`. These methods return `self` on success.
 - **Pointer Results**: Methods that create or return SDL3 objects (e.g., `unownedNewRenderer:`) use `assertNotNullReturn` internally. If the returned pointer is `NULL`, an `SDL3Error` is signaled.
