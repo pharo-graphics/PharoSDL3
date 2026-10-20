@@ -198,7 +198,7 @@ The `SDL3Library` class provides direct access to the C API.
 
 ### 2. Object-Oriented API (Instance-Side Methods)
 
-Classes like `SDL3Window`, `SDL3Renderer`, `SDL3Surface`, and `SDL3GPUDevice` provide idiomatic Smalltalk methods.
+Key classes like `SDL3Window`, `SDL3Renderer`, `SDL3Surface`, and `SDL3GPUDevice` provide idiomatic Smalltalk methods.
 
 - **Accessors:** Getter and setter functions are converted to Smalltalk-style accessors by omitting the `Get` and `Set` prefixes.
   - `SDL_GetWindowFlags(window)` maps to `SDL3Window >> flags`
@@ -213,7 +213,7 @@ You can explore all available functions in the `SDL3Library` class or by browsin
 
 ### 3. Instance Creation ("Unowned" Methods)
 
-These classes also provide class-side and factory methods for creating or opening SDL resources.
+These key classes also provide class-side and factory methods for creating or opening SDL resources.
 
 - **Explicit Ownership:** Methods prefixed with `unownedNew`, `unownedOpen`, `unownedAs...`, or `unownedCopy...` signal that the **sender is responsible** for disposing the object (e.g., sending `dispose`, `destroy`, `close`, `end`, or `release`).
 - **Internal Assertions:** These methods verify return values and signal `SDL3Error` on failure.
