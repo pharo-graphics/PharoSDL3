@@ -102,7 +102,15 @@ To eliminate manual error checking and procedural routing:
 - **Instance-Side Methods**: Functions are routed to their target object (`SDL3Window`, `SDL3Renderer`, `SDL3Surface`, `SDL3GPUDevice`). Senders communicate directly with the object: `window flags`, `window bordered: true`.
 - **Accessor Conventions**: C `Get` and `Set` prefixes are omitted in favor of Smalltalk accessors.
 - **Out-Parameter Elimination**: C functions that write into pointer out-parameters (`int *w, int *h`) are wrapped to return Smalltalk objects directly (`Point`, `Rectangle`, or arrays of structures).
-- **Internal Assertions**: Methods internally invoke `assertSuccess:` or `assertNotNullReturn`. When a C call returns `false` or `NULL`, an `SDL3Error` is signaled with the diagnostic message returned by `SDL_GetError()`.
+
+### Success Assertions
+
+Wrapper methods in the Convenience API handle error checking internally based on the C return type:
+
+- **Boolean Success**: Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the function call fails, an `SDL3Error` is signaled with the diagnostic message from `SDL_GetError()`. These methods return `self` on success.
+- **Pointer Results**: Methods that create or return SDL3 objects (e.g., `unownedNewRenderer:`) use `assertNotNullReturn` internally. If the returned pointer is `NULL`, an `SDL3Error` is signaled.
+- **Void Returns**: Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
+- **Query Methods**: Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.
 
 ---
 
@@ -110,7 +118,12 @@ To eliminate manual error checking and procedural routing:
 
 To simplify resource management without nested `ensure:` blocks, PharoSDL3 integrates with `DiScope` (from the `DisposeScopes` package) and provides native conversions:
 
-- **Ambient Scopes**: `DiScope during: [ ... ]` registers disposables via `DiScope own:` and sends `#dispose` in reverse (LIFO) order upon block completion or error unwinding.
+- **Ambient Scopes**: `DiScope during: [ ... ]` evaluates a block and sends `#dispose` to registered disposables in reverse (LIFO) order upon block completion or error.
+- **Nesting**: Scopes can be nested. Disposables registered within an inner `DiScope during:` are disposed as soon as the inner block exits, while outer objects remain active.
+- **Error Safety**: If an error is signaled inside the innermost block closure, all registered SDL objects across enclosing scopes are disposed in LIFO order as the stack unwinds.
+- **Ownership**: `DiScope own: aDisposable` (or `ownAll:`) registers SDL objects into the current scope.
+- **Replacement**: `texture := DiScope dispose: texture andOwn: aNewTexture` sends `#dispose` to the previous object and registers the new one in place (handling an initial `nil` seamlessly).
+- **Applications**: `SDL3App` runs inside an ambient `DiScope during:`, so disposables registered in `setUp` are disposed automatically when the application terminates.
 - **Idempotent Disposal**: `SDL3BaseObject >> dispose` sends the C destruction function and nullifies the internal handle (`handle beNull`), guarding against accidental double-free errors.
 - **Zero-Copy Surface Sharing**: `Form >> unownedAsSDL3Surface` shares the Pharo Form's pixel buffer directly with SDL3 without copying memory.
 
@@ -129,18 +142,27 @@ DiScope during: [
 		width: form width
 		height: form height).
 
-	"Nested scope for transient surface"
+	"Nested scope: transient objects are disposed immediately upon inner block exit"
 	DiScope during: [
 		| tempSurface |
 		tempSurface := DiScope own: form unownedAsSDL3Surface.
-		texture updateRect: nil pixels: tempSurface pixels pitch: tempSurface pitch ].
+		texture updateRect: nil pixels: tempSurface pixels pitch: tempSurface pitch
+	]. "tempSurface is disposed here; if an error is signaled inside, all SDL objects unwind and dispose in LIFO order"
 
 	renderer
 		renderClear;
 		renderTexture: texture srcrect: nil dstrect: nil;
 		renderPresent.
 
-	5 seconds wait ].
+	"Dynamically replace an SDL object (e.g. upon window resize)"
+	texture := DiScope dispose: texture andOwn: (renderer
+		unownedNewTextureFormat: SDL3PixelFormat argb8888
+		access: SDL3TextureAccess streaming
+		width: 800
+		height: 600).
+
+	5 seconds wait
+]. "All registered disposables are sent #dispose in reverse order (LIFO)"
 ```
 
 ---
@@ -214,3 +236,19 @@ Before submitting requests to native GPU drivers, the builder performs pre-fligh
 - **`SDL3GPUShaderMetadata`**: Scans HLSL shader code to infer uniform counts, sampler counts, storage buffer/texture counts, compute workgroup thread dimensions, and vertex input attribute locations/formats.
 - **`SDL3GPUShader >> metadata`**: Compiled shaders store their metadata in an instance variable, allowing devices and pipeline builders to introspect resource requirements automatically.
 - **`SDL3ShaderSource`**: Encapsulates HLSL source code, compiles it via `shadercross` to DXIL, MSL, and SPIR-V bytecodes, and caches Base64 binaries class-side for runtime deployment.
+
+### GPU Block-Based API (Automatic Lifecycle)
+
+The GPU stack also provides block-based methods to manage the lifecycle of transient resources (such as passes, mapped addresses, and configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are closed, unmapped, or freed even if an error occurs:
+
+- **Pass Management**: Methods like `renderPassTargets:do:`, `computePassTextures:computeStorageBuffers:do:`, and `copyPassDo:` automatically begin and end the underlying SDL pass around the block.
+- **Safe Resource Creation**: Block-based factory methods on `SDL3GPUDevice` (such as `unownedNewGPUGraphicsPipeline:`, `unownedNewGPUSampler:`, and `unownedNewGPUBuffer:`) pass a temporary `CreateInfo` struct to the configuration block and free it once the resource is created, returning an unowned resource that the sender is responsible for releasing.
+- **Memory Mapping**: `mapTransferBuffer:cycle:do: [ :mappedAddress | ... ]` automatically unmaps the transfer buffer when the block terminates.
+
+```smalltalk
+commandBuffer renderPassTargets: targets do: [ :renderPass |
+	renderPass
+		pipeline: aPipeline;
+		drawPrimitives: 3 instances: 1 firstVertex: 0 firstInstance: 0 ].
+```
+The block closure is preceded by an FFI call to [SDL_BeginGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_BeginGPURenderPass) and ended with an FFI call to [SDL_EndGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_EndGPURenderPass).

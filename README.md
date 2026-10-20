@@ -1,6 +1,6 @@
 # PharoSDL3
 
-[Pharo](https://github.com/pharo-project/pharo) FFI bindings for [SDL (Simple DirectMedia Layer)](https://github.com/libsdl-org/SDL) version 3.0.
+[Pharo](https://github.com/pharo-project/pharo) FFI bindings for [SDL (Simple DirectMedia Layer)](https://github.com/libsdl-org/SDL) version 3.0, initially generated with [PharoCIG](https://github.com/pharo-cig/pharo-cig).
 
 SDL is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware. It is used by video playback software, emulators, and games.
 
@@ -192,8 +192,6 @@ The `SDL3Library` class provides direct access to the C API.
 - **Keywords:** Function parameters are converted into Pharo keywords.
 - **Argument Naming:** Arguments are named using `camelCase` (e.g., `numThreads` instead of `num_threads`).
 
-You can browse [a mapping table](../../wiki/Low%E2%80%90level-API) in our wiki with a complete mapping from SDL functions to each Pharo method in `SDL3Library`.
-
 **Examples:**
 - `SDL_Init(flags)` maps to `SDL3Library >> init: flags`
 - `SDL_CreateWindow(title, w, h, flags)` maps to `SDL3Library >> createWindowTitle:w:h:flags:`
@@ -225,87 +223,6 @@ Independent root classes provide class-side methods for creating or opening SDL 
 - `SDL3Joystick unownedOpen: 0`
 - `SDL3PropertyGroup unownedNew`
 
-#### Scope-based Dispose with `DiScope`
-
-To simplify sending `#dispose` without nested `ensure:` blocks, PharoSDL3 provides `DiScope` (from the `DisposeScopes` package):
-
-- **Scopes:** `DiScope during: [ ... ]` evaluates a block and sends `dispose` to registered disposables in reverse (LIFO) order upon block completion or error.
-- **Nesting:** Scopes can be nested. Disposables registered within an inner `DiScope during:` are disposed as soon as the inner block exits, while outer objects remain active.
-- **Error Safety:** If an error is signaled inside the innermost block closure, all registered SDL objects across enclosing scopes are disposed in LIFO order as the stack unwinds.
-- **Ownership:** `DiScope own: aDisposable` (or `ownAll:`) registers SDL objects into the current scope.
-- **Replacement:** `texture := DiScope dispose: texture andOwn: aNewTexture` sends `dispose` to the previous object and registers the new one in place (handling an initial `nil` seamlessly).
-- **Applications:** `SDL3App` runs inside an ambient `DiScope during:`, so disposables registered in `setUp` are disposed automatically when the application terminates.
-
-```smalltalk
-DiScope during: [
-	| window renderer texture |
-	window := DiScope own: (SDL3Window unownedNewTitle: 'Scope Demo' width: 640 height: 480 flags: 0).
-	renderer := DiScope own: window unownedNewRenderer.
-
-	"Create and render a streaming texture"
-	texture := DiScope own: (renderer
-		unownedNewTextureFormat: SDL_PIXELFORMAT_RGBA8888
-		access: SDL_TEXTUREACCESS_STREAMING
-		width: 640
-		height: 480).
-
-	"Nested scope: transient objects are disposed immediately upon inner block exit"
-	DiScope during: [
-		| tempSurface |
-		tempSurface := DiScope own: (SDL3Surface unownedNewWidth: 640 height: 480 format: SDL_PIXELFORMAT_RGBA8888).
-		texture updateRect: nil pixels: tempSurface pixels pitch: tempSurface pitch
-	]. "tempSurface is disposed here; if an error is signaled inside, all SDL objects unwind and dispose in LIFO order"
-
-	renderer
-		renderClear;
-		renderTexture: texture srcrect: nil dstrect: nil;
-		renderPresent.
-
-	"Dynamically replace an SDL object (e.g. upon window resize)"
-	texture := DiScope dispose: texture andOwn: (renderer
-		unownedNewTextureFormat: SDL_PIXELFORMAT_RGBA8888
-		access: SDL_TEXTUREACCESS_STREAMING
-		width: 800
-		height: 600)
-]. "All registered disposables are sent #dispose in reverse order (LIFO)"
-```
-
-
-### 4. GPU Block-Based API (Automatic Lifecycle)
-
-The GPU stack provides specialized methods that use BlockClosures to manage the lifecycle of transient resources (like passes, mapping addresses, or configuration structs). These methods use `ensure:` blocks internally to guarantee that resources are correctly closed, unmapped, or freed, even if an error occurs.
-
-- **Pass Management:** Methods like `renderPassTargets:do:`, `computePassTextures:computeStorageBuffers:do:`, and `copyPassDo:` automatically call the underlying SDL functions when the block finishes.
-- **Safe Resource Creation:** Block-based factory methods on `SDL3GPUDevice` (such as `unownedNewGPUGraphicsPipeline:`, `unownedNewGPUSampler:`, and `unownedNewGPUBuffer:`) provide a temporary `CreateInfo` struct to the configuration block and automatically free it once the resource is created, returning an unowned resource that the sender assumes responsibility for releasing.
-- **Memory Mapping:** `mapTransferBuffer:cycle:do: [ :mappedAddress | ... ]` automatically unmaps the transfer buffer when the block terminates.
-
-**Example:**
-```smalltalk
-commandBuffer renderPassTargets: targets do: [ :renderPass |
-	renderPass
-		pipeline: aPipeline;
-		drawPrimitives: 3 instances: 1 firstVertex: 0 firstInstance: 0
-].
-```
-The block closure will be preceded by a FFI call to [SDL_BeginGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_BeginGPURenderPass) and ended with a FFI call to [SDL_EndGPURenderPass()](https://wiki.libsdl.org/SDL3/SDL_EndGPURenderPass).
-
-
-## Success Assertions
-
-To provide a more idiomatic and safe experience, many wrapper methods in the Convenience API handle error checking internally:
-
-- **Boolean Success:** Methods that return a boolean success code in C (e.g., `SDL_SetWindowBordered()`) use `assertSuccess:` internally. If the function call fails, an `SDL3Error` is raised with the message from `SDL_GetError()`. These methods return `self` on success.
-- **Pointer Results:** Methods that create or return SDL3 objects (e.g., `unownedNewRenderer:`) use `assertNotNullReturn` internally. If the returned pointer is NULL, an `SDL3Error` is raised.
-- **Void Returns:** Methods returning `void` in C (e.g., `destroy`) do not perform assertions and return `self` to allow for method chaining.
-- **Query Methods:** Methods that return a state or value (e.g., `isTextInputActive` or `flags`) do not perform internal assertions and return the value directly.
-
-You can explore all available functions in the `SDL3Library` class or by browsing the object classes.
-
-
-## More Information
-
-* **Is this code generated?** Yes, it was initially generated with [CIG](https://github.com/estebanlm/pharo-cig) and post-processed manually. 
-* **Wiki:** Check the [project wiki](../../wiki) for post-processing details and technical documentation.
 
 ## License
 
