@@ -16,7 +16,7 @@ In a Pharo 14 image, evaluate the following Metacello script:
 ```smalltalk
 Metacello new
     baseline: 'SDL3';
-    repository: 'github://tinchodias/PharoSDL3:dev/src';
+    repository: 'github://pharo-graphics/PharoSDL3:dev/src';
     load
 ```
 
@@ -26,7 +26,7 @@ curl https://get.pharo.org/140+vmLatest | bash
 ```
 and load this project:
 ```bash
-./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:dev/src SDL3
+./pharo Pharo.image metacello install github://pharo-graphics/PharoSDL3:dev/src SDL3
 ```
 
 ### 2. Ensure SDL3 library is available
@@ -111,25 +111,25 @@ The project includes shell scripts in `scripts/`:
 - **`scripts/smokeTestDemos.sh`**: Runs each demo sequentially for few seconds to verify startup, execution, and clean shutdown without throwing errors or crashing. Collects all results and reports a summary.
   ```bash
   # Run all demos (defaults to ./pharo Pharo.image)
-  ./scripts/smokeTestDemos.sh
+  ./pharo-local/iceberg/pharo-graphics/PharoSDL3/scripts/smokeTestDemos.sh
 
   # Filter demos by substring (e.g. GPU demos)
-  ./scripts/smokeTestDemos.sh GPU
+  ./pharo-local/iceberg/pharo-graphics/PharoSDL3/scripts/smokeTestDemos.sh GPU
 
   # Custom Pharo VM/Image path
-  ./scripts/smokeTestDemos.sh GPU "./pharo Pharo.image"
+  ./pharo-local/iceberg/pharo-graphics/PharoSDL3/scripts/smokeTestDemos.sh GPU "./pharo PharoCustom.image"
   ```
 
 - **`scripts/benchOSWindow.sh`**: Runs `OSBenchmarkMorph` against multiple OSWindow drivers to collect windowing benchmarks.
   ```bash
   # Run benchmarks with default ./pharo-ui Pharo.image
-  ./scripts/benchOSWindow.sh
+  ./pharo-local/iceberg/pharo-graphics/PharoSDL3/scripts/benchOSWindow.sh
 
   # Run and record results to a file for comparison
-  ./scripts/benchOSWindow.sh | tee -a results.txt
+  ./pharo-local/iceberg/pharo-graphics/PharoSDL3/scripts/benchOSWindow.sh | tee -a results.txt
 
-  # Custom Pharo launcher and image
-  ./scripts/benchOSWindow.sh "./pharo-ui MyImage.image" | tee -a results.txt
+  # Custom Pharo VM/Image path
+  ./pharo-local/iceberg/pharo-graphics/PharoSDL3/scripts/benchOSWindow.sh "./pharo-ui PharoCustom.image" | tee -a results.txt
   ```
 
 
