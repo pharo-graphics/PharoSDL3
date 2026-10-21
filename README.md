@@ -9,7 +9,7 @@ SDL is a cross-platform development library designed to provide low-level access
 
 ## Installation
 
-### 1. Load the Pharo project
+### Option 1: Load on Pharo IDE
 
 In a Pharo 14 image, evaluate the following Metacello script:
 
@@ -20,7 +20,9 @@ Metacello new
     load
 ```
 
-Alternatively, from your terminal, get Pharo:
+### Option 2: Get Pharo and load from a terminal
+
+Get Pharo:
 ```bash
 curl https://get.pharo.org/140+vmLatest | bash
 ```
@@ -29,7 +31,7 @@ and load this project:
 ./pharo Pharo.image metacello install github://pharo-graphics/PharoSDL3:dev/src SDL3
 ```
 
-### 2. Ensure SDL3 library is available
+### Ensure SDL3 library is available
 
 Since end of June/2026, the Pharo 14 **"latest"** VM ships SDL3 for Mac and Windows (not Linux yet). Find below other options to ensure the SDL3 library is available on your system so Pharo's FFI can find it.
 - **MacOS:** `brew install sdl3`
