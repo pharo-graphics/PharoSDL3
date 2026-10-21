@@ -20,10 +20,13 @@ Metacello new
     load
 ```
 
-Alternatively, from your terminal:
+Alternatively, from your terminal, get Pharo:
 ```bash
 curl https://get.pharo.org/140+vmLatest | bash
-./pharo Pharo.image metacello install --save github://tinchodias/PharoSDL3:dev/src SDL3
+```
+and load this project:
+```bash
+./pharo Pharo.image metacello install github://tinchodias/PharoSDL3:dev/src SDL3
 ```
 
 ### 2. Ensure SDL3 library is available
