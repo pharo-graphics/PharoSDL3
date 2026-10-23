@@ -15,6 +15,40 @@ SDL3PropertyGroup class >> unownedNew [
 	^ self ffiLibrary createPropertyGroup
 ]
 
+{ #category : 'converting' }
+SDL3PropertyGroup >> asDictionary [
+	"Answer a Dictionary mapping all defined property names to their typed values."
+
+	| dictionary |
+	dictionary := Dictionary new.
+	self keys do: [ :key |
+		dictionary at: key put: (self at: key) ].
+	^ dictionary
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> at: name [
+	"Answer the typed value of the property named name, or signal KeyNotFound if absent."
+
+	^ self at: name ifAbsent: [ KeyNotFound signalFor: name ]
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> at: name ifAbsent: aBlock [
+	"Answer the typed value of the property named name, or evaluate aBlock if absent."
+
+	| type |
+	(self includesKey: name) ifFalse: [ ^ aBlock value ].
+
+	type := self typeAt: name.
+	type = SDL3PropertyType number ifTrue: [ ^ self numberAt: name ifAbsent: 0 ].
+	type = SDL3PropertyType string ifTrue: [ ^ self stringAt: name ifAbsent: '' ].
+	type = SDL3PropertyType boolean ifTrue: [ ^ self booleanAt: name ifAbsent: false ].
+	type = SDL3PropertyType float ifTrue: [ ^ self floatAt: name ifAbsent: 0.0 ].
+	type = SDL3PropertyType pointer ifTrue: [ ^ self pointerAt: name ifAbsent: ExternalAddress null ].
+	^ aBlock value
+]
+
 { #category : 'accessing' }
 SDL3PropertyGroup >> booleanAt: name ifAbsent: defaultValue [
 
@@ -90,6 +124,64 @@ SDL3PropertyGroup >> includesKey: name [
 	^ self ffiLibrary hasPropertyProps: id name: name
 ]
 
+{ #category : 'inspecting' }
+SDL3PropertyGroup >> inspectionProperties: aBuilder [
+	<inspectorPresentationOrder: 0 title: 'Properties'>
+
+	^ aBuilder newTable
+		addStyle: 'stList';
+		addColumn: (SpStringTableColumn new
+			title: 'Key';
+			evaluated: [ :each | each key ];
+			formatted: [ :key | StObjectPrinter asTruncatedTextFrom: key ];
+			beSortable);
+		addColumn: (SpStringTableColumn new
+			title: 'Value';
+			evaluated: [ :each | each value ];
+			formatted: [ :value | StObjectPrinter asTruncatedTextFrom: value ];
+			beSortable);
+		items: (self asDictionary associations collect: [ :each |
+			StInspectorAssociationNode hostObject: each ]);
+		yourself
+]
+
+{ #category : 'testing' }
+SDL3PropertyGroup >> isEmpty [
+	"Answer true if this property group contains no defined properties."
+
+	^ self keys isEmpty
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> keys [
+	"Answer an Array of all defined property names in this group."
+
+	| propertyNames callback |
+	propertyNames := OrderedCollection new.
+	callback :=
+		FFICallback
+			signature: #(void (void *userdata, uint32 props, String name))
+			block: [ :userdata :props :name |
+				propertyNames add: name ].
+	self enumerateCallback: callback userdata: ExternalAddress null.
+	^ propertyNames asArray
+]
+
+{ #category : 'enumerating' }
+SDL3PropertyGroup >> keysAndValuesDo: aBlock [
+	"Evaluate aBlock with each property key and its corresponding typed value."
+
+	self keys do: [ :key |
+		aBlock value: key value: (self at: key) ]
+]
+
+{ #category : 'enumerating' }
+SDL3PropertyGroup >> keysDo: aBlock [
+	"Evaluate aBlock with each defined property name."
+
+	self keys do: aBlock
+]
+
 { #category : 'operations' }
 SDL3PropertyGroup >> lock [
 
@@ -145,6 +237,13 @@ SDL3PropertyGroup >> removeKey: name [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary clearPropertyProps: id name: name)
+]
+
+{ #category : 'accessing' }
+SDL3PropertyGroup >> size [
+	"Answer the number of defined properties in this group."
+
+	^ self keys size
 ]
 
 { #category : 'accessing' }
