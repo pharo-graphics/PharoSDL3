@@ -73,19 +73,20 @@ SDL3IOStreamTest >> test03FileStream [
 	| filePath writeStream readStream readBack |
 	filePath := 'sdl3_stream_test.txt'.
 	filePath asFileReference ensureDelete.
-	DiScope own: (writeStream := SDL3IOStream unownedFromFile: filePath mode: 'w').
-	writeStream writeString: 'FileContent'.
-	writeStream dispose.
-	self assert: filePath asFileReference exists.
-	self assert: filePath asFileReference contents equals: 'FileContent'.
+	[
+		DiScope own: (writeStream := SDL3IOStream unownedFromFile: filePath mode: 'w').
+		writeStream writeString: 'FileContent'.
+		writeStream dispose.
+		self assert: filePath asFileReference exists.
+		self assert: filePath asFileReference contents equals: 'FileContent'.
 
-	DiScope own: (readStream := SDL3IOStream unownedFromFile: filePath mode: 'r').
-	readBack := readStream readStringUpToSize: 11.
-	self assert: readBack equals: 'FileContent'.
-
-	self should: [ readStream writeString: 'Forbidden' ] raise: SDL3Error.
-
-	filePath asFileReference ensureDelete
+		DiScope own: (readStream := SDL3IOStream unownedFromFile: filePath mode: 'r').
+		readBack := readStream readStringUpToSize: 11.
+		self assert: readBack equals: 'FileContent'.
+		self should: [ readStream writeString: 'Forbidden' ] raise: SDL3Error ] ensure: [
+			writeStream ifNotNil: [ writeStream dispose ].
+			readStream ifNotNil: [ readStream dispose ].
+			filePath asFileReference ensureDelete ]
 ]
 
 { #category : 'tests' }
