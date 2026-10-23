@@ -86,12 +86,6 @@ SDL3PropertyGroup >> dispose [
 	id := nil
 ]
 
-{ #category : 'testing' }
-SDL3PropertyGroup >> doesGPUSupportProperties [
-
-	^ self ffiLibrary gpuSupportsProperties: id
-]
-
 { #category : 'enumerating' }
 SDL3PropertyGroup >> enumerateCallback: callback userdata: userdata [
 
@@ -272,44 +266,4 @@ SDL3PropertyGroup >> typeAt: name [
 SDL3PropertyGroup >> unlock [
 
 	^ self ffiLibrary unlockProperties: id
-]
-
-{ #category : 'instance creation' }
-SDL3PropertyGroup >> unownedNewGPUDevice [
-
-	^ (self ffiLibrary createGPUDeviceWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'instance creation' }
-SDL3PropertyGroup >> unownedNewProcess [
-
-	^ (self ffiLibrary createProcessWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'instance creation' }
-SDL3PropertyGroup >> unownedNewRenderer [
-
-	^ (self ffiLibrary createRendererWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'instance creation' }
-SDL3PropertyGroup >> unownedNewThread [
-
-	^ (self ffiLibrary createThreadWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
-]
-
-{ #category : 'instance creation' }
-SDL3PropertyGroup >> unownedNewWindow [
-
-	^ (self ffiLibrary createWindowWithProperties: id)
-		  assertNotNullReturn;
-		  yourself
 ]
