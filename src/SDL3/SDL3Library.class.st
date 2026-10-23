@@ -2486,12 +2486,13 @@ SDL3Library >> clickTrayEntry: entry [
 { #category : 'accessing' }
 SDL3Library >> clipboardMimeTypes [
 
-	| countValueHolder address array |
-	countValueHolder := FFIInt32 newValueHolder.
+	| countValueHolder address |
+	countValueHolder := FFISizeT newValueHolder.
 	address := self getClipboardMimeTypes: countValueHolder.
-	array := address readCStringArrayOfSize: countValueHolder value.
-	self free: address.
-	^ array
+
+	address isNull ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
+
+	^ [ address readCStringArrayOfSize: countValueHolder value ] ensure: [ self free: address ]
 ]
 
 { #category : 'public - SDL_asyncio' }
@@ -4367,7 +4368,7 @@ SDL3Library >> createProcessArgs: args pipeStdio: pipe_stdio [
 	 * \sa SDL_DestroyProcess
 	 */"
 
-	^ self ffiCall: #(SDL_Process* SDL_CreateProcess(const char* args, #bool pipe_stdio))
+	^ self ffiCall: #(SDL_Process* SDL_CreateProcess(void* args, bool pipe_stdio))
 ]
 
 { #category : 'public - SDL_process' }
@@ -20938,39 +20939,6 @@ SDL3Library >> openHapticFromMouse [
 	 */"
 
 	^ self ffiCall: #(SDL_Haptic* SDL_OpenHapticFromMouse())
-]
-
-{ #category : 'public - SDL_iostream' }
-SDL3Library >> openIOIface: iface userdata: userdata [
-	"/**
-	 * Create a custom SDL_IOStream.
-	 *
-	 * Applications do not need to use this function unless they are providing
-	 * their own SDL_IOStream implementation. If you just need an SDL_IOStream to
-	 * read/write a common data source, you should use the built-in
-	 * implementations in SDL, like SDL_IOFromFile() or SDL_IOFromMem(), etc.
-	 *
-	 * This function makes a copy of `iface` and the caller does not need to keep
-	 * it around after this call.
-	 *
-	 * \param iface the interface that implements this SDL_IOStream, initialized
-	 *              using SDL_INIT_INTERFACE().
-	 * \param userdata the pointer that will be passed to the interface functions.
-	 * \returns a pointer to the allocated memory on success or NULL on failure;
-	 *          call SDL_GetError() for more information.
-	 *
-	 * \threadsafety It is safe to call this function from any thread.
-	 *
-	 * \since This function is available since SDL 3.2.0.
-	 *
-	 * \sa SDL_CloseIO
-	 * \sa SDL_INIT_INTERFACE
-	 * \sa SDL_IOFromConstMem
-	 * \sa SDL_IOFromFile
-	 * \sa SDL_IOFromMem
-	 */"
-
-	^ self ffiCall: #(SDL_IOStream* SDL_OpenIO(SDL_IOStreamInterface* iface, void* userdata))
 ]
 
 { #category : 'public - SDL_joystick' }

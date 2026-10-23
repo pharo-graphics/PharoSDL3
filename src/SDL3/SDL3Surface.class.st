@@ -62,6 +62,36 @@ SDL3Surface class >> unownedNewWidth: width height: height format: aFormat [
 		  yourself
 ]
 
+{ #category : 'instance creation' }
+SDL3Surface class >> unownedReadBMPFromIOStream: anIOStream [
+	"Answer an unowned SDL3Surface loaded as a BMP from anIOStream without closing the stream.
+	The sender is responsible for freeing the returned surface using #destroy."
+
+	^ (self ffiLibrary loadBMPIOSrc: anIOStream closeio: false)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+SDL3Surface class >> unownedReadFromIOStream: anIOStream [
+	"Answer an unowned SDL3Surface loaded from anIOStream (autodetecting format) without closing the stream.
+	The sender is responsible for freeing the returned surface using #destroy."
+
+	^ (self ffiLibrary loadSurfaceIOSrc: anIOStream closeio: false)
+		  assertNotNullReturn;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+SDL3Surface class >> unownedReadPNGFromIOStream: anIOStream [
+	"Answer an unowned SDL3Surface loaded as a PNG from anIOStream without closing the stream.
+	The sender is responsible for freeing the returned surface using #destroy."
+
+	^ (self ffiLibrary loadPNGIOSrc: anIOStream closeio: false)
+		  assertNotNullReturn;
+		  yourself
+]
+
 { #category : 'operations' }
 SDL3Surface >> addAlternateImage: image [
 
@@ -587,30 +617,10 @@ SDL3Surface >> saveBMPFile: file [
 ]
 
 { #category : 'input/output' }
-SDL3Surface >> saveBMPIODst: dst closeio: closeIO [
-
-	self ffiLibrary assertSuccess:
-		(self ffiLibrary
-			saveBMPIOSurface: self
-			dst: dst
-			closeio: closeIO)
-]
-
-{ #category : 'input/output' }
 SDL3Surface >> savePNGFile: file [
 
 	self ffiLibrary assertSuccess:
 		(self ffiLibrary savePNGSurface: self file: file)
-]
-
-{ #category : 'input/output' }
-SDL3Surface >> savePNGIODst: dst closeio: closeIO [
-
-	self ffiLibrary assertSuccess:
-		(self ffiLibrary
-			savePNGIOSurface: self
-			dst: dst
-			closeio: closeIO)
 ]
 
 { #category : 'drawing' }
@@ -729,6 +739,20 @@ SDL3Surface >> w [
 SDL3Surface >> w: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_W put: anObject
+]
+
+{ #category : 'input/output' }
+SDL3Surface >> writeBMPOnIOStream: anIOStream [
+	"Save my contents as a BMP into anIOStream without closing the stream."
+
+	self ffiLibrary assertSuccess: (self ffiLibrary saveBMPIOSurface: self dst: anIOStream closeio: false)
+]
+
+{ #category : 'input/output' }
+SDL3Surface >> writePNGOnIOStream: anIOStream [
+	"Save my contents as a PNG into anIOStream without closing the stream."
+
+	self ffiLibrary assertSuccess: (self ffiLibrary savePNGIOSurface: self dst: anIOStream closeio: false)
 ]
 
 { #category : 'operations' }
