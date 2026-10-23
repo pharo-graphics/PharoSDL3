@@ -18,6 +18,12 @@ Class {
 	#tag : 'GPU-Base'
 }
 
+{ #category : 'testing' }
+SDL3GPUDevice class >> supportsProperties: properties [
+
+	^ self ffiLibrary gpuSupportsProperties: properties
+]
+
 { #category : 'instance creation' }
 SDL3GPUDevice class >> unownedNewDebugMode: debugMode [
 	"Answer a new GPU device for any of DXIL, MSL or SPIRV shader format (let SDL pick the optimal driver)."

@@ -13,6 +13,14 @@ Class {
 	#tag : 'Base'
 }
 
+{ #category : 'instance creation' }
+SDL3Renderer class >> unownedNewWithProperties: properties [
+
+	^ (self ffiLibrary createRendererWithProperties: properties)
+		assertNotNullReturn;
+		yourself
+]
+
 { #category : 'accessing' }
 SDL3Renderer >> addVulkanRenderSemaphoresWaitStageMask: waitStageMask waitSemaphore: waitSemaphore signalSemaphore: signalSemaphore [
 

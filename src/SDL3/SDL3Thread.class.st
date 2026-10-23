@@ -20,3 +20,11 @@ SDL3Thread class >> unownedNewFn: fn name: aString data: data [
 		  assertNotNullReturn;
 		  yourself
 ]
+
+{ #category : 'instance creation' }
+SDL3Thread class >> unownedNewWithProperties: properties [
+
+	^ (self ffiLibrary createThreadWithProperties: properties)
+		assertNotNullReturn;
+		yourself
+]
