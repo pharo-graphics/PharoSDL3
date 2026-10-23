@@ -14,6 +14,8 @@ ExternalAddress >> bytesFromNext: size [
 ExternalAddress >> nullTerminatedArrayOfCStrings [
 	"Try: readArrayOf: aType until: aBlock"
 
+	self isNull ifTrue: [ ^ #(  ) ].
+
 	^ Array streamContents: [ :aStream |
 		| zeroBasedByteIndex currentAddress |
 		zeroBasedByteIndex := 0.
@@ -43,6 +45,8 @@ ExternalAddress >> readArrayOf: aType size: count [
 
 { #category : '*SDL3' }
 ExternalAddress >> readCStringArrayOfSize: anInteger [
+
+	self isNull ifTrue: [ ^ #(  ) ].
 
 	^ (1 to: anInteger) collect: [ :index |
 		| zeroBasedByteIndex pointerToCString |

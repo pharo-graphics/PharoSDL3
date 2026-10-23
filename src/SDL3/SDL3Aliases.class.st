@@ -219,7 +219,6 @@ Class {
 		'SDL_HitTestResult',
 		'SDL_IOStatus',
 		'SDL_IOStream',
-		'SDL_IOStreamInterface',
 		'SDL_IOWhence',
 		'SDL_InitFlags',
 		'SDL_InitState',
@@ -462,7 +461,6 @@ SDL3Aliases class >> initialize [
 	SDL_InitState := SDL3InitState.
 	SDL_IOStatus := SDL3IOStatus.
 	SDL_IOWhence := SDL3IOWhence.
-	SDL_IOStreamInterface := SDL3IOStreamInterface.
 	SDL_IOStream := SDL3IOStream.
 	SDL_AudioFormat := SDL3AudioFormat.
 	SDL_AudioDeviceID := #uint32.

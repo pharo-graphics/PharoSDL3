@@ -55,24 +55,17 @@ SDL3ImageClipboardDemoApp >> clearClipboardImage [
 { #category : 'utilities' }
 SDL3ImageClipboardDemoApp >> clipboardMimeTypeAnyOf: mimeTypes ifPresent: presentBlock ifAbsent: absentBlock [
 
-	| mimeType |
+	| mimeType dataSizeValueHolder dataPointer |
 	mimeType :=
 		mimeTypes
 			detect: [ :each | sdl hasClipboardData: each ]
 			ifNone: [ ^ absentBlock value ].
 
+	dataSizeValueHolder := FFISizeT newValueHolder.
+	dataPointer := sdl getClipboardDataMimeType: mimeType size: dataSizeValueHolder.
 	^ presentBlock
 		value: mimeType
-		value:
-			(ExternalAddress
-				allocate: FFIUInt64 pointerSize
-				bytesDuring: [ :dataSizePointer | 
-					| dataPointer dataSize |
-					dataPointer := sdl
-						               getClipboardDataMimeType: mimeType
-						               size: dataSizePointer.
-					dataSize := dataSizePointer signedLongLongAt: 1.
-					dataPointer bytesFromNext: dataSize ])
+		value: (dataPointer bytesFromNext: dataSizeValueHolder value)
 ]
 
 { #category : 'visiting - concrete' }
