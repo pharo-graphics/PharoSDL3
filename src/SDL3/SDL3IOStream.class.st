@@ -283,7 +283,7 @@ SDL3IOStream >> readStringUpToEnd [
 
 	Note: This operation blocks the Pharo VM thread until EOF is reached (or the underlying stream is closed)."
 
-	^ self readBufferAndSizeDo: [ :address :readCount | address utf8StringFromCString ]
+	^ self readByteArrayUpToEnd utf8Decoded
 ]
 
 { #category : 'reading' }

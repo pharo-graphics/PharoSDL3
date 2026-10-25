@@ -32,6 +32,27 @@ SDL3Process class >> unownedSpawn: aCollectionOfStrings pipeStdio: aBoolean [
 ]
 
 { #category : 'instance creation' }
+SDL3Process class >> unownedSpawn: aCollectionOfStrings pipeStdio: pipeStdioBoolean pipeStderr: pipeStderrBoolean [
+	"Create and run a new process with configurable piping for stdio (stdin/stdout) and stderr.
+	The sender is responsible for freeing the returned process using #destroy."
+
+	| argumentsArray properties |
+	pipeStderrBoolean ifFalse: [ ^ self unownedSpawn: aCollectionOfStrings pipeStdio: pipeStdioBoolean ].
+
+	argumentsArray := SDL3NullTerminatedStringArray unownedFromStrings: aCollectionOfStrings.
+	properties := SDL3PropertyGroup unownedNew.
+	^ [
+		  properties pointerAt: SDL_PROP_PROCESS_CREATE_ARGS_POINTER put: argumentsArray getHandle.
+		  pipeStdioBoolean ifTrue: [
+				  properties numberAt: SDL_PROP_PROCESS_CREATE_STDIN_NUMBER put: SDL3ProcessIO app value.
+				  properties numberAt: SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER put: SDL3ProcessIO app value ].
+		  properties numberAt: SDL_PROP_PROCESS_CREATE_STDERR_NUMBER put: SDL3ProcessIO app value.
+		  self unownedSpawnWithProperties: properties ] ensure: [
+			  properties dispose.
+			  argumentsArray dispose ]
+]
+
+{ #category : 'instance creation' }
 SDL3Process class >> unownedSpawnWithProperties: properties [
 	"Create and run a new process with the specified properties.
 	The sender is responsible for freeing the returned process using #destroy.
@@ -121,38 +142,14 @@ SDL3Process >> propertyGroup [
 	^ SDL3PropertyGroup id: self propertiesID
 ]
 
-{ #category : 'operations' }
-SDL3Process >> readBufferAndSizeDo: aBlock [
-	"Block the Pharo VM thread until the process terminates, capturing all standard output up to end. Evaluate aBlock with the temporary buffer address, its byte size, and the process exit code. Ensure the buffer is freed afterwards. Answer the result of the block."
-
-	| dataSizeValueHolder exitCodeValueHolder dataAddress |
-	dataSizeValueHolder := FFISizeT newValueHolder.
-	exitCodeValueHolder := FFIInt32 newValueHolder.
-	dataAddress :=
-		self ffiLibrary
-			readProcess: self
-			datasize: dataSizeValueHolder
-			exitcode: exitCodeValueHolder.
-	dataAddress isNull ifTrue: [
-		SDL3Error signalFromLibraryErrorMessage ].
-
-	^ [ aBlock value: dataAddress value: dataSizeValueHolder value value: exitCodeValueHolder value ]
-		ensure: [ self ffiLibrary free: dataAddress ]
-]
-
 { #category : 'accessing' }
 SDL3Process >> stderr [
 	"Answer the standard error stream. I own this stream and will close it automatically upon destruction."
 
 	| pointer |
-	pointer := self propertyGroup
-		           pointerAt: SDL_PROP_PROCESS_STDERR_POINTER
-		           ifAbsent: ExternalAddress null.
-	pointer isNull ifTrue: [
-		self error: 'Standard error stream is not piped' ].
-	^ (SDL3IOStream fromHandle: pointer)
-		  assertNotNullReturn;
-		  yourself
+	pointer := self propertyGroup pointerAt: SDL_PROP_PROCESS_STDERR_POINTER ifAbsent: ExternalAddress null.
+	pointer isNull ifTrue: [ SDL3Error signal: 'Standard error stream is not piped' ].
+	^ SDL3IOStream fromHandle: pointer
 ]
 
 { #category : 'accessing' }
@@ -181,44 +178,13 @@ SDL3Process >> terminate [
 
 { #category : 'operations' }
 SDL3Process >> waitExit [
-	"Block the Pharo VM thread until the process terminates, and answer its exit code."
+	"Block the Pharo VM thread until the process terminates, and answer its exit code.
+
+	Warning: If stdout or stderr were piped, ensure you have drained them to EOF before calling this method; otherwise, if the child process writes more data than the OS pipe buffer capacity (typically 4-64 KB), calling #waitExit first will deadlock the child and the VM thread."
 
 	| exitCodeValueHolder hasExited |
 	exitCodeValueHolder := FFIInt32 newValueHolder.
 	hasExited := self ffiLibrary waitProcess: self block: true exitcode: exitCodeValueHolder.
 	self ffiLibrary assertSuccess: hasExited.
 	^ exitCodeValueHolder value
-]
-
-{ #category : 'operations' }
-SDL3Process >> waitExitAndStdoutByteArrayDo: aBlock [
-	"Block the Pharo VM thread until the process terminates, capturing all standard output as a ByteArray. Evaluate aBlock with the process exit code and the stdout ByteArray. Answer the result of the block."
-
-	^ self readBufferAndSizeDo: [ :address :size :exitCode |
-		| bytes |
-		bytes := ByteArray new: size.
-		self ffiLibrary memcpyDst: bytes src: address len: size.
-		aBlock value: exitCode value: bytes ]
-]
-
-{ #category : 'operations' }
-SDL3Process >> waitExitAndStdoutStringDo: aBlock [
-	"Block the Pharo VM thread until the process terminates, capturing all standard output as a String. Evaluate aBlock with the process exit code and the stdout String. Answer the result of the block."
-
-	^ self readBufferAndSizeDo: [ :address :size :exitCode |
-		aBlock value: exitCode value: address utf8StringFromCString ]
-]
-
-{ #category : 'accessing' }
-SDL3Process >> waitStdoutByteArray [
-	"Block the Pharo VM thread until the process terminates, and answer its standard output as a ByteArray."
-
-	^ self waitExitAndStdoutByteArrayDo: [ :exitCode :bytes | bytes ]
-]
-
-{ #category : 'accessing' }
-SDL3Process >> waitStdoutString [
-	"Block the Pharo VM thread until the process terminates, and answer its standard output as a String."
-
-	^ self waitExitAndStdoutStringDo: [ :exitCode :string | string ]
 ]
