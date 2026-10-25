@@ -152,7 +152,9 @@ SDL3ProcessTest >> test08Stderr [
 	stderrString := process stderr readStringUpToEnd.
 	exitCode := process waitExit.
 	self assert: exitCode equals: 0.
-	self assert: stderrString lines first equals: 'Diagnostic error message'.
+	"Windows cmd.exe echo includes the space before 1>&2 in its output.
+	Trim trailing whitespace to ensure cross-platform parity."
+	self assert: stderrString lines first trimRight equals: 'Diagnostic error message'.
 	self assert: process hasExited
 ]
 
@@ -275,6 +277,8 @@ SDL3ProcessTest >> test13SpawnWithStderrRedirectedToStdout [
 	stdoutString := process stdout readStringUpToEnd.
 	exitCode := process waitExit.
 	self assert: exitCode equals: 0.
-	self assert: stdoutString lines first equals: 'Redirected error message'.
+	"Windows cmd.exe echo includes the space before 1>&2 in its output.
+	Trim trailing whitespace to ensure cross-platform parity."
+	self assert: stdoutString lines first trimRight equals: 'Redirected error message'.
 	self assert: process hasExited
 ]
