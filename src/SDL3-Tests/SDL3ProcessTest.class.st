@@ -122,26 +122,31 @@ SDL3ProcessTest >> test06ExecuteAndReadStdoutByteArray [
 ]
 
 { #category : 'tests' }
-SDL3ProcessTest >> test07WaitStdoutAccessors [
+SDL3ProcessTest >> test07WaitStdoutString [
 
-	| process outputString outputBytes |
+	| process outputString |
 	DiScope own: (process := SDL3Process unownedSpawn: #( 'whoami' )).
 	outputString := process waitStdoutString.
 	self assert: outputString notEmpty.
-	self assert: process hasExited.
-
-	DiScope own: (process := SDL3Process unownedSpawn: #( 'whoami' )).
-	outputBytes := process waitStdoutByteArray.
-	self assert: outputBytes notEmpty.
-	self assert: (outputBytes isKindOf: ByteArray).
 	self assert: process hasExited
 ]
 
 { #category : 'tests' }
-SDL3ProcessTest >> test08Stderr [
+SDL3ProcessTest >> test08WaitStdoutByteArray [
+
+	| process outputBytes |
+	DiScope own: (process := SDL3Process unownedSpawn: #('whoami')).
+	outputBytes := process waitStdoutByteArray.
+	self assert: outputBytes notEmpty.
+	self assert: outputBytes class equals: ByteArray.
+	self assert: process hasExited
+]
+
+{ #category : 'tests' }
+SDL3ProcessTest >> test09Stderr [
 
 	| argsArray properties process stderr exitCode |
-	DiScope own: (argsArray := SDL3NullTerminatedStringArray unownedFromStrings: #( 'whoami' )).
+	DiScope own: (argsArray := SDL3NullTerminatedStringArray unownedFromStrings: #('whoami')).
 	DiScope own: (properties := SDL3PropertyGroup unownedNew).
 	properties pointerAt: SDL_PROP_PROCESS_CREATE_ARGS_POINTER put: argsArray getHandle.
 	properties numberAt: SDL_PROP_PROCESS_CREATE_STDERR_NUMBER put: SDL3ProcessIO app value.
@@ -149,7 +154,7 @@ SDL3ProcessTest >> test08Stderr [
 	DiScope own: (process := SDL3Process unownedSpawnWithProperties: properties).
 	stderr := process stderr.
 	self assert: stderr isNotNil.
-	self assert: (stderr isKindOf: SDL3IOStream).
+	self assert: stderr class equals: SDL3IOStream.
 
 	exitCode := process waitExit.
 	self assert: exitCode equals: 0.
@@ -157,7 +162,7 @@ SDL3ProcessTest >> test08Stderr [
 ]
 
 { #category : 'tests' }
-SDL3ProcessTest >> test09PollUntilExit [
+SDL3ProcessTest >> test10PollUntilExit [
 
 	| process commandArguments |
 	commandArguments := OSPlatform current isWindows
