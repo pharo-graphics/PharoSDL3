@@ -235,6 +235,8 @@ SDL3ProcessTest >> test12SpawnWithEnvironment [
 	environment := SDL3Library uniqueInstance createEnvironment: true.
 	DiScope own: environment.
 	environment variableEnvName: 'PHARO_TEST_VAR' value: 'SDL3Rocks' overwrite: true.
+	environment variableEnvName: 'PHARO_UNICODE_VAR' value: 'Café €uro 🚀' overwrite: true.
+	self assert: (environment getVariableEnvIntoName: 'PHARO_UNICODE_VAR') equals: 'Café €uro 🚀'.
 
 	argumentsArray := SDL3NullTerminatedStringArray unownedFromStrings:
 		                  (OSPlatform current isWindows
@@ -250,7 +252,9 @@ SDL3ProcessTest >> test12SpawnWithEnvironment [
 	stdoutString := process stdout readStringUpToEnd.
 	exitCode := process waitExit.
 	self assert: exitCode equals: 0.
-	self assert: stdoutString lines first equals: 'SDL3Rocks'.
+	"Windows cmd.exe echo includes the space before the line end in some invocations.
+	Trim trailing whitespace to ensure cross-platform parity."
+	self assert: stdoutString lines first trimRight equals: 'SDL3Rocks'.
 	self assert: process hasExited
 ]
 

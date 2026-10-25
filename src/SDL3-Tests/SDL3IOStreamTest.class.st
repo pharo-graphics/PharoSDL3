@@ -346,3 +346,27 @@ SDL3IOStreamTest >> test17SurfacePNGInMemoryRoundtrip [
 	self assert: loadedSurface extent equals: extent.
 	self assert: (loadedSurface colorAtX: 5 y: 5) equals: color
 ]
+
+{ #category : 'tests' }
+SDL3IOStreamTest >> test18UnicodeUTF8ReadAndWrite [
+	"Verify writing and reading multi-byte Unicode characters (2-byte Latin accents in ByteString,
+	and 3/4-byte characters in WideString), ensuring stream size reflects UTF-8 byte counts."
+
+	| stream unicodeString utf8Bytes readBack |
+	unicodeString := 'Café €uro 🚀'.
+	utf8Bytes := unicodeString utf8Encoded.
+
+	DiScope own: (stream := SDL3IOStream unownedFromDynamicMem).
+	stream writeString: unicodeString.
+	self assert: stream size equals: utf8Bytes size.
+	self assert: stream size > unicodeString size.
+	self assert: stream position equals: utf8Bytes size.
+
+	stream position: 0.
+	readBack := stream readStringUpToEnd.
+	self assert: readBack equals: unicodeString.
+	self assert: readBack size equals: unicodeString size.
+
+	stream position: 0.
+	self assert: stream readByteArrayUpToEnd equals: utf8Bytes
+]
