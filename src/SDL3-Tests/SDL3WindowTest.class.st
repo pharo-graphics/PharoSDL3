@@ -295,6 +295,10 @@ SDL3WindowTest >> test08RenderTextureFromSurfaceFromForm [
 	self assert: texture extent equals: 256.0 @ 256.0.
 	self assert: texture paletteOrNil isNil.
 	surface destroy.
+
+	"Clearing the background is required as black is not guaranteed!"
+	renderer renderDrawColor: Color orange.
+	renderer renderClear.
 	renderer renderTexture: texture srcrect: nil dstrect: nil.
 	renderer renderPresent.
 
@@ -317,8 +321,10 @@ SDL3WindowTest >> test09Bordered [
 
 	renderer := window unownedNewRenderer.
 
-	renderer renderDrawColor: Color white.
 	renderer
+		renderDrawColor: Color blue muchDarker;
+		renderClear;
+		renderDrawColor: Color white;
 		renderDebugTextX: 20 y: 20
 			str: ('<1s>: <2p>' expandMacrosWith: #isBordered with: window isBordered);
 		renderPresent.
@@ -326,7 +332,11 @@ SDL3WindowTest >> test09Bordered [
 	self deny: window isBordered.
 
 	window bordered: true.
+	"Ensure the background is green and render text"
 	renderer
+		renderDrawColor: Color green muchDarker;
+		renderClear;
+		renderDrawColor: Color white;
 		renderDebugTextX: 20 y: 40
 			str: ('<1s>: <2p>' expandMacrosWith: #isBordered with: window isBordered);
 		renderPresent.
@@ -364,20 +374,25 @@ SDL3WindowTest >> test11Fullscreen [
 
 	renderer := window unownedNewRenderer.
 
-	renderer renderDrawColor: Color white.
+	"Blue background for fullscreen"
 	renderer
-		renderDebugTextX: 20 y: 20
-			str: ('<1s>: <2p>' expandMacrosWith: #isFullscreen with: window isFullscreen);
+		renderDrawColor: Color blue darker;
+		renderClear;
+		renderDrawColor: Color white;
+		renderDebugTextX: 20 y: 20 str: 'FULLSCREEN ON';
 		renderPresent.
 
 	self waitToSee.
-	window sync.
+	window sync. "We need to sync to ensure getting the expected boolean"
 	self assert: window isFullscreen.
 
 	window fullscreen: false.
+	"Green background for no-fullscreen"
 	renderer
-		renderDebugTextX: 20 y: 40
-			str: ('<1s>: <2p>' expandMacrosWith: #isFullscreen with: window isFullscreen);
+		renderDrawColor: Color green muchDarker;
+		renderClear;
+		renderDrawColor: Color white;
+		renderDebugTextX: 20 y: 20 str: 'FULLSCREEN OFF';
 		renderPresent.
 	self waitToSee.
 	self deny: window isFullscreen.
@@ -413,14 +428,15 @@ SDL3WindowTest >> test12ShapedWindow [
 	surface destroy.
 
 	window show.
-	renderer renderDrawColor: Color blue darker.
-	renderer renderClear.
-	renderer renderDrawColor: Color yellow.
-	renderer renderDebugTextX: extent x / 2 y: 20 str: 'TOP'.
-	renderer renderDebugTextX: extent x / 2 y: extent y - 20 str: 'BOTTOM'.
-	renderer renderDebugTextX: 20 y: extent y / 2 str: 'LEFT'.
-	renderer renderDebugTextX: extent x - 40 y: extent y / 2 str: 'RIGHT'.
-	renderer renderPresent.
+	renderer
+		renderDrawColor: Color blue darker;
+		renderClear;
+		renderDrawColor: Color yellow;
+		renderDebugTextX: extent x / 2 y: 20 str: 'TOP';
+		renderDebugTextX: extent x / 2 y: extent y - 20 str: 'BOTTOM';
+		renderDebugTextX: 20 y: extent y / 2 str: 'LEFT';
+		renderDebugTextX: extent x - 40 y: extent y / 2 str: 'RIGHT';
+		renderPresent.
 	self waitToSee.
 
 	"Change shape and render the icon"
