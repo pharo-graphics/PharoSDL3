@@ -72,7 +72,10 @@ SDL3AudioDevice class >> initialize [
 { #category : 'instance creation' }
 SDL3AudioDevice class >> unownedOpenID: devid spec: spec [
 
-	^ self ffiLibrary openAudioDeviceDevid: devid spec: spec
+	| openedID |
+	openedID := self ffiLibrary openAudioDeviceDevid: devid spec: spec.
+	openedID = 0 ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
+	^ self id: openedID
 ]
 
 { #category : 'accessing' }
@@ -109,6 +112,14 @@ SDL3AudioDevice >> close [
 	terminating immediately afterwards."
 
 	^ self ffiLibrary closeAudioDevice: id
+]
+
+{ #category : 'finalization' }
+SDL3AudioDevice >> dispose [
+
+	id ifNil: [ ^ self ].
+	self close.
+	id := nil
 ]
 
 { #category : 'accessing' }
@@ -228,17 +239,24 @@ SDL3AudioDevice >> resume [
 { #category : 'instance creation' }
 SDL3AudioDevice >> unownedOpenSpec: spec [
 
-	^ self ffiLibrary openAudioDeviceDevid: id spec: spec
+	| openedID |
+	openedID := self ffiLibrary openAudioDeviceDevid: id spec: spec.
+	openedID = 0 ifTrue: [
+		SDL3Error signal: 'Failed to open audio device' ].
+	^ self class id: openedID
 ]
 
 { #category : 'instance creation' }
-SDL3AudioDevice >> unownedOpenStreamSpec: spec callback: callback userdata: userdata [
+SDL3AudioDevice >> unownedOpenStreamSpec: spec [
+	"Open a new audio device stream for playback or recording. The sender is responsible for destroying the returned stream via #destroy.
+
+	In SDL3, audio streams are thread-safe push/pull queues. The C callback and userdata parameters are omitted (bound to NULL) because invoking Pharo FFICallbacks from native OS audio threads causes VM thread-safety conflicts and stack corruption. Use #putDataBuf:len: and #getDataIntoBuf:len: instead."
 
 	^ (self ffiLibrary
-		   openAudioDeviceStreamDevid: id
-		   spec: spec
-		   callback: callback
-		   userdata: userdata)
-		  assertNotNullReturn;
-		  yourself
+		openAudioDeviceStreamDevid: id
+		spec: spec
+		callback: ExternalAddress null
+		userdata: ExternalAddress null)
+		assertNotNullReturn;
+		yourself
 ]
