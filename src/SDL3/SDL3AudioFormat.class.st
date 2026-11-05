@@ -40,15 +40,16 @@ SDL3AudioFormat class >> enumDecl [
 	SDL_AUDIO_S32BE 36896
 	SDL_AUDIO_F32LE 33056
 	SDL_AUDIO_F32BE 37152
-	SDL_AUDIO_S16 36880
-	SDL_AUDIO_S32 36896
-	SDL_AUDIO_F32 37152 )
+	SDL_AUDIO_S16 32784
+	SDL_AUDIO_S32 32800
+	SDL_AUDIO_F32 33056 )
 ]
 
 { #category : 'accessing enum' }
 SDL3AudioFormat class >> f32 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_F32
+	"Answer the native 32-bit floating-point audio format"
+
+	^ self f32le
 ]
 
 { #category : 'accessing enum' }
@@ -65,8 +66,9 @@ SDL3AudioFormat class >> f32le [
 
 { #category : 'accessing enum' }
 SDL3AudioFormat class >> s16 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S16
+	"Answer the native signed 16-bit audio format"
+
+	^ self s16le
 ]
 
 { #category : 'accessing enum' }
@@ -83,8 +85,9 @@ SDL3AudioFormat class >> s16le [
 
 { #category : 'accessing enum' }
 SDL3AudioFormat class >> s32 [
-	"This method was automatically generated"
-	^ SDL_AUDIO_S32
+	"Answer the native signed 32-bit audio format"
+
+	^ self s32le
 ]
 
 { #category : 'accessing enum' }
