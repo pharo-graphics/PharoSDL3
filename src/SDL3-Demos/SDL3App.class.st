@@ -135,7 +135,7 @@ SDL3App >> tearDown [
 	"Hook for subclasses to perform custom teardown before resources are disposed"
 ]
 
-{ #category : 'hooks' }
+{ #category : 'visiting - concrete' }
 SDL3App >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	aKeyboardDownEvent key = SDLK_ESCAPE asInteger ifTrue: [ loop requestQuit ].
@@ -143,7 +143,7 @@ SDL3App >> visitKeyboardDownEvent: aKeyboardDownEvent [
 	^ self visitKeyboardEvent: aKeyboardDownEvent
 ]
 
-{ #category : 'hooks' }
+{ #category : 'visiting - concrete' }
 SDL3App >> visitQuitEvent: aQuitEvent [
 
 	loop requestQuit.
