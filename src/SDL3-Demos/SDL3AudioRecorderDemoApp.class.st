@@ -36,34 +36,20 @@ SDL3AudioRecorderDemoApp >> initialize [
 
 { #category : 'playback' }
 SDL3AudioRecorderDemoApp >> openPlaybackStream [
-	"Open a stream at the the default playback device, with it's default format."
+	"Open a stream at the default playback device with its default format."
 
 	DiScope own: (playbackStream := SDL_AudioStream
 		unownedOpenDeviceStreamID: SDL3AudioDevice defaultPlaybackAudioDeviceID
-		spec: ExternalAddress null
-		callback: ExternalAddress null
-		userdata: ExternalAddress null)
+		spec: ExternalAddress null)
 ]
 
 { #category : 'initialization' }
 SDL3AudioRecorderDemoApp >> openRecordingStream [
-	"Open a stream at the the default recording device. Use the same format as the playback device"
+	"Open a stream at the default recording device. Use the same format as the playback device."
 
 	DiScope own: (recordingStream := SDL_AudioStream
 		unownedOpenDeviceStreamID: SDL3AudioDevice defaultRecordingAudioDeviceID
-		spec: playbackStream outputFormatSpec
-		callback: ExternalAddress null
-		userdata: ExternalAddress null)
-]
-
-{ #category : 'recording' }
-SDL3AudioRecorderDemoApp >> putAllAvailableRecording [
-
-	[ recordingStream available > 0 ] whileTrue: [
-		| readCount |
-		readCount := recordingStream getDataIntoBuf: recordingBuffer len: recordingBuffer size.
-		sdl assertSuccess: readCount >= 0.
-		playbackStream putDataBuf: recordingBuffer len: readCount ]
+		spec: playbackStream outputFormatSpec)
 ]
 
 { #category : 'lifecycle' }
@@ -110,7 +96,7 @@ SDL3AudioRecorderDemoApp >> setUp [
 { #category : 'hooks' }
 SDL3AudioRecorderDemoApp >> step [
 
-	self putAllAvailableRecording.
+	self transferRecordedAudio.
 	self render
 ]
 
@@ -120,11 +106,25 @@ SDL3AudioRecorderDemoApp >> subsystemInitFlags [
 	^ super subsystemInitFlags | SDL_INIT_AUDIO
 ]
 
-{ #category : 'hooks' }
+{ #category : 'recording' }
+SDL3AudioRecorderDemoApp >> transferRecordedAudio [
+	"Drain available audio from the recording stream and feed it into the playback stream.
+	We intentionally use #putDataBuf:len: (copying) rather than zero-copy (#putDataNoCopyBuf:len:)
+	because recordingBuffer is a reused Smalltalk ByteArray on the GC heap and chunks are small (1 KB).
+	Copying into SDL's internal ring buffer avoids GC pointer hazards and buffer overwrite corruption."
+
+	[ recordingStream available > 0 ] whileTrue: [
+		| readCount |
+		readCount := recordingStream getDataIntoBuf: recordingBuffer len: recordingBuffer size.
+		sdl assertSuccess: readCount >= 0.
+		playbackStream putDataBuf: recordingBuffer len: readCount ]
+]
+
+{ #category : 'visiting - concrete' }
 SDL3AudioRecorderDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
-	
+
 	(aKeyboardDownEvent key = SDLK_SPACE asInteger and: [ aKeyboardDownEvent isRepeat not ]) ifTrue: [
 		playbackStream
 			pauseDevice;
@@ -132,11 +132,11 @@ SDL3AudioRecorderDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 		recordingStream resumeDevice.
 		^ self ].
 
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [ 
+	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
 		frequencyRatio := (frequencyRatio + 0.05) min: 2.5.
 		playbackStream frequencyRatio: frequencyRatio ].
-		
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [ 
+
+	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
 		frequencyRatio := (frequencyRatio - 0.05) max: 0.5.
 		playbackStream frequencyRatio: frequencyRatio ]
 ]
@@ -145,7 +145,7 @@ SDL3AudioRecorderDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 SDL3AudioRecorderDemoApp >> visitKeyboardUpEvent: aKeyboardUpEvent [
 
 	super visitKeyboardUpEvent: aKeyboardUpEvent.
-	
+
 	aKeyboardUpEvent key = SDLK_SPACE asInteger ifTrue: [
 		recordingStream
 			pauseDevice;
