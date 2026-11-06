@@ -226,7 +226,18 @@ SDL3BasicTest >> test09Array [
 ]
 
 { #category : 'tests' }
-SDL3BasicTest >> test10EnumAliasAsString [
+SDL3BasicTest >> test10SharedPoolConstants [
+	"Document that because SDL3AllEnumerations (or an individual enumeration class such as
+	SDL3PixelFormat) can be imported as a shared pool, code can use the familiar C-like
+	UPPERCASED #define constants directly in Smalltalk without message sends."
+
+	self assert: SDL3PixelFormat argb8888 equals: SDL_PIXELFORMAT_BGRA32.
+	self assert: SDL3PixelFormat argb8888 equals: SDL_PIXELFORMAT_ARGB8888.
+	self assert: SDL_PIXELFORMAT_ARGB8888 equals: SDL_PIXELFORMAT_BGRA32
+]
+
+{ #category : 'tests' }
+SDL3BasicTest >> test11EnumAliasAsString [
 	"In subclasses of FFIEnumeration, when multiple enumeration symbols share the same
 	integer value (such as platform-endianness aliases like ARGB8888 vs BGRA32, or S16LE vs S16),
 	reverse lookup via #item or #asString resolves based on dictionary hash iteration order.
