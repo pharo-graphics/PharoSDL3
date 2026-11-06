@@ -241,8 +241,7 @@ SDL3AudioDevice >> unownedOpenSpec: spec [
 
 	| openedID |
 	openedID := self ffiLibrary openAudioDeviceDevid: id spec: spec.
-	openedID = 0 ifTrue: [
-		SDL3Error signal: 'Failed to open audio device' ].
+	openedID = 0 ifTrue: [ SDL3Error signalFromLibraryErrorMessage ].
 	^ self class id: openedID
 ]
 
