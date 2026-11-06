@@ -85,7 +85,8 @@ You can run any of the following demos by evaluating `./pharo Pharo.image eval '
 - `SDL3MultiWindowDemoApp`: Management and update loops for multiple top-level windows simultaneously.
 - `SDL3TouchpadDemoApp`: **Multi-touch** finger tracking ([Video](https://youtube.com/shorts/xlDduwDMxZw?feature=share)).
 - `SDL3TouchpadZoomDemoApp`: Smooth zooming gestures utilizing complex **touchpad pinch events**.
-- `SDL3AudioRecorderDemoApp`: **Audio capture** from the system's default microphone and playback.
+- `SDL3AudioRecorderDemoApp`: **Audio capture** from the system's default microphone and single-stream playback.
+- `SDL3AudioMixingDemoApp`: **Multi-stream playback** bound to a shared playback audio device.
 - `SDL3CameraDemoApp`: Live frame acquisition from a camera with horizontal mirror support.
 - `SDL3TrayMenuDemoApp`: **System tray** integration, including icon management and contextual menus ([Video](https://youtu.be/L6Mw00fW1bE)).
 - `SDL3ImageClipboardDemoApp`: **System clipboard** integration for copying and pasting image data.
