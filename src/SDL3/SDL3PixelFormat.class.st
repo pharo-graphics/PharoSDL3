@@ -3,6 +3,9 @@ I am a SDL3 FFI binding for `SDL_PixelFormat`.
 
 Pixel format.
 
+Pixel formats ending in 8888 represent packed 32-bit integers in native byte order (e.g., ARGB8888 is 16rAARRGGBB).
+Pixel formats ending in 32 are byte-array aliases corresponding to memory order on the current architecture. On little-endian systems (the default for Pharo), byte order is reversed relative to packed integer word order; for example, memory bytes [B, G, R, A] correspond to BGRA32, which aliases the packed integer ARGB8888.
+
 See: https://wiki.libsdl.org/SDL3/SDL_PixelFormat
 "
 Class {

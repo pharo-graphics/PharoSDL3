@@ -70,23 +70,27 @@ SDL3AnimatedCursorDemoApp >> frameDelays [
 { #category : 'initialization' }
 SDL3AnimatedCursorDemoApp >> generateCursorForCorner: aSymbol during: aBlock [
 
-	| extent h frames textures |
+	| extent hotspotOffset frames textures |
 	extent := self cursorExtent.
-	h := self hotspotOffsetForCorner: aSymbol.
+	hotspotOffset := self hotspotOffsetForCorner: aSymbol.
 
 	frames := (0 to: self numberOfFrames - 1) collect: [ :i |
 		| final |
-		final := SDL3Surface unownedNewWidth: extent x height: extent y format: SDL_PIXELFORMAT_BGRA32.
+		final := SDL3Surface
+			unownedNewWidth: extent x
+			height: extent y
+			format: SDL_PIXELFORMAT_ARGB8888.
 		final clearColor: Color transparent.
-		self drawCrosshairOn: final at: h.
+		self drawCrosshairOn: final at: hotspotOffset.
 		aBlock value: i value: final.
 		final ].
 
 	[
 		textures := frames collect: [ :each | renderer unownedNewTextureFromSurface: each ].
 		cursorTextures add: (DiScope ownAll: textures).
-		hotspots add: h.
-		cursors add: (DiScope own: (self newAnimatedCursorFromFrames: frames delays: self frameDelays hotspot: h))
+		hotspots add: hotspotOffset.
+		cursors add: (DiScope own:
+			(self newAnimatedCursorFromFrames: frames delays: self frameDelays hotspot: hotspotOffset))
 	] ensure: [
 		frames do: [ :each | each destroy ] ]
 ]

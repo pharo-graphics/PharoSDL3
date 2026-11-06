@@ -224,3 +224,31 @@ SDL3BasicTest >> test09Array [
 	self assert: (generatedArray at: 1) equals: 10.0.
 	self assert: (generatedArray at: 4) equals: 40.0
 ]
+
+{ #category : 'tests' }
+SDL3BasicTest >> test10EnumAliasAsString [
+
+	"Documents that in FFIEnumeration, when multiple enumeration symbols share the same
+	integer value (such as platform-endianness aliases like ARGB8888 vs BGRA32, or S16LE vs S16),
+	reverse lookup via #item or #asString resolves based on dictionary hash iteration order.
+	This can cause an alias name or canonical name to be returned unexpectedly regardless of
+	which accessor was invoked."
+
+	"Pixel formats: ARGB8888 and BGRA32 share the same integer value on little-endian platforms"
+	self assert: SDL3PixelFormat argb8888 value equals: SDL3PixelFormat bgra32 value.
+	self
+		assert: SDL3PixelFormat argb8888 asString
+		equals: 'a SDL3PixelFormat(#SDL_PIXELFORMAT_BGRA32)'.
+	self
+		assert: SDL3PixelFormat argb32 asString
+		equals: 'a SDL3PixelFormat(#SDL_PIXELFORMAT_BGRA8888)'.
+
+	"Audio formats: S16 and S16LE share the same integer value on little-endian platforms"
+	self assert: SDL3AudioFormat s16 value equals: SDL3AudioFormat s16le value.
+	self
+		assert: SDL3AudioFormat s16 asString
+		equals: 'a SDL3AudioFormat(#SDL_AUDIO_S16LE)'.
+	self
+		assert: SDL3AudioFormat s16le asString
+		equals: 'a SDL3AudioFormat(#SDL_AUDIO_S16LE)'
+]
