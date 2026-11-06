@@ -6,10 +6,6 @@ I also serve as a pedagogical reference for developers.
 Class {
 	#name : 'SDL3GraphicsPipelineTest',
 	#superclass : 'SDL3GPUTest',
-	#pools : [
-		'SDL3AllEnumerations',
-		'SDL3Constants'
-	],
 	#category : 'SDL3-GPU-Tests-GraphicsPipeline',
 	#package : 'SDL3-GPU-Tests',
 	#tag : 'GraphicsPipeline'
