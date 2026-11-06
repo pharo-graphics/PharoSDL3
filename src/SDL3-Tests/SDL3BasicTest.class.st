@@ -224,3 +224,49 @@ SDL3BasicTest >> test09Array [
 	self assert: (generatedArray at: 1) equals: 10.0.
 	self assert: (generatedArray at: 4) equals: 40.0
 ]
+
+{ #category : 'tests' }
+SDL3BasicTest >> test10SharedPoolConstants [
+	"Document that because SDL3AllEnumerations (or an individual enumeration class such as
+	SDL3PixelFormat) can be imported as a shared pool, code can use the familiar C-like
+	UPPERCASED #define constants directly in Smalltalk without message sends."
+
+	self assert: SDL3PixelFormat argb8888 equals: SDL_PIXELFORMAT_BGRA32.
+	self assert: SDL3PixelFormat argb8888 equals: SDL_PIXELFORMAT_ARGB8888.
+	self assert: SDL_PIXELFORMAT_ARGB8888 equals: SDL_PIXELFORMAT_BGRA32
+]
+
+{ #category : 'tests' }
+SDL3BasicTest >> test11EnumAliasAsString [
+	"In subclasses of FFIEnumeration, when multiple enumeration symbols share the same
+	integer value (such as platform-endianness aliases like ARGB8888 vs BGRA32, or S16LE vs S16),
+	reverse lookup via #item or #asString resolves based on dictionary hash iteration order.
+	This means:
+	1. Both accessors produce the exact same #asString output as each other.
+	2. Neither can be guaranteed to preserve its own selector name, because the returned
+	   symbol depends on physical hash table capacity and collision order."
+
+	"Pixel formats: ARGB8888 and BGRA32 share the same integer value on little-endian platforms"
+	self assert: SDL3PixelFormat argb8888 value equals: SDL3PixelFormat bgra32 value.
+	self
+		assert: SDL3PixelFormat argb8888 asString
+		equals: SDL3PixelFormat bgra32 asString.
+	self assert: ({
+		'a SDL3PixelFormat(#SDL_PIXELFORMAT_BGRA32)'.
+		'a SDL3PixelFormat(#SDL_PIXELFORMAT_ARGB8888)' } includes: SDL3PixelFormat argb8888 asString).
+	self
+		deny: (SDL3PixelFormat argb8888 asString = 'a SDL3PixelFormat(#SDL_PIXELFORMAT_ARGB8888)'
+		and: [ SDL3PixelFormat bgra32 asString = 'a SDL3PixelFormat(#SDL_PIXELFORMAT_BGRA32)' ]).
+
+	"Audio formats: S16 and S16LE share the same integer value on little-endian platforms"
+	self assert: SDL3AudioFormat s16 value equals: SDL3AudioFormat s16le value.
+	self
+		assert: SDL3AudioFormat s16 asString
+		equals: SDL3AudioFormat s16le asString.
+	self assert: ({
+		'a SDL3AudioFormat(#SDL_AUDIO_S16)'.
+		'a SDL3AudioFormat(#SDL_AUDIO_S16LE)' } includes: SDL3AudioFormat s16 asString).
+	self
+		deny: (SDL3AudioFormat s16 asString = 'a SDL3AudioFormat(#SDL_AUDIO_S16)'
+		and: [ SDL3AudioFormat s16le asString = 'a SDL3AudioFormat(#SDL_AUDIO_S16LE)' ])
+]

@@ -27,9 +27,6 @@ Class {
 		'indexBufferBinding',
 		'colorTargetInfos'
 	],
-	#pools : [
-		'SDL3AllEnumerations'
-	],
 	#category : 'SDL3-GPU-Demos-NodeGraph',
 	#package : 'SDL3-GPU-Demos',
 	#tag : 'NodeGraph'
