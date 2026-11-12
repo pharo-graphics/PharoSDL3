@@ -17,6 +17,9 @@ BaselineOfSDL3 >> baseline: spec [
 				package: 'DisposeScopes';
 				package: 'DisposeScopes-Tests' with: [ spec requires: #('DisposeScopes') ];
 				package: 'SDL3' with: [ spec requires: #('DisposeScopes') ];
+				package: 'SDL3-AsyncIOScheduler' with: [ spec requires: #('SDL3') ];
+				package: 'SDL3-AsyncIOScheduler-Benchmarks' with: [ spec requires: #('SDL3-AsyncIOScheduler') ];
+				package: 'SDL3-AsyncIOScheduler-Tests' with: [ spec requires: #('SDL3-AsyncIOScheduler' 'SDL3-AsyncIOScheduler-Benchmarks' 'SDL3-Tests') ];
 				package: 'SDL3-OSWindow' with: [ spec requires: #('SDL3') ];
 				package: 'SDL3-Demos' with: [ spec requires: #('SDL3') ];
 				package: 'SDL3-Tests' with: [ spec requires: #('SDL3') ];
