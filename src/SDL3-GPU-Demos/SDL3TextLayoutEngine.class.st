@@ -113,9 +113,8 @@ SDL3TextLayoutEngine >> layoutLine: lineIdx text: aString into: aBuffer glyphCou
 			] ifFalse: [
 				char = Character tab ifTrue: [
 					currentX := currentX + tabWidth.
-				] ifFalse: [ | glyphBounds |
-					glyphBounds := atlas glyphMap at: char ifAbsent: [ nil ].
-					glyphBounds ifNotNil: [
+				] ifFalse: [
+					atlas glyphMap at: char ifPresent: [ :glyphBounds |
 						glyphCount := glyphCount + 1.
 						glyphCount <= aBuffer size ifTrue: [
 							self writeGlyph: glyphBounds

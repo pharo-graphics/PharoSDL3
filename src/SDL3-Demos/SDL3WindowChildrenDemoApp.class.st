@@ -84,7 +84,7 @@ SDL3WindowChildrenDemoApp >> removeChildrenSuchThat: aBlock [
 	toRemove do: [ :eachWindow |
 		| id |
 		id := eachWindow id.
-		children removeKey: id ifAbsent: [ nil ].
+		children removeKey: id ifAbsent: [ ].
 		eachWindow renderer ifNotNil: [ :r | r dispose ].
 		eachWindow dispose.
 		eventCounts removeKey: id ifAbsent: [ ] ]
