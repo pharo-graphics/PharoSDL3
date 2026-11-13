@@ -248,7 +248,7 @@ SDL3AudioStream >> putDataBuf: buf len: len [
 SDL3AudioStream >> putDataNoCopyBuf: buf len: len [
 	"Add external data to an audio stream without copying it. The memory must remain available until the stream is done with it.
 
-	Prefer #putDataBuf:len: for small chunks, continuous streaming, or Smalltalk heap buffers (ByteArray) that can move during GC. Use #putDataNoCopyBuf:len: for large, static external buffers (like SDL3Array in C memory) and call #flush when done.
+	Prefer #putDataBuf:len: for small chunks, continuous streaming, or Smalltalk heap buffers (ByteArray) that can move during GC. Use #putDataNoCopyBuf:len: for large, static external buffers (like SDL3Array in C memory) and send #flush when done.
 
 	The C completion callback and userdata parameters are omitted (bound to NULL) because invoking Pharo FFICallbacks from native OS audio threads causes VM thread-safety conflicts and stack corruption. Ensure the buffer remains valid until the stream is cleared or destroyed."
 

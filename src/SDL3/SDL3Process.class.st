@@ -180,7 +180,7 @@ SDL3Process >> terminate [
 SDL3Process >> waitExit [
 	"Block the Pharo VM thread until the process terminates, and answer its exit code.
 
-	Warning: If stdout or stderr were piped, ensure you have drained them to EOF before calling this method; otherwise, if the child process writes more data than the OS pipe buffer capacity (typically 4-64 KB), calling #waitExit first will deadlock the child and the VM thread."
+	Warning: If stdout or stderr were piped, ensure you have drained them to EOF before sending this message; otherwise, if the child process writes more data than the OS pipe buffer capacity (typically 4-64 KB), sending #waitExit first will deadlock the child and the VM thread."
 
 	| exitCodeValueHolder hasExited |
 	exitCodeValueHolder := FFIInt32 newValueHolder.
