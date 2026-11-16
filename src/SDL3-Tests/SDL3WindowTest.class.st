@@ -330,7 +330,12 @@ SDL3WindowTest >> test09Bordered [
 		renderPresent.
 	self waitToSee.
 	self deny: window isBordered.
-
+	window borderSizesDo: [ :top :left :bottom :right |
+		self assert: top equals: 0.
+		self assert: left equals: 0.
+		self assert: bottom equals: 0.
+		self assert: right equals: 0 ].
+	
 	window bordered: true.
 	"Ensure the background is green and render text"
 	renderer
@@ -342,6 +347,8 @@ SDL3WindowTest >> test09Bordered [
 		renderPresent.
 	self waitToSee.
 	self assert: window isBordered.
+	window borderSizesDo: [ :top :left :bottom :right |
+		self assert: (top > 0) | (left > 0) | (bottom > 0) | (right > 0) ].
 
 	window destroy
 ]
@@ -386,6 +393,15 @@ SDL3WindowTest >> test11Fullscreen [
 	window sync. "We need to sync to ensure getting the expected boolean"
 	self assert: window isFullscreen.
 
+	"Going fullscreen makes border decorations size zero but this
+	doesn't mean being borderless."
+	window borderSizesDo: [ :top :left :bottom :right |
+		self assert: top equals: 0.
+		self assert: left equals: 0.
+		self assert: bottom equals: 0.
+		self assert: right equals: 0 ].
+	self deny: window isBorderless.
+		
 	window fullscreen: false.
 	"Green background for no-fullscreen"
 	renderer
@@ -396,6 +412,10 @@ SDL3WindowTest >> test11Fullscreen [
 		renderPresent.
 	self waitToSee.
 	self deny: window isFullscreen.
+
+	window borderSizesDo: [ :top :left :bottom :right |
+		self assert: top > 0 ].
+	self deny: window isBorderless.
 
 	"Tear down"
 	renderer destroy.

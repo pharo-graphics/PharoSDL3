@@ -71,6 +71,30 @@ SDL3Window >> bordered: bordered [
 		(self ffiLibrary setWindowBorderedWindow: self bordered: bordered)
 ]
 
+{ #category : 'accessing' }
+SDL3Window >> bordersDo: aBlock [
+	"Evaluate aBlock with top, left, bottom, right border sizes in screen coordinates."
+
+	| top left bottom right |
+	top := FFIInt32 newValueHolder.
+	left := FFIInt32 newValueHolder.
+	bottom := FFIInt32 newValueHolder.
+	right := FFIInt32 newValueHolder.
+
+	self ffiLibrary assertSuccess: (self ffiLibrary
+			 getWindowBordersSizeWindow: self
+			 top: top
+			 left: left
+			 bottom: bottom
+			 right: right).
+
+	^ aBlock
+		  value: top value
+		  value: left value
+		  value: bottom value
+		  value: right value
+]
+
 { #category : 'operations' }
 SDL3Window >> centerBoth [
 
