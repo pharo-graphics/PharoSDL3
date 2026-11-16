@@ -81,7 +81,8 @@ SDL3Window >> borderSizesDo: aBlock [
 	bottom := FFIInt32 newValueHolder.
 	right := FFIInt32 newValueHolder.
 
-	self ffiLibrary assertSuccess: (self ffiLibrary
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary
 			 getWindowBordersSizeWindow: self
 			 top: top
 			 left: left
