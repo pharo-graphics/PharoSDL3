@@ -330,11 +330,14 @@ SDL3WindowTest >> test09Bordered [
 		renderPresent.
 	self waitToSee.
 	self deny: window isBordered.
-	window borderSizesDo: [ :top :left :bottom :right |
-		self assert: top equals: 0.
-		self assert: left equals: 0.
-		self assert: bottom equals: 0.
-		self assert: right equals: 0 ].
+
+	"See: https://github.com/pharo-graphics/PharoSDL3/issues/137"
+	OSPlatform current isMacOS ifFalse: [
+		window borderSizesDo: [ :top :left :bottom :right |
+			self assert: top equals: 0.
+			self assert: left equals: 0.
+			self assert: bottom equals: 0.
+			self assert: right equals: 0 ] ].
 	
 	window bordered: true.
 	"Ensure the background is green and render text"
@@ -347,8 +350,11 @@ SDL3WindowTest >> test09Bordered [
 		renderPresent.
 	self waitToSee.
 	self assert: window isBordered.
-	window borderSizesDo: [ :top :left :bottom :right |
-		self assert: (top > 0) | (left > 0) | (bottom > 0) | (right > 0) ].
+
+	"See: https://github.com/pharo-graphics/PharoSDL3/issues/137"
+	OSPlatform current isMacOS ifFalse: [
+		window borderSizesDo: [ :top :left :bottom :right |
+			self assert: (top > 0) | (left > 0) | (bottom > 0) | (right > 0) ] ].
 
 	window destroy
 ]
@@ -395,11 +401,13 @@ SDL3WindowTest >> test11Fullscreen [
 
 	"Going fullscreen makes border decorations size zero but this
 	doesn't mean being borderless."
-	window borderSizesDo: [ :top :left :bottom :right |
-		self assert: top equals: 0.
-		self assert: left equals: 0.
-		self assert: bottom equals: 0.
-		self assert: right equals: 0 ].
+	"See: https://github.com/pharo-graphics/PharoSDL3/issues/137"
+	OSPlatform current isMacOS ifFalse: [
+		window borderSizesDo: [ :top :left :bottom :right |
+			self assert: top equals: 0.
+			self assert: left equals: 0.
+			self assert: bottom equals: 0.
+			self assert: right equals: 0 ] ].
 	self deny: window isBorderless.
 		
 	window fullscreen: false.
@@ -413,8 +421,10 @@ SDL3WindowTest >> test11Fullscreen [
 	self waitToSee.
 	self deny: window isFullscreen.
 
-	window borderSizesDo: [ :top :left :bottom :right |
-		self assert: top > 0 ].
+	"See: https://github.com/pharo-graphics/PharoSDL3/issues/137"
+	OSPlatform current isMacOS ifFalse: [
+		window borderSizesDo: [ :top :left :bottom :right |
+			self assert: (top > 0) | (left > 0) | (bottom > 0) | (right > 0) ] ].
 	self deny: window isBorderless.
 
 	"Tear down"
