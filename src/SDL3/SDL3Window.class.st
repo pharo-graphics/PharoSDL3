@@ -72,7 +72,7 @@ SDL3Window >> bordered: bordered [
 ]
 
 { #category : 'accessing' }
-SDL3Window >> bordersDo: aBlock [
+SDL3Window >> borderSizesDo: aBlock [
 	"Evaluate aBlock with top, left, bottom, right border sizes in screen coordinates."
 
 	| top left bottom right |
