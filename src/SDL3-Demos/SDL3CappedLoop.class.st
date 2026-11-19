@@ -1,31 +1,53 @@
 "
-I represent a particular SDL3 main loop that works with an ""app"" object.
+I regulate the execution rate of an SDL3 application loop.
 
-- regularly poll available events, map them to `SDL3MappedEvent`s and sends them to the app using `#handleEvent:` selector
-- send `#step` to the app after polling all events
-- caps the step rate via Pharo wait
+Each cycle I:
+- Process available events
+- Step the application via stepBlock
+- Pause for any remaining spare time to hit the target refresh rate (e.g. 60 Hz)
 
+## Pacing Mechanics
+Instead of measuring elapsed time between frames (which causes stutter and timing drift), I schedule against a progressive deadline (nextDeadlineUS). Each iteration advances this deadline by a fixed period. Minor timing variations are naturally absorbed without cumulative drift. If a large delay occurs (such as window moving or a GC pause), the deadline resets to avoid catch-up storms.
+
+## Pharo Concurrency & VSync
+While display VSync coordinates frame presentation with the physical screen, relying solely on hardware VSync can freeze the Pharo VM during waits, starving background Smalltalk processes. My #wait method yields execution to the Pharo process scheduler using standard Delay, allowing other Smalltalk processes to run during idle headroom.
+
+Collaborators:
+- stepBlock: receives the frame period in microseconds (deltaUS) and performs the frame step
+- microsecondsBlock: queries the current microsecond clock (default: [ Time microsecondClockValue ])
+- delayBlock: receives remaining spare microseconds to pause (default: [ :us | (Delay forMilliseconds: us // 1000) wait ])
 "
 Class {
 	#name : 'SDL3CappedLoop',
 	#superclass : 'Object',
 	#instVars : [
-		'delay',
-		'periodMS',
-		'lastUS',
-		'object',
-		'selector',
-		'quit'
+		'periodUS',
+		'nextDeadlineUS',
+		'quit',
+		'microsecondsBlock',
+		'delayBlock',
+		'stepBlock'
 	],
-	#category : 'SDL3-Demos-Base',
-	#package : 'SDL3-Demos',
-	#tag : 'Base'
+	#category : 'SDL3-Demos',
+	#package : 'SDL3-Demos'
 }
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> delayBlock [
+
+	^ delayBlock
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> delayBlock: aBlock [
+
+	delayBlock := aBlock
+]
 
 { #category : 'accessing' }
 SDL3CappedLoop >> hertz: aNumber [
 
-	periodMS := 1000.0 / aNumber
+	periodUS := 1000000.0 / aNumber
 ]
 
 { #category : 'initialization' }
@@ -35,31 +57,51 @@ SDL3CappedLoop >> initialize [
 
 	self hertz: 60.
 
-	delay := Delay forMilliseconds: 0
+	microsecondsBlock := [ Time microsecondClockValue ].
+	delayBlock := [ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ].
+	stepBlock := [ :deltaUS | ]
 ]
 
 { #category : 'accessing' }
-SDL3CappedLoop >> object [
+SDL3CappedLoop >> microsecondsBlock [
 
-	^ object
+	^ microsecondsBlock
 ]
 
 { #category : 'accessing' }
-SDL3CappedLoop >> object: anObject [
+SDL3CappedLoop >> microsecondsBlock: aBlock [
 
-	object := anObject
+	microsecondsBlock := aBlock
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> nextDeadlineUS [
+
+	^ nextDeadlineUS
 ]
 
 { #category : 'accessing' }
 SDL3CappedLoop >> period: aDuration [
 
-	periodMS := aDuration asMilliSeconds asFloat
+	periodUS := aDuration asMicroseconds
 ]
 
 { #category : 'accessing' }
 SDL3CappedLoop >> periodAsSeconds [
 
-	^ periodMS / 1000.0
+	^ periodUS / 1000000.0
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> periodMS [
+
+	^ periodUS / 1000.0
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> periodUS [
+
+	^ periodUS
 ]
 
 { #category : 'lifecycle' }
@@ -68,16 +110,10 @@ SDL3CappedLoop >> requestQuit [
 	quit := true
 ]
 
-{ #category : 'accessing' }
-SDL3CappedLoop >> selector [
+{ #category : 'running' }
+SDL3CappedLoop >> resetDeadline [
 
-	^ selector
-]
-
-{ #category : 'accessing' }
-SDL3CappedLoop >> selector: aSymbol [
-
-	selector := aSymbol
+	nextDeadlineUS := microsecondsBlock value + periodUS
 ]
 
 { #category : 'running' }
@@ -86,23 +122,39 @@ SDL3CappedLoop >> start [
 	| session |
 	session := Smalltalk session.
 	quit := false.
-	lastUS := Time microsecondClockValue.
-	
-	[ object perform: selector. self wait ]
+	self resetDeadline.
+
+	[ stepBlock value: periodUS. self wait ]
 		doWhileFalse: [ quit or: [ Smalltalk session ~~ session ] ]
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> stepBlock [
+
+	^ stepBlock
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> stepBlock: aBlock [
+
+	stepBlock := aBlock
 ]
 
 { #category : 'private' }
 SDL3CappedLoop >> wait [
 	"May wait, according to the expected refresh rate"
 
-	| waitMS deltaUS currentUS |
-	currentUS := Time microsecondClockValue.
-	deltaUS := currentUS - lastUS.
-	lastUS := currentUS.
+	| currentUS spareUS wakeUS |
+	currentUS := microsecondsBlock value.
+	nextDeadlineUS ifNil: [ nextDeadlineUS := currentUS + periodUS ].
+	spareUS := nextDeadlineUS - currentUS.
 
 	"Wait if spare time is at least 1ms.
 	(1 millisecond = 1000 microseconds)"
-	waitMS := (periodMS - deltaUS) // 1000.
-	waitMS > 0 ifTrue: [ delay setDelay: waitMS; wait ]
+	spareUS >= 1000 ifTrue: [ delayBlock cull: spareUS ].
+
+	nextDeadlineUS := nextDeadlineUS + periodUS.
+	wakeUS := microsecondsBlock value.
+	wakeUS > (nextDeadlineUS + periodUS) ifTrue: [
+		nextDeadlineUS := wakeUS + periodUS ]
 ]

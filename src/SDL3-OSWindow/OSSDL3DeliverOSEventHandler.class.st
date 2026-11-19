@@ -100,10 +100,10 @@ OSSDL3DeliverOSEventHandler >> mousePosition [
 { #category : 'private' }
 OSSDL3DeliverOSEventHandler >> updateKeyboardEvent: osEvent from: anSDLKeyboardEvent [
 
-	osEvent
+	osEvent 
 		scanCode: anSDLKeyboardEvent scancode;
 		symbol: anSDLKeyboardEvent key;
-		repeat: (anSDLKeyboardEvent isRepeat ifTrue: [ 1 ] ifFalse: [ 0 ]);
+		repeat: anSDLKeyboardEvent repeat;
 		position: self mousePosition;
 		character:
 			(CharacterByKeycodeMapping
