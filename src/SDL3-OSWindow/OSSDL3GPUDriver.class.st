@@ -6,7 +6,7 @@ Class {
 	#superclass : 'OSSDL3AbstractDriver',
 	#instVars : [
 		'gpuDevice',
-		'lastUS'
+		'nextDeadlineUS'
 	],
 	#category : 'SDL3-OSWindow-Core',
 	#package : 'SDL3-OSWindow',
@@ -54,6 +54,12 @@ OSSDL3GPUDriver >> newFormRenderer: form backendWindow: aBackendWindow [
 		yourself
 ]
 
+{ #category : 'accessing' }
+OSSDL3GPUDriver >> nextDeadlineUS [
+
+	^ nextDeadlineUS
+]
+
 { #category : 'window creation' }
 OSSDL3GPUDriver >> prepareBackendWindow: aBackendWindow [
 
@@ -64,7 +70,7 @@ OSSDL3GPUDriver >> prepareBackendWindow: aBackendWindow [
 { #category : 'events-processing' }
 OSSDL3GPUDriver >> runEventLoop [
 
-	lastUS := Time microsecondClockValue.
+	nextDeadlineUS := Time microsecondClockValue + (OSSDL3SystemSettings eventLoopPeriodMS * 1000).
 	super runEventLoop
 ]
 
@@ -85,15 +91,20 @@ OSSDL3GPUDriver >> shutDown: quitting [
 OSSDL3GPUDriver >> waitSpareTime [
 	"Wait according to the expected loop period"
 
-	| waitMS elapsedUS currentUS |
+	| currentUS spareUS waitMS periodUS wakeUS |
+	periodUS := OSSDL3SystemSettings eventLoopPeriodMS * 1000.
 	currentUS := Time microsecondClockValue.
-	elapsedUS := currentUS - lastUS.
-	lastUS := currentUS.
+	nextDeadlineUS ifNil: [ nextDeadlineUS := currentUS + periodUS ].
+	spareUS := nextDeadlineUS - currentUS.
 
 	"Wait if spare time is at least 1ms.
 	(1 millisecond = 1000 microseconds)"
-	waitMS := (OSSDL3SystemSettings eventLoopPeriodMS * 1000 - elapsedUS) // 1000.
-	waitMS > 0 ifTrue: [ (Delay forMilliseconds: waitMS) wait ]
+	waitMS := spareUS // 1000.
+	waitMS > 0 ifTrue: [ (Delay forMilliseconds: waitMS) wait ].
+
+	nextDeadlineUS := nextDeadlineUS + periodUS.
+	wakeUS := Time microsecondClockValue.
+	wakeUS > (nextDeadlineUS + periodUS) ifTrue: [ nextDeadlineUS := wakeUS + periodUS ]
 ]
 
 { #category : 'events-processing' }

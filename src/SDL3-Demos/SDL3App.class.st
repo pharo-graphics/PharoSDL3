@@ -64,12 +64,11 @@ SDL3App >> initialize [
 	sdl := SDL3Library uniqueInstance.
 	eventMap := SDL3EventMap new.
 	event := SDL_Event new.
-
-	loop := SDL3CappedLoop new.
-	loop
-		hertz: 60;
-		object: self;
-		selector: #mainStep
+	loop :=
+		SDL3CappedLoop new
+			hertz: 60;
+			stepBlock: [ :deltaUS | self mainStep ];
+			yourself
 ]
 
 { #category : 'hooks' }

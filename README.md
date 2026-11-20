@@ -181,6 +181,7 @@ Run it from the terminal using a headless Pharo VM:
 
 For detailed architectural explanations and guides, see:
 - [`doc/Standalone-Applications.md`](./doc/Standalone-Applications.md): Complete guide to `SDL3App`, lifecycle hooks, frame pacing with `SDL3CappedLoop`, and GPU apps.
+- [`doc/Loop-Pacing-And-VSync.md`](./doc/Loop-Pacing-And-VSync.md): Frame pacing mechanics, progressive deadline scheduling, Pharo concurrency vs VSync, and display synchronization.
 - [`doc/Architecture-And-OOP-Design.md`](./doc/Architecture-And-OOP-Design.md): In-depth comparison of the raw C FFI baseline against the OOP abstractions (events, builder, domain entities).
 - [`doc/GPU-Resource-Mapping.md`](./doc/GPU-Resource-Mapping.md): Ground-truth reference for HLSL descriptor spaces, registers, and transpiler rules.
 
