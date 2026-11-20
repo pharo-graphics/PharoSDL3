@@ -33,7 +33,7 @@ PharoSDL3 is not only an FFI binding or an OSWindow driver backend; it also prov
 
 The application loop is driven by `SDL3CappedLoop`:
 
-- **Frame Rate Capping**: Targets 60 Hz by default (`hertz: 60`). It measures microsecond deltas between frames and yields spare time to the Pharo VM via `Delay`, preventing CPU starvation.
+- **Frame Rate Capping**: Targets 60 Hz by default (`hertz: 60`). It schedules against progressive absolute deadlines (`nextDeadlineUS`) to prevent timing drift and yields spare time to the Pharo VM via `Delay`, preventing CPU starvation. See [`Loop-Pacing-And-VSync.md`](./Loop-Pacing-And-VSync.md) for details.
 - **Session Safety**: Checks `Smalltalk session ~~ session` on each iteration to cleanly stop execution if the image is saved or restarted.
 - **Integrated Event Polling**: On every iteration, events are polled from `SDL3Library`, converted to `SDL3MappedEvent` instances via `SDL3EventMap`, and dispatched to the application using `#accept: self`.
 - **Default Handlers**: Built-in handling for `SDL_EVENT_QUIT` and the `ESCAPE` key requests loop termination gracefully.
