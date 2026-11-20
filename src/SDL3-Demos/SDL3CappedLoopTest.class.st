@@ -7,8 +7,30 @@ Class {
 }
 
 { #category : 'tests' }
+SDL3CappedLoopTest >> testAmpleSpareTimeDelaysWithoutYield [
+	"Verify that when ample spare time exists (>= 1ms), delayBlock is invoked and yieldBlock is not."
+
+	| loop simulatedTime delayed yielded |
+	simulatedTime := 0.
+	delayed := false.
+	yielded := false.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | delayed := true ].
+	loop yieldBlock: [ yielded := true ].
+	loop resetDeadline.
+
+	"Simulate work taking 2ms (leaving ~14.6ms spare time)"
+	simulatedTime := 2000.
+	loop wait.
+	self assert: delayed.
+	self deny: yielded
+]
+
+{ #category : 'tests' }
 SDL3CappedLoopTest >> testDefaultBlocks [
-	"Verify default block initialization for the clock, delay, and step collaborators."
+	"Verify default block initialization for the clock, delay, step, and yield collaborators."
 
 	| loop |
 	loop := SDL3CappedLoop new.
@@ -16,7 +38,8 @@ SDL3CappedLoopTest >> testDefaultBlocks [
 	self assert: loop microsecondsBlock value isInteger.
 	self assert: loop microsecondsBlock value > 0.
 	self assert: loop delayBlock isBlock.
-	self assert: loop stepBlock isBlock
+	self assert: loop stepBlock isBlock.
+	self assert: loop yieldBlock isBlock
 ]
 
 { #category : 'tests' }
@@ -54,6 +77,28 @@ SDL3CappedLoopTest >> testLoopStepsBlock [
 	loop start.
 	self assert: stepCount equals: 3.
 	self assert: receivedDeltaUS equals: loop periodUS
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testOverdueFrameDoesNotYield [
+	"Verify that when a frame overshoots its deadline (spare time is negative), neither delayBlock nor yieldBlock is invoked."
+
+	| loop simulatedTime delayed yielded |
+	simulatedTime := 0.
+	delayed := false.
+	yielded := false.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | delayed := true ].
+	loop yieldBlock: [ yielded := true ].
+	loop resetDeadline.
+
+	"Simulate heavy frame taking 20ms (> 16.666ms budget)"
+	simulatedTime := 20000.
+	loop wait.
+	self deny: delayed.
+	self deny: yielded
 ]
 
 { #category : 'tests' }
@@ -264,6 +309,28 @@ SDL3CappedLoopTest >> testSimulationVSyncNonMultiple [
 	loop wait.
 	self assert: recordedWaits size equals: 2.
 	self assert: recordedWaits second equals: 10000
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testSubMillisecondSpareTimeYields [
+	"Verify that when spare time is positive but under 1ms, #wait invokes yieldBlock and avoids delayBlock."
+
+	| loop simulatedTime delayed yielded |
+	simulatedTime := 0.
+	delayed := false.
+	yielded := false.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | delayed := true ].
+	loop yieldBlock: [ yielded := true ].
+	loop resetDeadline.
+
+	"Simulate work taking 16.2ms (leaving ~466 microseconds spare time on a 16.666ms budget)"
+	simulatedTime := 16200.
+	loop wait.
+	self deny: delayed.
+	self assert: yielded
 ]
 
 { #category : 'tests' }

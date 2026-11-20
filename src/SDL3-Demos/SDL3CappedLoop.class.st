@@ -10,12 +10,13 @@ Each cycle I:
 Instead of measuring elapsed time between frames (which causes stutter and timing drift), I schedule against a progressive deadline (nextDeadlineUS). Each iteration advances this deadline by a fixed period. Minor timing variations are naturally absorbed without cumulative drift. If a large delay occurs (such as window moving or a GC pause), the deadline resets to avoid catch-up storms.
 
 ## Pharo Concurrency & VSync
-While display VSync coordinates frame presentation with the physical screen, relying solely on hardware VSync can freeze the Pharo VM during waits, starving background Smalltalk processes. My #wait method yields execution to the Pharo process scheduler using standard Delay, allowing other Smalltalk processes to run during idle headroom.
+While display VSync coordinates frame presentation with the physical screen, relying solely on hardware VSync can freeze the Pharo VM during waits, starving background Smalltalk processes. My #wait method yields execution to the Pharo process scheduler using standard Delay, allowing other Smalltalk processes to run during idle headroom. When spare time is under 1 ms, #wait invokes yieldBlock (Processor yield) instead of sleeping, offering CPU time to peer processes without risking an overshoot.
 
 Collaborators:
 - stepBlock: receives the frame period in microseconds (deltaUS) and performs the frame step
 - microsecondsBlock: queries the current microsecond clock (default: [ Time microsecondClockValue ])
 - delayBlock: receives remaining spare microseconds to pause (default: [ :us | (Delay forMilliseconds: us // 1000) wait ])
+- yieldBlock: cooperative yield when spare time is under 1 ms (default: [ Processor yield ])
 "
 Class {
 	#name : 'SDL3CappedLoop',
@@ -26,7 +27,8 @@ Class {
 		'quit',
 		'microsecondsBlock',
 		'delayBlock',
-		'stepBlock'
+		'stepBlock',
+		'yieldBlock'
 	],
 	#category : 'SDL3-Demos',
 	#package : 'SDL3-Demos'
@@ -59,7 +61,8 @@ SDL3CappedLoop >> initialize [
 
 	microsecondsBlock := [ Time microsecondClockValue ].
 	delayBlock := [ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ].
-	stepBlock := [ :deltaUS | ]
+	stepBlock := [ :deltaUS | ].
+	yieldBlock := [ Processor yield ]
 ]
 
 { #category : 'accessing' }
@@ -142,7 +145,7 @@ SDL3CappedLoop >> stepBlock: aBlock [
 
 { #category : 'private' }
 SDL3CappedLoop >> wait [
-	"May wait, according to the expected refresh rate"
+	"May wait or yield, according to the expected refresh rate"
 
 	| currentUS spareUS wakeUS |
 	currentUS := microsecondsBlock value.
@@ -150,11 +153,27 @@ SDL3CappedLoop >> wait [
 	spareUS := nextDeadlineUS - currentUS.
 
 	"Wait if spare time is at least 1ms.
-	(1 millisecond = 1000 microseconds)"
-	spareUS >= 1000 ifTrue: [ delayBlock cull: spareUS ].
+	(1 millisecond = 1000 microseconds).
+	Otherwise, cooperatively yield if any positive spare time remains."
+	spareUS >= 1000
+		ifTrue: [ delayBlock cull: spareUS ]
+		ifFalse: [
+			spareUS > 0 ifTrue: [ yieldBlock value ] ].
 
 	nextDeadlineUS := nextDeadlineUS + periodUS.
 	wakeUS := microsecondsBlock value.
 	wakeUS > (nextDeadlineUS + periodUS) ifTrue: [
 		nextDeadlineUS := wakeUS + periodUS ]
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> yieldBlock [
+
+	^ yieldBlock
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> yieldBlock: aBlock [
+
+	yieldBlock := aBlock
 ]

@@ -63,10 +63,11 @@ Hardware VSync synchronizes buffer swapping with the physical monitor refresh. S
 
 ## 4. Pluggable Collaborator Hooks
 
-`SDL3CappedLoop` provides three pluggable blocks for customization and testing:
+`SDL3CappedLoop` provides four pluggable blocks for customization and testing:
 
 - **`stepBlock`**: Receives the nominal frame period in microseconds (`deltaUS`) and performs the frame update/render (defaults to `[ :deltaUS | ]`).
 - **`microsecondsBlock`**: Answers the current time in microseconds (defaults to `[ Time microsecondClockValue ]`).
-- **`delayBlock`**: Receives the remaining microseconds to wait (defaults to `[ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ]`).
+- **`delayBlock`**: Receives remaining spare microseconds to pause when >= 1ms (defaults to `[ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ]`).
+- **`yieldBlock`**: Cooperatively yields execution when spare time is positive but under 1 ms (defaults to `[ Processor yield ]`).
 
 In unit tests, these blocks allow simulating multi-frame scenarios instantly without actual wall-clock pauses.
