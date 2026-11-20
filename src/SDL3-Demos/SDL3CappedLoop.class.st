@@ -145,7 +145,7 @@ SDL3CappedLoop >> stepBlock: aBlock [
 
 { #category : 'private' }
 SDL3CappedLoop >> wait [
-	"May wait or yield, according to the expected refresh rate"
+	"Wait or yield for any remaining spare time to maintain the target frame period"
 
 	| currentUS spareUS wakeUS |
 	currentUS := microsecondsBlock value.
