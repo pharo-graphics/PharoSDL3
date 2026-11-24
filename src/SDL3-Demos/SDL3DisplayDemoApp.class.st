@@ -1,5 +1,5 @@
 "
-I demonstrate SDL3's multi-display API capabilities.
+This demo shows multi-display layouts, display bounds, and refresh rates across connected monitors.
 "
 Class {
 	#name : 'SDL3DisplayDemoApp',

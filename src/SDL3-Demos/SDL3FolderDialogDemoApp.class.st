@@ -1,6 +1,6 @@
 "
-I demonstrate how to use the system open folder dialog.
-Click anywhere in the window to open the dialog.
+This demo shows the system folder selection dialog.
+Click the window to open the folder dialog.
 "
 Class {
 	#name : 'SDL3FolderDialogDemoApp',

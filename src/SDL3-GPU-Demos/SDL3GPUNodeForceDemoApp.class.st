@@ -1,5 +1,7 @@
 "
-I demonstrate a force-directed node graph using a compute-to-vertex-buffer architecture.
+This demo shows a force-directed node graph simulation.
+A compute shader calculates N-body physics and writes positions to a vertex buffer.
+Drag nodes with the left mouse button to move them.
 "
 Class {
 	#name : 'SDL3GPUNodeForceDemoApp',
@@ -206,6 +208,31 @@ SDL3GPUNodeForceDemoApp >> initializeGraph [
 ]
 
 { #category : 'initialization' }
+SDL3GPUNodeForceDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_UP
+		description: 'Increase spring stiffness (+0.5)'
+		action: [ uniforms springStiffness: uniforms springStiffness + 0.5 ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease spring stiffness (-0.5)'
+		action: [ uniforms springStiffness: ((uniforms springStiffness - 0.5) max: 0.0) ];
+		bindKey: SDLK_RIGHT
+		description: 'Increase repulsion weight (+0.1)'
+		action: [ uniforms repulsionWeight: uniforms repulsionWeight + 0.1 ];
+		bindKey: SDLK_LEFT
+		description: 'Decrease repulsion weight (-0.1)'
+		action: [ uniforms repulsionWeight: ((uniforms repulsionWeight - 0.1) max: 0.0) ];
+		bindKey: SDLK_PAGEUP
+		description: 'Increase damping (*1.5)'
+		action: [ uniforms damping: ((uniforms damping * 1.5) min: 0.99) ];
+		bindKey: SDLK_PAGEDOWN
+		description: 'Decrease damping (/1.5)'
+		action: [ uniforms damping: ((uniforms damping / 1.5) max: 0.00001) ].
+	super initializeKeybindings
+]
+
+{ #category : 'initialization' }
 SDL3GPUNodeForceDemoApp >> initializeQuadBuffers [
 
 	DiScope own:
@@ -404,23 +431,6 @@ SDL3GPUNodeForceDemoApp >> uploadNodes [
 			count: numNodes
 			cycle: false
 			fromPointer: nodeArray getHandle ]
-]
-
-{ #category : 'hooks' }
-SDL3GPUNodeForceDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	| key |
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	key := aKeyboardDownEvent key.
-	key = SDLK_UP asInteger ifTrue: [ uniforms springStiffness: uniforms springStiffness + 0.5 ].
-	key = SDLK_DOWN asInteger ifTrue: [ uniforms springStiffness: (uniforms springStiffness - 0.5 max: 0.0) ].
-	key = SDLK_RIGHT asInteger ifTrue: [ uniforms repulsionWeight: uniforms repulsionWeight + 0.1 ].
-	key = SDLK_LEFT asInteger ifTrue: [ uniforms repulsionWeight: (uniforms repulsionWeight - 0.1 max: 0.0) ].
-	key = SDLK_PAGEUP asInteger ifTrue: [ uniforms damping: (uniforms damping * 1.5 min: 0.99) ].
-	key = SDLK_PAGEDOWN asInteger ifTrue: [ uniforms damping: (uniforms damping / 1.5 max: 0.00001) ].
-
-	self updateTitle
 ]
 
 { #category : 'visiting - concrete' }

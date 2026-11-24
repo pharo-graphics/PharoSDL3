@@ -1,5 +1,5 @@
 "
-I open a window with a renderer and use it for a simple animation: clear the background with sequence of colors.
+This demo shows how to open a window and clear the background with changing colors.
 "
 Class {
 	#name : 'SDL3ClearDemoApp',

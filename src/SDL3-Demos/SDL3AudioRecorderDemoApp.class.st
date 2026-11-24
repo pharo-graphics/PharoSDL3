@@ -1,5 +1,5 @@
 "
-I'm a demo of SDL3 recording and playing from/to default audio devices. I'm based on SDL's `test/testaudiorecording.c`.
+This demo shows audio recording from the default microphone and audio playback with frequency control.
 "
 Class {
 	#name : 'SDL3AudioRecorderDemoApp',
@@ -32,6 +32,31 @@ SDL3AudioRecorderDemoApp >> initialize [
 
 	super initialize.
 	frequencyRatio := 1.0
+]
+
+{ #category : 'initialization' }
+SDL3AudioRecorderDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_SPACE
+		description: 'Hold to record audio'
+		action: [ :aKeyboardDownEvent |
+			aKeyboardDownEvent isRepeat ifFalse: [
+				playbackStream
+					pauseDevice;
+					flush.
+				recordingStream resumeDevice ] ];
+		bindKey: SDLK_UP
+		description: 'Increase playback frequency ratio (+0.05)'
+		action: [
+			frequencyRatio := (frequencyRatio + 0.05) min: 2.5.
+			playbackStream frequencyRatio: frequencyRatio ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease playback frequency ratio (-0.05)'
+		action: [
+			frequencyRatio := (frequencyRatio - 0.05) max: 0.5.
+			playbackStream frequencyRatio: frequencyRatio ].
+	super initializeKeybindings
 ]
 
 { #category : 'playback' }
@@ -118,27 +143,6 @@ SDL3AudioRecorderDemoApp >> transferRecordedAudio [
 		readCount := recordingStream getDataIntoBuf: recordingBuffer len: recordingBuffer size.
 		sdl assertSuccess: readCount >= 0.
 		playbackStream putDataBuf: recordingBuffer len: readCount ]
-]
-
-{ #category : 'visiting - concrete' }
-SDL3AudioRecorderDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	(aKeyboardDownEvent key = SDLK_SPACE asInteger and: [ aKeyboardDownEvent isRepeat not ]) ifTrue: [
-		playbackStream
-			pauseDevice;
-			flush.
-		recordingStream resumeDevice.
-		^ self ].
-
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		frequencyRatio := (frequencyRatio + 0.05) min: 2.5.
-		playbackStream frequencyRatio: frequencyRatio ].
-
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		frequencyRatio := (frequencyRatio - 0.05) max: 0.5.
-		playbackStream frequencyRatio: frequencyRatio ]
 ]
 
 { #category : 'visiting - concrete' }

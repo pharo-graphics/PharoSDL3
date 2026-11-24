@@ -1,14 +1,5 @@
 "
-I am a demo application that demonstrates how to grab and ungrab the mouse in SDL3.
-I also demonstrate relative mouse mode, cursor visibility, mouse warping, and mouse rect confinement.
-
-### Usage
-- Press **M** to toggle Mouse Grab. When grabbed, the mouse cursor is confined to the window.
-- Press **R** to toggle Relative Mouse Mode. When enabled, the mouse cursor is hidden and only relative motion is reported.
-- Press **C** to toggle Cursor Visibility.
-- Press **W** to Warp Mouse to the center of the window.
-- Press **L** to Lock Mouse to a central sub-rectangle.
-- Press **ESCAPE** to exit.
+This demo shows mouse control features, including mouse grab, relative mouse mode, cursor visibility, warping, and system cursors.
 "
 Class {
 	#name : 'SDL3MouseDemoApp',
@@ -36,6 +27,31 @@ SDL3MouseDemoApp >> activateNextSystemCursor [
 SDL3MouseDemoApp >> initialExtent [
 
 	^ 800 @ 240
+]
+
+{ #category : 'initialization' }
+SDL3MouseDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_M
+		description: 'Toggle mouse grab'
+		action: [ window mouseGrabbed: window isMouseGrabbed not ];
+		bindKey: SDLK_R
+		description: 'Toggle relative mouse mode'
+		action: [ window relativeMouseModeEnabled: window isRelativeMouseMode not ];
+		bindKey: SDLK_C
+		description: 'Toggle cursor visibility'
+		action: [ SDL3Cursor toggleVisible ];
+		bindKey: SDLK_W
+		description: 'Warp mouse to (10, 10)'
+		action: [ window warpMouseInX: 10 y: 10 ];
+		bindKey: SDLK_L
+		description: 'Toggle locked mouse rectangle'
+		action: [ self toggleLockedMouseRectangle ];
+		bindKey: SDLK_N
+		description: 'Activate next system cursor'
+		action: [ self activateNextSystemCursor ].
+	super initializeKeybindings
 ]
 
 { #category : 'lifecycle' }
@@ -121,27 +137,4 @@ SDL3MouseDemoApp >> toggleLockedMouseRectangle [
 			window mouseRect: (SDL3Rect newFrom: lockRect) ]
 		ifFalse: [
 			window mouseRect: ExternalAddress null ]
-]
-
-{ #category : 'hooks' }
-SDL3MouseDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	| key |
-	key := aKeyboardDownEvent key.
-	
-	key = SDLK_M ifTrue: [ 
-		window mouseGrabbed: window isMouseGrabbed not ].
-
-	key = SDLK_R ifTrue: [ 
-		window relativeMouseModeEnabled: window isRelativeMouseMode not ].
-
-	key = SDLK_C ifTrue: [ SDL3Cursor toggleVisible ].
-
-	key = SDLK_W ifTrue: [ window warpMouseInX: 10 y: 10 ].
-
-	key = SDLK_L ifTrue: [ self toggleLockedMouseRectangle ].
-
-	key = SDLK_N ifTrue: [ self activateNextSystemCursor ].
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent
 ]

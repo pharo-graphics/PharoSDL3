@@ -2096,3 +2096,10 @@ SDL3Keycode class >> z [
 	"This method was automatically generated"
 	^ SDLK_Z
 ]
+
+{ #category : 'accessing' }
+SDL3Keycode >> keyName [
+	"Answer the human-readable name for this key (e.g. 'Space', 'Escape', 'Q')."
+
+	^ SDL3Library uniqueInstance getKeyName: self
+]

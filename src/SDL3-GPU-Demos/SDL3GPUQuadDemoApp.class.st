@@ -1,6 +1,6 @@
 "
-I demonstrate how to render textured quads using the SDL3 GPU API.
-I use vertex and fragment shaders defined in Pharo.
+This demo shows how to draw a textured quad with the GPU API.
+It uses vertex buffers, index buffers, and shaders defined in Pharo.
 "
 Class {
 	#name : 'SDL3GPUQuadDemoApp',
@@ -105,6 +105,22 @@ SDL3GPUQuadDemoApp >> initializeGPUResources [
 	self updateIndexBuffer.
 	self initializePipeline.
 	self switchSamplerFilter
+]
+
+{ #category : 'initialization' }
+SDL3GPUQuadDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_F
+		description: 'Switch sampler filter'
+		action: [ self switchSamplerFilter ];
+		bindKey: SDLK_UP
+		description: 'Increase number of quads'
+		action: [ self incrementQuads ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease number of quads'
+		action: [ self decrementQuads ].
+	super initializeKeybindings
 ]
 
 { #category : 'initialization' }
@@ -289,7 +305,7 @@ SDL3GPUQuadDemoApp >> updateVertexBuffer [
 SDL3GPUQuadDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
-		(' - Count: {1} (UP/DOWN to change) - Filter: {2} (F to switch)'
+		(' - Count: {1} - Filter: {2}'
 			format: {
 				numberOfQuads.
 				self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ] })
@@ -299,19 +315,6 @@ SDL3GPUQuadDemoApp >> updatedTitle [
 SDL3GPUQuadDemoApp >> verticesCount [
 
 	^ self numberOfVerticesPerQuad * numberOfQuads
-]
-
-{ #category : 'hooks' }
-SDL3GPUQuadDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_F asInteger ifTrue: [
-		self switchSamplerFilter ].
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		self incrementQuads ].
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		self decrementQuads ]
 ]
 
 { #category : 'private' }

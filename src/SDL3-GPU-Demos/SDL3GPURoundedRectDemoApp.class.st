@@ -1,5 +1,6 @@
 "
-I demonstrate how to render SDF shapes.
+This demo shows how to draw procedural shapes with Signed Distance Fields (SDF).
+A fragment shader calculates anti-aliasing for the shapes in real time.
 "
 Class {
 	#name : 'SDL3GPURoundedRectDemoApp',
@@ -105,6 +106,49 @@ SDL3GPURoundedRectDemoApp >> initialize [
 				 g: 0.2
 				 b: 0.6
 				 a: 1.0)
+]
+
+{ #category : 'initialization' }
+SDL3GPURoundedRectDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_SPACE
+		description: 'Toggle shape type (Box / Rounded)'
+		action: [
+			sdfUniforms shapeType: (sdfUniforms shapeType = 0 ifTrue: [ 1 ] ifFalse: [ 0 ]) ];
+		bindKey: SDLK_F
+		description: 'Cycle fill type (Fill / Stroke / Outer)'
+		action: [
+			sdfUniforms fillType: (sdfUniforms fillType + 1) \\ 3 ];
+		bindKey: SDLK_D
+		description: 'Toggle dashed stroke'
+		action: [
+			sdfUniforms dashCount: (sdfUniforms dashCount > 0.0 ifTrue: [ 0.0 ] ifFalse: [ 16.0 ]) ];
+		bindKey: SDLK_UP
+		description: 'Increase rows and columns'
+		action: [
+			columns := columns + 1.
+			rows := rows + 1.
+			numberOfQuads := columns * rows.
+			self updateIndexBuffer ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease rows and columns'
+		action: [
+			columns := (columns - 1) max: 1.
+			rows := (rows - 1) max: 1.
+			numberOfQuads := columns * rows.
+			self updateIndexBuffer ];
+		bindKey: SDLK_LEFT
+		description: 'Decrease corner radii (-2.0)'
+		action: [
+			cornerRadiiBase := (cornerRadiiBase - 2.0) max: 0.0.
+			radius := (radius - 2.0) max: 0.0 ];
+		bindKey: SDLK_RIGHT
+		description: 'Increase corner radii (+2.0)'
+		action: [
+			cornerRadiiBase := (cornerRadiiBase + 2.0) min: 200.0.
+			radius := (radius + 2.0) min: 200.0 ].
+	super initializeKeybindings
 ]
 
 { #category : 'initialization' }
@@ -255,7 +299,7 @@ SDL3GPURoundedRectDemoApp >> updateVertexBuffer [
 { #category : 'accessing' }
 SDL3GPURoundedRectDemoApp >> updatedTitle [
 
-	^ super updatedTitle, (' - Count: {1} (UP/DOWN rows/cols) - Radius: {2} (LEFT/RIGHT) - SPACE: Shape - F: Fill - D: Dashes'
+	^ super updatedTitle, (' - Count: {1} - Radius: {2}'
 		format: {
 			numberOfQuads.
 			cornerRadiiBase })
@@ -265,35 +309,6 @@ SDL3GPURoundedRectDemoApp >> updatedTitle [
 SDL3GPURoundedRectDemoApp >> verticesCount [
 
 	^ self numberOfVerticesPerQuad * numberOfQuads
-]
-
-{ #category : 'hooks' }
-SDL3GPURoundedRectDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_SPACE asInteger ifTrue: [
-		sdfUniforms shapeType: (sdfUniforms shapeType = 0 ifTrue: [ 1 ] ifFalse: [ 0 ]) ].
-	aKeyboardDownEvent key = SDLK_F asInteger ifTrue: [
-		sdfUniforms fillType: (sdfUniforms fillType + 1) \\ 3 ].
-	aKeyboardDownEvent key = SDLK_D asInteger ifTrue: [
-		sdfUniforms dashCount: (sdfUniforms dashCount > 0.0 ifTrue: [ 0.0 ] ifFalse: [ 16.0 ]) ].
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		columns := columns + 1. rows := rows + 1.
-		numberOfQuads := columns * rows.
-		self updateIndexBuffer ].
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		columns := (columns - 1) max: 1. rows := (rows - 1) max: 1.
-		numberOfQuads := columns * rows.
-		self updateIndexBuffer ].
-	aKeyboardDownEvent key = SDLK_LEFT asInteger ifTrue: [
-		cornerRadiiBase := (cornerRadiiBase - 2.0) max: 0.0.
-		radius := (radius - 2.0) max: 0.0 ].
-	aKeyboardDownEvent key = SDLK_RIGHT asInteger ifTrue: [
-		cornerRadiiBase := (cornerRadiiBase + 2.0) min: 200.0.
-		radius := (radius + 2.0) min: 200.0 ].
-
-	self updateTitle
 ]
 
 { #category : 'private' }

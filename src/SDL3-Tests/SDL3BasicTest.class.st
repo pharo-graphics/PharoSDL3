@@ -270,3 +270,12 @@ SDL3BasicTest >> test11EnumAliasAsString [
 		deny: (SDL3AudioFormat s16 asString = 'a SDL3AudioFormat(#SDL_AUDIO_S16)'
 		and: [ SDL3AudioFormat s16le asString = 'a SDL3AudioFormat(#SDL_AUDIO_S16LE)' ])
 ]
+
+{ #category : 'tests' }
+SDL3BasicTest >> test12KeycodeKeyName [
+
+	self assert: SDL3Keycode space keyName equals: 'Space'.
+	self assert: SDL3Keycode escape keyName equals: 'Escape'.
+	self assert: SDL3Keycode return keyName equals: 'Return'.
+	self assert: SDL3Keycode q keyName equals: 'Q'
+]

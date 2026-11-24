@@ -56,7 +56,14 @@ SDL3SingleWindowApp >> updateTitle [
 { #category : 'accessing' }
 SDL3SingleWindowApp >> updatedTitle [
 
-	^ self className, ' - ESC to quit'
+	^ self className
+]
+
+{ #category : 'visiting - concrete' }
+SDL3SingleWindowApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
+
+	super visitKeyboardDownEvent: aKeyboardDownEvent.
+	self updateTitle
 ]
 
 { #category : 'visiting - concrete' }

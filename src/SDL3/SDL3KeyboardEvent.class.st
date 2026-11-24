@@ -74,6 +74,13 @@ SDL3KeyboardEvent >> key [
 	^handle unsignedLongAt: OFFSET_KEY
 ]
 
+{ #category : 'accessing' }
+SDL3KeyboardEvent >> keyName [
+	"Answer the human-readable name for the event's key (e.g. 'Space', 'Escape', 'Q')."
+
+	^ SDL3Library uniqueInstance getKeyName: self key
+]
+
 { #category : 'accessing - structure variables' }
 SDL3KeyboardEvent >> mod [
 	"This method was automatically generated"

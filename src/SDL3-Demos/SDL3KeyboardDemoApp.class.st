@@ -1,10 +1,5 @@
 "
-I am a demo application that demonstrates how to grab and ungrab the keyboard in SDL3.
-I also monitor the keyboard state, including modifier keys and active keys.
-
-### Usage
-- Press **K** to toggle Keyboard Grab. When grabbed, the window receives all keyboard input, even system keys.
-- Press **ESCAPE** to exit.
+This demo shows keyboard state monitoring (scancodes, keycodes, modifier keys) and Unicode text input.
 "
 Class {
 	#name : 'SDL3KeyboardDemoApp',
@@ -18,6 +13,22 @@ Class {
 SDL3KeyboardDemoApp >> initialExtent [
 
 	^ 800 @ 240
+]
+
+{ #category : 'initialization' }
+SDL3KeyboardDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_K
+		description: 'Toggle keyboard grab'
+		action: [ window keyboardGrabbed: window isKeyboardGrabbed not ];
+		bindKey: SDLK_I
+		description: 'Toggle text input'
+		action: [
+			window isTextInputActive
+				ifTrue: [ window stopTextInput ]
+				ifFalse: [ window startTextInput ] ].
+	super initializeKeybindings
 ]
 
 { #category : 'lifecycle' }
@@ -72,18 +83,4 @@ SDL3KeyboardDemoApp >> step [
 
 	self clearColor: Color black.
 	self present
-]
-
-{ #category : 'hooks' }
-SDL3KeyboardDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	aKeyboardDownEvent key = SDLK_K ifTrue: [ 
-		window keyboardGrabbed: window isKeyboardGrabbed not ].
-
-	aKeyboardDownEvent key = SDLK_I ifTrue: [ 
-		window isTextInputActive
-			ifTrue: [ window stopTextInput ]
-			ifFalse: [ window startTextInput ] ].
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent
 ]

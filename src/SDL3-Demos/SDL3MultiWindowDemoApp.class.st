@@ -1,6 +1,5 @@
 "
-I demonstrate how to manage multiple SDL3 windows within a single application loop.
-I perform a scripted sequence of window operations.
+This demo shows how to control multiple top-level windows in a single application loop.
 "
 Class {
 	#name : 'SDL3MultiWindowDemoApp',

@@ -1,5 +1,6 @@
 "
-I demonstrate smooth text scrolling of a large text file using a texture atlas and instanced quad rendering.
+This demo shows text scrolling of a large text file using a texture atlas and instanced quad rendering.
+Scroll the mouse wheel to move through the text.
 "
 Class {
 	#name : 'SDL3TextScrollDemoApp',

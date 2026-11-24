@@ -1,5 +1,5 @@
 "
-I'm a simple demo of SDL3 GPU API that clears the window with changing colors, based on SDL's ""test/testgpu_simple_clear.c"".
+This demo shows basic hardware-accelerated GPU initialization, render pass setup, and screen clearing.
 "
 Class {
 	#name : 'SDL3GPUClearDemoApp',

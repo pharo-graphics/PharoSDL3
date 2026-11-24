@@ -1,5 +1,5 @@
 "
-I log all received SDL3 events to an on-screen console.
+This demo shows real-time logging of the SDL3 event stream (mouse, keyboard, window) to an on-screen console.
 "
 Class {
 	#name : 'SDL3LogEventsDemoApp',

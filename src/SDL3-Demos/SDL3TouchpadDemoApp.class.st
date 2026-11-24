@@ -1,5 +1,5 @@
 "
-I demonstrate how to handle multi-touch finger events.
+This demo shows how to track multi-touch finger motion on a touchpad.
 "
 Class {
 	#name : 'SDL3TouchpadDemoApp',

@@ -1,5 +1,6 @@
 "
-I demonstrate boids flocking using a compute-to-vertex-buffer architecture.
+This demo shows a flocking simulation with thousands of boid particles.
+A compute shader calculates the physics and writes positions to a vertex buffer.
 "
 Class {
 	#name : 'SDL3GPUBoidsDemoApp',
@@ -150,31 +151,6 @@ SDL3GPUBoidsDemoApp >> generateInitialHues [
 	^ SDL3Array newType: FFIFloat32 size: numBoids collect: [ :i | random next ]
 ]
 
-{ #category : 'events' }
-SDL3GPUBoidsDemoApp >> handleKeyDown: aKeyboardEvent [
-
-	| key |
-	key := aKeyboardEvent key.
-
-	"Weights"
-	key = SDLK_Q asInteger ifTrue: [ ^ boidsUniforms separationWeight: boidsUniforms separationWeight + 0.1 ].
-	key = SDLK_A asInteger ifTrue: [ ^ boidsUniforms separationWeight: ((boidsUniforms separationWeight - 0.1) max: 0) ].
-	key = SDLK_W asInteger ifTrue: [ ^ boidsUniforms alignmentWeight: boidsUniforms alignmentWeight + 0.1 ].
-	key = SDLK_S asInteger ifTrue: [ ^ boidsUniforms alignmentWeight: ((boidsUniforms alignmentWeight - 0.1) max: 0) ].
-	key = SDLK_E asInteger ifTrue: [ ^ boidsUniforms cohesionWeight: boidsUniforms cohesionWeight + 0.1 ].
-	key = SDLK_D asInteger ifTrue: [ ^ boidsUniforms cohesionWeight: ((boidsUniforms cohesionWeight - 0.1) max: 0) ].
-
-	"Radii"
-	key = SDLK_T asInteger ifTrue: [ ^ boidsUniforms neighborRadius: boidsUniforms neighborRadius + 0.01 ].
-	key = SDLK_G asInteger ifTrue: [ ^ boidsUniforms neighborRadius: ((boidsUniforms neighborRadius - 0.01) max: 0.01) ].
-	key = SDLK_R asInteger ifTrue: [ ^ boidsUniforms separationRadius: boidsUniforms separationRadius + 0.01 ].
-	key = SDLK_F asInteger ifTrue: [ ^ boidsUniforms separationRadius: ((boidsUniforms separationRadius - 0.01) max: 0.01) ].
-
-	"Speed"
-	key = SDLK_Z asInteger ifTrue: [ ^ boidsUniforms maxVelocity: boidsUniforms maxVelocity + 0.05 ].
-	key = SDLK_X asInteger ifTrue: [ ^ boidsUniforms maxVelocity: ((boidsUniforms maxVelocity - 0.05) max: 0.05) ]
-]
-
 { #category : 'initialization' }
 SDL3GPUBoidsDemoApp >> initialize [
 
@@ -233,6 +209,25 @@ SDL3GPUBoidsDemoApp >> initializeIndexBuffer [
 	DiScope own: (indexBufferBinding := SDL_GPUBufferBinding unownedNew
 		beBuffer: indexBuffer offset: 0;
 		yourself)
+]
+
+{ #category : 'initialization' }
+SDL3GPUBoidsDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_Q description: 'Increase separation weight' action: [ boidsUniforms separationWeight: boidsUniforms separationWeight + 0.1 ];
+		bindKey: SDLK_A description: 'Decrease separation weight' action: [ boidsUniforms separationWeight: ((boidsUniforms separationWeight - 0.1) max: 0) ];
+		bindKey: SDLK_W description: 'Increase alignment weight' action: [ boidsUniforms alignmentWeight: boidsUniforms alignmentWeight + 0.1 ];
+		bindKey: SDLK_S description: 'Decrease alignment weight' action: [ boidsUniforms alignmentWeight: ((boidsUniforms alignmentWeight - 0.1) max: 0) ];
+		bindKey: SDLK_E description: 'Increase cohesion weight' action: [ boidsUniforms cohesionWeight: boidsUniforms cohesionWeight + 0.1 ];
+		bindKey: SDLK_D description: 'Decrease cohesion weight' action: [ boidsUniforms cohesionWeight: ((boidsUniforms cohesionWeight - 0.1) max: 0) ];
+		bindKey: SDLK_T description: 'Increase neighbor radius' action: [ boidsUniforms neighborRadius: boidsUniforms neighborRadius + 0.01 ];
+		bindKey: SDLK_G description: 'Decrease neighbor radius' action: [ boidsUniforms neighborRadius: ((boidsUniforms neighborRadius - 0.01) max: 0.01) ];
+		bindKey: SDLK_R description: 'Increase separation radius' action: [ boidsUniforms separationRadius: boidsUniforms separationRadius + 0.01 ];
+		bindKey: SDLK_F description: 'Decrease separation radius' action: [ boidsUniforms separationRadius: ((boidsUniforms separationRadius - 0.01) max: 0.01) ];
+		bindKey: SDLK_Z description: 'Increase max velocity' action: [ boidsUniforms maxVelocity: boidsUniforms maxVelocity + 0.05 ];
+		bindKey: SDLK_X description: 'Decrease max velocity' action: [ boidsUniforms maxVelocity: ((boidsUniforms maxVelocity - 0.05) max: 0.05) ].
+	super initializeKeybindings
 ]
 
 { #category : 'initialization' }
@@ -387,13 +382,4 @@ SDL3GPUBoidsDemoApp >> uploadInitialData [
 
 	boids free.
 	hues free
-]
-
-{ #category : 'hooks' }
-SDL3GPUBoidsDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	self handleKeyDown: aKeyboardDownEvent.
-	self updateTitle
 ]

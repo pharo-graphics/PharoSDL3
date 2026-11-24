@@ -1,5 +1,5 @@
 "
-I demonstrate system queries provided by SDL3.
+This demo shows how to query system properties, including display modes, audio drivers, and video drivers.
 "
 Class {
 	#name : 'SDL3SystemQueryDemoApp',

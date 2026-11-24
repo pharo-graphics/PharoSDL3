@@ -1,5 +1,5 @@
 "
-I'm a demo of SDL3 multi-stream audio mixing and polyphonic playback using a single playback device. I'm based on SDL's `examples/audio/04-multiple-streams`.
+This demo shows multi-stream audio mixing and playback on a single audio device.
 "
 Class {
 	#name : 'SDL3AudioMixingDemoApp',
@@ -67,6 +67,16 @@ SDL3AudioMixingDemoApp >> initialize [
 
 	super initialize.
 	activeStreams := OrderedCollection new
+]
+
+{ #category : 'initialization' }
+SDL3AudioMixingDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_SPACE
+		description: 'Play gunshot audio sample'
+		action: [ self playShot ].
+	super initializeKeybindings
 ]
 
 { #category : 'playback' }
@@ -157,12 +167,4 @@ SDL3AudioMixingDemoApp >> tearDown [
 		activeStreams removeAll ].
 
 	super tearDown
-]
-
-{ #category : 'visiting - concrete' }
-SDL3AudioMixingDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_SPACE asInteger ifTrue: [ self playShot ]
 ]

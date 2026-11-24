@@ -1,11 +1,9 @@
 "
-I am a specialized demo for a tiled map with latency emulation.
-
-I demonstrate:
-- Background GPU fractal generation (compute pipeline).
-- Tiled rendering with level-of-detail (LOD) transitions.
-- High-quality Mandelbrot visualization (2x2 SSAA, smooth coloring).
-- Asynchronous resource loading mockup with 'Shimmer' effect.
+This demo shows an interactive Mandelbrot fractal on a tiled map.
+A compute shader generates the fractal in the background.
+The display updates tiles with level-of-detail transitions.
+Drag with the left mouse button to pan across the map.
+Scroll the mouse wheel to zoom in and out.
 "
 Class {
 	#name : 'SDL3GPUMandelbrotDemoApp',
@@ -266,6 +264,19 @@ SDL3GPUMandelbrotDemoApp >> initializeInstanceBuffers [
 	DiScope own: (shimmerInstanceBuffer := gpuDevice
 		unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX
 		size: 256 * SDL3GPUTileInstance structureSize)
+]
+
+{ #category : 'initialization' }
+SDL3GPUMandelbrotDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_UP
+		description: 'Increase loading delay (+250ms)'
+		action: [ loadingDelayMillis := loadingDelayMillis + 250 ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease loading delay (-250ms)'
+		action: [ loadingDelayMillis := (loadingDelayMillis - 250) max: 0 ].
+	super initializeKeybindings
 ]
 
 { #category : 'initialization' }
@@ -564,20 +575,6 @@ SDL3GPUMandelbrotDemoApp >> uploadShimmerInstanceDataWith: commandBuffer [
 				visibleLoadingKeys do: [ :key |
 					self fillInstance: (mapped at: idx) forKey: key slot: 0 parentKey: nil.
 					idx := idx + 1 ] ] ]
-]
-
-{ #category : 'hooks' }
-SDL3GPUMandelbrotDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		loadingDelayMillis := (loadingDelayMillis - 250) max: 0.
-		self updateTitle ].
-
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		loadingDelayMillis := loadingDelayMillis + 250.
-		self updateTitle ]
 ]
 
 { #category : 'visiting - concrete' }

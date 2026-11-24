@@ -1,5 +1,6 @@
 "
-I demonstrate how to handle multi-touch pinch-to-zoom events.
+This demo shows how to zoom with touchpad pinch gestures.
+Pinch with two fingers on the touchpad to zoom in and out.
 "
 Class {
 	#name : 'SDL3TouchpadZoomDemoApp',

@@ -1,6 +1,6 @@
 "
-I demonstrate how to process textures using compute shaders in SDL3.
-I apply a Gaussian blur filter in real-time.
+This demo shows image processing with compute shaders and storage textures.
+It applies a Gaussian blur filter to a texture in real time.
 "
 Class {
 	#name : 'SDL3GPUBlurComputeDemoApp',
@@ -204,6 +204,31 @@ SDL3GPUBlurComputeDemoApp >> initializeGeometry [
 ]
 
 { #category : 'initialization' }
+SDL3GPUBlurComputeDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_UP
+		description: 'Increase blur radius (+0.5)'
+		action: [ uniforms blurRadius: ((uniforms blurRadius + 0.5) min: 10.0) ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease blur radius (-0.5)'
+		action: [ uniforms blurRadius: ((uniforms blurRadius - 0.5) max: 0.0) ];
+		bindKey: SDLK_LEFT
+		description: 'Decrease blur spread (-0.5)'
+		action: [ uniforms blurSpread: ((uniforms blurSpread - 0.5) max: 1.0) ];
+		bindKey: SDLK_RIGHT
+		description: 'Increase blur spread (+0.5)'
+		action: [ uniforms blurSpread: ((uniforms blurSpread + 0.5) min: 4.0) ];
+		bindKey: SDLK_W
+		description: 'Increase brightness (+0.1)'
+		action: [ uniforms brightness: ((uniforms brightness + 0.1) min: 2.0) ];
+		bindKey: SDLK_S
+		description: 'Decrease brightness (-0.1)'
+		action: [ uniforms brightness: ((uniforms brightness - 0.1) max: 0.0) ].
+	super initializeKeybindings
+]
+
+{ #category : 'initialization' }
 SDL3GPUBlurComputeDemoApp >> initializePipeline [
 
 	pipeline := gpuDevice newGraphicsPipelineBuilder
@@ -279,32 +304,11 @@ SDL3GPUBlurComputeDemoApp >> setUp [
 SDL3GPUBlurComputeDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
-		(' - Radius: {1} (UP/DOWN) - Spread: {2} (LEFT/RIGHT) - Brightness: {3} (W/S)'
+		(' - Radius: {1} - Spread: {2} - Brightness: {3}'
 			format: {
 				uniforms blurRadius printShowingDecimalPlaces: 1.
 				uniforms blurSpread printShowingDecimalPlaces: 1.
 				uniforms brightness printShowingDecimalPlaces: 1 })
-]
-
-{ #category : 'hooks' }
-SDL3GPUBlurComputeDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		uniforms blurRadius: (uniforms blurRadius + 0.5 min: 10.0) ].
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		uniforms blurRadius: (uniforms blurRadius - 0.5 max: 0.0) ].
-	aKeyboardDownEvent key = SDLK_LEFT asInteger ifTrue: [
-		uniforms blurSpread: (uniforms blurSpread - 0.5 max: 1.0) ].
-	aKeyboardDownEvent key = SDLK_RIGHT asInteger ifTrue: [
-		uniforms blurSpread: (uniforms blurSpread + 0.5 min: 4.0) ].
-	aKeyboardDownEvent key = SDLK_W asInteger ifTrue: [
-		uniforms brightness: (uniforms brightness + 0.1 min: 2.0) ].
-	aKeyboardDownEvent key = SDLK_S asInteger ifTrue: [
-		uniforms brightness: (uniforms brightness - 0.1 max: 0.0) ].
-
-	self updateTitle
 ]
 
 { #category : 'visiting - concrete' }
