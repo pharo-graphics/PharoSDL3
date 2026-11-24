@@ -110,19 +110,21 @@ OSSDL3BackendWindow >> destroy [
 	"Destroy the backend window and release its resources, including any associated GPU device and callbacks."
 
 	sdlWindow ifNotNil: [
-		OSSDL3AbstractDriver current unregisterWindowWithId: sdlWindow id.
+		"Unregister and destroy handles under RegistryMutex so concurrent event delivery cannot use freed handles."
+		OSSDL3AbstractDriver current
+			unregisterWindowWithId: sdlWindow id
+			during: [
+				renderer ifNotNil: [
+					renderer destroy.
+					renderer := nil ].
 
-		renderer ifNotNil: [ 
-			renderer destroy.
-			renderer := nil ].
+				currentCursor ifNotNil: [
+					currentCursor destroy.
+					currentCursor := nil ].
+				currentDraggableCallback := nil. "Callback will be collected by GC"
 
-		currentCursor ifNotNil: [ 
-			currentCursor destroy.
-			currentCursor := nil ].
-		currentDraggableCallback := nil. "Callback will be collected by GC"
-
-		sdlWindow destroy.
-		sdlWindow := nil ].
+				sdlWindow destroy.
+				sdlWindow := nil ] ].
 
 	osWindow := nil
 ]

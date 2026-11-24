@@ -69,10 +69,11 @@ OSSDL3AbstractDriver >> afterSetWindowTitle: aString onWindow: osWindow [
 
 { #category : 'window registry' }
 OSSDL3AbstractDriver >> backendWindowWithId: aWindowID ifPresent: aBlock [
-	"Evaluate aBlock with the backend window associated with the given ID"
+	"Evaluate aBlock with the valid backend window associated with the given ID."
 
 	^ RegistryMutex critical: [
-		BackendWindowRegistry at: aWindowID ifPresent: aBlock ]
+		BackendWindowRegistry at: aWindowID ifPresent: [ :backendWindow |
+			backendWindow isValid ifTrue: [ aBlock value: backendWindow ] ] ]
 ]
 
 { #category : 'events' }
@@ -111,12 +112,8 @@ OSSDL3AbstractDriver >> createWindowWithAttributes: attributes osWindow: osWindo
 OSSDL3AbstractDriver >> deliverEvent: osEvent windowID: windowID [
 	"Dispatch the mapped SDL3 event to the appropriate window or as a global event."
 
-	RegistryMutex critical: [
-		| backendWindow |
-		backendWindow :=
-			BackendWindowRegistry at: windowID ifAbsent: [ ^ nil ].
-		osEvent window: backendWindow osWindow.
-		osEvent deliver ]
+	self backendWindowWithId: windowID ifPresent: [ :backendWindow |
+		osEvent deliverForOSSDL3BackendWindow: backendWindow ]
 ]
 
 { #category : 'events-processing' }
@@ -124,8 +121,10 @@ OSSDL3AbstractDriver >> deliverGlobalEvent: osEvent [
 	"Global events are delivered to each window"
 
 	RegistryMutex critical: [
-		BackendWindowRegistry valuesDo: [ :window |
-			window osWindow deliverGlobalEvent: osEvent ] ]
+		"Iterate a snapshot copy so reentrant handlers that open or close windows do not mutate BackendWindowRegistry during iteration."
+		BackendWindowRegistry values do: [ :window |
+			(window isNotNil and: [ window isValid ]) ifTrue: [
+				window osWindow deliverGlobalEvent: osEvent ] ] ]
 ]
 
 { #category : 'system startup' }
@@ -217,7 +216,9 @@ OSSDL3AbstractDriver >> initializeWindowMap [
 	BackendWindowRegistry ifNil: [
 		BackendWindowRegistry := WeakValueDictionary new ].
 
-	RegistryMutex := Semaphore forMutualExclusion
+	"Use a reentrant Mutex so nested registry lookups or synchronous close cannot deadlock."
+	RegistryMutex ifNil: [
+		RegistryMutex := Mutex new ]
 ]
 
 { #category : 'accessing' }
@@ -310,8 +311,16 @@ OSSDL3AbstractDriver >> startUpEventLoop [
 OSSDL3AbstractDriver >> unregisterWindowWithId: aWindowID [
 	"Remove the window with the given ID from the window map."
 
+	self unregisterWindowWithId: aWindowID during: [ ]
+]
+
+{ #category : 'window registry' }
+OSSDL3AbstractDriver >> unregisterWindowWithId: aWindowID during: aBlock [
+	"Remove the window from the map and run cleanup under RegistryMutex so concurrent event delivery cannot use destroyed handles."
+
 	RegistryMutex critical: [
-		BackendWindowRegistry removeKey: aWindowID ifAbsent: [ ] ]
+		BackendWindowRegistry removeKey: aWindowID ifAbsent: [ ].
+		aBlock value ]
 ]
 
 { #category : 'events-processing' }
