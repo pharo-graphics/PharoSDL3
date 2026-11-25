@@ -111,6 +111,12 @@ SDL3App >> keybindings [
 	^ keybindings
 ]
 
+{ #category : 'accessing' }
+SDL3App >> loop [
+
+	^ loop
+]
+
 { #category : 'hooks' }
 SDL3App >> mainStep [
 
@@ -142,6 +148,24 @@ SDL3App >> printControlsBannerOn: aStream [
 				lf ] ].
 	aStream
 		nextPutAll: (String new: 45 withAll: $=);
+		lf;
+		lf
+]
+
+{ #category : 'printing' }
+SDL3App >> printPerformanceSummaryOn: aStream [
+
+	loop frameCount > 0 ifFalse: [ ^ self ].
+
+	aStream
+		nextPutAll: self className;
+		nextPutAll: ' Performance Summary:';
+		lf;
+		nextPutAll: ('- Total frames: {1}' format: { loop frameCount });
+		lf;
+		nextPutAll: ('- Average FPS:  {1} ({2}% idle)' format: {
+			loop fps printShowingDecimalPlaces: 1.
+			loop idleHeadroomPercentage rounded });
 		lf;
 		lf
 ]
@@ -202,6 +226,8 @@ SDL3App >> subsystemInitFlags [
 { #category : 'lifecycle' }
 SDL3App >> tearDown [
 	"Hook for subclasses to perform custom teardown before resources are disposed"
+
+	self printPerformanceSummaryOn: Stdio stdout
 ]
 
 { #category : 'visiting - concrete' }

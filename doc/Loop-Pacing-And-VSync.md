@@ -45,7 +45,7 @@ spareTime = nextDeadline - currentTime
 
 ## 3. Interaction with Hardware VSync
 
-Hardware VSync synchronizes buffer swapping with the physical monitor refresh. Software pacing and hardware VSync complement each other:
+Hardware VSync synchronizes buffer swapping with the physical monitor refresh (`SDL3CappedLoop >> #syncToWindow:` can also query a window's display refresh rate automatically, falling back to 60 Hz). Software pacing and hardware VSync complement each other:
 
 1. **Target Matches Refresh Rate (e.g., 60 Hz target on a 60 Hz or 120 Hz display)**
    The software loop sleeps for most of the spare time, letting background Pharo processes run. When it resumes, the GPU presents the frame cleanly on the vertical blank interval without tearing.
@@ -63,10 +63,11 @@ Hardware VSync synchronizes buffer swapping with the physical monitor refresh. S
 
 ## 4. Pluggable Collaborator Hooks
 
-`SDL3CappedLoop` provides three pluggable blocks for customization and testing:
+`SDL3CappedLoop` provides four pluggable blocks for customization and testing:
 
 - **`stepBlock`**: Receives the nominal frame period in microseconds (`deltaUS`) and performs the frame update/render (defaults to `[ :deltaUS | ]`).
 - **`microsecondsBlock`**: Answers the current time in microseconds (defaults to `[ Time microsecondClockValue ]`).
-- **`delayBlock`**: Receives the remaining microseconds to wait (defaults to `[ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ]`).
+- **`delayBlock`**: Receives remaining spare microseconds to pause when >= 1ms (defaults to `[ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ]`).
+- **`yieldBlock`**: Cooperatively yields execution when spare time is positive but under 1 ms (defaults to `[ Processor yield ]`).
 
 In unit tests, these blocks allow simulating multi-frame scenarios instantly without actual wall-clock pauses.

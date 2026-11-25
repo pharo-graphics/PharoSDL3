@@ -44,7 +44,9 @@ SDL3SingleWindowApp >> setUp [
 			unownedNewTitle: self updatedTitle
 			width: self initialExtent x
 			height: self initialExtent y
-			flags: self initialWindowFlags)
+			flags: self initialWindowFlags).
+
+	loop syncToWindow: window
 ]
 
 { #category : 'private' }
