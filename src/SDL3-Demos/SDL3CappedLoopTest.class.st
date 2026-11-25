@@ -6,9 +6,49 @@ Class {
 	#tag : 'Tests'
 }
 
+{ #category : 'helpers' }
+SDL3CappedLoopTest >> currentDisplayMode [
+
+	^ self
+]
+
+{ #category : 'helpers' }
+SDL3CappedLoopTest >> display [
+
+	^ self
+]
+
+{ #category : 'helpers' }
+SDL3CappedLoopTest >> refreshRate [
+
+	^ 144.0
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testAmpleSpareTimeDelaysWithoutYield [
+	"Verify that when ample spare time exists (>= 1ms), delayBlock is invoked and yieldBlock is not."
+
+	| loop simulatedTime delayed yielded |
+	simulatedTime := 0.
+	delayed := false.
+	yielded := false.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | delayed := true ].
+	loop yieldBlock: [ yielded := true ].
+	loop resetDeadline.
+
+	"Simulate work taking 2ms (leaving ~14.6ms spare time)"
+	simulatedTime := 2000.
+	loop wait.
+	self assert: delayed.
+	self deny: yielded
+]
+
 { #category : 'tests' }
 SDL3CappedLoopTest >> testDefaultBlocks [
-	"Verify default block initialization for the clock, delay, and step collaborators."
+	"Verify default block initialization for the clock, delay, step, and yield collaborators."
 
 	| loop |
 	loop := SDL3CappedLoop new.
@@ -16,7 +56,8 @@ SDL3CappedLoopTest >> testDefaultBlocks [
 	self assert: loop microsecondsBlock value isInteger.
 	self assert: loop microsecondsBlock value > 0.
 	self assert: loop delayBlock isBlock.
-	self assert: loop stepBlock isBlock
+	self assert: loop stepBlock isBlock.
+	self assert: loop yieldBlock isBlock
 ]
 
 { #category : 'tests' }
@@ -54,6 +95,60 @@ SDL3CappedLoopTest >> testLoopStepsBlock [
 	loop start.
 	self assert: stepCount equals: 3.
 	self assert: receivedDeltaUS equals: loop periodUS
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testOverdueFrameDoesNotYield [
+	"Verify that when a frame overshoots its deadline (spare time is negative), neither delayBlock nor yieldBlock is invoked."
+
+	| loop simulatedTime delayed yielded |
+	simulatedTime := 0.
+	delayed := false.
+	yielded := false.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | delayed := true ].
+	loop yieldBlock: [ yielded := true ].
+	loop resetDeadline.
+
+	"Simulate heavy frame taking 20ms (> 16.666ms budget)"
+	simulatedTime := 20000.
+	loop wait.
+	self deny: delayed.
+	self deny: yielded
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testPrintPerformanceSummaryEmptyWhenNoFrames [
+	"Verify nothing is printed when no frames have run."
+
+	| app stream |
+	app := SDL3App new.
+	stream := WriteStream on: (String new: 120).
+	app printPerformanceSummaryOn: stream.
+	self assert: stream contents isEmpty
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testPrintPerformanceSummaryOnStream [
+	"Verify performance summary output on a stream after simulated frames."
+
+	| app simulatedTime stream output |
+	simulatedTime := 0.
+	app := SDL3App new.
+	app loop microsecondsBlock: [ simulatedTime ].
+	app loop delayBlock: [ :microseconds | simulatedTime := simulatedTime + microseconds ].
+	app loop resetDeadline.
+
+	simulatedTime := simulatedTime + 2000.
+	app loop wait.
+	stream := WriteStream on: (String new: 120).
+	app printPerformanceSummaryOn: stream.
+	output := stream contents.
+	self assert: (output includesSubstring: 'SDL3App Performance Summary:').
+	self assert: (output includesSubstring: '- Total frames: 1').
+	self assert: (output includesSubstring: '- Average FPS:  60.0 (88% idle)')
 ]
 
 { #category : 'tests' }
@@ -142,6 +237,29 @@ SDL3CappedLoopTest >> testSimulationLateWakeupAbsorbed [
 		simulatedTime := simulatedTime + 2000.
 		loop wait ].
 	self assert: recordedWaits asArray equals: #(14 14 13 14 13)
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testSimulationMetricsCalculation [
+	"Verify cumulative FPS and idle headroom calculation from actual wait durations without wall-clock sleep."
+
+	| loop simulatedTime |
+	simulatedTime := 0.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | simulatedTime := simulatedTime + microseconds ].
+	loop resetDeadline.
+	self assert: loop fps equals: 0.0.
+	self assert: loop idleHeadroomPercentage equals: 0.0.
+	self assert: loop frameCount equals: 0.
+
+	60 timesRepeat: [
+		simulatedTime := simulatedTime + 2000.
+		loop wait ].
+	self assert: loop frameCount equals: 60.
+	self assert: (loop fps closeTo: 60.0 precision: 0.1).
+	self assert: (loop idleHeadroomPercentage closeTo: 88.0 precision: 0.5)
 ]
 
 { #category : 'tests' }
@@ -264,6 +382,49 @@ SDL3CappedLoopTest >> testSimulationVSyncNonMultiple [
 	loop wait.
 	self assert: recordedWaits size equals: 2.
 	self assert: recordedWaits second equals: 10000
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testSubMillisecondSpareTimeYields [
+	"Verify that when spare time is positive but under 1ms, #wait invokes yieldBlock and avoids delayBlock."
+
+	| loop simulatedTime delayed yielded |
+	simulatedTime := 0.
+	delayed := false.
+	yielded := false.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | delayed := true ].
+	loop yieldBlock: [ yielded := true ].
+	loop resetDeadline.
+
+	"Simulate work taking 16.2ms (leaving ~466 microseconds spare time on a 16.666ms budget)"
+	simulatedTime := 16200.
+	loop wait.
+	self deny: delayed.
+	self assert: yielded
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testSyncToWindowFallback [
+	"Verify syncToWindow: falls back cleanly to 60 Hz when display queries fail or return nil."
+
+	| loop |
+	loop := SDL3CappedLoop new.
+	loop hertz: 120.
+	loop syncToWindow: nil.
+	self assert: (loop periodUS closeTo: 1000000.0 / 60)
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testSyncToWindowWithRefreshRate [
+	"Verify syncToWindow: sets target hertz matching display refresh rate."
+
+	| loop |
+	loop := SDL3CappedLoop new.
+	loop syncToWindow: self.
+	self assert: (loop periodUS closeTo: 1000000.0 / 144)
 ]
 
 { #category : 'tests' }
