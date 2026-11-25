@@ -1,5 +1,5 @@
 "
-I demonstrate the usage of animated cursors in SDL3.
+This demo shows how to create and show custom animated cursors from image frames.
 "
 Class {
 	#name : 'SDL3AnimatedCursorDemoApp',

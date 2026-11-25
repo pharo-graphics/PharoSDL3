@@ -1,5 +1,5 @@
 "
-I'm a demo of SDL3 recording and playing from/to default audio devices. I'm based on SDL's `test/testaudiorecording.c`.
+This demo shows audio recording from the default microphone and audio playback with frequency control.
 "
 Class {
 	#name : 'SDL3AudioRecorderDemoApp',
@@ -34,6 +34,31 @@ SDL3AudioRecorderDemoApp >> initialize [
 	frequencyRatio := 1.0
 ]
 
+{ #category : 'initialization' }
+SDL3AudioRecorderDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_SPACE
+		description: 'Hold to record audio (release to play at current frequency ratio)'
+		action: [ :aKeyboardDownEvent |
+			aKeyboardDownEvent isRepeat ifFalse: [
+				playbackStream
+					pauseDevice;
+					flush.
+				recordingStream resumeDevice ] ];
+		bindKey: SDLK_UP
+		description: 'Increase playback frequency ratio (+0.05)'
+		action: [
+			frequencyRatio := (frequencyRatio + 0.05) min: 2.5.
+			playbackStream frequencyRatio: frequencyRatio ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease playback frequency ratio (-0.05)'
+		action: [
+			frequencyRatio := (frequencyRatio - 0.05) max: 0.5.
+			playbackStream frequencyRatio: frequencyRatio ].
+	super initializeKeybindings
+]
+
 { #category : 'playback' }
 SDL3AudioRecorderDemoApp >> openPlaybackStream [
 	"Open a stream at the default playback device with its default format."
@@ -55,7 +80,7 @@ SDL3AudioRecorderDemoApp >> openRecordingStream [
 { #category : 'lifecycle' }
 SDL3AudioRecorderDemoApp >> render [
 
-	(recordingStream isDevicePaused
+	recordingStream isDevicePaused
 		ifFalse: [
 			self
 				clearColor: Color red;
@@ -71,14 +96,12 @@ SDL3AudioRecorderDemoApp >> render [
 				ifFalse: [
 					self
 						clearColor: Color blue;
-						showText: 'IDLE' x: 20 y: 40 color: Color white;
-						showText: 'Press SPACE to RECORD' x: 20 y: 80 color: Color white;
-						showText: 'Release SPACE to PLAY' x: 20 y: 100 color: Color white.
-				] ]).
+						showText: 'IDLE' x: 20 y: 40 color: Color white ] ].
 
-	self showText: 'Recording device: ', recordingStream device name x: 20 y: 140.
-	self showText: 'Playback device:  ', playbackStream device name x: 20 y: 160.
-	self showText: 'Frequency ratio (UP/DOWN): ', (frequencyRatio printShowingDecimalPlaces: 2) x: 20 y: 180.
+	self
+		showText: 'Recording device: ', recordingStream device name x: 20 y: 120;
+		showText: 'Playback device:  ', playbackStream device name x: 20 y: 140;
+		showText: 'Frequency ratio: ', (frequencyRatio printShowingDecimalPlaces: 2) x: 20 y: 160.
 
 	self present
 ]
@@ -118,27 +141,6 @@ SDL3AudioRecorderDemoApp >> transferRecordedAudio [
 		readCount := recordingStream getDataIntoBuf: recordingBuffer len: recordingBuffer size.
 		sdl assertSuccess: readCount >= 0.
 		playbackStream putDataBuf: recordingBuffer len: readCount ]
-]
-
-{ #category : 'visiting - concrete' }
-SDL3AudioRecorderDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	(aKeyboardDownEvent key = SDLK_SPACE asInteger and: [ aKeyboardDownEvent isRepeat not ]) ifTrue: [
-		playbackStream
-			pauseDevice;
-			flush.
-		recordingStream resumeDevice.
-		^ self ].
-
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		frequencyRatio := (frequencyRatio + 0.05) min: 2.5.
-		playbackStream frequencyRatio: frequencyRatio ].
-
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		frequencyRatio := (frequencyRatio - 0.05) max: 0.5.
-		playbackStream frequencyRatio: frequencyRatio ]
 ]
 
 { #category : 'visiting - concrete' }

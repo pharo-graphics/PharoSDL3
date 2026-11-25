@@ -1,26 +1,7 @@
 "
-I demonstrate special SDL3 window types and behaviors, including:
-- Utility windows (toggled with U, appears at the right)
-- Tooltip windows (relative to parent, click to dismiss)
-- Popup menu windows (relative to parent, click to dismiss)
-- Always-on-top windows
-- Modal windows (blocking parent interaction)
-
-Features:
-- **Focus Tracking**: Shows which window has focus. Modal windows block parent focus.
-- **Opacity**: Use **Mouse Wheel** over any window to change its opacity.
-- **Flashing**: Press **F** to flash the main window until focused.
-- **Event Counting**: Visualizes which windows receive events (Tooltips do not).
-
-### Usage
-- Press **U** to toggle a **Utility** window at the right.
-- Press **T** to spawn a **Tooltip** at the mouse position.
-- Press **P** to spawn a **Popup Menu** at the mouse position.
-- Press **M** to spawn a **Modal** window.
-- Press **A** to toggle **Always-on-Top** on the main window.
-- Press **F** to **Flash** the main window.
-- Scroll **Mouse Wheel** to fade windows in/out.
-- Press **ESCAPE** to exit.
+This demo shows parent and child window relationships in SDL3.
+It supports utility windows, tooltip windows, popup menus, modal dialogs, and always-on-top windows.
+Scroll the mouse wheel over a window to change its opacity.
 "
 Class {
 	#name : 'SDL3WindowChildrenDemoApp',
@@ -68,6 +49,75 @@ SDL3WindowChildrenDemoApp >> initialize [
 		#PopupMenu -> Color green muchDarker.
 		#Modal -> Color red muchDarker.
 	} asDictionary
+]
+
+{ #category : 'initialization' }
+SDL3WindowChildrenDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_U
+		description: 'Toggle utility child window (hidden from taskbar and window list)'
+		action: [
+			children values
+				detect: [ :each | each isUtility ]
+				ifFound: [ :existing | self removeChildWithID: existing id ]
+				ifNone: [
+					| length child |
+					length := 200.
+					child :=
+						SDL3Window
+							unownedNewTitle: ''
+							width: length
+							height: length
+							flags: SDL_WINDOW_UTILITY.
+					child parent: window.
+					child position: window position + window extent - length.
+					self addChild: child type: #Utility ] ];
+		bindKey: SDLK_T
+		description: 'Show popup tooltip (no focus or input events; click to dismiss)'
+		action: [
+			| position child |
+			self removeTooltips.
+			position := sdl mousePositionRounded.
+			child := window
+				unownedNewPopupParentOffsetX: position x
+				offsetY: position y - 300
+				width: 200
+				height: 300
+				flags: SDL_WINDOW_TOOLTIP.
+			self addChild: child type: #PopupTooltip ];
+		bindKey: SDLK_M
+		description: 'Show popup menu (gains keyboard focus; click to dismiss)'
+		action: [
+			| position child |
+			self removePopupMenus.
+			position := sdl mousePositionRounded.
+			child := window
+				unownedNewPopupParentOffsetX: position x - 10
+				offsetY: position y - 10
+				width: 150
+				height: 300
+				flags: SDL_WINDOW_POPUP_MENU.
+			self addChild: child type: #PopupMenu ];
+		bindKey: SDLK_D
+		description: 'Show modal dialog (blocks input to parent until closed)'
+		action: [
+			| child |
+			child := SDL3Window
+				unownedNewTitle: 'Modal Dialog'
+				width: 150
+				height: 150
+				flags: 0.
+			child parent: window.
+			child modal: true.
+			self addChild: child type: #Modal ];
+		bindKey: SDLK_A
+		description: 'Toggle always-on-top (keeps main window above others)'
+		action: [ window alwaysOnTop: window isAlwaysOnTop not ];
+		bindKey: SDLK_F
+		description: 'Flash main window after 3s (unfocus window to see effect)'
+		action: [ flashCountdown := Time millisecondClockValue + 3000 ].
+	super initializeKeybindings
 ]
 
 { #category : 'private' }
@@ -141,45 +191,42 @@ SDL3WindowChildrenDemoApp >> renderParent [
 	x := 20.
 	y := 20.
 
-	self showText: 'U: Toggle Utility Window (at right)' x: x y: y color: Color white.
-	self showText: 'T: Show Popup Tooltip (receives no events; click to dismiss)' x: x y: y + 15 color: Color white.
-	self showText: 'M: Show Popup Menu (click to dismiss)' x: x y: y + 30 color: Color white.
-	self showText: 'D: Show Modal Dialog' x: x y: y + 45 color: Color white.
-	self showText: 'A: Toggle Always-on-Top' x: x y: y + 60 color: (window isAlwaysOnTop ifTrue: [ Color green ] ifFalse: [ Color white ]).
-	self showText: 'Wheel: Adjust Opacity of window under cursor' x: x y: y + 75 color: Color white.
+	self showText: ('Always-on-Top: ', window isAlwaysOnTop asString)
+		x: x y: y
+		color: (window isAlwaysOnTop ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	flashCountdown > 0
-		ifFalse: [
-			self
-				showText: 'F: Flash Main Window (3s delay - lose focus to see the effect)'
-				x: x y: y + 90 color: Color white ]
-		ifTrue: [
-			| now |
-			now := Time millisecondClockValue.
-			now >= flashCountdown
-				ifTrue: [
-					window flashWithOperation: SDL3FlashOperation untilFocused.
-					flashCountdown := 0 ]
-				ifFalse: [
-					| remaining |
-					remaining := ((flashCountdown - now) / 1000.0) printShowingDecimalPlaces: 1.
-					self
-						showText: ('*** FLASHING IN ', remaining, 's ***')
-						x: x y: y + 90 color: Color yellow ] ].
-
-	self showText: ('Active Child Windows: ', children size asString) x: x y: y + 115 color: Color lightYellow.
+	self showText: ('Active Child Windows: ', children size asString)
+		x: x y: y + 15
+		color: Color lightYellow.
 
 	self showText: ('Main Window Events: ', (eventCounts at: window id ifAbsent: [ 0 ]) asString)
-		x: x y: y + 140 color: Color cyan.
+		x: x y: y + 35
+		color: Color cyan.
 
 	self showText: ('Main Window Opacity: ', (window opacity * 100) rounded asString, '%')
-		x: x y: y + 155 color: Color cyan.
+		x: x y: y + 50
+		color: Color cyan.
 
 	window hasInputFocus ifTrue: [
-		self showText: '*** FOCUSED ***' x: x y: y + 170 color: Color green ].
+		self showText: '*** FOCUSED ***' x: x y: y + 70 color: Color green ].
 
 	isModalActive ifTrue: [
-		self showText: '*** LOCKED BY MODAL WINDOW  ***' x: x y: y + 170 color: Color red ].
+		self showText: '*** LOCKED BY MODAL WINDOW ***' x: x y: y + 70 color: Color red ].
+
+	flashCountdown > 0 ifTrue: [
+		| now |
+		now := Time millisecondClockValue.
+		now >= flashCountdown
+			ifTrue: [
+				window flashWithOperation: SDL3FlashOperation untilFocused.
+				flashCountdown := 0 ]
+			ifFalse: [
+				| remaining |
+				remaining := ((flashCountdown - now) / 1000.0) printShowingDecimalPlaces: 1.
+				self
+					showText: ('*** FLASHING IN ', remaining, 's ***')
+					x: x y: y + 90
+					color: Color yellow ] ].
 
 	self present
 ]
@@ -192,72 +239,6 @@ SDL3WindowChildrenDemoApp >> step [
 	children valuesDo: [ :each | self renderChild: each ].
 
 	self renderParent
-]
-
-{ #category : 'hooks' }
-SDL3WindowChildrenDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	| key child |
-	key := aKeyboardDownEvent key.
-	
-	key = SDLK_U ifTrue: [ 
-		children values
-			detect: [ :e | e isUtility ]
-			ifFound: [ :existing | self removeChildWithID: existing id ]
-			ifNone: [
-				| length |
-				length := 200.
-				child :=
-					SDL3Window
-						unownedNewTitle: ''
-						width: length
-						height: length
-						flags: SDL_WINDOW_UTILITY.
-				child parent: window.
-				child position: window position + window extent - length.
-				self addChild: child type: #Utility ] ].
-
-	key = SDLK_T ifTrue: [
-		| position |
-		self removeTooltips.
-		position := sdl mousePositionRounded.
-		child := window
-			unownedNewPopupParentOffsetX: position x
-			offsetY: position y - 300
-			width: 200
-			height: 300
-			flags: SDL_WINDOW_TOOLTIP.
-		self addChild: child type: #PopupTooltip ].
-
-	key = SDLK_M ifTrue: [
-		| position |
-		self removePopupMenus.
-		position := sdl mousePositionRounded.
-		child := window
-			unownedNewPopupParentOffsetX: position x - 10
-			offsetY: position y - 10
-			width: 150
-			height: 300
-			flags: SDL_WINDOW_POPUP_MENU.
-		self addChild: child type: #PopupMenu ].
-
-	key = SDLK_D ifTrue: [
-		child := SDL3Window
-			unownedNewTitle: 'Modal Dialog'
-			width: 150
-			height: 150
-			flags: 0.
-		child parent: window.
-		child modal: true.
-		self addChild: child type: #Modal ].
-
-	key = SDLK_A ifTrue: [ 
-		window alwaysOnTop: window isAlwaysOnTop not ].
-
-	key = SDLK_F ifTrue: [ 
-		flashCountdown := Time millisecondClockValue + 3000 ].
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent
 ]
 
 { #category : 'visiting - concrete' }

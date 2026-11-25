@@ -1,7 +1,5 @@
 "
-I demonstrate how to use the SDL3 Camera API in Pharo.
-
-I capture frames from a connected camera and render them to a texture. I'm a simplified adaptation of SDL3's `test/testcamera.c`.
+This demo shows how to record video frames from a camera and draw them to a texture.
 "
 Class {
 	#name : 'SDL3CameraDemoApp',
@@ -96,6 +94,16 @@ SDL3CameraDemoApp >> initialWindowFlags [
 	^ SDL_WINDOW_RESIZABLE
 ]
 
+{ #category : 'initialization' }
+SDL3CameraDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_SPACE
+		description: 'Choose next camera device'
+		action: [ self chooseCamera ].
+	super initializeKeybindings
+]
+
 { #category : 'rendering' }
 SDL3CameraDemoApp >> render [
 	
@@ -155,12 +163,6 @@ SDL3CameraDemoApp >> updateTextureFromCurrentFrame [
 	texture updateRect: nil pixels: currentFrame pixels pitch: currentFrame pitch
 ]
 
-{ #category : 'accessing' }
-SDL3CameraDemoApp >> updatedTitle [
-
-	^ super updatedTitle, ' - SPACE to toggle camera'
-]
-
 { #category : 'visiting - concrete' }
 SDL3CameraDemoApp >> visitCameraDeviceApprovedEvent: aCameraDeviceApprovedEvent [
 
@@ -175,12 +177,4 @@ SDL3CameraDemoApp >> visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent [
 	super visitCameraDeviceDeniedEvent: aCameraDeviceDeniedEvent.
 
 	console addLine: 'Camera permission denied: ', (self descriptionForCameraId: aCameraDeviceDeniedEvent which)
-]
-
-{ #category : 'hooks' }
-SDL3CameraDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_SPACE asInteger ifTrue: [ self chooseCamera ]
 ]

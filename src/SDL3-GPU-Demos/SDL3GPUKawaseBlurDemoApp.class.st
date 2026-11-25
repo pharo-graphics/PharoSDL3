@@ -1,12 +1,6 @@
 "
-I demonstrate a Dual Kawase Blur post-processing effect using the SDL3 GPU graphics pipeline.
-
-I render a dynamic scene into an off-screen texture and then apply the blur effect using
-multiple downsampling and upsampling passes with fragment shaders.
-
-Controls:
-- UP/DOWN: Adjust blur radius
-- LEFT/RIGHT: Adjust number of blur passes (iterations)
+This demo shows a Dual Kawase Blur post-processing effect with the GPU graphics pipeline.
+It draws a scene to an off-screen texture and applies downsampling and upsampling blur passes with fragment shaders.
 "
 Class {
 	#name : 'SDL3GPUKawaseBlurDemoApp',
@@ -150,6 +144,25 @@ SDL3GPUKawaseBlurDemoApp >> initializeGeometry [
 	self
 		initializeQuadBuffers;
 		setupGeometryBindings
+]
+
+{ #category : 'initialization' }
+SDL3GPUKawaseBlurDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_UP
+		description: 'Increase blur radius (+0.1)'
+		action: [ blurRadius := blurRadius + 0.1 ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease blur radius (-0.1)'
+		action: [ blurRadius := (blurRadius - 0.1) max: 0.0 ];
+		bindKey: SDLK_RIGHT
+		description: 'Increase blur passes (+1)'
+		action: [ self numberOfPasses: numberOfPasses + 1 ];
+		bindKey: SDLK_LEFT
+		description: 'Decrease blur passes (-1)'
+		action: [ self numberOfPasses: ((numberOfPasses - 1) max: 0) ].
+	super initializeKeybindings
 ]
 
 { #category : 'initialization' }
@@ -502,22 +515,6 @@ SDL3GPUKawaseBlurDemoApp >> updatedTitle [
 		numberOfPasses.
 		blurRadius printShowingDecimalPlaces: 1
 	}
-]
-
-{ #category : 'hooks' }
-SDL3GPUKawaseBlurDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	| key |
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-	key := aKeyboardDownEvent key.
-
-	key = SDLK_UP asInteger ifTrue: [ blurRadius := blurRadius + 0.1 ].
-	key = SDLK_DOWN asInteger ifTrue: [ blurRadius := (blurRadius - 0.1) max: 0.0 ].
-
-	key = SDLK_RIGHT asInteger ifTrue: [ self numberOfPasses: (numberOfPasses + 1) ].
-	key = SDLK_LEFT asInteger ifTrue: [ self numberOfPasses: ((numberOfPasses - 1) max: 0) ].
-
-	self updateTitle
 ]
 
 { #category : 'visiting - concrete' }

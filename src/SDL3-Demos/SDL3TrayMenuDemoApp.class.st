@@ -1,5 +1,5 @@
 "
-I demonstrate how to use the system tray icon and menu.
+This demo shows how to create a system tray icon and open contextual tray menus.
 "
 Class {
 	#name : 'SDL3TrayMenuDemoApp',

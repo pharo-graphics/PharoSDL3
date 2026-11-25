@@ -33,7 +33,8 @@ Class {
 		'sdl',
 		'loop',
 		'eventMap',
-		'event'
+		'event',
+		'keybindings'
 	],
 	#pools : [
 		'SDL3AllEnumerations'
@@ -42,6 +43,29 @@ Class {
 	#package : 'SDL3-Demos',
 	#tag : 'Base'
 }
+
+{ #category : 'event handling' }
+SDL3App >> bindKey: aKeycode description: aString action: aBlock [
+
+	keybindings add: (SDL3KeyBinding
+		key: aKeycode
+		description: aString
+		action: aBlock)
+]
+
+{ #category : 'event handling' }
+SDL3App >> bindingFor: aKeycodeOrInteger [
+
+	^ keybindings detect: [ :each | each matchesKey: aKeycodeOrInteger ]
+]
+
+{ #category : 'event handling' }
+SDL3App >> bindingFor: aKeycodeOrInteger ifFound: aBlock [
+
+	keybindings
+		detect: [ :each | each matchesKey: aKeycodeOrInteger ]
+		ifFound: aBlock
+]
 
 { #category : 'events' }
 SDL3App >> handleEvent: aSDL3MappedEvent [
@@ -60,10 +84,11 @@ SDL3App >> handleEvents [
 SDL3App >> initialize [
 
 	super initialize.
-
 	sdl := SDL3Library uniqueInstance.
 	eventMap := SDL3EventMap new.
 	event := SDL_Event new.
+	keybindings := OrderedCollection new.
+	self initializeKeybindings.
 	loop :=
 		SDL3CappedLoop new
 			hertz: 60;
@@ -71,11 +96,54 @@ SDL3App >> initialize [
 			yourself
 ]
 
+{ #category : 'initialization' }
+SDL3App >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_ESCAPE
+		description: 'Quit application'
+		action: [ loop requestQuit ]
+]
+
+{ #category : 'accessing' }
+SDL3App >> keybindings [
+
+	^ keybindings
+]
+
 { #category : 'hooks' }
 SDL3App >> mainStep [
 
 	self handleEvents.
 	self step
+]
+
+{ #category : 'printing' }
+SDL3App >> printControlsBannerOn: aStream [
+
+	aStream
+		nextPutAll: self className;
+		lf;
+		nextPutAll: (String new: 45 withAll: $=);
+		lf.
+	(self class hasComment and: [ self class comment trim isNotEmpty ]) ifTrue: [
+		self class comment trim lines do: [ :line |
+			aStream nextPutAll: line; lf ].
+		aStream lf ].
+	keybindings ifNotEmpty: [
+		aStream
+			nextPutAll: 'Key bindings:';
+			lf.
+		keybindings do: [ :each |
+			aStream
+				nextPutAll: '- ';
+				nextPutAll: ('[' , each keyName , ']' padRightTo: 14);
+				nextPutAll: each description;
+				lf ] ].
+	aStream
+		nextPutAll: (String new: 45 withAll: $=);
+		lf;
+		lf
 ]
 
 { #category : 'lifecycle' }
@@ -116,7 +184,9 @@ SDL3App >> sdlQuit [
 
 { #category : 'lifecycle' }
 SDL3App >> setUp [
-	"Hook for subclasses to open windows and acquire resources before the main loop"
+	"Hook for subclasses to open windows and acquire resources before the main loop."
+
+	self printControlsBannerOn: Stdio stdout
 ]
 
 { #category : 'hooks' }
@@ -137,8 +207,10 @@ SDL3App >> tearDown [
 { #category : 'visiting - concrete' }
 SDL3App >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
-	aKeyboardDownEvent key = SDLK_ESCAPE asInteger ifTrue: [ loop requestQuit ].
-	
+	self
+		bindingFor: aKeyboardDownEvent key
+		ifFound: [ :binding | binding executeWithEvent: aKeyboardDownEvent ].
+
 	^ self visitKeyboardEvent: aKeyboardDownEvent
 ]
 

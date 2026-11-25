@@ -65,13 +65,6 @@ SDL3Window >> aspectRatioMin: minAspect max: maxAspect [
 ]
 
 { #category : 'accessing' }
-SDL3Window >> bordered: bordered [
-
-	self ffiLibrary assertSuccess:
-		(self ffiLibrary setWindowBorderedWindow: self bordered: bordered)
-]
-
-{ #category : 'accessing' }
 SDL3Window >> borderSizesDo: aBlock [
 	"Evaluate aBlock with top, left, bottom, right border sizes in screen coordinates."
 
@@ -94,6 +87,13 @@ SDL3Window >> borderSizesDo: aBlock [
 		  value: left value
 		  value: bottom value
 		  value: right value
+]
+
+{ #category : 'accessing' }
+SDL3Window >> bordered: bordered [
+
+	self ffiLibrary assertSuccess:
+		(self ffiLibrary setWindowBorderedWindow: self bordered: bordered)
 ]
 
 { #category : 'operations' }

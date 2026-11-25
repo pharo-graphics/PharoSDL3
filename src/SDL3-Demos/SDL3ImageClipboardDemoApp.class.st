@@ -1,5 +1,7 @@
 "
-I demonstrate how to read images from the system clipboard and render/display them. I also support copying the Pharo logo back to the system clipboard on a mouse click inside the Pharo overlay icon.
+This demo shows how to read and write image data with the system clipboard.
+Click the window to read an image from the clipboard.
+Click the Pharo logo to copy the logo to the clipboard.
 "
 Class {
 	#name : 'SDL3ImageClipboardDemoApp',

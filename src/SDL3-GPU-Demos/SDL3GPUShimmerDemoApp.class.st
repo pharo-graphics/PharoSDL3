@@ -1,5 +1,6 @@
 "
-I demonstrate a mock UI with a Shimmer Loading Effect.
+This demo shows a mock user interface with a loading effect.
+It uses time uniforms and procedural fragment shaders.
 "
 Class {
 	#name : 'SDL3GPUShimmerDemoApp',
@@ -57,6 +58,24 @@ SDL3GPUShimmerDemoApp >> initializeGeometry [
 	instances := self mockUIPanels.
 	numberOfInstances := instances size.
 	self uploadGeometry: instances
+]
+
+{ #category : 'initialization' }
+SDL3GPUShimmerDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_RIGHT
+		description: 'Next shimmer effect type'
+		action: [
+			effectType := (effectType + 1) \\ 3.
+			uniforms effectType: effectType ];
+		bindKey: SDLK_LEFT
+		description: 'Previous shimmer effect type'
+		action: [
+			effectType := effectType - 1.
+			effectType < 0 ifTrue: [ effectType := 2 ].
+			uniforms effectType: effectType ].
+	super initializeKeybindings
 ]
 
 { #category : 'initialization' }
@@ -229,8 +248,7 @@ SDL3GPUShimmerDemoApp >> updatedTitle [
 	effectType = 0 ifTrue: [ effectName := 'Linear Sweep' ].
 	effectType = 1 ifTrue: [ effectName := 'Pulsate' ].
 	effectType = 2 ifTrue: [ effectName := 'Angled Sweep' ].
-
-	^ super updatedTitle, (' - Effect: {1} (LEFT/RIGHT to change)' format: { effectName })
+	^ super updatedTitle, (' - Effect: {1}' format: { effectName })
 ]
 
 { #category : 'initialization' }
@@ -240,20 +258,4 @@ SDL3GPUShimmerDemoApp >> uploadGeometry: instances [
 	self
 		initializeQuadBuffers: instances;
 		setupGeometryBindings
-]
-
-{ #category : 'hooks' }
-SDL3GPUShimmerDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_RIGHT asInteger ifTrue: [
-		effectType := (effectType + 1) \\ 3.
-		uniforms effectType: effectType ].
-	aKeyboardDownEvent key = SDLK_LEFT asInteger ifTrue: [
-		effectType := effectType - 1.
-		effectType < 0 ifTrue: [ effectType := 2 ].
-		uniforms effectType: effectType ].
-
-	self updateTitle
 ]

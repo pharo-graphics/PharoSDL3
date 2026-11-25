@@ -1,5 +1,5 @@
 "
-I demonstrate how to render textured quads using the SDL3 GPU API and instanced rendering.
+This demo shows how to draw thousands of textured quads with hardware instancing and instance buffers.
 "
 Class {
 	#name : 'SDL3GPUInstancedQuadDemoApp',
@@ -107,6 +107,30 @@ SDL3GPUInstancedQuadDemoApp >> initializeGPUResources [
 	self updateIndexBuffer.
 	self initializePipeline.
 	self switchSamplerFilter
+]
+
+{ #category : 'initialization' }
+SDL3GPUInstancedQuadDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_F
+		description: 'Switch sampler filter'
+		action: [ self switchSamplerFilter ];
+		bindKey: SDLK_UP
+		description: 'Increase number of quads'
+		action: [ self incrementQuads ];
+		bindKey: SDLK_DOWN
+		description: 'Decrease number of quads'
+		action: [ self decrementQuads ];
+		bindKey: SDLK_R
+		description: 'Toggle rotation animation'
+		action: [
+			enableRotation := enableRotation > 0.5 ifTrue: [ 0.0 ] ifFalse: [ 1.0 ] ];
+		bindKey: SDLK_S
+		description: 'Toggle scale animation'
+		action: [
+			enableScale := enableScale > 0.5 ifTrue: [ 0.0 ] ifFalse: [ 1.0 ] ].
+	super initializeKeybindings
 ]
 
 { #category : 'initialization' }
@@ -252,30 +276,10 @@ SDL3GPUInstancedQuadDemoApp >> updateVertexBuffer [
 SDL3GPUInstancedQuadDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
-		(' - Count: {1} (UP/DOWN) - Filter: {2} (F) - Rot: {3} (R) - Scale: {4} (S)'
+		(' - Count: {1} - Filter: {2} - Rot: {3} - Scale: {4}'
 			format: {
 				numberOfQuads.
 				self isNearestSamplerFilter ifTrue: [ 'NEAREST' ] ifFalse: [ 'LINEAR' ].
-				enableRotation > 0.5 ifTrue: ['ON'] ifFalse: ['OFF'].
-				enableScale > 0.5 ifTrue: ['ON'] ifFalse: ['OFF'] })
-]
-
-{ #category : 'hooks' }
-SDL3GPUInstancedQuadDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_F asInteger ifTrue: [
-		self switchSamplerFilter.
-		self updateTitle ].
-	aKeyboardDownEvent key = SDLK_UP asInteger ifTrue: [
-		self incrementQuads ].
-	aKeyboardDownEvent key = SDLK_DOWN asInteger ifTrue: [
-		self decrementQuads ].
-	aKeyboardDownEvent key = SDLK_R asInteger ifTrue: [
-		enableRotation := enableRotation > 0.5 ifTrue: [0.0] ifFalse: [1.0].
-		self updateTitle ].
-	aKeyboardDownEvent key = SDLK_S asInteger ifTrue: [
-		enableScale := enableScale > 0.5 ifTrue: [0.0] ifFalse: [1.0].
-		self updateTitle ]
+				enableRotation > 0.5 ifTrue: [ 'ON' ] ifFalse: [ 'OFF' ].
+				enableScale > 0.5 ifTrue: [ 'ON' ] ifFalse: [ 'OFF' ] })
 ]

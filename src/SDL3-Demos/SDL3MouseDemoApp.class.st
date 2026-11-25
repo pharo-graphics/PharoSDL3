@@ -1,14 +1,5 @@
 "
-I am a demo application that demonstrates how to grab and ungrab the mouse in SDL3.
-I also demonstrate relative mouse mode, cursor visibility, mouse warping, and mouse rect confinement.
-
-### Usage
-- Press **M** to toggle Mouse Grab. When grabbed, the mouse cursor is confined to the window.
-- Press **R** to toggle Relative Mouse Mode. When enabled, the mouse cursor is hidden and only relative motion is reported.
-- Press **C** to toggle Cursor Visibility.
-- Press **W** to Warp Mouse to the center of the window.
-- Press **L** to Lock Mouse to a central sub-rectangle.
-- Press **ESCAPE** to exit.
+This demo shows mouse control features, including mouse grab, relative mouse mode, cursor visibility, warping, and system cursors.
 "
 Class {
 	#name : 'SDL3MouseDemoApp',
@@ -38,6 +29,31 @@ SDL3MouseDemoApp >> initialExtent [
 	^ 800 @ 240
 ]
 
+{ #category : 'initialization' }
+SDL3MouseDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_M
+		description: 'Toggle mouse grab'
+		action: [ window mouseGrabbed: window isMouseGrabbed not ];
+		bindKey: SDLK_R
+		description: 'Toggle relative mouse mode'
+		action: [ window relativeMouseModeEnabled: window isRelativeMouseMode not ];
+		bindKey: SDLK_C
+		description: 'Toggle cursor visibility'
+		action: [ SDL3Cursor toggleVisible ];
+		bindKey: SDLK_W
+		description: 'Warp mouse to (10, 10)'
+		action: [ window warpMouseInX: 10 y: 10 ];
+		bindKey: SDLK_L
+		description: 'Toggle locked mouse rectangle'
+		action: [ self toggleLockedMouseRectangle ];
+		bindKey: SDLK_N
+		description: 'Activate next system cursor'
+		action: [ self activateNextSystemCursor ].
+	super initializeKeybindings
+]
+
 { #category : 'lifecycle' }
 SDL3MouseDemoApp >> setUp [
 
@@ -61,15 +77,15 @@ SDL3MouseDemoApp >> step [
 	x := 20.
 	y := 20.
 
-	self showText: ('M: Mouse Grabbed: ', window isMouseGrabbed asString, ' - Confines the cursor within the window boundaries.')
+	self showText: ('Mouse Grabbed: ', window isMouseGrabbed asString)
 		x: x y: y
 		color: (window isMouseGrabbed ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: ('R: Relative Mouse Mode: ', window isRelativeMouseMode asString, ' - Hides cursor; sends motion as deltas.')
+	self showText: ('Relative Mouse Mode: ', window isRelativeMouseMode asString)
 		x: x y: y + 15
 		color: (window isRelativeMouseMode ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: ('C: Cursor Visible: ', SDL3Cursor isVisible asString, ' - Toggles the visibility of the system mouse cursor.')
+	self showText: ('Cursor Visible: ', SDL3Cursor isVisible asString)
 		x: x y: y + 30
 		color: (SDL3Cursor isVisible ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
@@ -78,33 +94,29 @@ SDL3MouseDemoApp >> step [
 	isMouseLocked ifTrue: [
 		renderer renderDrawColor: Color yellow.
 		renderer renderRect: (SDL3FRect newFrom: mouseSDLRect) ].
-	self showText: ('L: Mouse Locked to Rect: ', isMouseLocked asString, ' - Confines mouse to a specific sub-area.')
+	self showText: ('Mouse Locked: ', isMouseLocked asString)
 		x: x y: y + 45
 		color: (isMouseLocked ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: 'W: Warp Mouse - Move mouse cursor to the specified position.'
+	self showText: ('Current System Cursor: ', cursorId item)
 		x: x y: y + 60
-		color: Color white.
-
-	self showText: ('N: Current system cursor: ', cursorId item)
-		x: x y: y + 75
 		color: Color cyan.
 
 	mousePosition := sdl mousePosition.
 	self showText: ('Local Position: ', (mousePosition x printShowingDecimalPlaces: 2), ' @ ', (mousePosition y printShowingDecimalPlaces: 2))
-		x: x y: y + 100
+		x: x y: y + 85
 		color: Color lightYellow.
 
 	globalMousePosition := sdl globalMousePosition.
 	self showText: ('Global Position: ', (globalMousePosition x printShowingDecimalPlaces: 2), ' @ ', (globalMousePosition y printShowingDecimalPlaces: 2))
-		x: x y: y + 115
+		x: x y: y + 100
 		color: Color lightYellow.
 
 	pressedButtons := (SDL3MouseButtonFlagsMask allValuesIn:
 		(sdl getMouseStateX: ExternalAddress null y: ExternalAddress null))
 			collect: [ :e | e item ].
 	self showText: ('Buttons: ', (pressedButtons ifEmpty: [ 'None' ] ifNotEmpty: [ ', ' join: pressedButtons ]))
-		x: x y: y + 130
+		x: x y: y + 115
 		color: Color lightYellow.
 
 	self present
@@ -121,27 +133,4 @@ SDL3MouseDemoApp >> toggleLockedMouseRectangle [
 			window mouseRect: (SDL3Rect newFrom: lockRect) ]
 		ifFalse: [
 			window mouseRect: ExternalAddress null ]
-]
-
-{ #category : 'hooks' }
-SDL3MouseDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	| key |
-	key := aKeyboardDownEvent key.
-	
-	key = SDLK_M ifTrue: [ 
-		window mouseGrabbed: window isMouseGrabbed not ].
-
-	key = SDLK_R ifTrue: [ 
-		window relativeMouseModeEnabled: window isRelativeMouseMode not ].
-
-	key = SDLK_C ifTrue: [ SDL3Cursor toggleVisible ].
-
-	key = SDLK_W ifTrue: [ window warpMouseInX: 10 y: 10 ].
-
-	key = SDLK_L ifTrue: [ self toggleLockedMouseRectangle ].
-
-	key = SDLK_N ifTrue: [ self activateNextSystemCursor ].
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent
 ]

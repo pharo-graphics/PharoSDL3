@@ -1,5 +1,5 @@
 "
-I'm a demo of SDL3 multi-stream audio mixing and polyphonic playback using a single playback device. I'm based on SDL's `examples/audio/04-multiple-streams`.
+This demo shows multi-stream audio mixing and playback on a single audio device.
 "
 Class {
 	#name : 'SDL3AudioMixingDemoApp',
@@ -69,6 +69,16 @@ SDL3AudioMixingDemoApp >> initialize [
 	activeStreams := OrderedCollection new
 ]
 
+{ #category : 'initialization' }
+SDL3AudioMixingDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_SPACE
+		description: 'Play gunshot audio sample (press repeatedly to overlap)'
+		action: [ self playShot ].
+	super initializeKeybindings
+]
+
 { #category : 'playback' }
 SDL3AudioMixingDemoApp >> openPlaybackDevice [
 	"Open the default audio playback device. In SDL3, devices opened with SDL_OpenAudioDevice
@@ -111,11 +121,8 @@ SDL3AudioMixingDemoApp >> render [
 	self
 		clearColor: (Color r: 0.1 g: 0.35 b: 0.3);
 		showText: 'PLAYING' x: 20 y: 30 color: Color white;
-		showText: ('Active overlapping voices: {1}' format: { activeStreams size }) x: 20 y: 60 color: Color yellow.
-
-	self
-		showText: 'Press SPACE to trigger shot (press repeatedly to overlap)' x: 20 y: 100 color: Color white;
-		showText: 'Playback device: ', playbackDevice name x: 20 y: 160 color: Color lightGray.
+		showText: ('Active overlapping voices: {1}' format: { activeStreams size }) x: 20 y: 60 color: Color yellow;
+		showText: 'Playback device: ', playbackDevice name x: 20 y: 100 color: Color lightGray.
 
 	self present
 ]
@@ -157,12 +164,4 @@ SDL3AudioMixingDemoApp >> tearDown [
 		activeStreams removeAll ].
 
 	super tearDown
-]
-
-{ #category : 'visiting - concrete' }
-SDL3AudioMixingDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_SPACE asInteger ifTrue: [ self playShot ]
 ]

@@ -1,5 +1,6 @@
 "
-I'm a demo of SDL3 GPU renderer API introduced in SDL 3.4.0, that applies a fragment shader post-processing effect on a Pharo Morphic World screenshot, and paints a Pharo logo on top of it, to constrast and emulate a dialog box somehow.
+This demo shows how to apply a fragment shader post-processing effect using the SDL renderer API.
+It applies a shader to a screenshot of the Pharo World and draws a Pharo logo on top.
 "
 Class {
 	#name : 'SDL3GPURenderStateDemoApp',
@@ -59,6 +60,25 @@ SDL3GPURenderStateDemoApp >> initializeGPURenderStates [
 
 	"We'll update these input before each render to produce an animation"
 	uniformBuffer := SDL3GPURenderStateDemoUniformBuffer new
+]
+
+{ #category : 'initialization' }
+SDL3GPURenderStateDemoApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_RIGHT
+		description: 'Next render state'
+		action: [
+			renderStateIndex := renderStateIndex + 1.
+			renderStateIndex > renderStates size ifTrue: [
+				renderStateIndex := 1 ] ];
+		bindKey: SDLK_LEFT
+		description: 'Previous render state'
+		action: [
+			renderStateIndex := renderStateIndex - 1.
+			renderStateIndex < 1 ifTrue: [
+				renderStateIndex := renderStates size ] ].
+	super initializeKeybindings
 ]
 
 { #category : 'lifecycle' }
@@ -152,24 +172,5 @@ SDL3GPURenderStateDemoApp >> updatedTitle [
 
 	^ super updatedTitle,
 		' - Shader: ',
-		(shaderSources at: renderStateIndex) name,
-		' (LEFT/RIGHT to change)'
-]
-
-{ #category : 'hooks' }
-SDL3GPURenderStateDemoApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
-
-	super visitKeyboardDownEvent: aKeyboardDownEvent.
-
-	aKeyboardDownEvent key = SDLK_RIGHT asInteger ifTrue: [
-		renderStateIndex := renderStateIndex + 1.
-		renderStateIndex > renderStates size ifTrue: [
-			renderStateIndex := 1 ] ].
-
-	aKeyboardDownEvent key = SDLK_LEFT asInteger ifTrue: [
-		renderStateIndex := renderStateIndex - 1.
-		renderStateIndex < 1 ifTrue: [
-			renderStateIndex := renderStates size ] ].
-
-	self updateTitle
+		(shaderSources at: renderStateIndex) name
 ]
