@@ -77,15 +77,15 @@ SDL3MouseDemoApp >> step [
 	x := 20.
 	y := 20.
 
-	self showText: ('M: Mouse Grabbed: ', window isMouseGrabbed asString, ' - Confines the cursor within the window boundaries.')
+	self showText: ('Mouse Grabbed: ', window isMouseGrabbed asString)
 		x: x y: y
 		color: (window isMouseGrabbed ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: ('R: Relative Mouse Mode: ', window isRelativeMouseMode asString, ' - Hides cursor; sends motion as deltas.')
+	self showText: ('Relative Mouse Mode: ', window isRelativeMouseMode asString)
 		x: x y: y + 15
 		color: (window isRelativeMouseMode ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: ('C: Cursor Visible: ', SDL3Cursor isVisible asString, ' - Toggles the visibility of the system mouse cursor.')
+	self showText: ('Cursor Visible: ', SDL3Cursor isVisible asString)
 		x: x y: y + 30
 		color: (SDL3Cursor isVisible ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
@@ -94,33 +94,29 @@ SDL3MouseDemoApp >> step [
 	isMouseLocked ifTrue: [
 		renderer renderDrawColor: Color yellow.
 		renderer renderRect: (SDL3FRect newFrom: mouseSDLRect) ].
-	self showText: ('L: Mouse Locked to Rect: ', isMouseLocked asString, ' - Confines mouse to a specific sub-area.')
+	self showText: ('Mouse Locked: ', isMouseLocked asString)
 		x: x y: y + 45
 		color: (isMouseLocked ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	self showText: 'W: Warp Mouse - Move mouse cursor to the specified position.'
+	self showText: ('Current System Cursor: ', cursorId item)
 		x: x y: y + 60
-		color: Color white.
-
-	self showText: ('N: Current system cursor: ', cursorId item)
-		x: x y: y + 75
 		color: Color cyan.
 
 	mousePosition := sdl mousePosition.
 	self showText: ('Local Position: ', (mousePosition x printShowingDecimalPlaces: 2), ' @ ', (mousePosition y printShowingDecimalPlaces: 2))
-		x: x y: y + 100
+		x: x y: y + 85
 		color: Color lightYellow.
 
 	globalMousePosition := sdl globalMousePosition.
 	self showText: ('Global Position: ', (globalMousePosition x printShowingDecimalPlaces: 2), ' @ ', (globalMousePosition y printShowingDecimalPlaces: 2))
-		x: x y: y + 115
+		x: x y: y + 100
 		color: Color lightYellow.
 
 	pressedButtons := (SDL3MouseButtonFlagsMask allValuesIn:
 		(sdl getMouseStateX: ExternalAddress null y: ExternalAddress null))
 			collect: [ :e | e item ].
 	self showText: ('Buttons: ', (pressedButtons ifEmpty: [ 'None' ] ifNotEmpty: [ ', ' join: pressedButtons ]))
-		x: x y: y + 130
+		x: x y: y + 115
 		color: Color lightYellow.
 
 	self present

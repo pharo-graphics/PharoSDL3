@@ -74,7 +74,7 @@ SDL3AudioMixingDemoApp >> initializeKeybindings [
 
 	self
 		bindKey: SDLK_SPACE
-		description: 'Play gunshot audio sample'
+		description: 'Play gunshot audio sample (press repeatedly to overlap)'
 		action: [ self playShot ].
 	super initializeKeybindings
 ]
@@ -121,11 +121,8 @@ SDL3AudioMixingDemoApp >> render [
 	self
 		clearColor: (Color r: 0.1 g: 0.35 b: 0.3);
 		showText: 'PLAYING' x: 20 y: 30 color: Color white;
-		showText: ('Active overlapping voices: {1}' format: { activeStreams size }) x: 20 y: 60 color: Color yellow.
-
-	self
-		showText: 'Press SPACE to trigger shot (press repeatedly to overlap)' x: 20 y: 100 color: Color white;
-		showText: 'Playback device: ', playbackDevice name x: 20 y: 160 color: Color lightGray.
+		showText: ('Active overlapping voices: {1}' format: { activeStreams size }) x: 20 y: 60 color: Color yellow;
+		showText: 'Playback device: ', playbackDevice name x: 20 y: 100 color: Color lightGray.
 
 	self present
 ]

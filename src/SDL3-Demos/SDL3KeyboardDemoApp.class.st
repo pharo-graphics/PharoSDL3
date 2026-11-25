@@ -45,8 +45,8 @@ SDL3KeyboardDemoApp >> step [
 
 	| modState keyboardState |
 	console clear.
-	console addLine: ('K: Keyboard Grabbed: <1p> - (Capture even OS shortcuts e.g. Alt-Tab, if OS allows it)' expandMacrosWith: window isKeyboardGrabbed).
-	console addLine: ('I: Text Input: <1p> - Is Unicode text input active?' expandMacrosWith: window isTextInputActive).
+	console addLine: ('Is Keyboard Grabbed? <1p> (Capture even OS shortcuts e.g. Alt-Tab, if OS allows it)' expandMacrosWith: window isKeyboardGrabbed).
+	console addLine: ('Is Text Input? <1p> (Is Unicode text input active?)' expandMacrosWith: window isTextInputActive).
 
 	modState := sdl getModState.
 	keyboardState := sdl getKeyboardState: nil.

@@ -1,6 +1,5 @@
 "
 This demo shows the system folder selection dialog.
-Click the window to open the folder dialog.
 "
 Class {
 	#name : 'SDL3FolderDialogDemoApp',
@@ -20,10 +19,22 @@ SDL3FolderDialogDemoApp >> initialExtent [
 ]
 
 { #category : 'initialization' }
-SDL3FolderDialogDemoApp >> initialize [
+SDL3FolderDialogDemoApp >> initializeKeybindings [
 
-	super initialize.
-	console addLine: 'CLICK TO OPEN DIALOG'
+	self
+		bindKey: SDLK_SPACE
+		description: 'Open folder selection dialog'
+		action: [ self openFolderDialog ].
+	super initializeKeybindings
+]
+
+{ #category : 'actions' }
+SDL3FolderDialogDemoApp >> openFolderDialog [
+
+	self
+		showOpenFolderIfSuccess: [ :paths |
+			paths do: [ :path | console addLine: 'Path selected: ', path ] ]
+		ifError: [ console addLine: 'Error or cancelled!!!' ]
 ]
 
 { #category : 'utilities' }
@@ -53,14 +64,4 @@ SDL3FolderDialogDemoApp >> step [
 
 	self clearColor: Color blue muchDarker.
 	self present
-]
-
-{ #category : 'visiting - concrete' }
-SDL3FolderDialogDemoApp >> visitMouseButtonDownEvent: aMouseButtonDownEvent [
-
-	super visitMouseButtonDownEvent: aMouseButtonDownEvent.
-	
-	self showOpenFolderIfSuccess: [ :paths |
-		paths do: [ :path | console addLine: 'Path selected: ', path ] ]
-	ifError: [ console addLine: 'Error or cancelled!!!' ]
 ]

@@ -56,7 +56,7 @@ SDL3WindowChildrenDemoApp >> initializeKeybindings [
 
 	self
 		bindKey: SDLK_U
-		description: 'Toggle utility child window'
+		description: 'Toggle utility child window (hidden from taskbar and window list)'
 		action: [
 			children values
 				detect: [ :each | each isUtility ]
@@ -74,7 +74,7 @@ SDL3WindowChildrenDemoApp >> initializeKeybindings [
 					child position: window position + window extent - length.
 					self addChild: child type: #Utility ] ];
 		bindKey: SDLK_T
-		description: 'Show popup tooltip'
+		description: 'Show popup tooltip (no focus or input events; click to dismiss)'
 		action: [
 			| position child |
 			self removeTooltips.
@@ -87,7 +87,7 @@ SDL3WindowChildrenDemoApp >> initializeKeybindings [
 				flags: SDL_WINDOW_TOOLTIP.
 			self addChild: child type: #PopupTooltip ];
 		bindKey: SDLK_M
-		description: 'Show popup menu'
+		description: 'Show popup menu (gains keyboard focus; click to dismiss)'
 		action: [
 			| position child |
 			self removePopupMenus.
@@ -100,7 +100,7 @@ SDL3WindowChildrenDemoApp >> initializeKeybindings [
 				flags: SDL_WINDOW_POPUP_MENU.
 			self addChild: child type: #PopupMenu ];
 		bindKey: SDLK_D
-		description: 'Show modal dialog'
+		description: 'Show modal dialog (blocks input to parent until closed)'
 		action: [
 			| child |
 			child := SDL3Window
@@ -112,10 +112,10 @@ SDL3WindowChildrenDemoApp >> initializeKeybindings [
 			child modal: true.
 			self addChild: child type: #Modal ];
 		bindKey: SDLK_A
-		description: 'Toggle always on top'
+		description: 'Toggle always-on-top (keeps main window above others)'
 		action: [ window alwaysOnTop: window isAlwaysOnTop not ];
 		bindKey: SDLK_F
-		description: 'Trigger window flash (3s countdown)'
+		description: 'Flash main window after 3s (unfocus window to see effect)'
 		action: [ flashCountdown := Time millisecondClockValue + 3000 ].
 	super initializeKeybindings
 ]
@@ -191,45 +191,42 @@ SDL3WindowChildrenDemoApp >> renderParent [
 	x := 20.
 	y := 20.
 
-	self showText: 'U: Toggle Utility Window (at right)' x: x y: y color: Color white.
-	self showText: 'T: Show Popup Tooltip (receives no events; click to dismiss)' x: x y: y + 15 color: Color white.
-	self showText: 'M: Show Popup Menu (click to dismiss)' x: x y: y + 30 color: Color white.
-	self showText: 'D: Show Modal Dialog' x: x y: y + 45 color: Color white.
-	self showText: 'A: Toggle Always-on-Top' x: x y: y + 60 color: (window isAlwaysOnTop ifTrue: [ Color green ] ifFalse: [ Color white ]).
-	self showText: 'Wheel: Adjust Opacity of window under cursor' x: x y: y + 75 color: Color white.
+	self showText: ('Always-on-Top: ', window isAlwaysOnTop asString)
+		x: x y: y
+		color: (window isAlwaysOnTop ifTrue: [ Color green ] ifFalse: [ Color white ]).
 
-	flashCountdown > 0
-		ifFalse: [
-			self
-				showText: 'F: Flash Main Window (3s delay - lose focus to see the effect)'
-				x: x y: y + 90 color: Color white ]
-		ifTrue: [
-			| now |
-			now := Time millisecondClockValue.
-			now >= flashCountdown
-				ifTrue: [
-					window flashWithOperation: SDL3FlashOperation untilFocused.
-					flashCountdown := 0 ]
-				ifFalse: [
-					| remaining |
-					remaining := ((flashCountdown - now) / 1000.0) printShowingDecimalPlaces: 1.
-					self
-						showText: ('*** FLASHING IN ', remaining, 's ***')
-						x: x y: y + 90 color: Color yellow ] ].
-
-	self showText: ('Active Child Windows: ', children size asString) x: x y: y + 115 color: Color lightYellow.
+	self showText: ('Active Child Windows: ', children size asString)
+		x: x y: y + 15
+		color: Color lightYellow.
 
 	self showText: ('Main Window Events: ', (eventCounts at: window id ifAbsent: [ 0 ]) asString)
-		x: x y: y + 140 color: Color cyan.
+		x: x y: y + 35
+		color: Color cyan.
 
 	self showText: ('Main Window Opacity: ', (window opacity * 100) rounded asString, '%')
-		x: x y: y + 155 color: Color cyan.
+		x: x y: y + 50
+		color: Color cyan.
 
 	window hasInputFocus ifTrue: [
-		self showText: '*** FOCUSED ***' x: x y: y + 170 color: Color green ].
+		self showText: '*** FOCUSED ***' x: x y: y + 70 color: Color green ].
 
 	isModalActive ifTrue: [
-		self showText: '*** LOCKED BY MODAL WINDOW  ***' x: x y: y + 170 color: Color red ].
+		self showText: '*** LOCKED BY MODAL WINDOW ***' x: x y: y + 70 color: Color red ].
+
+	flashCountdown > 0 ifTrue: [
+		| now |
+		now := Time millisecondClockValue.
+		now >= flashCountdown
+			ifTrue: [
+				window flashWithOperation: SDL3FlashOperation untilFocused.
+				flashCountdown := 0 ]
+			ifFalse: [
+				| remaining |
+				remaining := ((flashCountdown - now) / 1000.0) printShowingDecimalPlaces: 1.
+				self
+					showText: ('*** FLASHING IN ', remaining, 's ***')
+					x: x y: y + 90
+					color: Color yellow ] ].
 
 	self present
 ]

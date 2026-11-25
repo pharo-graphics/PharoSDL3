@@ -39,7 +39,7 @@ SDL3AudioRecorderDemoApp >> initializeKeybindings [
 
 	self
 		bindKey: SDLK_SPACE
-		description: 'Hold to record audio'
+		description: 'Hold to record audio (release to play at current frequency ratio)'
 		action: [ :aKeyboardDownEvent |
 			aKeyboardDownEvent isRepeat ifFalse: [
 				playbackStream
@@ -80,7 +80,7 @@ SDL3AudioRecorderDemoApp >> openRecordingStream [
 { #category : 'lifecycle' }
 SDL3AudioRecorderDemoApp >> render [
 
-	(recordingStream isDevicePaused
+	recordingStream isDevicePaused
 		ifFalse: [
 			self
 				clearColor: Color red;
@@ -96,14 +96,12 @@ SDL3AudioRecorderDemoApp >> render [
 				ifFalse: [
 					self
 						clearColor: Color blue;
-						showText: 'IDLE' x: 20 y: 40 color: Color white;
-						showText: 'Press SPACE to RECORD' x: 20 y: 80 color: Color white;
-						showText: 'Release SPACE to PLAY' x: 20 y: 100 color: Color white.
-				] ]).
+						showText: 'IDLE' x: 20 y: 40 color: Color white ] ].
 
-	self showText: 'Recording device: ', recordingStream device name x: 20 y: 140.
-	self showText: 'Playback device:  ', playbackStream device name x: 20 y: 160.
-	self showText: 'Frequency ratio (UP/DOWN): ', (frequencyRatio printShowingDecimalPlaces: 2) x: 20 y: 180.
+	self
+		showText: 'Recording device: ', recordingStream device name x: 20 y: 120;
+		showText: 'Playback device:  ', playbackStream device name x: 20 y: 140;
+		showText: 'Frequency ratio: ', (frequencyRatio printShowingDecimalPlaces: 2) x: 20 y: 160.
 
 	self present
 ]
