@@ -81,13 +81,15 @@ OSSDL3DeliverOSEventHandler >> driver: anObject [
 { #category : 'events' }
 OSSDL3DeliverOSEventHandler >> handle: aSDL3MappedEvent [
 
-	| osEvent |
-	osEvent := aSDL3MappedEvent accept: self.
-	osEvent ifNil: [ ^ nil ]. "Some events are discarded"
-
-	aSDL3MappedEvent windowID
-		ifNil: [ driver deliverGlobalEvent: osEvent ]
-		ifNotNil: [ driver deliverEvent: osEvent windowID: aSDL3MappedEvent windowID ]
+	^ aSDL3MappedEvent windowID
+		ifNil: [
+			(aSDL3MappedEvent accept: self) ifNotNil: [ :osEvent |
+				driver deliverGlobalEvent: osEvent ] ]
+		ifNotNil: [ :windowID |
+			"Check window registration before converting so stale events for destroyed windows are discarded."
+			driver backendWindowWithId: windowID ifPresent: [ :backendWindow |
+				(aSDL3MappedEvent accept: self) ifNotNil: [ :osEvent |
+					osEvent deliverForOSSDL3BackendWindow: backendWindow ] ] ]
 ]
 
 { #category : 'private' }
@@ -243,8 +245,6 @@ OSSDL3DeliverOSEventHandler >> visitWindowDisplayScaleChangedEvent: anEvent [
 	"Handle the window display scale change."
 
 	^ OSWindowResolutionChangeEvent new
-		screenScaleFactor: anEvent window displayScale;
-		yourself
 ]
 
 { #category : 'visiting - conversion' }
@@ -317,8 +317,6 @@ OSSDL3DeliverOSEventHandler >> visitWindowPixelSizeChangedEvent: anEvent [
 	"Handle the window pixel size change."
 
 	^ OSWindowResolutionChangeEvent new
-		screenScaleFactor: anEvent window displayScale;
-		yourself
 ]
 
 { #category : 'visiting - conversion' }

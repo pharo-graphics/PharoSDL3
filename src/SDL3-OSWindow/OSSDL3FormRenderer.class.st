@@ -91,6 +91,13 @@ OSSDL3FormRenderer >> flush [
 	"Process any pending presentation to the screen."
 ]
 
+{ #category : 'accessing' }
+OSSDL3FormRenderer >> form: aForm [
+	"Synchronize form updates with rendering operations on other processes."
+
+	mutex critical: [ super form: aForm ]
+]
+
 { #category : 'initialization' }
 OSSDL3FormRenderer >> initialize [
 
@@ -226,6 +233,8 @@ OSSDL3FormRenderer >> updateToNewResolution [
 OSSDL3FormRenderer >> validate [
 
 	form ifNil: [ ^ false ].
+	"SDL3 rejects zero-sized textures (for example, when a window is minimized on Windows or Wayland)."
+	(form width <= 0 or: [ form height <= 0 ]) ifTrue: [ ^ false ].
 
 	(sdlRenderer isNil or: [ sdlRenderer isNull ])
 		ifTrue: [ self createRenderer ].

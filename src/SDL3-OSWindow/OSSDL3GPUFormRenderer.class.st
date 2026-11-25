@@ -44,11 +44,18 @@ OSSDL3GPUFormRenderer >> destroy [
 		gpuTexture ifNotNil: [
 			gpuTexture dispose.
 			gpuTexture := nil ].
-		
-		uploadStream ifNotNil: [ 
+
+		uploadStream ifNotNil: [
 			uploadStream destroy.
-			uploadStream := nil ]
-		]
+			uploadStream := nil ].
+
+		needsFlush := false ]
+]
+
+{ #category : 'accessing' }
+OSSDL3GPUFormRenderer >> extent [
+
+	^ extent
 ]
 
 { #category : 'updating screen' }
@@ -59,6 +66,8 @@ OSSDL3GPUFormRenderer >> flush [
 		| commandBuffer |
 		needsFlush ifFalse: [ ^ self ].
 		self validate ifFalse: [ ^ self ].
+		"Stop if #validate recreated the texture and cleared needsFlush."
+		needsFlush ifFalse: [ ^ self ].
 
 		"Try to Acquire Swapchain texture (Non-blocking)."
 		commandBuffer := gpuDevice acquireGPUCommandBuffer.
@@ -72,14 +81,14 @@ OSSDL3GPUFormRenderer >> flush [
 		[	swapchainTextureHolder value isNull ifFalse: [
 
 				commandBuffer blitFrom: gpuTexture to: swapchainTextureHolder value do: [ :blitInfo |
-					blitInfo source 
+					blitInfo source
 						w: extent x;
 						h: extent y.
-						
-					blitInfo destination 
+
+					blitInfo destination
 						w: swapchainWidthHolder value;
 						h: swapchainHeightHolder value.
-						
+
 					blitInfo
 						loadOp: SDL_GPU_LOADOP_DONT_CARE;
 						filter: SDL_GPU_FILTER_LINEAR ].
@@ -87,6 +96,13 @@ OSSDL3GPUFormRenderer >> flush [
 				needsFlush := false ]
 
 			] ensure: [ commandBuffer submit ] ]
+]
+
+{ #category : 'accessing' }
+OSSDL3GPUFormRenderer >> form: aForm [
+	"Synchronize form updates with #flush and #updateAreas:immediate: on other processes."
+
+	mutex critical: [ super form: aForm ]
 ]
 
 { #category : 'accessing' }
@@ -117,11 +133,11 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	extent := form extent.
 
 	gpuTexture ifNotNil: [ gpuTexture dispose ].
-	
+
 	gpuTexture := gpuDevice
 		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
-		width: extent x 
+		width: extent x
 		height: extent y.
 
 	uploadStream ifNil: [
@@ -134,7 +150,9 @@ OSSDL3GPUFormRenderer >> initializeGPUResources [
 	"Pre-allocate to avoid GC pressure in hot path"
 	swapchainTextureHolder := (FFIExternalValueHolder ofType: SDL_GPUTexture) new.
 	swapchainWidthHolder := FFIUInt32 newValueHolder.
-	swapchainHeightHolder := FFIUInt32 newValueHolder
+	swapchainHeightHolder := FFIUInt32 newValueHolder.
+	"Wait for a pixel upload before blitting the new texture."
+	needsFlush := false
 ]
 
 { #category : 'private' }
@@ -264,12 +282,14 @@ OSSDL3GPUFormRenderer >> updateToNewResolution [
 OSSDL3GPUFormRenderer >> validate [
 
 	form ifNil: [ ^ false ].
+	"SDL3 rejects zero-sized textures (for example, when a window is minimized on Windows or Wayland)."
+	(form width <= 0 or: [ form height <= 0 ]) ifTrue: [ ^ false ].
 
 	(gpuDevice isNil or: [ gpuDevice isNull ]) ifTrue: [ ^ false ].
 
-	(gpuTexture isNil or: [ 
-		 gpuTexture isNull or: [ 
-			 uploadStream isNil or: [ form extent ~= extent ] ] ]) ifTrue: [ 
+	(gpuTexture isNil or: [
+		gpuTexture isNull or: [
+			uploadStream isNil or: [ form extent ~= extent ] ] ]) ifTrue: [
 		self initializeGPUResources ].
 
 	^ true
