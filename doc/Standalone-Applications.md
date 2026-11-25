@@ -18,7 +18,8 @@ PharoSDL3 is not only an FFI binding or an OSWindow driver backend; it also prov
 `SDL3App` uses the Template Method pattern to establish a predictable lifecycle:
 
 - **`subsystemInitFlags`**: Answers the SDL subsystems to initialize upon launch (defaults to `SDL_INIT_VIDEO`).
-- **`setUp`**: Executed immediately before the main loop begins. Ideal for opening windows, compiling pipelines, and loading textures. All resources registered with `DiScope own:` are retained during execution.
+- **`initializeKeybindings`**: Registers declarative keyboard shortcuts via `#bindKey:description:action:` (defaults to binding `SDLK_ESCAPE` to quit).
+- **`setUp`**: Executed immediately before the main loop begins (and prints the application's class comment and registered key bindings banner to `stdout`). Ideal for opening windows, compiling pipelines, and loading textures. All resources registered with `DiScope own:` are retained during execution.
 - **`step`**: Executed once per frame. Use this hook for simulation updates, input handling responses, and rendering.
 - **`tearDown`**: Pre-cleanup hook executed when the loop terminates, just before scoped resources are sent `#dispose`.
 - **Automatic Initialization and Shutdown**: Guaranteed `#sdlInit` and `#sdlQuit` calls wrapped in `ensure:` blocks.
@@ -36,7 +37,7 @@ The application loop is driven by `SDL3CappedLoop`:
 - **Frame Rate Capping**: Targets 60 Hz by default (`hertz: 60`). It schedules against progressive absolute deadlines (`nextDeadlineUS`) to prevent timing drift and yields spare time to the Pharo VM via `Delay`, preventing CPU starvation. See [`Loop-Pacing-And-VSync.md`](./Loop-Pacing-And-VSync.md) for details.
 - **Session Safety**: Checks `Smalltalk session ~~ session` on each iteration to cleanly stop execution if the image is saved or restarted.
 - **Integrated Event Polling**: On every iteration, events are polled from `SDL3Library`, converted to `SDL3MappedEvent` instances via `SDL3EventMap`, and dispatched to the application using `#accept: self`.
-- **Default Handlers**: Built-in handling for `SDL_EVENT_QUIT` and the `ESCAPE` key requests loop termination gracefully.
+- **Default Handlers and Key Bindings**: Built-in handling for `SDL_EVENT_QUIT` and automatic dispatch of key bindings registered in `#initializeKeybindings` (including `ESCAPE` to quit by default).
 
 ---
 
@@ -66,9 +67,12 @@ MyGameApp >> step [
 		renderPresent.
 ]
 
-MyGameApp >> visitKeyboardDownEvent: anEvent [
-	anEvent key = SDLK_SPACE asInteger ifTrue: [ "handle spacebar" ].
-	^ super visitKeyboardDownEvent: anEvent
+MyGameApp >> initializeKeybindings [
+	self
+		bindKey: SDLK_SPACE
+		description: 'Trigger action'
+		action: [ "handle spacebar" ].
+	super initializeKeybindings
 ]
 ```
 

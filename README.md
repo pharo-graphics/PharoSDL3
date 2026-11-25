@@ -74,37 +74,37 @@ Run tests from the terminal:
 You can run any of the following demos by evaluating `./pharo Pharo.image eval '<ClassName> new run'` from terminal. They are listed below from simplest to most advanced:
 
 #### Core API Demos
-- `SDL3ClearDemoApp`: The basic "Hello World" of **window management** and rendering clear operations.
-- `SDL3LogEventsDemoApp`: Real-time logging of the SDL3 **event stream** (mouse, keyboard, window) to a console.
-- `SDL3SystemQueryDemoApp`: Queries system and device properties like **display modes**, **audio drivers**, and **video drivers**.
-- `SDL3DisplayDemoApp`: Visualizes logical **display layouts**, hardware specs, and multiple display boundary frontiers.
-- `SDL3MouseDemoApp`: Mouse-related functions including **grabbing**, **relative mode**, **window confinement**, **warping**, and **system cursors**.
-- `SDL3KeyboardDemoApp`: Low-level keyboard state monitoring (**scancodes**, **keycodes**, **modifiers**) and **Unicode text input**.
-- `SDL3WindowChildrenDemoApp`: Parent/child window relationships including **utility**, **tooltip**, **popup menu**, and **modal** behaviors.
-- `SDL3AnimatedCursorDemoApp`: Creation and usage of custom **animated cursors** from image frames ([Video](https://youtube.com/shorts/r7KVAxjZ70w?feature=share)).
-- `SDL3MultiWindowDemoApp`: Management and update loops for multiple top-level windows simultaneously.
-- `SDL3TouchpadDemoApp`: **Multi-touch** finger tracking ([Video](https://youtube.com/shorts/xlDduwDMxZw?feature=share)).
-- `SDL3TouchpadZoomDemoApp`: Smooth zooming gestures utilizing complex **touchpad pinch events**.
-- `SDL3AudioRecorderDemoApp`: **Audio capture** from the system's default microphone and single-stream playback.
-- `SDL3AudioMixingDemoApp`: **Multi-stream playback** bound to a shared playback audio device.
-- `SDL3CameraDemoApp`: Live frame acquisition from a camera with horizontal mirror support.
-- `SDL3TrayMenuDemoApp`: **System tray** integration, including icon management and contextual menus ([Video](https://youtu.be/L6Mw00fW1bE)).
-- `SDL3ImageClipboardDemoApp`: **System clipboard** integration for copying and pasting image data.
-- `SDL3FolderDialogDemoApp`: Native system **file/folder selection dialogs**.
+- `SDL3ClearDemoApp`: Shows how to open a window and clear the background with changing colors.
+- `SDL3LogEventsDemoApp`: Shows real-time logging of the SDL3 **event stream** (mouse, keyboard, window) to an on-screen console.
+- `SDL3SystemQueryDemoApp`: Shows how to query system properties like **display modes**, **audio drivers**, and **video drivers**.
+- `SDL3DisplayDemoApp`: Shows logical **display layouts**, display bounds, and hardware specifications across multiple monitors.
+- `SDL3MouseDemoApp`: Shows mouse control features including **mouse grab**, **relative mode**, **cursor visibility**, **warping**, and **system cursors**.
+- `SDL3KeyboardDemoApp`: Shows low-level keyboard state monitoring (**scancodes**, **keycodes**, **modifiers**) and **Unicode text input**.
+- `SDL3WindowChildrenDemoApp`: Shows parent and child window relationships including **utility**, **tooltip**, **popup menu**, and **modal** windows.
+- `SDL3AnimatedCursorDemoApp`: Shows how to create and display custom **animated cursors** from image frames ([Video](https://youtube.com/shorts/r7KVAxjZ70w?feature=share)).
+- `SDL3MultiWindowDemoApp`: Shows how to control multiple top-level windows in a single application loop.
+- `SDL3TouchpadDemoApp`: Shows **multi-touch** finger tracking on a touchpad ([Video](https://youtube.com/shorts/xlDduwDMxZw?feature=share)).
+- `SDL3TouchpadZoomDemoApp`: Shows zooming gestures with **touchpad pinch events**.
+- `SDL3AudioRecorderDemoApp`: Shows **audio recording** from the default microphone and single-stream playback.
+- `SDL3AudioMixingDemoApp`: Shows **multi-stream audio mixing** and playback on a single audio device.
+- `SDL3CameraDemoApp`: Shows live frame acquisition from a camera with horizontal mirror support.
+- `SDL3TrayMenuDemoApp`: Shows **system tray** integration, including tray icons and contextual menus ([Video](https://youtu.be/L6Mw00fW1bE)).
+- `SDL3ImageClipboardDemoApp`: Shows **system clipboard** integration for copying and pasting image data.
+- `SDL3FolderDialogDemoApp`: Shows native system **file and folder selection dialogs**.
 
 #### GPU API Demos (Advanced Graphics)
-- `SDL3GPUClearDemoApp`: The simplest entry point to the hardware-accelerated GPU API, showing basic **render pass** and **clear color** setup.
-- `SDL3GPURenderStateDemoApp`: Simplified use of the **graphics pipeline** via the `SDL_Renderer` API. ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ))
-- `SDL3GPUQuadDemoApp`: Foundations of geometry: rendering a textured quad using **vertex buffers**, **index buffers**, and **UV mapping** ([Video](https://youtube.com/shorts/j4yIu-TdR0o?feature=share)).
-- `SDL3GPURoundedRectDemoApp`: Perfectly anti-aliased procedural shapes using **Signed Distance Fields (SDF)** and **fragment shaders** ([Video](https://youtube.com/shorts/fpLCFB_mvW8?feature=share)).
-- `SDL3GPUShimmerDemoApp`: Mock UI with a loading effect utilizing **time uniforms** and **procedural shader generation** ([Video](https://youtu.be/GNoRRP7irXs)).
-- `SDL3GPUInstancedQuadDemoApp`: High-performance rendering of thousands of objects using **hardware instancing** and **instance buffers**.
-- `SDL3TextScrollDemoApp`: Smooth text scrolling of a large file utilizing a **texture atlas** and **instanced quad rendering**.
-- `SDL3GPUMandelbrotDemoApp`: Interactive fractal exploration using **compute shaders**, **storage textures**, and dynamic **zoom/pan navigation uniforms**.
-- `SDL3GPUBlurComputeDemoApp`: Real-time image processing utilizing **compute shaders**, **storage textures**, and a **Gaussian blur** algorithm.
-- `SDL3GPUKawaseBlurDemoApp`: Multi-pass **post-processing** effect demonstrating **ping-pong buffers**, **downsampling/upsampling**, and a **Dual Kawase Blur** ([Video](https://youtu.be/t0MlKdq3KHs)).
-- `SDL3GPUBoidsDemoApp`: High-performance **particle system** using a **compute-to-vertex-buffer** architecture for a flocking simulation ([Video](https://www.youtube.com/watch?v=-6wztetR5qg)).
-- `SDL3GPUNodeForceDemoApp`: Force-directed graph simulation utilizing **N-body physics** in a **compute shader** ([Video](https://youtube.com/shorts/hl3kqMp0tao?feature=share)).
+- `SDL3GPUClearDemoApp`: Shows the simplest entry point to the GPU API, with basic **render pass** and **clear color** setup.
+- `SDL3GPURenderStateDemoApp`: Shows how to apply a fragment shader post-processing effect with the `SDL_Renderer` API ([Video](https://www.youtube.com/watch?v=94hMw9pPvBQ)).
+- `SDL3GPUQuadDemoApp`: Shows geometry fundamentals: drawing a textured quad with **vertex buffers**, **index buffers**, and **UV mapping** ([Video](https://youtube.com/shorts/j4yIu-TdR0o?feature=share)).
+- `SDL3GPURoundedRectDemoApp`: Shows procedural shapes with **Signed Distance Fields (SDF)** and anti-aliasing in **fragment shaders** ([Video](https://youtube.com/shorts/fpLCFB_mvW8?feature=share)).
+- `SDL3GPUShimmerDemoApp`: Shows a mock user interface with a loading effect using **time uniforms** and **procedural shader generation** ([Video](https://youtu.be/GNoRRP7irXs)).
+- `SDL3GPUInstancedQuadDemoApp`: Shows high-performance rendering of thousands of objects using **hardware instancing** and **instance buffers**.
+- `SDL3TextScrollDemoApp`: Shows text scrolling of a large text file using a **texture atlas** and **instanced quad rendering**.
+- `SDL3GPUMandelbrotDemoApp`: Shows interactive fractal exploration using **compute shaders**, **storage textures**, and dynamic **zoom and pan uniforms**.
+- `SDL3GPUBlurComputeDemoApp`: Shows image processing using **compute shaders**, **storage textures**, and a **Gaussian blur** algorithm.
+- `SDL3GPUKawaseBlurDemoApp`: Shows a multi-pass post-processing effect with **ping-pong buffers**, **downsampling and upsampling**, and a **Dual Kawase Blur** ([Video](https://youtu.be/t0MlKdq3KHs)).
+- `SDL3GPUBoidsDemoApp`: Shows a particle system using a **compute-to-vertex-buffer** architecture for a flocking simulation ([Video](https://www.youtube.com/watch?v=-6wztetR5qg)).
+- `SDL3GPUNodeForceDemoApp`: Shows a force-directed graph simulation using **N-body physics** in a **compute shader** ([Video](https://youtube.com/shorts/hl3kqMp0tao?feature=share)).
 
 
 ### Helper Scripts
@@ -166,9 +166,12 @@ MyGameApp >> step [
 		renderPresent.
 ]
 
-MyGameApp >> visitKeyboardDownEvent: anEvent [
-	anEvent key = SDLK_SPACE asInteger ifTrue: [ "handle spacebar" ].
-	^ super visitKeyboardDownEvent: anEvent
+MyGameApp >> initializeKeybindings [
+	self
+		bindKey: SDLK_SPACE
+		description: 'Trigger action'
+		action: [ "handle spacebar" ].
+	super initializeKeybindings
 ]
 ```
 
