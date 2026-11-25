@@ -12,7 +12,8 @@ Class {
 	#instVars : [
 		'currentCursor',
 		'currentDraggableCallback',
-		'sdlWindow'
+		'sdlWindow',
+		'driver'
 	],
 	#pools : [
 		'SDL3Aliases',
@@ -24,9 +25,10 @@ Class {
 }
 
 { #category : 'instance creation' }
-OSSDL3BackendWindow class >> fromAttributes: attributes for: anOSWindow [
+OSSDL3BackendWindow class >> fromAttributes: attributes for: anOSWindow driver: aDriver [
 
 	^ self basicNew
+		driver: aDriver;
 		initializeFromAttributes: attributes for: anOSWindow;
 		yourself
 ]
@@ -110,23 +112,39 @@ OSSDL3BackendWindow >> destroy [
 	"Destroy the backend window and release its resources, including any associated GPU device and callbacks."
 
 	sdlWindow ifNotNil: [
-		"Unregister and destroy handles under RegistryMutex so concurrent event delivery cannot use freed handles."
-		OSSDL3AbstractDriver current
-			unregisterWindowWithId: sdlWindow id
-			during: [
-				renderer ifNotNil: [
-					renderer destroy.
-					renderer := nil ].
+		| cleanup |
+		cleanup := [
+			renderer ifNotNil: [
+				renderer destroy.
+				renderer := nil ].
 
-				currentCursor ifNotNil: [
-					currentCursor destroy.
-					currentCursor := nil ].
-				currentDraggableCallback := nil. "Callback will be collected by GC"
+			currentCursor ifNotNil: [
+				currentCursor destroy.
+				currentCursor := nil ].
+			currentDraggableCallback := nil. "Callback will be collected by GC"
 
-				sdlWindow destroy.
-				sdlWindow := nil ] ].
+			sdlWindow destroy.
+			sdlWindow := nil ].
 
+		"Unregister from the owning driver under RegistryMutex so concurrent event delivery cannot use freed handles."
+		driver
+			ifNotNil: [ driver unregisterWindowWithId: sdlWindow id during: cleanup ]
+			ifNil: [ cleanup value ] ].
+
+	driver := nil.
 	osWindow := nil
+]
+
+{ #category : 'accessing' }
+OSSDL3BackendWindow >> driver [
+
+	^ driver
+]
+
+{ #category : 'accessing' }
+OSSDL3BackendWindow >> driver: anOSSDL3Driver [
+
+	driver := anOSSDL3Driver
 ]
 
 { #category : 'cursor' }
@@ -255,7 +273,7 @@ OSSDL3BackendWindow >> newFormRenderer: form [
 	"Create and answer a new Form-based renderer for this window."
 
 	^ renderer :=
-		OSSDL3AbstractDriver current
+		driver
 			newFormRenderer: form
 			backendWindow: self
 ]

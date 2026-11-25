@@ -102,7 +102,7 @@ OSSDL3AbstractDriver >> createWindowWithAttributes: attributes osWindow: osWindo
 
 	^ RegistryMutex critical: [
 		| aBackendWindow |
-		aBackendWindow := OSSDL3BackendWindow fromAttributes: attributes for: osWindow.
+		aBackendWindow := OSSDL3BackendWindow fromAttributes: attributes for: osWindow driver: self.
 		self prepareBackendWindow: aBackendWindow.
 		self registerWindow: aBackendWindow.
 		aBackendWindow ]
@@ -236,8 +236,9 @@ OSSDL3AbstractDriver >> prepareBackendWindow: aBackendWindow [
 
 { #category : 'window registry' }
 OSSDL3AbstractDriver >> registerWindow: aBackendWindow [
-	"Register aBackendWindow in the window map."
+	"Register aBackendWindow in the window map and bind it to this driver."
 
+	aBackendWindow driver: self.
 	BackendWindowRegistry at: aBackendWindow windowId put: aBackendWindow
 ]
 
