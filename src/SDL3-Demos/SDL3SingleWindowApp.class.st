@@ -22,6 +22,11 @@ SDL3SingleWindowApp class >> isAbstract [
 	^ self == SDL3SingleWindowApp
 ]
 
+{ #category : 'pacing' }
+SDL3SingleWindowApp >> applyPacer [
+	"Hook for subclasses to configure renderers or swapchains when the pacer is initialized or toggled."
+]
+
 { #category : 'accessing' }
 SDL3SingleWindowApp >> initialExtent [
 
@@ -34,6 +39,37 @@ SDL3SingleWindowApp >> initialWindowFlags [
 	^ SDL_WINDOW_RESIZABLE | SDL_WINDOW_INPUT_FOCUS
 ]
 
+{ #category : 'initialization' }
+SDL3SingleWindowApp >> initialize [
+
+	super initialize.
+	loop pacer: SDL3VSyncPacer new
+]
+
+{ #category : 'initialization' }
+SDL3SingleWindowApp >> initializeKeybindings [
+
+	self
+		bindKey: SDLK_V
+		description: 'Toggle frame pacer (VSync / Cooperative)'
+		action: [ self togglePacer ].
+	super initializeKeybindings
+]
+
+{ #category : 'accessing' }
+SDL3SingleWindowApp >> pacer [
+
+	^ loop pacer
+]
+
+{ #category : 'pacing' }
+SDL3SingleWindowApp >> pacer: aFramePacer [
+
+	loop pacer: aFramePacer.
+	self applyPacer.
+	self updateTitle
+]
+
 { #category : 'lifecycle' }
 SDL3SingleWindowApp >> setUp [
 
@@ -44,21 +80,27 @@ SDL3SingleWindowApp >> setUp [
 			unownedNewTitle: self updatedTitle
 			width: self initialExtent x
 			height: self initialExtent y
-			flags: self initialWindowFlags).
+			flags: self initialWindowFlags)
+]
 
-	loop syncToWindow: window
+{ #category : 'pacing' }
+SDL3SingleWindowApp >> togglePacer [
+
+	self pacer: self pacer toggled
 ]
 
 { #category : 'private' }
 SDL3SingleWindowApp >> updateTitle [
 
-	window title: self updatedTitle
+	window ifNotNil: [ window title: self updatedTitle ]
 ]
 
 { #category : 'accessing' }
 SDL3SingleWindowApp >> updatedTitle [
 
-	^ self className
+	^ '{1} [{2}]' format: {
+		self className.
+		self pacer shortName }
 ]
 
 { #category : 'visiting - concrete' }

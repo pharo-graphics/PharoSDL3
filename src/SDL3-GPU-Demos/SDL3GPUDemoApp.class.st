@@ -23,6 +23,13 @@ SDL3GPUDemoApp class >> isAbstract [
 	^ self == SDL3GPUDemoApp
 ]
 
+{ #category : 'pacing' }
+SDL3GPUDemoApp >> applyPacer [
+
+	gpuDevice ifNotNil: [
+		self pacer configureGPUDevice: gpuDevice window: window ]
+]
+
 { #category : 'rendering' }
 SDL3GPUDemoApp >> doRenderPassesOn: swapchainTexture with: aCommandBuffer [
 	"Subclasses must override this to perform their GPU drawing commands."
@@ -57,15 +64,13 @@ SDL3GPUDemoApp >> render [
 	| commandBuffer |
 	commandBuffer := gpuDevice acquireGPUCommandBuffer.
 
-	"This SDL3 function doesn't block on VSYNC.
-	We do use it to avoid blocking Pharo VM."
-	commandBuffer
+	self pacer
 		acquireSwapchainTextureForWindow: window
-		into: swapchainTextureHolder
-		width: nil height: nil.
+		commandBuffer: commandBuffer
+		into: swapchainTextureHolder.
 
 	"A NULL pointer is not an error in this case:
-	It means too many frames are in flight, or window is minimized, so we'll skip rendering this time."
+	It means too many frames are in flight (in Cooperative mode) or the window is minimized/hidden, so we skip rendering this frame."
 	[ swapchainTextureHolder value isNull ifFalse: [
 		self doRenderPassesOn: swapchainTextureHolder value with: commandBuffer ]
 	] ensure: [ commandBuffer submit "Submit even if empty" ]
@@ -76,7 +81,8 @@ SDL3GPUDemoApp >> setUp [
 
 	super setUp.
 	DiScope own: (gpuDevice := SDL_GPUDevice unownedNewDebugMode: true).
-	gpuDevice claimWindow: window
+	gpuDevice claimWindow: window.
+	self applyPacer
 ]
 
 { #category : 'hooks' }

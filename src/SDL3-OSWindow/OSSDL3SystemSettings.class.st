@@ -91,7 +91,7 @@ OSSDL3SystemSettings class >> eventLoopPeriodMS: anInteger [
 { #category : 'accessing' }
 OSSDL3SystemSettings class >> gpuPresentMode [
 
-	^ gpuPresentMode ifNil: [ 0 ]
+	^ gpuPresentMode ifNil: [ 2 ]
 ]
 
 { #category : 'accessing' }
@@ -103,7 +103,7 @@ OSSDL3SystemSettings class >> gpuPresentMode: anInteger [
 { #category : 'accessing' }
 OSSDL3SystemSettings class >> rendererVsync [
 
-	^ rendererVsync ifNil: [ 1 ]
+	^ rendererVsync ifNil: [ 0 ]
 ]
 
 { #category : 'accessing' }

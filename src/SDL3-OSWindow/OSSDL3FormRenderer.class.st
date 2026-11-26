@@ -118,12 +118,10 @@ OSSDL3FormRenderer >> initializeVsync [
 	targetVsync := OSSDL3SystemSettings rendererVsync.
 	[ sdlRenderer renderVsync: targetVsync ]
 		on: SDL3Error
-		do: [ :err | 
-			self traceCr: ('{1}: Failed to set VSync mode {2}. Falling back to enabled VSync (1). Error: {3}'
-				format: { self class name . targetVsync . err messageText }).
-			[ sdlRenderer renderVsync: 1 ]
-				on: SDL3Error
-				do: [ :fallbackErr | "Ignore" ] ]
+		do: [ :error |
+			self traceCr: ('{1}: Failed to set VSync mode {2}. Falling back to disabled VSync (0). Error: {3}'
+				format: { self class name. targetVsync. error messageText }).
+			sdlRenderer renderVsync: 0 ]
 ]
 
 { #category : 'accessing' }

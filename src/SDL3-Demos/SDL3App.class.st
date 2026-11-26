@@ -125,49 +125,28 @@ SDL3App >> mainStep [
 ]
 
 { #category : 'printing' }
-SDL3App >> printControlsBannerOn: aStream [
+SDL3App >> printBannerOn: aStream [
+
+	| horizontalLine |
+	horizontalLine := String new: 60 withAll: $=.
 
 	aStream
-		nextPutAll: self className;
-		lf;
-		nextPutAll: (String new: 45 withAll: $=);
-		lf.
-	(self class hasComment and: [ self class comment trim isNotEmpty ]) ifTrue: [
-		self class comment trim lines do: [ :line |
-			aStream nextPutAll: line; lf ].
-		aStream lf ].
+		lf; nextPutAll: horizontalLine; lf; lf;
+		nextPutAll: self className; lf; lf.
+
+	self class comment trim linesDo: [ :line |
+		aStream nextPutAll: line; lf ].
+
 	keybindings ifNotEmpty: [
-		aStream
-			nextPutAll: 'Key bindings:';
-			lf.
+		aStream lf; nextPutAll: 'Key bindings:'; lf; lf.
+
 		keybindings do: [ :each |
 			aStream
 				nextPutAll: '- ';
-				nextPutAll: ('[' , each keyName , ']' padRightTo: 14);
-				nextPutAll: each description;
-				lf ] ].
-	aStream
-		nextPutAll: (String new: 45 withAll: $=);
-		lf;
-		lf
-]
+				nextPutAll: (each keyName padRightTo: 10);
+				nextPutAll: each description; lf ] ].
 
-{ #category : 'printing' }
-SDL3App >> printPerformanceSummaryOn: aStream [
-
-	loop frameCount > 0 ifFalse: [ ^ self ].
-
-	aStream
-		nextPutAll: self className;
-		nextPutAll: ' Performance Summary:';
-		lf;
-		nextPutAll: ('- Total frames: {1}' format: { loop frameCount });
-		lf;
-		nextPutAll: ('- Average FPS:  {1} ({2}% idle)' format: {
-			loop fps printShowingDecimalPlaces: 1.
-			loop idleHeadroomPercentage rounded });
-		lf;
-		lf
+	aStream lf; nextPutAll: horizontalLine; lf; lf
 ]
 
 { #category : 'lifecycle' }
@@ -210,7 +189,7 @@ SDL3App >> sdlQuit [
 SDL3App >> setUp [
 	"Hook for subclasses to open windows and acquire resources before the main loop."
 
-	self printControlsBannerOn: Stdio stdout
+	self printBannerOn: Stdio stdout
 ]
 
 { #category : 'hooks' }
@@ -226,8 +205,6 @@ SDL3App >> subsystemInitFlags [
 { #category : 'lifecycle' }
 SDL3App >> tearDown [
 	"Hook for subclasses to perform custom teardown before resources are disposed"
-
-	self printPerformanceSummaryOn: Stdio stdout
 ]
 
 { #category : 'visiting - concrete' }
