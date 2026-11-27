@@ -11,7 +11,7 @@ Each cycle I:
 
 Collaborators:
 - pacer: coordinates Smalltalk waiting and SDL3 VSync/swapchain configuration
-- stepBlock: receives the nominal frame period in microseconds (deltaUS) and performs the frame step
+- stepBlock: receives the elapsed frame delta in microseconds (deltaUS, clamped to maxDeltaUS) and performs the frame step
 - microsecondsBlock: queries the current microsecond clock (default: [ Time microsecondClockValue ])
 - delayBlock: receives remaining spare microseconds to pause (default: [ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ])
 - yieldBlock: cooperative yield when not sleeping on a Delay (default: [ Processor yield ])
@@ -65,6 +65,13 @@ SDL3CappedLoop >> initialize [
 	stepBlock := [ :deltaUS | ].
 	yieldBlock := [ Processor yield ].
 	pacer := SDL3CooperativePacer new
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> maxDeltaUS [
+	"Clamp elapsed frame deltas to 100 ms (or 2x periodUS for slower loops) so window drags or debugger pauses do not destabilize simulations."
+
+	^ 100000 max: periodUS * 2
 ]
 
 { #category : 'accessing' }
@@ -128,12 +135,21 @@ SDL3CappedLoop >> resetDeadline [
 { #category : 'running' }
 SDL3CappedLoop >> start [
 
-	| session |
+	| session previousStepUS |
 	session := Smalltalk session.
 	quit := false.
 	self resetDeadline.
+	previousStepUS := nil.
 
-	[ stepBlock value: periodUS. self wait ]
+	[	| currentStepUS deltaUS |
+		currentStepUS := microsecondsBlock value.
+		deltaUS :=
+			previousStepUS
+				ifNil: [ periodUS ]
+				ifNotNil: [ (currentStepUS - previousStepUS max: 0) min: self maxDeltaUS ].
+		previousStepUS := currentStepUS.
+		stepBlock cull: deltaUS.
+		self wait ]
 		doWhileFalse: [ quit or: [ Smalltalk session ~~ session ] ]
 ]
 

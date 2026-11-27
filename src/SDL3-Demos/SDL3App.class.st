@@ -16,7 +16,7 @@ I use the Visitor design pattern (`TSDL3HierarchicalEventVisitor`) to process SD
 Subclasses should utilize the following template methods:
 - `subsystemInitFlags`: Override to specify which SDL3 subsystems to initialize (default is `SDL_INIT_VIDEO`).
 - `setUp`: Sent just before the main loop begins. Ideal for resource initialization (windows, renderers, shaders).
-- `step`: Sent on every frame. Use this for simulation updates or rendering triggers.
+- `step` / `step:`: Sent on every frame. Override `#step:` (receiving `deltaSeconds`) for time-stepped simulations, or `#step` for stateless and event-driven rendering.
 - `tearDown`: Final cleanup hook sent after the main loop terminates and before resources are disposed.
 
 ### Execution Modes
@@ -92,7 +92,7 @@ SDL3App >> initialize [
 	loop :=
 		SDL3CappedLoop new
 			hertz: 60;
-			stepBlock: [ :deltaUS | self mainStep ];
+			stepBlock: [ :deltaUS | self mainStep: deltaUS ];
 			yourself
 ]
 
@@ -118,10 +118,10 @@ SDL3App >> loop [
 ]
 
 { #category : 'hooks' }
-SDL3App >> mainStep [
+SDL3App >> mainStep: deltaUS [
 
 	self handleEvents.
-	self step
+	self step: deltaUS / 1000000.0
 ]
 
 { #category : 'printing' }
@@ -194,6 +194,14 @@ SDL3App >> setUp [
 
 { #category : 'hooks' }
 SDL3App >> step [
+]
+
+{ #category : 'hooks' }
+SDL3App >> step: deltaSeconds [
+	"Hook for subclasses that advance simulation state using the elapsed frame delta in seconds.
+	By default, delegates to the zero-argument #step hook."
+
+	self step
 ]
 
 { #category : 'hooks' }

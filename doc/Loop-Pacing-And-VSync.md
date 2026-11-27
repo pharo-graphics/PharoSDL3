@@ -79,7 +79,7 @@ Unlike standalone visual demos, IDE/Morphic windows driven by `OSSDL3Driver` and
 
 `SDL3CappedLoop` delegates pacing policy to its `pacer` (`SDL3CooperativePacer` or `SDL3VSyncPacer`) and provides four pluggable blocks for customization and deterministic testing:
 
-- **`stepBlock`**: Receives the nominal frame period in microseconds (`deltaUS`) and performs the frame update/render (defaults to `[ :deltaUS | ]`).
+- **`stepBlock`**: Receives the measured, lag-clamped elapsed frame delta in microseconds (`deltaUS`, clamped to `maxDeltaUS`; zero-argument blocks are also supported via `cull:`) and performs the frame update/render (defaults to `[ :deltaUS | ]`).
 - **`microsecondsBlock`**: Answers the current time in microseconds (defaults to `[ Time microsecondClockValue ]`).
 - **`delayBlock`**: Receives remaining spare microseconds to pause when sleeping (defaults to `[ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ]`).
 - **`yieldBlock`**: Cooperatively yields execution when not sleeping on a `Delay` (defaults to `[ Processor yield ]`).

@@ -382,10 +382,11 @@ SDL3GPUNodeForceDemoApp >> simulationPositionFromWindowPoint: point [
 ]
 
 { #category : 'hooks' }
-SDL3GPUNodeForceDemoApp >> step [
+SDL3GPUNodeForceDemoApp >> step: deltaSeconds [
 
+	uniforms deltaTime: deltaSeconds.
 	self computeSimulation.
-	super step
+	super step: deltaSeconds
 ]
 
 { #category : 'accessing' }

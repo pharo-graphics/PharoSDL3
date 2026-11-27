@@ -319,10 +319,11 @@ SDL3GPUBoidsDemoApp >> setUp [
 ]
 
 { #category : 'hooks' }
-SDL3GPUBoidsDemoApp >> step [
+SDL3GPUBoidsDemoApp >> step: deltaSeconds [
 
+	boidsUniforms deltaTime: deltaSeconds.
 	self computeSimulation.
-	super step
+	super step: deltaSeconds
 ]
 
 { #category : 'accessing' }

@@ -57,19 +57,19 @@ SDL3GPUDualKawaseBlurQuad >> scale: aPoint [
 ]
 
 { #category : 'stepping' }
-SDL3GPUDualKawaseBlurQuad >> stepIn: anExtent [
+SDL3GPUDualKawaseBlurQuad >> step: deltaSeconds in: anExtent [
 
-	position := position + velocity.
-	rotation := rotation + rotationSpeed.
+	position := position + (velocity * deltaSeconds).
+	rotation := rotation + (rotationSpeed * deltaSeconds).
 
 	"Bounce"
 	(position x < 0 or: [ position x > anExtent x ]) ifTrue: [
-		velocity := (velocity x negated) @ velocity y.
+		velocity := velocity x negated @ velocity y.
 		position := (position x min: anExtent x max: 0) @ position y ].
 
 	(position y < 0 or: [ position y > anExtent y ]) ifTrue: [
-		velocity := velocity x @ (velocity y negated).
-		position := position x @ (position y min: anExtent y max: 0) ].
+		velocity := velocity x @ velocity y negated.
+		position := position x @ (position y min: anExtent y max: 0) ]
 ]
 
 { #category : 'accessing' }
