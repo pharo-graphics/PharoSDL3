@@ -163,13 +163,14 @@ OSSDL3GPUFormRenderer >> initializeSwapchainParameters [
 	targetMode := SDL3GPUPresentMode fromInteger: OSSDL3SystemSettings gpuPresentMode.
 
 	"Graceful fallback if the selected present mode is unsupported by the platform/driver"
-	(gpuDevice windowSupportsGPUPresentModeWindow: backendWindow sdlWindow presentMode: targetMode) ifFalse: [ 
+	(gpuDevice windowSupportsGPUPresentModeWindow: backendWindow sdlWindow presentMode: targetMode) ifFalse: [
 		| fallbackMode |
-		fallbackMode := (gpuDevice windowSupportsGPUPresentModeWindow: backendWindow sdlWindow presentMode: SDL3GPUPresentMode vsync)
-			                 ifTrue: [ SDL3GPUPresentMode vsync ]
-			                 ifFalse: [ SDL3GPUPresentMode immediate ].
+		fallbackMode :=
+			(gpuDevice windowSupportsGPUPresentModeWindow: backendWindow sdlWindow presentMode: SDL3GPUPresentMode immediate)
+				ifTrue: [ SDL3GPUPresentMode immediate ]
+				ifFalse: [ SDL3GPUPresentMode vsync ].
 		self traceCr: ('{1}: Present mode {2} is unsupported. Falling back to {3}.'
-			format: { self class name . targetMode printString . fallbackMode printString }).
+			format: { self class name. targetMode printString. fallbackMode printString }).
 		targetMode := fallbackMode ].
 
 	gpuDevice

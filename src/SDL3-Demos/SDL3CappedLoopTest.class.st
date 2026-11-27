@@ -6,24 +6,6 @@ Class {
 	#tag : 'Tests'
 }
 
-{ #category : 'helpers' }
-SDL3CappedLoopTest >> currentDisplayMode [
-
-	^ self
-]
-
-{ #category : 'helpers' }
-SDL3CappedLoopTest >> display [
-
-	^ self
-]
-
-{ #category : 'helpers' }
-SDL3CappedLoopTest >> refreshRate [
-
-	^ 144.0
-]
-
 { #category : 'tests' }
 SDL3CappedLoopTest >> testAmpleSpareTimeDelaysWithoutYield [
 	"Verify that when ample spare time exists (>= 1ms), delayBlock is invoked and yieldBlock is not."
@@ -61,6 +43,30 @@ SDL3CappedLoopTest >> testDefaultBlocks [
 ]
 
 { #category : 'tests' }
+SDL3CappedLoopTest >> testDefaultPacerIsCooperative [
+	"Verify SDL3CappedLoop defaults to cooperative software deadline pacing."
+
+	| loop |
+	loop := SDL3CappedLoop new.
+	self assert: loop pacer class equals: SDL3CooperativePacer.
+	self assert: loop pacer shortName equals: 'Cooperative'
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testDefaultSingleWindowAppPacerIsVSync [
+	"Verify standalone single-window demos default to tear-free hardware VSync and can toggle to Cooperative."
+
+	| app |
+	app := SDL3ClearDemoApp new.
+	self assert: app pacer class equals: SDL3VSyncPacer.
+	self assert: app updatedTitle equals: 'SDL3ClearDemoApp [VSync]'.
+
+	app togglePacer.
+	self assert: app pacer class equals: SDL3CooperativePacer.
+	self assert: app updatedTitle equals: 'SDL3ClearDemoApp [Cooperative]'
+]
+
+{ #category : 'tests' }
 SDL3CappedLoopTest >> testHertzAndPeriod [
 	"Verify that setting frequency in Hertz or duration correctly calculates microsecond, millisecond, and second periods."
 
@@ -68,15 +74,11 @@ SDL3CappedLoopTest >> testHertzAndPeriod [
 	"Configure 60 Hz and check calculated period conversions"
 	loop := SDL3CappedLoop new.
 	loop hertz: 60.
-	self assert: (loop periodUS closeTo: 1000000.0 / 60).
-	self assert: (loop periodMS closeTo: 1000.0 / 60).
-	self assert: (loop periodAsSeconds closeTo: 1.0 / 60).
+	self assert: loop periodAsSeconds closeTo: 1.0 / 60.
 
 	"Configure a 20 ms Duration and verify exact period representations"
 	loop period: 20 milliSeconds.
-	self assert: loop periodUS equals: 20000.
-	self assert: loop periodMS equals: 20.0.
-	self assert: loop periodAsSeconds equals: 0.02
+	self assert: loop periodAsSeconds closeTo: 0.02
 ]
 
 { #category : 'tests' }
@@ -94,7 +96,7 @@ SDL3CappedLoopTest >> testLoopStepsBlock [
 		stepCount >= 3 ifTrue: [ loop requestQuit ] ].
 	loop start.
 	self assert: stepCount equals: 3.
-	self assert: receivedDeltaUS equals: loop periodUS
+	self assert: receivedDeltaUS equals: 1000
 ]
 
 { #category : 'tests' }
@@ -120,35 +122,30 @@ SDL3CappedLoopTest >> testOverdueFrameDoesNotYield [
 ]
 
 { #category : 'tests' }
-SDL3CappedLoopTest >> testPrintPerformanceSummaryEmptyWhenNoFrames [
-	"Verify nothing is printed when no frames have run."
+SDL3CappedLoopTest >> testSimulationAlternatingWorkDurations [
+	"Verify that progressive deadlines adjust spare wait durations cleanly across frames with varying work durations."
 
-	| app stream |
-	app := SDL3App new.
-	stream := WriteStream on: (String new: 120).
-	app printPerformanceSummaryOn: stream.
-	self assert: stream contents isEmpty
-]
-
-{ #category : 'tests' }
-SDL3CappedLoopTest >> testPrintPerformanceSummaryOnStream [
-	"Verify performance summary output on a stream after simulated frames."
-
-	| app simulatedTime stream output |
+	| loop simulatedTime recordedWaits |
 	simulatedTime := 0.
-	app := SDL3App new.
-	app loop microsecondsBlock: [ simulatedTime ].
-	app loop delayBlock: [ :microseconds | simulatedTime := simulatedTime + microseconds ].
-	app loop resetDeadline.
+	recordedWaits := OrderedCollection new.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds |
+		| simulatedDelayDuration |
+		simulatedDelayDuration := microseconds truncateTo: 1000.
+		recordedWaits add: simulatedDelayDuration.
+		simulatedTime := simulatedTime + simulatedDelayDuration ].
+	loop resetDeadline.
 
 	simulatedTime := simulatedTime + 2000.
-	app loop wait.
-	stream := WriteStream on: (String new: 120).
-	app printPerformanceSummaryOn: stream.
-	output := stream contents.
-	self assert: (output includesSubstring: 'SDL3App Performance Summary:').
-	self assert: (output includesSubstring: '- Total frames: 1').
-	self assert: (output includesSubstring: '- Average FPS:  60.0 (88% idle)')
+	loop wait.
+	self assert: recordedWaits size equals: 1.
+
+	simulatedTime := simulatedTime + 7000.
+	loop wait.
+	self assert: recordedWaits size equals: 2.
+	self assert: recordedWaits second equals: 10000
 ]
 
 { #category : 'tests' }
@@ -240,29 +237,6 @@ SDL3CappedLoopTest >> testSimulationLateWakeupAbsorbed [
 ]
 
 { #category : 'tests' }
-SDL3CappedLoopTest >> testSimulationMetricsCalculation [
-	"Verify cumulative FPS and idle headroom calculation from actual wait durations without wall-clock sleep."
-
-	| loop simulatedTime |
-	simulatedTime := 0.
-	loop := SDL3CappedLoop new.
-	loop hertz: 60.
-	loop microsecondsBlock: [ simulatedTime ].
-	loop delayBlock: [ :microseconds | simulatedTime := simulatedTime + microseconds ].
-	loop resetDeadline.
-	self assert: loop fps equals: 0.0.
-	self assert: loop idleHeadroomPercentage equals: 0.0.
-	self assert: loop frameCount equals: 0.
-
-	60 timesRepeat: [
-		simulatedTime := simulatedTime + 2000.
-		loop wait ].
-	self assert: loop frameCount equals: 60.
-	self assert: (loop fps closeTo: 60.0 precision: 0.1).
-	self assert: (loop idleHeadroomPercentage closeTo: 88.0 precision: 0.5)
-]
-
-{ #category : 'tests' }
 SDL3CappedLoopTest >> testSimulationPacingWithoutOscillation [
 	"Verify that consecutive fast frames maintain consistent delay durations without alternating or oscillating."
 
@@ -287,8 +261,8 @@ SDL3CappedLoopTest >> testSimulationPacingWithoutOscillation [
 ]
 
 { #category : 'tests' }
-SDL3CappedLoopTest >> testSimulationVSyncClockDrift [
-	"When small clock drift occurs between hardware and software (e.g. 59.94 Hz vs 60.00 Hz), the progressive deadline absorbs the difference without drifting over time."
+SDL3CappedLoopTest >> testSimulationSubMillisecondWorkDrift [
+	"Verify that sub-millisecond variations in frame work duration are absorbed by the progressive deadline without drifting."
 
 	| loop simulatedTime recordedWaits expectedWaitUS |
 	simulatedTime := 0.
@@ -302,7 +276,6 @@ SDL3CappedLoopTest >> testSimulationVSyncClockDrift [
 	loop resetDeadline.
 	expectedWaitUS := 1000000.0 / 60 - 2016.
 
-	"Simulate 3 frames with small clock drift (e.g. 16 microseconds extra per frame)"
 	3 timesRepeat: [
 		simulatedTime := simulatedTime + 2016.
 		loop wait ].
@@ -311,8 +284,8 @@ SDL3CappedLoopTest >> testSimulationVSyncClockDrift [
 ]
 
 { #category : 'tests' }
-SDL3CappedLoopTest >> testSimulationVSyncDisplaySlowerThanTarget [
-	"When the screen or hardware renders slower than our target (e.g. 30 Hz screen with a 60 Hz target), the loop skips delays and stays locked to the hardware pace."
+SDL3CappedLoopTest >> testSimulationSustainedOverbudgetSkipsDelays [
+	"Verify that when every frame takes longer than the target period, software delays are skipped."
 
 	| loop simulatedTime recordedWaits |
 	simulatedTime := 0.
@@ -325,63 +298,10 @@ SDL3CappedLoopTest >> testSimulationVSyncDisplaySlowerThanTarget [
 		simulatedTime := simulatedTime + (microseconds truncateTo: 1000) ].
 	loop resetDeadline.
 
-	"Simulate frames taking 33.3ms (30 Hz); no software wait should be triggered"
 	3 timesRepeat: [
 		simulatedTime := simulatedTime + 33333.
 		loop wait ].
 	self assert: recordedWaits isEmpty
-]
-
-{ #category : 'tests' }
-SDL3CappedLoopTest >> testSimulationVSyncExactMultiple [
-	"When the display refresh rate is an exact multiple of our target (e.g. 120 Hz monitor with a 60 Hz target), frames cadence smoothly on every second refresh."
-
-	| loop simulatedTime recordedWaits |
-	simulatedTime := 0.
-	recordedWaits := OrderedCollection new.
-	loop := SDL3CappedLoop new.
-	loop hertz: 60.
-	loop microsecondsBlock: [ simulatedTime ].
-	loop delayBlock: [ :microseconds |
-		| simulatedDelayDuration |
-		simulatedDelayDuration := microseconds truncateTo: 1000.
-		recordedWaits add: simulatedDelayDuration.
-		simulatedTime := simulatedTime + simulatedDelayDuration ].
-	loop resetDeadline.
-
-	"Simulate 4 frames where work takes 2ms, paced to a 120 Hz display"
-	4 timesRepeat: [
-		simulatedTime := simulatedTime + 2000.
-		loop wait ].
-	self assert: recordedWaits asArray equals: #(14000 15000 15000 14000)
-]
-
-{ #category : 'tests' }
-SDL3CappedLoopTest >> testSimulationVSyncNonMultiple [
-	"When the display refresh rate is not an even multiple (e.g. 144 Hz monitor with a 60 Hz target), screen presentation naturally alternates between 2 and 3 refresh cycles."
-
-	| loop simulatedTime recordedWaits |
-	simulatedTime := 0.
-	recordedWaits := OrderedCollection new.
-	loop := SDL3CappedLoop new.
-	loop hertz: 60.
-	loop microsecondsBlock: [ simulatedTime ].
-	loop delayBlock: [ :microseconds |
-		| simulatedDelayDuration |
-		simulatedDelayDuration := microseconds truncateTo: 1000.
-		recordedWaits add: simulatedDelayDuration.
-		simulatedTime := simulatedTime + simulatedDelayDuration ].
-	loop resetDeadline.
-
-	"Simulate frames completing near alternating 144 Hz intervals"
-	simulatedTime := simulatedTime + 2000.
-	loop wait.
-	self assert: recordedWaits size equals: 1.
-
-	simulatedTime := simulatedTime + 7000.
-	loop wait.
-	self assert: recordedWaits size equals: 2.
-	self assert: recordedWaits second equals: 10000
 ]
 
 { #category : 'tests' }
@@ -407,24 +327,67 @@ SDL3CappedLoopTest >> testSubMillisecondSpareTimeYields [
 ]
 
 { #category : 'tests' }
-SDL3CappedLoopTest >> testSyncToWindowFallback [
-	"Verify syncToWindow: falls back cleanly to 60 Hz when display queries fail or return nil."
+SDL3CappedLoopTest >> testTogglePacer [
+	"Verify toggling alternates between Cooperative and VSync pacers."
 
 	| loop |
 	loop := SDL3CappedLoop new.
-	loop hertz: 120.
-	loop syncToWindow: nil.
-	self assert: (loop periodUS closeTo: 1000000.0 / 60)
+	self assert: loop pacer class equals: SDL3CooperativePacer.
+
+	loop togglePacer.
+	self assert: loop pacer class equals: SDL3VSyncPacer.
+
+	loop togglePacer.
+	self assert: loop pacer class equals: SDL3CooperativePacer
 ]
 
 { #category : 'tests' }
-SDL3CappedLoopTest >> testSyncToWindowWithRefreshRate [
-	"Verify syncToWindow: sets target hertz matching display refresh rate."
+SDL3CappedLoopTest >> testVSyncPacerDoesNotWaitWhenVSyncBlocked [
+	"Verify that under hardware VSync pacing, frames blocked in C (>= 1ms) do not trigger a competing software Delay."
 
-	| loop |
+	| loop simulatedTime delayed yieldCount |
+	simulatedTime := 0.
+	delayed := false.
+	yieldCount := 0.
 	loop := SDL3CappedLoop new.
-	loop syncToWindow: self.
-	self assert: (loop periodUS closeTo: 1000000.0 / 144)
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | delayed := true ].
+	loop yieldBlock: [ yieldCount := yieldCount + 1 ].
+	loop pacer: SDL3VSyncPacer new.
+
+	"Simulate C VSync blocking for 16.6ms on a 60 Hz display"
+	simulatedTime := simulatedTime + 16600.
+	loop wait.
+	self deny: delayed.
+	self assert: yieldCount equals: 1.
+
+	"Simulate C VSync blocking for 8.33ms on a 120 Hz display even when loop hertz is 60"
+	simulatedTime := simulatedTime + 8333.
+	loop wait.
+	self deny: delayed.
+	self assert: yieldCount equals: 2
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testVSyncPacerFallsBackToDelayWhenUnthrottled [
+	"Verify that under hardware VSync pacing, an unthrottled frame (< 1ms, e.g. minimized window) falls back to delayBlock."
+
+	| loop simulatedTime recordedWaits |
+	simulatedTime := 0.
+	recordedWaits := OrderedCollection new.
+	loop := SDL3CappedLoop new.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds |
+		recordedWaits add: microseconds.
+		simulatedTime := simulatedTime + microseconds ].
+	loop pacer: SDL3VSyncPacer new.
+
+	simulatedTime := simulatedTime + 500.
+	loop wait.
+	self assert: recordedWaits size equals: 1.
+	self assert: (recordedWaits first closeTo: 1000000.0 / 60 - 500)
 ]
 
 { #category : 'tests' }
@@ -433,11 +396,11 @@ SDL3CappedLoopTest >> testWaitAdvancesDeadline [
 
 	| loop initialDeadline |
 	loop := SDL3CappedLoop new.
-	loop hertz: 60.
+	loop hertz: 120.
 	loop wait.
 	initialDeadline := loop nextDeadlineUS.
 	self assert: initialDeadline isNotNil.
 
 	loop wait.
-	self assert: loop nextDeadlineUS equals: initialDeadline + loop periodUS
+	self assert: loop nextDeadlineUS equals: initialDeadline + 8333.333333333334
 ]

@@ -21,7 +21,7 @@ PharoSDL3 is not only an FFI binding or an OSWindow driver backend; it also prov
 - **`initializeKeybindings`**: Registers declarative keyboard shortcuts via `#bindKey:description:action:` (defaults to binding `SDLK_ESCAPE` to quit).
 - **`setUp`**: Executed immediately before the main loop begins (and prints the application's class comment and registered key bindings banner to `stdout`). Ideal for opening windows, compiling pipelines, and loading textures. All resources registered with `DiScope own:` are retained during execution.
 - **`step`**: Executed once per frame. Use this hook for simulation updates, input handling responses, and rendering.
-- **`tearDown`**: Pre-cleanup hook executed when the loop terminates, just before scoped resources are sent `#dispose` (prints a frame count, average FPS, and idle headroom summary via `#printPerformanceSummaryOn:` by default).
+- **`tearDown`**: Pre-cleanup hook executed when the loop terminates, just before scoped resources are sent `#dispose`.
 - **Automatic Initialization and Shutdown**: Guaranteed `#sdlInit` and `#sdlQuit` calls wrapped in `ensure:` blocks.
 
 ### Execution Modes
@@ -30,14 +30,18 @@ PharoSDL3 is not only an FFI binding or an OSWindow driver backend; it also prov
 
 ---
 
-## 3. Frame Pacing and Main Loop (`SDL3CappedLoop`)
+## 3. Frame Pacing and Main Loop (`SDL3CappedLoop` & `SDL3FramePacer`)
 
-The application loop is driven by `SDL3CappedLoop`:
+The application loop is driven by `SDL3CappedLoop`, which delegates waiting and presentation configuration to an `SDL3FramePacer`:
 
-- **Frame Rate Capping**: Targets 60 Hz by default (`hertz: 60`, or synchronized to the display refresh rate via `#syncToWindow:` in `SDL3SingleWindowApp`). It schedules against progressive absolute deadlines (`nextDeadlineUS`) to prevent timing drift and yields spare time to the Pharo VM via `Delay` (or `Processor yield` under 1 ms), preventing CPU starvation. See [`Loop-Pacing-And-VSync.md`](./Loop-Pacing-And-VSync.md) for details.
+- **Two Frame Pacers**:
+  - **`SDL3VSyncPacer`** *(default in `SDL3SingleWindowApp` demos)*: Enables hardware VSync (`renderVsync: 1` / `SDL3GPUPresentMode vsync` + `waitAndAcquireSwapchainTextureForWindow:into:width:height:`) for tear-free presentation out of the box. Because hardware VSync paces visible frames in C, the loop avoids running a competing software deadline and falls back to `Delay` only if a frame completes in under 1 ms without blocking (such as when a window is minimized).
+  - **`SDL3CooperativePacer`** *(default in `SDL3CappedLoop`)*: Disables blocking C VSync (`renderVsync: 0` / `MAILBOX` falling back to `IMMEDIATE` + `acquireSwapchainTextureForWindow:into:width:height:`) and paces frames in Smalltalk against progressive absolute deadlines (`nextDeadlineUS`), yielding spare time via `Delay` (or `Processor yield` under 1 ms) so background Smalltalk processes stay responsive.
+- **Runtime `[V]` Toggle**: `SDL3SingleWindowApp` binds `SDLK_V` in `#initializeKeybindings` to switch between `VSync` and `Cooperative` pacers on the fly, reapplying renderer/swapchain settings via `#applyPacer` and updating the window title (`[VSync]` / `[Cooperative]`).
+- **Frame Rate Synchronization**: Targets 60 Hz by default (`hertz: 60`, or synchronized to the display refresh rate via `#syncToWindow:` in `SDL3SingleWindowApp`). See [`Loop-Pacing-And-VSync.md`](./Loop-Pacing-And-VSync.md) for details.
 - **Session Safety**: Checks `Smalltalk session ~~ session` on each iteration to cleanly stop execution if the image is saved or restarted.
 - **Integrated Event Polling**: On every iteration, events are polled from `SDL3Library`, converted to `SDL3MappedEvent` instances via `SDL3EventMap`, and dispatched to the application using `#accept: self`.
-- **Default Handlers and Key Bindings**: Built-in handling for `SDL_EVENT_QUIT` and automatic dispatch of key bindings registered in `#initializeKeybindings` (including `ESCAPE` to quit by default).
+- **Default Handlers and Key Bindings**: Built-in handling for `SDL_EVENT_QUIT` and automatic dispatch of key bindings registered in `#initializeKeybindings` (including `ESCAPE` to quit and `V` to toggle pacing).
 
 ---
 
@@ -45,8 +49,8 @@ The application loop is driven by `SDL3CappedLoop`:
 
 PharoSDL3 provides two main abstract application classes depending on the rendering technology:
 
-### 2D Rendering: `SDL3SingleWindowApp`
-Specializes `SDL3App` for applications using the `SDL_Renderer` API. It automates window creation with configurable extent (`initialExtent`), window flags (`initialWindowFlags`), dynamic window title updating, and window close event handling.
+### 2D Rendering: `SDL3SingleWindowApp` & `SDL3RendererDemoApp`
+`SDL3SingleWindowApp` specializes `SDL3App` for single-window demos, automating window creation (`initialExtent`, `initialWindowFlags`), dynamic window title updates (including the active pacer tag), `[V]` pacer toggle, and window close handling. `SDL3RendererDemoApp` builds on it for `SDL_Renderer` applications and applies `self pacer configureRenderer: renderer` via `#applyPacer`.
 
 #### A Minimal Standalone App in 10 Lines
 
@@ -83,9 +87,9 @@ Run it from the terminal using a headless Pharo VM:
 
 ### GPU API: `SDL3GPUDemoApp`
 Specializes `SDL3SingleWindowApp` for the SDL3 GPU subsystem (Vulkan, Metal, Direct3D 12):
-- Automatically initializes an `SDL_GPUDevice` and claims the window.
+- Automatically initializes an `SDL_GPUDevice`, claims the window, and configures swapchain parameters for the active pacer via `#applyPacer`.
 - Manages command buffer acquisition and submission.
-- Handles non-blocking swapchain texture acquisition (`acquireSwapchainTextureForWindow:into:width:height:`), gracefully skipping frames when minimized or when the GPU is saturated.
+- Delegates swapchain texture acquisition in `#render` to `self pacer acquireSwapchainTextureForWindow: window commandBuffer: commandBuffer into: swapchainTextureHolder`, gracefully skipping frames when `swapchainTextureHolder value isNull` (such as when minimized or when Cooperative mode hits the in-flight frame limit).
 - Reuses external value holders to eliminate garbage collection pressure in the rendering hot path.
 - Subclasses only need to implement `#doRenderPassesOn: swapchainTexture with: commandBuffer`.
 

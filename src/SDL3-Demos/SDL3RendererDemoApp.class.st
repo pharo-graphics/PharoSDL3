@@ -22,6 +22,12 @@ SDL3RendererDemoApp class >> isAbstract [
 	^ self == SDL3RendererDemoApp
 ]
 
+{ #category : 'pacing' }
+SDL3RendererDemoApp >> applyPacer [
+
+	renderer ifNotNil: [ self pacer configureRenderer: renderer ]
+]
+
 { #category : 'renderer' }
 SDL3RendererDemoApp >> clear [
 
@@ -64,7 +70,8 @@ SDL3RendererDemoApp >> setUp [
 
 	super setUp.
 
-	self initializeRenderer
+	self initializeRenderer.
+	self applyPacer
 ]
 
 { #category : 'renderer' }

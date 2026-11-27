@@ -3,20 +3,18 @@ I regulate the execution rate of an SDL3 application loop.
 
 Each cycle I:
 - Step the application via stepBlock
-- Pause or yield for any remaining spare time to hit the target refresh rate (e.g. 60 Hz)
-- Record cumulative frame pacing diagnostics (frame count, elapsed time, idle wait time)
+- Delegate frame waiting to my active pacer
 
-## Pacing Mechanics
-Instead of measuring elapsed time between frames (which causes stutter and timing drift), I schedule against a progressive deadline (nextDeadlineUS). Each iteration advances this deadline by a fixed period. Minor timing variations are naturally absorbed without cumulative drift. If a large delay occurs (such as window moving or a GC pause), the deadline resets to avoid catch-up storms.
-
-## Pharo Concurrency & VSync
-While display VSync coordinates frame presentation with the physical screen, relying solely on hardware VSync can freeze the Pharo VM during waits, starving background Smalltalk processes. My #wait method yields execution to the Pharo process scheduler using standard Delay, allowing other Smalltalk processes to run during idle headroom. When spare time is under 1 ms, #wait invokes yieldBlock (Processor yield) instead of sleeping, offering CPU time to peer processes without risking an overshoot.
+## Frame Pacers
+- `SDL3CooperativePacer` (default): Schedules against a progressive deadline (nextDeadlineUS) in Smalltalk while C presentation stays non-blocking, allowing other Smalltalk Processes to run during `Delay wait` (or `Processor yield` under 1 ms). If a large delay occurs (such as window dragging or a GC pause), the deadline clamps forward to avoid catch-up bursts.
+- `SDL3VSyncPacer`: Lets hardware VBlank pace visible frames in C without a competing software deadline, falling back to a sleep only when a frame returns immediately without blocking (e.g. a minimized window).
 
 Collaborators:
-- stepBlock: receives the frame period in microseconds (deltaUS) and performs the frame step
+- pacer: coordinates Smalltalk waiting and SDL3 VSync/swapchain configuration
+- stepBlock: receives the nominal frame period in microseconds (deltaUS) and performs the frame step
 - microsecondsBlock: queries the current microsecond clock (default: [ Time microsecondClockValue ])
-- delayBlock: receives remaining spare microseconds to pause (default: [ :us | (Delay forMilliseconds: us // 1000) wait ])
-- yieldBlock: cooperative yield when spare time is under 1 ms (default: [ Processor yield ])
+- delayBlock: receives remaining spare microseconds to pause (default: [ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ])
+- yieldBlock: cooperative yield when not sleeping on a Delay (default: [ Processor yield ])
 "
 Class {
 	#name : 'SDL3CappedLoop',
@@ -29,13 +27,12 @@ Class {
 		'delayBlock',
 		'stepBlock',
 		'yieldBlock',
-		'frameCount',
-		'lastFrameUS',
-		'totalElapsedUS',
-		'totalIdleUS'
+		'pacer',
+		'lastFrameUS'
 	],
-	#category : 'SDL3-Demos',
-	#package : 'SDL3-Demos'
+	#category : 'SDL3-Demos-Base',
+	#package : 'SDL3-Demos',
+	#tag : 'Base'
 }
 
 { #category : 'accessing' }
@@ -51,29 +48,9 @@ SDL3CappedLoop >> delayBlock: aBlock [
 ]
 
 { #category : 'accessing' }
-SDL3CappedLoop >> fps [
-
-	totalElapsedUS <= 0 ifTrue: [ ^ 0.0 ].
-	^ frameCount * 1000000.0 / totalElapsedUS
-]
-
-{ #category : 'accessing' }
-SDL3CappedLoop >> frameCount [
-
-	^ frameCount
-]
-
-{ #category : 'accessing' }
 SDL3CappedLoop >> hertz: aNumber [
 
 	periodUS := 1000000.0 / aNumber
-]
-
-{ #category : 'accessing' }
-SDL3CappedLoop >> idleHeadroomPercentage [
-
-	totalElapsedUS <= 0 ifTrue: [ ^ 0.0 ].
-	^ totalIdleUS * 100.0 / totalElapsedUS
 ]
 
 { #category : 'initialization' }
@@ -87,8 +64,7 @@ SDL3CappedLoop >> initialize [
 	delayBlock := [ :microseconds | (Delay forMilliseconds: microseconds // 1000) wait ].
 	stepBlock := [ :deltaUS | ].
 	yieldBlock := [ Processor yield ].
-
-	self resetMetrics
+	pacer := SDL3CooperativePacer new
 ]
 
 { #category : 'accessing' }
@@ -110,6 +86,19 @@ SDL3CappedLoop >> nextDeadlineUS [
 ]
 
 { #category : 'accessing' }
+SDL3CappedLoop >> pacer [
+
+	^ pacer
+]
+
+{ #category : 'accessing' }
+SDL3CappedLoop >> pacer: aFramePacer [
+
+	pacer := aFramePacer.
+	self resetDeadline
+]
+
+{ #category : 'accessing' }
 SDL3CappedLoop >> period: aDuration [
 
 	periodUS := aDuration asMicroseconds
@@ -119,18 +108,6 @@ SDL3CappedLoop >> period: aDuration [
 SDL3CappedLoop >> periodAsSeconds [
 
 	^ periodUS / 1000000.0
-]
-
-{ #category : 'accessing' }
-SDL3CappedLoop >> periodMS [
-
-	^ periodUS / 1000.0
-]
-
-{ #category : 'accessing' }
-SDL3CappedLoop >> periodUS [
-
-	^ periodUS
 ]
 
 { #category : 'lifecycle' }
@@ -149,20 +126,11 @@ SDL3CappedLoop >> resetDeadline [
 ]
 
 { #category : 'running' }
-SDL3CappedLoop >> resetMetrics [
-
-	frameCount := 0.
-	totalElapsedUS := 0.
-	totalIdleUS := 0
-]
-
-{ #category : 'running' }
 SDL3CappedLoop >> start [
 
 	| session |
 	session := Smalltalk session.
 	quit := false.
-	self resetMetrics.
 	self resetDeadline.
 
 	[ stepBlock value: periodUS. self wait ]
@@ -181,43 +149,47 @@ SDL3CappedLoop >> stepBlock: aBlock [
 	stepBlock := aBlock
 ]
 
-{ #category : 'accessing' }
-SDL3CappedLoop >> syncToWindow: anSDL3Window [
-	"Synchronize target hertz to the refresh rate of the display containing anSDL3Window, or 60 Hz on fallback."
+{ #category : 'pacing' }
+SDL3CappedLoop >> togglePacer [
 
-	| refreshRate |
-	refreshRate :=
-		[ anSDL3Window display currentDisplayMode refreshRate ]
-			on: Error
-			do: [ :error | 60 ].
-	(refreshRate isNil or: [ refreshRate <= 0 ]) ifTrue: [ refreshRate := 60 ].
-	self hertz: refreshRate rounded
-]
-
-{ #category : 'accessing' }
-SDL3CappedLoop >> totalElapsedUS [
-
-	^ totalElapsedUS
-]
-
-{ #category : 'accessing' }
-SDL3CappedLoop >> totalIdleUS [
-
-	^ totalIdleUS
+	self pacer: pacer toggled
 ]
 
 { #category : 'private' }
 SDL3CappedLoop >> wait [
-	"Wait or yield for any remaining spare time to maintain the target frame period"
+	"Delegate frame waiting to the active pacer."
 
-	| currentUS spareUS wakeUS |
+	| currentUS |
 	currentUS := microsecondsBlock value.
-	nextDeadlineUS ifNil: [ nextDeadlineUS := currentUS + periodUS ].
 	lastFrameUS ifNil: [ lastFrameUS := currentUS ].
+
+	pacer waitOnLoop: self at: currentUS.
+
+	lastFrameUS := microsecondsBlock value
+]
+
+{ #category : 'pacing' }
+SDL3CappedLoop >> waitIfUnthrottledFrom: currentUS [
+	"When hardware VSync paces visible frames in C, avoid running a competing software deadline.
+	If stepBlock completed in under 1ms without blocking (e.g. a minimized window), wait for the remaining spare time so the loop does not spin uncapped; otherwise yield cooperatively to same-priority processes."
+
+	| elapsedUS spareUS |
+	elapsedUS := currentUS - lastFrameUS.
+	spareUS := periodUS - elapsedUS.
+	(elapsedUS < 1000 and: [ spareUS >= 1000 ])
+		ifTrue: [ delayBlock cull: spareUS ]
+		ifFalse: [ yieldBlock value ]
+]
+
+{ #category : 'pacing' }
+SDL3CappedLoop >> waitUntilNextDeadlineFrom: currentUS [
+	"Wait or yield against a progressive deadline to maintain the target frame period in Smalltalk."
+
+	| spareUS wakeUS |
+	nextDeadlineUS ifNil: [ nextDeadlineUS := currentUS + periodUS ].
 	spareUS := nextDeadlineUS - currentUS.
 
-	"Wait if spare time is at least 1ms.
-	(1 millisecond = 1000 microseconds).
+	"Wait if spare time is at least 1ms (1000 microseconds).
 	Otherwise, cooperatively yield if any positive spare time remains."
 	spareUS >= 1000
 		ifTrue: [ delayBlock cull: spareUS ]
@@ -227,13 +199,7 @@ SDL3CappedLoop >> wait [
 	nextDeadlineUS := nextDeadlineUS + periodUS.
 	wakeUS := microsecondsBlock value.
 	wakeUS > (nextDeadlineUS + periodUS) ifTrue: [
-		nextDeadlineUS := wakeUS + periodUS ].
-
-	frameCount := frameCount + 1.
-	totalElapsedUS := totalElapsedUS + (wakeUS - lastFrameUS).
-	wakeUS > currentUS ifTrue: [
-		totalIdleUS := totalIdleUS + (wakeUS - currentUS) ].
-	lastFrameUS := wakeUS
+		nextDeadlineUS := wakeUS + periodUS ]
 ]
 
 { #category : 'accessing' }
