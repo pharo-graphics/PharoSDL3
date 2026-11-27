@@ -44,7 +44,7 @@ SDL3GPUKawaseBlurDemoApp >> blurRadius: aFloat [
 { #category : 'lifecycle' }
 SDL3GPUKawaseBlurDemoApp >> destroyBlurTextures [
 
-	blurTextures do: [ :each | each dispose ].
+	blurTextures do: [ :each | DiScope disposeAndDisown: each ].
 	blurTextures removeAll
 ]
 
@@ -98,20 +98,21 @@ SDL3GPUKawaseBlurDemoApp >> initializeBlurPipelines [
 SDL3GPUKawaseBlurDemoApp >> initializeBlurTextures [
 	"Allocates a chain of textures at progressively halved resolutions"
 
-	| w h |
+	| pixelExtent width height |
 	self destroyBlurTextures.
 
-	w := window pixelExtent x.
-	h := window pixelExtent y.
+	pixelExtent := self windowPixelExtent.
+	width := pixelExtent x.
+	height := pixelExtent y.
 
 	1 to: numberOfPasses do: [ :i |
-		w := (w / 2) floor max: 1.
-		h := (h / 2) floor max: 1.
+		width := (width / 2) floor max: 1.
+		height := (height / 2) floor max: 1.
 		blurTextures add: (DiScope own: (gpuDevice
 			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
 			usage: SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER
-			width: w
-			height: h)) ]
+			width: width
+			height: height)) ]
 ]
 
 { #category : 'initialization' }
@@ -215,13 +216,13 @@ SDL3GPUKawaseBlurDemoApp >> initializeQuadBuffers [
 { #category : 'initialization' }
 SDL3GPUKawaseBlurDemoApp >> initializeQuads [
 
-	| random extent |
+	| random windowExtent |
 	random := Random new.
-	extent := window pixelExtent.
+	windowExtent := self windowExtent.
 	quads := OrderedCollection new.
 	1 to: 20 do: [ :i |
 		quads add: (SDL3GPUDualKawaseBlurQuad new
-			position: (random next * extent x) @ (random next * extent y);
+			position: (random next * windowExtent x) @ (random next * windowExtent y);
 			velocity: (random next * 240.0 - 120.0) @ (random next * 240.0 - 120.0);
 			rotation: random next * Float twoPi;
 			rotationSpeed: random next * 3.0 - 1.5;
@@ -259,11 +260,15 @@ SDL3GPUKawaseBlurDemoApp >> initializeScenePipeline [
 { #category : 'initialization' }
 SDL3GPUKawaseBlurDemoApp >> initializeSceneTexture [
 
-	sceneTexture := DiScope dispose: sceneTexture andOwn: (gpuDevice
-		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
-		usage: SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER
-		width: window pixelExtent x
-		height: window pixelExtent y)
+	| pixelExtent |
+	pixelExtent := self windowPixelExtent.
+	sceneTexture := DiScope
+		dispose: sceneTexture
+		andOwn: (gpuDevice
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_B8G8R8A8_UNORM
+			usage: SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER
+			width: pixelExtent x
+			height: pixelExtent y)
 ]
 
 { #category : 'initialization' }
@@ -304,14 +309,13 @@ SDL3GPUKawaseBlurDemoApp >> presentTexture: sourceTexture on: swapchainTexture w
 ]
 
 { #category : 'private' }
-SDL3GPUKawaseBlurDemoApp >> pushBlurUniformsWith: commandBuffer sourceExtent: sExtent targetExtent: targetExtent [
+SDL3GPUKawaseBlurDemoApp >> pushBlurUniformsWith: commandBuffer sourceExtent: sourceExtent targetExtent: targetExtent [
 
 	blurUniforms
-		texelSizeX: 1.0 / sExtent x;
-		texelSizeY: 1.0 / sExtent y;
-		blurRadius: blurRadius.
-	commandBuffer
-		pushFragmentUniform: blurUniforms slot: 0.
+		texelSizeX: 1.0 / sourceExtent x;
+		texelSizeY: 1.0 / sourceExtent y;
+		blurRadius: blurRadius * window pixelDensity.
+	commandBuffer pushFragmentUniform: blurUniforms slot: 0.
 
 	sceneUniforms
 		x: targetExtent x / 2.0;
@@ -321,8 +325,7 @@ SDL3GPUKawaseBlurDemoApp >> pushBlurUniformsWith: commandBuffer sourceExtent: sE
 		rotation: 0.0;
 		viewportWidth: targetExtent x asFloat;
 		viewportHeight: targetExtent y asFloat.
-	commandBuffer
-		pushVertexUniform: sceneUniforms slot: 0
+	commandBuffer pushVertexUniform: sceneUniforms slot: 0
 ]
 
 { #category : 'rendering' }
@@ -427,8 +430,8 @@ SDL3GPUKawaseBlurDemoApp >> renderQuad: quad with: commandBuffer on: renderPass 
 SDL3GPUKawaseBlurDemoApp >> renderSceneWith: commandBuffer [
 	"Renders the initial bouncing logos scene"
 
-	| extent |
-	extent := window pixelExtent.
+	| windowExtent |
+	windowExtent := window extent.
 	colorTargetInfos first texture: sceneTexture.
 
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
@@ -450,8 +453,8 @@ SDL3GPUKawaseBlurDemoApp >> renderSceneWith: commandBuffer [
 		renderPass fragmentSamplers: textureSamplerBindings slot: 0.
 
 		sceneUniforms
-			viewportWidth: extent x asFloat;
-			viewportHeight: extent y asFloat.
+			viewportWidth: windowExtent x asFloat;
+			viewportHeight: windowExtent y asFloat.
 
 		quads do: [ :quad |
 			self
@@ -497,9 +500,9 @@ SDL3GPUKawaseBlurDemoApp >> step: deltaSeconds [
 { #category : 'stepping' }
 SDL3GPUKawaseBlurDemoApp >> stepQuads: deltaSeconds [
 
-	| extent |
-	extent := window pixelExtent.
-	quads do: [ :each | each step: deltaSeconds in: extent ]
+	| windowExtent |
+	windowExtent := self windowExtent.
+	quads do: [ :each | each step: deltaSeconds in: windowExtent ]
 ]
 
 { #category : 'private' }
@@ -521,10 +524,8 @@ SDL3GPUKawaseBlurDemoApp >> updatedTitle [
 	}
 ]
 
-{ #category : 'visiting - concrete' }
-SDL3GPUKawaseBlurDemoApp >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
-
-	super visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent.
+{ #category : 'hooks' }
+SDL3GPUKawaseBlurDemoApp >> windowPixelSizeChanged: aPixelExtent [
 
 	self initializeSceneTexture.
 	self initializeBlurTextures

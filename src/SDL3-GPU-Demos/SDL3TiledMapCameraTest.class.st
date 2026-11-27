@@ -38,6 +38,17 @@ SDL3TiledMapCameraTest >> testLogicalToFractal [
 ]
 
 { #category : 'tests' }
+SDL3TiledMapCameraTest >> testMandelbrotDemoUpdatesCameraOnWindowPixelSizeChanged [
+
+	| app |
+	app := SDL3GPUMandelbrotDemoApp new.
+	self assert: app camera viewportExtent equals: 720 @ 720.
+
+	app windowPixelSizeChanged: 1440 @ 1440.
+	self assert: app camera viewportExtent equals: 1440 @ 1440
+]
+
+{ #category : 'tests' }
 SDL3TiledMapCameraTest >> testPanByNormalized [
 
 	| camera |

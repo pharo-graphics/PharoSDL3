@@ -77,7 +77,7 @@ SDL3GPUBoidsDemoApp >> doGeometryPassWith: commandBuffer input: inputBuffer [
 SDL3GPUBoidsDemoApp >> doPhysicsPassWith: commandBuffer input: inputBuffer output: outputBuffer [
 
 	| extent |
-	extent := window pixelExtent.
+	extent := self windowPixelExtent.
 
 	"Aspect ratio bounds calculation: keep the minimum dimension mapped to [-1, 1]"
 	extent x > extent y
@@ -90,8 +90,7 @@ SDL3GPUBoidsDemoApp >> doPhysicsPassWith: commandBuffer input: inputBuffer outpu
 
 	boidsUniforms time: Time millisecondClockValue / 1000.0.
 
-	commandBuffer
-		pushComputeUniform: boidsUniforms slot: 0.
+	commandBuffer pushComputeUniform: boidsUniforms slot: 0.
 
 	storageBuffers at: 1 put: inputBuffer getHandle.
 
@@ -263,7 +262,7 @@ SDL3GPUBoidsDemoApp >> initializeVertexBuffers [
 SDL3GPUBoidsDemoApp >> pushGeometryUniformsTo: commandBuffer [
 
 	| extent |
-	extent := window extent.
+	extent := self windowPixelExtent.
 
 	"Aspect ratio bounds calculation: keep the minimum dimension mapped to [-1, 1]"
 	extent x > extent y
@@ -278,8 +277,7 @@ SDL3GPUBoidsDemoApp >> pushGeometryUniformsTo: commandBuffer [
 		numBoids: numBoids;
 		boidRadius: 0.05.
 
-	commandBuffer
-		pushComputeUniform: geometryUniforms slot: 0
+	commandBuffer pushComputeUniform: geometryUniforms slot: 0
 ]
 
 { #category : 'lifecycle' }

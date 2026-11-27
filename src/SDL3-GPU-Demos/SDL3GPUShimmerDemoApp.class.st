@@ -233,10 +233,12 @@ SDL3GPUShimmerDemoApp >> setupGeometryBindings [
 { #category : 'hooks' }
 SDL3GPUShimmerDemoApp >> step [
 
+	| windowExtent |
+	windowExtent := self windowExtent.
 	uniforms
 		time: Time millisecondClockValue / 1000.0;
-		resolutionX: (window extent x max: 1) asFloat;
-		resolutionY: (window extent y max: 1) asFloat.
+		resolutionX: windowExtent x asFloat;
+		resolutionY: windowExtent y asFloat.
 
 	self render
 ]

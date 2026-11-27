@@ -116,11 +116,41 @@ SDL3SingleWindowApp >> visitWindowCloseRequestedEvent: aWindowEvent [
 	"Quit if user clicked on main window's close"
 	aWindowEvent windowID = window id ifTrue: [ loop requestQuit ].
 
-	super visitWindowCloseRequestedEvent: aWindowEvent
+	^ super visitWindowCloseRequestedEvent: aWindowEvent
+]
+
+{ #category : 'visiting - concrete' }
+SDL3SingleWindowApp >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
+
+	(aWindowPixelSizeChangedEvent windowID = window id and: [
+		aWindowPixelSizeChangedEvent extent > (0 @ 0) ]) ifTrue: [
+		self windowPixelSizeChanged: aWindowPixelSizeChangedEvent extent ].
+
+	^ super visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent
 ]
 
 { #category : 'accessing' }
 SDL3SingleWindowApp >> window [
 
 	^ window
+]
+
+{ #category : 'accessing' }
+SDL3SingleWindowApp >> windowExtent [
+	"Answer the window's logical extent, clamped to at least 1@1 so viewport and aspect-ratio math remain valid when minimized."
+
+	^ window extent max: 1 @ 1
+]
+
+{ #category : 'accessing' }
+SDL3SingleWindowApp >> windowPixelExtent [
+	"Answer the window's physical pixel extent, clamped to at least 1@1 so viewport and off-screen texture math remain valid when minimized."
+
+	^ window pixelExtent max: 1 @ 1
+]
+
+{ #category : 'hooks' }
+SDL3SingleWindowApp >> windowPixelSizeChanged: aPixelExtent [
+	"Hook sent when the window's physical pixel size changes to a positive extent.
+	Zero-sized extents reported while minimized are ignored."
 ]

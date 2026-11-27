@@ -31,6 +31,7 @@ SDL3TextLayoutEngine >> atlas: anObject [
 
 { #category : 'initialization' }
 SDL3TextLayoutEngine >> calculateMetrics [
+
 	| font scale |
 	atlas ifNil: [ ^ self ].
 	font := atlas fontMetrics.
@@ -38,6 +39,7 @@ SDL3TextLayoutEngine >> calculateMetrics [
 	lineHeight := (font height ceiling * scale y) ceiling.
 	spaceWidth := (((font widthOfString: ' ') max: ((font widthOfString: 'm') * 0.3)) * scale x) ceiling.
 	tabWidth := ((font widthOfString: 'm') * 3 * scale x) ceiling.
+	lineStarts ifNotNil: [ totalHeight := lineStarts size * lineHeight ]
 ]
 
 { #category : 'layout' }

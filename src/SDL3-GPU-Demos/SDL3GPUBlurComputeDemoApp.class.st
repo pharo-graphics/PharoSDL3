@@ -129,28 +129,29 @@ SDL3GPUBlurComputeDemoApp >> initialize [
 ]
 
 { #category : 'initialization' }
+SDL3GPUBlurComputeDemoApp >> initializeComputePipeline [
+
+	DiScope own: (computePipeline := SDL3GPUGaussianBlurShaderSource unownedNewComputePipelineForDevice: gpuDevice)
+]
+
+{ #category : 'initialization' }
 SDL3GPUBlurComputeDemoApp >> initializeComputeResources [
 
-	computePipeline ifNotNil: [ computePipeline dispose ].
-	writeTexture ifNotNil: [ writeTexture dispose ].
-	intermediateTexture ifNotNil: [ intermediateTexture dispose ].
+	writeTexture := DiScope
+		dispose: writeTexture
+		andOwn: (gpuDevice
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
+			width: lastExtent x
+			height: lastExtent y).
 
-	computePipeline := SDL3GPUGaussianBlurShaderSource unownedNewComputePipelineForDevice: gpuDevice.
-	DiScope own: computePipeline.
-
-	writeTexture := gpuDevice
-		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
-		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
-		width: lastExtent x
-		height: lastExtent y.
-	DiScope own: writeTexture.
-
-	intermediateTexture := gpuDevice
-		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
-		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
-		width: lastExtent x
-		height: lastExtent y.
-	DiScope own: intermediateTexture
+	intermediateTexture := DiScope
+		dispose: intermediateTexture
+		andOwn: (gpuDevice
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM
+			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
+			width: lastExtent x
+			height: lastExtent y)
 ]
 
 { #category : 'initialization' }
@@ -260,19 +261,20 @@ SDL3GPUBlurComputeDemoApp >> initializeSampler [
 SDL3GPUBlurComputeDemoApp >> initializeTexture [
 
 	| browserMorph form |
-	lastExtent := window pixelExtent.
-
-	texture ifNotNil: [ texture dispose ].
+	lastExtent := self windowPixelExtent.
 
 	"Take a snapshot of a browser to be used as background"
 	browserMorph := (Object >> #at:put:) browse owner.
-	form := browserMorph
-		extent: lastExtent;
-		asForm.
+	form :=
+		browserMorph
+			extent: lastExtent;
+			asForm.
 	browserMorph delete.
-	DiScope own: (texture := gpuDevice
-		unownedNewGPUTextureUploadingForm: form
-		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ)
+	texture := DiScope
+		dispose: texture
+		andOwn: (gpuDevice
+			unownedNewGPUTextureUploadingForm: form
+			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ)
 ]
 
 { #category : 'lifecycle' }
@@ -284,9 +286,11 @@ SDL3GPUBlurComputeDemoApp >> setUp [
 		storeOp: SDL_GPU_STOREOP_STORE;
 		loadOp: SDL_GPU_LOADOP_CLEAR.
 	colorTargetInfos first clearColor updateFrom: Color red.
-	DiScope own: (indexBinding := SDL_GPUBufferBinding unownedNew
-		beOffset: 0;
-		yourself).
+	indexBinding :=
+		SDL_GPUBufferBinding unownedNew
+			beOffset: 0;
+			yourself.
+	DiScope own: indexBinding.
 	DiScope own: (blurStorageBindings := SDL3Array unownedNewType: SDL3GPUStorageTextureReadWriteBinding size: 1).
 	DiScope own: (blurSamplerBindings := SDL3Array unownedNewType: SDL3GPUTextureSamplerBinding size: 1).
 	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 1).
@@ -294,6 +298,7 @@ SDL3GPUBlurComputeDemoApp >> setUp [
 	DiScope own: (storageTextureArray := SDL3Array unownedNewType: SDL_GPUTexture size: 1).
 
 	self initializeTexture.
+	self initializeComputePipeline.
 	self initializeComputeResources.
 	self initializeGeometry.
 	self initializePipeline.
@@ -311,10 +316,8 @@ SDL3GPUBlurComputeDemoApp >> updatedTitle [
 				uniforms brightness printShowingDecimalPlaces: 1 })
 ]
 
-{ #category : 'visiting - concrete' }
-SDL3GPUBlurComputeDemoApp >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
+{ #category : 'hooks' }
+SDL3GPUBlurComputeDemoApp >> windowPixelSizeChanged: aPixelExtent [
 
-	super visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent.
-
-	aWindowPixelSizeChangedEvent extent = lastExtent ifFalse: [ self handleResize ]
+	aPixelExtent = lastExtent ifFalse: [ self handleResize ]
 ]
