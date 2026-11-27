@@ -53,9 +53,6 @@ SDL3GPUKawaseBlurDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuff
 	"Main rendering entry point sent by the app loop"
 
 	| lastTexture |
-
-	self stepQuads.
-
 	"Pass 1: Render the dynamic scene into an off-screen texture"
 	self renderSceneWith: commandBuffer.
 
@@ -225,9 +222,9 @@ SDL3GPUKawaseBlurDemoApp >> initializeQuads [
 	1 to: 20 do: [ :i |
 		quads add: (SDL3GPUDualKawaseBlurQuad new
 			position: (random next * extent x) @ (random next * extent y);
-			velocity: (random next * 4 - 2) @ (random next * 4 - 2);
+			velocity: (random next * 240.0 - 120.0) @ (random next * 240.0 - 120.0);
 			rotation: random next * Float twoPi;
-			rotationSpeed: random next * 0.05 - 0.025;
+			rotationSpeed: random next * 3.0 - 1.5;
 			scale: (64 + (random next * 128)) @ (64 + (random next * 128));
 			yourself) ]
 ]
@@ -490,12 +487,19 @@ SDL3GPUKawaseBlurDemoApp >> setupGeometryBindings [
 		offset: 0
 ]
 
-{ #category : 'initialization' }
-SDL3GPUKawaseBlurDemoApp >> stepQuads [
+{ #category : 'hooks' }
+SDL3GPUKawaseBlurDemoApp >> step: deltaSeconds [
+
+	self stepQuads: deltaSeconds.
+	super step: deltaSeconds
+]
+
+{ #category : 'stepping' }
+SDL3GPUKawaseBlurDemoApp >> stepQuads: deltaSeconds [
 
 	| extent |
 	extent := window pixelExtent.
-	quads do: [ :each | each stepIn: extent ]
+	quads do: [ :each | each step: deltaSeconds in: extent ]
 ]
 
 { #category : 'private' }

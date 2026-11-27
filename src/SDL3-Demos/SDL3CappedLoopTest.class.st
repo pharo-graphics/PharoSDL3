@@ -83,20 +83,33 @@ SDL3CappedLoopTest >> testHertzAndPeriod [
 
 { #category : 'tests' }
 SDL3CappedLoopTest >> testLoopStepsBlock [
-	"Verify that #start executes stepBlock passing periodUS as deltaUS until quit is requested."
+	"Verify #start passes initial periodUS on frame 1, measured elapsed deltaUS thereafter, clamps lag spikes, and supports zero-argument blocks."
 
-	| loop stepCount receivedDeltaUS |
-	stepCount := 0.
-	receivedDeltaUS := nil.
+	| loop simulatedTime deltas zeroArgCount |
+	simulatedTime := 0.
+	deltas := OrderedCollection new.
 	loop := SDL3CappedLoop new.
-	loop hertz: 1000.
+	loop hertz: 60.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop delayBlock: [ :microseconds | ].
+	loop yieldBlock: [ ].
 	loop stepBlock: [ :deltaUS |
-		stepCount := stepCount + 1.
-		receivedDeltaUS := deltaUS.
-		stepCount >= 3 ifTrue: [ loop requestQuit ] ].
+		deltas add: deltaUS.
+		deltas size = 1 ifTrue: [ simulatedTime := simulatedTime + 8333 ].
+		deltas size = 2 ifTrue: [ simulatedTime := simulatedTime + 500000 ].
+		deltas size >= 3 ifTrue: [ loop requestQuit ] ].
 	loop start.
-	self assert: stepCount equals: 3.
-	self assert: receivedDeltaUS equals: 1000
+	self assert: deltas size equals: 3.
+	self assert: (deltas first closeTo: 1000000.0 / 60).
+	self assert: deltas second equals: 8333.
+	self assert: deltas third equals: 100000.
+
+	zeroArgCount := 0.
+	loop stepBlock: [
+		zeroArgCount := zeroArgCount + 1.
+		loop requestQuit ].
+	loop start.
+	self assert: zeroArgCount equals: 1
 ]
 
 { #category : 'tests' }
@@ -302,6 +315,32 @@ SDL3CappedLoopTest >> testSimulationSustainedOverbudgetSkipsDelays [
 		simulatedTime := simulatedTime + 33333.
 		loop wait ].
 	self assert: recordedWaits isEmpty
+]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testStepSecondsMovesQuadFrameRateIndependently [
+	"Verify 1 frame at 60 Hz and 2 frames at 120 Hz produce identical quad displacement."
+
+	| quad60 quad120 extent |
+	extent := 1000 @ 1000.
+	quad60 := SDL3GPUDualKawaseBlurQuad new
+		position: 100.0 @ 100.0;
+		velocity: 120.0 @ -60.0;
+		rotation: 0.0;
+		rotationSpeed: 3.0;
+		yourself.
+	quad120 := SDL3GPUDualKawaseBlurQuad new
+		position: 100.0 @ 100.0;
+		velocity: 120.0 @ -60.0;
+		rotation: 0.0;
+		rotationSpeed: 3.0;
+		yourself.
+
+	quad60 step: 1.0 / 60.0 in: extent.
+	2 timesRepeat: [ quad120 step: 1.0 / 120.0 in: extent ].
+	self assert: (quad60 position x closeTo: quad120 position x).
+	self assert: (quad60 position y closeTo: quad120 position y).
+	self assert: (quad60 rotation closeTo: quad120 rotation)
 ]
 
 { #category : 'tests' }

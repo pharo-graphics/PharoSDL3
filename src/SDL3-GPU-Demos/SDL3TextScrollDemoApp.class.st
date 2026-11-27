@@ -342,11 +342,11 @@ SDL3TextScrollDemoApp >> setUp [
 ]
 
 { #category : 'hooks' }
-SDL3TextScrollDemoApp >> step [
+SDL3TextScrollDemoApp >> step: deltaSeconds [
 
 	| lerpFactor |
 	"Smoothly interpolate current scroll position towards target"
-	lerpFactor := 0.3.
+	lerpFactor := 1.0 - (0.7 raisedTo: deltaSeconds * 60.0).
 	scrollPosition := scrollPosition x @ (scrollPosition y + ((targetScrollY - scrollPosition y) * lerpFactor)).
 
 	"Avoid endless micro-steps"

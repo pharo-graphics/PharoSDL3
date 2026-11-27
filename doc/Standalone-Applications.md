@@ -20,7 +20,7 @@ PharoSDL3 is not only an FFI binding or an OSWindow driver backend; it also prov
 - **`subsystemInitFlags`**: Answers the SDL subsystems to initialize upon launch (defaults to `SDL_INIT_VIDEO`).
 - **`initializeKeybindings`**: Registers declarative keyboard shortcuts via `#bindKey:description:action:` (defaults to binding `SDLK_ESCAPE` to quit).
 - **`setUp`**: Executed immediately before the main loop begins (and prints the application's class comment and registered key bindings banner to `stdout`). Ideal for opening windows, compiling pipelines, and loading textures. All resources registered with `DiScope own:` are retained during execution.
-- **`step`**: Executed once per frame. Use this hook for simulation updates, input handling responses, and rendering.
+- **`step` / `step:`**: Executed once per frame. Override `#step: deltaSeconds` to advance time-stepped simulations using the elapsed frame delta in seconds, or `#step` for stateless and event-driven rendering.
 - **`tearDown`**: Pre-cleanup hook executed when the loop terminates, just before scoped resources are sent `#dispose`.
 - **Automatic Initialization and Shutdown**: Guaranteed `#sdlInit` and `#sdlQuit` calls wrapped in `ensure:` blocks.
 
