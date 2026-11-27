@@ -31,26 +31,27 @@ Class {
 { #category : 'rendering' }
 SDL3GPURoundedRectDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer [
 
-	| quadWidthPixels quadHeightPixels physicalExtent |
-
+	| physicalExtent pixelDensity quadWidthPixels quadHeightPixels scaledCornerRadius |
 	colorTargetInfos first texture: swapchainTexture.
 
-	"Calculate actual pixel dimensions of the quads based on window size and grid"
+	"Scale logical SDF radii and stroke by pixel density so visual proportions stay consistent across High-DPI transitions"
 	physicalExtent := window pixelExtent.
+	pixelDensity := window pixelDensity.
 	quadWidthPixels := physicalExtent x asFloat / columns.
 	quadHeightPixels := physicalExtent y asFloat / rows.
+	scaledCornerRadius := cornerRadiiBase * pixelDensity.
 
 	sdfUniforms
 		dimX: quadWidthPixels;
 		dimY: quadHeightPixels;
-		cornerR1: cornerRadiiBase;
-		cornerR2: cornerRadiiBase;
-		cornerR3: cornerRadiiBase;
-		cornerR4: cornerRadiiBase;
-		radius: radius.
+		strokeSize: 5.0 * pixelDensity;
+		cornerR1: scaledCornerRadius;
+		cornerR2: scaledCornerRadius;
+		cornerR3: scaledCornerRadius;
+		cornerR4: scaledCornerRadius;
+		radius: radius * pixelDensity.
 
-	commandBuffer
-		pushFragmentUniform: sdfUniforms slot: 0.
+	commandBuffer pushFragmentUniform: sdfUniforms slot: 0.
 
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
 		renderPass
@@ -62,7 +63,6 @@ SDL3GPURoundedRectDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuf
 			firstIndex: 0
 			vertexOffset: 0
 			firstInstance: 0 ]
-
 ]
 
 { #category : 'accessing' }

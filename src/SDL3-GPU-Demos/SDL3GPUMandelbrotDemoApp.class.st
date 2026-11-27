@@ -45,6 +45,12 @@ Class {
 	#tag : 'TiledMap'
 }
 
+{ #category : 'accessing' }
+SDL3GPUMandelbrotDemoApp >> camera [
+
+	^ camera
+]
+
 { #category : 'rendering' }
 SDL3GPUMandelbrotDemoApp >> computeNewTiles [
 	"Generate fractal bits for newly ready tiles on the GPU."
@@ -123,8 +129,12 @@ SDL3GPUMandelbrotDemoApp >> executeGraphicsPassOn: swapchainTexture readyCount: 
 
 		"Pass B: Loading Tiles (Shimmer)"
 		loadingCount > 0 ifTrue: [
-			shimmerUniforms time: Time millisecondClockValue / 1000.0.
-			shimmerUniforms resolutionX: window pixelExtent x; resolutionY: window pixelExtent y.
+			| pixelExtent |
+			pixelExtent := window pixelExtent.
+			shimmerUniforms
+				time: Time millisecondClockValue / 1000.0;
+				resolutionX: pixelExtent x;
+				resolutionY: pixelExtent y.
 			commandBuffer
 				pushVertexUniform: shimmerUniforms slot: 0;
 				pushFragmentUniform: shimmerUniforms slot: 0.
@@ -408,6 +418,8 @@ SDL3GPUMandelbrotDemoApp >> requestTile: key [
 SDL3GPUMandelbrotDemoApp >> setUp [
 
 	super setUp.
+	camera viewportExtent: self windowPixelExtent.
+	self updateTitle.
 	DiScope own: (colorTargetInfos := SDL3Array unownedNewType: SDL_GPUColorTargetInfo size: 1).
 	colorTargetInfos first beClear: (Color r: 0.02 g: 0.02 b: 0.05).
 	DiScope own: (atlasBindings := SDL3Array unownedNewType: SDL3GPUStorageTextureReadWriteBinding size: 1).
@@ -421,9 +433,11 @@ SDL3GPUMandelbrotDemoApp >> setUp [
 		cornerRadius: 0.0. "Perfectly square tiles"
 	DiScope own: (vertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2).
 	DiScope own: (shimmerVertexBufferBindings := SDL3Array unownedNewType: SDL_GPUBufferBinding size: 2).
-	DiScope own: (indexBufferBinding := SDL_GPUBufferBinding unownedNew
-		beOffset: 0;
-		yourself).
+	indexBufferBinding :=
+		SDL_GPUBufferBinding unownedNew
+			beOffset: 0;
+			yourself.
+	DiScope own: indexBufferBinding.
 	DiScope own: (samplerBindings := SDL3Array unownedNewType: SDL_GPUTextureSamplerBinding size: 1).
 
 	self initializeAtlas.
@@ -580,45 +594,34 @@ SDL3GPUMandelbrotDemoApp >> uploadShimmerInstanceDataWith: commandBuffer [
 { #category : 'visiting - concrete' }
 SDL3GPUMandelbrotDemoApp >> visitMouseMotionEvent: aMouseMotionEvent [
 
-	| winExtent nx ny |
+	| windowExtent normalizedX normalizedY |
 	super visitMouseMotionEvent: aMouseMotionEvent.
 
 	(aMouseMotionEvent state anyMask: SDL_BUTTON_LMASK) ifFalse: [ ^ self ].
 
-	winExtent := window extent.
-	nx := aMouseMotionEvent xrel / (winExtent x max: 1) asFloat.
-	ny := aMouseMotionEvent yrel / (winExtent y max: 1) asFloat.
-	camera panByNormalized: nx @ ny
+	windowExtent := self windowExtent.
+	normalizedX := aMouseMotionEvent xrel / windowExtent x asFloat.
+	normalizedY := aMouseMotionEvent yrel / windowExtent y asFloat.
+	camera panByNormalized: normalizedX @ normalizedY
 ]
 
 { #category : 'visiting - concrete' }
 SDL3GPUMandelbrotDemoApp >> visitMouseWheelEvent: aMouseWheelEvent [
 
-	| factor winExtent nx ny |
+	| factor windowExtent normalizedX normalizedY |
 	super visitMouseWheelEvent: aMouseWheelEvent.
 
 	factor := aMouseWheelEvent y > 0 ifTrue: [ 1.25 ] ifFalse: [ 0.8 ].
-	winExtent := window extent.
-	nx := aMouseWheelEvent mouseX / (winExtent x max: 1) asFloat.
-	ny := aMouseWheelEvent mouseY / (winExtent y max: 1) asFloat.
-	camera zoomBy: factor aroundNormalizedPoint: (nx @ ny).
+	windowExtent := self windowExtent.
+	normalizedX := aMouseWheelEvent mouseX / windowExtent x asFloat.
+	normalizedY := aMouseWheelEvent mouseY / windowExtent y asFloat.
+	camera zoomBy: factor aroundNormalizedPoint: normalizedX @ normalizedY.
 	self updateTitle
 ]
 
-{ #category : 'visiting - concrete' }
-SDL3GPUMandelbrotDemoApp >> visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent [
+{ #category : 'hooks' }
+SDL3GPUMandelbrotDemoApp >> windowPixelSizeChanged: aPixelExtent [
 
-	super visitWindowPixelSizeChangedEvent: aWindowPixelSizeChangedEvent.
-
-	camera viewportExtent: window pixelExtent.
-	self updateTitle
-]
-
-{ #category : 'visiting - concrete' }
-SDL3GPUMandelbrotDemoApp >> visitWindowResizedEvent: aWindowResizedEvent [
-
-	super visitWindowResizedEvent: aWindowResizedEvent.
-
-	camera viewportExtent: window pixelExtent.
+	camera viewportExtent: aPixelExtent.
 	self updateTitle
 ]

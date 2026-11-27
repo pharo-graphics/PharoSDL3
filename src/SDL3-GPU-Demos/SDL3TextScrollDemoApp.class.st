@@ -32,9 +32,53 @@ Class {
 	#tag : 'TextScroll'
 }
 
+{ #category : 'private' }
+SDL3TextScrollDemoApp >> applyAtlas: aTextAtlas [
+
+	| previousLineHeight newLineHeight |
+	previousLineHeight := layoutEngine ifNil: [ 0 ] ifNotNil: [ layoutEngine lineHeight ].
+	atlas := aTextAtlas.
+	layoutEngine ifNil: [ layoutEngine := SDL3TextLayoutEngine new ].
+	layoutEngine atlas: aTextAtlas.
+	newLineHeight := layoutEngine lineHeight.
+	(previousLineHeight > 0 and: [ newLineHeight > 0 ]) ifTrue: [
+		| scaleRatio |
+		scaleRatio := newLineHeight asFloat / previousLineHeight asFloat.
+		targetScrollY := targetScrollY * scaleRatio.
+		scrollPosition := (scrollPosition x * scaleRatio) @ (scrollPosition y * scaleRatio) ].
+	lastVisibleLineRange := nil
+]
+
 { #category : 'accessing' }
 SDL3TextScrollDemoApp >> atlas [
+
 	^ atlas
+]
+
+{ #category : 'private' }
+SDL3TextScrollDemoApp >> atlasCharacters [
+
+	^ ((32 to: 126) collect: [ :code | Character value: code ])
+		reject: [ :character | character isSeparator ]
+]
+
+{ #category : 'private' }
+SDL3TextScrollDemoApp >> clampScrollToViewport [
+
+	| viewportHeight maxScrollY |
+	(window isNil or: [ layoutEngine isNil ]) ifTrue: [ ^ self ].
+	viewportHeight := window pixelExtent y.
+	maxScrollY := (layoutEngine totalHeight - viewportHeight max: 0) asFloat.
+	targetScrollY := (targetScrollY max: 0.0) min: maxScrollY.
+	scrollPosition := scrollPosition x @ ((scrollPosition y max: 0.0) min: maxScrollY)
+]
+
+{ #category : 'private' }
+SDL3TextScrollDemoApp >> currentDeviceScale [
+
+	| density |
+	density := window ifNil: [ 1.0 ] ifNotNil: [ window pixelDensity ].
+	^ density @ density
 ]
 
 { #category : 'rendering' }
@@ -55,6 +99,8 @@ SDL3TextScrollDemoApp >> doRenderPassesOn: swapchainTexture with: commandBuffer 
 { #category : 'private' }
 SDL3TextScrollDemoApp >> executeTextRenderPassOn: swapchainTexture with: commandBuffer glyphCount: visibleGlyphCount [
 
+	| pixelExtent |
+	pixelExtent := window pixelExtent.
 	colorTargetInfos first texture: swapchainTexture.
 	commandBuffer renderPassTargets: colorTargetInfos do: [ :renderPass |
 		vertexBufferBindings first buffer: baseQuadBuffer.
@@ -69,11 +115,10 @@ SDL3TextScrollDemoApp >> executeTextRenderPassOn: swapchainTexture with: command
 		uniforms
 			scrollOffsetX: scrollPosition x;
 			scrollOffsetY: scrollPosition y;
-			viewportWidth: window pixelExtent x asFloat;
-			viewportHeight: window pixelExtent y asFloat.
+			viewportWidth: pixelExtent x asFloat;
+			viewportHeight: pixelExtent y asFloat.
 
-		commandBuffer
-			pushVertexUniform: uniforms slot: 0.
+		commandBuffer pushVertexUniform: uniforms slot: 0.
 
 		renderPass
 			drawIndexedPrimitives: 6
@@ -143,18 +188,18 @@ SDL3TextScrollDemoApp >> initialize [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeAtlas [
 
-	| generator scale chars |
-	generator := SDL3TextAtlasGenerator new.
-	scale := window pixelDensity @ window pixelDensity.
-
-	"Efficient character set: Standard ASCII 32-126 + any other char found in the first 1MB of text"
-	chars := ((32 to: 126) collect: [ :i | i asCharacter ]) asSet.
-	1 to: (text size min: 1e6) do: [ :i | chars add: (text at: i) ].
-	chars := (chars reject: [ :c | c isSeparator or: [ c asciiValue < 32 or: [ c asciiValue > 126 ] ] ]) asSortedCollection.
-
-	atlas := generator generateAtlasFor: chars deviceScale: scale.
-	layoutEngine := SDL3TextLayoutEngine new atlas: atlas.
-	layoutEngine layoutString: text
+	| initialAtlas |
+	initialAtlas :=
+		SDL3TextAtlasGenerator new
+			generateAtlasFor: self atlasCharacters
+			deviceScale: self currentDeviceScale.
+	atlas := initialAtlas.
+	layoutEngine :=
+		SDL3TextLayoutEngine new
+			atlas: initialAtlas;
+			yourself.
+	layoutEngine layoutString: text.
+	lastVisibleLineRange := nil
 ]
 
 { #category : 'initialization' }
@@ -246,11 +291,13 @@ SDL3TextScrollDemoApp >> initializeSampler [
 { #category : 'initialization' }
 SDL3TextScrollDemoApp >> initializeTexture [
 
-	DiScope own: (atlasTexture := gpuDevice
-		unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
-		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
-		width: atlas width
-		height: atlas height).
+	atlasTexture := DiScope
+		dispose: atlasTexture
+		andOwn: (gpuDevice
+			unownedNew2DGPUTextureFormat: SDL_GPU_TEXTUREFORMAT_R8_UNORM
+			usage: SDL_GPU_TEXTUREUSAGE_SAMPLER
+			width: atlas width
+			height: atlas height).
 
 	"Cairo A8 surfaces may have padding (stride). We forced width to be a multiple of 4, so stride == width."
 	gpuDevice uploadToGPUDo: [ :uploader |
@@ -272,11 +319,18 @@ SDL3TextScrollDemoApp >> instanceStride [
 	^ 36
 ]
 
+{ #category : 'accessing' }
+SDL3TextScrollDemoApp >> layoutEngine [
+
+	^ layoutEngine
+]
+
 { #category : 'private' }
 SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 
-	| visibleLineRange firstLine lastLine visibleGlyphCount |
-	visibleLineRange := layoutEngine visibleLineRangeIn: (scrollPosition extent: window pixelExtent).
+	| pixelExtent visibleLineRange firstLine lastLine visibleGlyphCount |
+	pixelExtent := window pixelExtent.
+	visibleLineRange := layoutEngine visibleLineRangeIn: (scrollPosition extent: pixelExtent).
 
 	"Optimization: Skip layout and upload if the visible range is the same"
 	visibleLineRange = lastVisibleLineRange ifTrue: [ ^ lastVisibleGlyphCount ].
@@ -289,11 +343,13 @@ SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 
 	"Recycle or resize GPU buffers"
 	(instanceBuffer isNil or: [ instanceBufferSize < (visibleGlyphCount * SDL3TextScrollInstance structureSize) ]) ifTrue: [
-		instanceBuffer ifNotNil: [ instanceBuffer dispose ].
-		instanceTransferBuffer ifNotNil: [ instanceTransferBuffer dispose ].
 		instanceBufferSize := (visibleGlyphCount * SDL3TextScrollInstance structureSize * 1.5) ceiling.
-		DiScope own: (instanceBuffer := gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: instanceBufferSize).
-		DiScope own: (instanceTransferBuffer := gpuDevice unownedNewGPUUploadTransferBuffer: instanceBufferSize) ].
+		instanceBuffer := DiScope
+			dispose: instanceBuffer
+			andOwn: (gpuDevice unownedNewGPUBufferUsage: SDL_GPU_BUFFERUSAGE_VERTEX size: instanceBufferSize).
+		instanceTransferBuffer := DiScope
+			dispose: instanceTransferBuffer
+			andOwn: (gpuDevice unownedNewGPUUploadTransferBuffer: instanceBufferSize) ].
 
 	commandBuffer uploadToGPUDo: [ :uploader |
 		uploader
@@ -306,7 +362,7 @@ SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 				"Lazy Layout into the buffer"
 				visibleGlyphCount := layoutEngine
 					layoutVisibleLinesOf: text
-					in: (scrollPosition extent: window pixelExtent)
+					in: (scrollPosition extent: pixelExtent)
 					into: mappedInstances ] ].
 
 	visibleGlyphCount = 0 ifTrue: [
@@ -318,6 +374,35 @@ SDL3TextScrollDemoApp >> prepareInstanceBufferWith: commandBuffer [
 	lastVisibleGlyphCount := visibleGlyphCount.
 
 	^ visibleGlyphCount
+]
+
+{ #category : 'private' }
+SDL3TextScrollDemoApp >> refreshDisplayScale [
+
+	| targetScale newAtlas |
+	(window isNil or: [ atlas isNil ]) ifTrue: [ ^ self ].
+	targetScale := self currentDeviceScale.
+	atlas deviceScale = targetScale ifTrue: [ ^ self ].
+
+	newAtlas :=
+		SDL3TextAtlasGenerator new
+			generateAtlasFor: self atlasCharacters
+			deviceScale: targetScale.
+	self applyAtlas: newAtlas.
+	self clampScrollToViewport.
+	gpuDevice ifNotNil: [ self initializeTexture ]
+]
+
+{ #category : 'accessing' }
+SDL3TextScrollDemoApp >> scrollPosition [
+
+	^ scrollPosition
+]
+
+{ #category : 'accessing' }
+SDL3TextScrollDemoApp >> scrollPosition: aPoint [
+
+	scrollPosition := aPoint
 ]
 
 { #category : 'lifecycle' }
@@ -357,6 +442,18 @@ SDL3TextScrollDemoApp >> step: deltaSeconds [
 ]
 
 { #category : 'accessing' }
+SDL3TextScrollDemoApp >> targetScrollY [
+
+	^ targetScrollY
+]
+
+{ #category : 'accessing' }
+SDL3TextScrollDemoApp >> targetScrollY: aFloat [
+
+	targetScrollY := aFloat
+]
+
+{ #category : 'accessing' }
 SDL3TextScrollDemoApp >> text [
 
 	^ text
@@ -368,13 +465,25 @@ SDL3TextScrollDemoApp >> visitMouseWheelEvent: aMouseWheelEvent [
 	| scrollSpeed maxScrollY |
 	super visitMouseWheelEvent: aMouseWheelEvent.
 
-	scrollSpeed := 30.0. "Increased for better feel with interpolation"
-
-	"Update targetScrollY"
+	scrollSpeed := 30.0 * window pixelDensity.
 	targetScrollY := targetScrollY - (aMouseWheelEvent y * scrollSpeed).
-
-	"Clamp to boundaries"
-	targetScrollY := targetScrollY max: 0.0.
 	maxScrollY := (layoutEngine totalHeight - window pixelExtent y max: 0) asFloat.
-	targetScrollY := targetScrollY min: maxScrollY
+	targetScrollY := (targetScrollY max: 0.0) min: maxScrollY
+]
+
+{ #category : 'visiting - concrete' }
+SDL3TextScrollDemoApp >> visitWindowDisplayScaleChangedEvent: aWindowDisplayScaleChangedEvent [
+
+	aWindowDisplayScaleChangedEvent windowID = window id ifTrue: [
+		self refreshDisplayScale ].
+
+	^ super visitWindowDisplayScaleChangedEvent: aWindowDisplayScaleChangedEvent
+]
+
+{ #category : 'hooks' }
+SDL3TextScrollDemoApp >> windowPixelSizeChanged: aPixelExtent [
+
+	self refreshDisplayScale.
+	self clampScrollToViewport.
+	lastVisibleLineRange := nil
 ]

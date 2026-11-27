@@ -37,16 +37,17 @@ Class {
 { #category : 'private' }
 SDL3GPUNodeForceDemoApp >> bindSharedGraphicsResourcesTo: renderPass with: commandBuffer [
 
+	| windowExtent |
 	renderPass
 		vertexBuffers: vertexBufferBindings slot: 0;
 		vertexStorageBuffers: storageBuffers slot: 0;
 		indexBuffer16Bit: indexBufferBinding.
 
+	windowExtent := window extent.
 	uniforms
-		aspectRatio: window extent x asFloat / (window extent y max: 1);
+		aspectRatio: windowExtent x asFloat / windowExtent y asFloat;
 		selectedNodeIndex: selectedNodeIndex.
-	commandBuffer
-		pushVertexUniform: uniforms slot: 0
+	commandBuffer pushVertexUniform: uniforms slot: 0
 ]
 
 { #category : 'rendering' }
@@ -293,8 +294,9 @@ SDL3GPUNodeForceDemoApp >> initializeShaders [
 { #category : 'private' }
 SDL3GPUNodeForceDemoApp >> pushSimulationUniformsTo: commandBuffer [
 
-	| aspect |
-	aspect := window extent x asFloat / (window extent y max: 1).
+	| windowExtent aspect |
+	windowExtent := self windowExtent.
+	aspect := windowExtent x asFloat / windowExtent y asFloat.
 
 	uniforms
 		time: Time millisecondClockValue / 1000.0;
@@ -302,8 +304,7 @@ SDL3GPUNodeForceDemoApp >> pushSimulationUniformsTo: commandBuffer [
 		selectedNodeIndex: selectedNodeIndex;
 		isDragging: (isDragging ifTrue: [ 1 ] ifFalse: [ 0 ]).
 
-	commandBuffer
-		pushComputeUniform: uniforms slot: 0
+	commandBuffer pushComputeUniform: uniforms slot: 0
 ]
 
 { #category : 'actions' }
@@ -368,17 +369,17 @@ SDL3GPUNodeForceDemoApp >> setupGeometryBindings [
 { #category : 'private' }
 SDL3GPUNodeForceDemoApp >> simulationPositionFromWindowPoint: point [
 
-	| nx ny winExtent aspect bx by |
-	winExtent := window extent.
-	nx := point x / (winExtent x max: 1) asFloat.
-	ny := point y / (winExtent y max: 1) asFloat.
+	| normalizedX normalizedY windowExtent aspect boundX boundY |
+	windowExtent := self windowExtent.
+	normalizedX := point x / windowExtent x asFloat.
+	normalizedY := point y / windowExtent y asFloat.
 
-	aspect := winExtent x asFloat / (winExtent y max: 1).
-	bx := 1.0 max: aspect.
-	by := 1.0 max: (1.0 / aspect).
+	aspect := windowExtent x asFloat / windowExtent y asFloat.
+	boundX := 1.0 max: aspect.
+	boundY := 1.0 max: 1.0 / aspect.
 
 	"Map NDC point back to simulation space (Flip Y: top 1, bottom -1)"
-	^ ((nx * 2.0 - 1.0) * bx) @ ((1.0 - (ny * 2.0)) * by)
+	^ ((normalizedX * 2.0 - 1.0) * boundX) @ ((1.0 - (normalizedY * 2.0)) * boundY)
 ]
 
 { #category : 'hooks' }
