@@ -50,7 +50,8 @@ SDL3CappedLoop >> delayBlock: aBlock [
 { #category : 'accessing' }
 SDL3CappedLoop >> hertz: aNumber [
 
-	periodUS := 1000000.0 / aNumber
+	periodUS := 1000000.0 / aNumber.
+	nextDeadlineUS ifNotNil: [ self resetDeadline ]
 ]
 
 { #category : 'initialization' }
@@ -108,7 +109,8 @@ SDL3CappedLoop >> pacer: aFramePacer [
 { #category : 'accessing' }
 SDL3CappedLoop >> period: aDuration [
 
-	periodUS := aDuration asMicroseconds
+	periodUS := aDuration asMicroseconds.
+	nextDeadlineUS ifNotNil: [ self resetDeadline ]
 ]
 
 { #category : 'accessing' }

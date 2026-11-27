@@ -80,7 +80,18 @@ SDL3SingleWindowApp >> setUp [
 			unownedNewTitle: self updatedTitle
 			width: self initialExtent x
 			height: self initialExtent y
-			flags: self initialWindowFlags)
+			flags: self initialWindowFlags).
+
+	self syncLoopRefreshRate
+]
+
+{ #category : 'pacing' }
+SDL3SingleWindowApp >> syncLoopRefreshRate [
+
+	| mode |
+	mode := window display currentDisplayMode.
+	(mode isNull not and: [ mode refreshRate > 0 ]) ifTrue: [
+		loop hertz: mode refreshRate ]
 ]
 
 { #category : 'pacing' }
@@ -104,6 +115,15 @@ SDL3SingleWindowApp >> updatedTitle [
 ]
 
 { #category : 'visiting - concrete' }
+SDL3SingleWindowApp >> visitDisplayCurrentModeChangedEvent: aDisplayEvent [
+
+	aDisplayEvent displayID = window displayID ifTrue: [
+		self syncLoopRefreshRate ].
+
+	^ super visitDisplayCurrentModeChangedEvent: aDisplayEvent
+]
+
+{ #category : 'visiting - concrete' }
 SDL3SingleWindowApp >> visitKeyboardDownEvent: aKeyboardDownEvent [
 
 	super visitKeyboardDownEvent: aKeyboardDownEvent.
@@ -117,6 +137,15 @@ SDL3SingleWindowApp >> visitWindowCloseRequestedEvent: aWindowEvent [
 	aWindowEvent windowID = window id ifTrue: [ loop requestQuit ].
 
 	^ super visitWindowCloseRequestedEvent: aWindowEvent
+]
+
+{ #category : 'visiting - concrete' }
+SDL3SingleWindowApp >> visitWindowDisplayChangedEvent: aWindowEvent [
+
+	aWindowEvent windowID = window id ifTrue: [
+		self syncLoopRefreshRate ].
+
+	^ super visitWindowDisplayChangedEvent: aWindowEvent
 ]
 
 { #category : 'visiting - concrete' }

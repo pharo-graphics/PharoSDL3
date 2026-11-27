@@ -443,3 +443,24 @@ SDL3CappedLoopTest >> testWaitAdvancesDeadline [
 	loop wait.
 	self assert: loop nextDeadlineUS equals: initialDeadline + 8333.333333333334
 ]
+
+{ #category : 'tests' }
+SDL3CappedLoopTest >> testWindowHertzChangeResetsActiveDeadline [
+	"Verify changing hertz: or period: while a loop has an active deadline immediately recomputes nextDeadlineUS."
+
+	| loop simulatedTime |
+	simulatedTime := 10000.
+	loop := SDL3CappedLoop new.
+	loop microsecondsBlock: [ simulatedTime ].
+	loop hertz: 60.
+	loop resetDeadline.
+	self assert: (loop nextDeadlineUS closeTo: 10000 + (1000000.0 / 60)).
+
+	simulatedTime := 15000.
+	loop hertz: 120.
+	self assert: (loop nextDeadlineUS closeTo: 15000 + (1000000.0 / 120)).
+
+	simulatedTime := 20000.
+	loop period: 10 milliSeconds.
+	self assert: loop nextDeadlineUS equals: 30000
+]
